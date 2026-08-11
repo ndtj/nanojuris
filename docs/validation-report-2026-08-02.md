@@ -1,5 +1,8 @@
 # Validation Report: 2026-08-02
 
+Este e um snapshot historico. Para o estado atual de release, consulte
+[`release-checklist.md`](release-checklist.md), o CI e o registry de providers.
+
 Este relatorio aplica [use-case-validation-matrix.md](use-case-validation-matrix.md)
 para verificar o estado atual da NanoJuris como biblioteca open source premium de
 extracao de dados juridicos.

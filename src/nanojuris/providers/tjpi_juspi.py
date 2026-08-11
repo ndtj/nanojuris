@@ -186,6 +186,7 @@ class TjpiJuspiProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Contrato HTML server-side sem API JSON publica observada.",
                 "Paginacao por parametro page foi observada em links publicos da propria fonte.",

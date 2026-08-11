@@ -7,6 +7,7 @@ import pytest
 import requests
 
 from nanojuris.client import NanoJurisClient
+from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -238,6 +239,19 @@ def test_provider_search_posts_stf_payload_and_parses_results():
         call["kwargs"]["json"]["query"]["bool"]["filter"][0]["query_string"]["query"]
         == "infanticidio"
     )
+    assert call["kwargs"]["verify"] is True
+
+
+def test_provider_search_honors_disabled_ssl_verification():
+    session = FakeSession([FakeResponse({"result": {"hits": {"total": 0, "hits": []}}})])
+    provider = StfJurisProvider(
+        session=session,
+        config=NanoJurisConfig(verify_ssl=False),
+    )
+
+    provider.search(JurisprudenceQuery(text="teste", page_size=1))
+
+    assert session.calls[0]["kwargs"]["verify"] is False
 
 
 def test_provider_capabilities_describe_stf_contract():

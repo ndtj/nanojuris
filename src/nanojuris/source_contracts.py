@@ -136,6 +136,22 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
             "Mapear variacoes de labels acentuados no HTML.",
         ],
     },
+    "tst_jurisprudencia": {
+        "contract_level": 5,
+        "source_family": "api_json_jurisprudencia_trabalhista",
+        "mcp_recommendation": (
+            "Use para pesquisa textual e inteiro teor publico da jurisprudencia trabalhista do TST."
+        ),
+        "jurimetry_fit": (
+            "alto para estudos de jurisprudencia trabalhista, filtros e series temporais."
+        ),
+        "risk_level": "medio",
+        "gaps": [
+            "Consultar config.json quando a base da API for alterada pelo frontend.",
+            "Ampliar fixtures por sumulas, precedentes normativos e filtros de catalogo.",
+            "Monitorar alteracoes no HTML de inteiro teor e nos campos removidos do backend.",
+        ],
+    },
     "tjdf_juris": {
         "contract_level": 5,
         "source_family": "html_jurisprudencia_tribunal",
@@ -394,7 +410,8 @@ def _default_gaps(capability: ProviderCapabilities, level: int) -> list[str]:
 
 def _next_steps(capability: ProviderCapabilities, gaps: list[str]) -> list[str]:
     steps = [
-        "Criar ou atualizar dossie em docs/source-contracts.",
+        "Criar ou atualizar dossie em docs/providers/<provider>/README.md e manter "
+        "a copia de compatibilidade em docs/source-contracts.",
         "Salvar fixtures publicas para sucesso, vazio e erro esperado.",
         "Adicionar teste de parser e teste de contrato de erro.",
     ]

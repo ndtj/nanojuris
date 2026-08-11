@@ -123,6 +123,8 @@ _CORE_COURTS = [
         "national",
         official_url="https://www.tst.jus.br/",
         source_system="portal_proprio",
+        provider_status="implemented",
+        providers=("tst_jurisprudencia",),
     ),
     CourtInfo(
         "TSE",

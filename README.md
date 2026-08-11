@@ -22,33 +22,39 @@
 
 <p align="center">
   <a href="https://github.com/lucmolero/nanojuris/actions">Actions</a>
-  ·
+  |
   <a href="docs/quickstart.md">Quickstart</a>
-  ·
+  |
   <a href="docs/architecture.md">Arquitetura</a>
-  ·
+  |
   <a href="docs/responsible-use.md">Uso responsavel</a>
-  ·
+  |
   <a href="docs/source-capabilities.md">Fontes</a>
-  ·
+  |
+  <a href="docs/providers/README.md">Dossies por provider</a>
+  |
+  <a href="docs/provider-documentation-audit.md">Auditoria documental</a>
+  |
+  <a href="docs/registry/providers.json">Catalogo para IA</a>
+  |
   <a href="docs/provider-coverage-map.md">Cobertura</a>
-  ·
+  |
   <a href="docs/extraction-pipeline.md">Pipeline</a>
-  ·
+  |
   <a href="docs/storage.md">Storage</a>
-  ·
+  |
   <a href="docs/provider-development.md">Providers</a>
-  ·
+  |
   <a href="docs/case-studies.md">Casos de uso</a>
-  ·
+  |
   <a href="docs/audience-ux.md">UX por publico</a>
-  ·
+  |
   <a href="docs/use-case-validation-matrix.md">Matriz de validacao</a>
-  ·
+  |
   <a href="docs/release-checklist.md">Release</a>
-  ·
+  |
   <a href="docs/mcp.md">MCP</a>
-  ·
+  |
   <a href="docs/elite-extraction-blueprint.md">Blueprint de extracao</a>
 </p>
 
@@ -57,12 +63,9 @@
 NanoJuris e uma biblioteca Python open source para consulta, normalizacao e
 auditoria de jurisprudencia publica brasileira.
 
-O projeto nasce com os providers `bnp_pangea`, `comunica_pje`, `tjdf_juris`,
-`tjac_cjsg`, `tjac_esaj_cpopg`, `tjal_cjsg`, `tjam_cjsg`, `tjms_cjsg`, `stm_jurisprudencia`,
-`tjsp_cjsg`, `tjsp_eproc_jurisprudencia`, `tjsp_esaj_cpopg`,
-`tjsp_nugepnac`, `tce_sp_jurisprudencia`, `tre_sp_temas`,
-`trf4_eproc_jurisprudencia`, `stf_informativo`, `stf_juris`,
-`stj_informativo` e `stj_scon`. `bnp_pangea` consulta a API publica usada pelo
+O registry atual separa 34 fontes implementadas, 20 candidatas e uma familia de
+implementacao. Ele e a referencia completa para descobrir cada provider e seu
+status: [catalogo de providers](docs/registry/providers.json). `bnp_pangea` consulta a API publica usada pelo
 frontend do Banco Nacional de Precedentes/Pangea. `comunica_pje` consulta a API
 publica do Comunica PJe/DJEN para comunicacoes judiciais. `tjdf_juris` consulta
 a jurisprudencia publica do TJDFT/SISTJ. `tjac_cjsg`, `tjal_cjsg`, `tjam_cjsg` e
@@ -84,7 +87,9 @@ Jurisprudencia do STJ para notas oficiais e julgados referenciados. `stf_juris`
 cobre a API JSON observada no frontend oficial do STF quando a fonte responde
 sem WAF. `stj_scon` inicia a cobertura STJ/SCON por acordaos
 com parser offline, capabilities declaradas e ficha publica em
-[docs/stj-source-profile.md](docs/stj-source-profile.md).
+[docs/stj-source-profile.md](docs/stj-source-profile.md). `tst_jurisprudencia`
+consulta a API REST publica do TST, com filtros textuais, metadados de acordaos
+e inteiro teor HTML sob demanda.
 
 ## Por que existe
 
@@ -126,6 +131,12 @@ As capacidades declaradas por fonte estao documentadas em
 [docs/source-capabilities.md](docs/source-capabilities.md).
 O mapa de cobertura e oportunidades de providers brasileiros esta em
 [docs/provider-coverage-map.md](docs/provider-coverage-map.md).
+O estado de maturidade de cada dossie, incluindo lacunas de contrato e fixtures
+pendentes, esta em [docs/provider-documentation-audit.md](docs/provider-documentation-audit.md).
+
+A auditoria estado a estado esta em
+[docs/national-coverage-matrix.md](docs/national-coverage-matrix.md); ela
+separa cobertura mapeada de providers efetivamente implementados.
 O playbook para mapear rotas publicas viaveis com score tecnico esta em
 [docs/route-mapping-playbook.md](docs/route-mapping-playbook.md).
 Os contratos reutilizaveis de aquisicao e parsing estao em
@@ -134,6 +145,9 @@ A estrategia SQLite-first com caminho futuro para PostgreSQL esta em
 [docs/storage.md](docs/storage.md).
 O guia para novas fontes e providers esta em
 [docs/provider-development.md](docs/provider-development.md).
+O padrao completo de cada dossie e a matriz de prontidao estao em
+[docs/provider-dossier-template.md](docs/provider-dossier-template.md) e
+[docs/provider-documentation-audit.md](docs/provider-documentation-audit.md).
 As simulacoes de uso real por advogados, pesquisadores e desenvolvedores estao
 em [docs/case-studies.md](docs/case-studies.md).
 Os principios de UX direta para advogados, desenvolvedores, jurimetristas,
@@ -143,7 +157,7 @@ A matriz pratica para testar pontos implementados, parciais e planejados esta em
 [docs/use-case-validation-matrix.md](docs/use-case-validation-matrix.md).
 O relatorio mais recente de validacao por areas tecnicas e casos de uso esta em
 [docs/validation-report-2026-08-02.md](docs/validation-report-2026-08-02.md).
-O checklist de release inicial publica esta em
+O checklist de release publica esta em
 [docs/release-checklist.md](docs/release-checklist.md).
 
 ## Instalacao local
@@ -216,12 +230,12 @@ nanojuris buscar "" --fonte tjac_esaj_cpopg --numero "0001970-91.2024.8.01.0001"
 nanojuris buscar "infanticidio" --fonte tjal_cjsg --limite 5
 nanojuris buscar "infanticidio" --fonte tjam_cjsg --limite 5
 nanojuris buscar "infanticidio" --fonte tjms_cjsg --limite 5
-nanojuris buscar "deserção" --fonte stm_jurisprudencia --limite 5
+nanojuris buscar "desercao" --fonte stm_jurisprudencia --limite 5
 nanojuris buscar "infanticidio" --fonte tjsp_eproc_jurisprudencia --limite 5
 nanojuris buscar "garantia" --fonte tjsp_nugepnac --tipos irdr --limite 5
-nanojuris buscar "subvenção" --fonte tce_sp_jurisprudencia --tipos sumula --limite 5
+nanojuris buscar "subvencao" --fonte tce_sp_jurisprudencia --tipos sumula --limite 5
 nanojuris buscar "abuso de poder" --fonte tre_sp_temas --limite 5
-nanojuris buscar "deserção" --fonte trf4_eproc_jurisprudencia --limite 5
+nanojuris buscar "desercao" --fonte trf4_eproc_jurisprudencia --limite 5
 nanojuris buscar "" --fonte tjsp_esaj_cpopg --parte "ANDERSON DE AZEVEDO GONCALVES" --limite 4
 nanojuris buscar "" --fonte tjsp_esaj_cpopg --oab "123456" --limite 2
 nanojuris buscar "" --fonte tjsp_esaj_cpopg --numero "0003938-14.2017.8.26.0323" --detalhar
@@ -264,7 +278,7 @@ pip install "nanojuris[mcp]"
 nanojuris-mcp
 ```
 
-As tools MCP iniciais expõem fontes, diagnostico, busca, exportacao de
+As tools MCP iniciais expoem fontes, diagnostico, busca, exportacao de
 resultados e consulta a stores SQLite locais. Detalhes em
 [docs/mcp.md](docs/mcp.md).
 

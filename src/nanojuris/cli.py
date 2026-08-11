@@ -171,6 +171,24 @@ def build_parser() -> argparse.ArgumentParser:
     )
     probe_rota.add_argument("--timeout", type=float, default=30.0)
     probe_rota.add_argument(
+        "--connect-timeout",
+        type=float,
+        default=None,
+        help="Timeout separado para conexao; por padrao usa no maximo 10s.",
+    )
+    probe_rota.add_argument(
+        "--read-timeout",
+        type=float,
+        default=None,
+        help="Timeout para receber dados; por padrao usa --timeout.",
+    )
+    probe_rota.add_argument(
+        "--max-bytes",
+        type=int,
+        default=5_000_000,
+        help="Limite de leitura para diagnostico; respostas maiores sao marcadas como parciais.",
+    )
+    probe_rota.add_argument(
         "--sem-verificar-ssl",
         action="store_true",
         help="Desabilitar verificacao SSL apenas para diagnostico local.",
@@ -406,6 +424,9 @@ def main(argv: list[str] | None = None) -> int:
                 method=args.metodo,
                 expected_texts=args.expect,
                 timeout=args.timeout,
+                connect_timeout=args.connect_timeout,
+                read_timeout=args.read_timeout,
+                max_bytes=args.max_bytes,
                 user_agent=client.config.user_agent,
                 data=parse_key_value_pairs(args.data),
                 json_payload=json_payload,

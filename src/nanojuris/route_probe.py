@@ -16,6 +16,7 @@ from bs4 import BeautifulSoup
 RouteStatus = Literal[
     "live_valid",
     "candidate",
+    "partial_response",
     "access_control_or_login",
     "not_found",
     "source_unavailable",
@@ -77,6 +78,11 @@ class RouteProbeResult:
     content_bytes: int = 0
     content_sha256: str | None = None
     elapsed_ms: int | None = None
+    time_to_first_byte_ms: int | None = None
+    content_length: int | None = None
+    response_complete: bool = True
+    content_truncated: bool = False
+    transport_status: str = "complete"
     expected_texts: dict[str, bool] = field(default_factory=dict)
     access_signals: dict[str, bool] = field(default_factory=dict)
     legal_signals: dict[str, bool] = field(default_factory=dict)
@@ -96,6 +102,10 @@ def probe_route(
     method: str = "GET",
     expected_texts: Sequence[str] = (),
     timeout: float = 30.0,
+    connect_timeout: float | None = None,
+    read_timeout: float | None = None,
+    max_bytes: int = 5_000_000,
+    chunk_size: int = 64 * 1024,
     user_agent: str = "NanoJuris/route-probe (+https://github.com/lucmolero/nanojuris)",
     data: Mapping[str, str] | None = None,
     json_payload: Any | None = None,
@@ -103,21 +113,77 @@ def probe_route(
 ) -> RouteProbeResult:
     """Probe a public route with a clean HTTP session and no browser state."""
 
+    if max_bytes <= 0:
+        raise ValueError("max_bytes deve ser maior que zero")
+    if chunk_size <= 0:
+        raise ValueError("chunk_size deve ser maior que zero")
+    if timeout <= 0:
+        raise ValueError("timeout deve ser maior que zero")
+    if connect_timeout is not None and connect_timeout <= 0:
+        raise ValueError("connect_timeout deve ser maior que zero")
+    if read_timeout is not None and read_timeout <= 0:
+        raise ValueError("read_timeout deve ser maior que zero")
+
     session = requests.Session()
+    # Route discovery must not silently inherit a broken local proxy or
+    # unrelated browser environment; callers can use the browser for HAR
+    # capture, but this diagnostic intentionally replays a clean session.
+    session.trust_env = False
     session.headers.update({"Accept": DEFAULT_ACCEPT, "User-Agent": user_agent})
     started = time.perf_counter()
     normalized_method = method.upper()
+    response: requests.Response | None = None
+    response_started_ms: int | None = None
+    content_length: int | None = None
+    content = bytearray()
+    content_truncated = False
+    transport_status = "complete"
+    transport_error: requests.RequestException | None = None
+    final_url: str | None = None
+    status_code: int | None = None
+    content_type = ""
     try:
         response = session.request(
             normalized_method,
             url,
             data=dict(data or {}),
             json=json_payload,
-            timeout=timeout,
+            timeout=(
+                connect_timeout if connect_timeout is not None else min(timeout, 10.0),
+                read_timeout if read_timeout is not None else timeout,
+            ),
             allow_redirects=True,
             verify=verify_ssl,
+            stream=True,
         )
+        response_started_ms = int((time.perf_counter() - started) * 1000)
+        content_length = _content_length(response.headers.get("Content-Length"))
+        final_url = response.url
+        status_code = response.status_code
+        content_type = response.headers.get("Content-Type", "")
+        if content_length is not None and content_length > max_bytes:
+            content_truncated = True
+        try:
+            for chunk in response.iter_content(chunk_size=chunk_size):
+                if not chunk:
+                    continue
+                remaining = max_bytes - len(content)
+                if remaining <= 0:
+                    content_truncated = True
+                    break
+                if len(chunk) > remaining:
+                    content.extend(chunk[:remaining])
+                    content_truncated = True
+                    break
+                content.extend(chunk)
+        except requests.RequestException as exc:
+            transport_status = (
+                "timeout_after_headers" if _is_read_timeout(exc) else "partial_read_error"
+            )
+            transport_error = exc
+            content_truncated = True
     except requests.RequestException as exc:
+        transport_status = _transport_status_for_error(exc)
         elapsed_ms = int((time.perf_counter() - started) * 1000)
         return RouteProbeResult(
             ok=False,
@@ -127,22 +193,48 @@ def probe_route(
             url=url,
             method=normalized_method,
             elapsed_ms=elapsed_ms,
+            response_complete=False,
+            transport_status=transport_status,
             expected_texts={item: False for item in expected_texts},
-            recommendation="Registrar como indisponivel e testar novamente antes de implementar.",
+            recommendation=_transport_recommendation(transport_status),
             error_type=type(exc).__name__,
             error=str(exc),
         )
+    finally:
+        if response is not None:
+            response.close()
+        session.close()
+
+    assert response is not None
     elapsed_ms = int((time.perf_counter() - started) * 1000)
-    return analyze_route_response(
+    result = analyze_route_response(
         url=url,
-        final_url=response.url,
+        final_url=final_url or url,
         method=normalized_method,
-        status_code=response.status_code,
-        content=response.content,
-        content_type=response.headers.get("Content-Type", ""),
+        status_code=status_code or 0,
+        content=bytes(content),
+        content_type=content_type,
         expected_texts=expected_texts,
         elapsed_ms=elapsed_ms,
+        time_to_first_byte_ms=response_started_ms,
+        content_length=content_length,
+        response_complete=not content_truncated and transport_error is None,
+        content_truncated=content_truncated,
+        transport_status=transport_status,
     )
+    if transport_error is not None:
+        result.route_status = "partial_response"
+        result.ok = False
+        result.error_type = type(transport_error).__name__
+        result.error = str(transport_error)
+        result.recommendation = (
+            "Resposta parcial analisada; repetir somente com nova evidencia ou "
+            "uma estrategia de paginacao/streaming mais especifica."
+        )
+    elif content_truncated:
+        result.error_type = "content_truncated"
+        result.error = f"Resposta limitada a {max_bytes} bytes para preservar o probe."
+    return result
 
 
 def analyze_route_response(
@@ -155,6 +247,11 @@ def analyze_route_response(
     content_type: str = "",
     expected_texts: Sequence[str] = (),
     elapsed_ms: int | None = None,
+    time_to_first_byte_ms: int | None = None,
+    content_length: int | None = None,
+    response_complete: bool = True,
+    content_truncated: bool = False,
+    transport_status: str = "complete",
 ) -> RouteProbeResult:
     """Analyze one already-fetched response for jurisprudence provider viability."""
 
@@ -177,6 +274,9 @@ def analyze_route_response(
         legal_signals=legal_signals,
         route_features=route_features,
         elapsed_ms=elapsed_ms,
+        response_complete=response_complete,
+        content_truncated=content_truncated,
+        transport_status=transport_status,
     )
     route_status = _route_status(
         status_code=status_code,
@@ -184,6 +284,8 @@ def analyze_route_response(
         legal_signals=legal_signals,
         expected_texts=expected,
         route_features=route_features,
+        response_complete=response_complete,
+        content_truncated=content_truncated,
     )
     ok = route_status == "live_valid"
     return RouteProbeResult(
@@ -200,6 +302,11 @@ def analyze_route_response(
         content_bytes=len(content),
         content_sha256=hashlib.sha256(content).hexdigest(),
         elapsed_ms=elapsed_ms,
+        time_to_first_byte_ms=time_to_first_byte_ms,
+        content_length=content_length,
+        response_complete=response_complete,
+        content_truncated=content_truncated,
+        transport_status=transport_status,
         expected_texts=expected,
         access_signals=access_signals,
         legal_signals=legal_signals,
@@ -356,6 +463,9 @@ def _score_route(
     legal_signals: Mapping[str, bool],
     route_features: Mapping[str, bool],
     elapsed_ms: int | None,
+    response_complete: bool,
+    content_truncated: bool,
+    transport_status: str,
 ) -> int:
     score = 0
     if 200 <= status_code < 300:
@@ -382,6 +492,8 @@ def _score_route(
         score -= 3
     if not any(legal_signals.values()) and not route_features.get("structured_response"):
         score -= 2
+    if not response_complete or content_truncated or transport_status != "complete":
+        score -= 3
     return max(score, 0)
 
 
@@ -392,6 +504,8 @@ def _route_status(
     legal_signals: Mapping[str, bool],
     expected_texts: Mapping[str, bool],
     route_features: Mapping[str, bool],
+    response_complete: bool,
+    content_truncated: bool,
 ) -> RouteStatus:
     if status_code == 404:
         return "not_found"
@@ -399,6 +513,8 @@ def _route_status(
         return "access_control_or_login"
     if status_code >= 400:
         return "source_unavailable"
+    if not response_complete or content_truncated:
+        return "partial_response"
     if expected_texts and not all(expected_texts.values()):
         return "candidate"
     if any(legal_signals.values()) or route_features.get("structured_response"):
@@ -423,11 +539,59 @@ def _recommendation(route_status: RouteStatus, score: int) -> str:
         return "Manter como candidato forte; aprofundar campos, paginacao e documento."
     if route_status == "candidate":
         return "Investigar contrato com HAR/DevTools e confirmar conteudo juridico objetivo."
+    if route_status == "partial_response":
+        return (
+            "Resposta parcial; preservar sinais encontrados e investigar paginacao, "
+            "streaming ou timeout de leitura."
+        )
     if route_status == "access_control_or_login":
         return "Documentar bloqueio; nao implementar bypass de captcha, login ou sessao."
     if route_status == "not_found":
         return "Descartar rota ou revisar URL/metodo antes de novo probe."
     return "Registrar indisponibilidade e repetir teste em outra janela."
+
+
+def _content_length(value: str | None) -> int | None:
+    if not value:
+        return None
+    try:
+        parsed = int(value)
+    except ValueError:
+        return None
+    return parsed if parsed >= 0 else None
+
+
+def _transport_status_for_error(exc: requests.RequestException) -> str:
+    if isinstance(exc, requests.exceptions.ConnectTimeout):
+        return "timeout_before_headers"
+    if _is_read_timeout(exc):
+        return "timeout_before_headers"
+    return "transport_error"
+
+
+def _is_read_timeout(exc: requests.RequestException) -> bool:
+    """Recognize direct and wrapped urllib3 read-timeout exceptions."""
+
+    current: BaseException | None = exc
+    visited: set[int] = set()
+    while current is not None and id(current) not in visited:
+        visited.add(id(current))
+        if isinstance(current, requests.exceptions.ReadTimeout):
+            return True
+        current = current.__cause__ or current.__context__
+    return "read timed out" in str(exc).lower()
+
+
+def _transport_recommendation(transport_status: str) -> str:
+    if transport_status == "timeout_before_headers":
+        return (
+            "Nenhum header foi recebido; testar uma rota mais especifica, "
+            "paginacao pequena ou captura automatica de rede."
+        )
+    return (
+        "Falha de transporte antes da resposta; preservar o diagnostico e testar "
+        "superficie oficial alternativa."
+    )
 
 
 def _normalize_spaces(text: str) -> str:

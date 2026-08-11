@@ -28,6 +28,20 @@ nanojuris contratos --resumo
 nanojuris contratos --fonte tjdf_juris
 ```
 
+## Catalogo De Providers Para IA
+
+O ponto de descoberta documental e
+[`docs/registry/providers.json`](registry/providers.json). Ele lista todos os
+providers implementados e todas as fontes candidatas, com os caminhos dos
+dossies canonicos por convencao. Para ler o contrato humano completo de uma
+fonte, abra `docs/providers/<source-id>/README.md`.
+
+O catalogo nao substitui o contrato vivo: para providers implementados, sempre
+confirme capacidades, maturidade, lacunas e limites com `list_sources`,
+`source_contracts` ou os comandos `nanojuris fontes` e `nanojuris contratos`.
+Para candidatos, o dossie e evidencia de pesquisa e nao autorizacao para
+executar um provider inexistente.
+
 ## Configuracao MCP local
 
 Use o comando do servidor como transporte `stdio` no cliente MCP:
@@ -59,12 +73,14 @@ Em ambiente de desenvolvimento local:
 
 Antes de consultar fontes reais, o agente deve:
 
-1. Chamar `list_sources`.
-2. Chamar `source_contracts`.
-3. Escolher fontes com maturidade adequada para a pergunta.
-4. Chamar `search_unified` ou `search_jurisprudence`.
-5. Interpretar separadamente `searched_sources`, `skipped_sources` e `errors`.
-6. Usar `get_document` ou `get_decisions` apenas quando a fonte suportar
+1. Ler o registro documental quando precisar descobrir escopo e limitações.
+2. Chamar `list_sources`.
+3. Chamar `source_contracts`.
+4. Escolher fontes com maturidade adequada para a pergunta.
+5. Preferir `search_unified` com um grupo explicito de fontes adequadas; usar
+   `search_jurisprudence` quando a pergunta exigir uma fonte especifica.
+6. Interpretar separadamente `searched_sources`, `skipped_sources` e `errors`.
+7. Usar `get_document` ou `get_decisions` apenas quando a fonte suportar
    documento publico sem bypass.
 
 ## Perguntas naturais recomendadas
@@ -112,6 +128,12 @@ Isso evita falso diagnostico. Uma consulta textual como `idpj` nao deve chamar
 fontes `case_lookup` sem numero CNJ, parte, OAB ou documento. Do mesmo modo,
 uma fonte de comunicacoes judiciais nao deve ser usada como jurisprudencia
 decisoria.
+
+Se a pergunta trouxer numero CNJ, parte, OAB ou outro identificador, confira
+tambem `skipped_sources`. Uma fonte que nao declara o filtro em
+`supported_filters` pode ser pulada para evitar falso positivo por texto
+parecido. Isso e diferente de uma fonte que foi chamada e falhou: a primeira
+decisao e semantica, a segunda e um erro operacional ou de contrato.
 
 ## Fontes boas para demonstracao
 

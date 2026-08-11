@@ -136,6 +136,7 @@ class TjmsCjsgProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "A fonte compartilha padrao CJSG/e-SAJ e pode mudar sem aviso.",
                 "Provider nao tenta contornar captcha, login ou controles de acesso.",

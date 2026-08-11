@@ -141,6 +141,7 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Rota publica descoberta e validada por requests limpo em 2026-08-02.",
                 "O filtro source_origin aceita colegio_recursal, primeiro_grau e segundo_grau.",

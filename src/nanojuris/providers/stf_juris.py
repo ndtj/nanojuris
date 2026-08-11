@@ -171,6 +171,14 @@ class StfJurisProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=[
+                "text",
+                "number",
+                "published_from",
+                "published_to",
+                "updated_from",
+                "updated_to",
+            ],
             limitations=[
                 "Endpoint observado por HAR em 06/08/2026.",
                 "Chamadas automatizadas limpas podem receber AWS WAF challenge HTTP 202.",
@@ -195,7 +203,11 @@ class StfJurisProvider(JurisprudenceProvider):
         }
         try:
             response = self.session.post(
-                url, headers=headers, json=payload, timeout=self.config.timeout
+                url,
+                headers=headers,
+                json=payload,
+                timeout=self.config.timeout,
+                verify=self.config.verify_ssl,
             )
         except requests.exceptions.SSLError as exc:
             raise SourceUnavailableError(

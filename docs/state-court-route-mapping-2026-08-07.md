@@ -13,27 +13,27 @@ fontes que ainda nao devem virar provider.
 | --- | --- | --- | --- |
 | TJES | `https://sistemas.tjes.jus.br/portaltj/Pesquisa.aspx` | timeout em 45s; rota antiga `aplicativos.tjes.../det_jurisp.cfm` retornou HTTP 404 | manter como inconclusivo; repetir com janela maior e navegador limpo |
 | TJMT | `https://jurisprudencia.tjmt.jus.br/` | HTTP 200, SPA publica; bundle revela API `https://hellsgate-preview.tjmt.jus.br/jurisprudencia` e rotas `/api/consulta`, `/api/termo`, `/VisualizaRelatorio/...`; GET direto sem header retornou 401 | candidato forte, mas depende de contrato de payload/header publico antes de provider |
-| TJPA | `https://jurisprudencia.tjpa.jus.br/` | HTTP 200, portal publico; bundle revela `apiBaseUrl="/bff"` e `/api/decisoes`; GET simples em `/bff/api/decisoes` retornou 404 | candidato forte, mas precisa HAR/payload de busca |
+| TJPA | `https://jurisprudencia.tjpa.jus.br/` | HTTP 200, portal publico; `POST /bff/api/decisoes/buscar`, catalogos e recentes retornaram JSON em sessao limpa | `candidate_ready`; falta fixture, parser e detalhe |
 | TJPB | `https://pje-jurisprudencia.tjpb.jus.br/` | HTTP 200 com formulario PJe, campos juridicos e paginacao; em outro cliente PowerShell houve Cloudflare/challenge | candidato forte com risco WAF; fixture deve confirmar resultado real |
 | TJPE | `https://portal.tjpe.jus.br/web/jurisprudencia/tjpe-e-turmas-recursais` | HTTP 200, pagina institucional publica apontando Consulta Jurisprudencia Web | candidato documental/entrada; falta endpoint de resultado |
 | TJPE | `https://portal.tjpe.jus.br/servicos/consulta/sumulas` | HTTP 200, sumulas e PDFs publicos | bom candidato de precedentes/sumulas, nao busca geral de acordaos |
 | TJPE | `https://portal.tjpe.jus.br/web/transparencia/decis%C3%B5es` | HTTP 200, pagina de decisoes com rotas DJEN/DJE/PJe/Consulta Jurisprudencia Web | rota de orientacao/documental, nao provider decisorio |
 | TJPI | `https://jurisprudencia.tjpi.jus.br/jurisprudences/search?q=dano%20moral` | HTTP 200, HTML com resultados reais, CNJ, acordaos, decisoes, ementa, relator, orgao e paginacao | promover como candidato P0/P1 para fixture e parser HTML |
 | TJRO | `https://liame.tjro.jus.br/` | HTTP 200, LIAME/precedentes publico; probe marcou `access_denied` por texto de UI, sem decisoes retornadas | candidato de precedentes, nao provider de acordaos ainda |
-| TJRR | `https://jurisprudencia.tjrr.jus.br/index.xhtml` | HTTP 200, JSF/PrimeFaces publico com campos de pesquisa, relator, ementa, acordao e links tematicos | promover como candidato forte para fixture e contrato JSF |
+| TJRR | `GET` + `POST https://jurisprudencia.tjrr.jus.br/index.xhtml` com ViewState da sessao publica | HTTP 200, JSF/PrimeFaces com resultados reais, processo, ementa/acordao, relator e orgao; repeticao posterior sofreu timeout | `candidate_ready`; fixture e parser JSF pendentes |
 | TJSE | `https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial` | HTTP 200, pagina publica especifica de jurisprudencia judicial | candidato documental/entrada; falta reproduzir busca/resultado |
 
 ## Ranking para a proxima rodada tecnica
 
 1. **TJPI/JusPI**: melhor alvo imediato. A rota de busca ja retornou resultados
    reais, volume, paginacao e campos canonicos.
-2. **TJRR/Juris JSF**: pagina rica e sem bloqueio no GET; precisa gravar busca
-   manual e reproduzir postback PrimeFaces com fixture.
+2. **TJRR/Juris JSF**: postback simples ja foi reproduzido; precisa salvar
+   fixture, mapear paginacao e repetir com baixa frequencia.
 3. **TJMT/Jurisprudencia API Hellsgate**: bundle expoe rotas muito claras, mas
    a API exige header/chave publica do frontend. Deve ser tratado como contrato
    a aprofundar, sem bypass.
-4. **TJPA/BFF decisoes**: frontend moderno e API interna clara; falta payload
-   exato da busca para diferenciar 404 de metodo incorreto.
+4. **TJPA/BFF decisoes**: frontend moderno e busca textual JSON reproduzida;
+   falta fixture, filtros de classe/assunto e contrato funcional de detalhe.
 5. **TJPB/PJe Jurisprudencia**: pagina rica, mas comportamento WAF variou por
    cliente. Exige cautela antes de prometer provider live.
 6. **TJPE/sumulas e orientacao de decisoes**: bom para catalogo/documentos,
@@ -91,8 +91,9 @@ Sinais:
 - links publicos para informativo, jurisprudencia tematica, sumulas,
   enunciados, legislacao e precedentes obrigatorios.
 
-Proximo passo: gravar HAR de uma busca simples e reproduzir o postback com
-`javax.faces.ViewState` publico da propria sessao limpa.
+Proximo passo: salvar fixture sanitizada de uma busca simples, mapear
+paginacao e testar novamente com baixa frequencia. O postback ja foi
+reproduzido com `javax.faces.ViewState` publico da propria sessao limpa.
 
 ### TJMT/Jurisprudencia
 
@@ -149,9 +150,21 @@ GET /bff/api/siglas
 GET /bff/api/temas-acordao
 ```
 
-Probe direto `GET /bff/api/decisoes` retornou HTTP 404, indicando que o metodo
-ou payload ainda nao foi reproduzido. O frontend e oficial e a rota e
-promissora, mas precisa de HAR/payload antes de provider.
+Rotas de consulta reproduzidas:
+
+```text
+GET /bff/api/decisoes/filtros
+GET /bff/api/decisoes/recentes
+POST /bff/api/decisoes/buscar
+POST /bff/api/decisoes/pesquisar-por-classe-assunto
+```
+
+`POST /bff/api/decisoes/buscar` com consulta textual e valores exatos de
+origem/tipo obtidos de `/filtros` retornou HTTP 200 JSON com resultados,
+facetas, metadados decisorios e limite tecnico de 10.000. O `GET`
+`/bff/api/decisoes` continua retornando HTTP 404 porque nao e a chamada de
+busca. As rotas de detalhe por id e processo foram testadas com identificadores
+da propria resposta e retornaram HTTP 404; ficam pendentes de contrato correto.
 
 ### TJPB/PJe Jurisprudencia
 

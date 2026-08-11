@@ -164,6 +164,7 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Busca publica descoberta em 2026-08-03 no portal JMU do STM.",
                 "O provider parseia a primeira pagina HTML retornada pela fonte.",

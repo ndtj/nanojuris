@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "nanojuris"
-version = "0.1.0"
+version = "0.2.0"
 description = "NanoJuris: toolkit Python para busca, normalizacao e auditoria de jurisprudencia publica brasileira."
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"

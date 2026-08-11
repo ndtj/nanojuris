@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import pytest
+import requests
 
+import nanojuris.route_probe as route_probe
 from nanojuris.route_probe import (
     analyze_route_response,
     parse_json_object,
     parse_json_payload,
     parse_key_value_pairs,
+    probe_route,
 )
 
 
@@ -282,6 +285,89 @@ def test_analyze_route_response_marks_404_as_not_found():
     assert result.ok is False
     assert result.route_status == "not_found"
     assert result.quality_grade == "D"
+
+
+def test_analyze_route_response_preserves_partial_legal_payload():
+    body = b'{"items":[{"numero":"0000001-10.2024.8.26.0100","ementa":"IDPJ"}]}'
+
+    result = analyze_route_response(
+        url="https://api.example.test/search",
+        final_url="https://api.example.test/search",
+        method="POST",
+        status_code=200,
+        content=body,
+        content_type="application/json",
+        expected_texts=["IDPJ"],
+        elapsed_ms=12000,
+        time_to_first_byte_ms=180,
+        content_length=9000000,
+        response_complete=False,
+        content_truncated=True,
+        transport_status="timeout_after_headers",
+    )
+
+    assert result.ok is False
+    assert result.route_status == "partial_response"
+    assert result.legal_signals["case_number"] is True
+    assert result.response_complete is False
+    assert result.content_truncated is True
+    assert result.transport_status == "timeout_after_headers"
+    assert result.time_to_first_byte_ms == 180
+    assert result.content_length == 9000000
+
+
+def test_probe_route_classifies_read_timeout_after_headers(monkeypatch):
+    class FakeResponse:
+        url = "https://api.example.test/search"
+        status_code = 200
+        headers = {
+            "Content-Type": "application/json",
+            "Content-Length": "9000000",
+        }
+
+        def iter_content(self, *, chunk_size):
+            assert chunk_size == 128
+            yield b'{"items":[{"numero":"0000001-10.2024.8.26.0100"}]}'
+            raise requests.exceptions.ReadTimeout("read took too long")
+
+        def close(self):
+            return None
+
+    captured = {}
+
+    class FakeSession:
+        def __init__(self):
+            self.headers = {}
+
+        def request(self, *args, **kwargs):
+            captured["args"] = args
+            captured["kwargs"] = kwargs
+            captured["trust_env"] = self.trust_env
+            return FakeResponse()
+
+        def close(self):
+            return None
+
+    monkeypatch.setattr(route_probe.requests, "Session", FakeSession)
+
+    result = probe_route(
+        "https://api.example.test/search",
+        method="POST",
+        timeout=12,
+        max_bytes=1024,
+        chunk_size=128,
+    )
+
+    assert result.ok is False
+    assert result.route_status == "partial_response"
+    assert result.transport_status == "timeout_after_headers"
+    assert result.error_type == "ReadTimeout"
+    assert result.response_complete is False
+    assert result.content_truncated is True
+    assert result.legal_signals["case_number"] is True
+    assert captured["kwargs"]["stream"] is True
+    assert captured["trust_env"] is False
+    assert captured["kwargs"]["timeout"] == (10.0, 12)
 
 
 def test_parse_key_value_pairs_accepts_form_payload():

@@ -89,7 +89,8 @@ def route_unified_sources(
     that are valid candidates for the user's question.
     """
 
-    has_identifier = _has_identifier(text=text, filters=filters)
+    identifier_filters = _identifier_filters(text=text, filters=filters)
+    has_identifier = bool(identifier_filters)
     searched: list[str] = []
     skipped: list[SourceSkip] = []
 
@@ -99,7 +100,11 @@ def route_unified_sources(
             searched.append(source)
             continue
 
-        skip = _skip_reason(capability, has_identifier=has_identifier)
+        skip = _skip_reason(
+            capability,
+            has_identifier=has_identifier,
+            identifier_filters=identifier_filters,
+        )
         if skip is None:
             searched.append(source)
         else:
@@ -155,6 +160,7 @@ def _skip_reason(
     capability: ProviderCapabilities,
     *,
     has_identifier: bool,
+    identifier_filters: set[str],
 ) -> SourceSkip | None:
     if not capability.supports_mcp:
         return SourceSkip(
@@ -176,6 +182,23 @@ def _skip_reason(
         )
     if capability.category == "case_lookup":
         return None
+
+    unsupported_identifiers = (
+        identifier_filters.difference(capability.supported_filters)
+        if capability.supported_filters
+        else set()
+    )
+    if unsupported_identifiers:
+        labels = ", ".join(sorted(unsupported_identifiers))
+        return SourceSkip(
+            source=capability.source,
+            category=capability.category,
+            reason="identifier_filter_not_supported",
+            message=(
+                f"A fonte nao declara suporte ao filtro identificador: {labels}. "
+                "Ela foi pulada para evitar resultados textuais sem correspondencia exata."
+            ),
+        )
 
     if capability.category == "judicial_communications":
         return SourceSkip(
@@ -199,10 +222,13 @@ def _skip_reason(
     return None
 
 
-def _has_identifier(*, text: str, filters: dict[str, Any]) -> bool:
+def _identifier_filters(*, text: str, filters: dict[str, Any]) -> set[str]:
+    """Return identifier filters that must be honored by a source."""
+
+    requested = {name for name in IDENTIFIER_FILTERS if _has_value(filters.get(name))}
     if CNJ_NUMBER_RE.search(text):
-        return True
-    return any(_has_value(filters.get(name)) for name in IDENTIFIER_FILTERS)
+        requested.add("number")
+    return requested
 
 
 def _has_value(value: Any) -> bool:

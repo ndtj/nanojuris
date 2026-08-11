@@ -23,6 +23,7 @@ from nanojuris.models import (
 )
 from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.bnp_pangea import BnpPangeaProvider
+from nanojuris.providers.cjf_jurisprudencia import CjfJurisprudenciaProvider
 from nanojuris.providers.comunica_pje import ComunicaPjeProvider
 from nanojuris.providers.eproc_jurisprudencia_federal import (
     TnuEprocJurisprudenciaProvider,
@@ -35,6 +36,7 @@ from nanojuris.providers.stj_informativo import StjInformativoProvider
 from nanojuris.providers.stj_scon import StjSconProvider
 from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
 from nanojuris.providers.tce_sp_jurisprudencia import TceSpJurisprudenciaProvider
+from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
 from nanojuris.providers.tjac_esaj_cpopg import TjacEsajCpopgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
@@ -42,14 +44,25 @@ from nanojuris.providers.tjam_cjsg import TjamCjsgProvider
 from nanojuris.providers.tjdf_juris import TjdfJurisProvider
 from nanojuris.providers.tjgo_projudi_jurisprudencia import TjgoProjudiJurisprudenciaProvider
 from nanojuris.providers.tjms_cjsg import TjmsCjsgProvider
+from nanojuris.providers.tjpa_jurisprudencia_bff import TjpaJurisprudenciaBffProvider
+from nanojuris.providers.tjpb_pje_jurisprudencia import TjpbPjeJurisprudenciaProvider
 from nanojuris.providers.tjpi_juspi import TjpiJuspiProvider
+from nanojuris.providers.tjrj_eproc_jurisprudencia import TjrjEprocJurisprudenciaProvider
+from nanojuris.providers.tjrs_solr import TjrsSolrProvider
+from nanojuris.providers.tjsc_eproc_jurisprudencia import TjscEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_cjsg import TjspCjsgProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import TjspEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_esaj_cpopg import TjspEsajCpopgProvider
 from nanojuris.providers.tjsp_nugepnac import TjspNugepnacProvider
 from nanojuris.providers.tre_sp_temas import TreSpTemasProvider
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
-from nanojuris.routing import build_routing_summary, route_unified_sources
+from nanojuris.providers.trf5_jurisprudencia import Trf5JurisprudenciaProvider
+from nanojuris.providers.tst_jurisprudencia import TstJurisprudenciaProvider
+from nanojuris.routing import (
+    JURISPRUDENCE_CATEGORIES,
+    build_routing_summary,
+    route_unified_sources,
+)
 from nanojuris.source_contracts import (
     SourceContractAssessment,
     assess_source_contract,
@@ -75,6 +88,7 @@ class NanoJurisClient:
             if providers is not None
             else [
                 BnpPangeaProvider(self.config),
+                CjfJurisprudenciaProvider(self.config),
                 ComunicaPjeProvider(self.config),
                 TnuEprocJurisprudenciaProvider(self.config),
                 StfInformativoProvider(self.config),
@@ -82,6 +96,7 @@ class NanoJurisClient:
                 StjInformativoProvider(self.config),
                 StjSconProvider(self.config),
                 StmJurisprudenciaProvider(self.config),
+                TstJurisprudenciaProvider(self.config),
                 TceSpJurisprudenciaProvider(self.config),
                 TjacCjsgProvider(self.config),
                 TjacEsajCpopgProvider(self.config),
@@ -91,11 +106,18 @@ class NanoJurisClient:
                 TjamCjsgProvider(self.config),
                 TjmsCjsgProvider(self.config),
                 TjpiJuspiProvider(self.config),
+                TjrjEprocJurisprudenciaProvider(self.config),
+                TjpaJurisprudenciaBffProvider(self.config),
+                TjpbPjeJurisprudenciaProvider(self.config),
                 TjspCjsgProvider(self.config),
                 TjspEprocJurisprudenciaProvider(self.config),
                 TjspEsajCpopgProvider(self.config),
                 TjspNugepnacProvider(self.config),
                 TreSpTemasProvider(self.config),
+                TjrsSolrProvider(self.config),
+                TjscEprocJurisprudenciaProvider(self.config),
+                TcuJurisprudenciaProvider(self.config),
+                Trf5JurisprudenciaProvider(self.config),
                 Trf2EprocJurisprudenciaProvider(self.config),
                 Trf4EprocJurisprudenciaProvider(self.config),
                 Trf6EprocJurisprudenciaProvider(self.config),
@@ -386,7 +408,7 @@ class NanoJurisClient:
         return [
             capability.source
             for capability in self.list_sources()
-            if capability.category == "court_jurisprudence" and capability.supports_mcp
+            if capability.category in JURISPRUDENCE_CATEGORIES and capability.supports_mcp
         ]
 
     def _provider(self, source: str) -> JurisprudenceProvider:

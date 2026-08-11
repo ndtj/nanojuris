@@ -321,9 +321,12 @@ Achados promovidos para a fila tecnica:
 | Fonte | Rota oficial | Classificacao |
 | --- | --- | --- |
 | TJPI/JusPI | `https://jurisprudencia.tjpi.jus.br/jurisprudences/search?q=dano%20moral` | candidato forte de provider HTML |
-| TJRR/Juris | `https://jurisprudencia.tjrr.jus.br/index.xhtml` | candidato forte JSF/PrimeFaces |
+| TJRR/Juris | `https://jurisprudencia.tjrr.jus.br/index.xhtml` | postback publico reproduzido; candidato pronto para fixture JSF |
 | TJMT/Jurisprudencia | `https://jurisprudencia.tjmt.jus.br/` | candidato de API moderna; header/payload pendente |
-| TJPA/Jurisprudencia | `https://jurisprudencia.tjpa.jus.br/` | candidato de BFF/API; payload pendente |
+| TJPA/Jurisprudencia | `https://jurisprudencia.tjpa.jus.br/` | BFF publico com busca textual JSON, catalogos e recentes; candidato pronto para fixture |
+| TJCE/CJSG | `https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do` | consulta e-SAJ oficial com filtros ricos e inteiro teor documentado; candidato precisa HAR apos reset TLS |
+| TJCE Informativos | `https://www.tjce.jus.br/informativo-jurisprudencia/` | HTML oficial HTTP 200 com edicoes, destaques, metadados decisorios e PDFs | candidato pronto para fixture curada |
+| TRF3 Jurisprudencia | `https://web.trf3.jus.br/jurisprudencia/home/index/1` | interface oficial com pesquisa, filtros e links CJF/TNU/Sumulas; HTTP limpo excedeu 45s | candidato nivel B, requer captura de rede |
 | TJPB/PJe Jurisprudencia | `https://pje-jurisprudencia.tjpb.jus.br/` | candidato PJe com risco WAF a validar |
 | TJPE | `https://portal.tjpe.jus.br/servicos/consulta/sumulas` | catalogo publico de sumulas/precedentes |
 | TJSE | `https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial` | entrada oficial de jurisprudencia judicial |
@@ -353,7 +356,7 @@ retestado com janela maior antes de qualquer provider.
 | TJAM e-SAJ CPOSg | `/cposg/search.do` e `/cposg/open.do` retornaram HTTP 503; `/cposg5/search.do` redirecionou para portal | fonte instavel/nao promovida |
 | TNU/CJF | `https://www.cjf.jus.br/jurisprudencia/tnu/` fechou a conexao sem resposta no probe limpo | nao promover sem nova rota publica estavel |
 | TJRJ/eJuris | `https://www3.tjrj.jus.br/ejuris/ConsultarJurisprudencia.aspx` retorna WebForms publico com `__VIEWSTATE`, campos de pesquisa e script `https://www.google.com/recaptcha/api.js?render=...` | diagnostics-first; nao promover sem fluxo limpo sem reCAPTCHA |
-| TJCE/CJSG | conexao resetada pelo host remoto em `https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do` | nao promover sem novo endpoint ou janela estavel |
+| TJCE/CJSG | conexao resetada pelo host remoto em `https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do`; pagina oficial e documentacao permanecem acessiveis por outras superficies | candidato com contrato pendente; ver dossie proprio e nao forcar reset |
 | TJSC/CJSG | DNS falhou para `https://esaj.tjsc.jus.br/cjsg/resultadoCompleta.do` | endpoint candidato invalido |
 | TJBA/CJSG | falha de handshake SSL em `https://esaj.tjba.jus.br/cjsg/resultadoCompleta.do` | nao promover sem perfil SSL/endpoint correto |
 | TJRN/CJSG | HTTP 403 Access Denied em `https://esaj.tjrn.jus.br/cjsg/resultadoCompleta.do` | acesso bloqueado no probe limpo |

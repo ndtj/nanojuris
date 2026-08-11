@@ -66,7 +66,7 @@ O ultimo relatorio aplicado de validacao esta em
 ## 0.6-publicacao
 
 - Guia de provider novo em [provider-development.md](provider-development.md).
-- Checklist de release inicial em [release-checklist.md](release-checklist.md).
+- Checklist de release em [release-checklist.md](release-checklist.md).
 - Validacao por casos de uso em
 	[validation-report-2026-08-02.md](validation-report-2026-08-02.md).
 

@@ -127,6 +127,7 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "O inteiro teor e extraido do HTML de resultado quando a fonte o embute no card.",
                 "A rota de download por Id_Arquivo voltou ao formulario em probe "

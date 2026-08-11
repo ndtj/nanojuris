@@ -135,6 +135,7 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "types"],
             limitations=[
                 "Provider usa catalogos estaticos; busca dinamica com reCAPTCHA "
                 "nao e automatizada.",

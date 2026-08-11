@@ -1,0 +1,32 @@
+{
+  "tempoGasto": 12,
+  "totalRegistros": 1,
+  "registros": [
+    {
+      "registro": {
+        "id": "0123456789abcdef0123456789abcdef",
+        "numero": "12345678901234567890",
+        "numFormatado": "RR - 0012345-67.2024.5.15.0001",
+        "numProc": 12345,
+        "anoProc": 2024,
+        "codFase": "RR",
+        "tipo": {"codigoTipoJurisprudencia": "ACORDAO", "nome": "Acordao"},
+        "orgao": {"numero": 0, "nome": "Tribunal Superior do Trabalho", "sigla": "TST"},
+        "orgaoJudicante": {"codigo": 16, "descricao": "1a Turma"},
+        "nomRelator": "Ministro de Exemplo",
+        "codMinRelator": "GEXE",
+        "dtaJulgamento": "2026-07-01T09:00:00-03",
+        "dtaPublicacao": "2026-07-10T10:00:00-03",
+        "dtaAtualizacao": "2026-07-11T08:00:00-03",
+        "ementa": "DIREITO DO TRABALHO. RESPONSABILIDADE SUBSIDIARIA. FISCALIZACAO DO CONTRATO.",
+        "txtEmentaHighlight": "<p>DIREITO DO TRABALHO. <b>RESPONSABILIDADE</b> SUBSIDIARIA.</p>",
+        "inteiroTeorHtml": "<html><body><p>A C O R D A O</p><p>Responsabilidade subsidiaria.</p></body></html>",
+        "dispositivo": "Recurso de revista conhecido e provido.",
+        "numeracaoUnica": {"numero": 12345, "digito": 67, "ano": 2024, "orgao": 5, "tribunal": 15, "vara": 1},
+        "txtTemaProc": "Responsabilidade subsidiaria"
+      },
+      "destaques": {"txtInteiroTeor": ["<tst_j>RESPONSABILIDADE</tst_j> SUBSIDIARIA"]}
+    }
+  ],
+  "agregacoes": [{"campo": "tipo", "valor": "ACORDAO", "quantidade": 1}]
+}

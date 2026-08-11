@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+title: "NanoJuris"
+message: "If you use NanoJuris in research, software, or legal data analysis, please cite this project."
+type: software
+authors:
+  - family-names: Molero
+    given-names: Luciano
+    affiliation: "NanoJuris"
+repository-code: "https://github.com/lucmolero/nanojuris"
+license: MIT
+version: 0.2.0
+date-released: 2026-08-11
+keywords:
+  - jurisprudence
+  - legaltech
+  - open data
+  - Brazil
+  - Python

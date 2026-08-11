@@ -121,6 +121,7 @@ class FailingProvider:
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
             supports_mcp=True,
+            supported_filters=["text"],
         )
 
 
@@ -255,6 +256,19 @@ def test_client_search_many_unifies_results_and_keeps_source_errors():
     ]
 
 
+def test_default_unified_sources_include_all_jurisprudence_categories():
+    client = NanoJurisClient(
+        providers=[
+            FakeProvider(),
+            FailingProvider(),
+            CaseLookupProvider(),
+            CommunicationsProvider(),
+        ]
+    )
+
+    assert client._default_unified_sources() == ["failing", "fake"]
+
+
 def test_client_search_many_classifies_proxy_configuration_errors():
     client = NanoJurisClient(providers=[ProxyFailingProvider()])
 
@@ -372,6 +386,30 @@ def test_client_search_many_allows_case_lookup_when_identifier_is_present():
     assert payload["searched_sources"] == ["fake", "case_lookup"]
     assert payload["skipped_sources"] == []
     assert payload["total_returned"] == 2
+
+
+def test_client_search_many_skips_jurisprudence_sources_without_identifier_contract():
+    client = NanoJurisClient(providers=[FailingProvider()])
+
+    payload = client.search_many(
+        "0802253-46.2017.8.15.2003",
+        sources=["failing"],
+        number="0802253-46.2017.8.15.2003",
+    )
+
+    assert payload["searched_sources"] == []
+    assert payload["errors"] == []
+    assert payload["skipped_sources"] == [
+        {
+            "source": "failing",
+            "category": "court_jurisprudence",
+            "reason": "identifier_filter_not_supported",
+            "message": (
+                "A fonte nao declara suporte ao filtro identificador: number. "
+                "Ela foi pulada para evitar resultados textuais sem correspondencia exata."
+            ),
+        }
+    ]
 
 
 def test_client_search_and_store_run_returns_saved_run():

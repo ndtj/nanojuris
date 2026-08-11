@@ -207,6 +207,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "A fonte pode exigir captcha ou outro controle de acesso.",
                 "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",

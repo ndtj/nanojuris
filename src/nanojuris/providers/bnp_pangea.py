@@ -102,6 +102,18 @@ class BnpPangeaProvider(JurisprudenceProvider):
             supports_catalog=True,
             supports_suggestions=True,
             supports_live_tests=True,
+            supported_filters=[
+                "text",
+                "number",
+                "courts",
+                "types",
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "updated_from",
+                "updated_to",
+            ],
             limitations=[
                 "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
                 "Nem todo precedente possui textos de decisoes no endpoint publico.",

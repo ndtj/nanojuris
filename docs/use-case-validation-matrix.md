@@ -468,8 +468,9 @@ Ferramentas envolvidas:
 - smoke import;
 - CI.
 
-Status atual: Parcial. Testes e lint existem; release checklist formal ainda
-precisa ser documentado.
+Status atual: Implementado com ressalva ambiental local. Testes, lint, mypy,
+build, smoke de extras e checklist de release estao documentados no repositorio;
+o CI Ubuntu e o gate definitivo para build isolado.
 
 Como testar agora:
 
@@ -487,17 +488,16 @@ Evidencias de sucesso:
 
 Lacunas:
 
-- checklist de release;
-- GitHub Actions completo;
-- build wheel/sdist em CI;
-- smoke tests de instalacao limpa.
+- validar os jobs no GitHub apos o proximo push;
+- configurar branch protection e o environment `pypi`;
+- publicar artefatos de cobertura se isso for adotado pelo mantenedor.
 
 Backlog sugerido:
 
-- `docs/release-checklist.md`;
-- workflow CI para test/lint/build;
-- smoke test com extras opcionais;
-- changelog por release.
+- exigir os checks obrigatorios na branch `main`;
+- configurar Trusted Publishing no PyPI;
+- adicionar um relatorio de cobertura publicado, se houver necessidade de
+  acompanhamento historico.
 
 ## UC-08: sistema externo consome NanoJuris como SDK
 

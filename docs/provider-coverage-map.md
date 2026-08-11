@@ -36,25 +36,35 @@ segredo de justica ou controles de acesso.
 | P0 | TJRS jurisprudencia AJAX/SOLR | rota publica estruturada validada; retorna docs, facets, highlighting e volume total | `CanonicalDecision` via JSON/SOLR |
 | P0 | TJBA jurisprudencia GraphQL | rota publica estruturada validada; retorna decisoes, ementa, relator, orgao julgador e numero processual | `CanonicalDecision` via JSON estruturado |
 | P0 | TJPR jurisprudencia HTML | rota publica validada com resultado, relator, orgao julgador, ementa e paginacao | `CanonicalDecision` via parser HTML |
-| P0 | TJSC/eproc jurisprudencia | formulario publico eproc validado; potencial de reuso por familia tecnica | `CanonicalDecision` e contrato `eproc_jurisprudencia` |
+| P0 | TJSC/eproc jurisprudencia | formulario eproc publico validado com 475.091 documentos, cards decisorios e inteiro teor HTML | `CanonicalDecision` e `CanonicalDocument` via familia eproc |
 | P0 | TNU/eproc jurisprudencia | ja implementado; POST publico validado em `listar_resultados`; reuso direto da familia eproc | `CanonicalDecision` federal/TNU com inteiro teor publico quando disponivel |
 | P0 | TRF2/eproc jurisprudencia | ja implementado; POST publico validado em `listar_resultados`; cobre TRF2, TRU2 e Turmas Recursais | `CanonicalDecision` federal com origens eproc |
 | P0 | TRF6/eproc jurisprudencia | ja implementado; POST publico validado em `listar_resultados`; cobre TRF6, TRU6, Turmas Recursais e Varas Federais | `CanonicalDecision` federal com origens eproc |
 | P0 | TJGO/Projudi jurisprudencia | ja implementado; POST publico validado, alto volume, processo, orgao, magistrado, decisao e inteiro teor embutido | `CanonicalDecision` via parser HTML Projudi |
 | P0 | TJAC/e-SAJ CJSG | resultado simples publico validado com ementa, relator, orgao, datas e inteiro teor | `CanonicalDecision` via familia CJSG/e-SAJ |
 | P0 | TJPI/JusPI jurisprudencia | ja implementado; GET publico de busca e detalhe HTML retornam conteudo decisorio valido | `CanonicalDecision` e `CanonicalDocument` via parser HTML |
-| P1 | TJRR/Juris JSF | pagina JSF/PrimeFaces publica rica, com filtros e sinais juridicos; falta reproduzir postback de busca | `CanonicalDecision` apos HAR/payload limpo |
-| P1 | TJMT jurisprudencia API Hellsgate | SPA publica e bundle expuseram API de consulta, metadados e relatorios; GET direto exige chave/header publico do frontend | contrato API a aprofundar antes de provider |
-| P1 | TJPA jurisprudencia BFF | SPA publica e bundle expuseram `/bff/api/decisoes`, PJe classes/assuntos e temas; falta metodo/payload de busca | contrato BFF a aprofundar antes de provider |
+| P1 | TJRR/Juris JSF | GET e postback JSF publico reproduzidos com resultado real; disponibilidade apresentou timeout em repeticao | `CanonicalDecision` apos fixture e parser offline |
+| P1 | TJMT jurisprudencia API Hellsgate | revalidacao atual redirecionou o portal para `/ui/login` e a API inferida respondeu 401; evidencia antiga mantida apenas como historico | nao automatizar sem nova rota publica reproduzivel |
+| P1 | TJPA jurisprudencia BFF | `POST /bff/api/decisoes/buscar` retornou JSON decisorio real; catalogos e recentes tambem respondem publicamente | `CanonicalDecision` via JSON apos fixtures, filtros e detalhe |
+| P1 | TJCE/e-SAJ CJSG | pagina oficial documenta busca completa, ementas, acordaos, filtros e inteiro teor; acesso HTTP local sofreu reset TLS | `CanonicalDecision` via familia CJSG apos HAR e fixture |
+| P1 | TJCE Informativos | pagina HTML oficial retornou edicoes, itens com processo/assunto/orgao e links PDF | `CanonicalPrecedent` curado via parser HTML/PDF |
+| P1 | TRF3 jurisprudencia | interface oficial confirma pesquisa textual, filtros, JEF/Turmas Recursais e consulta de acordaos; cliente HTTP sofreu timeout | `CanonicalDecision` e `CanonicalDocument` apos captura e replay |
 | P1 | TJPB/PJe jurisprudencia | formulario publico com campos juridicos e paginacao; comportamento WAF variou por cliente | provider somente apos fixture de resultado real sem desafio |
 | P0 | STJ jurisprudencia/SCON | provider inicial `stj_scon` com parser offline; ficha em [stj-source-profile.md](stj-source-profile.md) | acordaos como `CanonicalDecision`; inteiro teor em fase futura |
 | P0 | STF jurisprudencia | provider inicial `stf_juris` via API JSON observada por HAR; WAF/SSL diagnosticados | acordaos como `CanonicalDecision`; inteiro teor como URL ate validar documento sem 403 |
+| P0 | TST jurisprudencia | provider implementado com API REST publica, busca textual, filtros e inteiro teor HTML | `CanonicalDecision` trabalhista e `CanonicalDocument` sob demanda |
 | P1 | TJPE sumulas e orientacao de decisoes | paginas publicas para sumulas, transparencia e Consulta Jurisprudencia Web; ainda sem endpoint limpo de acordaos | catalogo documental/precedentes locais |
 | P1 | TJSE jurisprudencia judicial | pagina oficial publica de jurisprudencia judicial; falta rota final de resultado | entrada documental e candidato de provider |
 | P1 | TJRO/LIAME | portal publico de precedentes/temas com filtros por tribunal, especie e situacao | `CanonicalPrecedent`/catalogo, nao acordaos |
+| P1 | TJAP/Tucujuris | consulta institucional historicamente integrada para acordaos, turmas recursais e sumulas; acesso atual exige nova validacao | catalogo ou `CanonicalDecision` apos rota limpa |
+| P1 | TJRN/Jurisprudencia | portal unificado anunciado para PJe/SAJ e primeiro/segundo graus; probe atual respondeu 403 | `CanonicalDecision` apos HAR e replay limpo |
+| P1 | TJTO/Jurisprudencia | consulta indexada mostra processo, classe, relator, ementa, tese e referencias; replay pendente | `CanonicalDecision` apos contrato HTTP |
+| P1 | TJES/Jurisprudencia | resultado legado oficial indexado e ementarios PDF; portal atual instavel | `CanonicalDecision` legado ou `CanonicalPrecedent` documental |
+| P1 | TJMG/Espelho de Acordao | formulario e ajuda oficiais; busca textual respondeu captcha/401 | provider somente com nova superficie publica limpa |
+| P1 | TCU jurisprudencia e dados abertos | manifesto e CSVs oficiais com acordaos, jurisprudencia selecionada, sumulas, respostas e boletins | adapter de dataset para `CanonicalDecision`/`CanonicalPrecedent`; pesquisa web separada |
+| P1 | CNJ informativos de jurisprudencia | pagina HTML oficial com filtros, paginacao e PDFs dos informativos | `CanonicalPrecedent`/conteudo curado; nao e busca geral de acordaos |
 | P2 | TJES jurisprudencia | portal atual `Pesquisa.aspx` deu timeout e rota ColdFusion antiga retornou 404 | repetir probe antes de promover |
 | P1 | TJMA/Jurisconsult metadados e sumulas | API publica limpa para relatorios, tipos, orgaos e links de sumulas/IAC/IRDR; busca principal exige captcha | `CanonicalPrecedent`/catalogo parcial; nao automatizar acordaos sem fluxo limpo |
-| P1 | TST jurisprudencia publica | SPA com backend identificado, mas payload exato ainda nao promovido | decisoes trabalhistas apos probe limpo |
 | P1 | TSE/TREs SJUR metadados | backend oficial identificado; classes e relatorias retornam JSON publico, mas busca principal retornou antirrobo | catalogo/filtros eleitorais; decisoes somente se fluxo limpo existir |
 | P1 | TRT2/PJe jurisprudencia metadados | SPA e `/juris-backend/api/opcoes` publicos; documentos retornam `tokenDesafio`/`imagem` | contrato parcial e diagnostico de acesso; nao coletar documentos |
 | P1 | CJF/TRF1 hub e ementario | hub publico e ementario documental; ainda sem endpoint limpo de resultado | rota documental/catalogo |
@@ -91,11 +101,18 @@ A cobertura ampla do Brasil deve priorizar familias tecnicas reutilizaveis:
 - `juris_jsf`: familia JSF/PrimeFaces de jurisprudencia, observada no TJRR,
   exige reproducao responsavel do postback da propria sessao publica;
 - `jurisprudencia_spa_api`: frontends modernos com APIs BFF/REST observadas em
-  TJMT e TJPA; promover apenas apos payload/header publico validado;
+  TJMT e TJPA; TJPA ja possui busca textual publica reproduzida, enquanto
+  TJMT permanece bloqueado ate nova rota publica validada;
 - `pje_jurisprudencia_estadual`: instancias estaduais de pesquisa PJe como
   TJPB; alto valor, mas dependem de estabilidade sem desafio WAF/captcha;
 - `tjma_jurisconsult`: API publica parcial para metadados, filtros e links de
   precedentes/sumulas; busca principal fica bloqueada enquanto exigir captcha;
+- `tcu_jurisprudencia_abertos`: manifesto e datasets CSV publicos do TCU para
+  acordaos, jurisprudencia selecionada, sumulas, respostas e boletins; a
+  pesquisa interativa possui contrato de frontend, mas pode ser protegida por
+  firewall e deve permanecer separada do adapter de dados abertos;
+- `cnj_informativos`: HTML paginado e PDFs oficiais de informativos do CNJ;
+  tratar como jurisprudencia curada e nao como repositorio geral de decisoes;
 - `justica_eleitoral_sjur`: API publica parcial para classes/relatorias do
   TSE/TREs; busca principal fica bloqueada enquanto exigir antirrobo/token;
 - `pje_jurisprudencia`: familia PJe com metadados/opcoes publicos em algumas

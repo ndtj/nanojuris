@@ -139,6 +139,7 @@ class StfInformativoProvider(JurisprudenceProvider):
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Dados sao curados pelo Informativo STF, nao a base integral de acordaos.",
                 "A data vem em serial Excel no XLSX oficial e e normalizada para ISO date.",

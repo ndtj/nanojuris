@@ -168,6 +168,7 @@ class TjspNugepnacProvider(JurisprudenceProvider):
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number", "types"],
             limitations=[
                 "A pagina de detalhe contem tese e questao; inteiro teor CJSG pode exigir "
                 "verificacao.",

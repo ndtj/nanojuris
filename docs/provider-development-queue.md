@@ -5,8 +5,10 @@ fontes ja implementadas, candidatos prontos para fixture/parser e rotas que
 dependem de investigacao adicional.
 
 Regra de produto: nenhum provider deve ser implementado antes de existir um
-dossie em `docs/source-contracts/` com contrato publico observado, limites,
-fixtures esperadas e decisao de uso via MCP.
+dossie canonico em `docs/providers/<provider>/README.md`, uma entrada no
+registro central e uma copia de compatibilidade em `docs/source-contracts/`,
+com contrato publico observado, limites, fixtures esperadas e decisao de uso
+via MCP.
 
 ## Status
 
@@ -22,17 +24,42 @@ fixtures esperadas e decisao de uso via MCP.
 
 | Ordem | Fonte | Status | Dossie | Proximo passo |
 | --- | --- | --- | --- | --- |
-| 1 | TJPI/JusPI | `implemented` | [tjpi_juspi.md](source-contracts/tjpi_juspi.md) | monitorar live opt-in e ampliar filtros catalogados |
-| 2 | TJGO/Projudi | `implemented` | [tjgo_projudi_jurisprudencia.md](source-contracts/tjgo_projudi_jurisprudencia.md) | validar paginacao live opt-in e numero de processo |
-| 3 | TNU/TRF2/TRF6 eproc federal | `implemented` | [eproc_jurisprudencia_federal.md](source-contracts/eproc_jurisprudencia_federal.md) | validar inteiro teor live por instancia e ampliar filtros |
-| 4 | TJRR/Juris JSF | `candidate_needs_har` | [tjrr_juris.md](source-contracts/tjrr_juris.md) | HAR de busca simples e postback JSF |
-| 5 | TJMT/Jurisprudencia API | `candidate_needs_har` | [tjmt_jurisprudencia_api.md](source-contracts/tjmt_jurisprudencia_api.md) | validar header/payload publico do frontend |
-| 6 | TJPA/Jurisprudencia BFF | `candidate_needs_har` | [tjpa_jurisprudencia_bff.md](source-contracts/tjpa_jurisprudencia_bff.md) | capturar payload de `/bff/api/decisoes` |
-| 7 | TJPB/PJe Jurisprudencia | `candidate_needs_har` | [tjpb_pje_jurisprudencia.md](source-contracts/tjpb_pje_jurisprudencia.md) | confirmar busca sem desafio Cloudflare |
-| 8 | TJPE Sumulas | `documental` | ainda sem ficha propria | avaliar provider de catalogo/sumulas |
-| 9 | TJSE Jurisprudencia Judicial | `candidate_needs_har` | ainda sem ficha propria | localizar endpoint final de busca |
-| 10 | TJRO/LIAME | `documental` | ainda sem ficha propria | tratar como precedentes/catalogo |
-| 11 | TJES | `blocked_or_inconclusive` | ainda sem ficha propria | repetir probe com timeout maior |
+| 1 | TST pesquisa textual | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
+| 2 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | validar detalhe/inteiro teor antes de promovê-los |
+| 3 | TJBA GraphQL | `candidate_ready` | [route-mapping-results-2026-08-07.md](route-mapping-results-2026-08-07.md) | salvar fixture GraphQL e validar detalhe por UUID |
+| 4 | TJPR HTML | `candidate_ready` | [route-mapping-results-2026-08-07.md](route-mapping-results-2026-08-07.md) | salvar fixture publica e implementar parser/paginacao |
+| 5 | TJRJ/eproc | `implemented` | [tjrj_eproc_jurisprudencia.md](providers/tjrj_eproc_jurisprudencia/README.md) | adicionar fixtures especificas e monitorar labels |
+| 6 | CJF/TRF1 Jurisprudencia | `implemented` | [cjf_jurisprudencia.md](providers/cjf_jurisprudencia/README.md) | validar detalhe externo e superfície unificada separadamente |
+| 7 | TRF5 Jurisprudencia | `implemented` | [trf5_jurisprudencia.md](providers/trf5_jurisprudencia/README.md) | ampliar fixtures e validar paginacao/detalhe |
+| 8 | Falcao/Justica do Trabalho | `blocked_or_inconclusive` | [falcao_jt.md](providers/falcao_jt/README.md) | repetir GET controlado; HAR publico se disponivel |
+| 9 | TJPI/JusPI | `implemented` | [tjpi_juspi.md](providers/tjpi_juspi/README.md) | monitorar live opt-in e ampliar filtros catalogados |
+| 10 | TJGO/Projudi | `implemented` | [tjgo_projudi_jurisprudencia.md](providers/tjgo_projudi_jurisprudencia/README.md) | validar paginacao live opt-in e numero de processo |
+| 11 | TNU/TRF2/TRF6 eproc federal | `implemented` | [eproc_jurisprudencia_federal.md](providers/eproc_jurisprudencia_federal/README.md) | validar inteiro teor live por instancia e ampliar filtros |
+| 12 | TJRR/Juris JSF | `candidate_ready` | [tjrr_juris.md](providers/tjrr_juris/README.md) | salvar fixture sanitizada e mapear paginacao |
+| 13 | TJMT/Jurisprudencia API | `blocked_or_inconclusive` | [tjmt_jurisprudencia_api.md](providers/tjmt_jurisprudencia_api/README.md) | repetir apenas se surgir nova superficie publica; nao usar login |
+| 14 | TJPA/Jurisprudencia BFF | `implemented` | [tjpa_jurisprudencia_bff.md](providers/tjpa_jurisprudencia_bff/README.md) | validar detalhe e filtros adicionais |
+| 15 | TJSC/eproc | `implemented` | [tjsc_eproc_jurisprudencia.md](providers/tjsc_eproc_jurisprudencia/README.md) | adicionar fixtures especificas e monitorar paginacao |
+| 16 | TJPB/PJe Jurisprudencia | `implemented` | [tjpb_pje_jurisprudencia.md](providers/tjpb_pje_jurisprudencia/README.md) | monitorar token, WAF e contrato de detalhe |
+| 17 | TJMG Jurisprudencia | `blocked_or_inconclusive` | ainda sem ficha propria | nao automatizar enquanto a busca exigir captcha HTTP 401 |
+| 18 | TJRJ/eJURIS legado | `candidate_needs_har` | ainda sem ficha propria | mapear WebForms e confirmar reCAPTCHA na busca |
+| 19 | TSE/SJUR beta | `candidate_needs_har` | [justica_eleitoral_sjur.md](providers/justica_eleitoral_sjur/README.md) | HAR da nova SPA e endpoint de resultados |
+| 20 | TJCE/e-SAJ CJSG | `candidate_needs_har` | [tjce_cjsg.md](providers/tjce_cjsg/README.md) | capturar HAR limpo e reproduzir formulario; nao forcar reset TLS |
+| 21 | TJPE Consulta Jurisprudencia | `candidate_ready` | [tjpe_jurisprudencia.md](providers/tjpe_jurisprudencia/README.md) | capturar fixtures REST e implementar parser/paginacao |
+| 22 | TJSE Jurisprudencia Judicial | `blocked_or_inconclusive` | [tjse_jurisprudencia.md](providers/tjse_jurisprudencia/README.md) | HAR limpo com token normal; nao contornar captcha |
+| 23 | TJRO/LIAME | `documental` | [tjro_liame.md](providers/tjro_liame/README.md) | tratar como precedentes/catalogo |
+| 24 | TJES | `candidate_needs_har` | [tjes_jurisprudencia.md](providers/tjes_jurisprudencia/README.md) | capturar fluxo legado ou validar portal atual |
+| 25 | TCU Jurisprudencia e dados abertos | `implemented` | [tcu_jurisprudencia.md](providers/tcu_jurisprudencia/README.md) | cache incremental e adapters de outros datasets |
+| 26 | CNJ Informativos de Jurisprudencia | `candidate_ready` | [cnj_jurisprudencia.md](providers/cnj_jurisprudencia/README.md) | fixture HTML, parser de itens e links PDF |
+| 27 | TST Jurisprudencia | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
+| 28 | TJCE Informativos | `candidate_ready` | [tjce_informativos.md](providers/tjce_informativos/README.md) | salvar fixture HTML, parser de itens e links PDF |
+| 29 | TRF3 Jurisprudencia | `candidate_needs_har` | [trf3_jurisprudencia.md](providers/trf3_jurisprudencia/README.md) | captura automatica da busca; testar acordao por processo separadamente |
+| 30 | TJAP/Tucujuris | `blocked_or_inconclusive` | [tjap_tucujuris.md](providers/tjap_tucujuris/README.md) | nova superficie publica sem desafio |
+| 31 | TJMG Espelho de Acordao | `blocked_or_inconclusive` | [tjmg_jurisprudencia.md](providers/tjmg_jurisprudencia/README.md) | nao automatizar captcha; buscar superficie oficial alternativa |
+| 32 | TJRN Jurisprudencia | `blocked_or_inconclusive` | [tjrn_jurisprudencia.md](providers/tjrn_jurisprudencia/README.md) | HAR publico da busca unificada |
+| 33 | TJTO Jurisprudencia | `candidate_needs_har` | [tjto_jurisprudencia.md](providers/tjto_jurisprudencia/README.md) | reproduzir query, filtros, detalhe e inteiro teor |
+| 34 | TJBA GraphQL | `candidate_ready` | [tjba_graphql.md](providers/tjba_graphql/README.md) | fixture GraphQL, parser e detalhe |
+| 35 | TJPR HTML | `candidate_ready` | [tjpr_jurisprudencia.md](providers/tjpr_jurisprudencia/README.md) | fixture de sucesso/vazio e parser |
+| 36 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | fixture live opt-in e detalhe/inteiro teor |
 
 ## Checklist De Entrada Para Implementar
 
@@ -51,14 +78,27 @@ Antes de criar `src/nanojuris/providers/<provider>.py`:
 
 ## Ordem De Desenvolvimento Recomendada
 
-1. **TJRR/Juris JSF**: alto potencial, mas exige entender `ViewState` e
+1. **TJBA, TJPR e CJF/TRF1**: fechar fixtures e implementar os candidatos que
+   ja retornaram conteudo decisorio em sessao limpa. TJPB, TJPA e TJRS agora
+   possuem adapters iniciais e devem receber aprofundamento incremental. O TST
+   ja possui provider e dossie; o registro de descoberta esta em
+   [public-provider-discovery-2026-08-10.md](public-provider-discovery-2026-08-10.md).
+2. **TRF5 e TJRR**: implementar os fluxos HTML/JSF com fixtures proprias e
+   classificacao explicita de paginacao e controles de acesso.
+3. **Falcao/JT**: somente avancar se a consulta publica normal deixar de
+   retornar bloqueio; ele pode reduzir a necessidade de providers isolados de
+   TRTs.
+4. **TJRR/Juris JSF**: alto potencial, mas exige entender `ViewState` e
    postback PrimeFaces sem usar sessao privada.
-2. **TJPA/TJMT APIs**: alto potencial tecnico; precisam confirmar payloads e
-   headers publicos emitidos pelo proprio frontend.
-3. **TJPB/PJe**: so avancar se o desafio Cloudflare nao aparecer no fluxo
-   publico reproduzivel.
-4. **Documentais**: TJPE, TJSE e TJRO podem virar providers de catalogo antes
-   de virarem jurisprudencia decisoria.
+5. **TJPA e TCU**: aprofundar detalhe, cache incremental e datasets adicionais;
+   a busca inicial ja esta implementada com limites documentados.
+6. **TJMT API**: somente avancar se surgir uma nova superficie publica
+   reproduzivel; a revalidacao atual encontrou login e HTTP 401.
+7. **TJPB/TJSC/TJRJ**: manter monitoramento live opt-in e adicionar fixtures
+   especificas, sem contornar WAF, captcha ou limites.
+8. **Documentais e dados abertos**: TJSE e TJRO podem virar providers de
+   catalogo; o TJPE ja possui candidato REST decisorio e o TCU possui um
+   dataset publico pronto para adapter streaming.
 
 ## Regra Para Promover Status
 

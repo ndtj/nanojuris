@@ -1,5 +1,12 @@
 # Providers
 
+O indice tecnico completo por provider esta em
+[docs/providers/](providers/README.md). O catalogo machine-readable para
+humanos, CI e agentes esta em
+[docs/registry/providers.json](registry/providers.json). Esta pagina continua
+sendo a visao narrativa e operacional dos providers; o dossie individual e a
+fonte canonica de detalhes de cada contrato.
+
 Cada provider deve declarar suas capacidades objetivas por meio de
 `ProviderCapabilities`. Isso permite descoberta por Python, CLI e MCP sem
 executar uma busca real.
@@ -19,7 +26,7 @@ Antes de implementar uma rota nova, use o fluxo economico de descoberta em
 
 ## Providers oficiais de SP adicionados
 
-As fontes abaixo foram priorizadas porque expõem conteúdo oficial em HTML
+As fontes abaixo foram priorizadas porque expoem conteudo oficial em HTML
 publico, acessivel com sessao HTTP limpa e sem captcha/login no fluxo
 automatizado.
 
@@ -120,7 +127,7 @@ GET https://comunicaapi.pje.jus.br/api/v1/comunicacao?texto=infanticidio&pagina=
 
 Retornou JSON publico com `count=1260`; com `siglaTribunal=TJSP`, retornou
 `count=131`; com `siglaTribunal=STJ`, retornou `count=53`. A variante acentuada
-`infanticídio` retornou a mesma contagem observada.
+`infanticidio` retornou a mesma contagem observada.
 
 O filtro por data de disponibilizacao tambem foi validado com sessao limpa:
 
@@ -535,7 +542,7 @@ uuid
 Exemplo validado:
 
 ```bash
-nanojuris buscar "deserção" --fonte stm_jurisprudencia --limite 5
+nanojuris buscar "desercao" --fonte stm_jurisprudencia --limite 5
 ```
 
 Na descoberta limpa, o STM/JMU retornou HTML publico sem captcha, com paineis
@@ -587,7 +594,7 @@ id_jurisprudencia
 Exemplo validado:
 
 ```bash
-nanojuris buscar "deserção" --fonte trf4_eproc_jurisprudencia --limite 5
+nanojuris buscar "desercao" --fonte trf4_eproc_jurisprudencia --limite 5
 ```
 
 Na descoberta limpa, o eproc/TRF4 retornou HTML publico sem captcha, com cards
@@ -599,7 +606,7 @@ publico validado, entao o provider declara suporte a `get_document`.
 
 Providers para jurisprudencia publica federal em instancias eproc da TNU, TRF2
 e TRF6. Eles compartilham a mesma familia tecnica e o mesmo parser de cards
-HTML usado pelo eproc, mas expõem fontes separadas para facilitar roteamento por
+HTML usado pelo eproc, mas expoem fontes separadas para facilitar roteamento por
 MCP, CLI e estudos jurimetricos.
 
 Rotas publicas usadas:
@@ -863,7 +870,7 @@ busca integral de acordaos, combine com `stj_scon` quando a fonte responder sem
 verificacao automatica. Links de inteiro teor podem apontar para rotas SCON
 protegidas; o provider nao implementa bypass.
 
-Ficha publica: [source-contracts/stj_informativo.md](source-contracts/stj_informativo.md).
+Ficha publica: [dossie do provider](providers/stj_informativo/README.md).
 
 ## `stf_juris`
 
@@ -905,7 +912,63 @@ Limitacoes:
   limpa;
 - nao ha bypass de WAF, captcha, cookies ou desafios JavaScript.
 
-Ficha publica: [source-contracts/stf_juris.md](source-contracts/stf_juris.md).
+Ficha publica: [dossie do provider](providers/stf_juris/README.md).
+
+## `tst_jurisprudencia`
+
+Provider implementado para a pesquisa textual publica do Tribunal Superior do
+Trabalho.
+
+### Escopo
+
+```text
+GET /config.json
+POST /rest/pesquisa-textual/{inicio}/{limite}
+GET /rest/documentos/{id}
+```
+
+O frontend oficial publica a base atual da API em `config.json`. O provider
+usa o contrato REST JSON observado no frontend, limita a pagina a 100 itens e
+recusa consultas vazias para evitar varredura acidental do acervo.
+
+Campos extraidos:
+
+```text
+case_number
+registry_id
+decision_type
+case_class
+rapporteur
+judging_body
+judgment_date
+publication_date
+summary
+disposition
+document_url
+```
+
+Uso:
+
+```bash
+nanojuris buscar "horas extras" --fonte tst_jurisprudencia --limite 5
+nanojuris documento "tst-jurisprudencia-<id-publico>" --fonte tst_jurisprudencia
+```
+
+Python:
+
+```python
+from nanojuris import NanoJurisClient
+
+client = NanoJurisClient()
+page = client.search("justa causa", source="tst_jurisprudencia", page_size=5)
+document = client.get_document(page.results[0].id, source="tst_jurisprudencia")
+```
+
+O inteiro teor e retornado como HTML publico e preserva o link oficial no
+`SourceTrace`. A fonte e especializada em jurisprudencia trabalhista; erros
+de acesso, rate limit e mudanca de contrato sao reportados sem bypass.
+
+Ficha tecnica: [dossie do provider](providers/tst_jurisprudencia/README.md).
 
 ## `stf_informativo`
 
@@ -950,7 +1013,7 @@ Este e o caminho mais estavel para conteudo juridico valido do STF quando a API
 JSON de jurisprudencia estiver sob AWS WAF. Ele entrega teses e resumos
 oficiais sem exigir download de PDF.
 
-Ficha publica: [source-contracts/stf_informativo.md](source-contracts/stf_informativo.md).
+Ficha publica: [dossie do provider](providers/stf_informativo/README.md).
 
 ## `tjsp_cjsg`
 

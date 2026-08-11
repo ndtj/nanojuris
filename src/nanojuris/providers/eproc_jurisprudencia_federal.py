@@ -205,6 +205,7 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Rota publica validada por requests limpo em 2026-08-07.",
                 "O provider parseia os cards HTML da primeira pagina retornada pela fonte.",

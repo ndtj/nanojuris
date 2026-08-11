@@ -111,6 +111,7 @@ class StjSconProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Busca principal mapeada por HAR publico como GET /SCON/pesquisar.jsp.",
                 (

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.org/schemas/provider-registry.json",
+  "title": "NanoJuris provider registry",
+  "type": "object",
+  "required": ["schema_version", "canonical_document_pattern", "legacy_document_pattern", "runtime_capability_command", "implemented", "candidates", "families"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "canonical_document_pattern": {"type": "string"},
+    "legacy_document_pattern": {"type": "string"},
+    "runtime_capability_command": {"type": "string"},
+    "implemented": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceId"},
+      "uniqueItems": true
+    },
+    "candidates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceId"},
+      "uniqueItems": true
+    },
+    "families": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceId"},
+      "uniqueItems": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sourceId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$"
+    }
+  }
+}

@@ -58,6 +58,7 @@ def test_list_courts_filters_by_branch_state_and_status():
         "TRF2",
         "TRF4",
         "TRF6",
+        "TST",
     ]
     assert get_court("TNU").providers == ("tnu_eproc_jurisprudencia",)
     assert get_court("TRF2").providers == ("trf2_eproc_jurisprudencia",)

@@ -180,6 +180,7 @@ class TjdfJurisProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "exact_phrase"],
             limitations=[
                 "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
                 "Inteiro teor PJe pode depender de link/documento externo.",

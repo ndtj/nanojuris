@@ -81,6 +81,12 @@ de acesso possiveis.
 Retorna maturidade, lacunas, proximos passos e recomendacao MCP de uma ou todas
 as fontes.
 
+Para contexto documental antes da chamada, agentes podem ler o catalogo
+[`docs/registry/providers.json`](registry/providers.json) e o dossie canonico
+`docs/providers/<source-id>/README.md`. O catalogo separa providers
+implementados de fontes candidatas; `source_contracts` continua sendo a fonte
+viva para maturidade e lacunas declaradas pelo codigo.
+
 Parametros:
 
 - `source`: opcional; quando vazio, retorna todos os providers.
@@ -121,8 +127,9 @@ unificada de resultados.
 Parametros principais:
 
 - `text`
-- `sources`: opcional; quando vazio, usa fontes de `court_jurisprudence`
-  implementadas no core;
+- `sources`: opcional; quando vazio, usa todas as fontes de categorias
+  jurisprudenciais implementadas no core, incluindo precedentes qualificados,
+  fontes administrativas e eleitorais;
 - `courts`
 - `types`
 - `number`
@@ -134,6 +141,9 @@ Parametros principais:
 A resposta inclui `sources`, `total_returned`, `results` e `errors`. Isso permite
 que agentes consultem varias fontes em uma chamada sem perder diagnosticos de
 captcha, indisponibilidade ou mudanca de contrato de parser em uma fonte isolada.
+Para demonstracoes e uso de producao, prefira grupos explicitos de fontes
+tecnicamente relacionadas; deixar `sources` vazio consulta todas as fontes
+aptas e pode ser mais lento ou produzir mais falhas parciais.
 
 Para uso por agentes, a resposta tambem separa roteamento semantico:
 
@@ -150,6 +160,14 @@ nao deve ser tratada como quebrada quando o usuario pergunta por uma tese
 jurisprudencial livre como `idpj`; ela exige numero CNJ, parte, documento, OAB
 ou outro identificador. Do mesmo modo, uma fonte de `judicial_communications`
 retorna comunicacoes/intimacoes, nao julgados para estudo jurimetrico.
+
+Quando a consulta informa `number`, `party_name`, `oab` ou outro identificador,
+o roteador compara o filtro com `supported_filters` da fonte. Uma fonte que
+declara apenas texto livre e pulada com `reason=identifier_filter_not_supported`;
+isso evita apresentar resultados textualmente parecidos como correspondencia
+exata. Providers legados que ainda nao declaram `supported_filters` permanecem
+consultaveis, mas o agente deve tratar a resposta como evidencia textual e
+verificar o campo canonico retornado.
 
 ### `export_results`
 

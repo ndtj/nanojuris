@@ -32,12 +32,22 @@ DETAIL_HTML = """
 
 
 class FakeResponse:
-    def __init__(self, text: str, url: str, status_code: int = 200):
+    def __init__(
+        self,
+        text: str,
+        url: str,
+        status_code: int = 200,
+        *,
+        content_type: str = "text/html",
+        content: bytes | None = None,
+    ):
         self.text = text
         self.url = url
         self.status_code = status_code
         self.encoding = "utf-8"
         self.apparent_encoding = "utf-8"
+        self.headers = {"content-type": content_type}
+        self.content = content if content is not None else text.encode("utf-8")
 
 
 class FakeSession:
@@ -103,3 +113,31 @@ def test_provider_search_fetches_theme_detail():
     assert page.results[0].id == "tre-sp-tema-tre-sp-aije-temas-selecionados-2022"
     assert session.calls[0]["url"].endswith("/jurisprudencia/temas-selecionados-1")
     assert session.calls[1]["url"].endswith("tre-sp-aije-temas-selecionados-2022")
+
+
+def test_provider_search_preserves_official_pdf_theme_link():
+    session = FakeSession(
+        [
+            FakeResponse(
+                INDEX_HTML,
+                "https://www.tre-sp.jus.br/jurisprudencia/temas-selecionados-1",
+            ),
+            FakeResponse(
+                "",
+                "https://www.tre-sp.jus.br/jurisprudencia/arquivos-da-secao-de-"
+                "jurisprudencia-sp/temas-selecionados/tre-sp-aije-temas-selecionados-2022",
+                content_type="application/pdf",
+                content=b"%PDF-1.7 public theme",
+            ),
+        ]
+    )
+    provider = TreSpTemasProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(JurisprudenceQuery(text="Judicial", page_size=1))
+
+    assert page.results[0].raw["content_type"] == "application/pdf"
+    assert (
+        page.results[0]
+        .raw["document_links"][0]["url"]
+        .endswith("tre-sp-aije-temas-selecionados-2022")
+    )

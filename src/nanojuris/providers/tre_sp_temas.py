@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import time
+import unicodedata
 from typing import Any
 from urllib.parse import urljoin, urlparse
 
@@ -60,18 +61,17 @@ class TreSpTemasProvider(JurisprudenceProvider):
         results: list[JurisprudenceResult] = []
         for theme in themes:
             if normalized_query and normalized_query not in _normalize_text(theme.title):
-                detail_html, detail_url = self._request_text("GET", theme.path)
-                detail_text = BeautifulSoup(detail_html, "html.parser").get_text(" ", strip=True)
+                detail = self._request_theme(theme, trace=trace)
+                if detail is None:
+                    continue
+                detail_text = str(detail.raw.get("searchable_text") or "")
                 if normalized_query not in _normalize_text(f"{theme.title} {detail_text}"):
                     continue
-                results.append(
-                    parse_tre_sp_theme_detail(detail_html, source_url=detail_url, trace=trace)
-                )
+                results.append(detail)
             else:
-                detail_html, detail_url = self._request_text("GET", theme.path)
-                results.append(
-                    parse_tre_sp_theme_detail(detail_html, source_url=detail_url, trace=trace)
-                )
+                detail = self._request_theme(theme, trace=trace)
+                if detail is not None:
+                    results.append(detail)
             if len(results) >= query.page * query.page_size:
                 break
 
@@ -88,6 +88,53 @@ class TreSpTemasProvider(JurisprudenceProvider):
             results=limited,
             source_trace=trace,
         )
+
+    def _request_theme(
+        self,
+        theme: _ThemeLink,
+        *,
+        trace: SourceTrace,
+    ) -> JurisprudenceResult | None:
+        response, source_url = self._request_response("GET", theme.path)
+        headers = getattr(response, "headers", {})
+        content_type = str(headers.get("content-type", "")).lower()
+        content = getattr(response, "content", None)
+        if content is None:
+            content = response.text.encode("utf-8", errors="ignore")
+        if "pdf" in content_type or content.startswith(b"%PDF"):
+            result_trace = SourceTrace(
+                provider=trace.provider,
+                endpoint=theme.path,
+                query={"theme": _slug_from_url(source_url)},
+                source_url=source_url,
+                limitations=trace.limitations,
+            )
+            return JurisprudenceResult(
+                id=f"tre-sp-tema-{_slug_from_url(source_url)}",
+                source=self.name,
+                court="TRE-SP",
+                type="tema_selecionado",
+                summary=theme.title,
+                question=theme.title,
+                source_trace=result_trace,
+                raw={
+                    "title": theme.title,
+                    "document_links": [
+                        {
+                            "label": theme.title,
+                            "url": source_url,
+                            "content_type": "application/pdf",
+                        }
+                    ],
+                    "content_type": "application/pdf",
+                    "searchable_text": "",
+                },
+            )
+
+        html = response.text
+        result = parse_tre_sp_theme_detail(html, source_url=source_url, trace=trace)
+        result.raw["searchable_text"] = html
+        return result
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         path = _path_from_id(precedent_id)
@@ -115,7 +162,7 @@ class TreSpTemasProvider(JurisprudenceProvider):
             category="electoral_jurisprudence",
             search_modes=["text", "thematic_catalog"],
             document_types=["tema_selecionado"],
-            content_formats=["html"],
+            content_formats=["html", "pdf"],
             canonical_records=["CanonicalPrecedent"],
             extracted_fields=[
                 "theme",
@@ -137,6 +184,7 @@ class TreSpTemasProvider(JurisprudenceProvider):
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "exact_phrase"],
             limitations=[
                 "Fonte tematica, nao uma busca geral de acordaos.",
                 "Links de inteiro teor podem apontar para sistemas eleitorais externos.",
@@ -176,6 +224,41 @@ class TreSpTemasProvider(JurisprudenceProvider):
                 f"TRE-SP temas rejected request with HTTP {response.status_code}"
             )
         return response.text, getattr(response, "url", url)
+
+    def _request_response(
+        self,
+        method: str,
+        path: str,
+        **kwargs: Any,
+    ) -> tuple[requests.Response, str]:
+        self._respect_rate_limit()
+        url = urljoin(self.config.tre_sp_url.rstrip("/") + "/", path.lstrip("/"))
+        headers = {
+            "Accept": (
+                "application/pdf,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+            ),
+            "User-Agent": self.config.user_agent,
+        }
+        try:
+            response = self.session.request(
+                method,
+                url,
+                headers=headers,
+                timeout=self.config.timeout,
+                allow_redirects=True,
+                **kwargs,
+            )
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"TRE-SP temas request failed: {exc}") from exc
+        if response.status_code == 429:
+            raise RateLimitDetectedError("TRE-SP temas returned HTTP 429")
+        if response.status_code >= 500:
+            raise SourceUnavailableError(f"TRE-SP temas returned HTTP {response.status_code}")
+        if response.status_code >= 400:
+            raise SourceUnavailableError(
+                f"TRE-SP temas rejected request with HTTP {response.status_code}"
+            )
+        return response, getattr(response, "url", url)
 
     def _respect_rate_limit(self) -> None:
         interval = self.config.rate_limit_interval
@@ -295,7 +378,8 @@ def _clean_text(value: str) -> str:
 
 
 def _normalize_text(value: object) -> str:
-    normalized = _clean_text(str(value or "")).casefold()
+    normalized = unicodedata.normalize("NFKD", _clean_text(str(value or "")).casefold())
+    normalized = "".join(char for char in normalized if not unicodedata.combining(char))
     replacements = {
         "á": "a",
         "à": "a",

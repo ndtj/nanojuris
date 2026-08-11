@@ -12,6 +12,10 @@ e apenas "fazer a busca funcionar", mas saber com clareza:
 
 ## Uso rapido
 
+Indice humano por provider: [docs/providers/](providers/README.md). O catalogo
+machine-readable para humanos, CI e agentes esta em
+[docs/registry/providers.json](registry/providers.json).
+
 Via CLI:
 
 ```bash
@@ -58,22 +62,36 @@ Para cada provider superficial, siga este fluxo:
 6. Documente campos obrigatorios, opcionais e ausentes.
 7. Adicione testes de parser, erro, vazio e acesso restrito.
 8. Atualize `ProviderCapabilities`.
-9. Atualize ou crie o dossie em `docs/source-contracts/`.
-10. Rode `nanojuris contratos --fonte <provider>` e ataque as lacunas restantes.
+9. Atualize ou crie o dossie canonico em `docs/providers/<provider>/README.md`.
+10. Atualize a copia de compatibilidade em `docs/source-contracts/` e o registro
+    central em `docs/registry/providers.json`.
+11. Rode `nanojuris contratos --fonte <provider>` e ataque as lacunas restantes.
 
 ## Regra de documentacao
 
 O repositorio segue duas camadas:
 
-1. **Provider implementado**: deve ter arquivo proprio em
-   `docs/source-contracts/<provider>.md`, secao em `docs/providers.md`,
+1. **Provider implementado**: deve ter README proprio em
+   `docs/providers/<provider>/`, copia de compatibilidade em
+   `docs/source-contracts/<provider>.md`, entrada em
+   `docs/registry/providers.json`, secao em `docs/providers.md`,
    `ProviderCapabilities`, fixtures e testes.
 2. **Fonte candidata**: deve ter dossie marcado como candidato antes de virar
-   codigo. O dossie deve explicar o que foi testado, o que falta e por que a
-   fonte ainda nao deve ser prometida como provider pronto.
+   codigo, seguindo a mesma estrutura por provider. O dossie deve explicar o
+   que foi testado, o que falta e por que a fonte ainda nao deve ser prometida
+   como provider pronto.
+
+Durante a migracao, os dossies antigos nao sao apagados nem substituidos por
+redirecionamentos. A copia canonica e a copia legada permanecem equivalentes e
+o teste de documentacao verifica essa paridade. Isso preserva links, contexto
+historico, contratos, limites, fixtures e alertas ja publicados.
 
 A fila viva de novos providers esta em
 [provider-development-queue.md](provider-development-queue.md).
+
+A matriz nacional de cobertura, com os 27 tribunais estaduais e os ramos
+especializados, esta em
+[national-coverage-matrix.md](national-coverage-matrix.md).
 
 ## O que nao fazer
 
@@ -85,6 +103,12 @@ A fila viva de novos providers esta em
 - Nao tratar controle de acesso esperado como quebra de parser.
 
 ## Template de dossie
+
+A especificacao normativa completa esta em
+[provider-dossier-template.md](provider-dossier-template.md). O modelo abaixo
+continua como referencia rapida para compatibilidade com os dossies antigos.
+As ultimas chamadas reais dos providers estao em
+[live-validation-2026-08-11.md](live-validation-2026-08-11.md).
 
 Cada dossie especifico deve seguir esta estrutura:
 
@@ -152,7 +176,7 @@ Use `needs_deepening` do resumo como fila tecnica. Em geral, priorize:
    `trf4_eproc_jurisprudencia`.
 5. Novos candidatos estaduais mapeados em
    [state-court-route-mapping-2026-08-07.md](state-court-route-mapping-2026-08-07.md),
-   com prioridade para TJRR/Juris, TJMT/TJPA APIs e TJPB/PJe; TJPI/JusPI e
+   com prioridade para TJRR/Juris, TJPA BFF, TJMT API e TJPB/PJe; TJPI/JusPI e
    TJGO/Projudi ja foram promovidos para providers implementados.
 6. Contratos parciais relevantes, como `justica_eleitoral_sjur`,
    `trt2_pje_jurisprudencia` e `tjma_jurisconsult`, mantendo bloqueios de
@@ -161,8 +185,9 @@ Use `needs_deepening` do resumo como fila tecnica. Em geral, priorize:
 ## Cobertura atual de dossies
 
 Todos os providers atualmente registrados pelo `NanoJurisClient` possuem dossie
-proprio em `docs/source-contracts/`. Os proximos candidatos prioritarios tambem
-ja possuem fichas iniciais:
+proprio em `docs/providers/<provider>/README.md` e copia legada em
+`docs/source-contracts/`. Os proximos candidatos prioritarios tambem possuem
+diretorio e fichas iniciais:
 
 - `tjrr_juris`;
 - `tjmt_jurisprudencia_api`;

@@ -254,7 +254,7 @@ class SearchPage:
     page: int
     page_size: int
     results: list[JurisprudenceResult]
-    aggregations: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
+    aggregations: dict[str, Any] = field(default_factory=dict)
     source_trace: SourceTrace | None = None
 
     def to_dict(self) -> dict[str, Any]:

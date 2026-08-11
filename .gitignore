@@ -15,7 +15,14 @@ site/
 /.mypy_cache/
 .ruff_cache/
 .tmp/
+.build-tmp/
+.tmp-prepush/
+.dist-prepush/
+.smoke-venv/
+.build-temp-root/
+.pytest-basetemp-*/
 .coverage
+coverage.xml
 htmlcov/
 *.log
 *.jsonl

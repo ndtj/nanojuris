@@ -105,6 +105,7 @@ class ComunicaPjeProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number", "published_from", "published_to"],
             limitations=[
                 "Nao e uma base de jurisprudencia/acordaos; cobre comunicacoes publicas.",
                 "Filtros observados: texto, siglaTribunal, numeroProcesso, "

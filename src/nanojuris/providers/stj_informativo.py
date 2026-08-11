@@ -113,6 +113,7 @@ class StjInformativoProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            supported_filters=["text", "number"],
             limitations=[
                 "Retorna notas curadas do Informativo STJ, nao a base integral SCON.",
                 "Acordaos referenciados podem depender de rotas SCON sujeitas a verificacao.",

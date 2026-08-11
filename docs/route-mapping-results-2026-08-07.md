@@ -9,13 +9,13 @@ um dos termos de smoke test; a bateria recomendada por ramo esta em
 
 | Fonte | Rota | Resultado | Decisao |
 | --- | --- | --- | --- |
-| TST frontend | `GET https://jurisprudencia.tst.jus.br/` | HTTP 200, SPA publica, sem captcha/login | candidato; usar para descobrir contrato |
-| TST config | `GET /config.json` | HTTP 200 JSON com `base_url`, URLs de acordao, despacho e processo | promover para contrato |
-| TST backend | `POST /rest/pesquisa-textual/1/2` com `{}` | HTTP 200 JSON com `totalRegistros`, `registros`, `agregacoes`, inteiro teor HTML | promover como rota tecnica A; filtro textual ainda pendente |
-| TST backend filtrado | mesmo endpoint com `e=idpj` e payload completo observado no frontend | HTTP 400 sem corpo | pendente; reproduzir payload exato para filtros antes de provider completo |
-| CJF/TRF1 hub | `GET https://www2.cjf.jus.br/jurisprudencia/trf1` | redireciona para CJF, HTML com sinal de reCAPTCHA | documentar bloqueio/candidato baixo |
-| TRF3 | `GET https://web.trf3.jus.br/jurisprudencia/home/index/1` | timeout em 30s/60s no ambiente atual | repetir em outra janela; nao promover ainda |
-| TRF5 | `GET https://jurisprudencia.trf5.jus.br/jurisprudencia/pesquisa.wsp` | timeout em 30s/60s no ambiente atual | repetir em outra janela; nao promover ainda |
+| TST frontend | `GET https://jurisprudencia.tst.jus.br/` | HTTP 200, SPA publica, sem captcha/login | contrato oficial confirmado |
+| TST config | `GET /config.json` | HTTP 200 JSON com `base_url`, URLs de acordao, despacho e processo | contrato oficial confirmado |
+| TST backend | `POST /rest/pesquisa-textual/1/2` com payload textual publico | HTTP 200 JSON com `totalRegistros`, `registros`, `agregacoes`, ementa, dispositivo e metadados | `implemented`; monitorar contrato live |
+| TST documento | `GET /rest/documentos/{id}` usando `registro.id` | HTTP 200 HTML com ementa, relatorio, fundamentacao e dispositivo | `implemented`; detalhe sob demanda |
+| CJF/TRF1 hub | `GET https://www2.cjf.jus.br/jurisprudencia/trf1` | entrada antiga redireciona para CJF; a rota especifica atual `/trf1/index.xhtml` respondeu com busca JSF real na rodada de 2026-08-11 | consultar a secao federal complementar e o dossie CJF |
+| TRF3 | `GET https://web.trf3.jus.br/jurisprudencia/home/index/1` | timeout ja registrado em tentativas HTTP limpas | nao repetir a mesma chave; usar captura automatica ou rota oficial alternativa |
+| TRF5 | `GET https://jurisprudencia.trf5.jus.br/jurisprudencia/pesquisa.wsp` | timeout na rodada inicial; GET e POST do formulario responderam com resultados na rodada de 2026-08-11 | consultar a secao federal complementar e o dossie TRF5 |
 | TJMG formulario | `GET /jurisprudencia/formEspelhoAcordao.do` | HTTP 200, formulario rico, campos e actions publicas | candidato forte para contrato, mas sem busca direta |
 | TJMG palavras | `GET /jurisprudencia/pesquisaPalavrasEspelhoAcordao.do?palavras=idpj` | HTTP 401 com captcha | bloqueado para automacao; nao implementar bypass |
 | TJRJ portal | `GET /web/portal-conhecimento/consulta-a-jurisprudencia` | HTTP 200, pagina institucional com links e menu de login | candidato documental, nao provider de resultados |
@@ -47,21 +47,41 @@ um dos termos de smoke test; a bateria recomendada por ramo esta em
 | TRT15/TRT23 PJe | `GET /jurisprudencia/` | HTTP 403 CloudFront/request blocked em sessao limpa | bloquear provider |
 | Basis/TRT2 | `GET https://basis.trt2.jus.br/discover?query=teletrabalho` | HTTP 200, repositorio DSpace com boletins, atos e doutrina | rota documental, nao provider de decisoes |
 | TJAC/e-SAJ CJSG | `GET https://esaj.tjac.jus.br/cjsg/resultadoSimples.do?...` | HTTP 200 com processo, ementa, relator, orgao, datas e inteiro teor | confirmar fonte forte CJSG |
-| TJCE/e-SAJ CJSG | `GET https://esaj.tjce.jus.br/cjsg/consultaSimples.do` | reset/TLS EOF no ambiente atual | repetir antes de promover |
+| TJCE/e-SAJ CJSG | `GET https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do` | pagina oficial de consulta confirmada; HTTP direto deste ambiente sofreu reset TLS | `candidate_needs_har`; dossie proprio criado |
 | TJES portal atual | `GET https://sistemas.tjes.jus.br/portaltj/Pesquisa.aspx` | timeout em 45s | inconclusivo; repetir com janela maior |
 | TJES ColdFusion antigo | `GET https://aplicativos.tjes.jus.br/sistemaspublicos/consulta_jurisprudencia/det_jurisp.cfm?...` | HTTP 404 no ambiente atual, apesar de resultados antigos indexados | nao promover sem nova rota |
-| TJMT jurisprudencia | `GET https://jurisprudencia.tjmt.jus.br/` | HTTP 200 SPA publica; bundle expõe API Hellsgate, metadados e relatorios | candidato forte, contrato de payload/header pendente |
-| TJMT API inferida | `GET https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/1` | HTTP 401 `No API key found in request` | validar header publico do frontend antes de provider |
-| TJPA jurisprudencia | `GET https://jurisprudencia.tjpa.jus.br/` | HTTP 200, portal publico; bundle expõe `/bff/api/decisoes` e metadados PJe | candidato forte, payload pendente |
-| TJPA BFF inferido | `GET https://jurisprudencia.tjpa.jus.br/bff/api/decisoes` | HTTP 404 | metodo/payload ainda incorreto |
+| TJMT jurisprudencia | `GET https://jurisprudencia.tjmt.jus.br/` | HTTP 200 SPA publica; bundle expoe API Hellsgate, metadados e relatorios | candidato forte, contrato de payload/header pendente |
+| TJMT API inferida | `GET https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/1` | HTTP 401 `No API key found in request`; portal atual redireciona para `/ui/login` | `blocked_or_inconclusive`; nao usar login |
+| TJPA jurisprudencia | `GET https://jurisprudencia.tjpa.jus.br/` | HTTP 200, portal publico; bundle atual expoe BFF de busca, catalogos e detalhes | candidato pronto para fixture |
+| TJPA BFF busca | `POST https://jurisprudencia.tjpa.jus.br/bff/api/decisoes/buscar` | HTTP 200 JSON com resultados, facetas, campos decisorios e limite tecnico | `candidate_ready`; parser JSON pendente |
 | TJPB/PJe jurisprudencia | `GET https://pje-jurisprudencia.tjpb.jus.br/` | HTTP 200 com formulario rico, campos juridicos e paginacao; outro cliente recebeu Cloudflare challenge | candidato forte com risco WAF |
-| TJPE jurisprudencia | `GET https://portal.tjpe.jus.br/web/jurisprudencia/tjpe-e-turmas-recursais` | HTTP 200, pagina institucional publica com link para Consulta Jurisprudencia Web | entrada documental; endpoint de resultado pendente |
+| TJPE jurisprudencia | `GET https://consultajurisprudencia.app.tjpe.jus.br/api/v1/jurisprudencias?page=0&size=20` | HTTP 200, JSON paginado com decisoes, ementas/acordaos e metadados | `candidate_ready`; consultar dossie REST |
 | TJPE sumulas | `GET https://portal.tjpe.jus.br/servicos/consulta/sumulas` | HTTP 200, sumulas e PDFs publicos | candidato de catalogo/precedentes |
 | TJPE transparencia decisoes | `GET https://portal.tjpe.jus.br/web/transparencia/decis%C3%B5es` | HTTP 200, orienta DJEN/DJE/PJe e Consulta Jurisprudencia Web | rota documental/orientacao |
 | TJPI/JusPI busca | `GET https://jurisprudencia.tjpi.jus.br/jurisprudences/search?q=dano%20moral` | HTTP 200 com resultados reais, CNJ, ementa, relator, orgao e paginacao | promover para fixture/parser HTML |
 | TJRO/LIAME | `GET https://liame.tjro.jus.br/` | HTTP 200, portal de precedentes; probe marcou acesso por texto de UI, sem decisoes | candidato de precedentes, nao acordaos |
-| TJRR/Juris | `GET https://jurisprudencia.tjrr.jus.br/index.xhtml` | HTTP 200 JSF/PrimeFaces com pesquisa, ementa, acordao, relator e links juridicos | promover para HAR/fixture JSF |
-| TJSE jurisprudencia judicial | `GET https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial` | HTTP 200, pagina oficial de jurisprudencia judicial | entrada forte; rota de resultado pendente |
+| TJRR/Juris | `GET` + `POST https://jurisprudencia.tjrr.jus.br/index.xhtml` com `menuinicial:j_idt28=dano moral` e comando `menuinicial:j_idt30` | HTTP 200, HTML com resultados reais, processo, ementa/acordao, relator e orgao; repeticao posterior sofreu timeout | `candidate_ready`; fixture e parser JSF pendentes |
+| TJSE jurisprudencia judicial | `GET` do portal + `GET` do iframe de pesquisa | HTTP 200, formulario JSF/PrimeFaces com filtros ricos; resultado exige captcha | entrada oficial; manter bloqueado ate HAR limpo |
+
+## Revalidacao complementar em 2026-08-10
+
+Esta secao registra uma segunda bateria de probes, posterior ao mapeamento
+original acima. Ela nao apaga o historico: paginas de formulario e rotas de
+resultado podem ter comportamentos diferentes na mesma fonte.
+
+| Fonte | Rota/metodo | Resultado | Decisao atual |
+| --- | --- | --- | --- |
+| TJRJ/eproc | `POST https://eproc1g.tjrj.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados` com `txtPesquisa=dano moral` e `rdoCampo=I` | HTTP 200, 10 cards `resultadoItem`, processo, classe, orgao, datas e links de inteiro teor | `candidate_ready`; criar provider separado do eJURIS |
+| TJRJ/eJURIS | `GET https://www3.tjrj.jus.br/ejuris/ConsultarJurisprudencia.aspx` | HTTP 200, formulario rico e texto juridico; busca de resultados ainda depende de contrato WebForms proprio | manter em investigacao; nao confundir com eproc |
+| TJMG ajuda | `GET https://www5.tjmg.jus.br/jurisprudencia/ajuda.do` | HTTP 200, documentacao oficial detalhada de campos e inteiro teor | ficha de contrato, nao evidencia de busca automatizavel |
+| TJMG busca | `GET https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do?palavras=dano%20moral` | HTTP 401, pagina de captcha | bloqueado; nao implementar bypass |
+| TJSC/eproc | `GET https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar` | HTTP 200, formulario publico | contrato candidato pronto; ver secao e dossie proprio |
+| TJSC/eproc busca | `POST .../listar_resultados` com `txtPesquisa=dano moral` | HTTP 200, HTML com 475.091 documentos, cards, metadados e links de inteiro teor | `candidate_ready`; fixture e parser offline pendentes |
+
+O probe TJRJ/eproc foi executado sem identidade privada, cookies exportados,
+captcha ou desafio de navegador. O parser generico eproc conseguiu extrair os
+cards em um teste exploratorio, mas isso nao substitui fixture, testes offline
+e validacao do inteiro teor.
 
 ## Achados tecnicos
 
@@ -81,14 +101,14 @@ Campos observados:
 - `consulta_proc_url`
 - `consulta_proc_pje_url`
 
-Contrato central observado no bundle publico:
+Contrato central observado no bundle publico e reproduzido com filtro textual:
 
 ```text
 POST {base_url}/rest/pesquisa-textual/{inicio}/{limite}?a=<random>
 Content-Type: application/json
 ```
 
-Payload vazio `{}` retornou JSON real com:
+Payload com `e=responsabilidade civil` e `tipos=["ACORDAO"]` retornou JSON real com:
 
 - `tempoGasto`
 - `totalRegistros`
@@ -101,11 +121,14 @@ Payload vazio `{}` retornou JSON real com:
 - `registro.nomRelator`
 - `registro.numFormatado`
 - `registro.dtaPublicacao`
-- `registro.txtConteudoDecisao`
+- `registro.ementa`, `registro.dispositivo`
+- `registro.inteiroTeorHtml`
+- `registro.numeracaoUnica`, `registro.orgaoJudicante` e datas
+- `registro.id`, usado em `/rest/documentos/{id}`
 
-Decisao: TST e o alvo mais promissor da rodada. Antes de implementar provider
-com busca textual, falta reproduzir o payload filtrado do frontend com uma
-bateria trabalhista (`horas extras`, `justa causa`, `equiparacao salarial`).
+Decisao: TST e candidato pronto para fixture/parser. Antes de implementar o
+provider, salvar uma resposta reduzida de sucesso, uma resposta vazia, o
+documento HTML correspondente e os erros de contrato.
 
 ### TJMG
 
@@ -266,6 +289,28 @@ GET https://busca.tjsc.jus.br/jurisprudencia/#formulario_ancora
 Ela informa transicao para a plataforma integrada ao eproc. Decisao: priorizar
 o eproc como provider principal e manter a rota antiga apenas como referencia
 historica ou fallback documental.
+
+Na validacao atual, o eproc do TJSC foi reproduzido com sessao HTTP limpa:
+
+```text
+POST https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados
+```
+
+Payload minimo:
+
+```text
+txtPesquisa=dano moral
+rdoCampo=I
+hdnExibirPesquisaAvancada=
+chkAgruparResultados=on
+```
+
+O retorno foi HTTP 200, HTML `iso-8859-1`, 10 cards `.resultadoItem`, total
+de 475.091 documentos e campos de processo, classe, tipo documental, orgao,
+relator, datas e texto decisorio. O link `download_inteiro_teor` com
+`id_jurisprudencia` retornou HTTP 200 e HTML publico. O TJSC foi promovido para
+`candidate_ready`; a ficha completa esta em
+`docs/source-contracts/tjsc_eproc_jurisprudencia.md`.
 
 ### TJRS
 
@@ -659,15 +704,138 @@ Ela retirou esses estados da zona de "sem candidato claro" e separou tres
 grupos:
 
 - candidatos de provider decisorio: TJPI, TJRR, TJMT, TJPA e TJPB;
-- candidatos documentais/precedentes: TJPE, TJSE e TJRO;
+- candidatos documentais/precedentes: TJSE e TJRO;
 - inconclusivo: TJES.
 
 O achado mais maduro e o TJPI/JusPI, porque a URL de busca server-side retornou
 resultado real com CNJ, ementa, relator, orgao, tipo e paginacao. TJRR tambem e
-forte, mas exige reproducao cuidadosa de JSF/PrimeFaces. TJMT e TJPA sao bons
-alvos de API moderna, porem dependem de HAR/payload: o TJMT respondeu 401 sem a
-chave/header publico usado pelo frontend, e o TJPA respondeu 404 em GET simples
-para `/bff/api/decisoes`.
+forte e agora possui postback reproduzido, mas exige fixture e tratamento de
+instabilidade JSF/PrimeFaces. TJMT e TJPA sao bons alvos de API moderna. O TJMT
+respondeu 401 sem uma superficie publica reproduzivel, enquanto o TJPA teve o
+contrato fechado por bundle e chamadas `POST`/`GET` publicas. O `GET` simples em
+`/bff/api/decisoes` continua sendo incorreto, mas a busca textual valida usa
+`POST /bff/api/decisoes/buscar`.
+
+### Rodada federal complementar: CJF/TRF1, TRF5 e TSE - 2026-08-11
+
+Esta rodada ampliou o mapeamento para fontes federais ainda sem provider
+especifico no NanoJuris. Os probes foram feitos com sessoes HTTP novas, sem
+cookies exportados, login, captcha ou bypass de controle:
+
+| Fonte | Rota | Resultado | Decisao |
+| --- | --- | --- | --- |
+| CJF/TRF1 | `GET /trf1/index.xhtml` + `POST` JSF com `dano moral` | HTTP 200; 25.783 resultados; processo, classe, relator, orgao, datas, ementa e links PJe/arquivo | `candidate_ready`; criar provider separado da superficie unificada |
+| CJF/Unificada | `GET /unificada/index.xhtml` | HTTP 200; formulario oficial com fontes STF, STJ, TNU, TRF1-5, TR e TRU | `candidate_needs_har`; falta reproduzir uma busca e separar origens |
+| TRF5 | `GET /pesquisa.wsp` + `POST /resultado_pesquisa.wsp` | HTTP 200; resultados com ementas, processos, orgaos, datas e tipo documental | `candidate_ready`; criar parser HTML e fixture |
+| TSE/SJUR beta | `GET` da SPA beta | HTTP 200 no shell de `jurisprudencia.tse.jus.br` e `jurisprudencia-tres.tse.jus.br`; rota direta antiga foi rejeitada | `candidate_needs_har`; localizar endpoint decisorio da nova SPA |
+
+### Rodada de contratos publicos: TSE/SJUR 4.0 e TJSE - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TSE/SJUR classes | `POST https://sjur-pesquisa-api.tse.jus.br/tse/sjur-pesquisa-backend/rest/public/pesquisa/classes` com `["TSE"]` | HTTP 200 JSON com classes eleitorais, incluindo sigla e descricao | contrato de metadados valido |
+| TSE/SJUR relatores | `POST .../public/pesquisa/relatorias` com `["TSE"]` | HTTP 200 JSON com nomes de relatores | contrato de metadados valido |
+| TSE/SJUR eleicoes | `POST .../public/pesquisa/eleicoes` com `["TSE"]` | HTTP 200 JSON com anos eleitorais | contrato de metadados valido |
+| TSE/SJUR normas | `POST .../public/pesquisa/normas` com `["TSE"]` | HTTP 200 JSON com sigla, numero, ano e tipo normativo | contrato de metadados valido |
+| TSE/SJUR decisoes | `POST .../public/pesquisa` | HTTP 200 JSON, mas `Falha na verificacao antirrobo`, sem resultados | nao promover provider decisorio |
+| TJSE pesquisa judicial | `GET` do portal, `GET` do iframe e `POST` JSF com termo `dano moral` | formulario publico com filtros ricos; POST retornou `Captcha invalido` | `blocked_or_inconclusive`; nao contornar protecao |
+
+### Rodada REST estadual: TJPE - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TJPE catalogos | `GET /api/v1/classes`, `/assuntos`, `/relatores` e `/unidades-judiciais` | HTTP 200 JSON com catalogos completos para filtros | contrato de metadados valido |
+| TJPE jurisprudencias | `GET /api/v1/jurisprudencias?page=0&size=20` | HTTP 200 JSON paginado, `X-Total-Count`, processo, classe, relator, orgao, datas e texto decisorio | `candidate_ready`; criar fixture REST |
+| TJPE filtro por assunto | `GET /api/v1/jurisprudencias?page=0&size=5&tipoSentenca.in=A&assuntoCNJ.in=9098` | HTTP 200, 656 registros e objetos com ementa/acordao | `candidate_ready`; validar filtros no parser |
+| TJPE processo | `GET /api/v1/processo/{codigoProcesso}/{npuSemFormatacao}` | HTTP 200 com pacote de processo; identificadores de amostra retornaram pacote vazio | contrato auxiliar, nao busca jurisprudencial principal |
+
+O contrato detalhado esta em [cjf_jurisprudencia.md](providers/cjf_jurisprudencia/README.md)
+e [trf5_jurisprudencia.md](providers/trf5_jurisprudencia/README.md). A pagina
+institucional do TSE confirma as duas ferramentas de pesquisa e a evolucao da
+plataforma, mas o shell SPA sozinho nao e evidencia suficiente para criar um
+provider de decisoes.
+
+### Rodada de dados abertos: TCU - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TCU manifesto | `GET https://sites.tcu.gov.br/dados-abertos/jurisprudencia/arquivos/jurisprudencia-arquivos.csv` | HTTP 200; manifesto delimitado por `|`, com bases, tamanhos e URLs oficiais | `candidate_ready` para adapter de dataset |
+| TCU acordaos resumo | `GET .../acordao-completo/acordao-completo-resumo.csv` com `Range: bytes=0-4095` | HTTP 206; schema `KEY`, `VISAOGERAL` e registros reais com resumo HTML | `candidate_ready` |
+| TCU jurisprudencia selecionada | `GET .../jurisprudencia-selecionada/jurisprudencia-selecionada.csv` com `Range` | HTTP 206; enunciado, excerto, area, tema, subtema, referencias e identificacao do acordao | `candidate_ready` |
+| TCU sumulas/respostas/boletins | arquivos CSV oficiais listados pelo manifesto | HTTP 206; schemas reais para sumulas, respostas a consultas e boletim de jurisprudencia | `candidate_ready` |
+| TCU pesquisa interativa | `GET /pes` e `GET /rest/publico/base/acordao-completo/documentosResumidos` | shell publico HTTP 200; endpoint de resultado respondeu pagina de bloqueio do firewall, nao JSON | `blocked_or_inconclusive`; nao contornar |
+
+O dossie do contrato esta em
+[tcu_jurisprudencia.md](providers/tcu_jurisprudencia/README.md). A decisao
+separa o adapter de dados abertos da pesquisa interativa: os CSVs podem ser
+sincronizados por manifest, enquanto o endpoint web nao deve ser interpretado
+como resultado vazio quando retornar HTML de firewall.
+
+### Rodada de informativos: CNJ - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| CNJ informativos | `GET https://atos.cnj.jus.br/jurisprudencia` | HTTP 200; tabela com tipo, numero, data, itens de ementa e links PDF oficiais | `candidate_ready`; criar parser HTML/PDF |
+| CNJ filtro por numero | `GET /jurisprudencia?numero=10` | HTTP 200; informativos filtrados pelo numero | filtro valido |
+| CNJ filtro textual | `GET /jurisprudencia?argumento=cartorios` | HTTP 200; informativos contendo o termo no conteudo indexado | filtro valido; nao e busca de acordao individual |
+| CNJ filtro por periodo | `GET /jurisprudencia?dat_publicacao_inicio=01/01/2026&dat_publicacao_fim=31/12/2026` | HTTP 200; resultados dentro do intervalo informado | filtro valido |
+
+O dossie do contrato esta em
+[cnj_jurisprudencia.md](providers/cnj_jurisprudencia/README.md). O provider
+deve preservar a natureza curada do informativo e nao fabricar metadados de
+processo, relator ou orgao julgador que nao estejam no PDF.
+
+### Rodada BFF estadual: TJPA - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TJPA catalogos | `GET /bff/api/decisoes/filtros` | HTTP 200 JSON com origens, tipos, classes, assuntos, relatores e orgaos julgadores | contrato de metadados valido |
+| TJPA busca textual | `POST /bff/api/decisoes/buscar` com `query=dano moral`, `queryType=free` e `queryScope=ementa` | HTTP 200 JSON com `content`, facetas, metadados decisorios e limite tecnico de 10.000 | `candidate_ready`; criar fixture e parser |
+| TJPA filtro origem/tipo | `POST /bff/api/decisoes/buscar` usando exatamente `origens[].origem` e `tipos[].descricao` de `/filtros` | HTTP 200 JSON com resultado e total tecnico de 10.000 | filtro basico validado |
+| TJPA busca textual em inteiro teor | `POST /bff/api/decisoes/buscar` com `queryScope=inteiroTeor` | HTTP 200 JSON com resultados | contrato de escopo valido; validar campos no parser |
+| TJPA recentes | `GET /bff/api/decisoes/recentes` com origem, tipo, periodo e paginacao | HTTP 200 JSON com documentos ricos e limite tecnico de 10.000 | rota valida de listagem temporal |
+| TJPA classe/assunto | `POST /bff/api/decisoes/pesquisar-por-classe-assunto` | datas ISO deram HTTP 400; formato `dd/MM/yyyy` foi aceito, mas ids arbitrarios deram vazio/erro | manter pendente ate fixture com ids de catalogo |
+
+O bundle atual tambem referencia rotas de detalhe por id, processo, documento e
+tema. As rotas por id e processo foram chamadas com identificadores obtidos da
+resposta publica e retornaram HTTP 404; ficam pendentes de contrato correto.
+Nao inventar identificadores e nao exportar dados pessoais desnecessarios para
+fixtures.
+
+### Rodada e-SAJ: TJCE - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TJCE consulta completa | `GET https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do` | pagina oficial de jurisprudencia com pesquisa livre, ementa, classe, assunto, orgao, relator, datas, origem e tipo de publicacao | fonte oficial e contrato funcional da UI documentado |
+| TJCE ajuda e-SAJ | `GET https://esaj.tjce.jus.br/WebHelp/id_consultas_jurisprudenciais.htm` | documentacao oficial confirma ementas, acordaos, inteiro teor, filtros e acesso aos dados do processo | evidencia institucional forte |
+| TJCE HTTP limpo | mesma rota com sessao nova e `requests`, sem proxy de ambiente | reset TLS pelo host remoto antes da resposta | `candidate_needs_har`; nao forcar reconexao ou contornar controle |
+
+O TJCE deve ser tratado como candidato da familia e-SAJ/CJSG, mas somente vira
+`candidate_ready` depois que um HAR limpo permitir identificar formulario,
+metodo, payload, paginacao e rota de detalhe. A evidencia oficial da interface
+nao substitui uma fixture de resultado reproduzida por HTTP.
+
+### Rodada de informativos: TJCE - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TJCE Informativos | `GET https://www.tjce.jus.br/informativo-jurisprudencia/` | HTTP 200 HTML UTF-8 com edicoes, processos, orgaos, assuntos, destaques e filtros | `candidate_ready`; criar parser curado |
+| TJCE Informativos downloads | controles de edicao com PDF/RTF na interface e links PDF oficiais no HTML | downloads institucionais disponiveis sob demanda | validar fixture de PDF; nao baixar acervo no CI |
+
+Esta superficie deve ser mantida separada do `tjce_cjsg`: informativos sao
+curadoria editorial de decisoes relevantes, nao repositorio geral de acordaos.
+
+### Rodada federal: TRF3 - 2026-08-11
+
+| Fonte | Rota observada | Evidencia | Decisao |
+| --- | --- | --- | --- |
+| TRF3 pesquisa | `GET https://web.trf3.jus.br/jurisprudencia/home/index/1` | interface oficial com busca textual, operadores, processo, relator, data, classe, orgao, ementa e objeto | `ui_confirmed`; contrato de submissao pendente |
+| TRF3 acordaos | `GET https://web.trf3.jus.br/acordaos/Acordao` | carta de servicos oficial descreve consulta por processo e inteiro teor | `ui_confirmed`; testar separadamente |
+| TRF3 HTTP limpo | pesquisa principal com `requests`, sem proxy de ambiente | timeout de leitura em 45s | `blocked_transport`; nao repetir mesma chave |
+
+O dossie [trf3_jurisprudencia.md](providers/trf3_jurisprudencia/README.md)
+mantem a matriz de cobertura e o ledger da tentativa. A falha da pesquisa
+principal nao invalida a rota de acordaos nem os links para CJF, TNU e Sumulas.
 
 ## Proximos probes recomendados
 
@@ -679,47 +847,63 @@ para `/bff/api/decisoes`.
 4. TJBA: criar contrato em `docs/source-contracts/`, fixture GraphQL publica representativa
    e parser offline.
 5. TJPR: criar contrato da rota HTML, fixture de resultado e parser offline.
-6. TJSC/TRF2: documentar contrato eproc, descobrir payload de busca e validar
-   paginacao.
+6. TJSC: capturar fixture HTML, validar paginacao e implementar parser proprio
+   depois de comparar labels com a familia eproc federal. TRF2 permanece em
+   validacao de filtros especificos.
 7. TSE/TREs: manter metadados em contrato parcial e nao promover busca enquanto
    houver antirrobo/token.
 8. TRT2/PJe: documentar desafio `tokenDesafio`/`imagem` e bloquear automacao de
    documentos.
 9. TJMA: documentar contrato parcial de metadados e manter busca principal
    bloqueada enquanto exigir captcha.
-10. TST: reproduzir filtro textual com payload salvo em `--json-file` usando
-   termos trabalhistas (`horas extras`, `justa causa`, `equiparacao salarial`).
+10. TST: salvar fixture do payload textual, catalogos minimos e documento HTML
+   usando termos trabalhistas (`horas extras`, `justa causa`, `equiparacao salarial`).
 11. TJPI: criar fixture HTML publica representativa com `q=dano moral`, `q=idpj` e pagina 2.
-12. TJRR: gravar HAR de busca simples e reproduzir JSF/PrimeFaces sem cookies
-   privados.
-13. TJMT/TJPA: capturar payloads publicos dos frontends e validar APIs BFF/REST.
-14. TJPB: repetir busca real e registrar se Cloudflare/WAF aparece em sessao
+12. TJRR: salvar fixture sanitizada de busca simples, mapear paginacao e
+   reproduzir JSF/PrimeFaces sem cookies privados.
+13. TJPA: salvar fixture de `/filtros`, `/buscar` e `/recentes`, validar filtros
+   com valores exatos do catalogo e criar parser JSON offline.
+14. TJMT: repetir somente se surgir nova superficie publica reproduzivel; nao
+   usar login ou credencial.
+15. TJPB: repetir busca real e registrar se Cloudflare/WAF aparece em sessao
    limpa.
-15. TJPE/TJSE/TJRO: aprofundar como catalogos/entradas e localizar endpoint de
+16. TJPE: criar fixture REST, validar filtros e cadeia TLS antes de criar provider.
+17. TJSE/TJRO: aprofundar como catalogos/entradas e localizar endpoint de
    resultado quando existir.
-16. TJES: repetir `Pesquisa.aspx` com janela maior.
-17. TRF1/TRF3/TRF5: repetir com janela maior e pagina alternativa oficial.
-18. TJMG/TJRJ/TJAP/TJCE/TRT15/TRT23: manter documentados como formulacoes ricas ou bloqueadas, mas bloquear provider
+18. TJES: repetir `Pesquisa.aspx` com janela maior.
+19. TRF3: usar captura automatica de rede ou testar a consulta de acordaos por
+   processo; nao repetir o mesmo GET que ja sofreu timeout.
+20. TCU: criar fixture minima do manifesto e dos schemas CSV, sem baixar o
+   acervo historico no CI.
+21. CJF/Unificada e TSE/SJUR: capturar HAR limpo para fechar origem, payload,
+   paginacao e detalhe.
+22. CNJ: criar fixture HTML de uma pagina, validar itens numerados e manter
+   download de PDF sob demanda.
+23. TJMG/TJRJ/TJAP/TRT15/TRT23: manter documentados como formulacoes ricas ou bloqueadas, mas bloquear provider
    enquanto resultado depender de captcha/reCAPTCHA/Cloudflare/reset.
 
 ## Ranking de implementacao
 
 | Rank | Fonte | Motivo |
 | --- | --- | --- |
-| 1 | TNU/TRF2/TRF6 eproc | alto valor federal, rota limpa e reuso imediato do parser eproc |
-| 2 | TJGO/Projudi | alto volume, resultado publico e inteiro teor embutido nos cards |
-| 3 | TJRS AJAX/SOLR | JSON estruturado, facets ricas, alto volume e rota publica rapida |
-| 4 | TJBA GraphQL | contrato estruturado, campos canonicos diretos, resposta limpa |
-| 5 | TJPR HTML | alto volume, resultado publico e sinais juridicos completos |
-| 6 | TJSC/eproc | fonte publica forte e potencial de provider por familia tecnica |
-| 7 | TJAC/CJSG | rota CJSG validada e util para endurecer familia e-SAJ |
-| 8 | TJPI/JusPI | busca HTML limpa com resultados reais e paginacao |
-| 9 | TJRR/Juris JSF | pagina rica, sem bloqueio no GET, bom acervo estadual |
-| 10 | TJMT/TJPA APIs modernas | bundles revelam contratos promissores; falta payload |
-| 11 | TJPB/PJe jurisprudencia | UI rica, mas precisa estabilizar risco WAF |
-| 12 | TST backend | JSON rico, mas filtro textual ainda precisa ser estabilizado |
-| 13 | TSE/TREs metadados | contrato oficial util para filtros, mas busca principal bloqueada |
-| 14 | TRT2 metadados/opcoes | contrato parcial util para diagnostico PJe, mas documentos exigem desafio |
-| 15 | TJPE/TJSE/TJRO documentais | entradas uteis para sumulas, precedentes e orientacao, mas ainda sem busca decisoria limpa |
-| 16 | TJMA metadados/sumulas | API limpa parcial; busca principal exige captcha |
-| 17 | TJES/TJMG/TJRJ/TJAP/TJCE/TRT15/TRT23 | inconclusivos, formularios ricos ou portais conhecidos, mas busca direta bloqueada/instavel |
+| 1 | CJF/TRF1 | resposta limpa, 25.783 resultados e links de inteiro teor |
+| 2 | TRF5 | formulario publico, ementas e filtros federais com resposta limpa |
+| 3 | TNU/TRF2/TRF6 eproc | alto valor federal, rota limpa e reuso imediato do parser eproc |
+| 4 | TJGO/Projudi | alto volume, resultado publico e inteiro teor embutido nos cards |
+| 5 | TJRS AJAX/SOLR | JSON estruturado, facets ricas, alto volume e rota publica rapida |
+| 6 | TJBA GraphQL | contrato estruturado, campos canonicos diretos, resposta limpa |
+| 7 | TJPR HTML | alto volume, resultado publico e sinais juridicos completos |
+| 8 | TJSC/eproc | fonte publica forte e potencial de provider por familia tecnica |
+| 9 | TJAC/CJSG | rota CJSG validada e util para endurecer familia e-SAJ |
+| 10 | TJPI/JusPI | busca HTML limpa com resultados reais e paginacao |
+| 11 | TJRR/Juris JSF | pagina rica, sem bloqueio no GET, bom acervo estadual |
+| 12 | TJPA BFF | busca textual JSON, catalogos e listagem recente reproduzidos; falta fixture e parser |
+| 13 | TJMT API | portal atual exige login e rota inferida respondeu 401; nao automatizar sem nova superficie publica |
+| 14 | TJPB/PJe jurisprudencia | UI rica, mas precisa estabilizar risco WAF |
+| 14 | TST backend | JSON rico, filtro textual e inteiro teor HTML reproduzidos; provider implementado |
+| 15 | TSE/TREs | plataforma oficial nova, mas endpoint decisorio ainda pendente |
+| 16 | TRT2 metadados/opcoes | contrato parcial util para diagnostico PJe, mas documentos exigem desafio |
+| 17 | TJSE/TJRO documentais | entradas uteis para sumulas, precedentes e orientacao, mas ainda sem busca decisoria limpa |
+| 18 | TJMA metadados/sumulas | API limpa parcial; busca principal exige captcha |
+| 19 | TJES/TJMG/TJRJ/TJAP/TRT15/TRT23 | inconclusivos, formularios ricos ou portais conhecidos, mas busca direta bloqueada/instavel |
+| 20 | TJCE Informativos | superficie curada publica; falta fixture e parser, mas nao depende do CJSG instavel |

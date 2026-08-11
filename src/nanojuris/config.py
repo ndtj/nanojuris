@@ -27,6 +27,8 @@ class NanoJurisConfig:
     stj_url: str = "https://processo.stj.jus.br"
     stj_scon_url: str = "https://scon.stj.jus.br"
     stm_jurisprudencia_url: str = "https://jurisprudencia.stm.jus.br"
+    tst_jurisprudencia_url: str = "https://jurisprudencia.tst.jus.br"
+    tst_jurisprudencia_api_url: str = "https://jurisprudencia-backend2.tst.jus.br"
     tce_sp_url: str = "https://www.tce.sp.gov.br"
     tre_sp_url: str = "https://www.tre-sp.jus.br"
     tjsp_url: str = "https://www.tjsp.jus.br"
@@ -43,8 +45,16 @@ class NanoJurisConfig:
     tjsp_esaj_url: str = "https://esaj.tjsp.jus.br"
     tjsp_cjsg_url: str = "https://esaj.tjsp.jus.br/cjsg"
     tjsp_eproc_url: str = "https://eproc-consulta.tjsp.jus.br/consulta_1g"
+    tjrj_eproc_jurisprudencia_url: str = "https://eproc1g.tjrj.jus.br/eproc"
+    tjsc_eproc_jurisprudencia_url: str = "https://eprocwebcon.tjsc.jus.br/consulta1g"
     tjgo_projudi_url: str = "https://projudi.tjgo.jus.br"
     tjpi_juspi_url: str = "https://jurisprudencia.tjpi.jus.br"
+    tjpa_jurisprudencia_url: str = "https://jurisprudencia.tjpa.jus.br"
+    tjpb_pje_jurisprudencia_url: str = "https://pje-jurisprudencia.tjpb.jus.br"
+    tjrs_jurisprudencia_url: str = "https://www.tjrs.jus.br"
+    trf5_jurisprudencia_url: str = "https://jurisprudencia.trf5.jus.br"
+    cjf_trf1_jurisprudencia_url: str = "https://jurisprudencia.cjf.jus.br"
+    tcu_jurisprudencia_url: str = "https://sites.tcu.gov.br"
     rate_limit_interval: float = 0.0
 
 
