@@ -67,7 +67,7 @@ dev = [
   "twine>=5.0"
 ]
 mcp = [
-  "mcp>=1.0,<2"
+  "mcp>=1.0,<3"
 ]
 studio = [
   "fastapi>=0.111",
