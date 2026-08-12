@@ -72,6 +72,8 @@ Cada linha do resultado possui:
 
 O PDF e a fonte primaria do texto integral do informativo. A tabela pode
 conter quebras de linha, entidades HTML e mais de um item por documento.
+O provider preserva os bytes do PDF e sua integridade, mas nao extrai o texto
+para `CanonicalDocument.text`; portanto `supports_full_text` permanece falso.
 
 ## Mapeamento Canonico
 

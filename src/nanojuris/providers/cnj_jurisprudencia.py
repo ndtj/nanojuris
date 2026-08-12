@@ -141,7 +141,9 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
                 "GET /jurisprudencia",
                 "GET /files/<official-pdf>",
             ],
-            supports_full_text=True,
+            # The official PDF is preserved, but its text is not parsed into
+            # CanonicalDocument.text by this provider.
+            supports_full_text=False,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,

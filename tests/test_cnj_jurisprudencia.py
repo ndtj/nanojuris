@@ -137,6 +137,7 @@ def test_client_registers_cnj_provider_and_capabilities_scope_is_curated():
     capabilities = CnjJurisprudenciaProvider(session=FakeSession([])).get_capabilities()
     assert capabilities.category == "curated_jurisprudence"
     assert capabilities.supports_catalog is True
+    assert capabilities.supports_full_text is False
     assert "number" in capabilities.supported_filters
 
 
