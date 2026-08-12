@@ -14,10 +14,10 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 
 ## Resumo
 
-- Dossies auditados: **57** (35 implemented, 21 candidates, 1 family).
+- Dossies auditados: **57** (37 implemented, 19 candidates, 1 family).
 - Dossies com secoes estruturais: **45/57**.
 - Canonical/legacy em paridade: **57/57**.
-- Prontidao: `family_spec`=1, `implementation_ready`=1, `needs_deepening`=34, `research_ready`=21.
+- Prontidao: `family_spec`=1, `implementation_ready`=2, `needs_deepening`=35, `research_ready`=19.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
