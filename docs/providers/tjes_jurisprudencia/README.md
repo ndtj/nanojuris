@@ -46,7 +46,7 @@ curado com a busca geral de acordaos.
 - Portal atual sofreu timeout de leitura em 25 segundos; rota ColdFusion legada respondeu HTTP 404.
 - Nenhuma busca, paginacao ou detalhe foi promovida. Ementarios PDF continuam sendo superficie documental independente.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

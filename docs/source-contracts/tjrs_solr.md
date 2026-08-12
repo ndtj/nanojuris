@@ -47,7 +47,7 @@ continuam deliberadamente fora do contrato executavel.
 - O POST legado respondeu HTTP 200 com JSON, embora o content-type seja `text/html; charset=iso-8859-1`.
 - `response.numFound` foi 612.403, com 10 documentos, facets, highlighting, paginas e query no envelope.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fonte Oficial
 

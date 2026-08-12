@@ -92,7 +92,7 @@ testada com baixa frequencia.
 - GET e POST JSF com `dano moral` responderam HTTP 200, com ementa, processo, relator, orgao, resultado e paginacao.
 - O `javax.faces.ViewState` e o `jsessionid` devem ser obtidos por sessao e nunca fixados em fixture de sucesso.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 

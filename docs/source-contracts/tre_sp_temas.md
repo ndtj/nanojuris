@@ -64,4 +64,4 @@ HTML. Uma busca por `Judicial` retornou um tema. A leitura do PDF continua
 dependente de um extrator documental separado.
 
 Veja a matriz completa em
-[live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
+[live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/live-validation-2026-08-11.md).

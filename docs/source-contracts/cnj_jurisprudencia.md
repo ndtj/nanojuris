@@ -126,7 +126,7 @@ documento oficial e citar o informativo correspondente.
 - GET com `argumento=cartorios` respondeu HTTP 200 com tabela HTML, ementas/resumos e links PDF oficiais.
 - A rota continua documental e paginada; nao foi promovida a busca geral de acordaos.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

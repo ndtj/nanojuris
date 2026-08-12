@@ -250,7 +250,7 @@ Mensagem operacional sugerida:
 - `/filtros` e `/buscar` responderam HTTP 200 JSON no envelope `{message, data}`.
 - A busca confirmou `content`, totais, facets, limite tecnico e itens com processo, datas, classe, orgao, ementa, texto puro e indexacao.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Implementacao 2026-08-11
 

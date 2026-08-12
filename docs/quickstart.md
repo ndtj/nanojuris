@@ -21,7 +21,7 @@ python -m pip install nanojuris
 Para trabalhar no código-fonte:
 
 ```bash
-git clone https://github.com/lucmolero/nanojuris.git
+git clone https://github.com/ndtj/nanojuris.git
 cd nanojuris
 python -m venv .venv
 python -m pip install -e ".[dev]"

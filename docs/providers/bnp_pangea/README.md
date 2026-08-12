@@ -51,7 +51,7 @@ mesma consulta com `courts=["STF", "STJ"]` e `types=["RG", "RR"]` retornou HTTP
 antes de classificar a fonte como indisponivel.
 
 Veja a matriz completa em
-[live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
+[live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
 
 ## Aprofundamento De Rotas E Filtros - 2026-08-12
 

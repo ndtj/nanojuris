@@ -30,7 +30,7 @@ resultados for comprovada separadamente.
 - O portal LIAME respondeu HTTP 200 e exibiu sinais de precedentes/processos.
 - A chamada nao confirmou uma busca geral de acordaos; o escopo deve permanecer em catalogo de precedentes ate haver rota de resultados.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fonte Oficial
 

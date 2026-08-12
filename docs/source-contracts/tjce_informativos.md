@@ -84,7 +84,7 @@ conclusao geral sobre todo o tribunal.
 - GET do portal de informativos respondeu HTTP 200 com 489 KB de HTML e sinais de jurisprudencia, ementa, relator e processo.
 - O contrato e documental/curado; links e PDFs devem ser tratados separadamente da busca geral de acordaos.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 

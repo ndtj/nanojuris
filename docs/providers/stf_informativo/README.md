@@ -94,4 +94,4 @@ solicitada. Com SSL padrao habilitado, este ambiente apresentou falha de cadeia
 local. O projeto permanece com `verify_ssl=True` por padrao.
 
 Veja a matriz completa em
-[live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
+[live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/live-validation-2026-08-11.md).

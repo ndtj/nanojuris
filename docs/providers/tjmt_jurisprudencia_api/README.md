@@ -78,7 +78,7 @@ com chave presumida ou credencial.
 - Portal respondeu HTTP 200, mas redirecionou para `/ui/login`; API inferida sem chave respondeu HTTP 401.
 - Nenhum header ou chave foi presumido. O candidato permanece bloqueado/inconclusivo.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 

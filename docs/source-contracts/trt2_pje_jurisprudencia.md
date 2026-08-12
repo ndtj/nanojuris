@@ -48,7 +48,7 @@
 - Shell e `/juris-backend/api/opcoes` responderam HTTP 200; as opcoes incluem configuracao de captcha.
 - A rota de documentos retorna `tokenDesafio`/imagem; nao houve coleta nem tentativa de contorno.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 - [ ] Descobrir contrato completo de filtros sem executar busca bloqueada.

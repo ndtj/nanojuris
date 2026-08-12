@@ -203,4 +203,4 @@ Isso confirma que a falha SSL local e distinta do controle de acesso. Nao ha
 bypass nem promocao de inteiro teor.
 
 Veja a matriz completa em
-[live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
+[live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/live-validation-2026-08-11.md).

@@ -44,7 +44,7 @@ com headers minimos e criar fixtures offline.
 - A entrada Tucujuris respondeu HTTP 200, mas entregou shell HTML de 1.253 bytes sem sinais de resultado ou contrato decisorio.
 - O estado permanece bloqueado/inconclusivo; nao foi inferido endpoint a partir do shell.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

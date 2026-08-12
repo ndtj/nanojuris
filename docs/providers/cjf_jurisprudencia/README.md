@@ -108,7 +108,7 @@ superficies em um parser sem discriminacao de origem.
 - O POST usa `formulario:textoLivre`, `formulario:selectTiposDocumento`, `formulario:actPesquisar` e `javax.faces.ViewState` dinamico.
 - A superficie unificada e a superficie TRF1 responderam HTTP 200, mas permanecem contratos separados.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Referencias oficiais
 

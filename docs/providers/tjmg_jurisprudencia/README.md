@@ -35,7 +35,7 @@ cookies, credenciais ou dados de desafio.
 - O formulario respondeu HTTP 200 e confirmou rotas por numero CNJ e por palavras, com filtros ricos.
 - Busca textual limpa com `dano moral` respondeu HTTP 401 pedindo codigo/captcha; nao houve tentativa de contorno.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

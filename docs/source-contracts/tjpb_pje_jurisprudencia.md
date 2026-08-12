@@ -67,7 +67,7 @@
 - Catalogos, busca e detalhe responderam HTTP 200; a busca com `dano moral` retornou total 48.534 e 10 hits.
 - O bundle confirmou os endpoints de origens, classes, orgaos, relatores, pesquisa e detalhe por `_id`; o POST exige `_token` da sessao publica.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Implementacao 2026-08-11
 

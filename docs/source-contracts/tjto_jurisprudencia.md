@@ -54,7 +54,7 @@ campos de tese.
 - GET de `consulta.php` respondeu HTTP 403.
 - A superficie permanece candidata; nao foram inferidos payload, paginacao ou detalhe a partir de URL indexada.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fonte Oficial
 

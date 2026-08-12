@@ -63,7 +63,7 @@
 - Relatorios, links de sumulas, tipos, classes, magistrados e camaras responderam HTTP 200.
 - A busca principal continua respondendo `captcha_not_provided`; catalogo nao deve ser apresentado como consulta de acordaos.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 - [ ] Criar parser/contract para `lista_relatorios` e `links_pesquisa_sumulas`.

@@ -29,7 +29,7 @@ contrato de detalhe e inteiro teor estiver confirmado.
 - A consulta refinada respondeu HTTP 200 HTML com ementa, relator, orgao, processo e paginacao.
 - A proxima etapa e fixture/parser; links de detalhe devem ser preservados da resposta, sem reconstrucoes heuristicas.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fonte Oficial
 

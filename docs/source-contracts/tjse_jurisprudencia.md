@@ -67,7 +67,7 @@ Cookies pessoais, credenciais e tokens de sessao nao devem ser versionados.
 - O formulario JSF respondeu HTTP 200 e confirmou filtros, ViewState, datas e botoes de pesquisa.
 - O bundle referencia Cloudflare Turnstile; nenhuma busca foi promovida sem token humano autorizado.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

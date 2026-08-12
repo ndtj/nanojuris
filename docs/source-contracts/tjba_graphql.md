@@ -37,7 +37,7 @@ retenha filtros/facets em `raw_metadata`.
 - Introspection HTTP 200 confirmou `filter`, `detalharProcesso`, catalogos e os tipos `Decisao`/`DecisaoFilter`.
 - Catalogos retornaram 38 orgaos, 211 relatores e 263 classes. `filter` respondeu erro interno nesta janela e precisa de revalidacao com valores aceitos.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fonte Oficial
 

@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/lucmolero/nanojuris/actions/workflows/ci.yml"><img src="https://github.com/lucmolero/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://github.com/lucmolero/nanojuris/security/code-scanning"><img src="https://img.shields.io/badge/CodeQL-analisado-2ea44f.svg" alt="CodeQL" /></a>
+  <a href="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml"><img src="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/ndtj/nanojuris/security/code-scanning"><img src="https://img.shields.io/badge/CodeQL-analisado-2ea44f.svg" alt="CodeQL" /></a>
   <a href="https://pypi.org/project/nanojuris/"><img src="https://img.shields.io/pypi/v/nanojuris.svg" alt="PyPI" /></a>
   <a href="https://pypi.org/project/nanojuris/"><img src="https://img.shields.io/pypi/pyversions/nanojuris.svg" alt="Python 3.10+" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licença-MIT-1f6feb.svg" alt="Licença MIT" /></a>
@@ -70,7 +70,7 @@ python -m pip install nanojuris
 Para desenvolvimento local:
 
 ```bash
-git clone https://github.com/lucmolero/nanojuris.git
+git clone https://github.com/ndtj/nanojuris.git
 cd nanojuris
 python -m venv .venv
 python -m pip install -e ".[dev]"

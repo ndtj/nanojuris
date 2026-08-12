@@ -121,7 +121,7 @@ disponiveis no runtime. A base eproc continua separada do eJURIS legado.
 - GET do formulario e POST `listar_resultados` responderam HTTP 200; foram observados 10 cards com ementa, processo e relator.
 - O payload minimo usa `txtPesquisa`, `rdoCampo`, `hdnExibirPesquisaAvancada` e `chkAgruparResultados`.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Referencias oficiais
 

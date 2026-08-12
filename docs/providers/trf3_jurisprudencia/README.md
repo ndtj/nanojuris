@@ -124,7 +124,7 @@ uma busca geral de jurisprudencia.
 - A pesquisa oficial sofreu timeout de leitura em 25 segundos nesta janela.
 - A superficie continua documentada como UI confirmada, mas sem contrato HTTP de resultados reproduzido.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 

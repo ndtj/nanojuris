@@ -71,7 +71,7 @@ Ainda precisam ser descobertos e validados:
 - GET da raiz respondeu HTTP 403 com pagina CloudFront; nenhuma rota de busca foi chamada com bypass.
 - O candidato permanece bloqueado/inconclusivo e depende de nova evidencia publica normal ou HAR sem credenciais.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Referencias oficiais
 

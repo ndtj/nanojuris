@@ -106,7 +106,7 @@ campos canonicos e os estados vazio/erro.
 - GET do formulario e POST de resultado com `dano moral` responderam HTTP 200 com processo, ementa e links de inteiro teor.
 - `wi.token` foi obtido somente da sessao corrente e nao deve ser persistido.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Referencias oficiais
 

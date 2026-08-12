@@ -44,7 +44,7 @@ fixtures de sucesso, vazio e erro.
 - Uma janela anterior respondeu HTTP 200, mas a repeticao atual respondeu HTTP 403.
 - A rota de busca, payload, paginacao e detalhe continuam sem contrato estavel; nao implementar com base no GET isolado.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

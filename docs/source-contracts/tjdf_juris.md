@@ -75,7 +75,7 @@ O parser deve preservar `registros`, agregacoes e campos desconhecidos em
   captcha frequente.
 
 O contrato completo da superficie JSON esta em [API v1 de Jurisprudencia do
-TJDFT](https://github.com/lucmolero/nanojuris/blob/main/docs/providers/tjdf_juris/api-v1.md).
+TJDFT](https://github.com/ndtj/nanojuris/blob/main/docs/providers/tjdf_juris/api-v1.md).
 
 ## Lacunas a aprofundar
 

@@ -108,7 +108,7 @@ jurisprudencia.
 - Com verificacao TLS padrao, o host falhou por certificado; com `verify_ssl=False` apenas para diagnostico, `/api/v1/jurisprudencias?page=0&size=2` retornou dois itens JSON ricos.
 - O provider nao pode desabilitar TLS; a cadeia deve ser corrigida no ambiente antes da implementacao.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 

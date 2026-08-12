@@ -131,7 +131,7 @@ navegador ou tentar atravessar captcha, WAF ou bloqueios de frequencia.
 - GET do formulario e POST `listar_resultados` responderam HTTP 200; foram observados 10 itens com ementa, processo, relator e paginacao.
 - O contrato confirma a familia eproc compartilhada com TJRJ, mas campos e hosts permanecem especificos por tribunal.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Referencias oficiais
 

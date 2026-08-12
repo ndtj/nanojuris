@@ -75,9 +75,9 @@ studio = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/lucmolero/nanojuris"
-Source = "https://github.com/lucmolero/nanojuris"
-Issues = "https://github.com/lucmolero/nanojuris/issues"
+Homepage = "https://github.com/ndtj/nanojuris"
+Source = "https://github.com/ndtj/nanojuris"
+Issues = "https://github.com/ndtj/nanojuris/issues"
 Institution = "https://ndtj.com.br/"
 
 [project.scripts]

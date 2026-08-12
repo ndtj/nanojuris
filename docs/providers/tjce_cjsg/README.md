@@ -90,7 +90,7 @@ preservar o tipo de publicacao e expor a URL oficial de origem.
 - GET da rota e-SAJ respondeu EOF TLS antes de entregar resposta neste ambiente.
 - A rota oficial permanece documentada, mas nao e considerada contrato reproduzivel sem nova evidencia de transporte ou HAR publico.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 

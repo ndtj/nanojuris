@@ -11,7 +11,7 @@ import json
 
 from nanojuris.route_probe import probe_route
 
-DEFAULT_USER_AGENT = "NanoJuris/route-probe (+https://github.com/lucmolero/nanojuris)"
+DEFAULT_USER_AGENT = "NanoJuris/route-probe (+https://github.com/ndtj/nanojuris)"
 
 
 def main() -> int:

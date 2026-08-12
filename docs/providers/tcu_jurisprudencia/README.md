@@ -202,7 +202,7 @@ e download integral ainda nao fazem parte do contrato executavel.
 - O manifesto respondeu HTTP 200 com 5.945 bytes; o CSV de resumo aceitou Range e respondeu HTTP 206 com schema `KEY|VISAOGERAL`.
 - A pesquisa interativa permanece separada: o endpoint de resultados respondeu firewall HTML, nao JSON.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/lucmolero/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Fontes Oficiais
 
