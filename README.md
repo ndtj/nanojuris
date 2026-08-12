@@ -1,11 +1,11 @@
 # NanoJuris
 
 <p align="center">
-  <strong>Jurisprudência pública brasileira para código, pesquisa e IA.</strong>
+  <strong>Jurisprudência brasileira unificada em Python.</strong>
 </p>
 
 <p align="center">
-  Extraia, normalize e audite decisões e precedentes com rastreabilidade de fonte.
+  Uma interface única para consultar, normalizar e rastrear dados públicos de tribunais brasileiros.
 </p>
 
 <p align="center">
@@ -21,12 +21,30 @@
   <a href="https://github.com/lucmolero">Mantenedor principal: Luciano Molero</a>
 </p>
 
-## Em uma frase
+## O que é o NanoJuris
 
-NanoJuris é uma biblioteca Python open source para consultar fontes públicas de
-jurisprudência brasileira, converter respostas heterogêneas em registros
-canônicos e preservar evidências suficientes para revisão humana, jurimetria e
+NanoJuris é uma biblioteca Python open source que conecta diferentes fontes
+oficiais de jurisprudência por uma interface unificada. Ela transforma respostas
+heterogêneas em dados estruturados, normalizados e rastreáveis para
+desenvolvedores, profissionais do Direito, pesquisadores, analistas de dados e
 agentes de IA.
+
+<p align="center"><strong>Uma API. Múltiplas fontes. Um modelo de dados comum.</strong></p>
+
+```text
+Tribunais e fontes públicas
+            │
+            ▼
+        NanoJuris
+  acesso · aquisição · normalização
+            │
+            ▼
+ Python · dados · jurimetria · agentes de IA
+```
+
+O projeto está evoluindo continuamente sua cobertura. “Implementado”, “validado”
+e “disponível em consulta live” são estados diferentes; a documentação de cada
+provider explicita essa distinção.
 
 ## Comece pelo seu objetivo
 
@@ -66,14 +84,14 @@ from nanojuris import NanoJurisClient
 
 client = NanoJurisClient()
 page = client.search(
-    "ICMS consumidor final",
-    courts=["STF", "STJ"],
+    "responsabilidade civil",
+    source="tjdf_juris",
     page_size=5,
 )
 
 for decision in page.results:
     print(decision.court, decision.number)
-    print(decision.thesis or decision.summary)
+    print(decision.summary or decision.thesis)
 ```
 
 A resposta preserva os metadados normalizados e a trilha da fonte. A biblioteca

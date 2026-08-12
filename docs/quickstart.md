@@ -34,15 +34,15 @@ from nanojuris import NanoJurisClient
 
 client = NanoJurisClient()
 page = client.search(
-    "ICMS consumidor final",
-    courts=["STF", "STJ"],
+    "responsabilidade civil",
+    source="tjdf_juris",
     page_size=5,
 )
 
 print(f"Resultados: {page.total}")
 for decision in page.results:
     print(decision.court, decision.number)
-    print(decision.thesis or decision.summary)
+    print(decision.summary or decision.thesis)
 ```
 
 O objeto retornado contém registros normalizados e rastreabilidade da fonte.
