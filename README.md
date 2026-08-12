@@ -1,389 +1,227 @@
-<p align="center">
-  <strong>NanoJuris</strong>
-</p>
-
-<h1 align="center">Jurisprudencia publica brasileira para Python e agentes de IA</h1>
+# NanoJuris
 
 <p align="center">
-  Busque, normalize e audite precedentes e jurisprudencia publica com rastreabilidade.
+  <strong>Jurisprudência pública brasileira para código, pesquisa e IA.</strong>
 </p>
 
 <p align="center">
-  <a href="https://ndtj.com.br/">Projeto desenvolvido no contexto do NDTJ</a>
-  ·
-  <a href="https://github.com/lucmolero">Principal mantenedor: Luciano Molero</a>
+  Extraia, normalize e audite decisões e precedentes com rastreabilidade de fonte.
 </p>
 
 <p align="center">
-  <a href="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml">
-    <img src="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" />
-  </a>
-  <a href="https://github.com/ndtj/nanojuris/blob/main/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT" />
-  </a>
-  <a href="https://github.com/ndtj/nanojuris">
-    <img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+" />
-  </a>
+  <a href="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml"><img src="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/ndtj/nanojuris/security/code-scanning"><img src="https://img.shields.io/badge/CodeQL-analisado-2ea44f.svg" alt="CodeQL" /></a>
+  <a href="https://pypi.org/project/nanojuris/"><img src="https://img.shields.io/pypi/v/nanojuris.svg" alt="PyPI" /></a>
+  <a href="https://pypi.org/project/nanojuris/"><img src="https://img.shields.io/pypi/pyversions/nanojuris.svg" alt="Python 3.10+" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licença-MIT-1f6feb.svg" alt="Licença MIT" /></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ndtj/nanojuris/actions">Actions</a>
-  |
-  <a href="docs/quickstart.md">Quickstart</a>
-  |
-  <a href="docs/architecture.md">Arquitetura</a>
-  |
-  <a href="docs/responsible-use.md">Uso responsavel</a>
-  |
-  <a href="docs/source-capabilities.md">Fontes</a>
-  |
-  <a href="docs/providers/README.md">Dossies por provider</a>
-  |
-  <a href="docs/provider-documentation-audit.md">Auditoria documental</a>
-  |
-  <a href="docs/registry/providers.json">Catalogo para IA</a>
-  |
-  <a href="docs/provider-coverage-map.md">Cobertura</a>
-  |
-  <a href="docs/extraction-pipeline.md">Pipeline</a>
-  |
-  <a href="docs/storage.md">Storage</a>
-  |
-  <a href="docs/provider-development.md">Providers</a>
-  |
-  <a href="docs/case-studies.md">Casos de uso</a>
-  |
-  <a href="docs/audience-ux.md">UX por publico</a>
-  |
-  <a href="docs/use-case-validation-matrix.md">Matriz de validacao</a>
-  |
-  <a href="docs/release-checklist.md">Release</a>
-  |
-  <a href="docs/mcp.md">MCP</a>
-  |
-  <a href="docs/elite-extraction-blueprint.md">Blueprint de extracao</a>
+  <a href="https://ndtj.com.br/">Contexto institucional: NDTJ</a> ·
+  <a href="https://github.com/lucmolero">Mantenedor principal: Luciano Molero</a>
 </p>
 
-## O que e
+## Em uma frase
 
-NanoJuris e uma biblioteca Python open source para consulta, normalizacao e
-auditoria de jurisprudencia publica brasileira.
+NanoJuris é uma biblioteca Python open source para consultar fontes públicas de
+jurisprudência brasileira, converter respostas heterogêneas em registros
+canônicos e preservar evidências suficientes para revisão humana, jurimetria e
+agentes de IA.
 
-## Autoria E Contexto Institucional
+## Comece pelo seu objetivo
 
-O NanoJuris e criado e mantido principalmente por
-[Luciano Molero](https://github.com/lucmolero), responsavel pela arquitetura,
-implementacao, releases e manutencao tecnica do projeto.
+| Você quer... | Comece por... |
+| --- | --- |
+| Fazer uma busca em Python | [Quickstart](docs/quickstart.md) |
+| Consultar pelo terminal | [CLI e exemplos](docs/quickstart.md#use-a-cli) |
+| Conectar Claude, Codex ou outro agente | [MCP local](docs/mcp.md) |
+| Entender o modelo de dados | [Arquitetura](docs/architecture.md) |
+| Escolher uma fonte | [Capacidades por fonte](docs/source-capabilities.md) |
+| Criar ou corrigir um provider | [Guia de providers](docs/provider-development.md) |
+| Auditar uma coleta | [Pipeline de extração](docs/extraction-pipeline.md) |
 
-O desenvolvimento esta vinculado ao contexto academico do
-[Nucleo de Direito, Tecnologia e Jurimetria (NDTJ)](https://ndtj.com.br/),
-centro de formacao que relaciona direito, tecnologia, inteligencia artificial e
-jurimetria. A organizacao institucional do repositorio e o contexto de
-colaboracao nao alteram a autoria dos commits, da arquitetura ou do software.
+## Instalação
 
-Consulte [MAINTAINERS.md](MAINTAINERS.md) e [GOVERNANCE.md](GOVERNANCE.md)
-para a estrutura de manutencao e tomada de decisoes.
-
-O registry atual separa 34 fontes implementadas, 22 candidatas e uma familia de
-implementacao. Ele e a referencia completa para descobrir cada provider e seu
-status: [catalogo de providers](docs/registry/providers.json). `bnp_pangea` consulta a API publica usada pelo
-frontend do Banco Nacional de Precedentes/Pangea. `comunica_pje` consulta a API
-publica do Comunica PJe/DJEN para comunicacoes judiciais. `tjdf_juris` consulta
-a jurisprudencia publica do TJDFT/SISTJ. `tjac_cjsg`, `tjal_cjsg`, `tjam_cjsg` e
-`tjms_cjsg` consultam a jurisprudencia publica CJSG/e-SAJ de TJAC, TJAL, TJAM e TJMS. `tjsp_cjsg` consulta a
-pesquisa publica de jurisprudencia do TJSP/CJSG quando a fonte nao exige
-controle de acesso. `tjsp_eproc_jurisprudencia` consulta a jurisprudencia
-publica do eproc/TJSP. `tjsp_nugepnac` cobre IRDR/IAC oficiais do TJSP.
-`tce_sp_jurisprudencia` cobre sumulas e boletins publicos do TCE-SP.
-`tre_sp_temas` cobre temas selecionados publicos do TRE-SP.
-`trf4_eproc_jurisprudencia` consulta a jurisprudencia
-publica do eproc/TRF4 e suporta inteiro teor publico. `tjsp_esaj_cpopg` consulta processo publico de primeiro grau
-por numero CNJ, nome da parte e OAB no e-SAJ/TJSP. `tjac_esaj_cpopg` consulta
-processo publico de primeiro grau por numero CNJ no e-SAJ/TJAC. `stm_jurisprudencia` consulta
-a jurisprudencia publica do STM/JMU e preserva a URL publica de inteiro teor.
-`stf_informativo` consulta a planilha publica oficial do Informativo STF, com
-teses, resumos, materias, relator, orgao julgador e processo em dados
-estruturados. `stj_informativo` consulta o HTML publico do Informativo de
-Jurisprudencia do STJ para notas oficiais e julgados referenciados. `stf_juris`
-cobre a API JSON observada no frontend oficial do STF quando a fonte responde
-sem WAF. `stj_scon` inicia a cobertura STJ/SCON por acordaos
-com parser offline, capabilities declaradas e ficha publica em
-[docs/stj-source-profile.md](docs/stj-source-profile.md). `tst_jurisprudencia`
-consulta a API REST publica do TST, com filtros textuais, metadados de acordaos
-e inteiro teor HTML sob demanda.
-
-## Por que existe
-
-Advogados, pesquisadores e times de tecnologia juridica precisam de dados de
-jurisprudencia em formato confiavel, rastreavel e facil de integrar com
-automacoes e agentes de IA.
-
-NanoJuris entrega:
-
-- modelos tipados;
-- provider BNP/Pangea funcional;
-- provider Comunica PJe/DJEN para comunicacoes judiciais publicas;
-- provider TJDFT/SISTJ para jurisprudencia publica;
-- provider TJMS/CJSG para jurisprudencia publica;
-- provider STM/JMU para jurisprudencia publica e inteiro teor;
-- provider TJSP/CJSG parcial para jurisprudencia publica e inteiro teor;
-- provider TJSP/eproc para jurisprudencia publica;
-- provider TJSP/e-SAJ CPOPg para consulta processual publica por numero CNJ,
-  nome da parte e OAB;
-- provider TJAC/e-SAJ CPOPg para consulta processual publica por numero CNJ;
-- provider TJSP/NugepNac para IRDR/IAC oficiais;
-- provider TCE-SP para sumulas e boletins de jurisprudencia;
-- provider TRE-SP para temas selecionados de jurisprudencia eleitoral;
-- provider TRF4/eproc para jurisprudencia publica e inteiro teor;
-- provider STF Informativo para teses e resumos oficiais estruturados;
-- provider STJ Informativo para notas oficiais de jurisprudencia;
-- provider STJ/SCON inicial com parser offline de acordaos;
-- cliente Python simples;
-- CLI;
-- exportacao JSON, JSONL, CSV e Markdown;
-- rastreabilidade de fonte;
-- governanca de uso responsavel.
-
-O plano de evolucao extraction-first, com arquitetura alvo, modelos canonicos,
-MCP e fontes nacionais prioritarias, esta em
-[docs/elite-extraction-blueprint.md](docs/elite-extraction-blueprint.md).
-
-As capacidades declaradas por fonte estao documentadas em
-[docs/source-capabilities.md](docs/source-capabilities.md).
-O mapa de cobertura e oportunidades de providers brasileiros esta em
-[docs/provider-coverage-map.md](docs/provider-coverage-map.md).
-O estado de maturidade de cada dossie, incluindo lacunas de contrato e fixtures
-pendentes, esta em [docs/provider-documentation-audit.md](docs/provider-documentation-audit.md).
-
-A auditoria estado a estado esta em
-[docs/national-coverage-matrix.md](docs/national-coverage-matrix.md); ela
-separa cobertura mapeada de providers efetivamente implementados.
-O playbook para mapear rotas publicas viaveis com score tecnico esta em
-[docs/route-mapping-playbook.md](docs/route-mapping-playbook.md).
-Os contratos reutilizaveis de aquisicao e parsing estao em
-[docs/extraction-pipeline.md](docs/extraction-pipeline.md).
-A estrategia SQLite-first com caminho futuro para PostgreSQL esta em
-[docs/storage.md](docs/storage.md).
-O guia para novas fontes e providers esta em
-[docs/provider-development.md](docs/provider-development.md).
-O padrao completo de cada dossie e a matriz de prontidao estao em
-[docs/provider-dossier-template.md](docs/provider-dossier-template.md) e
-[docs/provider-documentation-audit.md](docs/provider-documentation-audit.md).
-As simulacoes de uso real por advogados, pesquisadores e desenvolvedores estao
-em [docs/case-studies.md](docs/case-studies.md).
-Os principios de UX direta para advogados, desenvolvedores, jurimetristas,
-analistas de dados e agentes de IA estao em
-[docs/audience-ux.md](docs/audience-ux.md).
-A matriz pratica para testar pontos implementados, parciais e planejados esta em
-[docs/use-case-validation-matrix.md](docs/use-case-validation-matrix.md).
-O relatorio mais recente de validacao por areas tecnicas e casos de uso esta em
-[docs/validation-report-2026-08-02.md](docs/validation-report-2026-08-02.md).
-O checklist de release publica esta em
-[docs/release-checklist.md](docs/release-checklist.md).
-
-## Instalacao local
+Para usar a biblioteca:
 
 ```bash
-python -m venv .venv
-.\.venv\Scripts\python -m pip install -e ".[dev]"
+python -m pip install nanojuris
 ```
 
-## Primeiro uso em Python
+Para desenvolvimento local:
+
+```bash
+git clone https://github.com/ndtj/nanojuris.git
+cd nanojuris
+python -m venv .venv
+python -m pip install -e ".[dev]"
+```
+
+O pacote requer Python 3.10 ou superior.
+
+## Primeira consulta
 
 ```python
 from nanojuris import NanoJurisClient
 
 client = NanoJurisClient()
-
 page = client.search(
     "ICMS consumidor final",
     courts=["STF", "STJ"],
-    types=["RG", "RR"],
     page_size=5,
 )
 
-for result in page.results:
-    print(result.court, result.type, result.number)
-    print(result.thesis)
+for decision in page.results:
+    print(decision.court, decision.number)
+    print(decision.thesis or decision.summary)
 ```
 
-## Primeiro uso via CLI
+A resposta preserva os metadados normalizados e a trilha da fonte. A biblioteca
+não transforma uma fonte instável em uma certeza: indisponibilidade, controle de
+acesso, resultado vazio e limitação de cobertura permanecem observáveis.
+
+## CLI para uso diário
 
 ```bash
-nanojuris buscar "ICMS consumidor final" --orgaos STF,STJ --tipos RG,RR --limite 5
+nanojuris buscar "ICMS consumidor final" --orgaos STF,STJ --limite 5
 ```
 
-Markdown:
+Escolha o formato conforme o destino:
 
 ```bash
-nanojuris buscar "ICMS consumidor final" --orgaos STF,STJ --formato markdown
-```
+# Leitura e revisão humana
+nanojuris buscar "ICMS consumidor final" --formato markdown
 
-JSONL:
+# Planilhas e jurimetria
+nanojuris buscar "ICMS consumidor final" --formato csv
 
-```bash
+# Pipelines e agentes
 nanojuris buscar "ICMS consumidor final" --formato jsonl
 ```
 
-JSONL canonico para pipelines de dados:
-
-```bash
-nanojuris buscar "ICMS consumidor final" --formato canonical-jsonl
-```
-
-CSV com campos objetivos de extracao:
-
-```bash
-nanojuris buscar "ICMS consumidor final" --formato csv
-```
-
-Fontes e capacidades:
+Descubra fontes, capacidades e diagnósticos antes de pesquisar:
 
 ```bash
 nanojuris fontes
-nanojuris diagnostico --fonte tjsp_cjsg
-nanojuris probe-rota "https://tribunal.exemplo.jus.br/jurisprudencia?q=idpj" --expect "Ementa"
-nanojuris buscar "infanticidio" --fonte comunica_pje --orgaos TJSP --limite 5
-nanojuris buscar "infanticidio" --fonte comunica_pje --publicacao-de 2026-07-31 --publicacao-ate 2026-07-31
-nanojuris buscar "infanticidio" --fonte tjdf_juris --limite 5
-nanojuris buscar "infanticidio" --fonte tjac_cjsg --limite 5
-nanojuris buscar "" --fonte tjac_esaj_cpopg --numero "0001970-91.2024.8.01.0001"
-nanojuris buscar "infanticidio" --fonte tjal_cjsg --limite 5
-nanojuris buscar "infanticidio" --fonte tjam_cjsg --limite 5
-nanojuris buscar "infanticidio" --fonte tjms_cjsg --limite 5
-nanojuris buscar "desercao" --fonte stm_jurisprudencia --limite 5
-nanojuris buscar "infanticidio" --fonte tjsp_eproc_jurisprudencia --limite 5
-nanojuris buscar "garantia" --fonte tjsp_nugepnac --tipos irdr --limite 5
-nanojuris buscar "subvencao" --fonte tce_sp_jurisprudencia --tipos sumula --limite 5
-nanojuris buscar "abuso de poder" --fonte tre_sp_temas --limite 5
-nanojuris buscar "desercao" --fonte trf4_eproc_jurisprudencia --limite 5
-nanojuris buscar "" --fonte tjsp_esaj_cpopg --parte "ANDERSON DE AZEVEDO GONCALVES" --limite 4
-nanojuris buscar "" --fonte tjsp_esaj_cpopg --oab "123456" --limite 2
-nanojuris buscar "" --fonte tjsp_esaj_cpopg --numero "0003938-14.2017.8.26.0323" --detalhar
-nanojuris tribunais --uf SP --implementados
+nanojuris diagnostico --fonte tjdf_juris
+nanojuris tribunais --implementados
 ```
 
-Salvar resultados canonicos em SQLite:
+## MCP local para agentes de IA
+
+O MCP é distribuído como um extra do mesmo pacote e roda localmente, próximo
+ao ambiente do usuário:
 
 ```bash
-nanojuris buscar "ICMS consumidor final" --store nanojuris.db
-```
-
-Consultar o store local:
-
-```bash
-nanojuris store stats nanojuris.db
-nanojuris store query nanojuris.db --kind decision --tribunal TJSP
-nanojuris store get nanojuris.db decision dec-1
-nanojuris store runs nanojuris.db
-nanojuris store records nanojuris.db run-...
-nanojuris store export nanojuris.db run-... --formato csv
-nanojuris store export nanojuris.db run-... --formato jsonl --limite 100 --offset 100
-nanojuris documento tjsp-cjsg-20787558-0 --fonte tjsp_cjsg
-```
-
-Use `--formato markdown` para leitura humana e auditoria, `csv` para planilhas e
-jurimetria, `jsonl` para pipelines de dados e `json` para agentes e integracoes.
-Use `--offset` para paginar runs grandes sem perder o `run_id` auditavel.
-Use `documento` apenas para inteiro teor que a fonte publica entrega sem login,
-captcha ou outro controle de acesso.
-Use `tribunais` para descobrir o mapa brasileiro de tribunais conhecido pela lib,
-mesmo antes de todos os providers estarem implementados.
-
-## MCP local
-
-Instale o extra MCP e rode o servidor local:
-
-```bash
-pip install "nanojuris[mcp]"
+python -m pip install "nanojuris[mcp]"
 nanojuris-mcp
 ```
 
-As tools MCP iniciais expoem fontes, diagnostico, busca, exportacao de
-resultados e consulta a stores SQLite locais. Detalhes em
-[docs/mcp.md](docs/mcp.md).
+Depois, configure o cliente de IA para iniciar `nanojuris-mcp` como servidor
+local. As ferramentas expõem descoberta de fontes, busca, diagnósticos,
+exportação e consulta ao store SQLite. O [guia de MCP](docs/mcp.md) contém os
+blocos de configuração para clientes compatíveis e as regras de segurança.
 
-## Provider inicial
+## O que o NanoJuris entrega
 
-### `bnp_pangea`
+- **Consulta:** busca textual, filtros e paginação conforme o contrato de cada fonte.
+- **Normalização:** modelos comuns para decisões, precedentes, comunicações e documentos.
+- **Rastreabilidade:** fonte, endpoint, parâmetros, horário, status de acesso e evidências.
+- **Extração:** texto e metadados públicos, incluindo inteiro teor quando a fonte o entrega.
+- **Persistência:** pesquisa reprodutível em SQLite, com runs e exportação.
+- **Integração:** SDK Python, CLI, MCP local e formatos JSON, JSONL, CSV e Markdown.
+- **Governança:** documentação por provider, uso responsável e limites explícitos.
 
-Fonte: Banco Nacional de Precedentes/Pangea.
+## Cobertura atual
 
-Recursos:
+O catálogo separa o que está implementado do que foi apenas mapeado para
+desenvolvimento:
 
-- parametros publicos de orgaos e especies;
-- catalogo normalizado de tribunais e especies;
-- sugestoes publicas de pesquisa;
-- busca textual de precedentes;
-- agregacoes por tribunal e especie;
-- detalhes de decisoes vinculadas quando disponiveis;
-- rastreabilidade de endpoint, filtro e data de coleta.
+| Estado | Quantidade | Significado |
+| --- | ---: | --- |
+| Providers implementados | 34 | Há adapter registrado no pacote |
+| Fontes candidatas | 22 | Há evidência ou pesquisa, mas não são runtime |
+| Especificações de família | 1 | Contrato compartilhado aguardando adapters |
 
-Catalogo normalizado:
+Consulte o [catálogo machine-readable](docs/registry/providers.json), a
+[matriz de cobertura](docs/provider-coverage-map.md) e os
+[dossiês individuais](docs/providers/README.md). Cada dossiê distingue rota
+observada, resposta reproduzida e provider pronto para uso.
 
-```bash
-nanojuris parametros --catalogo
+## Arquitetura em camadas
+
+```text
+Fonte pública
+    │  resposta original + evidência
+    ▼
+Raw source record
+    │  parser específico do tribunal
+    ▼
+Normalized provider record
+    │  contrato canônico
+    ▼
+Canonical legal record
+    ├── SDK Python
+    ├── CLI / exportadores
+    ├── SQLite / research runs
+    └── MCP local / Studio
 ```
 
-Sugestoes, quando o endpoint publico estiver disponivel:
+O provider conhece o contrato da fonte. O núcleo conhece normalização,
+paginação, auditoria e persistência. Essa separação permite adicionar fontes
+sem contaminar o modelo comum com semânticas específicas de um tribunal.
+
+## Integridade e uso responsável
+
+NanoJuris trabalha somente com fontes públicas ou legitimamente acessíveis ao
+usuário. O projeto não tenta contornar captcha, login, WAF, geoblock ou outra
+barreira de acesso. Quando um documento não pode ser obtido, essa limitação é
+registrada em vez de ser mascarada.
+
+Os resultados são dados para pesquisa e automação. Eles não substituem a
+leitura da fonte oficial, a análise profissional do caso ou a verificação da
+vigência de um entendimento. Consulte [Uso responsável](docs/responsible-use.md)
+antes de incorporar resultados em fluxos jurídicos.
+
+## Documentação
+
+O [Portal de documentação](docs/README.md) organiza a leitura em quatro
+percursos:
+
+1. **Usar:** instalação, Python, CLI, MCP e armazenamento.
+2. **Compreender:** arquitetura, contratos canônicos e pipeline de extração.
+3. **Expandir:** dossiês, playbook de descoberta e desenvolvimento de providers.
+4. **Governar:** segurança, releases, contribuição, autoria e decisões do projeto.
+
+## Desenvolvimento
 
 ```bash
-nanojuris sugestoes "icms"
+python -m pip install -e ".[dev,mcp,studio]"
+python -m pytest
+ruff check src tests examples tools
+ruff format --check src tests examples tools
+mypy src
 ```
 
-Teste live opcional:
+Leia [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md),
+[MAINTAINERS.md](MAINTAINERS.md) e [GOVERNANCE.md](GOVERNANCE.md) antes de abrir
+uma contribuição.
 
-```bash
-$env:NANOJURIS_RUN_LIVE = "1"
-python -m pytest -m live
-```
+## Autoria e contexto institucional
 
-### `tjsp_cjsg`
+O NanoJuris é criado e mantido principalmente por
+[Luciano Molero](https://github.com/lucmolero), responsável pela arquitetura,
+implementação, releases e manutenção técnica.
 
-Fonte: Consulta de Jurisprudencia do TJSP/CJSG.
+O projeto foi desenvolvido no contexto do
+[Núcleo de Direito, Tecnologia e Jurimetria (NDTJ)](https://ndtj.com.br/), um
+centro acadêmico que relaciona direito, tecnologia, inteligência artificial e
+jurimetria. O contexto institucional apoia a colaboração e não altera a
+autoria dos commits, do código ou das decisões técnicas. A estrutura formal de
+manutenção está em [MAINTAINERS.md](MAINTAINERS.md) e
+[GOVERNANCE.md](GOVERNANCE.md).
 
-Recursos:
+## Licença
 
-- busca completa via formulario publico;
-- parser HTML de resultados;
-- paginacao segura quando a busca principal publica ja criou sessao valida;
-- extracao de numero do processo/recurso, relator, comarca, orgao julgador,
-  classe, assunto e ementa;
-- identificadores `cdAcordao` e `cdForo`;
-- URL publica de inteiro teor quando disponivel e status honesto quando
-  `getArquivo.do` redireciona para login;
-- deteccao de captcha/controle de acesso sem bypass.
-
-Exemplo:
-
-```bash
-nanojuris buscar "infanticidio" --fonte tjsp_cjsg --tipos acordao --limite 5
-```
-
-Se o TJSP exigir captcha, sessao ausente ou login, o provider interrompe a busca
-com erro claro ou marca o documento como `login_required`.
-
-## Filosofia tecnica
-
-NanoJuris nao tenta burlar fontes publicas. O projeto deve:
-
-- preferir APIs publicas e oficiais;
-- detectar controles de acesso e parar;
-- aplicar timeout e limites;
-- separar extracao de interpretacao juridica;
-- preservar fonte, endpoint e query usada;
-- manter fixtures sem dados sensiveis.
-
-## Roadmap
-
-O pacote atual e `v0.2.0`. A lista historica completa, incluindo itens que ja
-foram entregues depois da numeracao original, esta em
-[`docs/roadmap.md`](docs/roadmap.md). O estado operacional deve ser conferido
-pelos providers registrados, seus contratos e o CI, nao apenas pelo numero da
-versao.
-
-## Projeto independente
-
-NanoJuris nao e produto oficial do CNJ, TJSP, STJ, STF ou qualquer tribunal. A
-biblioteca organiza consultas a fontes publicas ou legitimamente acessiveis ao
-usuario.
+Distribuído sob a [licença MIT](LICENSE). O NanoJuris não é produto oficial do
+CNJ, STF, STJ, TST, TJSP ou de qualquer outro tribunal.

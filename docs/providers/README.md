@@ -1,118 +1,72 @@
-# Provider Dossiers
+# Dossiês de providers
 
-This is the canonical human-readable documentation tree for NanoJuris
-providers and source candidates.
-
-## Why Each Provider Has Its Own Directory
-
-Each source has a stable identifier and a dedicated dossier:
+Esta é a coleção canônica de contratos humanos para as fontes de jurisprudência
+do NanoJuris. Cada fonte tem um identificador estável e uma página própria:
 
 ```text
 docs/providers/<source-id>/README.md
 ```
 
-The README is the complete source dossier. It records the official source,
-observed routes, parameters, extracted fields, response states, fixtures,
-limitations, responsible-use rules, and MCP guidance. A provider is never
-considered ready merely because its directory exists: its implementation
-status is declared in the central registry and validated against
-`src/nanojuris/providers`.
+## Como usar este catálogo
 
-## Compatibility And Preservation
+### Para uma pessoa
 
-The former flat tree remains available at
-`docs/source-contracts/<source-id>.md`. The files were copied byte-for-byte
-into this tree before the migration. They are retained as compatibility paths
-for existing links, bookmarks, issue references, and external agents.
+1. Localize o `source-id` no [registry](../registry/providers.json).
+2. Abra o dossiê correspondente nesta pasta.
+3. Confirme o status, as capabilities e a data da evidência.
+4. Leia limitações, comportamento de erro e contrato de documentos antes de
+   usar a fonte em produção.
 
-The documentation test suite compares every canonical README with its legacy
-counterpart. A content change must therefore be made in both locations until
-the compatibility layer is intentionally retired in a versioned migration.
-This rule prevents a provider contract, limitation, fixture note, or warning
-from disappearing during the transition.
+### Para um agente de IA
 
-## Reading Order
+1. Carregue `docs/registry/providers.json`.
+2. Resolva o campo `human_doc` para o dossiê desta pasta.
+3. Trate `implemented` como disponível no pacote e `candidate` como pesquisa
+   ou oportunidade, nunca como provider runtime.
+4. Preserve no resultado as fontes consultadas, ignoradas, os erros e a
+   rastreabilidade de cada resposta.
 
-For a human:
+## O que cada dossiê documenta
 
-1. Read this index and the source-specific README.
-2. Check the status in `../registry/providers.json`.
-3. Compare operational maturity with `nanojuris contratos --fonte <source-id>`.
-4. Read the queue and national coverage matrix before planning a new provider.
+Um dossiê completo cobre, mesmo quando algo ainda não foi observado:
 
-For an AI agent:
+- identidade, proprietário oficial e URL pública;
+- acesso público e fronteira de uso responsável;
+- rotas HTTP, métodos, payloads, parâmetros, filtros e paginação;
+- campos disponíveis, normalização e campos instáveis;
+- respostas de sucesso, vazio, erro, timeout e controle de acesso;
+- fixtures e evidências sem cookies, tokens ou segredos;
+- recomendação para CLI, SDK, Studio e MCP;
+- lacunas atuais e próximo critério de promoção.
 
-1. Load `../registry/providers.json`.
-2. Resolve `human_doc` to the provider README.
-3. If `status` is `implemented`, call `list_sources` and `source_contracts`
-   before searching.
-4. If `status` is `candidate`, treat the dossier as research evidence, not as
-   an available provider.
-5. Preserve `searched_sources`, `skipped_sources`, `errors`, and source traces
-   in the answer.
+O [template de dossiê](../provider-dossier-template.md) define a estrutura
+normativa para novas fontes.
 
-## Current Maturity
+## Status atual
 
-The current snapshot contains 57 dossiers: 34 implemented sources, 22
-research candidates, and one shared eproc family specification. The detailed
-state is maintained by the
-[provider documentation audit](../provider-documentation-audit.md).
+O snapshot atual contém 57 dossiês:
 
-The audit intentionally exposes incomplete contracts. In particular, a
-candidate may have a confirmed official route while still lacking a stable
-fixture, empty-result behavior, document route, or parser contract. An
-implemented provider may also remain below agent-ready maturity when the
-source has access controls or an unstable public interface.
+| Status | Quantidade | Interpretação |
+| --- | ---: | --- |
+| Implementados | 34 | Adapter registrado e disponível no pacote |
+| Candidatos | 22 | Fonte mapeada, ainda sem adapter runtime |
+| Família | 1 | Especificação compartilhada para futuros adapters |
 
-The initial controlled real-source baseline is recorded in
-[`../live-validation-2026-08-11.md`](../live-validation-2026-08-11.md). The
-current implementation and unified-search checks are recorded separately in
-[`../implementation-live-validation-2026-08-11.md`](../implementation-live-validation-2026-08-11.md)
-and [`../unified-search-live-validation-2026-08-11.md`](../unified-search-live-validation-2026-08-11.md).
-All are evidence for the date and network used, not a permanent availability
-guarantee.
+O [auditório documental](../provider-documentation-audit.md) mostra a
+completude estrutural, a paridade com caminhos legados e a prontidão de cada
+dossiê.
 
-The candidate-source validation is recorded separately in
-[`../candidate-live-validation-2026-08-11.md`](../candidate-live-validation-2026-08-11.md).
-It distinguishes search data, public catalogs, documentary pages, and
-access-control evidence; its historical snapshot must not be read as runtime
-availability for every current candidate.
+## Compatibilidade dos caminhos antigos
 
-The deeper provider contract validation from 2026-08-12 is recorded in
-[`../provider-contract-validation-2026-08-12.md`](../provider-contract-validation-2026-08-12.md).
-It records live evidence and the boundary between an observed source route and
-an adapter contract already exposed by NanoJuris.
+Os arquivos em `docs/source-contracts/<source-id>.md` continuam preservados para
+links, bookmarks e agentes externos. A suíte de testes compara o dossiê
+canônico com seu caminho legado enquanto essa camada de compatibilidade estiver
+ativa. Alterações de contrato devem manter os dois caminhos sincronizados.
 
-The current Ouro quality gate and its controlled unified-search evidence are
-described in [`../gold-maturity.md`](../gold-maturity.md) and
-[`../unified-search-live-validation-2026-08-12.md`](../unified-search-live-validation-2026-08-12.md).
+## Evidência não é garantia
 
-The latest provider discovery round is recorded in
-[`../provider-discovery-2026-08-12.md`](../provider-discovery-2026-08-12.md).
-
-## Dossier Contract
-
-Every dossier must keep these topics, even when the answer is "not observed":
-
-- identity and official ownership;
-- public access status and responsible-use boundary;
-- HTTP routes, methods, payloads, parameters, pagination, and limits;
-- canonical fields and fields that are unstable or unavailable;
-- success, empty, error, timeout, and access-control behavior;
-- fixtures and evidence, without personal cookies, tokens, or secrets;
-- MCP recommendation and safe user-facing explanation;
-- open gaps and the next promotion step.
-
-The machine-readable inventory is in
-[`../registry/providers.json`](../registry/providers.json). The runtime
-capability contract remains exposed by Python, CLI, and MCP; the registry does
-not duplicate or silently replace that runtime source of truth.
-
-The normative structure for new or deeply revised dossiers is
-[`../provider-dossier-template.md`](../provider-dossier-template.md). The
-current completeness matrix is generated in
-[`../provider-documentation-audit.md`](../provider-documentation-audit.md).
-Those artifacts distinguish a route observed in a frontend or HAR, a route
-reproduced with a public HTTP response and fixture, and a provider ready for
-runtime and MCP routing. An open checklist is an honest development gate, not
-a missing description.
+Uma rota observada em um frontend ou HAR é diferente de uma resposta pública
+reproduzida e diferente de um adapter pronto para runtime. Os relatórios de
+validação registram exatamente essa diferença, além da data e do ambiente da
+observação. Consulte também o [playbook de mapeamento](../route-mapping-playbook.md)
+para entender como uma fonte é promovida.
