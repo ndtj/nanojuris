@@ -31,7 +31,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | --- | --- | --- | ---: | --- | --- | ---: | ---: |
 | [`bnp_pangea`](docs/providers/bnp_pangea/README.md) | implemented | `needs_deepening` | 4 | medio | data, next_steps | 0 | 0 |
 | [`cjf_jurisprudencia`](docs/providers/cjf_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | next_steps | 6 | 0 |
-| [`cnj_jurisprudencia`](docs/providers/cnj_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 6 | 0 |
+| [`cnj_jurisprudencia`](docs/providers/cnj_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 1 |
 | [`comunica_pje`](docs/providers/comunica_pje/README.md) | implemented | `needs_deepening` | 3 | medio | - | 8 | 0 |
 | [`eproc_jurisprudencia_federal`](docs/providers/eproc_jurisprudencia_federal/README.md) | family | `family_spec` | - | research | - | 1 | 3 |
 | [`falcao_jt`](docs/providers/falcao_jt/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
