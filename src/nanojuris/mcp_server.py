@@ -33,11 +33,21 @@ def create_server() -> Any:
 
     try:
         fastmcp_module = import_module("mcp.server.fastmcp")
-    except ImportError as exc:  # pragma: no cover - depends on optional extra
+        server_factory = fastmcp_module.FastMCP
+    except ModuleNotFoundError as exc:  # pragma: no cover - depends on optional extra
+        if exc.name != "mcp.server.fastmcp":
+            raise
+        try:
+            mcp_module = import_module("mcp.server")
+            server_factory = mcp_module.MCPServer
+        except (ImportError, AttributeError) as fallback_exc:
+            raise RuntimeError(
+                "Install NanoJuris with the MCP extra: nanojuris[mcp]"
+            ) from fallback_exc
+    except (ImportError, AttributeError) as exc:  # pragma: no cover
         raise RuntimeError("Install NanoJuris with the MCP extra: nanojuris[mcp]") from exc
 
-    fastmcp = fastmcp_module.FastMCP
-    server = fastmcp("nanojuris")
+    server = server_factory("nanojuris")
 
     @server.tool()
     def list_sources() -> dict[str, Any]:

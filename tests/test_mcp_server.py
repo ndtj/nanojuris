@@ -60,6 +60,22 @@ def test_create_server_registers_expected_tools(monkeypatch):
     }
 
 
+def test_create_server_supports_mcp_v2_server_surface(monkeypatch):
+    FakeFastMCP.instances.clear()
+
+    def import_mcp_module(name):
+        if name == "mcp.server.fastmcp":
+            raise ModuleNotFoundError(name=name)
+        return SimpleNamespace(MCPServer=FakeFastMCP)
+
+    monkeypatch.setattr(mcp_server, "import_module", import_mcp_module)
+
+    server = mcp_server.create_server()
+
+    assert server.name == "nanojuris"
+    assert "search_unified" in server.tools
+
+
 def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
     _install_fake_fastmcp(monkeypatch)
     calls = []
