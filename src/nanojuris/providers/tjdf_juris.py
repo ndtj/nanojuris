@@ -29,6 +29,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 TJDF_JURIS_ENDPOINT = "/IndexadorAcordaos-web/sistj"
@@ -76,6 +77,12 @@ class TjdfJurisProvider(JurisprudenceProvider):
             for item in document_ids
         ]
         start = ((query.page - 1) * query.page_size) + 1 if results else 0
+        complete, completeness_reason = page_completeness(
+            reported_total=total,
+            start=start,
+            returned=len(results),
+            total_is_authoritative=_tjdf_total_is_authoritative(initial_html),
+        )
         return SearchPage(
             source=self.name,
             total=total,
@@ -85,6 +92,9 @@ class TjdfJurisProvider(JurisprudenceProvider):
             page_size=query.page_size,
             results=results,
             source_trace=trace,
+            pagination_mode="page",
+            is_complete=complete,
+            completeness_reason=completeness_reason,
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -177,9 +187,15 @@ class TjdfJurisProvider(JurisprudenceProvider):
                 "GET /IndexadorAcordaos-web/sistj?comando=abrirDadosDoAcordao",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            pagination_mode="page",
+            completeness_contract="reported_total_and_page_window",
             supported_filters=["text", "exact_phrase"],
             limitations=[
                 "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
@@ -241,6 +257,18 @@ def parse_tjdf_total(html: str) -> int:
             return int(value)
     match = re.search(r"Resultado.*?(\d+)", _normalize_spaces(soup.get_text(" ", strip=True)))
     return int(match.group(1)) if match else 0
+
+
+def _tjdf_total_is_authoritative(html: str) -> bool:
+    """Return whether the initial SISTJ page exposed a result count."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    if any(
+        _normalize_spaces(node.get_text(" ", strip=True)).isdigit()
+        for node in soup.select(".conteudoComRotulo")
+    ):
+        return True
+    return bool(re.search(r"Resultado.*?\d+", _normalize_spaces(soup.get_text(" ", strip=True))))
 
 
 def parse_tjdf_result_ids(html: str) -> list[str]:

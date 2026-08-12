@@ -52,6 +52,6 @@ class JurisprudenceProvider(ABC):
             display_name=self.name,
             source_url="",
             category="jurisprudence",
-            access_statuses=[AccessStatus.PUBLIC],
+            access_statuses=[AccessStatus.PARTIAL],
             limitations=["Provider has not declared detailed capabilities yet."],
         )

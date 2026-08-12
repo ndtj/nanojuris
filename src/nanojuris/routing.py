@@ -162,12 +162,12 @@ def _skip_reason(
     has_identifier: bool,
     identifier_filters: set[str],
 ) -> SourceSkip | None:
-    if not capability.supports_mcp:
+    if not capability.supports_unified_search:
         return SourceSkip(
             source=capability.source,
             category=capability.category,
-            reason="mcp_not_supported",
-            message="A fonte nao declara suporte ao uso via MCP.",
+            reason="unified_search_not_supported",
+            message="A fonte nao declara suporte explicito a busca unificada.",
         )
 
     if capability.category == "case_lookup" and not has_identifier:

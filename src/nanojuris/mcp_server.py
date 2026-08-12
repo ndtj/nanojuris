@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import os
+import re
 from importlib import import_module
+from pathlib import Path
 from typing import Any, cast
 
 from nanojuris.mcp_tools import (
@@ -172,14 +175,14 @@ def create_server() -> Any:
         return get_decisions_tool(precedent_id, source=source)
 
     @server.tool()
-    def store_stats(db_path: str) -> dict[str, Any]:
+    def store_stats(store_id: str = "default") -> dict[str, Any]:
         """Return aggregate statistics from a local NanoJuris SQLite store."""
 
-        return store_stats_tool(db_path)
+        return store_stats_tool(str(_resolve_store_id(store_id)))
 
     @server.tool()
     def store_query(
-        db_path: str,
+        store_id: str = "default",
         kind: str | None = None,
         source: str = "",
         court: str = "",
@@ -198,7 +201,7 @@ def create_server() -> Any:
         if kind not in {None, "decision", "document", "precedent"}:
             raise ValueError("kind must be decision, document or precedent")
         return store_query_tool(
-            db_path,
+            str(_resolve_store_id(store_id)),
             kind=cast(Any, kind),
             source=source,
             court=court,
@@ -214,39 +217,41 @@ def create_server() -> Any:
         )
 
     @server.tool()
-    def store_get(db_path: str, kind: str, record_id: str) -> dict[str, Any]:
+    def store_get(store_id: str, kind: str, record_id: str) -> dict[str, Any]:
         """Return one canonical record from a local NanoJuris SQLite store."""
 
         if kind not in {"decision", "document", "precedent"}:
             raise ValueError("kind must be decision, document or precedent")
-        return store_get_tool(db_path, cast(Any, kind), record_id)
+        return store_get_tool(str(_resolve_store_id(store_id)), cast(Any, kind), record_id)
 
     @server.tool()
-    def store_runs(db_path: str, limit: int = 50) -> dict[str, Any]:
+    def store_runs(store_id: str = "default", limit: int = 50) -> dict[str, Any]:
         """List saved research runs from a local NanoJuris SQLite store."""
 
-        return store_runs_tool(db_path, limit=limit)
+        return store_runs_tool(str(_resolve_store_id(store_id)), limit=limit)
 
     @server.tool()
-    def store_run(db_path: str, run_id: str) -> dict[str, Any]:
+    def store_run(store_id: str, run_id: str) -> dict[str, Any]:
         """Return one saved research run from a local NanoJuris SQLite store."""
 
-        return store_run_tool(db_path, run_id)
+        return store_run_tool(str(_resolve_store_id(store_id)), run_id)
 
     @server.tool()
     def store_run_records(
-        db_path: str,
+        store_id: str,
         run_id: str,
         limit: int = 50,
         offset: int = 0,
     ) -> dict[str, Any]:
         """Return records linked to a saved research run."""
 
-        return store_run_records_tool(db_path, run_id, limit=limit, offset=offset)
+        return store_run_records_tool(
+            str(_resolve_store_id(store_id)), run_id, limit=limit, offset=offset
+        )
 
     @server.tool()
     def store_export_run(
-        db_path: str,
+        store_id: str,
         run_id: str,
         output_format: str = "jsonl",
         limit: int = 50,
@@ -255,7 +260,7 @@ def create_server() -> Any:
         """Export records linked to a saved research run."""
 
         return store_export_run_tool(
-            db_path,
+            str(_resolve_store_id(store_id)),
             run_id,
             output_format=output_format,
             limit=limit,
@@ -263,6 +268,21 @@ def create_server() -> Any:
         )
 
     return server
+
+
+def _resolve_store_id(store_id: str) -> Path:
+    """Resolve an MCP store identifier below the configured local store root."""
+
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}", store_id):
+        raise ValueError("store_id must be a simple local identifier, not a filesystem path")
+    root = Path(os.getenv("NANOJURIS_STORE_ROOT", "~/.nanojuris/stores")).expanduser().resolve()
+    root.mkdir(parents=True, exist_ok=True)
+    candidate = (root / f"{store_id}.db").resolve()
+    try:
+        candidate.relative_to(root)
+    except ValueError as exc:
+        raise ValueError("store_id escapes the configured NanoJuris store root") from exc
+    return candidate
 
 
 def main() -> None:

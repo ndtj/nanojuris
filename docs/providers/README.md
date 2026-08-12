@@ -53,7 +53,7 @@ For an AI agent:
 
 ## Current Maturity
 
-The current snapshot contains 55 dossiers: 34 implemented sources, 20
+The current snapshot contains 57 dossiers: 34 implemented sources, 22
 research candidates, and one shared eproc family specification. The detailed
 state is maintained by the
 [provider documentation audit](../provider-documentation-audit.md).
@@ -77,6 +77,18 @@ The candidate-source validation is recorded separately in
 It distinguishes search data, public catalogs, documentary pages, and
 access-control evidence; its historical snapshot must not be read as runtime
 availability for every current candidate.
+
+The deeper provider contract validation from 2026-08-12 is recorded in
+[`../provider-contract-validation-2026-08-12.md`](../provider-contract-validation-2026-08-12.md).
+It records live evidence and the boundary between an observed source route and
+an adapter contract already exposed by NanoJuris.
+
+The current Ouro quality gate and its controlled unified-search evidence are
+described in [`../gold-maturity.md`](../gold-maturity.md) and
+[`../unified-search-live-validation-2026-08-12.md`](../unified-search-live-validation-2026-08-12.md).
+
+The latest provider discovery round is recorded in
+[`../provider-discovery-2026-08-12.md`](../provider-discovery-2026-08-12.md).
 
 ## Dossier Contract
 

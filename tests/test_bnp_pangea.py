@@ -9,6 +9,7 @@ import requests
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -359,11 +360,11 @@ def test_http_500_becomes_source_unavailable():
         provider.get_parameters()
 
 
-def test_http_400_becomes_source_unavailable():
+def test_http_400_becomes_query_rejected():
     session = FakeSession([FakeResponse({}, status_code=400, text="Requisição inválida")])
     provider = BnpPangeaProvider(session=session)
 
-    with pytest.raises(SourceUnavailableError) as exc_info:
+    with pytest.raises(QueryRejectedError) as exc_info:
         provider.search(JurisprudenceQuery(text="infanticidio"))
 
     message = str(exc_info.value)

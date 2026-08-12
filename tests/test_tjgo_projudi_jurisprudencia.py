@@ -145,6 +145,7 @@ def test_tjgo_results_canonicalize_as_decisions_with_full_text():
     assert records[0].decision_type == "decisao"
     assert records[0].judging_body == "Crixás - Vara das Fazendas Públicas"
     assert records[0].summary and "CPF/CNPJ" in records[0].summary
+    assert records[0].full_text and "CPF/CNPJ" in records[0].full_text
 
 
 def test_result_to_document_preserves_embedded_public_text():
@@ -214,4 +215,4 @@ def test_capabilities_describe_tjgo_provider():
     assert capabilities.category == "court_jurisprudence"
     assert "full_text" in capabilities.search_modes
     assert "CanonicalDecision" in capabilities.canonical_records
-    assert capabilities.supports_full_text is True
+    assert capabilities.supports_full_text is False

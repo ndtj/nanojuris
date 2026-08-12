@@ -13,6 +13,7 @@ from nanojuris.errors import (
     AccessControlRequiredError,
     RateLimitDetectedError,
     SourceUnavailableError,
+    UnsupportedQueryError,
 )
 from nanojuris.models import (
     AccessStatus,
@@ -66,6 +67,11 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
         return str(getattr(self.config, self.config_url_attr))
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
+        if query.page != 1:
+            raise UnsupportedQueryError(
+                f"{self.source_label} ainda nao possui paginacao remota comprovada; "
+                "use page=1 ou aguarde a promocao do contrato de paginação."
+            )
         endpoint = "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados"
         payload = _build_payload(query)
         html, source_url = self._request_text("POST", endpoint, data=payload)
@@ -102,6 +108,12 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
             page_size=query.page_size,
             results=limited,
             source_trace=trace,
+            pagination_mode="unknown",
+            is_complete=False,
+            completeness_reason=(
+                "A rota observada retorna a primeira pagina, mas o contrato de paginação "
+                "remota ainda não foi comprovado."
+            ),
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -202,6 +214,10 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
                 ),
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,

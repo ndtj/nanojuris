@@ -126,6 +126,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
 
 def test_create_server_data_tools_delegate_to_tool_layer(monkeypatch):
     _install_fake_fastmcp(monkeypatch)
+    monkeypatch.setenv("NANOJURIS_STORE_ROOT", ".nanojuris-test-stores")
     calls = []
 
     def recorder(name):

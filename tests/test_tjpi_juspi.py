@@ -168,7 +168,7 @@ def test_tjpi_results_canonicalize_as_decisions():
     assert records[0].court == "TJPI"
     assert records[0].case_number == "0804974-54.2024.8.18.0026"
     assert records[0].decision_type == "decisao_terminativa"
-    assert records[0].publication_date == "06/08/2026"
+    assert records[0].publication_date == "2026-08-06"
 
 
 def test_get_document_rejects_invalid_public_id():

@@ -133,3 +133,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 3. Testar a rota documental por processo separadamente da busca textual.
 4. Criar fixtures, parser e testes de contrato.
 5. Promover somente apos resposta juridica reproduzida por HTTP limpo.
+## Dados Canonicos E Limites
+
+A pesquisa textual deve mapear, quando publicados, processo, classe, orgao, relator, data, ementa, tipo documental, objeto, link de detalhe e inteiro teor. A consulta de acordao por processo deve ser um caminho separado, preservando relatorio, voto e ementa como documentos distintos quando a fonte os oferecer. Nenhum schema de resposta foi reproduzido no timeout atual.
+
+## MCP
+
+O MCP deve manter a busca textual fora da federacao e pode listar TRF3 como superficie pendente. CJF, TNU e Sumulas devem possuir fontes separadas. O timeout nao pode ser apresentado ao usuario como zero resultados.

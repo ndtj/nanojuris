@@ -210,7 +210,7 @@ def test_provider_get_document_returns_canonical_document():
     assert document.text is not None
     assert "Homicidio qualificado" in document.text
     assert document.sha256 is not None
-    assert document.byte_size == len(document.text.encode("utf-8"))
+    assert document.byte_size == document.raw_metadata["raw_content_bytes"]
     assert document.extraction_trace is not None
     assert document.extraction_trace.metadata["cd_acordao"] == "20787558"
     assert document.raw_metadata["cd_foro"] == "0"

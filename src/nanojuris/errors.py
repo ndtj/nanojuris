@@ -29,3 +29,19 @@ class ParserContractChangedError(NanoJurisError):
 
 class UnsupportedProviderError(NanoJurisError):
     """Raised when a provider name is unknown."""
+
+
+class InvalidQueryError(NanoJurisError):
+    """Raised when a public query is invalid or contains unknown filters."""
+
+
+class QueryRejectedError(InvalidQueryError):
+    """Raised when a source rejects an otherwise well-formed query payload."""
+
+
+class UnsupportedQueryError(NanoJurisError):
+    """Raised when a valid query uses an operation a source cannot guarantee."""
+
+
+class InternalProviderError(NanoJurisError):
+    """Raised when a provider fails because of an unexpected programming error."""

@@ -4,6 +4,11 @@ NanoJuris passa a seguir uma estrategia extraction-first: busca, aquisicao,
 parsing, normalizacao, persistencia e exposicao via MCP. A camada de
 interpretacao juridica fica fora do escopo do core.
 
+O pacote publicado atualmente e `0.2.0`. As secoes abaixo registram a
+evolucao historica e nao devem ser lidas como uma lista de componentes ainda
+ausentes: varios itens de 0.3 a 0.7 ja estao implementados no codigo atual.
+Para o estado verificavel, consulte os contratos de provider, o CI e os testes.
+
 A validacao pratica por persona e caso de uso esta em
 [use-case-validation-matrix.md](use-case-validation-matrix.md).
 O mapa de cobertura nacional e oportunidades de providers esta em

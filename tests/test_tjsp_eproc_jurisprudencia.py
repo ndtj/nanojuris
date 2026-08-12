@@ -7,7 +7,11 @@ import requests
 
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import AccessControlRequiredError, ParserContractChangedError
+from nanojuris.errors import (
+    AccessControlRequiredError,
+    ParserContractChangedError,
+    UnsupportedQueryError,
+)
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjsp_eproc_jurisprudencia import (
     TjspEprocJurisprudenciaProvider,
@@ -15,6 +19,13 @@ from nanojuris.providers.tjsp_eproc_jurisprudencia import (
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
+
+
+def test_tjsp_eproc_rejects_unproven_remote_pagination():
+    provider = TjspEprocJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+
+    with pytest.raises(UnsupportedQueryError, match="paginacao remota comprovada"):
+        provider.search(JurisprudenceQuery(text="teste", page=2))
 
 
 class FakeResponse:
@@ -158,7 +169,7 @@ def test_eproc_jurisprudencia_canonicalizes_as_decision():
     assert records[0].court == "TJSP"
     assert records[0].case_number == "4002141-42.2025.8.26.0132"
     assert records[0].decision_type == "sentenca"
-    assert records[0].publication_date == "22/07/2026"
+    assert records[0].publication_date == "2026-07-22"
 
 
 def test_provider_get_decisions_downloads_public_full_text():

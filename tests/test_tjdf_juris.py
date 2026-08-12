@@ -143,8 +143,8 @@ def test_search_page_maps_to_canonical_decision():
     assert record.case_class == "Segredo de Justica"
     assert record.rapporteur == "SANDRA REVES"
     assert record.judging_body == "7 Turma Civel"
-    assert record.judgment_date == "04/09/2024"
-    assert record.publication_date == "16/09/2024"
+    assert record.judgment_date == "2024-09-04"
+    assert record.publication_date == "2024-09-16"
 
 
 def test_parse_tjdf_detail_accepts_fallback_document_id():

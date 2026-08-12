@@ -141,7 +141,7 @@ def audit() -> list[dict[str, Any]]:
 
 
 def render(rows: list[dict[str, Any]]) -> str:
-    today = "2026-08-11"
+    today = "2026-08-12"
     readiness = Counter(row["readiness"] for row in rows)
     statuses = Counter(row["status"] for row in rows)
     structurally_complete = sum(not row["missing_sections"] for row in rows)

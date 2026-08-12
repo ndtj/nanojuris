@@ -30,6 +30,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
@@ -183,9 +184,15 @@ class TjpiJuspiProvider(JurisprudenceProvider):
                 "GET /jurisprudences/<id>/public",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            pagination_mode="page",
+            completeness_contract="reported_total_and_page_window",
             supported_filters=["text", "number"],
             limitations=[
                 "Contrato HTML server-side sem API JSON publica observada.",
@@ -273,6 +280,12 @@ def parse_tjpi_results(
     total, start, end = _parse_total(soup)
     cards = soup.select("div.callout")
     if not cards:
+        complete, completeness_reason = page_completeness(
+            reported_total=total,
+            start=start,
+            returned=0,
+            total_is_authoritative=total > 0,
+        )
         return SearchPage(
             source="tjpi_juspi",
             total=total,
@@ -282,6 +295,9 @@ def parse_tjpi_results(
             page_size=query.page_size,
             results=[],
             source_trace=trace,
+            pagination_mode="page",
+            is_complete=complete,
+            completeness_reason=completeness_reason,
         )
 
     results: list[JurisprudenceResult] = []
@@ -294,6 +310,12 @@ def parse_tjpi_results(
         raise ParserContractChangedError("TJPI/JusPI parser found total results but no cards")
 
     limited_results = results[: query.page_size]
+    complete, completeness_reason = page_completeness(
+        reported_total=total or None,
+        start=start or (1 if limited_results else 0),
+        returned=len(limited_results),
+        total_is_authoritative=total > 0,
+    )
     return SearchPage(
         source="tjpi_juspi",
         total=total or len(results),
@@ -303,6 +325,9 @@ def parse_tjpi_results(
         page_size=query.page_size,
         results=limited_results,
         source_trace=trace,
+        pagination_mode="page",
+        is_complete=complete,
+        completeness_reason=completeness_reason,
     )
 
 

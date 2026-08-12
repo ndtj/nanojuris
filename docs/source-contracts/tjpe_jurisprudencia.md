@@ -115,3 +115,61 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [TJPE - TJPE e Turmas Recursais](https://portal.tjpe.jus.br/web/jurisprudencia/tjpe-e-turmas-recursais)
 - [Aplicacao oficial de Consulta Jurisprudencia](https://consultajurisprudencia.app.tjpe.jus.br/)
 - [Pesquisa institucional de jurisprudencia do TJPE](https://portal.tjpe.jus.br/web/jurisprudencia/busca)
+
+## Aprofundamento Do Contrato - 2026-08-12
+
+### Catalogos E Busca
+
+Os catalogos observados sao `classes`, `assuntos`, `relatores` e
+`unidades-judiciais`. Devem ser consultados antes de enviar filtros por codigo.
+O endpoint de processo e auxiliar e nao deve ser confundido com a busca de
+jurisprudencia.
+
+| Filtro REST | Forma | Evidencia |
+| --- | --- | --- |
+| `pesquisaLivre.contains` | texto livre | bundle/rota observada; algumas combinacoes retornaram 500 |
+| `npuSemFormatacao.equals` | numero CNJ sem formatacao | observado |
+| `numAntigo.equals` | numero antigo | observado |
+| `dataJulgamento.greaterThanOrEqual` | data | observado |
+| `dataJulgamento.lessThanOrEqual` | data | observado |
+| `relator.in` | lista de ids | catalogo |
+| `assuntoCNJ.in` | lista de ids | catalogo |
+| `classeCNJ.in` | lista de ids | catalogo |
+| `orgaoJulgador.in` | lista de ids | catalogo |
+| `meioTramitacao.in` | lista/codigo | observado |
+| `tipoSentenca.in` | lista/codigo | observado |
+| `page`, `size` | paginacao | observado, zero-based |
+| `sort=campo,direcao` | ordenacao Spring Data | observado |
+
+O adapter deve preservar `X-Total-Count` e links HTTP de pagina, em vez de
+calcular total pela quantidade retornada.
+
+### Resposta E Detalhe
+
+Cada item pode conter `npu`, versao sem formatacao, classe, relator, orgao,
+datas, `textoEmenta`, `textoAcordao`, `textoDecisao`, `chave` e codigo de
+processo. A rota auxiliar observada e:
+
+```text
+GET /api/v1/processo/{codigoProcesso}/{npuSemFormatacao}
+```
+
+Ela deve permanecer separada da busca principal e so ser chamada quando o
+identificador for proveniente da fonte. Inteiro teor so deve ser afirmado para
+texto substantivo presente no campo; `null`, pacote vazio ou mensagem de
+indisponibilidade sao ausencia de documento.
+
+### Erros, TLS E MCP
+
+Erro de certificado do ambiente nao pode ser resolvido com `verify=False` no
+provider. A promocao exige cadeia TLS normal. HTTP 400/422 e filtro invalido;
+500 e erro de combinacao/contrato; 429 e limite; 5xx/timeout e indisponivel.
+O MCP deve informar filtros enviados, total, campos nulos, texto disponivel e
+trace, sem apresentar a fonte como consulta processual geral.
+
+## Proximos Passos
+
+1. Fechar fixtures JSON de sucesso, ementa, acordao, vazio e erro.
+2. Confirmar datas, ids multivalorados e detalhe em sessao TLS normal.
+3. Implementar parser offline e teste de paginacao pelo `X-Total-Count`.
+4. So depois criar o provider runtime e habilita-lo no MCP.

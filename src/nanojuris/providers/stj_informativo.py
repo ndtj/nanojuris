@@ -27,6 +27,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 
@@ -110,9 +111,15 @@ class StjInformativoProvider(JurisprudenceProvider):
             ],
             endpoints=["GET /jurisprudencia/externo/informativo/"],
             supports_full_text=False,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            pagination_mode="local_window",
+            completeness_contract="observed_window_only",
             supported_filters=["text", "number"],
             limitations=[
                 "Retorna notas curadas do Informativo STJ, nao a base integral SCON.",
@@ -188,6 +195,9 @@ def parse_stj_informativo_results(
                 page_size=query.page_size,
                 results=[],
                 source_trace=trace,
+                pagination_mode="local_window",
+                is_complete=True,
+                completeness_reason="A fonte informou explicitamente resultado vazio.",
             )
         raise ParserContractChangedError("STJ Informativo result blocks not found")
 
@@ -200,6 +210,12 @@ def parse_stj_informativo_results(
     start_index = max(query.page - 1, 0) * query.page_size
     page_results = matches[start_index : start_index + query.page_size]
     start = start_index + 1 if page_results else 0
+    complete, completeness_reason = page_completeness(
+        reported_total=len(matches),
+        start=start,
+        returned=len(page_results),
+        total_is_authoritative=True,
+    )
     return SearchPage(
         source="stj_informativo",
         total=total if len(matches) == len(results) else len(matches),
@@ -209,6 +225,13 @@ def parse_stj_informativo_results(
         page_size=query.page_size,
         results=page_results,
         source_trace=trace,
+        pagination_mode="local_window",
+        is_complete=complete,
+        completeness_reason=(
+            "A página foi recortada localmente após a fonte retornar o conjunto observado."
+            if complete is not False
+            else completeness_reason
+        ),
     )
 
 

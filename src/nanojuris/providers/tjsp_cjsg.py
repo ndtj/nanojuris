@@ -126,8 +126,16 @@ class TjspCjsgProvider(JurisprudenceProvider):
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         cd_acordao, cd_foro = self._parse_precedent_id(precedent_id)
         endpoint = f"/getArquivo.do?cdAcordao={cd_acordao}&cdForo={cd_foro}"
-        content = self._request_text("GET", endpoint)
-        document_text, extraction_metadata = extract_cjsg_document_text(content)
+        response = self._request_response("GET", endpoint)
+        raw_content = _response_bytes(response)
+        content_type = response.headers.get("Content-Type", "")
+        is_pdf = raw_content.startswith(b"%PDF") or "application/pdf" in content_type.lower()
+        extracted_content_type = "application/pdf" if is_pdf else "text/plain"
+        if is_pdf:
+            document_text, extraction_metadata = extract_cjsg_document_text_bytes(raw_content)
+        else:
+            document_text = decode_cjsg_response_text(response)
+            document_text, extraction_metadata = extract_cjsg_document_text(document_text)
         trace = SourceTrace(
             provider=self.name,
             endpoint="/getArquivo.do",
@@ -136,6 +144,12 @@ class TjspCjsgProvider(JurisprudenceProvider):
             limitations=[
                 "O retorno pode ser HTML, PDF ou uma tela de controle de acesso da propria fonte.",
             ],
+            http_status=int(getattr(response, "status_code", 0) or 0) or None,
+            final_url=str(getattr(response, "url", None) or "") or None,
+            content_type=content_type or None,
+            content_sha256=hashlib.sha256(raw_content).hexdigest(),
+            response_bytes=len(raw_content),
+            retrieval_status="ok" if 200 <= response.status_code < 300 else "http_error",
         )
         return DecisionBundle(
             precedent_id=precedent_id,
@@ -143,16 +157,17 @@ class TjspCjsgProvider(JurisprudenceProvider):
             texts=[
                 {
                     "content": document_text,
-                    "content_type": "text/plain",
-                    "source_content_type": "text/html",
+                    "content_type": extracted_content_type,
+                    "source_content_type": content_type or "text/html",
                 }
             ],
             source_trace=trace,
             raw={
                 "cd_acordao": cd_acordao,
                 "cd_foro": cd_foro,
-                "raw_content_sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
-                "raw_content_bytes": len(content.encode("utf-8")),
+                "raw_content_sha256": hashlib.sha256(raw_content).hexdigest(),
+                "raw_content_bytes": len(raw_content),
+                "raw_content_type": content_type or "text/html",
                 **extraction_metadata,
             },
         )
@@ -204,6 +219,10 @@ class TjspCjsgProvider(JurisprudenceProvider):
                 "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
@@ -265,11 +284,24 @@ class TjspCjsgProvider(JurisprudenceProvider):
         }
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> str:
-        self._respect_rate_limit()
-        url = urljoin(self.config.tjsp_cjsg_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
+        }
+        try:
+            response = self._request_response(method, path, headers=headers, **kwargs)
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"TJSP/CJSG request failed: {exc}") from exc
+
+        return decode_cjsg_response_text(response)
+
+    def _request_response(self, method: str, path: str, **kwargs: Any) -> requests.Response:
+        self._respect_rate_limit()
+        url = urljoin(self.config.tjsp_cjsg_url.rstrip("/") + "/", path.lstrip("/"))
+        headers = {
+            "Accept": "text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8",
+            "User-Agent": self.config.user_agent,
+            **kwargs.pop("headers", {}),
         }
         try:
             response = self.session.request(
@@ -277,6 +309,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
                 url,
                 headers=headers,
                 timeout=self.config.timeout,
+                verify=self.config.verify_ssl,
                 **kwargs,
             )
         except requests.RequestException as exc:
@@ -284,6 +317,9 @@ class TjspCjsgProvider(JurisprudenceProvider):
 
         if response.status_code == 429:
             raise RateLimitDetectedError("TJSP/CJSG returned HTTP 429")
+        content_type = response.headers.get("Content-Type", "")
+        if "pdf" in content_type.lower() or _response_bytes(response).startswith(b"%PDF"):
+            return response
         text = decode_cjsg_response_text(response)
         diagnostic = diagnose_cjsg_access(text)
         if response.status_code == 404 and diagnostic.has_empty_session:
@@ -301,7 +337,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
                 "TJSP/CJSG requires captcha or another access-control step "
                 f"({diagnostic.summary()})"
             )
-        return text
+        return response
 
     def _respect_rate_limit(self) -> None:
         interval = self.config.rate_limit_interval
@@ -494,9 +530,17 @@ def cjsg_decision_bundle_to_document(
 
     content = str(bundle.texts[0].get("content") if bundle.texts else "")
     content_type = str(bundle.texts[0].get("content_type") if bundle.texts else "text/plain")
-    content_bytes = content.encode("utf-8")
     metadata = dict(bundle.raw or {})
     warnings = list(metadata.get("warnings") or [])
+    raw_content_sha256 = str(metadata.get("raw_content_sha256") or "") or None
+    raw_content_bytes = metadata.get("raw_content_bytes")
+    content_sha256 = raw_content_sha256
+    content_byte_size = int(raw_content_bytes) if raw_content_bytes is not None else None
+    if raw_content_sha256 is None or content_byte_size is None:
+        warnings.append(
+            "A resposta bruta nao foi preservada; hash e tamanho do documento original "
+            "nao podem ser afirmados com integridade binaria."
+        )
     access_status = _metadata_access_status(metadata)
     status = (
         ExtractionStatus.COMPLETE if content.strip() and not warnings else ExtractionStatus.PARTIAL
@@ -509,8 +553,8 @@ def cjsg_decision_bundle_to_document(
         title=str(metadata.get("document_title") or title),
         text=content,
         url=bundle.source_trace.source_url if bundle.source_trace else None,
-        sha256=hashlib.sha256(content_bytes).hexdigest(),
-        byte_size=len(content_bytes),
+        sha256=content_sha256,
+        byte_size=content_byte_size,
         retrieved_at=bundle.source_trace.retrieved_at if bundle.source_trace else None,
         access_status=access_status,
         source_trace=bundle.source_trace,
@@ -519,8 +563,8 @@ def cjsg_decision_bundle_to_document(
             parser_version="1",
             status=status,
             access_status=access_status,
-            content_sha256=hashlib.sha256(content_bytes).hexdigest(),
-            content_bytes=len(content_bytes),
+            content_sha256=content_sha256,
+            content_bytes=content_byte_size,
             warnings=warnings,
             metadata=metadata,
         ),
@@ -538,6 +582,15 @@ def _metadata_access_status(metadata: dict[str, Any]) -> AccessStatus:
         except ValueError:
             return AccessStatus.PARTIAL
     return AccessStatus.PUBLIC
+
+
+def _response_bytes(response: requests.Response) -> bytes:
+    """Read raw bytes while remaining compatible with lightweight test responses."""
+
+    content = getattr(response, "content", None)
+    if content is not None:
+        return bytes(content)
+    return str(getattr(response, "text", "")).encode("utf-8")
 
 
 def _parse_pagination(text: str, *, soup: BeautifulSoup | None = None) -> tuple[int, int, int]:
@@ -696,6 +749,14 @@ def extract_cjsg_document_text(html: str) -> tuple[str, dict[str, Any]]:
         "text_characters": len(text),
         "warnings": warnings,
     }
+
+
+def extract_cjsg_document_text_bytes(content: bytes) -> tuple[str, dict[str, Any]]:
+    """Extract CJSG content without replacing the bytes used for auditing."""
+
+    if content.startswith(b"%PDF"):
+        return extract_cjsg_document_text("%PDF-raw-document")
+    return extract_cjsg_document_text(content.decode("utf-8", errors="replace"))
 
 
 def _document_title(soup: BeautifulSoup) -> str:

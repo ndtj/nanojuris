@@ -2,14 +2,21 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable
+from concurrent.futures import ThreadPoolExecutor, wait
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import UnsupportedProviderError
+from nanojuris.errors import (
+    InternalProviderError,
+    InvalidQueryError,
+    NanoJurisError,
+    UnsupportedProviderError,
+)
 from nanojuris.models import (
     CanonicalDecision,
     CanonicalDocument,
@@ -77,6 +84,34 @@ UnifiedSearchRecord = CanonicalSearchRecord | JurisprudenceResult
 class NanoJurisClient:
     """Facade over public jurisprudence providers."""
 
+    _KNOWN_FILTERS = {
+        "all_words",
+        "any_words",
+        "without_words",
+        "exact_phrase",
+        "updated_from",
+        "updated_to",
+        "published_from",
+        "published_to",
+        "include_cancelled",
+        "order_by",
+        "number",
+        "party_name",
+        "parte",
+        "party_document",
+        "lawyer_name",
+        "advogado",
+        "oab",
+        "precatory_number",
+        "police_document",
+        "cda",
+        "source_origin",
+        "origin",
+        "source_origins",
+        "origins",
+        "fetch_details",
+    }
+
     def __init__(
         self,
         config: NanoJurisConfig | None = None,
@@ -138,34 +173,42 @@ class NanoJurisClient:
     ) -> SearchPage:
         """Search one provider and return a normalized page."""
 
-        query = JurisprudenceQuery(
-            text=text,
-            courts=courts or [],
-            types=types or [],
-            page=page,
-            page_size=page_size,
-            all_words=str(filters.get("all_words") or ""),
-            any_words=str(filters.get("any_words") or ""),
-            without_words=str(filters.get("without_words") or ""),
-            exact_phrase=str(filters.get("exact_phrase") or ""),
-            updated_from=str(filters.get("updated_from") or ""),
-            updated_to=str(filters.get("updated_to") or ""),
-            published_from=str(filters.get("published_from") or ""),
-            published_to=str(filters.get("published_to") or ""),
-            include_cancelled=bool(filters.get("include_cancelled") or False),
-            order_by=str(filters.get("order_by") or "Text"),
-            number=str(filters.get("number") or ""),
-            party_name=str(filters.get("party_name") or filters.get("parte") or ""),
-            party_document=str(filters.get("party_document") or ""),
-            lawyer_name=str(filters.get("lawyer_name") or filters.get("advogado") or ""),
-            oab=str(filters.get("oab") or ""),
-            precatory_number=str(filters.get("precatory_number") or ""),
-            police_document=str(filters.get("police_document") or ""),
-            cda=str(filters.get("cda") or ""),
-            source_origin=str(filters.get("source_origin") or filters.get("origin") or ""),
-            source_origins=list(filters.get("source_origins") or filters.get("origins") or []),
-            fetch_details=bool(filters.get("fetch_details") or False),
-        )
+        unknown_filters = set(filters).difference(self._KNOWN_FILTERS)
+        if unknown_filters:
+            names = ", ".join(sorted(unknown_filters))
+            raise InvalidQueryError(f"filtro(s) desconhecido(s): {names}")
+
+        try:
+            query = JurisprudenceQuery(
+                text=text,
+                courts=courts or [],
+                types=types or [],
+                page=page,
+                page_size=page_size,
+                all_words=str(filters.get("all_words") or ""),
+                any_words=str(filters.get("any_words") or ""),
+                without_words=str(filters.get("without_words") or ""),
+                exact_phrase=str(filters.get("exact_phrase") or ""),
+                updated_from=str(filters.get("updated_from") or ""),
+                updated_to=str(filters.get("updated_to") or ""),
+                published_from=str(filters.get("published_from") or ""),
+                published_to=str(filters.get("published_to") or ""),
+                include_cancelled=bool(filters.get("include_cancelled") or False),
+                order_by=str(filters.get("order_by") or "Text"),
+                number=str(filters.get("number") or ""),
+                party_name=str(filters.get("party_name") or filters.get("parte") or ""),
+                party_document=str(filters.get("party_document") or ""),
+                lawyer_name=str(filters.get("lawyer_name") or filters.get("advogado") or ""),
+                oab=str(filters.get("oab") or ""),
+                precatory_number=str(filters.get("precatory_number") or ""),
+                police_document=str(filters.get("police_document") or ""),
+                cda=str(filters.get("cda") or ""),
+                source_origin=str(filters.get("source_origin") or filters.get("origin") or ""),
+                source_origins=list(filters.get("source_origins") or filters.get("origins") or []),
+                fetch_details=bool(filters.get("fetch_details") or False),
+            )
+        except ValueError as exc:
+            raise InvalidQueryError(str(exc)) from exc
         return self._provider(source).search(query)
 
     def search_canonical(
@@ -207,6 +250,22 @@ class NanoJurisClient:
     ) -> dict[str, Any]:
         """Search multiple jurisprudence sources and return one aggregated payload."""
 
+        unknown_filters = set(filters).difference(self._KNOWN_FILTERS)
+        if unknown_filters:
+            names = ", ".join(sorted(unknown_filters))
+            raise InvalidQueryError(f"filtro(s) desconhecido(s): {names}")
+        try:
+            JurisprudenceQuery(
+                page=page,
+                page_size=page_size,
+                updated_from=str(filters.get("updated_from") or ""),
+                updated_to=str(filters.get("updated_to") or ""),
+                published_from=str(filters.get("published_from") or ""),
+                published_to=str(filters.get("published_to") or ""),
+            )
+        except ValueError as exc:
+            raise InvalidQueryError(str(exc)) from exc
+
         selected_sources = list(sources) if sources is not None else self._default_unified_sources()
         capabilities = {item.source: item for item in self.list_sources()}
         routing = route_unified_sources(
@@ -226,35 +285,103 @@ class NanoJurisClient:
         )
         results: list[UnifiedSearchRecord] = []
         errors: list[dict[str, str]] = []
+        source_totals: dict[str, int] = {}
+        source_completeness: dict[str, dict[str, Any]] = {}
+        source_window = min(100, max(page * page_size, page_size))
+
+        def fetch_source(
+            source: str,
+        ) -> tuple[list[UnifiedSearchRecord], int, SearchPage]:
+            if canonical:
+                page_result = self.search(
+                    text,
+                    source=source,
+                    courts=courts,
+                    types=types,
+                    page=1,
+                    page_size=source_window,
+                    **filters,
+                )
+                records: list[UnifiedSearchRecord] = list(search_page_to_canonical(page_result))
+                return records, page_result.total, page_result
+            page_result = self.search(
+                text,
+                source=source,
+                courts=courts,
+                types=types,
+                page=1,
+                page_size=source_window,
+                **filters,
+            )
+            records = list(page_result.results)
+            return records, page_result.total, page_result
+
+        executor = ThreadPoolExecutor(
+            max_workers=max(1, min(self.config.unified_max_workers, len(routing.searched)))
+        )
+        futures = {source: executor.submit(fetch_source, source) for source in routing.searched}
+        done, pending = wait(futures.values(), timeout=self.config.unified_timeout)
         for source in routing.searched:
+            future = futures[source]
+            if future in pending:
+                error = TimeoutError(
+                    f"tempo limite global da busca unificada excedido para {source}"
+                )
+                if not continue_on_error:
+                    executor.shutdown(wait=False, cancel_futures=True)
+                    raise error
+                errors.append(_source_error(source, error))
+                continue
             try:
-                if canonical:
-                    results.extend(
-                        self.search_canonical(
-                            text,
-                            source=source,
-                            courts=courts,
-                            types=types,
-                            page=page,
-                            page_size=page_size,
-                            **filters,
-                        )
-                    )
-                else:
-                    page_result = self.search(
-                        text,
-                        source=source,
-                        courts=courts,
-                        types=types,
-                        page=page,
-                        page_size=page_size,
-                        **filters,
-                    )
-                    results.extend(page_result.results)
+                source_results, total, page_result = future.result()
+                source_totals[source] = total
+                source_completeness[source] = {
+                    "returned": len(page_result.results),
+                    "reported_total": total,
+                    "pagination_mode": page_result.pagination_mode,
+                    "complete": page_result.is_complete,
+                    "reason": page_result.completeness_reason,
+                }
+                results.extend(source_results)
             except Exception as exc:
                 if not continue_on_error:
+                    executor.shutdown(wait=False, cancel_futures=True)
                     raise
+                if not isinstance(exc, NanoJurisError) and _classify_error(exc).error_type not in {
+                    "NetworkConfigurationError",
+                    "SslVerificationError",
+                }:
+                    exc = InternalProviderError(
+                        f"provider {source} failed with an unexpected internal error"
+                    )
                 errors.append(_source_error(source, exc))
+                source_completeness[source] = {
+                    "returned": 0,
+                    "reported_total": None,
+                    "pagination_mode": "failed",
+                    "complete": False,
+                    "reason": "A fonte nao concluiu a consulta.",
+                }
+        executor.shutdown(wait=False, cancel_futures=True)
+
+        results = _rank_and_deduplicate(results, text=text)
+        offset = (page - 1) * page_size
+        paged_results = results[offset : offset + page_size]
+        sources_complete = [
+            source for source, status in source_completeness.items() if status["complete"] is True
+        ]
+        sources_partial = [
+            source for source, status in source_completeness.items() if status["complete"] is False
+        ]
+        sources_unknown = [
+            source for source, status in source_completeness.items() if status["complete"] is None
+        ]
+        collection_complete = (
+            bool(routing.searched)
+            and not routing.skipped
+            and not errors
+            and not (sources_partial or sources_unknown)
+        )
         return {
             "sources": selected_sources,
             "searched_sources": routing.searched,
@@ -270,8 +397,23 @@ class NanoJurisClient:
             "page": page,
             "page_size": page_size,
             "canonical": canonical,
-            "total_returned": len(results),
-            "results": results,
+            "total_available": len(results),
+            "total_returned": len(paged_results),
+            "deduplicated_total": len(results),
+            "source_totals": source_totals,
+            "source_completeness": source_completeness,
+            "sources_complete": sources_complete,
+            "sources_partial": sources_partial,
+            "sources_unknown": sources_unknown,
+            "collection_complete": collection_complete,
+            "completeness_reason": (
+                "Todas as fontes declararam a janela coletada como completa."
+                if collection_complete
+                else "A resposta representa uma coleta parcial, desconhecida ou com falhas; "
+                "consulte source_completeness e errors."
+            ),
+            "federated": True,
+            "results": paged_results,
             "errors": errors,
         }
 
@@ -408,7 +550,8 @@ class NanoJurisClient:
         return [
             capability.source
             for capability in self.list_sources()
-            if capability.category in JURISPRUDENCE_CATEGORIES and capability.supports_mcp
+            if capability.category in JURISPRUDENCE_CATEGORIES
+            and capability.supports_unified_search
         ]
 
     def _provider(self, source: str) -> JurisprudenceProvider:
@@ -419,6 +562,39 @@ class NanoJurisClient:
             raise UnsupportedProviderError(
                 f"Provider {source!r} is not registered. Available: {available}"
             ) from exc
+
+
+def _rank_and_deduplicate(
+    results: list[UnifiedSearchRecord],
+    *,
+    text: str,
+) -> list[UnifiedSearchRecord]:
+    """Create a deterministic federated order and remove repeated legal records."""
+
+    unique: dict[str, tuple[int, UnifiedSearchRecord]] = {}
+    tokens = [token for token in re.findall(r"\w+", text.lower()) if len(token) > 2]
+    for record in results:
+        identity = _record_identity(record)
+        haystack = " ".join(
+            str(getattr(record, field, "") or "")
+            for field in ("question", "thesis", "summary", "case_number", "number")
+        ).lower()
+        score = sum(haystack.count(token) for token in tokens)
+        previous = unique.get(identity)
+        if previous is None or score > previous[0]:
+            unique[identity] = (score, record)
+    ranked = list(unique.values())
+    ranked.sort(key=lambda item: (-item[0], item[1].source, item[1].id))
+    return [record for _, record in ranked]
+
+
+def _record_identity(record: UnifiedSearchRecord) -> str:
+    case_number = getattr(record, "case_number", None) or getattr(record, "number", None)
+    if case_number:
+        return f"case:{re.sub(r'[^0-9a-z]', '', str(case_number).lower())}"
+    if isinstance(record, CanonicalPrecedent):
+        return f"precedent:{record.court}:{record.precedent_type}:{record.number or record.id}"
+    return f"source:{record.source}:{record.id}"
 
 
 @dataclass(frozen=True, slots=True)

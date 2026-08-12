@@ -100,3 +100,43 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [ ] Gravar fixture sanitizada de busca simples em navegador ou requests limpo.
 - [ ] Criar parser offline.
 - [ ] Documentar parametros obrigatorios.
+
+## Aprofundamento Do Contrato - 2026-08-12
+
+### Filtros Publicos Confirmados
+
+| Campo | Forma observada | Observacao |
+| --- | --- | --- |
+| termo livre | texto | aceita operadores `E`, `OU`, `NAO` e frase entre aspas |
+| numero SISCOM/PROJUDI | texto | interface indica 13 digitos SISCOM ou 20 PROJUDI |
+| relator | selecao | lista separada por segundo grau, turma recursal e aposentados/ex-convocados |
+| data inicial/final | data | formato de envio ainda depende do formulario |
+| procedimento | select | valores devem ser lidos do HTML |
+| orgao julgador | selecao | inclui turmas, camaras, pleno, presidencia e conselho |
+| ementa/indexacao | texto | campo independente do termo livre |
+| especie de recurso | select | catalogo e valores precisam de fixture |
+
+O portal tambem oferece links separados para Informativos, Jurisprudencia
+Tematica, Sumulas, Enunciados, Legislacao e Precedentes Obrigatorios. Eles
+devem ser tratados como superficies documentais distintas, nao como resultados
+da busca geral.
+
+### Transporte E Estado
+
+O fluxo depende de `GET /index.xhtml`, cookies de sessao publica e um
+`javax.faces.ViewState` obtido na mesma sessao, seguido de POST de formulario.
+Os nomes `menuinicial:j_idt28` e `menuinicial:j_idt30` foram observados para o
+termo e comando em uma versao do portal, mas sao ids de apresentacao e podem
+mudar. O parser deve localizar labels/names atuais na fixture, nao fixar apenas
+indices JSF.
+
+Paginacao, total, links de detalhe e rota de inteiro teor ainda nao possuem
+contrato fechado. HTML 200 sem sinais de resultado e HTML de estado expirado
+nao devem ser interpretados como vazio sem verificar a mensagem da fonte.
+
+### MCP E Gate De Promocao
+
+O MCP deve informar a data da sessao, filtros efetivos, pagina e se o estado
+JSF foi renovado. Deve pular a fonte em timeout, ViewState expirado ou markup
+sem sinais juridicos. Exigir fixtures de formulario, sucesso, vazio, erro de
+estado, pagina seguinte e detalhe antes do provider runtime.

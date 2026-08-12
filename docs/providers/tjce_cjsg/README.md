@@ -101,3 +101,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
    seletores e os nomes de campo do TJCE.
 5. Promover para `candidate_ready` apenas quando o resultado decisorio for
    reproduzido por HTTP limpo.
+## Dados Retornados E Mapeamento
+
+A pagina institucional sugere processo, classe, assunto, orgao julgador, comarca, relator, juiz prolator, registro, recurso, datas, tipo de publicacao, ementa e inteiro teor. Nenhum desses campos foi validado em resposta de busca nesta janela; portanto devem permanecer como campos esperados, nao como dados disponiveis. Quando houver fixture, preservar o HTML e o PDF/URL original.
+
+## Estados De Dados
+
+Sem replay da submissao, nao e possivel distinguir vazio, captcha, sessao expirada, limite ou erro de contrato. O parser futuro deve classificar cada estado pelo texto e status HTTP, nunca converter reset TLS em zero resultados.

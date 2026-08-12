@@ -41,3 +41,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 
 - [Formulario de espelho de acordao](https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do)
 - [Ajuda da pesquisa](https://www5.tjmg.jus.br/jurisprudencia/ajuda.do)
+## Dados E Filtros
+
+A fonte possui duas superficies distintas: pesquisa por numero CNJ e pesquisa por palavras/espelho de acordao. A ajuda/formulario indicam campos de numero, palavras, classe, orgao, relator, periodo e acesso ao inteiro teor, mas os names, payloads, paginacao e schema de resultado nao foram reproduzidos. A resposta 401/captcha nao deve ser usada para inferir campos retornados.
+
+## MCP
+
+O MCP deve classificar TJMG como blocked_control e nao tentar busca textual, resolver captcha ou reaproveitar tokens. Somente uma superficie oficial sem desafio ou uma fixture publica legitimamente obtida pode promover esta fonte.

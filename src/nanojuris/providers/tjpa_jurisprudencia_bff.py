@@ -26,6 +26,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 
@@ -154,8 +155,14 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "POST /bff/api/decisoes/pesquisar-por-classe-assunto",
             ],
             supports_full_text=False,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=True,
             supports_live_tests=True,
+            pagination_mode="page",
+            completeness_contract="reported_total_and_page_window",
             supported_filters=[
                 "text",
                 "types",
@@ -266,6 +273,12 @@ def parse_tjpa_search_response(
     total = _as_int(envelope.get("totalElements"), default=len(results))
     page = max(query.page, 1)
     start = ((page - 1) * page_size) + 1 if results else 0
+    complete, completeness_reason = page_completeness(
+        reported_total=total,
+        start=start,
+        returned=len(results),
+        total_is_authoritative="totalElements" in envelope,
+    )
     return SearchPage(
         source="tjpa_jurisprudencia_bff",
         total=total,
@@ -276,6 +289,9 @@ def parse_tjpa_search_response(
         results=results,
         aggregations={"facets": _as_list(envelope.get("facets"))},
         source_trace=trace,
+        pagination_mode="page",
+        is_complete=complete,
+        completeness_reason=completeness_reason,
     )
 
 

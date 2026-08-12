@@ -50,3 +50,21 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 
 - [Portal de jurisprudencia do TJRN](https://jurisprudencia.tjrn.jus.br/)
 - [Noticia institucional sobre a busca unificada](https://glaucialima.com/2019/11/18/nova-versao-do-sistema-de-consulta-de-jurisprudencia-esta-a-disposicao-dos-usuarios/)
+## Contrato E Dados
+
+Filtros institucionais confirmados: texto livre, ementa, classe processual, numero, grau, tipo colegiado/monocratico e origem PJe/SAJ. Metodo, names, payload, catalogos, pagina, ordenacao, total, identificador, ementa e inteiro teor continuam nao observados em resposta reproduzida.
+
+## MCP
+
+O MCP deve manter TJRN fora da federacao automatica enquanto o portal responder 403 ou faltar contrato. O provider futuro deve separar PJe e SAJ e preservar qualquer indicacao de fonte, grau e tipo documental.
+## Dados
+
+Filtros institucionais confirmados: texto livre, ementa, classe processual,
+numero, grau, tipo colegiado/monocratico e origem PJe/SAJ. Nao ha schema de
+resultado reproduzido; identificador, ementa, total, paginacao e documento
+permanecem pendentes.
+
+## Contrato
+
+O endpoint, metodo, payload, catalogos, pagina e ordenacao ainda nao foram
+confirmados. O 403 atual nao deve ser convertido em vazio.

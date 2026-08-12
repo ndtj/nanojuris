@@ -53,3 +53,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [Consulta de jurisprudencia do TJES](https://sistemas.tjes.jus.br/portaltj/Pesquisa.aspx)
 - [Busca legada TJES](https://aplicativos.tjes.jus.br/sistemaspublicos/consulta_jurisprudencia/cons_jurisp.cfm)
 - [Ementario trimestral oficial do TJES](https://www.tjes.jus.br/wp-content/uploads/Ementario_Trimestral_TJES_JAS_2024.pdf)
+## Contrato E Filtros Pendentes
+
+Os filtros documentados para a superficie legada sao justica/sistema, periodo e termo; a pagina indexada tambem sugere consulta por numero e resultado detalhado. Nomes de campos, metodo, paginacao, ordenacao e valores nao foram reproduzidos. O portal atual ASP.NET e a superficie ColdFusion legada devem ser tratados como contratos separados.
+
+## MCP
+
+O MCP deve manter a busca interativa fora do roteamento enquanto o portal atual estiver em timeout e a rota legada em 404. Pode oferecer futuramente o ementario PDF como fonte curada separada, com data, edicao e URL oficial.

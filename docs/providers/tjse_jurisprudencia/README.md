@@ -74,3 +74,20 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [Pagina de jurisprudencia judicial do TJSE](https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial)
 - [Pesquisa de jurisprudencia do TJSE](https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse)
 - [Regimento Interno do TJSE](https://www.tjse.jus.br/portal/arquivos/documentos/publicacoes/legislacao/tjse/novo_regimento_interno_tjse.pdf?v=18032024)
+## Contrato E Dados
+
+Filtros de interface confirmados: termo livre, numero do processo/CNJ, tipo acordao ou decisao monocratica, segundo grau ou turma recursal, relator, orgao, classe, periodo de distribuicao/julgamento e busca na ementa/voto. O POST, ViewState, sessao e tipo AC/SG foram observados, mas o payload de resultado, paginacao, total, detalhe e inteiro teor nao foram validados porque a protecao retornou Captcha invalido.
+
+## MCP
+
+O MCP deve manter TJSE fora da busca automatica e informar blocked_or_inconclusive. Nao simular Turnstile, nao armazenar token humano e nao transformar a resposta de captcha em busca vazia. Uma futura fixture deve comprovar resultado real, vazio e documento antes da promocao.
+## Dados
+
+Filtros confirmados: termo, processo/CNJ, acordao ou decisao monocratica,
+segundo grau ou turma recursal, relator, orgao, classe, periodo e ementa/voto.
+Nenhum schema decisorio foi validado porque a protecao respondeu Captcha invalido.
+
+## Contrato
+
+O POST JSF e ViewState foram observados, mas payload, pagina, total, detalhe e
+inteiro teor nao foram reproduzidos sem desafio.

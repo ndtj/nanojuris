@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Molero
     given-names: Luciano
-    affiliation: "NanoJuris"
-repository-code: "https://github.com/lucmolero/nanojuris"
+    affiliation: "Nucleo de Direito, Tecnologia e Jurimetria (NDTJ)"
+repository-code: "https://github.com/ndtj/nanojuris"
 license: MIT
 version: 0.2.0
 date-released: 2026-08-11

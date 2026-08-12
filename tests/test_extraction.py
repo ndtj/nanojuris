@@ -20,6 +20,8 @@ class FakeSession:
     def __init__(self, response: FakeResponse):
         self.response = response
         self.calls = []
+        self.trust_env = True
+        self.verify = True
 
     def request(self, method, url, **kwargs):
         self.calls.append({"method": method, "url": url, "kwargs": kwargs})
@@ -28,7 +30,15 @@ class FakeSession:
 
 def test_http_fetcher_returns_traced_raw_content():
     session = FakeSession(FakeResponse(b"<html>ok</html>"))
-    fetcher = HttpFetcher(NanoJurisConfig(timeout=3.0, user_agent="NanoJuris Test"), session)
+    fetcher = HttpFetcher(
+        NanoJurisConfig(
+            timeout=3.0,
+            user_agent="NanoJuris Test",
+            trust_env=False,
+            verify_ssl=False,
+        ),
+        session,
+    )
 
     content = fetcher.fetch(
         FetchRequest(
@@ -50,6 +60,9 @@ def test_http_fetcher_returns_traced_raw_content():
     assert session.calls[0]["method"] == "POST"
     assert session.calls[0]["kwargs"]["headers"]["User-Agent"] == "NanoJuris Test"
     assert session.calls[0]["kwargs"]["timeout"] == 3.0
+    assert session.calls[0]["kwargs"]["verify"] is False
+    assert session.trust_env is False
+    assert session.verify is False
 
 
 def test_extraction_primitives_are_public_api():
@@ -67,7 +80,7 @@ def test_http_fetcher_maps_access_status_from_status_code():
         FetchRequest(source="fake", url="https://example.test/restrito", endpoint="/restrito")
     )
 
-    assert content.access_status == AccessStatus.LOGIN_REQUIRED
+    assert content.access_status == AccessStatus.ACCESS_CONTROL_REQUIRED
 
 
 def test_parsed_content_includes_extraction_trace():

@@ -22,6 +22,14 @@ via MCP.
 
 ## Fila Recomendada
 
+### Novas descobertas priorizadas
+
+| Fonte | Status | Dossie | Decisao tecnica |
+| --- | --- | --- | --- |
+| STJ Dados Abertos | `candidate_ready` para dataset | [stj_dados_abertos_jurisprudencia](providers/stj_dados_abertos_jurisprudencia/README.md) | criar primeiro um adapter de catalogo e ingestao local; nao tratar como busca online |
+| TJDFT API JurisDF | rota oficial de aprimoramento | [tjdf_juris](providers/tjdf_juris/README.md) | integrar como superficie JSON do provider existente, sem duplicar `tjdf_juris` |
+| TSE/SJUR 4.0 | contrato parcial | [justica_eleitoral_sjur](providers/justica_eleitoral_sjur/README.md) | manter catalogos de filtros; busca decisoria continua bloqueada por antirrobo |
+
 | Ordem | Fonte | Status | Dossie | Proximo passo |
 | --- | --- | --- | --- | --- |
 | 1 | TST pesquisa textual | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
@@ -44,22 +52,24 @@ via MCP.
 | 18 | TJRJ/eJURIS legado | `candidate_needs_har` | ainda sem ficha propria | mapear WebForms e confirmar reCAPTCHA na busca |
 | 19 | TSE/SJUR beta | `candidate_needs_har` | [justica_eleitoral_sjur.md](providers/justica_eleitoral_sjur/README.md) | HAR da nova SPA e endpoint de resultados |
 | 20 | TJCE/e-SAJ CJSG | `candidate_needs_har` | [tjce_cjsg.md](providers/tjce_cjsg/README.md) | capturar HAR limpo e reproduzir formulario; nao forcar reset TLS |
-| 21 | TJPE Consulta Jurisprudencia | `candidate_ready` | [tjpe_jurisprudencia.md](providers/tjpe_jurisprudencia/README.md) | capturar fixtures REST e implementar parser/paginacao |
-| 22 | TJSE Jurisprudencia Judicial | `blocked_or_inconclusive` | [tjse_jurisprudencia.md](providers/tjse_jurisprudencia/README.md) | HAR limpo com token normal; nao contornar captcha |
-| 23 | TJRO/LIAME | `documental` | [tjro_liame.md](providers/tjro_liame/README.md) | tratar como precedentes/catalogo |
-| 24 | TJES | `candidate_needs_har` | [tjes_jurisprudencia.md](providers/tjes_jurisprudencia/README.md) | capturar fluxo legado ou validar portal atual |
-| 25 | TCU Jurisprudencia e dados abertos | `implemented` | [tcu_jurisprudencia.md](providers/tcu_jurisprudencia/README.md) | cache incremental e adapters de outros datasets |
-| 26 | CNJ Informativos de Jurisprudencia | `candidate_ready` | [cnj_jurisprudencia.md](providers/cnj_jurisprudencia/README.md) | fixture HTML, parser de itens e links PDF |
-| 27 | TST Jurisprudencia | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
-| 28 | TJCE Informativos | `candidate_ready` | [tjce_informativos.md](providers/tjce_informativos/README.md) | salvar fixture HTML, parser de itens e links PDF |
-| 29 | TRF3 Jurisprudencia | `candidate_needs_har` | [trf3_jurisprudencia.md](providers/trf3_jurisprudencia/README.md) | captura automatica da busca; testar acordao por processo separadamente |
-| 30 | TJAP/Tucujuris | `blocked_or_inconclusive` | [tjap_tucujuris.md](providers/tjap_tucujuris/README.md) | nova superficie publica sem desafio |
-| 31 | TJMG Espelho de Acordao | `blocked_or_inconclusive` | [tjmg_jurisprudencia.md](providers/tjmg_jurisprudencia/README.md) | nao automatizar captcha; buscar superficie oficial alternativa |
-| 32 | TJRN Jurisprudencia | `blocked_or_inconclusive` | [tjrn_jurisprudencia.md](providers/tjrn_jurisprudencia/README.md) | HAR publico da busca unificada |
-| 33 | TJTO Jurisprudencia | `candidate_needs_har` | [tjto_jurisprudencia.md](providers/tjto_jurisprudencia/README.md) | reproduzir query, filtros, detalhe e inteiro teor |
-| 34 | TJBA GraphQL | `candidate_ready` | [tjba_graphql.md](providers/tjba_graphql/README.md) | fixture GraphQL, parser e detalhe |
-| 35 | TJPR HTML | `candidate_ready` | [tjpr_jurisprudencia.md](providers/tjpr_jurisprudencia/README.md) | fixture de sucesso/vazio e parser |
-| 36 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | fixture live opt-in e detalhe/inteiro teor |
+| 21 | TJCE SJURIS | `candidate_needs_har` | [tjce_sjuris.md](providers/tjce_sjuris/README.md) | capturar busca publica, vazio, pagina, detalhe e inteiro teor; gateway preliminar ainda nao e contrato |
+| 22 | TJPE Consulta Jurisprudencia | `candidate_ready` | [tjpe_jurisprudencia.md](providers/tjpe_jurisprudencia/README.md) | capturar fixtures REST e implementar parser/paginacao |
+| 23 | TJSE Jurisprudencia Judicial | `blocked_or_inconclusive` | [tjse_jurisprudencia.md](providers/tjse_jurisprudencia/README.md) | HAR limpo com token normal; nao contornar captcha |
+| 24 | TJRO/LIAME | `documental` | [tjro_liame.md](providers/tjro_liame/README.md) | tratar como precedentes/catalogo |
+| 25 | TJES | `candidate_needs_har` | [tjes_jurisprudencia.md](providers/tjes_jurisprudencia/README.md) | capturar fluxo legado ou validar portal atual |
+| 26 | TCU Jurisprudencia e dados abertos | `implemented` | [tcu_jurisprudencia.md](providers/tcu_jurisprudencia/README.md) | cache incremental e adapters de outros datasets |
+| 27 | CNJ Informativos de Jurisprudencia | `candidate_ready` | [cnj_jurisprudencia.md](providers/cnj_jurisprudencia/README.md) | fixture HTML, parser de itens e links PDF |
+| 28 | TST Jurisprudencia | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
+| 29 | TJCE Informativos | `candidate_ready` | [tjce_informativos.md](providers/tjce_informativos/README.md) | salvar fixture HTML, parser de itens e links PDF |
+| 30 | TRF3 Jurisprudencia | `candidate_needs_har` | [trf3_jurisprudencia.md](providers/trf3_jurisprudencia/README.md) | captura automatica da busca; testar acordao por processo separadamente |
+| 31 | TJAP/Tucujuris | `blocked_or_inconclusive` | [tjap_tucujuris.md](providers/tjap_tucujuris/README.md) | nova superficie publica sem desafio |
+| 32 | TJMG Espelho de Acordao | `blocked_or_inconclusive` | [tjmg_jurisprudencia.md](providers/tjmg_jurisprudencia/README.md) | nao automatizar captcha; buscar superficie oficial alternativa |
+| 33 | TJRN Jurisprudencia | `blocked_or_inconclusive` | [tjrn_jurisprudencia.md](providers/tjrn_jurisprudencia/README.md) | HAR publico da busca unificada |
+| 34 | TJTO Jurisprudencia | `candidate_needs_har` | [tjto_jurisprudencia.md](providers/tjto_jurisprudencia/README.md) | reproduzir query, filtros, detalhe e inteiro teor |
+| 35 | TJBA GraphQL | `candidate_ready` | [tjba_graphql.md](providers/tjba_graphql/README.md) | fixture GraphQL, parser e detalhe |
+| 36 | TJPR HTML | `candidate_ready` | [tjpr_jurisprudencia.md](providers/tjpr_jurisprudencia/README.md) | fixture de sucesso/vazio e parser |
+| 37 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | fixture live opt-in e detalhe/inteiro teor |
+| 38 | STJ Dados Abertos | `candidate_ready` | [stj_dados_abertos_jurisprudencia.md](providers/stj_dados_abertos_jurisprudencia/README.md) | fixture CKAN, parser JSON/CSV e adapter de ingestao incremental |
 
 ## Checklist De Entrada Para Implementar
 

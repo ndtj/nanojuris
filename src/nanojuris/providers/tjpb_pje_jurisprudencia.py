@@ -30,6 +30,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 TOKEN_RE = re.compile(r'<meta[^>]+name=["\']_token["\'][^>]+content=["\']([^"\']+)', re.IGNORECASE)
@@ -165,8 +166,14 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
                 "GET /jurisprudencia/view/{id}?words={termos}",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=True,
             supports_live_tests=True,
+            pagination_mode="page",
+            completeness_contract="reported_total_and_page_window",
             supported_filters=[
                 "text",
                 "number",
@@ -274,16 +281,26 @@ def parse_tjpb_search_response(
         if isinstance(item, dict)
     ]
     total = _as_int(data.get("total"), default=len(results))
-    start = ((max(query.page, 1) - 1) * page_size) + 1 if results else 0
+    page = max(query.page, 1)
+    start = ((page - 1) * page_size) + 1 if results else 0
+    complete, completeness_reason = page_completeness(
+        reported_total=total,
+        start=start,
+        returned=len(results),
+        total_is_authoritative="total" in data,
+    )
     return SearchPage(
         source="tjpb_pje_jurisprudencia",
         total=total,
         start=start,
         end=start + len(results) - 1 if results else 0,
-        page=max(query.page, 1),
+        page=page,
         page_size=page_size,
         results=results,
         source_trace=trace,
+        pagination_mode="page",
+        is_complete=complete,
+        completeness_reason=completeness_reason,
     )
 
 

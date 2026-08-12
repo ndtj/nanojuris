@@ -9,6 +9,16 @@ seletores, desde que a NanoJuris valide tudo novamente com sessao limpa e nao
 copie fluxos de captcha, login, cookie ou browser stealth. A ficha
 [github-scraper-research.md](github-scraper-research.md) registra essa frente.
 
+Para o mapeamento completo de uma fonte, este documento deve ser lido junto
+com o [Route Mapping Playbook v4](route-mapping-playbook.md). Ele adiciona a
+matriz obrigatoria de filtros efetivos, paginacao, detalhe, inteiro teor,
+canais auxiliares, estados de transporte e criterio de `mapped_broadly`.
+
+A rodada de pesquisa mais recente esta em
+[provider-discovery-2026-08-12.md](provider-discovery-2026-08-12.md). Ela
+registra novas superficies e separa rotas observadas de contratos prontos para
+implementacao.
+
 ## Sequencia recomendada
 
 1. Registrar a entrada feita no navegador: URL inicial, numero/termo pesquisado,

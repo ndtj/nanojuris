@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any, Literal, Protocol
 from uuid import uuid4
 
+from nanojuris.canonical import normalize_date
 from nanojuris.models import CanonicalDecision, CanonicalDocument, CanonicalPrecedent, utc_now_iso
 
 StoredRecordKind = Literal["decision", "document", "precedent"]
@@ -85,6 +86,7 @@ class SQLiteStore:
         self._owns_connection = not isinstance(path, sqlite3.Connection)
         self.connection = path if isinstance(path, sqlite3.Connection) else sqlite3.connect(path)
         self.connection.row_factory = sqlite3.Row
+        self.connection.execute("PRAGMA foreign_keys = ON")
         self.initialize()
 
     def initialize(self) -> None:
@@ -193,6 +195,10 @@ class SQLiteStore:
         rows = [_record_to_row(record, now=now) for record in records]
         if not rows:
             return
+        with self.connection:
+            self._save_rows(rows)
+
+    def _save_rows(self, rows: list[tuple[object, ...]]) -> None:
         self.connection.executemany(
             """
             INSERT INTO canonical_records (
@@ -234,7 +240,6 @@ class SQLiteStore:
             """,
             rows,
         )
-        self.connection.commit()
 
     def get(self, kind: StoredRecordKind, record_id: str) -> dict[str, Any] | None:
         """Return one stored canonical record as a dictionary."""
@@ -317,10 +322,10 @@ class SQLiteStore:
                 params.append(value)
         if publication_date_from:
             clauses.append("publication_date >= ?")
-            params.append(publication_date_from)
+            params.append(_required_storage_date(publication_date_from))
         if publication_date_to:
             clauses.append("publication_date <= ?")
-            params.append(publication_date_to)
+            params.append(_required_storage_date(publication_date_to))
         where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
         params.append(max(1, limit))
         rows = self.connection.execute(
@@ -383,37 +388,38 @@ class SQLiteStore:
             label=label,
         )
         record_list = list(records)
-        self.save_many(record_list)
         rows = []
         for record in record_list:
             kind = _record_kind(record)
             rows.append((run.id, kind, record.id, _canonical_key(record, kind=kind)))
-        self.connection.execute(
-            """
-            INSERT INTO research_runs (
-                id, source, text, query_json, record_count, label, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            """,
-            (
-                run.id,
-                run.source,
-                run.text,
-                json.dumps(run.query, ensure_ascii=False, sort_keys=True),
-                len(rows),
-                run.label,
-                run.created_at,
-            ),
-        )
-        if rows:
-            self.connection.executemany(
+        record_rows = [_record_to_row(record, now=now) for record in record_list]
+        with self.connection:
+            self._save_rows(record_rows)
+            self.connection.execute(
                 """
-                INSERT OR REPLACE INTO research_run_records (
-                    run_id, kind, record_id, canonical_key
-                ) VALUES (?, ?, ?, ?)
+                INSERT INTO research_runs (
+                    id, source, text, query_json, record_count, label, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
                 """,
-                rows,
+                (
+                    run.id,
+                    run.source,
+                    run.text,
+                    json.dumps(run.query, ensure_ascii=False, sort_keys=True),
+                    len(rows),
+                    run.label,
+                    run.created_at,
+                ),
             )
-        self.connection.commit()
+            if rows:
+                self.connection.executemany(
+                    """
+                    INSERT OR REPLACE INTO research_run_records (
+                        run_id, kind, record_id, canonical_key
+                    ) VALUES (?, ?, ?, ?)
+                    """,
+                    rows,
+                )
         run.record_count = len(rows)
         return run
 
@@ -527,7 +533,9 @@ def _record_to_row(record: CanonicalRecord, *, now: str) -> tuple[object, ...]:
         getattr(record, "rapporteur", None),
         getattr(record, "decision_type", None),
         getattr(record, "precedent_type", None),
-        getattr(record, "publication_date", None) or getattr(record, "updated_at", None),
+        _storage_date(
+            getattr(record, "publication_date", None) or getattr(record, "updated_at", None)
+        ),
         getattr(record, "document_type", None),
         _canonical_key(record, kind=kind),
         json.dumps(payload, ensure_ascii=False, sort_keys=True),
@@ -579,6 +587,22 @@ def _join_key(*parts: str) -> str:
 
 def _normalize_key_part(value: str) -> str:
     return " ".join(str(value).strip().lower().split())
+
+
+def _storage_date(value: object) -> str | None:
+    """Store comparable dates in ISO form while retaining raw data in JSON."""
+
+    if value is None:
+        return None
+    normalized = normalize_date(value)
+    return normalized or str(value).strip() or None
+
+
+def _required_storage_date(value: str) -> str:
+    normalized = normalize_date(value)
+    if normalized is None:
+        raise ValueError("filtros de data devem usar YYYY-MM-DD ou DD/MM/YYYY")
+    return normalized
 
 
 def _run_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:

@@ -7,7 +7,7 @@ import requests
 
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import AccessControlRequiredError
+from nanojuris.errors import AccessControlRequiredError, UnsupportedQueryError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.eproc_jurisprudencia_federal import (
     TnuEprocJurisprudenciaProvider,
@@ -193,6 +193,13 @@ def test_federal_eproc_request_exception_becomes_source_error():
 
     with pytest.raises(Exception, match="TRF6/eproc jurisprudence request failed"):
         provider.search(JurisprudenceQuery(text="teste"))
+
+
+def test_federal_eproc_rejects_unproven_remote_pagination():
+    provider = TnuEprocJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+
+    with pytest.raises(UnsupportedQueryError, match="paginacao remota comprovada"):
+        provider.search(JurisprudenceQuery(text="teste", page=2))
 
 
 def test_federal_eproc_capabilities_describe_instances():

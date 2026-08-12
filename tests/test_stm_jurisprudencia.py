@@ -9,6 +9,7 @@ from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.stm_jurisprudencia import (
     StmJurisprudenciaProvider,
     parse_stm_jurisprudencia_results,
+    parse_stm_total_documents,
 )
 
 STM_HTML = """
@@ -105,6 +106,10 @@ def test_parse_stm_jurisprudencia_results_accepts_empty_result_page():
     assert results == []
 
 
+def test_parse_stm_total_documents_reads_public_count():
+    assert parse_stm_total_documents("<html>1 - 2 de 1017 documentos</html>") == 1017
+
+
 def test_provider_search_gets_stm_query_and_parses_results():
     session = FakeSession([FakeResponse(STM_HTML)])
     provider = StmJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
@@ -130,6 +135,8 @@ def test_provider_search_gets_stm_query_and_parses_results():
     assert params["search_filter_option"] == "jurisprudencia"
     assert params["search_filter"] == "busca_avancada"
     assert params["q"] == "desercao"
+    assert params["start"] == "0"
+    assert params["rows"] == "1"
     assert params["fqx_ementa"] == "deserção"
     assert params["fqx_numero_jurisprudencia"] == "7000527-63.2025.7.00.0000"
     assert params["fqx_data_publicacao_inicio"] == "01/01/2026"

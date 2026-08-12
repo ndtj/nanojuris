@@ -24,6 +24,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 
@@ -108,8 +109,14 @@ class TjrsSolrProvider(JurisprudenceProvider):
                 "POST /buscas/jurisprudencia/ajax.php",
             ],
             supports_full_text=False,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_live_tests=True,
+            pagination_mode="offset",
+            completeness_contract="reported_total_and_offset_window",
             supported_filters=[
                 "text",
                 "exact_phrase",
@@ -219,6 +226,12 @@ def parse_tjrs_search_response(
     start_index = _as_int(response.get("start"), default=(max(query.page, 1) - 1) * page_size)
     total = _as_int(response.get("numFound"), default=len(results))
     start = start_index + 1 if results else 0
+    complete, completeness_reason = page_completeness(
+        reported_total=total,
+        start=start,
+        returned=len(results),
+        total_is_authoritative="numFound" in response,
+    )
     return SearchPage(
         source="tjrs_solr",
         total=total,
@@ -237,6 +250,9 @@ def parse_tjrs_search_response(
             else {},
         },
         source_trace=trace,
+        pagination_mode="offset",
+        is_complete=complete,
+        completeness_reason=completeness_reason,
     )
 
 

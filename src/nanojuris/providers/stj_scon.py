@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import time
 import unicodedata
@@ -108,6 +109,10 @@ class StjSconProvider(JurisprudenceProvider):
                 "POST /SCON/ActionSelecionaDocumento",
             ],
             supports_full_text=False,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
@@ -245,7 +250,7 @@ def parse_stj_scon_results(
 
     total, start, end = _parse_pagination(result_root.get_text(" ", strip=True))
     results: list[JurisprudenceResult] = []
-    for index, item in enumerate(result_root.select(".documento, .resultado"), start=1):
+    for _index, item in enumerate(result_root.select(".documento, .resultado"), start=1):
         anchor = item.select_one("a.doclink, a[href]")
         registry_number = _text(item, ".registro") or _extract_registry(anchor)
         case_number = _text(item, ".processo") or (
@@ -265,7 +270,7 @@ def parse_stj_scon_results(
         )
         case_class = _text(item, ".classe") or ""
         result = JurisprudenceResult(
-            id=f"stj-scon-{registry_number or index}",
+            id=_stable_stj_id(registry_number, case_number, item.get_text(" ", strip=True)),
             source="stj_scon",
             court="STJ",
             type="acordao",
@@ -311,7 +316,7 @@ def _parse_stj_document_items(
 ) -> SearchPage:
     total = _parse_document_total(items)
     results: list[JurisprudenceResult] = []
-    for index, item in enumerate(items, start=1):
+    for _index, item in enumerate(items, start=1):
         fields = _extract_stj_document_fields(item)
         identification = _text(item, ".clsIdentificacaoDocumento")
         case_number = fields.get("processo") or identification
@@ -328,7 +333,7 @@ def _parse_stj_document_items(
         )
         publication = fields.get("data da publicacao/fonte")
         result = JurisprudenceResult(
-            id=f"stj-scon-{registry_number or index}",
+            id=_stable_stj_id(registry_number, case_number, item.get_text(" ", strip=True)),
             source="stj_scon",
             court="STJ",
             type="acordao",
@@ -374,6 +379,19 @@ def _extract_stj_document_fields(item: Any) -> dict[str, str]:
         if title and value:
             fields[title] = value
     return fields
+
+
+def _stable_stj_id(registry_number: str, case_number: str, text: str) -> str:
+    """Build an identity that remains stable when pagination order changes."""
+
+    primary = registry_number.strip() or _normalize_identifier(case_number)
+    if not primary:
+        primary = hashlib.sha256(text.strip().encode("utf-8")).hexdigest()[:20]
+    return f"stj-scon-{primary}"
+
+
+def _normalize_identifier(value: str) -> str:
+    return re.sub(r"[^0-9A-Za-z]+", "", value).lower()
 
 
 def _extract_stj_registry(item: Any) -> str:

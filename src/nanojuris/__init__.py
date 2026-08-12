@@ -19,7 +19,7 @@ from nanojuris.canonical import (
 )
 from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import NetworkConfigurationError
+from nanojuris.errors import NetworkConfigurationError, QueryRejectedError, UnsupportedQueryError
 from nanojuris.extraction import FetchedContent, FetchRequest, HttpFetcher, ParsedContent
 from nanojuris.models import (
     AccessStatus,
@@ -79,6 +79,7 @@ __all__ = [
     "ProviderCapabilities",
     "ProviderCatalog",
     "ProviderOption",
+    "QueryRejectedError",
     "ResearchRun",
     "result_to_canonical_decision",
     "result_to_canonical_precedent",
@@ -89,6 +90,7 @@ __all__ = [
     "SourceContractAssessment",
     "SQLiteStore",
     "StoreStats",
+    "UnsupportedQueryError",
     "summarize_contracts",
 ]
 

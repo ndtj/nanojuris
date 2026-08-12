@@ -13,6 +13,9 @@ Para instalacao e prompts de uso por agentes, veja
 - Toda resposta deve ser JSON serializavel.
 - Toda resposta de fonte deve incluir `SourceTrace` quando houver consulta.
 - Toda resposta extraida deve incluir `ExtractionTrace` quando houver parsing.
+- Ferramentas de store recebem `store_id`, nunca caminho arbitrario. O servidor
+  resolve o identificador dentro de `NANOJURIS_STORE_ROOT` e rejeita
+  separadores, `..` e caminhos absolutos.
 - Respostas longas devem ser paginadas.
 - Tools nao devem contornar captcha, login, segredo de justica ou acesso
   restrito.
@@ -216,7 +219,7 @@ Retorna contagens agregadas de um store SQLite local criado pela NanoJuris.
 
 Parametro minimo:
 
-- `db_path`
+- `store_id` (identificador, por exemplo `default`)
 
 ### `store_query`
 
@@ -224,7 +227,7 @@ Consulta registros canonicos salvos em um store SQLite local.
 
 Parametros principais:
 
-- `db_path`
+- `store_id`
 - `kind`
 - `source`
 - `court`
@@ -235,6 +238,7 @@ Parametros principais:
 - `precedent_type`
 - `publication_date_from`
 - `publication_date_to`
+
 - `limit`
 
 O limite e restringido de forma conservadora para uso por agentes.
@@ -245,7 +249,7 @@ Recupera um registro canonico salvo por tipo e id.
 
 Parametros minimos:
 
-- `db_path`
+- `store_id`
 - `kind`
 - `record_id`
 
@@ -255,7 +259,7 @@ Lista buscas salvas em um store SQLite local.
 
 Parametros principais:
 
-- `db_path`
+- `store_id`
 - `limit`
 
 ### `store_run`
@@ -264,7 +268,7 @@ Recupera metadados de uma busca salva.
 
 Parametros minimos:
 
-- `db_path`
+- `store_id`
 - `run_id`
 
 ### `store_run_records`
@@ -273,7 +277,7 @@ Recupera registros canonicos vinculados a uma busca salva.
 
 Parametros principais:
 
-- `db_path`
+- `store_id`
 - `run_id`
 - `limit`
 - `offset`
@@ -287,7 +291,7 @@ Exporta registros vinculados a uma busca salva em formato textual.
 
 Parametros principais:
 
-- `db_path`
+- `store_id`
 - `run_id`
 - `output_format`: `json`, `jsonl`, `csv` ou `markdown`
 - `limit`
@@ -298,6 +302,18 @@ para processamento incremental, `csv` para analise tabular e `markdown` para
 revisao humana.
 
 A resposta tambem inclui `total`, `has_more` e `next_offset`.
+
+## Busca unificada
+
+`search_unified` retorna uma pagina federada: as fontes sao consultadas em
+paralelo com limite de concorrencia e deadline global, os resultados sao
+deduplicados e ordenados antes de aplicar `page`/`page_size`. O retorno inclui
+`total_available`, `deduplicated_total`, `source_totals`,
+`source_completeness`, `sources_complete`, `sources_partial`,
+`sources_unknown`, `collection_complete`, `errors` e a trace de roteamento.
+`total_available` representa a colecao agregada obtida nesta execucao; nao e uma
+promessa de exaustividade quando `collection_complete` for falso. Isso e
+diferente de pedir a mesma pagina individual em cada tribunal.
 
 ## Tools planejadas
 

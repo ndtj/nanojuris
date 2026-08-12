@@ -30,6 +30,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 PROCESS_NUMBER_RE = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
@@ -61,24 +62,34 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
             source_url=source_url,
             limitations=[
                 "Consulta publica de jurisprudencia STM/JMU validada com requests limpo.",
-                "A pagina publica retorna paineis HTML; a paginacao remota ainda nao foi "
-                "promovida.",
+                "A pagina publica retorna paineis HTML; start/rows sao enviados "
+                "diretamente para a paginacao remota observada.",
                 "O provider nao tenta contornar captcha, login ou controle de acesso.",
             ],
         )
         results = parse_stm_jurisprudencia_results(html, trace=trace, source_url=source_url)
         offset = max(query.page - 1, 0) * query.page_size
-        limited = results[offset : offset + query.page_size]
-        start = offset + 1 if limited else 0
+        reported_total = parse_stm_total_documents(html)
+        total = reported_total if reported_total is not None else len(results)
+        start = offset + 1 if results else 0
+        complete, completeness_reason = page_completeness(
+            reported_total=total,
+            start=start,
+            returned=len(results),
+            total_is_authoritative=reported_total is not None,
+        )
         return SearchPage(
             source=self.name,
-            total=len(results),
+            total=total,
             start=start,
-            end=start + len(limited) - 1 if limited else 0,
+            end=start + len(results) - 1 if results else 0,
             page=query.page,
             page_size=query.page_size,
-            results=limited,
+            results=results,
             source_trace=trace,
+            pagination_mode="offset",
+            is_complete=complete,
+            completeness_reason=completeness_reason,
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -161,14 +172,20 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
                 "GET https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=<uuid>",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            pagination_mode="offset",
+            completeness_contract="reported_total_and_offset_window",
             supported_filters=["text", "number"],
             limitations=[
                 "Busca publica descoberta em 2026-08-03 no portal JMU do STM.",
-                "O provider parseia a primeira pagina HTML retornada pela fonte.",
-                "Facetas e paginacao remota ainda nao foram promovidas como contrato estavel.",
+                "O provider envia start/rows e preserva o total exibido pela pagina publica.",
+                "Facetas observadas no portal ainda nao sao filtros do modelo unificado.",
             ],
             responsible_use=[
                 "Usar termos especificos e page_size pequeno em coletas exploratorias.",
@@ -299,10 +316,13 @@ def _parse_panel(panel: Tag, *, trace: SourceTrace, source_url: str) -> Jurispru
 
 
 def _build_params(query: JurisprudenceQuery) -> dict[str, str]:
+    offset = max(query.page - 1, 0) * query.page_size
     params = {
         "search_filter_option": "jurisprudencia",
         "search_filter": "busca_avancada",
         "q": query.text or "*",
+        "start": str(offset),
+        "rows": str(query.page_size),
     }
     if query.exact_phrase:
         params["fqx_ementa"] = query.exact_phrase
@@ -319,6 +339,19 @@ def _build_params(query: JurisprudenceQuery) -> dict[str, str]:
     if query.updated_to:
         params["fqx_data_decisao_fim"] = query.updated_to
     return params
+
+
+def parse_stm_total_documents(html: str) -> int | None:
+    """Extract the public result count shown by the STM result page."""
+
+    text = _clean_text(BeautifulSoup(html, "html.parser").get_text(" ", strip=True))
+    match = re.search(r"\d+\s*-\s*\d+\s+de\s+([\d.]+)\s+documentos", text, re.IGNORECASE)
+    if not match:
+        return None
+    try:
+        return int(match.group(1).replace(".", ""))
+    except ValueError:
+        return None
 
 
 def _extract_label_values(panel: Tag) -> dict[str, str]:

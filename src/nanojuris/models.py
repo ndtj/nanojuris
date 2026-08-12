@@ -56,7 +56,12 @@ class ProviderCapabilities:
     supports_catalog: bool = False
     supports_suggestions: bool = False
     supports_live_tests: bool = False
-    supports_mcp: bool = True
+    supports_cli: bool = False
+    supports_unified_search: bool = False
+    supports_mcp: bool = False
+    supports_studio: bool = False
+    pagination_mode: str = "unknown"
+    completeness_contract: str = "unknown"
     supported_filters: list[str] = field(default_factory=list)
     limitations: list[str] = field(default_factory=list)
     responsible_use: list[str] = field(default_factory=list)
@@ -75,6 +80,14 @@ class SourceTrace:
     query: dict[str, Any] = field(default_factory=dict)
     source_url: str | None = None
     limitations: list[str] = field(default_factory=list)
+    http_status: int | None = None
+    final_url: str | None = None
+    content_type: str | None = None
+    content_sha256: str | None = None
+    response_bytes: int | None = None
+    elapsed_ms: float | None = None
+    retrieval_status: str | None = None
+    transformations: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -87,7 +100,7 @@ class ExtractionTrace:
     parser: str
     parser_version: str
     status: ExtractionStatus = ExtractionStatus.COMPLETE
-    access_status: AccessStatus = AccessStatus.PUBLIC
+    access_status: AccessStatus = AccessStatus.PARTIAL
     extracted_at: str = field(default_factory=utc_now_iso)
     content_sha256: str | None = None
     content_bytes: int | None = None
@@ -112,7 +125,7 @@ class CanonicalDocument:
     sha256: str | None = None
     byte_size: int | None = None
     retrieved_at: str | None = None
-    access_status: AccessStatus = AccessStatus.PUBLIC
+    access_status: AccessStatus = AccessStatus.PARTIAL
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw_metadata: dict[str, Any] = field(default_factory=dict)
@@ -138,6 +151,11 @@ class CanonicalDecision:
     origin_county: str | None = None
     judgment_date: str | None = None
     publication_date: str | None = None
+    judgment_date_raw: str | None = None
+    publication_date_raw: str | None = None
+    source_updated_at: str | None = None
+    retrieved_at: str | None = None
+    access_status: AccessStatus = AccessStatus.PARTIAL
     summary: str | None = None
     full_text: str | None = None
     document_url: str | None = None
@@ -164,6 +182,9 @@ class CanonicalPrecedent:
     affected_cases: list[ParadigmCase] = field(default_factory=list)
     paradigm_cases: list[ParadigmCase] = field(default_factory=list)
     updated_at: str | None = None
+    source_updated_at: str | None = None
+    retrieved_at: str | None = None
+    access_status: AccessStatus = AccessStatus.PARTIAL
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
@@ -215,8 +236,35 @@ class JurisprudenceQuery:
     page: int = 1
     page_size: int = 10
 
+    def __post_init__(self) -> None:
+        if self.page < 1:
+            raise ValueError("page deve ser maior ou igual a 1")
+        if self.page_size < 1 or self.page_size > 100:
+            raise ValueError("page_size deve estar entre 1 e 100")
+        for field_name in (
+            "updated_from",
+            "updated_to",
+            "published_from",
+            "published_to",
+        ):
+            value = getattr(self, field_name)
+            if value and not _is_supported_query_date(value):
+                raise ValueError(f"{field_name} deve usar YYYY-MM-DD ou DD/MM/YYYY")
+
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+def _is_supported_query_date(value: str) -> bool:
+    """Validate the date formats accepted by provider query contracts."""
+
+    for pattern in ("%Y-%m-%d", "%d/%m/%Y"):
+        try:
+            datetime.strptime(value, pattern)
+            return True
+        except ValueError:
+            continue
+    return False
 
 
 @dataclass(slots=True)
@@ -231,9 +279,16 @@ class JurisprudenceResult:
     question: str | None = None
     thesis: str | None = None
     summary: str | None = None
+    full_text: str | None = None
     status: str | None = None
     rapporteur: str | None = None
     updated_at: str | None = None
+    judgment_date: str | None = None
+    publication_date: str | None = None
+    source_updated_at: str | None = None
+    retrieved_at: str | None = None
+    access_status: AccessStatus | None = None
+    extraction_status: ExtractionStatus = ExtractionStatus.COMPLETE
     paradigm_cases: list[ParadigmCase] = field(default_factory=list)
     highlights: dict[str, str] = field(default_factory=dict)
     source_trace: SourceTrace | None = None
@@ -256,6 +311,9 @@ class SearchPage:
     results: list[JurisprudenceResult]
     aggregations: dict[str, Any] = field(default_factory=dict)
     source_trace: SourceTrace | None = None
+    pagination_mode: str = "unknown"
+    is_complete: bool | None = None
+    completeness_reason: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

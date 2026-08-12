@@ -136,6 +136,10 @@ class StfInformativoProvider(JurisprudenceProvider):
                 "GET /arquivo/cms/informativoSTF/anexo/Informativo_Dados/Dados_InformativosSTF.xlsx"
             ],
             supports_full_text=False,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
@@ -163,11 +167,7 @@ class StfInformativoProvider(JurisprudenceProvider):
                 "application/octet-stream,*/*"
             ),
             "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/139.0.0.0 Safari/537.36 NanoJuris/0.1"
-            ),
+            "User-Agent": self.config.user_agent,
         }
         try:
             response = self.session.get(

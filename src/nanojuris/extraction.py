@@ -3,12 +3,13 @@
 from __future__ import annotations
 
 import hashlib
+import time
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
 import requests
 
-from nanojuris.config import NanoJurisConfig
+from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.models import (
     AccessStatus,
     ExtractionStatus,
@@ -49,7 +50,7 @@ class FetchedContent:
     content_type: str | None = None
     encoding: str | None = None
     retrieved_at: str = field(default_factory=utc_now_iso)
-    access_status: AccessStatus = AccessStatus.PUBLIC
+    access_status: AccessStatus = AccessStatus.PARTIAL
     source_trace: SourceTrace | None = None
 
     @property
@@ -103,12 +104,13 @@ class HttpFetcher:
         session: requests.Session | None = None,
     ) -> None:
         self.config = config or NanoJurisConfig()
-        self.session = session or requests.Session()
+        self.session = configure_requests_session(session or requests.Session(), self.config)
 
     def fetch(self, request: FetchRequest) -> FetchedContent:
         """Fetch raw source content without bypassing access controls."""
 
         headers = {"User-Agent": self.config.user_agent, **request.headers}
+        started = time.perf_counter()
         response = self.session.request(
             request.method,
             request.url,
@@ -117,14 +119,24 @@ class HttpFetcher:
             data=request.data or None,
             json=request.json,
             timeout=request.timeout or self.config.timeout,
+            verify=self.config.verify_ssl,
         )
         content = bytes(response.content)
+        elapsed_ms = round((time.perf_counter() - started) * 1000, 2)
+        content_sha256 = hashlib.sha256(content).hexdigest()
         source_trace = SourceTrace(
             provider=request.source,
             endpoint=request.endpoint,
             query=request.query,
             source_url=request.url,
             limitations=request.limitations,
+            http_status=response.status_code,
+            final_url=str(getattr(response, "url", None) or request.url),
+            content_type=response.headers.get("Content-Type"),
+            content_sha256=content_sha256,
+            response_bytes=len(content),
+            elapsed_ms=elapsed_ms,
+            retrieval_status="ok" if 200 <= response.status_code < 300 else "http_error",
         )
         return FetchedContent(
             source=request.source,
@@ -147,7 +159,7 @@ def parsed_content(
     text: str | None = None,
     metadata: dict[str, Any] | None = None,
     status: ExtractionStatus = ExtractionStatus.COMPLETE,
-    access_status: AccessStatus = AccessStatus.PUBLIC,
+    access_status: AccessStatus = AccessStatus.PARTIAL,
     content_sha256: str | None = None,
     content_bytes: int | None = None,
     warnings: list[str] | None = None,
@@ -178,10 +190,14 @@ def parsed_content(
 def _status_to_access_status(status_code: int) -> AccessStatus:
     if status_code == 404:
         return AccessStatus.NOT_FOUND
-    if status_code in {401, 403}:
+    if status_code == 401:
         return AccessStatus.LOGIN_REQUIRED
-    if status_code == 429 or status_code >= 500:
+    if status_code == 403:
+        return AccessStatus.ACCESS_CONTROL_REQUIRED
+    if status_code in {408, 425, 429} or status_code >= 500:
         return AccessStatus.SOURCE_UNAVAILABLE
     if 300 <= status_code < 400:
         return AccessStatus.PARTIAL
-    return AccessStatus.PUBLIC
+    if 200 <= status_code < 300:
+        return AccessStatus.PUBLIC
+    return AccessStatus.PARTIAL

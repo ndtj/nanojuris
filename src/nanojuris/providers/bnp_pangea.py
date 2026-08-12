@@ -10,6 +10,7 @@ import requests
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -99,6 +100,10 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 "GET /precedentes/{id}/decisoes",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=True,
             supports_suggestions=True,
             supports_live_tests=True,
@@ -286,11 +291,15 @@ class BnpPangeaProvider(JurisprudenceProvider):
         if response.status_code >= 400:
             detail = _short_response_text(response)
             payload = kwargs.get("json") or kwargs.get("params") or {}
+            if response.status_code == 400:
+                raise QueryRejectedError(
+                    f"BNP rejected request with HTTP {response.status_code}"
+                    f"; response={detail!r}; payload={payload!r}; "
+                    "hint=try a longer legal expression, precedent species, court filters, "
+                    "or the dedicated suggestions/catalog endpoints"
+                )
             raise SourceUnavailableError(
-                f"BNP rejected request with HTTP {response.status_code}"
-                f"; response={detail!r}; payload={payload!r}; "
-                "hint=try a longer legal expression, precedent species, court filters, "
-                "or the dedicated suggestions/catalog endpoints"
+                f"BNP rejected request with HTTP {response.status_code}; response={detail!r}"
             )
 
         try:

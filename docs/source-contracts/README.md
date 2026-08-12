@@ -57,6 +57,7 @@ A validacao live mais recente dos candidatos esta em
 | Fonte | Status | Dossie |
 | --- | --- | --- |
 | Justica Eleitoral SJUR/TSE/TREs | contrato parcial | [justica_eleitoral_sjur.md](justica_eleitoral_sjur.md) |
+| STJ Dados Abertos | candidato pronto para adapter de dataset | [stj_dados_abertos_jurisprudencia.md](stj_dados_abertos_jurisprudencia.md) |
 | TJSE Pesquisa Judicial | formulario JSF, captcha na busca | [tjse_jurisprudencia.md](tjse_jurisprudencia.md) |
 | TJPE Consulta Jurisprudencia | REST publico, candidato pronto para fixture | [tjpe_jurisprudencia.md](tjpe_jurisprudencia.md) |
 | TJSC/eproc Jurisprudencia | formulario eproc publico, candidato pronto para fixture | [tjsc_eproc_jurisprudencia.md](tjsc_eproc_jurisprudencia.md) |
@@ -66,6 +67,7 @@ A validacao live mais recente dos candidatos esta em
 | TJMT Jurisprudencia API | candidato precisa header/payload | [tjmt_jurisprudencia_api.md](tjmt_jurisprudencia_api.md) |
 | TJPA Jurisprudencia BFF | BFF publico, busca textual JSON reproduzida; candidato pronto para fixture | [tjpa_jurisprudencia_bff.md](tjpa_jurisprudencia_bff.md) |
 | TJCE Jurisprudencia CJSG | e-SAJ oficial documentado; contrato HTTP pendente apos reset TLS | [tjce_cjsg.md](tjce_cjsg.md) |
+| TJCE SJURIS | SPA oficial PJe/SAJ; gateway preliminar observado, contrato de resultados pendente | [tjce_sjuris.md](tjce_sjuris.md) |
 | TJCE Informativos | HTML institucional curado, itens decisorios e PDFs oficiais | [tjce_informativos.md](tjce_informativos.md) |
 | TRF3 Jurisprudencia | interface oficial rica; nivel B e timeout HTTP registrado | [trf3_jurisprudencia.md](trf3_jurisprudencia.md) |
 | TJPB PJe Jurisprudencia | candidato com risco WAF | [tjpb_pje_jurisprudencia.md](tjpb_pje_jurisprudencia.md) |

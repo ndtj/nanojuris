@@ -51,7 +51,10 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         "jurimetry_fit": "alto para teses qualificadas; medio para pesquisa livre.",
         "risk_level": "medio",
         "gaps": [
-            "Mapear rejeicoes HTTP 400 por combinacao de texto, tribunal e especie.",
+            (
+                "Expandir a matriz de rejeicoes HTTP 400 por tribunal, especie e "
+                "combinacao de filtros."
+            ),
             "Documentar payload completo de filtros e agregacoes.",
             "Cobrir heuristica de sugestoes/catalogo para consultas curtas.",
         ],
@@ -288,6 +291,8 @@ def assess_source_contract(capability: ProviderCapabilities) -> SourceContractAs
             "supports_suggestions": capability.supports_suggestions,
             "supports_live_tests": capability.supports_live_tests,
             "supports_mcp": capability.supports_mcp,
+            "pagination_mode": capability.pagination_mode,
+            "completeness_contract": capability.completeness_contract,
             "limitations": capability.limitations,
             "responsible_use": capability.responsible_use,
         },

@@ -100,6 +100,10 @@ class FakeProvider:
             category="jurisprudence",
             search_modes=["text"],
             canonical_records=["CanonicalPrecedent"],
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
         )
 
     def list_suggestions(self, text):
@@ -120,6 +124,7 @@ class FailingProvider:
             category="court_jurisprudence",
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
             supports_mcp=True,
             supported_filters=["text"],
         )
@@ -140,6 +145,7 @@ class ProxyFailingProvider:
             category="court_jurisprudence",
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
             supports_mcp=True,
         )
 
@@ -174,6 +180,7 @@ class CaseLookupProvider:
             category="case_lookup",
             search_modes=["case_number"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
             supports_mcp=True,
         )
 
@@ -192,6 +199,7 @@ class CommunicationsProvider:
             category="judicial_communications",
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
             supports_mcp=True,
         )
 
@@ -236,8 +244,8 @@ def test_client_search_many_unifies_results_and_keeps_source_errors():
     assert payload["errors"] == [
         {
             "source": "failing",
-            "error_type": "RuntimeError",
-            "message": "fonte indisponivel",
+            "error_type": "InternalProviderError",
+            "message": "provider failing failed with an unexpected internal error",
         }
     ]
     assert payload["routing_summary"] == [
@@ -250,8 +258,8 @@ def test_client_search_many_unifies_results_and_keeps_source_errors():
         {
             "source": "failing",
             "action": "failed",
-            "reason": "RuntimeError",
-            "message": "fonte indisponivel",
+            "reason": "InternalProviderError",
+            "message": "provider failing failed with an unexpected internal error",
         },
     ]
 
@@ -578,7 +586,7 @@ def test_model_to_dict_methods():
 
     assert trace.to_dict()["provider"] == "fake"
     assert extraction.to_dict()["status"] == ExtractionStatus.COMPLETE
-    assert extraction.to_dict()["access_status"] == AccessStatus.PUBLIC
+    assert extraction.to_dict()["access_status"] == AccessStatus.PARTIAL
     assert case.to_dict()["number"] == "123"
     assert result.to_dict()["id"] == "r1"
     assert page.to_dict()["source"] == "fake"

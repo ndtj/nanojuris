@@ -87,6 +87,7 @@ class FakeProvider:
             category="court_jurisprudence",
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
             supports_mcp=True,
         )
 
@@ -105,6 +106,7 @@ class FailingProvider:
             category="court_jurisprudence",
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
             supports_mcp=True,
         )
 
@@ -297,8 +299,8 @@ def test_search_unified_tool_returns_results_and_source_errors():
     assert payload["errors"] == [
         {
             "source": "failing",
-            "error_type": "RuntimeError",
-            "message": "fonte indisponivel",
+            "error_type": "InternalProviderError",
+            "message": "provider failing failed with an unexpected internal error",
         }
     ]
 

@@ -78,3 +78,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - https://www.trt9.jus.br/portal/pagina.xhtml?pagina=FALCAO&secao=168
 - https://www.cnj.jus.br/conheca-o-falcao-o-repositorio-oficial-de-jurisprudencia-da-justica-do-trabalho/
 - https://jurisprudencia.jt.jus.br/
+## Dados E Campos Do Contrato
+
+Nenhum payload decisorio foi obtido na janela validada. Os campos esperados, a confirmar, sao tribunal de origem, grau, classe, tipo documental, numero, relator, orgao, data, ementa, texto e URL de documento. A cobertura anunciada inclui sentencas, acordaos, decisoes monocraticas, admissibilidade de recurso de revista e precedentes, mas isso e escopo institucional, nao resposta tecnica reproduzida.
+
+## MCP
+
+O MCP deve omitir o Falcao da busca executavel enquanto a raiz responder 403 ou nao houver contrato de resultados. Pode expor a fonte como blocked_or_inconclusive, com o motivo e a data da verificacao. Nunca reutilizar cookies, tokens ou contornar CloudFront.

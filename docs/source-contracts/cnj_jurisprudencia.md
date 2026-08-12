@@ -132,3 +132,35 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 
 - [Consulta de jurisprudencia do CNJ](https://atos.cnj.jus.br/jurisprudencia)
 - [Portal CNJ](https://www.cnj.jus.br/)
+
+## Aprofundamento Do Contrato - 2026-08-12
+
+### Filtros E Resposta
+
+Os controles publicos confirmados sao `numero`, `ano`, `argumento`, `data de
+inicio` e `data fim`. Os nomes exatos dos parametros ja observados no HTML sao
+`numero`, `ano`, `argumento`, `dat_publicacao_inicio` e
+`dat_publicacao_fim`; valores de data aparecem no formato brasileiro na
+interface. A pagina usa `page` para navegacao. O tamanho maximo e a ordenacao
+nao foram publicados e permanecem pendentes.
+
+Cada linha pode conter tipo, numero, data, ementa/resumo e link para PDF
+oficial. O detalhe/PDF e um documento do informativo, nao uma decisao individual
+nem prova isolada de tese vinculante. HTTP 200 com tabela vazia e vazio valido;
+HTML sem tabela, erro de servidor ou link PDF nao-PDF devem ser classificados e
+preservados no trace.
+
+### Uso Via MCP
+
+O agente deve perguntar pelos filtros quando necessario e dizer explicitamente
+`CNJ - Informativos de Jurisprudencia`. Deve retornar a edicao, data, item,
+resumo, URL oficial e, quando aberto, o hash/tamanho do PDF. Nao deve afirmar
+que o CNJ informou um acordao individual quando a fonte trouxe apenas sintese
+editorial.
+
+## Proximos Passos
+
+Criar fixtures HTML de pagina inicial, filtro por numero, argumento, intervalo,
+vazio e link PDF; implementar parser tolerante a tabela e paginacao; testar
+download sob demanda com limite de bytes; manter a capacidade como conteudo
+curado.

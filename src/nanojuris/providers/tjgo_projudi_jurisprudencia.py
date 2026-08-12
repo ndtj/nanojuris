@@ -30,6 +30,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
@@ -123,13 +124,21 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
                 "GET /ConsultaJurisprudencia",
                 "POST /ConsultaJurisprudencia",
             ],
-            supports_full_text=True,
+            supports_full_text=False,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
+            pagination_mode="page",
+            completeness_contract="reported_total_and_page_window",
             supported_filters=["text", "number"],
             limitations=[
-                "O inteiro teor e extraido do HTML de resultado quando a fonte o embute no card.",
+                "O inteiro teor pode ser extraido do HTML de resultado quando a fonte "
+                "o embute no card; "
+                "isso nao equivale a get_document por id.",
                 "A rota de download por Id_Arquivo voltou ao formulario em probe "
                 "sem token e nao e usada.",
                 "O HTML contem mencoes globais a captcha em assets, mas resultados "
@@ -197,6 +206,12 @@ def parse_tjgo_results(
     cards = soup.select("div.search-result")
     total = _parse_total(soup)
     if not cards:
+        complete, completeness_reason = page_completeness(
+            reported_total=total,
+            start=0,
+            returned=0,
+            total_is_authoritative=total > 0,
+        )
         return SearchPage(
             source="tjgo_projudi_jurisprudencia",
             total=total,
@@ -206,6 +221,9 @@ def parse_tjgo_results(
             page_size=query.page_size,
             results=[],
             source_trace=trace,
+            pagination_mode="page",
+            is_complete=complete,
+            completeness_reason=completeness_reason,
         )
 
     results: list[JurisprudenceResult] = []
@@ -218,15 +236,25 @@ def parse_tjgo_results(
         raise ParserContractChangedError("TJGO/Projudi parser found total results but no cards")
 
     limited_results = results[: query.page_size]
+    start = ((max(query.page, 1) - 1) * query.page_size) + 1 if limited_results else 0
+    complete, completeness_reason = page_completeness(
+        reported_total=total or None,
+        start=start,
+        returned=len(limited_results),
+        total_is_authoritative=total > 0,
+    )
     return SearchPage(
         source="tjgo_projudi_jurisprudencia",
         total=total or len(results),
-        start=1 if limited_results else 0,
-        end=len(limited_results),
+        start=start,
+        end=start + len(limited_results) - 1 if limited_results else 0,
         page=query.page,
         page_size=query.page_size,
         results=limited_results,
         source_trace=trace,
+        pagination_mode="page",
+        is_complete=complete,
+        completeness_reason=completeness_reason,
     )
 
 
@@ -302,6 +330,7 @@ def _parse_result_card(
         type=decision_type,
         number=case_number,
         summary=full_text,
+        full_text=full_text or None,
         rapporteur=rapporteur,
         updated_at=publication_date,
         highlights={},

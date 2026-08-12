@@ -9,19 +9,25 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/lucmolero/nanojuris/actions/workflows/ci.yml">
-    <img src="https://github.com/lucmolero/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  <a href="https://ndtj.com.br/">Projeto desenvolvido no contexto do NDTJ</a>
+  ·
+  <a href="https://github.com/lucmolero">Principal mantenedor: Luciano Molero</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml">
+    <img src="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
-  <a href="https://github.com/lucmolero/nanojuris/blob/main/LICENSE">
+  <a href="https://github.com/ndtj/nanojuris/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT" />
   </a>
-  <a href="https://github.com/lucmolero/nanojuris">
+  <a href="https://github.com/ndtj/nanojuris">
     <img src="https://img.shields.io/badge/python-3.10%2B-blue.svg" alt="Python 3.10+" />
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/lucmolero/nanojuris/actions">Actions</a>
+  <a href="https://github.com/ndtj/nanojuris/actions">Actions</a>
   |
   <a href="docs/quickstart.md">Quickstart</a>
   |
@@ -63,7 +69,22 @@
 NanoJuris e uma biblioteca Python open source para consulta, normalizacao e
 auditoria de jurisprudencia publica brasileira.
 
-O registry atual separa 34 fontes implementadas, 20 candidatas e uma familia de
+## Autoria E Contexto Institucional
+
+O NanoJuris e criado e mantido principalmente por
+[Luciano Molero](https://github.com/lucmolero), responsavel pela arquitetura,
+implementacao, releases e manutencao tecnica do projeto.
+
+O desenvolvimento esta vinculado ao contexto academico do
+[Nucleo de Direito, Tecnologia e Jurimetria (NDTJ)](https://ndtj.com.br/),
+centro de formacao que relaciona direito, tecnologia, inteligencia artificial e
+jurimetria. A organizacao institucional do repositorio e o contexto de
+colaboracao nao alteram a autoria dos commits, da arquitetura ou do software.
+
+Consulte [MAINTAINERS.md](MAINTAINERS.md) e [GOVERNANCE.md](GOVERNANCE.md)
+para a estrutura de manutencao e tomada de decisoes.
+
+O registry atual separa 34 fontes implementadas, 22 candidatas e uma familia de
 implementacao. Ele e a referencia completa para descobrir cada provider e seu
 status: [catalogo de providers](docs/registry/providers.json). `bnp_pangea` consulta a API publica usada pelo
 frontend do Banco Nacional de Precedentes/Pangea. `comunica_pje` consulta a API
@@ -355,13 +376,11 @@ NanoJuris nao tenta burlar fontes publicas. O projeto deve:
 
 ## Roadmap
 
-- `v0.1`: BNP/Pangea, CLI, modelos, testes e docs.
-- `v0.2`: TJSP/CJSG com parser HTML e tratamento de captcha.
-- `v0.3`: STJ.
-- `v0.4`: STF.
-- `v0.5`: MCP local para agentes de IA.
-- `v0.6`: TSE/TREs.
-- `v0.7`: TST e ampliacao de TRFs.
+O pacote atual e `v0.2.0`. A lista historica completa, incluindo itens que ja
+foram entregues depois da numeracao original, esta em
+[`docs/roadmap.md`](docs/roadmap.md). O estado operacional deve ser conferido
+pelos providers registrados, seus contratos e o CI, nao apenas pelo numero da
+versao.
 
 ## Projeto independente
 

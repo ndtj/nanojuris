@@ -35,3 +35,30 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 ## Fonte Oficial
 
 - [LIAME TJRO](https://liame.tjro.jus.br/)
+## Contrato E Filtros
+
+A superficie LIAME confirmou catalogo de precedentes, com filtros de tribunal, especie, situacao e processo paradigma. Nao foi confirmada rota de busca geral de acordaos, nem metodo, payload, pagina, ordenacao ou detalhe por HTTP limpo. O contrato de eventual documento deve ser separado do catalogo.
+
+## Dados E MCP
+
+O adapter futuro deve retornar CanonicalPrecedent com especie, situacao, processo paradigma, tribunal, tese/ementa quando publicada e URL oficial. O MCP pode usar a fonte somente como catalogo de precedentes e deve dizer que ela nao representa o acervo geral de acordaos.
+
+## Proximos Passos
+
+Fechar fixture de catalogo com resultado, vazio, filtro e detalhe. So criar provider depois de confirmar schema, ids estaveis e limites da consulta.
+## MCP
+
+Usar somente como catalogo de precedentes e declarar que nao representa o
+acervo geral de acordaos. Manter a busca geral fora do roteamento ate contrato
+de resultados.
+
+## Contrato
+
+Confirmados apenas portal e filtros de catalogo: tribunal, especie, situacao
+e processo paradigma. Metodo, payload, pagina, ordenacao e detalhe continuam
+pendentes.
+
+## Dados
+
+O futuro CanonicalPrecedent deve preservar especie, situacao, processo
+paradigma, tribunal, tese/ementa e URL oficial quando publicados.

@@ -14,7 +14,7 @@ class NanoJurisConfig:
     timeout: float = 20.0
     verify_ssl: bool = True
     trust_env: bool = field(default_factory=lambda: _env_bool("NANOJURIS_TRUST_ENV", True))
-    user_agent: str = "NanoJuris/0.1 (+https://github.com/lucmolero/nanojuris)"
+    user_agent: str = "NanoJuris/0.2.0 (+https://github.com/ndtj/nanojuris)"
     bnp_api_url: str = "https://pangeabnp.pdpj.jus.br/api/v1"
     comunica_pje_url: str = "https://comunicaapi.pje.jus.br"
     stf_juris_url: str = "https://jurisprudencia.stf.jus.br"
@@ -55,7 +55,11 @@ class NanoJurisConfig:
     trf5_jurisprudencia_url: str = "https://jurisprudencia.trf5.jus.br"
     cjf_trf1_jurisprudencia_url: str = "https://jurisprudencia.cjf.jus.br"
     tcu_jurisprudencia_url: str = "https://sites.tcu.gov.br"
-    rate_limit_interval: float = 0.0
+    # Conservative default for public court endpoints; tests and controlled
+    # local fixtures can explicitly set this to zero.
+    rate_limit_interval: float = 0.25
+    unified_max_workers: int = 6
+    unified_timeout: float = 60.0
 
 
 def configure_requests_session(session: Any, config: NanoJurisConfig) -> Any:
@@ -63,6 +67,8 @@ def configure_requests_session(session: Any, config: NanoJurisConfig) -> Any:
 
     if hasattr(session, "trust_env"):
         session.trust_env = config.trust_env
+    if hasattr(session, "verify"):
+        session.verify = config.verify_ssl
     return session
 
 

@@ -1,4 +1,4 @@
-# Route Mapping Playbook
+# Route Mapping Playbook v4
 
 Este playbook orienta a descoberta rapida de rotas publicas viaveis para novos
 providers de jurisprudencia. O objetivo nao e raspar qualquer pagina: e encontrar
@@ -25,6 +25,210 @@ O fluxo recomendado e:
 7. Salvar fixture offline publica representativa.
 8. Implementar parser offline.
 9. Implementar provider com diagnostics e testes.
+
+## Playbook v4: mapeamento completo de contrato
+
+O objetivo de uma rodada nao e apenas encontrar uma rota que retorna um
+resultado. O objetivo e fechar o mapa da fonte: entradas, busca, filtros,
+catalogos, paginacao, ordenacao, detalhe, documento, canais auxiliares,
+respostas vazias, falhas e limites. Uma rota funcional pode ser promovida para
+provider mesmo que outra superficie esteja bloqueada, mas a fonte so pode ser
+marcada como `mapped_broadly` quando todas as superficies aplicaveis tiverem
+estado explicito.
+
+### Regra de nao perda de informacao
+
+Toda descoberta deve ser guardada em tres camadas relacionadas:
+
+1. **Inventario de rotas:** uma linha por URL, metodo e superficie.
+2. **Contrato da rota:** parametros, payload, resposta, campos, limites e
+   erros observados.
+3. **Decisao de implementacao:** o que o runtime suporta, o que permanece
+   apenas documentado e qual experimento fecha a lacuna.
+
+Nunca substituir uma descoberta antiga por uma nova classificacao. Uma rota
+que funcionou em uma data e falhou depois deve manter as duas evidencias,
+incluindo o motivo da divergencia.
+
+### Ciclo fechado por fonte
+
+Executar estas fases em ordem, sem encerrar a fonte depois da primeira resposta
+positiva:
+
+| Fase | Pergunta | Saida obrigatoria |
+| --- | --- | --- |
+| 0. Identidade | qual orgao, acervo e URL oficial? | ficha de escopo e autoridade |
+| 1. Superficies | quais entradas e canais existem? | inventario de rotas |
+| 2. Busca minima | existe resultado juridico em sessao limpa? | probe de sucesso ou falha classificada |
+| 3. Contrato de entrada | quais nomes, tipos e valores sao aceitos? | tabela de parametros/payload |
+| 4. Cobertura de filtros | cada filtro muda ou restringe o retorno? | matriz de filtros efetivos |
+| 5. Paginacao | como funcionam pagina, offset, limite e total? | matriz de pagina e ordenacao |
+| 6. Canais de saida | ha detalhe, inteiro teor, PDF, processo ou modais? | grafo de links e dependencias |
+| 7. Estados | como a fonte responde a vazio, erro, bloqueio e lentidao? | matriz de falhas |
+| 8. Promocao | o que pode virar runtime agora? | dossie, fixture, testes e decisao |
+
+Uma chamada positiva da fase 2 nunca autoriza presumir que as fases 4 a 7
+funcionam. O caso TRF4 mostrou que uma busca pode expor total remoto e rota
+AJAX sem que o replay AJAX esteja pronto; o caso STM mostrou que o portal pode
+aceitar `start`/`rows` e devolver total remoto, enquanto o parser antigo ainda
+recortava apenas a primeira pagina.
+
+### Matriz de superficies e canais
+
+Para cada fonte, preencher todos os itens abaixo com `operacional`, `observado`,
+`bloqueado`, `nao_aplicavel` ou `desconhecido`:
+
+| Grupo | Canais que devem ser procurados |
+| --- | --- |
+| entrada | portal, pagina de ajuda, sitemap, robots, links institucionais |
+| busca | texto livre, frase exata, processo, recentes, busca por campos |
+| filtros | classe, assunto, relator, orgao, origem, tipo, datas, status |
+| catalogos | listas, facetas, autocomplete, enums, codigos e dependencias |
+| navegacao | pagina 2, ultima pagina, ordenacao, tamanho, cursor, offset |
+| decisao | card, detalhe por ID/UUID, resultados agrupados, destaque |
+| documento | inteiro teor, PDF, HTML, ementa, arquivo, download sob demanda |
+| processo | link processual, acompanhamento, metadados de processo |
+| auxiliares | notas, indexacao, referencia legislativa, citacoes, relacionados |
+| curadoria | sumulas, informativos, temas, repetitivos, precedentes, datasets |
+| operacao | cache, rate limit, timeout, content type, charset, compressao |
+
+Um botao ou endpoint observado em HTML/JavaScript entra no inventario mesmo
+quando nao funciona isoladamente. Rotas filhas devem registrar a dependencia:
+sessao, hidden fields, ViewState, CSRF, UUID, processo ou ID retornado pela
+busca.
+
+## Protocolo de contrato completo
+
+### 1. Inventariar a entrada sem fazer suposicoes
+
+Registrar URL oficial, URL final, subdominio, redirecionamentos, titulo,
+orgao, ramo, acervo, data da observacao e links de ajuda. Consultar tambem
+documentacao oficial, bundles, HTML, formularios e scripts. Projetos externos
+podem indicar caminhos historicos, mas nunca sao evidencia de funcionamento
+atual.
+
+### 2. Capturar a busca minima e a busca vazia
+
+Executar uma consulta pequena com termo juridico natural e outra que tenha
+zero resultados esperado. Para cada uma guardar apenas o necessario para
+reproduzir o contrato, sem cookies ou credenciais. Confirmar:
+
+- status, URL final, content type, charset e tamanho;
+- numero de resultados e marcadores de vazio;
+- sinais juridicos objetivos: processo, classe, ementa, relator, data ou
+  decisao;
+- se o retorno e resultado, formulario, bloqueio, erro ou shell de SPA.
+
+`HTTP 200` sem registro juridico nao e busca valida. HTML com formulario vazio
+nao e resultado vazio automaticamente.
+
+### 3. Fechar a tabela de parametros
+
+Para cada input, select, checkbox, radio, query parameter, campo JSON ou
+variavel GraphQL, registrar:
+
+| Campo | Tipo | Obrigatorio | Valores | Testado | Efetivo | Runtime |
+| --- | --- | --- | --- | --- | --- | --- |
+| nome exato | string/date/list/object | sim/nao | catalogo ou exemplo | sim/nao | sim/nao/desconhecido | sim/nao |
+
+As colunas `observado` e `efetivo` sao diferentes. Um campo pode aparecer no
+formulario e ser ignorado pelo backend. Um link de faceta pode conter
+`fq_classe`, mas so deve ser marcado como filtro efetivo depois de comparar a
+resposta com e sem o valor. O dossie deve separar filtros da fonte, filtros
+expostos no `JurisprudenceQuery` e filtros especificos ainda nao implementados.
+
+Para campos catalogados, capturar nome, codigo, texto exibido, cardinalidade,
+dependencias e exemplo de valor. Nao armazenar a lista inteira se ela contiver
+dados pessoais; registrar contagem e uma fixture minima representativa.
+
+### 4. Fechar a matriz de paginacao e ordenacao
+
+Nunca assumir que `page=2` equivale a `offset=page_size`. Testar e registrar:
+
+| Item | Teste minimo |
+| --- | --- |
+| base | pagina/offset/cursor e se e zero ou one-based |
+| tamanho | valores exibidos pela UI e limite aceito pelo backend |
+| total | campo remoto, marcador textual, ausencia ou contagem parcial |
+| pagina 2 | primeiro ID diferente e continuidade da ordenacao |
+| ultima pagina | comportamento de fim, vazio e indice maximo |
+| ordenacao | padrao, crescente, decrescente e campo aceito |
+| rota filha | parametros e estado exigidos pela paginacao AJAX |
+| truncamento | resposta parcial, limite de bytes e timeout apos headers |
+
+A rota inicial e a rota AJAX de paginacao sao contratos separados. Se o
+JavaScript serializa o formulario inteiro, reproduzir o formulario completo
+antes de chamar a rota filha. Uma rota AJAX que retorna apenas a moldura de
+resultados deve ficar como `observed_not_operational`, nao como paginacao
+implementada.
+
+### 5. Fechar o grafo de detalhe e documento
+
+Para cada resultado de sucesso, selecionar um identificador retornado pela
+fonte e seguir, em ordem:
+
+```text
+resultado -> detalhe -> documento/inteiro teor -> canais auxiliares
+```
+
+Registrar se cada salto exige ID, UUID, numero CNJ, processo, sessao publica,
+hidden fields ou token normal do fluxo. Testar pelo menos um documento HTML e
+um PDF quando ambos forem oferecidos. Diferenciar ementa, trecho destacado,
+resumo editorial e inteiro teor. URLs de processo, notas, indexacao,
+referencia legislativa e documentos relacionados entram no inventario mesmo
+quando o MCP ainda nao os consulta.
+
+### 6. Fechar estados, limites e transporte
+
+Cada rota operacional deve ter pelo menos estes casos classificados:
+
+```text
+sucesso pequeno | vazio | filtro invalido | pagina invalida |
+rate limit | timeout antes de headers | timeout apos headers |
+HTTP 401/403 | captcha/login/WAF | HTTP 404 | HTML/schema alterado
+```
+
+Registrar connect timeout, read timeout, tempo ate o primeiro byte, tamanho,
+resposta completa, redirect, TLS/DNS e URL final. Timeout depois de headers
+significa que existe evidencia parcial; nao significa nem "sem dados" nem
+"contrato confirmado". Repetir uma unica vez com intervalo e depois trocar de
+superficie, nao insistir indefinidamente.
+
+## Bateria de probes por fonte
+
+O conjunto minimo para declarar `mapped_broadly` e:
+
+1. termo amplo do ramo;
+2. termo especifico do ramo;
+3. busca vazia esperada;
+4. filtro por processo ou identificador quando existir;
+5. filtro por catalogo, data, classe, assunto, relator ou orgao;
+6. pagina 2 com tamanho pequeno;
+7. detalhe e inteiro teor de ID retornado;
+8. canal auxiliar ou classificacao explicita como nao observado;
+9. erro ou bloqueio controlado;
+10. uma chamada repetida para verificar estabilidade sem aumentar carga.
+
+Se um probe nao se aplica, registrar `nao_aplicavel` e a justificativa. Nunca
+marcar como completo apenas porque o termo `idpj` retornou dados.
+
+## Criterio de completude do mapeamento
+
+Uma fonte so pode receber `mapped_broadly` quando:
+
+- nao existe superficie aplicavel em `desconhecido`;
+- toda rota operacional tem metodo, entrada, resposta, campos, limites e
+  estados de erro documentados;
+- todos os filtros observados estao classificados como efetivos, inefetivos,
+  nao reproduzidos ou fora do modelo runtime;
+- pagina 2, total e limite foram testados ou marcados com evidencia da lacuna;
+- detalhe, documento e canais auxiliares foram procurados com ID real;
+- a matriz distingue HTML shell, vazio, bloqueio, timeout e contrato alterado;
+- cada afirmacao de funcionamento tem fixture ou evidencia live datada;
+- o dossie diz explicitamente o que o provider faz, o que nao faz e por que.
+
+`mapped_broadly` nao significa que toda rota e automatizavel. Significa que o
+projeto percorreu o ecossistema conhecido e tornou as lacunas auditaveis.
 
 ## Estrategia de descoberta sem bloqueio prematuro
 
@@ -406,15 +610,38 @@ Cada rodada deve produzir uma entrada no inventario com esta estrutura logica:
 
 ```yaml
 source: tribunal-ou-orgao
+route_id: tribunal-ou-orgao.search.initial
 surface: search|catalog|detail|document|curated|dataset
+surface_group: search|filters|pagination|decision|document|auxiliary
 url: https://...
 method: GET|POST|GRAPHQL|UNKNOWN
 state: discovered
 evidence: C
+evidence_refs: [fixture-or-live-record]
 content_type: text/html
+charset: utf-8
+input_contract: partial|complete|unknown
+response_contract: partial|complete|unknown
+pagination:
+  mode: none|page|offset|cursor|ajax|unknown
+  base: zero|one|not_applicable|unknown
+  page_sizes: [10, 25, 50, 100]
+  remote_total: observed|absent|partial|unknown
+filters:
+  - name: classe
+    observed: true
+    effective: unknown
+    runtime: false
+channels:
+  detail: observed|operational|blocked|not_applicable|unknown
+  full_text: observed|operational|blocked|not_applicable|unknown
+  pdf: observed|operational|blocked|not_applicable|unknown
+  auxiliary: [not_observed]
 legal_signals: [ementa, processo]
 auth: public|login|captcha|unknown
 contract: partial|complete|unknown
+runtime_support: implemented|candidate|documented_only|blocked
+attempts: 1
 next_probe: "identificar payload de busca"
 observed_at: YYYY-MM-DD
 ```

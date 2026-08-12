@@ -17,6 +17,7 @@ from nanojuris.errors import (
     ParserContractChangedError,
     RateLimitDetectedError,
     SourceUnavailableError,
+    UnsupportedQueryError,
 )
 from nanojuris.models import (
     AccessStatus,
@@ -59,6 +60,10 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
         return self.config.trf5_jurisprudencia_url.rstrip("/")
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
+        if query.page != 1:
+            raise UnsupportedQueryError(
+                "TRF5 ainda nao possui paginacao remota comprovada; use page=1."
+            )
         term = (query.text or query.exact_phrase or query.number).strip()
         if not term:
             raise ValueError("TRF5 jurisprudence search requires a term or number")
@@ -92,6 +97,12 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
             page_size=page_size,
             results=limited,
             source_trace=trace,
+            pagination_mode="unknown",
+            is_complete=False,
+            completeness_reason=(
+                "A resposta HTML observada representa a primeira pagina; o contrato "
+                "de paginação remota ainda não foi promovido."
+            ),
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -169,6 +180,10 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
                 "GET /jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=<id>",
             ],
             supports_full_text=True,
+            supports_cli=True,
+            supports_unified_search=True,
+            supports_mcp=True,
+            supports_studio=True,
             supports_catalog=False,
             supports_live_tests=True,
             supported_filters=["text", "number", "published_from", "published_to", "types"],

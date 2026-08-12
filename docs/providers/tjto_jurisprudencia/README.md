@@ -59,3 +59,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 ## Fonte Oficial
 
 - [Consulta de jurisprudencia do TJTO](https://jurisprudencia.tjto.jus.br/consulta.php)
+## Contrato E Filtros
+
+As URLs indexadas sugerem q, fq_assuntos, fq_competencia, fq_magistrado e soementa, alem de campos de processo, classe, tipo, assuntos, competencia, relator, datas, ementa, questao, razoes e tese. Esses nomes sao pistas de interface; metodo, payload, pagina, ordenacao, catalogos, ids e limites continuam pendentes por causa do 403.
+
+## MCP
+
+O MCP deve manter TJTO fora da federacao ate uma resposta juridica reproduzida. Nao derivar payload de URLs indexadas, nao contornar 403 e nao afirmar que tese ou inteiro teor estao disponiveis sem campo ou documento oficial retornado.

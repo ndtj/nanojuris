@@ -11,6 +11,8 @@ Para priorizacao nacional por familia de sistema e tribunal, veja
 [provider-coverage-map.md](provider-coverage-map.md).
 Para maturidade, lacunas e dossies tecnicos por provider, veja
 [source-contracts.md](source-contracts.md).
+Para o portao de qualidade Ouro e os contratos de completude, veja
+[gold-maturity.md](gold-maturity.md).
 Para uso por agentes de IA com MCP local, veja
 [ai-agent-usage.md](ai-agent-usage.md).
 
@@ -107,7 +109,16 @@ Cada provider retorna um `ProviderCapabilities` com:
 - `supports_catalog`: se a fonte expoe catalogo/parametros;
 - `supports_suggestions`: se a fonte expoe sugestoes;
 - `supports_live_tests`: se ha teste live opcional;
+- `supports_unified_search`: opt-in explicito para o federador Python;
 - `supports_mcp`: se a fonte deve ser exposta no MCP;
+- `supports_cli`: se a fonte deve aparecer nas interfaces CLI;
+- `supports_studio`: se a fonte deve aparecer no Studio;
+- `pagination_mode`: semantica de pagina (`page`, `offset`, `local_window` ou
+  `unknown`);
+- `completeness_contract`: evidencia usada para declarar completude da janela;
+
+Esses quatro campos sao independentes e tem default `False`. Um provider novo
+nao entra em nenhuma superficie de produto por omissao.
 - `limitations`: limitacoes tecnicas conhecidas;
 - `responsible_use`: cuidados de uso responsavel.
 

@@ -112,3 +112,41 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 
 - [Pesquisa de jurisprudencia do TRF5](https://jurisprudencia.trf5.jus.br/jurisprudencia/pesquisa.wsp)
 - [Noticia oficial sobre a busca de jurisprudencia do TRF5](https://www.trf5.jus.br/index.php/noticias/leitura-de-noticias?%2Fid=324960)
+
+## Aprofundamento De Filtros E Tipos Documentais - 2026-08-12
+
+A tela oficial de pesquisa do TRF5 confirma uma consulta em camadas. Os
+filtros visiveis devem ser representados no contrato do futuro provider sem
+reduzir tudo a um unico campo textual.
+
+| Grupo | Filtros observados |
+| --- | --- |
+| Basico | pesquisa livre, orgao julgador, quantidade de processos |
+| Processo | classe da acao, numero do processo, assunto |
+| Relatoria | relator |
+| Decisao | periodo inicial/final da decisao |
+| Publicacao | periodo inicial/final da publicacao |
+| Texto | ementa, indexacao |
+| Legislacao | sigla/norma, origem legislativa, descricao, numero, ano |
+| Tipo documental | acordaos, decisoes da presidencia, decisoes monocraticas, informativos, jurisprudencia comparada e sumulas |
+
+### Fluxo E Limites
+
+```text
+GET  /jurisprudencia/pesquisa.wsp
+POST /jurisprudencia/resultado_pesquisa.wsp
+```
+
+O formulario gera `wi.token` na sessao corrente; o token deve ser obtido por
+execucao, nunca persistido em fixture ou documentacao com valor real. A
+validacao live retornou processo, ementa e links de inteiro teor para uma
+consulta de dano moral. Ainda faltam contrato estavel de paginacao, ordenacao,
+detalhe, tipos de fonte e comportamento de resultado vazio.
+
+O provider deve preservar o tipo documental e a origem institucional em cada
+registro. A busca por ementa/indexacao nao prova que o inteiro teor esteja
+disponivel; o estado de acesso precisa ser reportado separadamente.
+
+Fixtures de promocao: formulario com token normalizado, busca com cada grupo
+de filtro, resultado misto de tipos documentais, pagina vazia, erro de sessao,
+detalhe e link de inteiro teor.

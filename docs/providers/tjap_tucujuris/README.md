@@ -51,3 +51,27 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [Consulta Tucujuris](https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html)
 - [Consulta alternativa](https://services.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html)
 - [Registro institucional do CNJ](https://www.cnj.jus.br/sistema-moderniza-busca-de-jurisprudencia-em-tribunal-do-amapa/)
+## Contrato E Filtros
+
+A interface/superficie foi identificada, mas nenhum metodo, payload, filtro, paginacao, ordenacao ou rota de detalhe foi reproduzido por HTTP limpo. Os escopos institucionais indicam filtros ou colecoes para tribunal, orgao, turma recursal, sumula e processo paradigma, mas os nomes e valores nao sao contrato confirmado.
+
+## Dados E MCP
+
+Nao ha resposta decisoria fixtureada. Os campos que deverao ser confirmados sao identificador, tipo, processo, orgao, ementa, inteiro teor e ponte de movimentacao. O MCP deve manter a fonte fora da busca automatica e diferenciar shell HTML, desafio e resposta juridica real.
+## Contrato
+
+A interface foi identificada, mas metodo, payload, filtros, paginacao,
+ordenacao e detalhe nao foram reproduzidos por HTTP limpo. As referencias
+institucionais a tribunal, orgao, turma recursal, sumula e processo paradigma
+sao escopo, nao nomes de parametros confirmados.
+
+## Dados
+
+Nao existe resposta decisoria fixtureada. Confirmar identificador, tipo,
+processo, orgao, ementa, inteiro teor e ponte de movimentacao quando houver
+sessao publica reproduzivel.
+
+## MCP
+
+Manter fora da busca automatica e diferenciar shell HTML, desafio e resposta
+juridica real.

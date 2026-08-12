@@ -80,3 +80,19 @@ jobs:
           nanojuris --version
           nanojuris fontes --fonte bnp_pangea
           python -c "import nanojuris.mcp_server, nanojuris.web.server; print('optional imports ok')"
+
+      - name: Smoke test MCP extra from wheel
+        run: |
+          python -m venv .smoke-mcp-venv
+          . .smoke-mcp-venv/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install "dist/$(basename dist/*.whl)[mcp]"
+          python -c "from nanojuris.mcp_server import create_server; create_server(); print('mcp extra ok')"
+
+      - name: Smoke test Studio extra from wheel
+        run: |
+          python -m venv .smoke-studio-venv
+          . .smoke-studio-venv/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install "dist/$(basename dist/*.whl)[studio]"
+          python -c "from nanojuris.web.app import create_app; create_app(); print('studio extra ok')"

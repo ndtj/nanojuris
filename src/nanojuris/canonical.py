@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import re
+from datetime import date, datetime
+
 from nanojuris.models import (
     AccessStatus,
     CanonicalDecision,
@@ -24,6 +27,24 @@ def result_to_canonical_decision(
     """Map an extracted jurisprudence result to a canonical decision."""
 
     raw = result.raw or {}
+    judgment_raw = _first_value(
+        result.judgment_date,
+        raw.get("data_julgamento"),
+        raw.get("judgment_date"),
+    )
+    publication_raw = _first_value(
+        result.publication_date,
+        raw.get("data_publicacao"),
+        raw.get("publication_date"),
+    )
+    source_updated_raw = _first_value(
+        result.source_updated_at,
+        raw.get("source_updated_at"),
+        result.updated_at,
+    )
+    retrieved_at = result.retrieved_at or (
+        result.source_trace.retrieved_at if result.source_trace is not None else None
+    )
     return CanonicalDecision(
         id=result.id,
         source=result.source,
@@ -36,10 +57,15 @@ def result_to_canonical_decision(
         rapporteur=result.rapporteur,
         judging_body=_optional_str(raw.get("orgao_julgador") or raw.get("judging_body")),
         origin_county=_optional_str(raw.get("comarca") or raw.get("origin_county")),
-        judgment_date=_optional_str(raw.get("data_julgamento") or raw.get("judgment_date")),
-        publication_date=result.updated_at
-        or _optional_str(raw.get("data_publicacao") or raw.get("publication_date")),
+        judgment_date=normalize_date(judgment_raw),
+        publication_date=normalize_date(publication_raw),
+        judgment_date_raw=judgment_raw,
+        publication_date_raw=publication_raw,
+        source_updated_at=normalize_date(source_updated_raw),
+        retrieved_at=retrieved_at,
+        access_status=_effective_access_status(result),
         summary=result.summary,
+        full_text=result.full_text or _optional_str(raw.get("full_text")),
         document_url=_optional_str(raw.get("full_text_url") or raw.get("document_url")),
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
@@ -55,6 +81,9 @@ def result_to_canonical_precedent(
     """Map an extracted jurisprudence result to a canonical precedent."""
 
     raw = result.raw or {}
+    retrieved_at = result.retrieved_at or (
+        result.source_trace.retrieved_at if result.source_trace is not None else None
+    )
     return CanonicalPrecedent(
         id=result.id,
         source=result.source,
@@ -66,7 +95,10 @@ def result_to_canonical_precedent(
         thesis=result.thesis,
         affected_cases=_map_cases(raw.get("affected_cases") or raw.get("processosAfetados")),
         paradigm_cases=result.paradigm_cases,
-        updated_at=result.updated_at,
+        updated_at=normalize_date(result.updated_at),
+        source_updated_at=normalize_date(result.source_updated_at),
+        retrieved_at=retrieved_at,
+        access_status=_effective_access_status(result),
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
         raw=raw,
@@ -88,15 +120,45 @@ def search_page_to_canonical(
     ]
 
 
+def normalize_date(value: object) -> str | None:
+    """Normalize known source date formats to ISO date, preserving unknown raw values elsewhere."""
+
+    text = _optional_str(value)
+    if not text:
+        return None
+    for parser in (
+        lambda item: datetime.fromisoformat(item.replace("Z", "+00:00")).date(),
+        lambda item: datetime.strptime(item, "%d/%m/%Y").date(),
+        lambda item: datetime.strptime(item, "%d-%m-%Y").date(),
+        lambda item: date.fromisoformat(item[:10]),
+    ):
+        try:
+            return parser(text).isoformat()
+        except (TypeError, ValueError):
+            continue
+    match = re.fullmatch(r"(\d{4})/(\d{2})/(\d{2})", text)
+    if match:
+        return f"{match.group(1)}-{match.group(2)}-{match.group(3)}"
+    return None
+
+
 def _build_trace(result: JurisprudenceResult, *, parser_version: str) -> ExtractionTrace:
-    status = ExtractionStatus.COMPLETE if _has_primary_text(result) else ExtractionStatus.PARTIAL
+    status = result.extraction_status
+    if status == ExtractionStatus.COMPLETE and not _has_primary_text(result):
+        status = ExtractionStatus.PARTIAL
     return ExtractionTrace(
         parser=f"{result.source}.canonical_result_mapper",
         parser_version=parser_version,
         status=status,
-        access_status=AccessStatus.PUBLIC,
+        access_status=_effective_access_status(result),
         metadata={"result_id": result.id, "result_type": result.type},
     )
+
+
+def _effective_access_status(result: JurisprudenceResult) -> AccessStatus:
+    """Never claim public access without explicit evidence from the provider."""
+
+    return result.access_status or AccessStatus.PARTIAL
 
 
 def _looks_like_decision(result: JurisprudenceResult) -> bool:
@@ -125,6 +187,14 @@ def _looks_like_decision(result: JurisprudenceResult) -> bool:
 
 def _has_primary_text(result: JurisprudenceResult) -> bool:
     return bool(result.summary or result.thesis or result.question)
+
+
+def _first_value(*values: object) -> str | None:
+    for value in values:
+        normalized = _optional_str(value)
+        if normalized:
+            return normalized
+    return None
 
 
 def _optional_str(value: object) -> str | None:

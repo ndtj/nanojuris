@@ -4,7 +4,7 @@ import pytest
 
 from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import ParserContractChangedError
+from nanojuris.errors import ParserContractChangedError, UnsupportedQueryError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.trf5_jurisprudencia import (
     Trf5JurisprudenciaProvider,
@@ -25,6 +25,13 @@ HTML = """
 </td></tr></table>
 </body></html>
 """
+
+
+def test_trf5_rejects_unproven_remote_pagination() -> None:
+    provider = Trf5JurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+
+    with pytest.raises(UnsupportedQueryError, match="paginacao remota comprovada"):
+        provider.search(JurisprudenceQuery(text="dano moral", page=2))
 
 
 class FakeResponse:
