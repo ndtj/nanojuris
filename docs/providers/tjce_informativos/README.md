@@ -6,8 +6,18 @@
 - Categoria: `curated_jurisprudence`.
 - Familia tecnica: `institutional_html_pdf`.
 - URL: `https://www.tjce.jus.br/informativo-jurisprudencia/`.
-- Status de acesso: `candidate_ready`.
-- Status no NanoJuris: candidato, sem provider implementado.
+- Status de acesso: `public` na superficie curada validada.
+- Status no NanoJuris: `implemented` como provider de informativos curados.
+
+## Implementacao Atual
+
+- Provider: `src/nanojuris/providers/tjce_informativos.py`.
+- Busca: `GET /informativo-jurisprudencia/` com os filtros publicos do formulario.
+- Fixture: `tests/fixtures/tjce_informativos_results.html`.
+- Testes: `tests/test_tjce_informativos.py`.
+- Validacao live em 2026-08-12: HTTP 200, edicoes atual/anteriores, processo,
+  julgador, orgao, ramo, assunto, destaque e links oficiais de leitura.
+- O provider nao acessa nem promete o inteiro teor do acordao.
 
 Esta fonte e uma curadoria oficial de decisoes consideradas relevantes pelos
 orgaos colegiados do TJCE. Ela nao substitui o repositorio geral de acordaos e

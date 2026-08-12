@@ -49,6 +49,7 @@ from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
 from nanojuris.providers.tjac_esaj_cpopg import TjacEsajCpopgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
 from nanojuris.providers.tjam_cjsg import TjamCjsgProvider
+from nanojuris.providers.tjce_informativos import TjceInformativosProvider
 from nanojuris.providers.tjdf_juris import TjdfJurisProvider
 from nanojuris.providers.tjgo_projudi_jurisprudencia import TjgoProjudiJurisprudenciaProvider
 from nanojuris.providers.tjms_cjsg import TjmsCjsgProvider
@@ -136,6 +137,7 @@ class NanoJurisClient:
                 StmJurisprudenciaProvider(self.config),
                 TstJurisprudenciaProvider(self.config),
                 TceSpJurisprudenciaProvider(self.config),
+                TjceInformativosProvider(self.config),
                 TjacCjsgProvider(self.config),
                 TjacEsajCpopgProvider(self.config),
                 TjdfJurisProvider(self.config),

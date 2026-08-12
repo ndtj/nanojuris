@@ -36,6 +36,7 @@ A validacao live mais recente dos candidatos esta em
 | `stm_jurisprudencia` | jurisprudencia judicial | [stm_jurisprudencia.md](stm_jurisprudencia.md) |
 | `tst_jurisprudencia` | jurisprudencia trabalhista superior | [tst_jurisprudencia.md](tst_jurisprudencia.md) |
 | `tce_sp_jurisprudencia` | jurisprudencia administrativa | [tce_sp_jurisprudencia.md](tce_sp_jurisprudencia.md) |
+| `tjce_informativos` | jurisprudencia curada | [tjce_informativos.md](tjce_informativos.md) |
 | `tjac_cjsg` | jurisprudencia CJSG/e-SAJ | [tjac_cjsg.md](tjac_cjsg.md) |
 | `tjac_esaj_cpopg` | consulta processual | [tjac_esaj_cpopg.md](tjac_esaj_cpopg.md) |
 | `tjal_cjsg` | jurisprudencia CJSG/e-SAJ | [tjal_cjsg.md](tjal_cjsg.md) |
@@ -70,7 +71,7 @@ A validacao live mais recente dos candidatos esta em
 | TJPA Jurisprudencia BFF | BFF publico, busca textual JSON reproduzida; candidato pronto para fixture | [tjpa_jurisprudencia_bff.md](tjpa_jurisprudencia_bff.md) |
 | TJCE Jurisprudencia CJSG | e-SAJ oficial documentado; contrato HTTP pendente apos reset TLS | [tjce_cjsg.md](tjce_cjsg.md) |
 | TJCE SJURIS | SPA oficial PJe/SAJ; gateway preliminar observado, contrato de resultados pendente | [tjce_sjuris.md](tjce_sjuris.md) |
-| TJCE Informativos | HTML institucional curado, itens decisorios e PDFs oficiais | [tjce_informativos.md](tjce_informativos.md) |
+| TJCE Informativos | provider HTML curado implementado; links oficiais preservados | [tjce_informativos.md](tjce_informativos.md) |
 | TRF3 Jurisprudencia | interface oficial rica; nivel B e timeout HTTP registrado | [trf3_jurisprudencia.md](trf3_jurisprudencia.md) |
 | TJPB PJe Jurisprudencia | candidato com risco WAF | [tjpb_pje_jurisprudencia.md](tjpb_pje_jurisprudencia.md) |
 | TJRJ/eproc Jurisprudencia | candidato pronto para fixture | [tjrj_eproc_jurisprudencia.md](tjrj_eproc_jurisprudencia.md) |
