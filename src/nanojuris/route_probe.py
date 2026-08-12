@@ -106,7 +106,7 @@ def probe_route(
     read_timeout: float | None = None,
     max_bytes: int = 5_000_000,
     chunk_size: int = 64 * 1024,
-    user_agent: str = "NanoJuris/route-probe (+https://github.com/ndtj/nanojuris)",
+    user_agent: str = "NanoJuris/route-probe (+https://github.com/lucmolero/nanojuris)",
     data: Mapping[str, str] | None = None,
     json_payload: Any | None = None,
     verify_ssl: bool = True,

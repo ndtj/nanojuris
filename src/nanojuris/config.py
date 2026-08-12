@@ -14,7 +14,7 @@ class NanoJurisConfig:
     timeout: float = 20.0
     verify_ssl: bool = True
     trust_env: bool = field(default_factory=lambda: _env_bool("NANOJURIS_TRUST_ENV", True))
-    user_agent: str = "NanoJuris/0.2.0 (+https://github.com/ndtj/nanojuris)"
+    user_agent: str = "NanoJuris/0.2.0 (+https://github.com/lucmolero/nanojuris)"
     bnp_api_url: str = "https://pangeabnp.pdpj.jus.br/api/v1"
     comunica_pje_url: str = "https://comunicaapi.pje.jus.br"
     stf_juris_url: str = "https://jurisprudencia.stf.jus.br"

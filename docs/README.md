@@ -13,6 +13,7 @@ NanoJuris. O projeto separa claramente **usar**, **entender**, **expandir** e
 | Conectar um agente de IA | [MCP local](mcp.md) |
 | Salvar e exportar pesquisas | [Armazenamento](storage.md) |
 | Escolher uma fonte | [Capacidades por fonte](source-capabilities.md) |
+| Ver implementação, validação e evidência live | [Status das fontes](provider-status.md) |
 
 ## 2. Entender
 
@@ -22,6 +23,7 @@ NanoJuris. O projeto separa claramente **usar**, **entender**, **expandir** e
 | Aquisição, parsing e evidência | [Pipeline de extração](extraction-pipeline.md) |
 | Contrato de dados dos providers | [Contratos de fonte](source-contracts/README.md) |
 | Pesquisa federada e cobertura | [Mapa de cobertura](provider-coverage-map.md) |
+| Estado operacional e limites de acesso | [Status das fontes](provider-status.md) |
 | Limites e uso responsável | [Uso responsável](responsible-use.md) |
 
 ## 3. Expandir

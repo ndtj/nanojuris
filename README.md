@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml"><img src="https://github.com/ndtj/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://github.com/ndtj/nanojuris/security/code-scanning"><img src="https://img.shields.io/badge/CodeQL-analisado-2ea44f.svg" alt="CodeQL" /></a>
+  <a href="https://github.com/lucmolero/nanojuris/actions/workflows/ci.yml"><img src="https://github.com/lucmolero/nanojuris/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+  <a href="https://github.com/lucmolero/nanojuris/security/code-scanning"><img src="https://img.shields.io/badge/CodeQL-analisado-2ea44f.svg" alt="CodeQL" /></a>
   <a href="https://pypi.org/project/nanojuris/"><img src="https://img.shields.io/pypi/v/nanojuris.svg" alt="PyPI" /></a>
   <a href="https://pypi.org/project/nanojuris/"><img src="https://img.shields.io/pypi/pyversions/nanojuris.svg" alt="Python 3.10+" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licença-MIT-1f6feb.svg" alt="Licença MIT" /></a>
@@ -55,6 +55,7 @@ provider explicita essa distinção.
 | Conectar Claude, Codex ou outro agente | [MCP local](docs/mcp.md) |
 | Entender o modelo de dados | [Arquitetura](docs/architecture.md) |
 | Escolher uma fonte | [Capacidades por fonte](docs/source-capabilities.md) |
+| Ver o estado real das fontes | [Status das fontes](docs/provider-status.md) |
 | Criar ou corrigir um provider | [Guia de providers](docs/provider-development.md) |
 | Auditar uma coleta | [Pipeline de extração](docs/extraction-pipeline.md) |
 
@@ -69,7 +70,7 @@ python -m pip install nanojuris
 Para desenvolvimento local:
 
 ```bash
-git clone https://github.com/ndtj/nanojuris.git
+git clone https://github.com/lucmolero/nanojuris.git
 cd nanojuris
 python -m venv .venv
 python -m pip install -e ".[dev]"
@@ -93,6 +94,23 @@ for decision in page.results:
     print(decision.court, decision.number)
     print(decision.summary or decision.thesis)
 ```
+
+Forma de resposta, usando uma fixture pública representativa do TJDFT:
+
+```json
+{
+  "source": "tjdf_juris",
+  "court": "TJDFT",
+  "type": "acordao",
+  "number": "0722671-67.2024.8.07.0000",
+  "rapporteur": "SANDRA REVES",
+  "judgment_date": "2024-09-04"
+}
+```
+
+O bloco ilustra o formato canônico de uma resposta testada offline. A
+disponibilidade live e os campos presentes devem ser confirmados no dossiê da
+fonte em cada execução.
 
 A resposta preserva os metadados normalizados e a trilha da fonte. A biblioteca
 não transforma uma fonte instável em uma certeza: indisponibilidade, controle de
