@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<body>
+<form id="pesquisaForm" action="/jurisprudencia/publico/pesquisa.do?actionType=pesquisar" method="post">
+  <input type="hidden" name="pageSize" value="50">
+  <input type="hidden" name="pageNumber" value="1">
+</form>
+<div>123 registro(s) encontrado(s), exibindo de 1 até 2</div>
+<table class="resultTable jurisprudencia">
+  <tr><th>Tipo</th><th>Ementa</th></tr>
+  <tr class="even">
+    <td class="juris-tabela-dados">
+      <input id="idsSelecionados" name="idsSelecionados" type="checkbox" value="2100000000000001">
+      <div class="juris-tabela-propriedades">
+        <a class="decisao negrito" href="/jurisprudencia/j/2100000000000001/Acordao-0000001-01.2024.8.16.0001">
+          <div>0000001-01.2024.8.16.0001</div>
+        </a>
+        <font class="decisao"> (Acórdão)</font>
+        <br>Relator: Des. Ana Exemplo
+        <br>Processo: 0000001-01.2024.8.16.0001
+        <br>Órgão Julgador: 1ª Câmara Cível
+        <br>Data Julgamento: 12/03/2024
+      </div>
+    </td>
+    <td class="juris-tabela-ementa">Responsabilidade civil. Dano moral. Ementa pública de teste.</td>
+  </tr>
+  <tr class="odd">
+    <td class="juris-tabela-dados">
+      <input id="idsSelecionados" name="idsSelecionados" type="checkbox" value="2100000000000002">
+      <div class="juris-tabela-propriedades">
+        <a class="decisao negrito" href="/jurisprudencia/j/2100000000000002/Decisao-monocratica-0000002-02.2024.8.16.0001">
+          <div>0000002-02.2024.8.16.0001</div>
+        </a>
+        <font class="decisao"> (Decisão monocrática)</font>
+        <br>Relator: Juiz Exemplo
+        <br>Processo: 0000002-02.2024.8.16.0001
+        <br>Órgão Julgador: 2ª Turma Recursal
+        <br>Data Julgamento: 13/03/2024
+        <br>Segredo de Justiça Conteúdo pendente de análise e liberação para consulta pública.
+      </div>
+    </td>
+    <td class="juris-tabela-ementa">Conteúdo pendente de análise e liberação.</td>
+  </tr>
+  <tr class="even cidh">
+    <td class="juris-tabela-dados">Caso Corte IDH</td>
+  </tr>
+</table>
+</body>
+</html>

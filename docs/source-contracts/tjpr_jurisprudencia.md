@@ -1,6 +1,19 @@
 # TJPR - Pesquisa De Jurisprudencia
 
-Status atual: `candidate_ready`; provider HTML pendente de fixture e parser.
+Status atual: `implemented`; parser HTML, contrato e fixtures offline estao registrados no pacote.
+
+## Implementacao Atual
+
+- Provider: `src/nanojuris/providers/tjpr_jurisprudencia.py`.
+- Interface: busca publica por formulario GET + POST em sessao HTTP limpa.
+- Fixture: `tests/fixtures/tjpr_jurisprudencia_results.html`.
+- Testes: `tests/test_tjpr_jurisprudencia.py`.
+- Busca live validada em 2026-08-12 com `responsabilidade civil`: HTTP 200,
+  total reportado pela fonte e resultados com identificador, processo, tipo,
+  relator, orgao, data e URL oficial.
+- O status `implemented` nao promete disponibilidade permanente nem inteiro
+  teor. O provider declara `supports_full_text=False` e preserva acesso parcial
+  para segredo de justica ou conteudo pendente de liberacao.
 
 ## Contrato Observado
 

@@ -49,6 +49,7 @@ class NanoJurisConfig:
     tjsc_eproc_jurisprudencia_url: str = "https://eprocwebcon.tjsc.jus.br/consulta1g"
     tjgo_projudi_url: str = "https://projudi.tjgo.jus.br"
     tjpi_juspi_url: str = "https://jurisprudencia.tjpi.jus.br"
+    tjpr_jurisprudencia_url: str = "https://portal.tjpr.jus.br"
     tjpa_jurisprudencia_url: str = "https://jurisprudencia.tjpa.jus.br"
     tjpb_pje_jurisprudencia_url: str = "https://pje-jurisprudencia.tjpb.jus.br"
     tjrs_jurisprudencia_url: str = "https://www.tjrs.jus.br"
