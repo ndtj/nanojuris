@@ -105,6 +105,7 @@ class ExtractionTrace:
     content_sha256: str | None = None
     content_bytes: int | None = None
     warnings: list[str] = field(default_factory=list)
+    transformations: list[str] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -126,6 +127,7 @@ class CanonicalDocument:
     byte_size: int | None = None
     retrieved_at: str | None = None
     access_status: AccessStatus = AccessStatus.PARTIAL
+    extraction_status: ExtractionStatus = ExtractionStatus.PARTIAL
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw_metadata: dict[str, Any] = field(default_factory=dict)
@@ -154,8 +156,10 @@ class CanonicalDecision:
     judgment_date_raw: str | None = None
     publication_date_raw: str | None = None
     source_updated_at: str | None = None
+    source_updated_at_raw: str | None = None
     retrieved_at: str | None = None
     access_status: AccessStatus = AccessStatus.PARTIAL
+    extraction_status: ExtractionStatus = ExtractionStatus.PARTIAL
     summary: str | None = None
     full_text: str | None = None
     document_url: str | None = None
@@ -182,9 +186,12 @@ class CanonicalPrecedent:
     affected_cases: list[ParadigmCase] = field(default_factory=list)
     paradigm_cases: list[ParadigmCase] = field(default_factory=list)
     updated_at: str | None = None
+    updated_at_raw: str | None = None
     source_updated_at: str | None = None
+    source_updated_at_raw: str | None = None
     retrieved_at: str | None = None
     access_status: AccessStatus = AccessStatus.PARTIAL
+    extraction_status: ExtractionStatus = ExtractionStatus.PARTIAL
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)

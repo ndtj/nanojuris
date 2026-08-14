@@ -8,6 +8,7 @@ from nanojuris.errors import InvalidQueryError
 from nanojuris.extraction import _status_to_access_status
 from nanojuris.models import (
     AccessStatus,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -32,6 +33,9 @@ def test_canonical_mapper_preserves_access_evidence_and_date_meanings():
     assert record.access_status == AccessStatus.PARTIAL
     assert record.extraction_trace is not None
     assert record.extraction_trace.access_status == AccessStatus.PARTIAL
+    assert record.extraction_status == ExtractionStatus.COMPLETE
+    assert "canonical_mapping" in record.extraction_trace.transformations
+    assert "publication_date_normalized_to_iso" in record.extraction_trace.transformations
     assert record.judgment_date is None
     assert record.publication_date == "2026-08-15"
     assert record.publication_date_raw == "15/08/2026"
@@ -112,3 +116,19 @@ def test_unified_search_applies_global_pagination_and_deduplication():
     assert payload["collection_complete"] is False
     assert payload["sources_unknown"] == ["a", "b"]
     assert payload["source_completeness"]["a"]["complete"] is None
+
+
+def test_canonical_mapper_treats_full_text_as_complete_primary_content():
+    result = JurisprudenceResult(
+        id="decision-full-text",
+        source="fixture",
+        court="TJDFT",
+        type="acordao",
+        full_text="Inteiro teor da decisao",
+    )
+
+    record = result_to_canonical_decision(result)
+
+    assert record.extraction_status == ExtractionStatus.COMPLETE
+    assert record.extraction_trace is not None
+    assert "extraction_status_downgraded_to_partial" not in record.extraction_trace.transformations
