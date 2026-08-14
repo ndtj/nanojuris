@@ -66,7 +66,7 @@ A validacao live mais recente dos candidatos esta em
 | TJSC/eproc Jurisprudencia | formulario eproc publico, candidato pronto para fixture | [tjsc_eproc_jurisprudencia.md](tjsc_eproc_jurisprudencia.md) |
 | TJMA JurisConsult | contrato parcial | [tjma_jurisconsult.md](tjma_jurisconsult.md) |
 | TRT2 PJe Jurisprudencia | bloqueio/desafio documentado | [trt2_pje_jurisprudencia.md](trt2_pje_jurisprudencia.md) |
-| TJRR/Juris JSF | postback publico reproduzido, candidato pronto para fixture | [tjrr_juris.md](tjrr_juris.md) |
+| TJRR/Juris JSF | provider implementado; postback publico, fixture e parser offline | [tjrr_juris.md](tjrr_juris.md) |
 | TJMT Jurisprudencia API | candidato precisa header/payload | [tjmt_jurisprudencia_api.md](tjmt_jurisprudencia_api.md) |
 | TJPA Jurisprudencia BFF | BFF publico, busca textual JSON reproduzida; candidato pronto para fixture | [tjpa_jurisprudencia_bff.md](tjpa_jurisprudencia_bff.md) |
 | TJCE Jurisprudencia CJSG | e-SAJ oficial documentado; contrato HTTP pendente apos reset TLS | [tjce_cjsg.md](tjce_cjsg.md) |

@@ -55,6 +55,7 @@ class NanoJurisConfig:
     tjpr_jurisprudencia_url: str = "https://portal.tjpr.jus.br"
     tjpa_jurisprudencia_url: str = "https://jurisprudencia.tjpa.jus.br"
     tjpb_pje_jurisprudencia_url: str = "https://pje-jurisprudencia.tjpb.jus.br"
+    tjrr_juris_url: str = "https://jurisprudencia.tjrr.jus.br"
     tjrs_jurisprudencia_url: str = "https://www.tjrs.jus.br"
     trf5_jurisprudencia_url: str = "https://jurisprudencia.trf5.jus.br"
     cjf_trf1_jurisprudencia_url: str = "https://jurisprudencia.cjf.jus.br"

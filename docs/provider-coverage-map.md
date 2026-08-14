@@ -43,7 +43,7 @@ segredo de justica ou controles de acesso.
 | P0 | TJGO/Projudi jurisprudencia | ja implementado; POST publico validado, alto volume, processo, orgao, magistrado, decisao e inteiro teor embutido | `CanonicalDecision` via parser HTML Projudi |
 | P0 | TJAC/e-SAJ CJSG | resultado simples publico validado com ementa, relator, orgao, datas e inteiro teor | `CanonicalDecision` via familia CJSG/e-SAJ |
 | P0 | TJPI/JusPI jurisprudencia | ja implementado; GET publico de busca e detalhe HTML retornam conteudo decisorio valido | `CanonicalDecision` e `CanonicalDocument` via parser HTML |
-| P1 | TJRR/Juris JSF | GET e postback JSF publico reproduzidos com resultado real; disponibilidade apresentou timeout em repeticao | `CanonicalDecision` apos fixture e parser offline |
+| P1 | TJRR/Juris JSF | provider implementado com GET, postback JSF/PrimeFaces, fixture sanitizada e parser offline; disponibilidade live deve ser monitorada | `CanonicalDecision` e `CanonicalDocument` via contrato JSF observado |
 | P1 | TJMT jurisprudencia API Hellsgate | revalidacao atual redirecionou o portal para `/ui/login` e a API inferida respondeu 401; evidencia antiga mantida apenas como historico | nao automatizar sem nova rota publica reproduzivel |
 | P1 | TJPA jurisprudencia BFF | `POST /bff/api/decisoes/buscar` retornou JSON decisorio real; catalogos e recentes tambem respondem publicamente | `CanonicalDecision` via JSON apos fixtures, filtros e detalhe |
 | P1 | TJCE/e-SAJ CJSG | pagina oficial documenta busca completa, ementas, acordaos, filtros e inteiro teor; acesso HTTP local sofreu reset TLS | `CanonicalDecision` via familia CJSG apos HAR e fixture |

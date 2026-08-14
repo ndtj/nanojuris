@@ -29,7 +29,7 @@ a 37 providers implementados.
 | TJRJ | RJ | eproc e eJURIS | eproc candidato; eJURIS bloqueado | separar bases e validar fixture |
 | TJRN | RN | portal unificado | bloqueado/inconclusivo | HAR da busca publica |
 | TJRO | RO | LIAME | documental | adapter de precedentes; localizar busca de acordaos |
-| TJRR | RR | Juris JSF | candidato pronto | fixture e estabilidade do postback |
+| TJRR | RR | Juris JSF | implementado | monitorar vazio, estado expirado e detalhe |
 | TJRS | RS | AJAX/SOLR | candidato pronto | fixture JSON e parser ISO-8859-1 |
 | TJSC | SC | eproc | candidato pronto | fixture e parser estadual |
 | TJSE | SE | JSF/PrimeFaces | bloqueado por captcha | HAR normal; nao contornar desafio |

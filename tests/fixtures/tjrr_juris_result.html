@@ -1,0 +1,25 @@
+<!doctype html>
+<html><body>
+  <form id="formPesquisa" method="post" action="/index.xhtml">
+    <input type="hidden" name="formPesquisa" value="formPesquisa" />
+    <input type="hidden" name="javax.faces.ViewState" value="result-view-state" />
+    <div id="formPesquisa:j_idt155:dataTablePesquisa">
+      <span class="ui-paginator-current">(1 of 2)</span>
+      <script>PrimeFaces.cw("DataTable", {rowCount:2, rows:1, currentPageTemplate:'({currentPage} of {totalPages})'});</script>
+      <div id="resultados1" class="row">
+        <div class="tituloDocumento">
+          <button onclick="abrirJanela('/inteiroTeor.xhtml?id=321')" title="Exibir o inteiro teor do acordao." />
+          <button onclick="abrirJanela('/impressao.xhtml?id=321')" title="Imprimir" />
+          <button onclick="abrirJanela('https://estatistica.tjrr.jus.br/estatistica/extrato-processo?p=00000000000000000001')" title="Consulta Processual" />
+        </div>
+        <div class="docParagrafo"><div class="docTitulo">PROCESSO</div><div class="docTexto">Apelacao Civel<br /><br />0000001-23.2026.8.23.0001<br /></div></div>
+        <div class="docParagrafo"><div class="docTitulo">RELATOR</div><div class="docTexto">Relator de Fixture</div></div>
+        <div class="docParagrafo"><div class="docTitulo">ÓRGÃO JULGADOR:</div><div class="docTexto">Câmara de Fixture</div></div>
+        <div class="docParagrafo"><div class="docTitulo">DATA DO JULGAMENTO:</div><div class="docTexto">07/08/2026</div></div>
+        <div class="docParagrafo"><div class="docTitulo">DATA DA PUBLICAÇÃO:</div><div class="docTexto">12/08/2026</div></div>
+        <div class="docParagrafo"><div class="docTitulo">EMENTA:</div><div class="docTexto">Ementa publica de fixture.</div></div>
+        <div class="docParagrafo"><div class="docTitulo">INTEIRO TEOR</div><div class="docTexto">Texto integral publico de fixture.</div></div>
+      </div>
+    </div>
+  </form>
+</body></html>
