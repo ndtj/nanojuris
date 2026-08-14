@@ -360,6 +360,14 @@ deduplicados e ordenados antes de aplicar `page`/`page_size`. O retorno inclui
 promessa de exaustividade quando `collection_complete` for falso. Isso e
 diferente de pedir a mesma pagina individual em cada tribunal.
 
+Para atender paginas federadas alem da primeira janela, o cliente busca cada
+fonte em paginas incrementais, usando uma janela constante de ate 100 registros
+por requisicao. A resposta informa `pages_fetched` dentro de
+`source_completeness`, permitindo distinguir uma fonte consultada apenas uma
+vez de uma fonte percorrida em varias paginas. O campo nao transforma o total
+reportado pelo tribunal em um total nacional: ele descreve somente a coleta
+observada nesta execucao.
+
 ## Tools planejadas
 
 ### `get_decision`

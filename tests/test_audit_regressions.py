@@ -99,6 +99,40 @@ class _FederatedProvider:
         )
 
 
+class _PagedProvider(_FederatedProvider):
+    def __init__(self, name: str, numbers: list[str]):
+        super().__init__(name, numbers)
+        self.page_requests: list[tuple[int, int]] = []
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        self.page_requests.append((query.page, query.page_size))
+        start = (query.page - 1) * query.page_size
+        end = start + query.page_size
+        page_numbers = self.numbers[start:end]
+        return SearchPage(
+            source=self.name,
+            total=len(self.numbers),
+            start=start + 1 if page_numbers else 0,
+            end=start + len(page_numbers),
+            page=query.page,
+            page_size=query.page_size,
+            results=[
+                JurisprudenceResult(
+                    id=f"{self.name}-{number}",
+                    source=self.name,
+                    court="STJ",
+                    type="acordao",
+                    number=number,
+                    summary="ICMS ementa",
+                    access_status=AccessStatus.PUBLIC,
+                )
+                for number in page_numbers
+            ],
+            is_complete=end >= len(self.numbers),
+            completeness_reason="fixture paginada",
+        )
+
+
 def test_unified_search_applies_global_pagination_and_deduplication():
     client = NanoJurisClient(
         providers=[
@@ -116,6 +150,17 @@ def test_unified_search_applies_global_pagination_and_deduplication():
     assert payload["collection_complete"] is False
     assert payload["sources_unknown"] == ["a", "b"]
     assert payload["source_completeness"]["a"]["complete"] is None
+
+
+def test_unified_search_fetches_incremental_source_pages_after_first_window():
+    provider = _PagedProvider("paged", [str(index) for index in range(1, 251)])
+    client = NanoJurisClient(providers=[provider])
+
+    payload = client.search_many("ICMS", sources=["paged"], page=11, page_size=10)
+
+    assert payload["total_returned"] == 10
+    assert payload["source_completeness"]["paged"]["pages_fetched"] == 2
+    assert provider.page_requests == [(1, 100), (2, 100)]
 
 
 def test_canonical_mapper_treats_full_text_as_complete_primary_content():
