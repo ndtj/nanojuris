@@ -1,6 +1,19 @@
 # CNJ - Informativos De Jurisprudencia
 
-Status atual: `candidate_ready` para provider HTML/PDF de informativos curados.
+Status atual: `implemented` para catalogo HTML e documento PDF sob demanda.
+
+## Implementacao Atual
+
+- Provider: `src/nanojuris/providers/cnj_jurisprudencia.py`.
+- Busca: `GET /jurisprudencia` com `argumento`, `numero`, datas e `page`.
+- Documento: PDF oficial baixado somente por `get_document` com URL retornada
+  em `raw.document_url`; os bytes, tamanho e SHA-256 sao preservados.
+- Fixture: `tests/fixtures/cnj_jurisprudencia_results.html`.
+- Testes: `tests/test_cnj_jurisprudencia.py`.
+- Validacao live em 2026-08-12: HTTP 200, tabela HTML com edicao, data,
+  resumo e links oficiais para PDF.
+- O provider continua sendo curado/documental: nao representa a busca geral
+  de acordaos do CNJ.
 
 ## Identidade Da Fonte
 
@@ -59,6 +72,8 @@ Cada linha do resultado possui:
 
 O PDF e a fonte primaria do texto integral do informativo. A tabela pode
 conter quebras de linha, entidades HTML e mais de um item por documento.
+O provider preserva os bytes do PDF e sua integridade, mas nao extrai o texto
+para `CanonicalDocument.text`; portanto `supports_full_text` permanece falso.
 
 ## Mapeamento Canonico
 

@@ -31,6 +31,7 @@ from nanojuris.models import (
 from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.bnp_pangea import BnpPangeaProvider
 from nanojuris.providers.cjf_jurisprudencia import CjfJurisprudenciaProvider
+from nanojuris.providers.cnj_jurisprudencia import CnjJurisprudenciaProvider
 from nanojuris.providers.comunica_pje import ComunicaPjeProvider
 from nanojuris.providers.eproc_jurisprudencia_federal import (
     TnuEprocJurisprudenciaProvider,
@@ -125,6 +126,7 @@ class NanoJurisClient:
             else [
                 BnpPangeaProvider(self.config),
                 CjfJurisprudenciaProvider(self.config),
+                CnjJurisprudenciaProvider(self.config),
                 ComunicaPjeProvider(self.config),
                 TnuEprocJurisprudenciaProvider(self.config),
                 StfInformativoProvider(self.config),

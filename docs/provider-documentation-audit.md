@@ -14,10 +14,10 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 
 ## Resumo
 
-- Dossies auditados: **57** (35 implemented, 21 candidates, 1 family).
+- Dossies auditados: **57** (36 implemented, 20 candidates, 1 family).
 - Dossies com secoes estruturais: **45/57**.
 - Canonical/legacy em paridade: **57/57**.
-- Prontidao: `family_spec`=1, `implementation_ready`=2, `needs_deepening`=33, `research_ready`=21.
+- Prontidao: `family_spec`=1, `implementation_ready`=2, `needs_deepening`=34, `research_ready`=20.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
@@ -31,7 +31,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | --- | --- | --- | ---: | --- | --- | ---: | ---: |
 | [`bnp_pangea`](docs/providers/bnp_pangea/README.md) | implemented | `needs_deepening` | 4 | medio | data, next_steps | 0 | 0 |
 | [`cjf_jurisprudencia`](docs/providers/cjf_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | next_steps | 6 | 0 |
-| [`cnj_jurisprudencia`](docs/providers/cnj_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 6 | 0 |
+| [`cnj_jurisprudencia`](docs/providers/cnj_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 1 |
 | [`comunica_pje`](docs/providers/comunica_pje/README.md) | implemented | `needs_deepening` | 3 | medio | - | 8 | 0 |
 | [`eproc_jurisprudencia_federal`](docs/providers/eproc_jurisprudencia_federal/README.md) | family | `family_spec` | - | research | - | 1 | 3 |
 | [`falcao_jt`](docs/providers/falcao_jt/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |

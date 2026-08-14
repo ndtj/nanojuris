@@ -26,6 +26,7 @@ A validacao live mais recente dos candidatos esta em
 | Provider | Categoria | Dossie |
 | --- | --- | --- |
 | `bnp_pangea` | precedentes qualificados | [bnp_pangea.md](bnp_pangea.md) |
+| `cnj_jurisprudencia` | jurisprudencia curada | [cnj_jurisprudencia.md](cnj_jurisprudencia.md) |
 | `comunica_pje` | comunicacoes judiciais | [comunica_pje.md](comunica_pje.md) |
 | `tnu_eproc_jurisprudencia` | jurisprudencia eproc federal | [tnu_eproc_jurisprudencia.md](tnu_eproc_jurisprudencia.md) |
 | `stf_informativo` | jurisprudencia curada | [stf_informativo.md](stf_informativo.md) |
@@ -77,7 +78,7 @@ A validacao live mais recente dos candidatos esta em
 | TRF5 Jurisprudencia | candidato pronto para fixture | [trf5_jurisprudencia.md](trf5_jurisprudencia.md) |
 | CJF/TRF1 Jurisprudencia | candidato pronto para fixture | [cjf_jurisprudencia.md](cjf_jurisprudencia.md) |
 | TCU Jurisprudencia e dados abertos | dataset publico pronto para adapter; pesquisa interativa protegida | [tcu_jurisprudencia.md](tcu_jurisprudencia.md) |
-| CNJ Informativos de Jurisprudencia | HTML paginado e PDFs oficiais; conteudo curado | [cnj_jurisprudencia.md](cnj_jurisprudencia.md) |
+| CNJ Informativos de Jurisprudencia | provider HTML/PDF implementado; conteudo curado | [cnj_jurisprudencia.md](cnj_jurisprudencia.md) |
 | TJAP/Tucujuris | superficie institucional identificada; desafio no acesso limpo | [tjap_tucujuris.md](tjap_tucujuris.md) |
 | TJES Jurisprudencia | resultado legado indexado; portal atual instavel | [tjes_jurisprudencia.md](tjes_jurisprudencia.md) |
 | TJMG Espelho de Acordao | formulario e ajuda oficiais; busca textual com captcha | [tjmg_jurisprudencia.md](tjmg_jurisprudencia.md) |

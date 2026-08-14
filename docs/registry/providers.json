@@ -7,6 +7,7 @@
   "mcp_contract_tool": "source_contracts",
   "implemented": [
     "bnp_pangea",
+    "cnj_jurisprudencia",
     "cjf_jurisprudencia",
     "comunica_pje",
     "stf_informativo",
@@ -43,7 +44,6 @@
     "tst_jurisprudencia"
   ],
   "candidates": [
-    "cnj_jurisprudencia",
     "falcao_jt",
     "justica_eleitoral_sjur",
     "stj_dados_abertos_jurisprudencia",
