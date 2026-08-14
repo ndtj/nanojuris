@@ -3,7 +3,7 @@ from __future__ import annotations
 from nanojuris import FetchedContent, ParsedContent
 from nanojuris import FetchRequest as PublicFetchRequest
 from nanojuris import HttpFetcher as PublicHttpFetcher
-from nanojuris.config import NanoJurisConfig
+from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.extraction import FetchRequest, HttpFetcher, parsed_content
 from nanojuris.models import AccessStatus, ExtractionStatus
 
@@ -81,6 +81,27 @@ def test_http_fetcher_maps_access_status_from_status_code():
     )
 
     assert content.access_status == AccessStatus.ACCESS_CONTROL_REQUIRED
+
+
+def test_configured_session_applies_http_policy_to_direct_provider_calls():
+    session = FakeSession(FakeResponse(b"ok"))
+    configured = configure_requests_session(
+        session,
+        NanoJurisConfig(
+            timeout=7.0,
+            user_agent="NanoJuris Policy Test",
+            trust_env=False,
+            verify_ssl=False,
+        ),
+    )
+
+    configured.request("GET", "https://example.test")
+
+    assert session.calls[0]["kwargs"]["headers"]["User-Agent"] == "NanoJuris Policy Test"
+    assert session.calls[0]["kwargs"]["timeout"] == 7.0
+    assert session.calls[0]["kwargs"]["verify"] is False
+    assert session.trust_env is False
+    assert session.verify is False
 
 
 def test_parsed_content_includes_extraction_trace():
