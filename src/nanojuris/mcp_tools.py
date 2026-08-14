@@ -166,6 +166,7 @@ def sync_source_resource_tool(
     source: str = "stj_dados_abertos_jurisprudencia",
     max_bytes: int = 50_000_000,
     label: str | None = None,
+    force: bool = False,
     client: NanoJurisClient | None = None,
 ) -> dict[str, Any]:
     """Download one bounded official resource into a local SQLite store."""
@@ -179,6 +180,7 @@ def sync_source_resource_tool(
             store=store,
             max_bytes=max_bytes,
             label=label,
+            force=force,
         )
     return {
         "source": source,
@@ -353,6 +355,27 @@ def store_stats_tool(db_path: str) -> dict[str, Any]:
 
     with SQLiteStore(db_path) as store:
         return store.stats().to_dict()
+
+
+def store_sync_manifests_tool(
+    db_path: str,
+    *,
+    source: str = "",
+    limit: int = 50,
+) -> dict[str, Any]:
+    """List incremental synchronization manifests from a local store."""
+
+    with SQLiteStore(db_path) as store:
+        manifests = store.list_sync_manifests(
+            source=source or None,
+            limit=_limit_page_size(limit),
+        )
+    return {
+        "db_path": db_path,
+        "source": source,
+        "limit": _limit_page_size(limit),
+        "manifests": manifests,
+    }
 
 
 def store_query_tool(

@@ -66,6 +66,9 @@ class StjSyncResult:
     duplicate_records: int
     invalid_records: int
     run_id: str
+    source_hash: str | None = None
+    source_fingerprint: str | None = None
+    skipped: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -234,6 +237,7 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
         store: SQLiteStore,
         max_bytes: int = DEFAULT_MAX_SYNC_BYTES,
         label: str | None = None,
+        force: bool = False,
     ) -> StjSyncResult:
         """Download, parse and persist one JSON/CSV resource explicitly."""
 
@@ -253,6 +257,36 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "ZIP permanece bloqueado"
             )
         resource_url = _require_official_resource_url(str(resource.get("url") or ""), self.base_url)
+        source_hash = _text_value(resource, "hash") or None
+        source_fingerprint = _resource_fingerprint(resource, source_hash=source_hash)
+        manifest = store.get_sync_manifest(
+            source=self.name,
+            dataset_id=dataset_id,
+            resource_id=resource_id,
+        )
+        if (
+            not force
+            and source_fingerprint
+            and manifest is not None
+            and manifest.get("status") == "complete"
+            and manifest.get("source_fingerprint") == source_fingerprint
+        ):
+            return StjSyncResult(
+                source=self.name,
+                dataset_id=dataset_id,
+                resource_id=resource_id,
+                format=resource_format,
+                bytes_read=int(manifest["response_bytes"]),
+                content_sha256=str(manifest["content_sha256"]),
+                records_seen=int(manifest["records_seen"]),
+                records_saved=0,
+                duplicate_records=int(manifest["duplicate_records"]),
+                invalid_records=int(manifest["invalid_records"]),
+                run_id=str(manifest["run_id"]),
+                source_hash=source_hash,
+                source_fingerprint=source_fingerprint,
+                skipped=True,
+            )
         content, response = self._download_resource(resource_url, max_bytes=max_bytes)
         content_sha256 = hashlib.sha256(content).hexdigest()
         trace = self._trace(
@@ -288,10 +322,28 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "dataset_id": dataset_id,
                 "resource_id": resource_id,
                 "format": resource_format,
+                "source_hash": source_hash,
+                "source_fingerprint": source_fingerprint,
                 "content_sha256": content_sha256,
             },
             records=records,
             label=label or f"STJ sync {dataset_id}/{resource_id}",
+            sync_manifest={
+                "source": self.name,
+                "dataset_id": dataset_id,
+                "resource_id": resource_id,
+                "format": resource_format,
+                "source_url": resource_url,
+                "source_hash": source_hash,
+                "source_fingerprint": source_fingerprint,
+                "content_sha256": content_sha256,
+                "response_bytes": len(content),
+                "records_seen": len(rows),
+                "records_saved": len(records),
+                "duplicate_records": duplicate_records,
+                "invalid_records": invalid_records,
+                "status": "complete",
+            },
         )
         return StjSyncResult(
             source=self.name,
@@ -305,6 +357,8 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
             duplicate_records=duplicate_records,
             invalid_records=invalid_records,
             run_id=run.id,
+            source_hash=source_hash,
+            source_fingerprint=source_fingerprint,
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -332,7 +386,9 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "duplicate_records",
                 "invalid_records",
                 "content_sha256",
+                "source_hash",
                 "run_id",
+                "skipped",
             ],
             access_statuses=[AccessStatus.PUBLIC, AccessStatus.SOURCE_UNAVAILABLE],
             endpoints=[
@@ -356,6 +412,7 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "resource_id",
                 "format",
                 "max_bytes",
+                "force",
             ],
             limitations=[
                 "Nao oferece busca jurisprudencial online neste adapter.",
@@ -565,6 +622,22 @@ def _content_length(response: requests.Response) -> int | None:
         return int(value) if value else None
     except (TypeError, ValueError):
         return None
+
+
+def _resource_fingerprint(resource: dict[str, Any], *, source_hash: str | None) -> str | None:
+    """Prefer a publisher hash and otherwise fingerprint stable catalog metadata."""
+
+    if source_hash:
+        return f"hash:{source_hash}"
+    metadata = {
+        "url": resource.get("url"),
+        "size": resource.get("size"),
+        "last_modified": resource.get("last_modified"),
+    }
+    if not metadata["url"] or not metadata["size"] and not metadata["last_modified"]:
+        return None
+    encoded = json.dumps(metadata, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    return f"metadata:{hashlib.sha256(encoded).hexdigest()}"
 
 
 def _parse_resource(content: bytes, resource_format: str) -> list[dict[str, Any]]:

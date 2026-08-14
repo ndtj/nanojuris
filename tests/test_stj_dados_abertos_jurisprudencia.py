@@ -205,6 +205,55 @@ def test_sync_json_deduplicates_by_id_and_persists_a_research_run(tmp_path):
     assert session.calls[-1]["stream"] is True
 
 
+def test_sync_skips_matching_source_hash_and_force_refreshes(tmp_path):
+    resource = json.dumps([{"id": "record-1", "ementa": "Ementa incremental"}]).encode("utf-8")
+    provider, session = _provider(
+        _payload("stj_ckan_package_show.json"),
+        resource,
+        _payload("stj_ckan_package_show.json"),
+        _payload("stj_ckan_package_show.json"),
+        resource,
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "incremental.db") as store:
+        first = provider.sync_resource(
+            "espelhos-de-acordaos-primeira-turma",
+            "resource-json-1",
+            store=store,
+        )
+        skipped = provider.sync_resource(
+            "espelhos-de-acordaos-primeira-turma",
+            "resource-json-1",
+            store=store,
+        )
+        refreshed = provider.sync_resource(
+            "espelhos-de-acordaos-primeira-turma",
+            "resource-json-1",
+            store=store,
+            force=True,
+        )
+        manifest = store.get_sync_manifest(
+            source=provider.name,
+            dataset_id="espelhos-de-acordaos-primeira-turma",
+            resource_id="resource-json-1",
+        )
+        manifests = store.list_sync_manifests(source=provider.name)
+
+    assert first.skipped is False
+    assert skipped.skipped is True
+    assert skipped.records_saved == 0
+    assert skipped.run_id == first.run_id
+    assert refreshed.skipped is False
+    assert refreshed.run_id != first.run_id
+    assert len(session.calls) == 5
+    assert manifest is not None
+    assert manifest["source_hash"] == "sha256:fixture-json"
+    assert manifest["run_id"] == refreshed.run_id
+    assert len(manifests) == 1
+
+
 def test_sync_rejects_resource_that_exceeds_byte_limit(tmp_path):
     provider, _ = _provider(
         _payload("stj_ckan_package_show.json"),
@@ -365,7 +414,7 @@ def test_client_and_mcp_catalog_surface_are_available():
 
 def test_client_and_mcp_sync_surface_persist_a_bounded_resource(tmp_path):
     from nanojuris.client import NanoJurisClient
-    from nanojuris.mcp_tools import sync_source_resource_tool
+    from nanojuris.mcp_tools import store_sync_manifests_tool, sync_source_resource_tool
     from nanojuris.store import SQLiteStore
 
     resource = json.dumps([{"id": "mcp-1", "ementa": "Registro MCP"}]).encode("utf-8")
@@ -392,3 +441,5 @@ def test_client_and_mcp_sync_surface_persist_a_bounded_resource(tmp_path):
         client=tool_client,
     )
     assert payload["sync"]["records_saved"] == 1
+    manifests = store_sync_manifests_tool(str(tmp_path / "mcp.db"), source=tool_provider.name)
+    assert manifests["manifests"][0]["resource_id"] == "resource-json-1"

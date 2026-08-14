@@ -154,7 +154,11 @@ para agentes que precisam trabalhar com cargas publicadas pelo STJ:
 - `describe_source_dataset`: retorna recursos, formatos, tamanhos e checksums;
 - `plan_source_sync`: seleciona recursos por formato sem baixar arquivos;
 - `sync_source_resource`: baixa explicitamente um recurso JSON ou CSV dentro de
-  `max_bytes`, deduplica por `id` e persiste uma `ResearchRun` no store local.
+  `max_bytes`, deduplica por `id` e persiste uma `ResearchRun` no store local;
+  com o mesmo fingerprint da fonte, retorna `skipped=true`; `force=true` refaz
+  a carga.
+- `store_sync_manifests`: lista os manifestos de sincronizacao e seus hashes,
+  contagens, `run_id` e data, sem expor caminhos arbitrarios ao agente.
 
 O `sync_source_resource` recebe `store_id`, nao caminho de arquivo. O servidor
 resolve esse identificador sob `NANOJURIS_STORE_ROOT`. ZIP permanece bloqueado

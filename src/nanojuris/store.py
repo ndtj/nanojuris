@@ -79,6 +79,31 @@ class ResearchRun:
         return asdict(self)
 
 
+@dataclass(slots=True)
+class SourceSyncManifest:
+    """Audit manifest for one synchronized public resource."""
+
+    source: str
+    dataset_id: str
+    resource_id: str
+    format: str
+    source_url: str | None
+    source_hash: str | None
+    source_fingerprint: str | None
+    content_sha256: str
+    response_bytes: int
+    records_seen: int
+    records_saved: int
+    duplicate_records: int
+    invalid_records: int
+    run_id: str
+    status: str
+    synced_at: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
 class SQLiteStore:
     """SQLite-backed store for canonical extraction records."""
 
@@ -141,6 +166,31 @@ class SQLiteStore:
             )
             """
         )
+        self.connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS source_sync_manifests (
+                source TEXT NOT NULL,
+                dataset_id TEXT NOT NULL,
+                resource_id TEXT NOT NULL,
+                format TEXT NOT NULL,
+                source_url TEXT,
+                source_hash TEXT,
+                source_fingerprint TEXT,
+                content_sha256 TEXT NOT NULL,
+                response_bytes INTEGER NOT NULL,
+                records_seen INTEGER NOT NULL,
+                records_saved INTEGER NOT NULL,
+                duplicate_records INTEGER NOT NULL,
+                invalid_records INTEGER NOT NULL,
+                run_id TEXT NOT NULL,
+                status TEXT NOT NULL,
+                synced_at TEXT NOT NULL,
+                PRIMARY KEY (source, dataset_id, resource_id),
+                FOREIGN KEY (run_id) REFERENCES research_runs(id)
+            )
+            """
+        )
+        self._add_table_column_if_missing("source_sync_manifests", "source_fingerprint TEXT")
         for column in (
             "subject TEXT",
             "rapporteur TEXT",
@@ -374,6 +424,7 @@ class SQLiteStore:
         query: dict[str, Any],
         records: Iterable[CanonicalRecord],
         label: str | None = None,
+        sync_manifest: dict[str, Any] | None = None,
     ) -> ResearchRun:
         """Persist a saved search run and link it to canonical records."""
 
@@ -420,8 +471,107 @@ class SQLiteStore:
                     """,
                     rows,
                 )
+            if sync_manifest is not None:
+                self._save_sync_manifest(sync_manifest, run_id=run.id, synced_at=now)
         run.record_count = len(rows)
         return run
+
+    def get_sync_manifest(
+        self,
+        *,
+        source: str,
+        dataset_id: str,
+        resource_id: str,
+    ) -> dict[str, Any] | None:
+        """Return the latest successful manifest for one public resource."""
+
+        row = self.connection.execute(
+            """
+            SELECT * FROM source_sync_manifests
+            WHERE source = ? AND dataset_id = ? AND resource_id = ?
+            """,
+            (source, dataset_id, resource_id),
+        ).fetchone()
+        return _sync_manifest_row_to_dict(row) if row is not None else None
+
+    def list_sync_manifests(
+        self,
+        *,
+        source: str | None = None,
+        limit: int = 100,
+    ) -> list[dict[str, Any]]:
+        """List resource manifests, newest synchronization first."""
+
+        if source:
+            rows = self.connection.execute(
+                """
+                SELECT * FROM source_sync_manifests
+                WHERE source = ?
+                ORDER BY synced_at DESC, dataset_id ASC, resource_id ASC
+                LIMIT ?
+                """,
+                (source, max(1, limit)),
+            ).fetchall()
+        else:
+            rows = self.connection.execute(
+                """
+                SELECT * FROM source_sync_manifests
+                ORDER BY synced_at DESC, source ASC, dataset_id ASC, resource_id ASC
+                LIMIT ?
+                """,
+                (max(1, limit),),
+            ).fetchall()
+        return [_sync_manifest_row_to_dict(row) for row in rows]
+
+    def _save_sync_manifest(
+        self,
+        manifest: dict[str, Any],
+        *,
+        run_id: str,
+        synced_at: str,
+    ) -> None:
+        self.connection.execute(
+            """
+            INSERT INTO source_sync_manifests (
+                source, dataset_id, resource_id, format, source_url, source_hash,
+                source_fingerprint,
+                content_sha256, response_bytes, records_seen, records_saved,
+                duplicate_records, invalid_records, run_id, status, synced_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT (source, dataset_id, resource_id) DO UPDATE SET
+                format = excluded.format,
+                source_url = excluded.source_url,
+                source_hash = excluded.source_hash,
+                source_fingerprint = excluded.source_fingerprint,
+                content_sha256 = excluded.content_sha256,
+                response_bytes = excluded.response_bytes,
+                records_seen = excluded.records_seen,
+                records_saved = excluded.records_saved,
+                duplicate_records = excluded.duplicate_records,
+                invalid_records = excluded.invalid_records,
+                run_id = excluded.run_id,
+                status = excluded.status,
+                synced_at = excluded.synced_at
+            """,
+            (
+                str(manifest["source"]),
+                str(manifest["dataset_id"]),
+                str(manifest["resource_id"]),
+                str(manifest["format"]),
+                manifest.get("source_url"),
+                manifest.get("source_hash"),
+                manifest.get("source_fingerprint"),
+                str(manifest["content_sha256"]),
+                int(manifest["response_bytes"]),
+                int(manifest["records_seen"]),
+                int(manifest["records_saved"]),
+                int(manifest["duplicate_records"]),
+                int(manifest["invalid_records"]),
+                run_id,
+                str(manifest.get("status") or "complete"),
+                synced_at,
+            ),
+        )
 
     def get_research_run(self, run_id: str) -> dict[str, Any] | None:
         """Return one saved search run."""
@@ -505,6 +655,15 @@ class SQLiteStore:
         }
         if column_name not in existing:
             self.connection.execute(f"ALTER TABLE canonical_records ADD COLUMN {column_definition}")
+
+    def _add_table_column_if_missing(self, table: str, column_definition: str) -> None:
+        column_name = column_definition.split(" ", 1)[0]
+        existing = {
+            str(row["name"])
+            for row in self.connection.execute(f"PRAGMA table_info({table})").fetchall()
+        }
+        if column_name not in existing:
+            self.connection.execute(f"ALTER TABLE {table} ADD COLUMN {column_definition}")
 
     def _count_by(self, column: str) -> dict[str, int]:
         rows = self.connection.execute(
@@ -614,6 +773,27 @@ def _run_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
         "record_count": int(row["record_count"]),
         "label": row["label"],
         "created_at": str(row["created_at"]),
+    }
+
+
+def _sync_manifest_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+    return {
+        "source": str(row["source"]),
+        "dataset_id": str(row["dataset_id"]),
+        "resource_id": str(row["resource_id"]),
+        "format": str(row["format"]),
+        "source_url": row["source_url"],
+        "source_hash": row["source_hash"],
+        "source_fingerprint": row["source_fingerprint"],
+        "content_sha256": str(row["content_sha256"]),
+        "response_bytes": int(row["response_bytes"]),
+        "records_seen": int(row["records_seen"]),
+        "records_saved": int(row["records_saved"]),
+        "duplicate_records": int(row["duplicate_records"]),
+        "invalid_records": int(row["invalid_records"]),
+        "run_id": str(row["run_id"]),
+        "status": str(row["status"]),
+        "synced_at": str(row["synced_at"]),
     }
 
 
