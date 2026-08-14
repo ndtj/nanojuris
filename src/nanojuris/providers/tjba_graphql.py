@@ -415,9 +415,7 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
             "judging_body": _nested_string(item.get("orgaoJulgador"), "nome"),
             "document_id": _first_uuid(item, "hash", "id"),
             "document_url": (
-                f"/inteiroTeor/{external_id}"
-                if UUID_PATTERN.fullmatch(external_id)
-                else None
+                f"/inteiroTeor/{external_id}" if UUID_PATTERN.fullmatch(external_id) else None
             ),
         },
     )
@@ -507,9 +505,7 @@ def _graphql_text(value: str) -> str:
 def _order_by(value: str) -> str:
     normalized = value.casefold().replace("_", "")
     return (
-        "dataPublicacao"
-        if normalized in {"text", "relevancia", "publication", "date"}
-        else value
+        "dataPublicacao" if normalized in {"text", "relevancia", "publication", "date"} else value
     )
 
 
