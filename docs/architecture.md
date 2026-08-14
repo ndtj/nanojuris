@@ -35,7 +35,7 @@ providers
   Conectores para fontes publicas.
 
 extraction
-  Transporte HTTP, bytes brutos, status de acesso e hash.
+  Transporte HTTP compartilhado, bytes brutos, status de acesso e hash.
 
 models
   Contratos tipados e estaveis.
@@ -123,8 +123,7 @@ source_trace
 - data de coleta;
 - URL publica;
 - limitacoes;
-- status HTTP, URL final, tipo de conteudo, hash e tamanho da resposta quando
-  o transporte compartilhado foi usado;
+- status HTTP, URL final, tipo de conteudo, hash e tamanho da resposta;
 - parser, versao, latencia e transformacoes aplicadas quando disponiveis.
 
 Ausencia de evidencia nao e convertida em `public`: um resultado intermediario

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
+from functools import wraps
 from typing import Any
 
 
@@ -66,12 +67,36 @@ class NanoJurisConfig:
 
 
 def configure_requests_session(session: Any, config: NanoJurisConfig) -> Any:
-    """Apply shared HTTP configuration to a requests-compatible session."""
+    """Apply shared HTTP policy to a requests-compatible session.
+
+    Providers may call ``get``, ``post`` or ``request`` directly. Wrapping the
+    session request boundary keeps SSL verification, timeout and User-Agent
+    behavior consistent without duplicating policy in every provider.
+    """
 
     if hasattr(session, "trust_env"):
         session.trust_env = config.trust_env
     if hasattr(session, "verify"):
         session.verify = config.verify_ssl
+    if callable(getattr(session, "request", None)) and not getattr(
+        session, "_nanojuris_http_configured", False
+    ):
+        original_request = session.request
+
+        @wraps(original_request)
+        def configured_request(*args: Any, **kwargs: Any) -> Any:
+            headers = dict(kwargs.get("headers") or {})
+            if not any(str(name).lower() == "user-agent" for name in headers):
+                headers["User-Agent"] = config.user_agent
+            kwargs["headers"] = headers
+            if kwargs.get("timeout") is None:
+                kwargs["timeout"] = config.timeout
+            if kwargs.get("verify") is None:
+                kwargs["verify"] = config.verify_ssl
+            return original_request(*args, **kwargs)
+
+        session.request = configured_request
+        session._nanojuris_http_configured = True
     return session
 
 
