@@ -18,6 +18,7 @@ from nanojuris.exporters import (
     to_csv,
     to_jsonl,
 )
+from nanojuris.health import check_sources
 from nanojuris.route_probe import parse_json_payload, parse_key_value_pairs, probe_route
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore
@@ -114,6 +115,18 @@ def build_parser() -> argparse.ArgumentParser:
         help="Exibir diagnostico de capacidades e limites de uma fonte",
     )
     diagnostico.add_argument("--fonte", default="bnp_pangea")
+
+    saude = sub.add_parser(
+        "saude",
+        help="Verificar ao vivo o estado operacional de fontes publicas",
+    )
+    saude.add_argument(
+        "--fontes",
+        default="",
+        help="Providers separados por virgula; vazio usa as fontes unificadas",
+    )
+    saude.add_argument("--texto", default="responsabilidade civil")
+    saude.add_argument("--timeout", type=float, default=None)
 
     contratos = sub.add_parser(
         "contratos",
@@ -380,6 +393,16 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "diagnostico":
             capability = client.get_capabilities(source=args.fonte)
             print(json.dumps(capability.to_dict(), ensure_ascii=False, indent=2))
+            return 0
+
+        if args.command == "saude":
+            health_payload = check_sources(
+                client,
+                sources=_split_csv(args.fontes) or None,
+                text=args.texto,
+                timeout=args.timeout,
+            )
+            print(json.dumps(health_payload, ensure_ascii=False, indent=2))
             return 0
 
         if args.command == "contratos":

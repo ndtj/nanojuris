@@ -15,6 +15,7 @@ from nanojuris.exporters import (
     to_csv,
     to_jsonl,
 )
+from nanojuris.health import check_sources
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore, StoredRecordKind
 
@@ -60,6 +61,19 @@ def source_diagnostics_tool(
         "source": source,
         "capabilities": _to_jsonable(active_client.get_capabilities(source=source)),
     }
+
+
+def source_health_tool(
+    *,
+    sources: list[str] | None = None,
+    text: str = "responsabilidade civil",
+    timeout: float | None = None,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Run an explicit live health check for selected public sources."""
+
+    active_client = client or NanoJurisClient()
+    return check_sources(active_client, sources=sources, text=text, timeout=timeout)
 
 
 def source_contracts_tool(

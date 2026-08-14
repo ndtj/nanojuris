@@ -79,6 +79,32 @@ escolher provider, filtro de busca ou estrategia de coleta.
 Retorna `ProviderCapabilities` de uma fonte especifica, com limitacoes e status
 de acesso possiveis.
 
+### `source_health`
+
+Executa uma consulta live pequena e opt-in para verificar o estado operacional
+de uma ou mais fontes. A ferramenta preserva um relatorio por provider e nao
+transforma resultado vazio em erro.
+
+Estados possiveis:
+
+- `healthy`: a fonte respondeu com resultados;
+- `empty`: a fonte respondeu validamente sem resultados;
+- `blocked`: login, CAPTCHA, WAF ou outro controle de acesso;
+- `rate_limited`: a fonte sinalizou limite de requisicoes;
+- `source_unavailable`: indisponibilidade ou problema de rede;
+- `source_changed`: resposta incompatível com o parser conhecido;
+- `timeout`: o prazo global foi excedido;
+- `error`: falha nao classificada.
+
+Parametros:
+
+- `sources`: lista opcional; vazia usa as fontes aptas para busca unificada;
+- `text`: termo curto para o probe, por padrao `responsabilidade civil`;
+- `timeout`: prazo global opcional em segundos.
+
+O health check faz chamadas reais aos portais publicos. Deve ser usado com
+baixa frequencia e respeitando os limites declarados por cada provider.
+
 ### `source_contracts`
 
 Retorna maturidade, lacunas, proximos passos e recomendacao MCP de uma ou todas
