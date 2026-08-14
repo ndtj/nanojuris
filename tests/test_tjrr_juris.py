@@ -3,17 +3,33 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import requests
 
-from nanojuris.errors import QueryRejectedError
+from nanojuris.errors import (
+    AccessControlRequiredError,
+    ParserContractChangedError,
+    QueryRejectedError,
+    RateLimitDetectedError,
+    SourceUnavailableError,
+)
 from nanojuris.models import JurisprudenceQuery, SourceTrace
-from nanojuris.providers.tjrr_juris import TjrrJurisProvider, parse_tjrr_results
+from nanojuris.providers.tjrr_juris import (
+    TjrrJurisProvider,
+    extract_tjrr_document_text,
+    parse_tjrr_results,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class FakeResponse:
-    def __init__(self, body: str, url: str = "https://jurisprudencia.tjrr.jus.br/index.xhtml"):
-        self.status_code = 200
+    def __init__(
+        self,
+        body: str,
+        url: str = "https://jurisprudencia.tjrr.jus.br/index.xhtml",
+        status_code: int = 200,
+    ):
+        self.status_code = status_code
         self.url = url
         self.headers = {"Content-Type": "text/html; charset=UTF-8"}
         self._content = body.encode("utf-8")
@@ -97,3 +113,122 @@ def test_provider_rejects_unbounded_empty_search():
 
     with pytest.raises(QueryRejectedError, match="exige termo"):
         provider.search(JurisprudenceQuery())
+
+
+def test_provider_exposes_explicit_capabilities():
+    capabilities = TjrrJurisProvider(session=FakeSession([])).get_capabilities()
+
+    assert capabilities.source == "tjrr_juris"
+    assert capabilities.supports_full_text is True
+    assert capabilities.supports_unified_search is True
+    assert capabilities.pagination_mode == "page"
+    assert "number" in capabilities.supported_filters
+    assert "GET /inteiroTeor.xhtml?id=<id>" in capabilities.endpoints
+
+
+def test_provider_maps_number_and_query_filters_into_public_form():
+    session = FakeSession(
+        [
+            FakeResponse(_fixture("tjrr_juris_form.html")),
+            FakeResponse(_fixture("tjrr_juris_result.html")),
+        ]
+    )
+    provider = TjrrJurisProvider(session=session)
+
+    provider.search(
+        JurisprudenceQuery(
+            number="0000001-23.2026.8.23.0001",
+            exact_phrase="dano moral",
+            published_from="01/01/2026",
+            published_to="31/12/2026",
+        )
+    )
+
+    data = session.calls[1]["kwargs"]["data"]
+    assert isinstance(data, dict)
+    assert data["menuinicial:j_idt28"] == "dano moral"
+    assert data["menuinicial:j_idt42"] == "0000001-23.2026.8.23.0001"
+
+
+def test_provider_rejects_missing_public_form_and_invalid_document_id():
+    provider = TjrrJurisProvider(session=FakeSession([FakeResponse("<html></html>")]))
+
+    with pytest.raises(ParserContractChangedError, match="formulario publico"):
+        provider.search(JurisprudenceQuery(text="termo"))
+
+    with pytest.raises(ParserContractChangedError, match="id deve usar"):
+        provider.get_decisions("tjrr-juris-invalid")
+
+
+def test_parser_handles_empty_access_control_and_contract_change():
+    query = JurisprudenceQuery(text="termo", page_size=10)
+    trace = SourceTrace(provider="tjrr_juris", endpoint="/index.xhtml")
+
+    empty = parse_tjrr_results(
+        "<html><body>Nenhum resultado encontrado</body></html>",
+        query=query,
+        trace=trace,
+        base_url="https://jurisprudencia.tjrr.jus.br",
+    )
+    assert empty.results == []
+    assert empty.total == 0
+
+    with pytest.raises(AccessControlRequiredError):
+        parse_tjrr_results(
+            "<html><body>captcha necessário</body></html>",
+            query=query,
+            trace=trace,
+            base_url="https://jurisprudencia.tjrr.jus.br",
+        )
+
+    with pytest.raises(ParserContractChangedError, match="containers"):
+        parse_tjrr_results(
+            "<html><body>resposta inesperada</body></html>",
+            query=query,
+            trace=trace,
+            base_url="https://jurisprudencia.tjrr.jus.br",
+        )
+
+
+def test_document_text_preserves_access_diagnostics():
+    text, metadata = extract_tjrr_document_text("<html><body>captcha</body></html>")
+
+    assert text == ""
+    assert metadata["access_status"] == "access_control_required"
+    assert metadata["warnings"]
+
+
+def test_provider_classifies_http_failures_and_transport_errors():
+    for status, expected in (
+        (429, RateLimitDetectedError),
+        (500, SourceUnavailableError),
+        (400, SourceUnavailableError),
+    ):
+        provider = TjrrJurisProvider(session=FakeSession([FakeResponse("", status_code=status)]))
+        with pytest.raises(expected):
+            provider._request("GET", "/index.xhtml")
+
+    class BrokenSession:
+        def request(self, method: str, url: str, **kwargs: object) -> object:
+            raise requests.RequestException("fixture transport failure")
+
+    provider = TjrrJurisProvider(session=BrokenSession())  # type: ignore[arg-type]
+    with pytest.raises(SourceUnavailableError, match="request failed"):
+        provider._request("GET", "/index.xhtml")
+
+
+def test_primefaces_pagination_uses_fallback_form_when_markup_has_no_form():
+    partial = '<partial-response><changes><![CDATA[<div id="resultados1"></div>]]></changes>'
+    session = FakeSession([FakeResponse(partial + "</partial-response>")])
+    provider = TjrrJurisProvider(session=session)
+
+    provider._request_page(
+        "<html><body>sem formulario</body></html>",
+        JurisprudenceQuery(text="termo", page=3, page_size=2),
+        fallback_fields={"javax.faces.ViewState": "fixture"},
+    )
+
+    data = session.calls[0]["kwargs"]["data"]
+    assert isinstance(data, dict)
+    assert data["formPesquisa:j_idt155:dataTablePesquisa_first"] == "4"
+    assert data["formPesquisa:j_idt155:dataTablePesquisa_rows"] == "2"
