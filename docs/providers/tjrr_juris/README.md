@@ -140,3 +140,22 @@ O MCP deve informar a data da sessao, filtros efetivos, pagina e se o estado
 JSF foi renovado. Deve pular a fonte em timeout, ViewState expirado ou markup
 sem sinais juridicos. Exigir fixtures de formulario, sucesso, vazio, erro de
 estado, pagina seguinte e detalhe antes do provider runtime.
+
+## Revalidacao live - 2026-08-14
+
+Uma sessao publica nova foi revalidada sem cookies pessoais ou autenticacao:
+
+- `GET /index.xhtml` respondeu HTTP 200 com formulario `menuinicial` e
+  `javax.faces.ViewState` dinamico;
+- o postback com termo livre `dano moral`, ViewState e cookie da mesma sessao
+  respondeu HTTP 200;
+- a resposta exibiu o painel PrimeFaces de resultados, paginacao e links para
+  impressao e inteiro teor;
+- nao foram observados sinais de captcha, login ou estado expirado nessa
+  rodada.
+
+Esta evidencia confirma a disponibilidade da rota, mas nao fecha o contrato do
+parser. A resposta nao foi versionada no repositorio para evitar armazenar
+dados pessoais e markup de apresentacao. O proximo gate continua sendo uma
+fixture reduzida e revisada com campos juridicos, vazio, erro de ViewState,
+pagina seguinte e detalhe.
