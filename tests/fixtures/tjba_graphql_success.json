@@ -1,0 +1,33 @@
+{
+  "data": {
+    "filter": {
+      "decisoes": [
+        {
+          "id": "831bc363-c057-3941-a5d6-79584cb02536",
+          "sourceId": "fixture-source-1",
+          "numeroProcesso": "0000001-23.2026.8.05.0001",
+          "codigoProcesso": "fixture-code-1",
+          "orgaoJulgador": {"id": "org-1", "nome": "Camara de Fixture"},
+          "relator": {"id": "rel-1", "nome": "Relator de Fixture"},
+          "classe": {"id": "class-1", "descricao": "Apelacao Civel"},
+          "source": "TJBA",
+          "instancia": "SEGUNDO_GRAU",
+          "tipoDecisao": "ACORDAO",
+          "dataPublicacao": "2026-08-10T03:00:00Z",
+          "dataJulgamento": "2026-08-05T03:00:00Z",
+          "dataAtualizacao": "2026-08-13T13:38:19.207Z",
+          "conteudo": "Conteudo integral publico de fixture TJBA.",
+          "ementa": "Ementa publica de fixture TJBA.",
+          "contentType": "text/html",
+          "hash": "831bc363-c057-3941-a5d6-79584cb02536",
+          "score": 0.91
+        }
+      ],
+      "relatores": [{"key": "rel-1", "value": "Relator de Fixture"}],
+      "orgaos": [{"key": "org-1", "value": "Camara de Fixture"}],
+      "classes": [{"key": "class-1", "value": "Apelacao Civel"}],
+      "pageCount": 2,
+      "itemCount": 2
+    }
+  }
+}

@@ -265,6 +265,8 @@ _STATE_COURTS = [
         "state",
         state="BA",
         official_url="https://www.tjba.jus.br/",
+        provider_status="implemented",
+        providers=("tjba_graphql",),
     ),
     CourtInfo(
         "TJCE",

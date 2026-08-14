@@ -12,7 +12,7 @@ a 37 providers implementados.
 | TJAL | AL | e-SAJ/CJSG | implementado | ampliar fixtures e monitorar |
 | TJAM | AM | e-SAJ/CJSG | implementado | monitorar disponibilidade |
 | TJAP | AP | Tucujuris | bloqueado/inconclusivo | nova rota publica sem desafio |
-| TJBA | BA | GraphQL | candidato pronto | fixture, parser e detalhe |
+| TJBA | BA | GraphQL | implementado | monitorar vazio, pagina e detalhe live |
 | TJCE | CE | e-SAJ/CJSG | candidato com HAR | reproduzir formulario apos reset TLS |
 | TJDFT | DF | SISTJ | implementado | ampliar paginacao e documentos |
 | TJES | ES | portal atual e busca legada | candidato com HAR | validar fluxo e ementarios |

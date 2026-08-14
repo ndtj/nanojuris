@@ -34,7 +34,7 @@ via MCP.
 | --- | --- | --- | --- | --- |
 | 1 | TST pesquisa textual | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
 | 2 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | validar detalhe/inteiro teor antes de promovê-los |
-| 3 | TJBA GraphQL | `candidate_ready` | [route-mapping-results-2026-08-07.md](route-mapping-results-2026-08-07.md) | salvar fixture GraphQL e validar detalhe por UUID |
+| 3 | TJBA GraphQL | `implemented` | [tjba_graphql](providers/tjba_graphql/README.md) | monitorar vazio, pagina seguinte e detalhe live |
 | 4 | TJPR HTML | `implemented` | [tjpr_jurisprudencia](providers/tjpr_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros por IDs |
 | 5 | TJRJ/eproc | `implemented` | [tjrj_eproc_jurisprudencia.md](providers/tjrj_eproc_jurisprudencia/README.md) | adicionar fixtures especificas e monitorar labels |
 | 6 | CJF/TRF1 Jurisprudencia | `implemented` | [cjf_jurisprudencia.md](providers/cjf_jurisprudencia/README.md) | validar detalhe externo e superfície unificada separadamente |
@@ -66,7 +66,7 @@ via MCP.
 | 32 | TJMG Espelho de Acordao | `blocked_or_inconclusive` | [tjmg_jurisprudencia.md](providers/tjmg_jurisprudencia/README.md) | nao automatizar captcha; buscar superficie oficial alternativa |
 | 33 | TJRN Jurisprudencia | `blocked_or_inconclusive` | [tjrn_jurisprudencia.md](providers/tjrn_jurisprudencia/README.md) | HAR publico da busca unificada |
 | 34 | TJTO Jurisprudencia | `candidate_needs_har` | [tjto_jurisprudencia.md](providers/tjto_jurisprudencia/README.md) | reproduzir query, filtros, detalhe e inteiro teor |
-| 35 | TJBA GraphQL | `candidate_ready` | [tjba_graphql.md](providers/tjba_graphql/README.md) | fixture GraphQL, parser e detalhe |
+| 35 | TJBA GraphQL | `implemented` | [tjba_graphql.md](providers/tjba_graphql/README.md) | monitorar contrato live e filtros catalogados |
 | 36 | TJPR HTML | `implemented` | [tjpr_jurisprudencia.md](providers/tjpr_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros por IDs |
 | 37 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | fixture live opt-in e detalhe/inteiro teor |
 | 38 | STJ Dados Abertos | `candidate_ready` | [stj_dados_abertos_jurisprudencia.md](providers/stj_dados_abertos_jurisprudencia/README.md) | fixture CKAN, parser JSON/CSV e adapter de ingestao incremental |
@@ -88,7 +88,7 @@ Antes de criar `src/nanojuris/providers/<provider>.py`:
 
 ## Ordem De Desenvolvimento Recomendada
 
-1. **TJBA e CJF/TRF1**: fechar fixtures e implementar os candidatos que
+1. **TJBA e CJF/TRF1**: manter fixtures, testes e monitoramento dos providers que
    ja retornaram conteudo decisorio em sessao limpa. TJPR agora possui adapter
    HTML e deve receber monitoramento incremental. TJPB, TJPA e TJRS agora
    possuem adapters iniciais e devem receber aprofundamento incremental. O TST

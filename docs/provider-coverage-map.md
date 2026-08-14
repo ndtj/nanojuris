@@ -34,7 +34,7 @@ segredo de justica ou controles de acesso.
 | P0 | TCE-SP jurisprudencia estatica | ja implementado; sumulas e boletins publicos sem captcha | `CanonicalPrecedent` administrativo |
 | P0 | TRE-SP temas selecionados | ja implementado; curadoria tematica eleitoral publica | `CanonicalPrecedent` tematico |
 | P0 | TJRS jurisprudencia AJAX/SOLR | rota publica estruturada validada; retorna docs, facets, highlighting e volume total | `CanonicalDecision` via JSON/SOLR |
-| P0 | TJBA jurisprudencia GraphQL | rota publica estruturada validada; retorna decisoes, ementa, relator, orgao julgador e numero processual | `CanonicalDecision` via JSON estruturado |
+| P0 | TJBA jurisprudencia GraphQL | provider implementado; rota publica estruturada, catalogos, facets e inteiro teor por UUID | `CanonicalDecision` e `CanonicalDocument` via GraphQL/HTML |
 | P0 | TJPR jurisprudencia HTML | rota publica validada com resultado, relator, orgao julgador, ementa e paginacao | `CanonicalDecision` via parser HTML |
 | P0 | TJSC/eproc jurisprudencia | formulario eproc publico validado com 475.091 documentos, cards decisorios e inteiro teor HTML | `CanonicalDecision` e `CanonicalDocument` via familia eproc |
 | P0 | TNU/eproc jurisprudencia | ja implementado; POST publico validado em `listar_resultados`; reuso direto da familia eproc | `CanonicalDecision` federal/TNU com inteiro teor publico quando disponivel |

@@ -14,10 +14,10 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 
 ## Resumo
 
-- Dossies auditados: **57** (38 implemented, 18 candidates, 1 family).
+- Dossies auditados: **57** (39 implemented, 17 candidates, 1 family).
 - Dossies com secoes estruturais: **45/57**.
 - Canonical/legacy em paridade: **57/57**.
-- Prontidao: `family_spec`=1, `implementation_ready`=2, `needs_deepening`=36, `research_ready`=18.
+- Prontidao: `family_spec`=1, `implementation_ready`=2, `needs_deepening`=37, `research_ready`=17.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
@@ -49,7 +49,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`tjal_cjsg`](docs/providers/tjal_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 8 | 0 |
 | [`tjam_cjsg`](docs/providers/tjam_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 8 | 0 |
 | [`tjap_tucujuris`](docs/providers/tjap_tucujuris/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
-| [`tjba_graphql`](docs/providers/tjba_graphql/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
+| [`tjba_graphql`](docs/providers/tjba_graphql/README.md) | implemented | `needs_deepening` | 4 | medio | - | 1 | 0 |
 | [`tjce_cjsg`](docs/providers/tjce_cjsg/README.md) | candidate | `research_ready` | - | research | - | 7 | 0 |
 | [`tjce_informativos`](docs/providers/tjce_informativos/README.md) | implemented | `needs_deepening` | 4 | medio | - | 5 | 1 |
 | [`tjce_sjuris`](docs/providers/tjce_sjuris/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |

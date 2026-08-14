@@ -85,7 +85,7 @@ A validacao live mais recente dos candidatos esta em
 | TJMG Espelho de Acordao | formulario e ajuda oficiais; busca textual com captcha | [tjmg_jurisprudencia.md](tjmg_jurisprudencia.md) |
 | TJRN Jurisprudencia | busca unificada anunciada; portal respondeu 403 | [tjrn_jurisprudencia.md](tjrn_jurisprudencia.md) |
 | TJTO Jurisprudencia | consulta indexada com campos ricos; replay HTTP pendente | [tjto_jurisprudencia.md](tjto_jurisprudencia.md) |
-| TJBA GraphQL | busca JSON estruturada validada; fixture pendente | [tjba_graphql.md](tjba_graphql.md) |
+| TJBA GraphQL | provider implementado; busca JSON, catalogos e detalhe publico | [tjba_graphql.md](tjba_graphql.md) |
 | TJPR Jurisprudencia | provider HTML implementado; busca e parser validados | [tjpr_jurisprudencia.md](tjpr_jurisprudencia.md) |
 | TJRS AJAX/SOLR | resposta estruturada com facets validada; parser pendente | [tjrs_solr.md](tjrs_solr.md) |
 | TJRO LIAME | catalogo publico de precedentes; sem busca geral de acordaos | [tjro_liame.md](tjro_liame.md) |
