@@ -22,6 +22,7 @@ from nanojuris.health import check_sources
 from nanojuris.route_probe import parse_json_payload, parse_key_value_pairs, probe_route
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore
+from nanojuris.validation import validate_sources
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -127,6 +128,18 @@ def build_parser() -> argparse.ArgumentParser:
     )
     saude.add_argument("--texto", default="responsabilidade civil")
     saude.add_argument("--timeout", type=float, default=None)
+
+    validar = sub.add_parser(
+        "validar",
+        help="Validar ao vivo o contrato normalizado de fontes publicas",
+    )
+    validar.add_argument(
+        "--fontes",
+        default="",
+        help="Providers separados por virgula; vazio usa as fontes unificadas",
+    )
+    validar.add_argument("--texto", default="responsabilidade civil")
+    validar.add_argument("--timeout", type=float, default=None)
 
     contratos = sub.add_parser(
         "contratos",
@@ -404,6 +417,16 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps(health_payload, ensure_ascii=False, indent=2))
             return 0
+
+        if args.command == "validar":
+            validation_payload = validate_sources(
+                client,
+                sources=_split_csv(args.fontes) or None,
+                text=args.texto,
+                timeout=args.timeout,
+            )
+            print(json.dumps(validation_payload, ensure_ascii=False, indent=2))
+            return 0 if validation_payload["passed"] else 1
 
         if args.command == "contratos":
             contracts = (

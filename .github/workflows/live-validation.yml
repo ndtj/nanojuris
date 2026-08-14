@@ -1,0 +1,64 @@
+name: Live provider validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "Providers separados por virgula"
+        required: true
+        default: "tjdf_juris,tst_jurisprudencia"
+      text:
+        description: "Termo curto e publico para a consulta"
+        required: true
+        default: "responsabilidade civil"
+      timeout:
+        description: "Prazo global em segundos"
+        required: true
+        default: "60"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate public provider contracts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package
+        run: python -m pip install --upgrade pip && python -m pip install .
+
+      - name: Run live validation
+        id: validation
+        continue-on-error: true
+        env:
+          SOURCES: ${{ inputs.sources }}
+          QUERY_TEXT: ${{ inputs.text }}
+          TIMEOUT_SECONDS: ${{ inputs.timeout }}
+        run: |
+          mkdir -p reports
+          set +e
+          nanojuris validar --fontes "$SOURCES" --texto "$QUERY_TEXT" --timeout "$TIMEOUT_SECONDS" > reports/provider-validation.json
+          status=$?
+          cat reports/provider-validation.json
+          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
+          exit "$status"
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provider-validation-report
+          path: reports/provider-validation.json
+
+      - name: Mark workflow as failed when validation did not pass
+        if: steps.validation.outcome == 'failure'
+        run: exit 1

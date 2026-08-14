@@ -49,6 +49,18 @@ fonte operacional, resultado vazio, bloqueio, rate limit, indisponibilidade,
 mudanca de contrato e timeout. Nao trate `empty` como falha e nao oculte
 relatorios de fontes que nao responderam.
 
+Para uma verificacao mais profunda do contrato normalizado, use
+`source_validation` (MCP) ou:
+
+```bash
+nanojuris validar --fontes tjdf_juris,tst_jurisprudencia
+```
+
+Essa chamada real verifica IDs, fonte, conteudo juridico minimo, paginacao e
+`source_trace`. `valid` significa que o contrato observado passou; `empty` e
+uma resposta valida sem resultados. O comando retorna codigo diferente de
+zero quando houver bloqueio, indisponibilidade ou contrato invalido.
+
 ## Configuracao MCP local
 
 Use o comando do servidor como transporte `stdio` no cliente MCP:
