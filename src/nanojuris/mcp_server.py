@@ -30,6 +30,7 @@ from nanojuris.mcp_tools import (
     store_run_tool,
     store_runs_tool,
     store_stats_tool,
+    sync_source_resource_tool,
 )
 
 
@@ -154,6 +155,26 @@ def create_server() -> Any:
             source=source,
             format=format,
             max_resources=max_resources,
+        )
+
+    @server.tool()
+    def sync_source_resource(
+        dataset_id: str,
+        resource_id: str,
+        store_id: str = "default",
+        source: str = "stj_dados_abertos_jurisprudencia",
+        max_bytes: int = 50_000_000,
+        label: str | None = None,
+    ) -> dict[str, Any]:
+        """Download one bounded official JSON/CSV resource into a local store."""
+
+        return sync_source_resource_tool(
+            dataset_id,
+            resource_id,
+            str(_resolve_store_id(store_id)),
+            source=source,
+            max_bytes=max_bytes,
+            label=label,
         )
 
     @server.tool()

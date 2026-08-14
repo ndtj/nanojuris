@@ -158,6 +158,37 @@ def plan_source_sync_tool(
     )
 
 
+def sync_source_resource_tool(
+    dataset_id: str,
+    resource_id: str,
+    db_path: str,
+    *,
+    source: str = "stj_dados_abertos_jurisprudencia",
+    max_bytes: int = 50_000_000,
+    label: str | None = None,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Download one bounded official resource into a local SQLite store."""
+
+    active_client = client or NanoJurisClient()
+    with SQLiteStore(db_path) as store:
+        result = active_client.sync_source_resource(
+            source=source,
+            dataset_id=dataset_id,
+            resource_id=resource_id,
+            store=store,
+            max_bytes=max_bytes,
+            label=label,
+        )
+    return {
+        "source": source,
+        "dataset_id": dataset_id,
+        "resource_id": resource_id,
+        "db_path": db_path,
+        "sync": result,
+    }
+
+
 def search_jurisprudence_tool(
     text: str = "",
     *,

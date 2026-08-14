@@ -38,7 +38,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`justica_eleitoral_sjur`](docs/providers/justica_eleitoral_sjur/README.md) | candidate | `research_ready` | - | research | - | 5 | 0 |
 | [`stf_informativo`](docs/providers/stf_informativo/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 3 | 0 |
 | [`stf_juris`](docs/providers/stf_juris/README.md) | implemented | `needs_deepening` | 3 | alto | data | 3 | 1 |
-| [`stj_dados_abertos_jurisprudencia`](docs/providers/stj_dados_abertos_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 0 |
+| [`stj_dados_abertos_jurisprudencia`](docs/providers/stj_dados_abertos_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 1 | 0 |
 | [`stj_informativo`](docs/providers/stj_informativo/README.md) | implemented | `needs_deepening` | 4 | medio | - | 3 | 1 |
 | [`stj_scon`](docs/providers/stj_scon/README.md) | implemented | `needs_deepening` | 3 | alto | data | 1 | 4 |
 | [`stm_jurisprudencia`](docs/providers/stm_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | mcp, next_steps | 3 | 0 |

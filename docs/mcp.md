@@ -145,6 +145,24 @@ Uso esperado:
 - mantenedor identifica `needs_deepening`;
 - documentacao e roadmap usam o mesmo inventario declarado pelo codigo.
 
+### Catalogo e sincronizacao de dados abertos
+
+O provider `stj_dados_abertos_jurisprudencia` expoe quatro operacoes separadas
+para agentes que precisam trabalhar com cargas publicadas pelo STJ:
+
+- `list_source_datasets`: descobre datasets no catalogo CKAN;
+- `describe_source_dataset`: retorna recursos, formatos, tamanhos e checksums;
+- `plan_source_sync`: seleciona recursos por formato sem baixar arquivos;
+- `sync_source_resource`: baixa explicitamente um recurso JSON ou CSV dentro de
+  `max_bytes`, deduplica por `id` e persiste uma `ResearchRun` no store local.
+
+O `sync_source_resource` recebe `store_id`, nao caminho de arquivo. O servidor
+resolve esse identificador sob `NANOJURIS_STORE_ROOT`. ZIP permanece bloqueado
+nesta primeira etapa, e a operacao valida que o recurso pertence ao dominio
+oficial do STJ. O agente deve apresentar dataset, recurso, hash, bytes,
+registros persistidos e `run_id` ao usuario; essa ingestao ainda nao promove a
+fonte para a busca remota unificada.
+
 ### `search_jurisprudence`
 
 Executa busca paginada em uma fonte e retorna resultados normalizados.

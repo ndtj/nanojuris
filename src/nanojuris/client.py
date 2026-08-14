@@ -582,6 +582,33 @@ class NanoJurisClient:
             raise UnsupportedQueryError(f"Provider {source!r} does not plan dataset syncs")
         return method(dataset_id, format=format, max_resources=max_resources)
 
+    def sync_source_resource(
+        self,
+        *,
+        source: str,
+        dataset_id: str,
+        resource_id: str,
+        store: SQLiteStore,
+        max_bytes: int = 50_000_000,
+        label: str | None = None,
+    ) -> dict[str, Any]:
+        """Synchronize one explicit provider resource into a local store."""
+
+        provider = self._provider(source)
+        method = getattr(provider, "sync_resource", None)
+        if not callable(method):
+            raise UnsupportedQueryError(f"Provider {source!r} does not sync resources")
+        result = method(
+            dataset_id,
+            resource_id,
+            store=store,
+            max_bytes=max_bytes,
+            label=label,
+        )
+        if hasattr(result, "to_dict"):
+            return result.to_dict()
+        return result
+
     def get_capabilities(self, *, source: str = "bnp_pangea") -> ProviderCapabilities:
         """Return declared capabilities and limits for one provider."""
 
