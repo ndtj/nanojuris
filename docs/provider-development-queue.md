@@ -60,7 +60,7 @@ via MCP.
 | 26 | TCU Jurisprudencia e dados abertos | `implemented` | [tcu_jurisprudencia.md](providers/tcu_jurisprudencia/README.md) | cache incremental e adapters de outros datasets |
 | 27 | CNJ Informativos de Jurisprudencia | `implemented` | [cnj_jurisprudencia](providers/cnj_jurisprudencia/README.md) | monitorar HTML e PDF sob demanda |
 | 28 | TST Jurisprudencia | `implemented` | [tst_jurisprudencia.md](providers/tst_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros |
-| 29 | TJCE Informativos | `candidate_ready` | [tjce_informativos.md](providers/tjce_informativos/README.md) | salvar fixture HTML, parser de itens e links PDF |
+| 29 | TJCE Informativos | `implemented` | [tjce_informativos](providers/tjce_informativos/README.md) | monitorar HTML curado e links oficiais |
 | 30 | TRF3 Jurisprudencia | `candidate_needs_har` | [trf3_jurisprudencia.md](providers/trf3_jurisprudencia/README.md) | captura automatica da busca; testar acordao por processo separadamente |
 | 31 | TJAP/Tucujuris | `blocked_or_inconclusive` | [tjap_tucujuris.md](providers/tjap_tucujuris/README.md) | nova superficie publica sem desafio |
 | 32 | TJMG Espelho de Acordao | `blocked_or_inconclusive` | [tjmg_jurisprudencia.md](providers/tjmg_jurisprudencia/README.md) | nao automatizar captcha; buscar superficie oficial alternativa |

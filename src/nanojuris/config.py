@@ -18,6 +18,7 @@ class NanoJurisConfig:
     bnp_api_url: str = "https://pangeabnp.pdpj.jus.br/api/v1"
     comunica_pje_url: str = "https://comunicaapi.pje.jus.br"
     cnj_jurisprudencia_url: str = "https://atos.cnj.jus.br"
+    tjce_informativos_url: str = "https://www.tjce.jus.br"
     stf_juris_url: str = "https://jurisprudencia.stf.jus.br"
     stf_informativo_data_url: str = (
         "https://www.stf.jus.br/arquivo/cms/informativoSTF/anexo/"
