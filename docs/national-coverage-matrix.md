@@ -1,8 +1,8 @@
 # Matriz Nacional De Cobertura
 
-Atualizada em 2026-08-11. Esta matriz responde se cada Tribunal de Justica
+Atualizada em 2026-08-13. Esta matriz responde se cada Tribunal de Justica
 estadual possui ao menos uma superficie oficial investigada. Ela nao equivale
-a 27 providers implementados.
+a 37 providers implementados.
 
 ## Tribunais Estaduais
 
