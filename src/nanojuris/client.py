@@ -591,6 +591,7 @@ class NanoJurisClient:
         store: SQLiteStore,
         max_bytes: int = 50_000_000,
         label: str | None = None,
+        force: bool = False,
     ) -> dict[str, Any]:
         """Synchronize one explicit provider resource into a local store."""
 
@@ -604,6 +605,7 @@ class NanoJurisClient:
             store=store,
             max_bytes=max_bytes,
             label=label,
+            force=force,
         )
         if hasattr(result, "to_dict"):
             return result.to_dict()

@@ -188,6 +188,13 @@ recursos sem `id` e limites excedidos nao sao tratados como sucesso parcial.
 
 O MCP oferece a mesma operacao por `sync_source_resource`, usando `store_id`
 em vez de caminho de arquivo. O store fica restrito a `NANOJURIS_STORE_ROOT`.
+Por padrao, uma nova chamada com o mesmo fingerprint da fonte e o mesmo
+recurso retorna `skipped=true` sem novo download. O fingerprint prefere o
+checksum publicado; quando ele nao existe, usa URL, tamanho e ultima
+modificacao do catalogo e nao deve ser confundido com hash de conteudo. Use
+`force=true` para revalidacao completa. `store_sync_manifests` lista os
+manifestos persistidos para que um agente possa informar quando e como a carga
+foi feita.
 Depois da sincronizacao, a busca textual deve usar um indice local explicitamente
 informado ao usuario; este provider continua fora da busca remota unificada.
 
@@ -225,14 +232,14 @@ apresentar essa base como cobertura integral da jurisprudencia do STJ.
 - [x] parser de JSON que preserve campos desconhecidos;
 - [x] teste de deduplicacao por `id` entre carga historica e delta;
 - [x] teste de streaming e limite de bytes sem baixar o ZIP historico em CI;
+- [x] manifesto incremental e skip por checksum/fingerprint da fonte;
 - [ ] fixture de dataset vazio, recurso removido e schema alterado;
 - [x] adapter de catalogo sem promover busca unificada;
 - [x] adapter de ingestao local antes de promover busca unificada.
 
 ## Proximos passos
 
-1. criar um manifesto incremental por recurso mensal, com checksum publicado e
-   politica de substituicao por `id`;
+1. validar dataset vazio, recurso removido e alteracao de schema;
 2. indexar localmente e medir cobertura antes de integrar a busca unificada;
 3. somente depois promover a busca local como uma fonte federada, com estado,
    data da sincronizacao e limites visiveis ao usuario.
@@ -248,6 +255,8 @@ Validacao realizada em 2026-08-14:
 - um recurso JSON de `espelhos-de-acordaos-corte-especial` foi sincronizado
   em store temporario: 32.655 bytes, 10 registros, 10 persistidos, sem
   duplicatas ou registros invalidos;
+- a segunda chamada ao mesmo recurso retornou `skipped=true` usando
+  fingerprint de metadados, sem persistir uma nova carga;
 - a licenca retornada pelo catalogo foi `cc-by`.
 
 ## Fontes oficiais

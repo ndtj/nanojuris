@@ -30,6 +30,7 @@ from nanojuris.mcp_tools import (
     store_run_tool,
     store_runs_tool,
     store_stats_tool,
+    store_sync_manifests_tool,
     sync_source_resource_tool,
 )
 
@@ -165,6 +166,7 @@ def create_server() -> Any:
         source: str = "stj_dados_abertos_jurisprudencia",
         max_bytes: int = 50_000_000,
         label: str | None = None,
+        force: bool = False,
     ) -> dict[str, Any]:
         """Download one bounded official JSON/CSV resource into a local store."""
 
@@ -175,6 +177,7 @@ def create_server() -> Any:
             source=source,
             max_bytes=max_bytes,
             label=label,
+            force=force,
         )
 
     @server.tool()
@@ -270,6 +273,20 @@ def create_server() -> Any:
         """Return aggregate statistics from a local NanoJuris SQLite store."""
 
         return store_stats_tool(str(_resolve_store_id(store_id)))
+
+    @server.tool()
+    def store_sync_manifests(
+        store_id: str = "default",
+        source: str = "",
+        limit: int = 50,
+    ) -> dict[str, Any]:
+        """List incremental synchronization manifests from a local store."""
+
+        return store_sync_manifests_tool(
+            str(_resolve_store_id(store_id)),
+            source=source,
+            limit=limit,
+        )
 
     @server.tool()
     def store_query(

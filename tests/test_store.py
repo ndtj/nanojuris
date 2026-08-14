@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import sqlite3
+
 from nanojuris.models import (
     CanonicalDecision,
     CanonicalDocument,
@@ -22,6 +24,53 @@ def test_sqlite_store_enables_foreign_keys_per_connection():
 
     assert row is not None
     assert row[0] == 1
+
+
+def test_sqlite_store_migrates_legacy_sync_manifest_schema():
+    connection = sqlite3.connect(":memory:")
+    connection.execute(
+        """
+        CREATE TABLE research_runs (
+            id TEXT PRIMARY KEY,
+            source TEXT NOT NULL,
+            text TEXT NOT NULL,
+            query_json TEXT NOT NULL,
+            record_count INTEGER NOT NULL,
+            label TEXT,
+            created_at TEXT NOT NULL
+        )
+        """
+    )
+    connection.execute(
+        """
+        CREATE TABLE source_sync_manifests (
+            source TEXT NOT NULL,
+            dataset_id TEXT NOT NULL,
+            resource_id TEXT NOT NULL,
+            format TEXT NOT NULL,
+            source_url TEXT,
+            source_hash TEXT,
+            content_sha256 TEXT NOT NULL,
+            response_bytes INTEGER NOT NULL,
+            records_seen INTEGER NOT NULL,
+            records_saved INTEGER NOT NULL,
+            duplicate_records INTEGER NOT NULL,
+            invalid_records INTEGER NOT NULL,
+            run_id TEXT NOT NULL,
+            status TEXT NOT NULL,
+            synced_at TEXT NOT NULL,
+            PRIMARY KEY (source, dataset_id, resource_id)
+        )
+        """
+    )
+
+    SQLiteStore(connection)
+
+    columns = {
+        str(row[1])
+        for row in connection.execute("PRAGMA table_info(source_sync_manifests)").fetchall()
+    }
+    assert "source_fingerprint" in columns
 
 
 def test_sqlite_store_saves_and_gets_canonical_decision():

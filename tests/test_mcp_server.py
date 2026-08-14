@@ -64,6 +64,7 @@ def test_create_server_registers_expected_tools(monkeypatch):
         "store_run_records",
         "store_runs",
         "store_stats",
+        "store_sync_manifests",
     }
 
 
@@ -190,6 +191,7 @@ def test_create_server_data_tools_delegate_to_tool_layer(monkeypatch):
     monkeypatch.setattr(mcp_server, "get_document_tool", recorder("document"))
     monkeypatch.setattr(mcp_server, "get_decisions_tool", recorder("decisions"))
     monkeypatch.setattr(mcp_server, "store_stats_tool", recorder("stats"))
+    monkeypatch.setattr(mcp_server, "store_sync_manifests_tool", recorder("manifests"))
     monkeypatch.setattr(mcp_server, "store_query_tool", recorder("query"))
     monkeypatch.setattr(mcp_server, "store_get_tool", recorder("get"))
     monkeypatch.setattr(mcp_server, "store_runs_tool", recorder("runs"))
@@ -203,6 +205,12 @@ def test_create_server_data_tools_delegate_to_tool_layer(monkeypatch):
     assert server.tools["get_document"]("doc-1", source="tjsp_cjsg")["tool"] == "document"
     assert server.tools["get_decisions"]("prec-1", source="bnp_pangea")["tool"] == "decisions"
     assert server.tools["store_stats"]("nanojuris.db")["tool"] == "stats"
+    assert (
+        server.tools["store_sync_manifests"](
+            "nanojuris.db", source="stj_dados_abertos_jurisprudencia"
+        )["tool"]
+        == "manifests"
+    )
     assert server.tools["store_query"]("nanojuris.db", kind="decision")["tool"] == "query"
     assert server.tools["store_get"]("nanojuris.db", "decision", "dec-1")["tool"] == "get"
     assert server.tools["store_runs"]("nanojuris.db", limit=3)["tool"] == "runs"
@@ -219,6 +227,7 @@ def test_create_server_data_tools_delegate_to_tool_layer(monkeypatch):
         "document",
         "decisions",
         "stats",
+        "manifests",
         "query",
         "get",
         "runs",
