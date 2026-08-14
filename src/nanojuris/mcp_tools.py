@@ -109,6 +109,55 @@ def source_contracts_tool(
     }
 
 
+def list_source_datasets_tool(
+    source: str = "stj_dados_abertos_jurisprudencia",
+    *,
+    query: str = "jurisprudencia",
+    rows: int = 20,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """List public datasets exposed by a provider catalog."""
+
+    active_client = client or NanoJurisClient()
+    return {
+        "source": source,
+        "query": query,
+        "rows": rows,
+        "datasets": active_client.list_source_datasets(source=source, query=query, rows=rows),
+    }
+
+
+def describe_source_dataset_tool(
+    dataset_id: str,
+    *,
+    source: str = "stj_dados_abertos_jurisprudencia",
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Describe one public dataset and its resources without downloading files."""
+
+    active_client = client or NanoJurisClient()
+    return active_client.describe_source_dataset(source=source, dataset_id=dataset_id)
+
+
+def plan_source_sync_tool(
+    dataset_id: str,
+    *,
+    source: str = "stj_dados_abertos_jurisprudencia",
+    format: str = "JSON",
+    max_resources: int = 100,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Plan a bounded dataset sync without performing downloads."""
+
+    active_client = client or NanoJurisClient()
+    return active_client.plan_source_sync(
+        source=source,
+        dataset_id=dataset_id,
+        format=format,
+        max_resources=max_resources,
+    )
+
+
 def search_jurisprudence_tool(
     text: str = "",
     *,

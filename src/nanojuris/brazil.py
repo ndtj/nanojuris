@@ -114,7 +114,7 @@ _CORE_COURTS = [
         official_url="https://www.stj.jus.br/sites/portalp/Inicio",
         source_system="portal_proprio",
         provider_status="implemented",
-        providers=("stj_scon",),
+        providers=("stj_scon", "stj_dados_abertos_jurisprudencia"),
     ),
     CourtInfo(
         "TST",

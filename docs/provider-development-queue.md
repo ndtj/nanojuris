@@ -26,7 +26,7 @@ via MCP.
 
 | Fonte | Status | Dossie | Decisao tecnica |
 | --- | --- | --- | --- |
-| STJ Dados Abertos | `candidate_ready` para dataset | [stj_dados_abertos_jurisprudencia](providers/stj_dados_abertos_jurisprudencia/README.md) | criar primeiro um adapter de catalogo e ingestao local; nao tratar como busca online |
+| STJ Dados Abertos | `implemented` catalog-only | [stj_dados_abertos_jurisprudencia](providers/stj_dados_abertos_jurisprudencia/README.md) | adicionar ingestao incremental apos definir indice local; nao tratar como busca online |
 | TJDFT API JurisDF | rota oficial de aprimoramento | [tjdf_juris](providers/tjdf_juris/README.md) | integrar como superficie JSON do provider existente, sem duplicar `tjdf_juris` |
 | TSE/SJUR 4.0 | contrato parcial | [justica_eleitoral_sjur](providers/justica_eleitoral_sjur/README.md) | manter catalogos de filtros; busca decisoria continua bloqueada por antirrobo |
 
@@ -69,7 +69,7 @@ via MCP.
 | 35 | TJBA GraphQL | `implemented` | [tjba_graphql.md](providers/tjba_graphql/README.md) | monitorar contrato live e filtros catalogados |
 | 36 | TJPR HTML | `implemented` | [tjpr_jurisprudencia.md](providers/tjpr_jurisprudencia/README.md) | monitorar contrato live e ampliar filtros por IDs |
 | 37 | TJRS AJAX/SOLR | `implemented` | [tjrs_solr.md](providers/tjrs_solr/README.md) | fixture live opt-in e detalhe/inteiro teor |
-| 38 | STJ Dados Abertos | `candidate_ready` | [stj_dados_abertos_jurisprudencia.md](providers/stj_dados_abertos_jurisprudencia/README.md) | fixture CKAN, parser JSON/CSV e adapter de ingestao incremental |
+| 38 | STJ Dados Abertos | `implemented` | [stj_dados_abertos_jurisprudencia.md](providers/stj_dados_abertos_jurisprudencia/README.md) | catalogo pronto; implementar ingestao incremental e indice local |
 
 ## Checklist De Entrada Para Implementar
 

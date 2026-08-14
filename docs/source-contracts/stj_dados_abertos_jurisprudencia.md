@@ -3,10 +3,9 @@
 ## Identidade
 
 - Orgao: Superior Tribunal de Justica.
-- Categoria: `court_jurisprudence`.
+- Categoria: `court_jurisprudence_dataset`.
 - Familia tecnica: `ckan_jurisprudencia_dataset`.
-- Status: `candidate_ready` para adapter de dataset; nao e uma API de busca
-  interativa.
+- Status: `implemented` para catalogo CKAN; nao e uma API de busca interativa.
 - Fonte oficial: Portal de Dados Abertos do STJ.
 - Portal: `https://dadosabertos.web.stj.jus.br/`.
 - Licenca observada: Creative Commons Atribuicao (`cc-by`).
@@ -50,6 +49,36 @@ validacao live. Os datasets observados foram:
 O adapter deve sempre descobrir os recursos via `package_show`. Nao deve
 montar URLs de arquivos por convencao, pois o CKAN publica identificadores,
 nomes, tamanhos, datas e URLs de download como parte do contrato.
+
+## Operacoes Runtime
+
+O adapter oferece somente metadados e planejamento, sem baixar recursos:
+
+```python
+from nanojuris import NanoJurisClient
+
+client = NanoJurisClient()
+
+datasets = client.list_source_datasets(
+    source="stj_dados_abertos_jurisprudencia",
+    query="jurisprudencia",
+    rows=20,
+)
+description = client.describe_source_dataset(
+    source="stj_dados_abertos_jurisprudencia",
+    dataset_id="espelhos-de-acordaos-primeira-turma",
+)
+plan = client.plan_source_sync(
+    source="stj_dados_abertos_jurisprudencia",
+    dataset_id="espelhos-de-acordaos-primeira-turma",
+    format="JSON",
+)
+```
+
+As mesmas operacoes estao disponiveis no MCP como
+`list_source_datasets`, `describe_source_dataset` e `plan_source_sync`. O
+plano contem URLs, formatos, tamanhos, checksums e limites, mas declara
+`download=false`; a ingestao deve ser uma etapa local explicita.
 
 ## Recursos observados
 
@@ -164,22 +193,21 @@ apresentar essa base como cobertura integral da jurisprudencia do STJ.
 
 ## Fixtures e promocao
 
-- [ ] fixture de `package_search` reduzida aos 11 nomes e metadados essenciais;
-- [ ] fixture de `package_show` com dicionario e dois recursos JSON;
+- [x] fixture de `package_search` reduzida a metadados essenciais;
+- [x] fixture de `package_show` com dois recursos sanitizados;
 - [ ] parser de CSV com `;`, acentos e campos longos;
 - [ ] parser de JSON que preserve campos desconhecidos;
 - [ ] teste de deduplicacao por `id` entre carga historica e delta;
 - [ ] teste de streaming e limite de bytes sem baixar o ZIP historico em CI;
 - [ ] fixture de dataset vazio, recurso removido e schema alterado;
+- [x] adapter de catalogo sem promover busca unificada;
 - [ ] adapter de ingestao local antes de promover busca unificada.
 
 ## Proximos passos
 
-1. versionar fixtures pequenas de `package_search` e `package_show`;
-2. implementar o catalogo CKAN sem acoplar a busca interativa;
-3. criar ingestao incremental por recurso mensal, com deduplicacao por `id`;
-4. indexar localmente e medir cobertura antes de integrar a busca unificada;
-5. somente depois avaliar `CanonicalDecision` e operacoes MCP de pesquisa.
+1. criar ingestao incremental por recurso mensal, com deduplicacao por `id`;
+2. indexar localmente e medir cobertura antes de integrar a busca unificada;
+3. somente depois avaliar `CanonicalDecision` e operacoes MCP de pesquisa.
 
 ## Evidencia live
 
@@ -218,6 +246,17 @@ Filtros de `package_search` pertencem ao catalogo CKAN: texto `q`, quantidade
 dataset e devolve metadados, grupos, tags e a lista de `resources`. Licenca,
 formato, URL, checksum, tamanho e data de modificacao devem ser preservados
 por recurso.
+
+## Revalidacao Live E Promocao Do Catalogo - 2026-08-14
+
+- `package_search` respondeu HTTP 200 com `success=true`, 11 datasets e
+  recursos JSON, CSV e ZIP.
+- O adapter de catalogo foi validado com fixtures sanitizadas e nao baixa
+  nenhum recurso durante `get_catalog`, `describe_dataset` ou
+  `plan_source_sync`.
+- O provider permanece fora da pesquisa unificada por contrato explicito:
+  `supports_unified_search=false`. A pesquisa textual somente sera promovida
+  depois de uma ingestao local, deduplicacao e indice versionado.
 
 Os filtros juridicos dos espelhos nao sao parametros de `package_search`. Eles
 existem nos campos dos arquivos publicados e somente ficam disponiveis depois

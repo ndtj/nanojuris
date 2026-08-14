@@ -29,6 +29,7 @@ class NanoJurisConfig:
     stf_portal_url: str = "https://portal.stf.jus.br"
     stj_url: str = "https://processo.stj.jus.br"
     stj_scon_url: str = "https://scon.stj.jus.br"
+    stj_dados_abertos_url: str = "https://dadosabertos.web.stj.jus.br"
     stm_jurisprudencia_url: str = "https://jurisprudencia.stm.jus.br"
     tst_jurisprudencia_url: str = "https://jurisprudencia.tst.jus.br"
     tst_jurisprudencia_api_url: str = "https://jurisprudencia-backend2.tst.jus.br"

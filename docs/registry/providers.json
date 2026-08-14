@@ -13,6 +13,7 @@
     "stf_informativo",
     "stf_juris",
     "stj_informativo",
+    "stj_dados_abertos_jurisprudencia",
     "stj_scon",
     "stm_jurisprudencia",
     "tce_sp_jurisprudencia",
@@ -49,7 +50,6 @@
   "candidates": [
     "falcao_jt",
     "justica_eleitoral_sjur",
-    "stj_dados_abertos_jurisprudencia",
     "tjap_tucujuris",
     "tjce_cjsg",
     "tjce_sjuris",

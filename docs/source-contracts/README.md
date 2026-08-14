@@ -60,7 +60,7 @@ A validacao live mais recente dos candidatos esta em
 | Fonte | Status | Dossie |
 | --- | --- | --- |
 | Justica Eleitoral SJUR/TSE/TREs | contrato parcial | [justica_eleitoral_sjur.md](justica_eleitoral_sjur.md) |
-| STJ Dados Abertos | candidato pronto para adapter de dataset | [stj_dados_abertos_jurisprudencia.md](stj_dados_abertos_jurisprudencia.md) |
+| STJ Dados Abertos | adapter de catalogo CKAN; sem busca online implicita | [stj_dados_abertos_jurisprudencia.md](stj_dados_abertos_jurisprudencia.md) |
 | TJSE Pesquisa Judicial | formulario JSF, captcha na busca | [tjse_jurisprudencia.md](tjse_jurisprudencia.md) |
 | TJPE Consulta Jurisprudencia | REST publico, candidato pronto para fixture | [tjpe_jurisprudencia.md](tjpe_jurisprudencia.md) |
 | TJSC/eproc Jurisprudencia | formulario eproc publico, candidato pronto para fixture | [tjsc_eproc_jurisprudencia.md](tjsc_eproc_jurisprudencia.md) |

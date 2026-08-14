@@ -9,11 +9,14 @@ from pathlib import Path
 from typing import Any, cast
 
 from nanojuris.mcp_tools import (
+    describe_source_dataset_tool,
     export_results_tool,
     get_decisions_tool,
     get_document_tool,
     list_courts_tool,
+    list_source_datasets_tool,
     list_sources_tool,
+    plan_source_sync_tool,
     search_jurisprudence_tool,
     search_unified_tool,
     source_contracts_tool,
@@ -117,6 +120,41 @@ def create_server() -> Any:
         """Return source contract maturity, gaps and deepening steps."""
 
         return source_contracts_tool(source)
+
+    @server.tool()
+    def list_source_datasets(
+        source: str = "stj_dados_abertos_jurisprudencia",
+        query: str = "jurisprudencia",
+        rows: int = 20,
+    ) -> dict[str, Any]:
+        """List public datasets from a provider catalog without downloading files."""
+
+        return list_source_datasets_tool(source, query=query, rows=rows)
+
+    @server.tool()
+    def describe_source_dataset(
+        dataset_id: str,
+        source: str = "stj_dados_abertos_jurisprudencia",
+    ) -> dict[str, Any]:
+        """Describe one public dataset and its resources."""
+
+        return describe_source_dataset_tool(dataset_id, source=source)
+
+    @server.tool()
+    def plan_source_sync(
+        dataset_id: str,
+        source: str = "stj_dados_abertos_jurisprudencia",
+        format: str = "JSON",
+        max_resources: int = 100,
+    ) -> dict[str, Any]:
+        """Plan a bounded local dataset sync without downloading resources."""
+
+        return plan_source_sync_tool(
+            dataset_id,
+            source=source,
+            format=format,
+            max_resources=max_resources,
+        )
 
     @server.tool()
     def search_jurisprudence(

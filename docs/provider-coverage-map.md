@@ -50,7 +50,7 @@ segredo de justica ou controles de acesso.
 | P1 | TJCE Informativos | pagina HTML oficial retornou edicoes, itens com processo/assunto/orgao e links PDF | `CanonicalPrecedent` curado via parser HTML/PDF |
 | P1 | TRF3 jurisprudencia | interface oficial confirma pesquisa textual, filtros, JEF/Turmas Recursais e consulta de acordaos; cliente HTTP sofreu timeout | `CanonicalDecision` e `CanonicalDocument` apos captura e replay |
 | P1 | TJPB/PJe jurisprudencia | formulario publico com campos juridicos e paginacao; comportamento WAF variou por cliente | provider somente apos fixture de resultado real sem desafio |
-| P0 | STJ jurisprudencia/SCON | provider inicial `stj_scon` com parser offline; ficha em [stj-source-profile.md](stj-source-profile.md) | acordaos como `CanonicalDecision`; inteiro teor em fase futura |
+| P0 | STJ jurisprudencia/SCON e Dados Abertos | `stj_scon` para busca textual e `stj_dados_abertos_jurisprudencia` para catalogo CKAN e plano de sincronizacao | acordaos como `CanonicalDecision`; datasets para indice local posterior |
 | P0 | STF jurisprudencia | provider inicial `stf_juris` via API JSON observada por HAR; WAF/SSL diagnosticados | acordaos como `CanonicalDecision`; inteiro teor como URL ate validar documento sem 403 |
 | P0 | TST jurisprudencia | provider implementado com API REST publica, busca textual, filtros e inteiro teor HTML | `CanonicalDecision` trabalhista e `CanonicalDocument` sob demanda |
 | P1 | TJPE sumulas e orientacao de decisoes | paginas publicas para sumulas, transparencia e Consulta Jurisprudencia Web; ainda sem endpoint limpo de acordaos | catalogo documental/precedentes locais |

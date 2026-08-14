@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "result": {
+    "count": 2,
+    "results": [
+      {
+        "id": "dataset-espelhos-1",
+        "name": "espelhos-de-acordaos-primeira-turma",
+        "title": "Espelhos de acordaos - Primeira Turma",
+        "notes": "Dataset publico de fixture.",
+        "license_id": "cc-by",
+        "organization": {"name": "stj", "title": "Superior Tribunal de Justica"},
+        "url": "https://dadosabertos.web.stj.jus.br/dataset/espelhos-de-acordaos-primeira-turma",
+        "metadata_modified": "2026-08-14T00:00:00.000000",
+        "resources": [
+          {
+            "id": "resource-json-1",
+            "name": "20260630.json",
+            "format": "JSON",
+            "mimetype": "application/json",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/resource-json-1",
+            "size": 2048,
+            "hash": "sha256:fixture-json",
+            "last_modified": "2026-06-30T00:00:00.000000",
+            "created": "2026-07-01T00:00:00.000000"
+          },
+          {
+            "id": "resource-csv-1",
+            "name": "dicionario.csv",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/resource-csv-1",
+            "size": 512,
+            "hash": "sha256:fixture-csv"
+          }
+        ]
+      },
+      {
+        "id": "dataset-integras-1",
+        "name": "integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica",
+        "title": "Integras de decisoes terminativas e acordaos do Diario da Justica",
+        "license_id": "cc-by",
+        "organization": {"title": "Superior Tribunal de Justica"},
+        "resources": [
+          {
+            "id": "resource-zip-1",
+            "name": "historico.zip",
+            "format": "ZIP",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/resource-zip-1",
+            "size": 4096
+          }
+        ]
+      }
+    ]
+  }
+}
