@@ -161,9 +161,35 @@ desenho recomendado e:
 5. deduplicar por `id`, mantendo a ultima versao do registro;
 6. indexar os campos textuais localmente para a busca unificada.
 
-O ZIP historico pode ser grande. O provider nao deve baixa-lo por padrao em
-uma consulta MCP. O MCP deve oferecer catalogo e plano de sincronizacao; a
-busca de texto deve usar um indice local explicitamente informado ao usuario.
+O ZIP historico pode ser grande. O provider nao baixa recursos implicitamente
+durante uma consulta MCP. A sincronizacao deve ser uma acao explicita e
+limitada:
+
+```python
+from nanojuris import NanoJurisClient
+from nanojuris.store import SQLiteStore
+
+client = NanoJurisClient()
+with SQLiteStore("stj.db") as store:
+    sync = client.sync_source_resource(
+        source="stj_dados_abertos_jurisprudencia",
+        dataset_id="espelhos-de-acordaos-primeira-turma",
+        resource_id="<resource-id>",
+        store=store,
+        max_bytes=50_000_000,
+    )
+```
+
+Nesta fase, `sync_resource` aceita apenas JSON e CSV, valida que a URL
+pertence ao dominio oficial, baixa em streaming dentro de `max_bytes`, calcula
+SHA-256 sobre os bytes originais, preserva cada linha em `raw`, deduplica por
+`id` e grava uma `ResearchRun` com os vinculos aos `CanonicalDecision`. ZIP,
+recursos sem `id` e limites excedidos nao sao tratados como sucesso parcial.
+
+O MCP oferece a mesma operacao por `sync_source_resource`, usando `store_id`
+em vez de caminho de arquivo. O store fica restrito a `NANOJURIS_STORE_ROOT`.
+Depois da sincronizacao, a busca textual deve usar um indice local explicitamente
+informado ao usuario; este provider continua fora da busca remota unificada.
 
 ## Estados de resposta
 
@@ -195,28 +221,33 @@ apresentar essa base como cobertura integral da jurisprudencia do STJ.
 
 - [x] fixture de `package_search` reduzida a metadados essenciais;
 - [x] fixture de `package_show` com dois recursos sanitizados;
-- [ ] parser de CSV com `;`, acentos e campos longos;
-- [ ] parser de JSON que preserve campos desconhecidos;
-- [ ] teste de deduplicacao por `id` entre carga historica e delta;
-- [ ] teste de streaming e limite de bytes sem baixar o ZIP historico em CI;
+- [x] parser de CSV com `;`, acentos e campos longos;
+- [x] parser de JSON que preserve campos desconhecidos;
+- [x] teste de deduplicacao por `id` entre carga historica e delta;
+- [x] teste de streaming e limite de bytes sem baixar o ZIP historico em CI;
 - [ ] fixture de dataset vazio, recurso removido e schema alterado;
 - [x] adapter de catalogo sem promover busca unificada;
-- [ ] adapter de ingestao local antes de promover busca unificada.
+- [x] adapter de ingestao local antes de promover busca unificada.
 
 ## Proximos passos
 
-1. criar ingestao incremental por recurso mensal, com deduplicacao por `id`;
+1. criar um manifesto incremental por recurso mensal, com checksum publicado e
+   politica de substituicao por `id`;
 2. indexar localmente e medir cobertura antes de integrar a busca unificada;
-3. somente depois avaliar `CanonicalDecision` e operacoes MCP de pesquisa.
+3. somente depois promover a busca local como uma fonte federada, com estado,
+   data da sincronizacao e limites visiveis ao usuario.
 
 ## Evidencia live
 
-Validacao realizada em 2026-08-11:
+Validacao realizada em 2026-08-14:
 
 - `package_search` retornou HTTP 200, `success=true` e 11 datasets;
 - os datasets de jurisprudencia retornaram formatos CSV, JSON e ZIP;
 - o dicionario da Primeira Turma retornou HTTP 200 com 20 campos;
 - `20260630.json` retornou HTTP 200 e registros estruturados;
+- um recurso JSON de `espelhos-de-acordaos-corte-especial` foi sincronizado
+  em store temporario: 32.655 bytes, 10 registros, 10 persistidos, sem
+  duplicatas ou registros invalidos;
 - a licenca retornada pelo catalogo foi `cc-by`.
 
 ## Fontes oficiais

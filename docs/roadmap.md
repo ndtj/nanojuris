@@ -86,6 +86,8 @@ O ultimo relatorio aplicado de validacao esta em
 - Metadados MCP de paginacao: `total`, `has_more` e `next_offset`.
 - Tool MCP `get_document` para inteiro teor publico auditavel.
 - Tool MCP `list_courts` para descoberta do contexto judiciario brasileiro.
+- Catalogo e sincronizacao local explicita de JSON/CSV do STJ, com hash e
+  `ResearchRun` auditavel.
 
 ## 0.8+
 

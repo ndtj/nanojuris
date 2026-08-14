@@ -24,11 +24,25 @@ class FakeResponse:
         self._payload = payload
         self.url = url
         self.status_code = status_code
-        self.content = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        self.headers = {"Content-Type": "application/json"}
+        self.content = (
+            payload
+            if isinstance(payload, bytes)
+            else json.dumps(payload, ensure_ascii=False).encode("utf-8")
+        )
+        self.headers = {
+            "Content-Type": "application/json",
+            "Content-Length": str(len(self.content)),
+        }
+        self.closed = False
 
     def json(self):
         return self._payload
+
+    def iter_content(self, *, chunk_size: int):
+        yield self.content
+
+    def close(self):
+        self.closed = True
 
 
 class FakeSession:
@@ -136,6 +150,178 @@ def test_invalid_format_is_rejected_before_network_call():
     assert session.calls == []
 
 
+def test_sync_json_deduplicates_by_id_and_persists_a_research_run(tmp_path):
+    resource = json.dumps(
+        [
+            {
+                "id": "record-1",
+                "numeroProcesso": "0000001-11.2026.8.05.0001",
+                "numeroRegistro": "REG-1",
+                "descricaoClasse": "Apelacao Civel",
+                "ministroRelator": "Ministro de Fixture",
+                "nomeOrgaoJulgador": "Primeira Turma",
+                "ementa": "Ementa de fixture",
+                "decisao": "Decisao de fixture",
+                "dataDecisao": "01/08/2026",
+                "dataPublicacao": "2026-08-02T00:00:00Z",
+            },
+            {
+                "id": "record-1",
+                "numeroProcesso": "0000001-11.2026.8.05.0001",
+                "dataPublicacao": "2026-08-02",
+                "ementa": "Ementa de fixture atualizada",
+            },
+            {"ementa": "Registro sem id"},
+        ],
+        ensure_ascii=False,
+    ).encode("utf-8")
+    provider, session = _provider(
+        _payload("stj_ckan_package_show.json"),
+        resource,
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "stj.db") as store:
+        result = provider.sync_resource(
+            "espelhos-de-acordaos-primeira-turma",
+            "resource-json-1",
+            store=store,
+            max_bytes=10_000,
+            label="fixture sync",
+        )
+        stored = store.list_records(source=provider.name)
+        run = store.get_research_run(result.run_id)
+
+    assert result.records_seen == 3
+    assert result.records_saved == 1
+    assert result.duplicate_records == 1
+    assert result.invalid_records == 1
+    assert result.content_sha256
+    assert stored[0]["case_number"] == "0000001-11.2026.8.05.0001"
+    assert stored[0]["publication_date"] == "2026-08-02"
+    assert stored[0]["raw"]["ementa"] == "Ementa de fixture atualizada"
+    assert run is not None and run["record_count"] == 1
+    assert session.calls[-1]["stream"] is True
+
+
+def test_sync_rejects_resource_that_exceeds_byte_limit(tmp_path):
+    provider, _ = _provider(
+        _payload("stj_ckan_package_show.json"),
+        b'{"id": "too-large"}',
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "stj.db") as store:
+        with pytest.raises(QueryRejectedError, match="excede max_bytes"):
+            provider.sync_resource(
+                "espelhos-de-acordaos-primeira-turma",
+                "resource-json-1",
+                store=store,
+                max_bytes=1,
+            )
+
+
+def test_sync_rejects_zip_resources_before_download(tmp_path):
+    package = _payload("stj_ckan_package_show.json")
+    package["result"]["resources"].append(
+        {
+            "id": "resource-zip-1",
+            "format": "ZIP",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/resource-zip-1",
+        }
+    )
+    provider, session = _provider(package)
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "zip.db") as store:
+        with pytest.raises(UnsupportedQueryError, match="somente recursos JSON ou CSV"):
+            provider.sync_resource(
+                "espelhos-de-acordaos-primeira-turma",
+                "resource-zip-1",
+                store=store,
+            )
+    assert len(session.calls) == 1
+
+
+def test_sync_rejects_resource_outside_official_domain(tmp_path):
+    package = _payload("stj_ckan_package_show.json")
+    package["result"]["resources"][0]["url"] = "https://example.com/resource.json"
+    provider, session = _provider(package)
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "domain.db") as store:
+        with pytest.raises(QueryRejectedError, match="dominio oficial"):
+            provider.sync_resource(
+                "espelhos-de-acordaos-primeira-turma",
+                "resource-json-1",
+                store=store,
+            )
+    assert len(session.calls) == 1
+
+
+def test_sync_rejects_invalid_json_resource(tmp_path):
+    provider, _ = _provider(
+        _payload("stj_ckan_package_show.json"),
+        b"not-json",
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "invalid-json.db") as store:
+        with pytest.raises(ParserContractChangedError, match="JSON resource is invalid"):
+            provider.sync_resource(
+                "espelhos-de-acordaos-primeira-turma",
+                "resource-json-1",
+                store=store,
+            )
+
+
+def test_trace_uses_supplied_bytes_after_stream_consumption():
+    provider, _ = _provider()
+    consumed = FakeResponse(
+        b"payload",
+        url="https://dadosabertos.web.stj.jus.br/resource/resource-json-1",
+    )
+    list(consumed.iter_content(chunk_size=64))
+    trace = provider._trace(
+        "GET resource/resource-json-1",
+        query={},
+        response=consumed,
+        content=b"payload",
+        limitations=[],
+    )
+    assert trace.response_bytes == len(b"payload")
+
+
+def test_sync_csv_preserves_accents_and_unknown_fields(tmp_path):
+    resource = (
+        b"id;numeroProcesso;descricaoClasse;ementa;dataPublicacao;campoNovo\n"
+        b"csv-1;0000002-22.2026.8.05.0001;Apelacao Civel;Ementa com acentuacao;"
+        b"02/08/2026;valor preservado\n"
+    )
+    provider, _ = _provider(_payload("stj_ckan_package_show.json"), resource)
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "stj-csv.db") as store:
+        result = provider.sync_resource(
+            "espelhos-de-acordaos-primeira-turma",
+            "resource-csv-1",
+            store=store,
+        )
+        stored = store.list_records(source=provider.name)
+
+    assert result.format == "CSV"
+    assert result.records_saved == 1
+    assert stored[0]["case_number"] == "0000002-22.2026.8.05.0001"
+    assert stored[0]["publication_date"] == "2026-08-02"
+    assert stored[0]["raw"]["campoNovo"] == "valor preservado"
+
+
 @pytest.mark.parametrize("payload", [{"success": False}, {"success": True, "result": []}])
 def test_invalid_ckan_envelope_is_not_silently_treated_as_empty(payload):
     provider, _ = _provider(payload)
@@ -175,3 +361,34 @@ def test_client_and_mcp_catalog_surface_are_available():
         "espelhos-de-acordaos-primeira-turma", client=plan_client, max_resources=1
     )
     assert plan["download"] is False
+
+
+def test_client_and_mcp_sync_surface_persist_a_bounded_resource(tmp_path):
+    from nanojuris.client import NanoJurisClient
+    from nanojuris.mcp_tools import sync_source_resource_tool
+    from nanojuris.store import SQLiteStore
+
+    resource = json.dumps([{"id": "mcp-1", "ementa": "Registro MCP"}]).encode("utf-8")
+    provider, _ = _provider(_payload("stj_ckan_package_show.json"), resource)
+    client = NanoJurisClient(providers=[provider])
+
+    with SQLiteStore(tmp_path / "client.db") as store:
+        result = client.sync_source_resource(
+            source=provider.name,
+            dataset_id="espelhos-de-acordaos-primeira-turma",
+            resource_id="resource-json-1",
+            store=store,
+        )
+    assert result["records_saved"] == 1
+    assert result["run_id"].startswith("run-")
+
+    tool_provider, _ = _provider(_payload("stj_ckan_package_show.json"), resource)
+    tool_client = NanoJurisClient(providers=[tool_provider])
+    payload = sync_source_resource_tool(
+        "espelhos-de-acordaos-primeira-turma",
+        "resource-json-1",
+        str(tmp_path / "mcp.db"),
+        source=tool_provider.name,
+        client=tool_client,
+    )
+    assert payload["sync"]["records_saved"] == 1

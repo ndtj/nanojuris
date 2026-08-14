@@ -6,13 +6,18 @@ does not download large legal datasets or opt into remote unified search.
 
 from __future__ import annotations
 
+import csv
 import hashlib
+import io
+import json
 import time
+from dataclasses import asdict, dataclass
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
+from nanojuris.canonical import normalize_date
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -24,7 +29,10 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDecision,
     DecisionBundle,
+    ExtractionStatus,
+    ExtractionTrace,
     JurisprudenceQuery,
     ProviderCapabilities,
     ProviderCatalog,
@@ -33,12 +41,34 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.store import SQLiteStore
 
 PACKAGE_SEARCH_PATH = "/api/3/action/package_search"
 PACKAGE_SHOW_PATH = "/api/3/action/package_show"
 DEFAULT_QUERY = "jurisprudencia"
 MAX_ROWS = 100
 MAX_PLAN_RESOURCES = 100
+DEFAULT_MAX_SYNC_BYTES = 50_000_000
+
+
+@dataclass(slots=True)
+class StjSyncResult:
+    """Audit summary for one explicit local resource synchronization."""
+
+    source: str
+    dataset_id: str
+    resource_id: str
+    format: str
+    bytes_read: int
+    content_sha256: str
+    records_seen: int
+    records_saved: int
+    duplicate_records: int
+    invalid_records: int
+    run_id: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
 
 
 class StjDadosAbertosProvider(JurisprudenceProvider):
@@ -196,16 +226,97 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
             ],
         }
 
+    def sync_resource(
+        self,
+        dataset_id: str,
+        resource_id: str,
+        *,
+        store: SQLiteStore,
+        max_bytes: int = DEFAULT_MAX_SYNC_BYTES,
+        label: str | None = None,
+    ) -> StjSyncResult:
+        """Download, parse and persist one JSON/CSV resource explicitly."""
+
+        if max_bytes <= 0:
+            raise QueryRejectedError("max_bytes deve ser maior que zero")
+        description = self.describe_dataset(dataset_id)
+        resource = next(
+            (item for item in description["resources"] if item.get("id") == resource_id),
+            None,
+        )
+        if resource is None:
+            raise QueryRejectedError("resource_id nao pertence ao dataset informado")
+        resource_format = str(resource.get("format") or "").upper()
+        if resource_format not in {"JSON", "CSV"}:
+            raise UnsupportedQueryError(
+                "A sincronizacao inicial aceita somente recursos JSON ou CSV; "
+                "ZIP permanece bloqueado"
+            )
+        resource_url = _require_official_resource_url(str(resource.get("url") or ""), self.base_url)
+        content, response = self._download_resource(resource_url, max_bytes=max_bytes)
+        content_sha256 = hashlib.sha256(content).hexdigest()
+        trace = self._trace(
+            f"GET resource/{resource_id}",
+            query={"dataset_id": dataset_id, "resource_id": resource_id},
+            response=response,
+            content=content,
+            limitations=[
+                f"Recurso limitado a {max_bytes} bytes.",
+                "Somente JSON e CSV sao aceitos nesta fase; ZIP nao e baixado.",
+            ],
+        )
+        trace.content_sha256 = content_sha256
+        trace.response_bytes = len(content)
+        trace.transformations = ["download_stream", "parse_rows", "deduplicate_by_id"]
+        rows = _parse_resource(content, resource_format)
+        unique_rows, duplicate_records, invalid_records = _deduplicate_rows(rows)
+        records = [
+            _row_to_decision(
+                row,
+                dataset_id=dataset_id,
+                resource_id=resource_id,
+                trace=trace,
+                content_sha256=content_sha256,
+                content_bytes=len(content),
+            )
+            for row in unique_rows
+        ]
+        run = store.save_research_run(
+            source=self.name,
+            text=f"dataset:{dataset_id} resource:{resource_id}",
+            query={
+                "dataset_id": dataset_id,
+                "resource_id": resource_id,
+                "format": resource_format,
+                "content_sha256": content_sha256,
+            },
+            records=records,
+            label=label or f"STJ sync {dataset_id}/{resource_id}",
+        )
+        return StjSyncResult(
+            source=self.name,
+            dataset_id=dataset_id,
+            resource_id=resource_id,
+            format=resource_format,
+            bytes_read=len(content),
+            content_sha256=content_sha256,
+            records_seen=len(rows),
+            records_saved=len(records),
+            duplicate_records=duplicate_records,
+            invalid_records=invalid_records,
+            run_id=run.id,
+        )
+
     def get_capabilities(self) -> ProviderCapabilities:
         return ProviderCapabilities(
             source=self.name,
             display_name="STJ Dados Abertos de Jurisprudencia",
             source_url=self.base_url,
             category="court_jurisprudence_dataset",
-            search_modes=["dataset", "catalog", "sync_plan"],
+            search_modes=["dataset", "catalog", "sync_plan", "local_sync"],
             document_types=["acordao_espelho", "integra_decisao", "acordao_dje"],
             content_formats=["json", "csv", "zip"],
-            canonical_records=["ProviderCatalog"],
+            canonical_records=["ProviderCatalog", "CanonicalDecision", "ResearchRun"],
             extracted_fields=[
                 "dataset_id",
                 "dataset_title",
@@ -216,11 +327,18 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "size",
                 "last_modified",
                 "license",
+                "records_seen",
+                "records_saved",
+                "duplicate_records",
+                "invalid_records",
+                "content_sha256",
+                "run_id",
             ],
             access_statuses=[AccessStatus.PUBLIC, AccessStatus.SOURCE_UNAVAILABLE],
             endpoints=[
                 "GET /api/3/action/package_search",
                 "GET /api/3/action/package_show",
+                "GET /resource/{resource_id} (explicit local sync)",
             ],
             supports_full_text=False,
             supports_catalog=True,
@@ -231,11 +349,19 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
             supports_studio=False,
             pagination_mode="catalog_offset",
             completeness_contract="CKAN_result_count_and_resource_metadata",
-            supported_filters=["catalog_query", "rows", "dataset_id", "format"],
+            supported_filters=[
+                "catalog_query",
+                "rows",
+                "dataset_id",
+                "resource_id",
+                "format",
+                "max_bytes",
+            ],
             limitations=[
                 "Nao oferece busca jurisprudencial online neste adapter.",
                 "Recursos podem ser grandes e nao sao baixados automaticamente.",
                 "Espelhos de acordaos nao equivalem a cobertura integral do STJ.",
+                "A sincronizacao local aceita JSON/CSV; ZIP permanece bloqueado.",
             ],
             responsible_use=[
                 "Preferir sincronizacao incremental e respeitar o tamanho publicado.",
@@ -285,15 +411,67 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"STJ CKAN returned HTTP {response.status_code}")
         return response
 
+    def _download_resource(
+        self,
+        url: str,
+        *,
+        max_bytes: int,
+    ) -> tuple[bytes, requests.Response]:
+        self._respect_rate_limit()
+        try:
+            response = self.session.get(
+                url,
+                headers={
+                    "Accept": "application/json, text/csv, application/octet-stream",
+                    "User-Agent": self.config.user_agent,
+                },
+                timeout=self.config.timeout,
+                verify=self.config.verify_ssl,
+                stream=True,
+            )
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"STJ resource request failed: {exc}") from exc
+        if response.status_code == 429:
+            response.close()
+            raise RateLimitDetectedError("STJ resource returned HTTP 429")
+        if response.status_code in {401, 403}:
+            response.close()
+            raise AccessControlRequiredError("STJ resource requires access validation")
+        if response.status_code >= 400:
+            response.close()
+            raise SourceUnavailableError(f"STJ resource returned HTTP {response.status_code}")
+        declared_size = _content_length(response)
+        if declared_size is not None and declared_size > max_bytes:
+            response.close()
+            raise QueryRejectedError("recurso excede max_bytes antes do download")
+        chunks: list[bytes] = []
+        total = 0
+        try:
+            for chunk in response.iter_content(chunk_size=64 * 1024):
+                if not chunk:
+                    continue
+                total += len(chunk)
+                if total > max_bytes:
+                    raise QueryRejectedError("recurso excede max_bytes durante o download")
+                chunks.append(bytes(chunk))
+        finally:
+            response.close()
+        return b"".join(chunks), response
+
     def _trace(
         self,
         endpoint: str,
         *,
         query: dict[str, Any],
         response: requests.Response,
+        content: bytes | None = None,
         limitations: list[str],
     ) -> SourceTrace:
-        content = bytes(getattr(response, "content", b"") or b"")
+        if content is None:
+            try:
+                content = bytes(getattr(response, "content", b"") or b"")
+            except RuntimeError:
+                content = b""
         return SourceTrace(
             provider=self.name,
             endpoint=endpoint,
@@ -371,3 +549,129 @@ def _require_dataset_id(value: str) -> str:
 
 def _as_dict_list(value: object) -> list[dict[str, Any]]:
     return [item for item in value if isinstance(item, dict)] if isinstance(value, list) else []
+
+
+def _require_official_resource_url(value: str, base_url: str) -> str:
+    parsed = urlparse(value)
+    expected = urlparse(base_url)
+    if parsed.scheme != "https" or parsed.hostname != expected.hostname:
+        raise QueryRejectedError("resource_url deve pertencer ao dominio oficial do STJ")
+    return value
+
+
+def _content_length(response: requests.Response) -> int | None:
+    value = response.headers.get("Content-Length") if response.headers else None
+    try:
+        return int(value) if value else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _parse_resource(content: bytes, resource_format: str) -> list[dict[str, Any]]:
+    if resource_format == "JSON":
+        try:
+            payload = json.loads(content.decode("utf-8-sig"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ParserContractChangedError("STJ JSON resource is invalid") from exc
+        if isinstance(payload, list):
+            rows = payload
+        elif isinstance(payload, dict):
+            rows = next(
+                (
+                    payload[key]
+                    for key in ("records", "data", "items", "result")
+                    if isinstance(payload.get(key), list)
+                ),
+                [payload],
+            )
+        else:
+            raise ParserContractChangedError("STJ JSON resource must contain records")
+        return [row for row in rows if isinstance(row, dict)]
+    try:
+        text = content.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = content.decode("latin-1")
+    try:
+        dialect = csv.Sniffer().sniff(text[:4096], delimiters=";,|\t")
+        reader = csv.DictReader(io.StringIO(text), dialect=dialect)
+        return [
+            {str(key).strip(): (value or "").strip() for key, value in row.items() if key}
+            for row in reader
+        ]
+    except (csv.Error, UnicodeError) as exc:
+        raise ParserContractChangedError("STJ CSV resource is invalid") from exc
+
+
+def _deduplicate_rows(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int, int]:
+    unique: dict[str, dict[str, Any]] = {}
+    invalid = 0
+    duplicates = 0
+    for row in rows:
+        identifier = _text_value(row, "id")
+        if not identifier:
+            invalid += 1
+            continue
+        if identifier in unique:
+            duplicates += 1
+        unique[identifier] = row
+    return list(unique.values()), duplicates, invalid
+
+
+def _row_to_decision(
+    row: dict[str, Any],
+    *,
+    dataset_id: str,
+    resource_id: str,
+    trace: SourceTrace,
+    content_sha256: str,
+    content_bytes: int,
+) -> CanonicalDecision:
+    external_id = _text_value(row, "id")
+    canonical_id = hashlib.sha256(f"{dataset_id}:{external_id}".encode()).hexdigest()[:24]
+    full_text = _text_value(row, "decisao") or None
+    summary = _text_value(row, "ementa") or None
+    extraction_status = (
+        ExtractionStatus.COMPLETE if full_text or summary else ExtractionStatus.PARTIAL
+    )
+    return CanonicalDecision(
+        id=f"stj-dados-{canonical_id}",
+        source="stj_dados_abertos_jurisprudencia",
+        court="STJ",
+        case_number=_text_value(row, "numeroProcesso") or None,
+        registry_number=_text_value(row, "numeroRegistro") or None,
+        decision_type=_text_value(row, "tipoDeDecisao") or "acordao_espelho",
+        case_class=_text_value(row, "descricaoClasse", "siglaClasse") or None,
+        subject=_text_value(row, "tema", "termosAuxiliares") or None,
+        rapporteur=_text_value(row, "ministroRelator") or None,
+        judging_body=_text_value(row, "nomeOrgaoJulgador") or None,
+        judgment_date=normalize_date(_text_value(row, "dataDecisao")),
+        publication_date=normalize_date(_text_value(row, "dataPublicacao")),
+        judgment_date_raw=_text_value(row, "dataDecisao") or None,
+        publication_date_raw=_text_value(row, "dataPublicacao") or None,
+        source_updated_at=normalize_date(_text_value(row, "dataAtualizacao")),
+        retrieved_at=trace.retrieved_at,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=extraction_status,
+        summary=summary,
+        full_text=full_text,
+        source_trace=trace,
+        extraction_trace=ExtractionTrace(
+            parser="stj_dados_abertos_jurisprudencia.sync_resource",
+            parser_version="1",
+            status=extraction_status,
+            access_status=AccessStatus.PUBLIC,
+            content_sha256=content_sha256,
+            content_bytes=content_bytes,
+            transformations=["json_or_csv_to_canonical_decision"],
+            metadata={"dataset_id": dataset_id, "resource_id": resource_id},
+        ),
+        raw={**row, "dataset_id": dataset_id, "resource_id": resource_id},
+    )
+
+
+def _text_value(row: dict[str, Any], *keys: str) -> str:
+    for key in keys:
+        value = row.get(key)
+        if value is not None and str(value).strip():
+            return str(value).strip()
+    return ""
