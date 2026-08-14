@@ -21,6 +21,12 @@ from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import NetworkConfigurationError, QueryRejectedError, UnsupportedQueryError
 from nanojuris.extraction import FetchedContent, FetchRequest, HttpFetcher, ParsedContent
+from nanojuris.health import (
+    ProviderHealthReport,
+    ProviderHealthStatus,
+    check_provider,
+    check_sources,
+)
 from nanojuris.models import (
     AccessStatus,
     CanonicalDecision,
@@ -76,6 +82,8 @@ __all__ = [
     "normalize_court_code",
     "ParadigmCase",
     "ParsedContent",
+    "ProviderHealthReport",
+    "ProviderHealthStatus",
     "ProviderCapabilities",
     "ProviderCatalog",
     "ProviderOption",
@@ -85,6 +93,8 @@ __all__ = [
     "result_to_canonical_precedent",
     "SearchPage",
     "search_page_to_canonical",
+    "check_provider",
+    "check_sources",
     "SourceTrace",
     "SourceSystem",
     "SourceContractAssessment",

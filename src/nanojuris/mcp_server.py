@@ -18,6 +18,7 @@ from nanojuris.mcp_tools import (
     search_unified_tool,
     source_contracts_tool,
     source_diagnostics_tool,
+    source_health_tool,
     store_export_run_tool,
     store_get_tool,
     store_query_tool,
@@ -89,6 +90,16 @@ def create_server() -> Any:
         """Return source capabilities, limits and responsible-use notes."""
 
         return source_diagnostics_tool(source)
+
+    @server.tool()
+    def source_health(
+        sources: list[str] | None = None,
+        text: str = "responsabilidade civil",
+        timeout: float | None = None,
+    ) -> dict[str, Any]:
+        """Check selected public sources and preserve operational status per source."""
+
+        return source_health_tool(sources=sources, text=text, timeout=timeout)
 
     @server.tool()
     def source_contracts(source: str = "") -> dict[str, Any]:

@@ -26,6 +26,7 @@ Para validar a biblioteca sem MCP:
 nanojuris fontes
 nanojuris contratos --resumo
 nanojuris contratos --fonte tjdf_juris
+nanojuris saude --fontes tjdf_juris,tst_jurisprudencia
 ```
 
 ## Catalogo De Providers Para IA
@@ -41,6 +42,12 @@ confirme capacidades, maturidade, lacunas e limites com `list_sources`,
 `source_contracts` ou os comandos `nanojuris fontes` e `nanojuris contratos`.
 Para candidatos, o dossie e evidencia de pesquisa e nao autorizacao para
 executar um provider inexistente.
+
+Antes de uma demonstracao ou coleta, use `source_health` (MCP) ou
+`nanojuris saude` (CLI) com um grupo pequeno de fontes. O resultado distingue
+fonte operacional, resultado vazio, bloqueio, rate limit, indisponibilidade,
+mudanca de contrato e timeout. Nao trate `empty` como falha e nao oculte
+relatorios de fontes que nao responderam.
 
 ## Configuracao MCP local
 

@@ -50,6 +50,7 @@ def test_create_server_registers_expected_tools(monkeypatch):
         "search_unified",
         "source_contracts",
         "source_diagnostics",
+        "source_health",
         "store_export_run",
         "store_get",
         "store_query",
