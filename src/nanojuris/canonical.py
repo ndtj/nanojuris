@@ -42,6 +42,7 @@ def result_to_canonical_decision(
         raw.get("source_updated_at"),
         result.updated_at,
     )
+    extraction_status = _effective_extraction_status(result)
     retrieved_at = result.retrieved_at or (
         result.source_trace.retrieved_at if result.source_trace is not None else None
     )
@@ -62,8 +63,10 @@ def result_to_canonical_decision(
         judgment_date_raw=judgment_raw,
         publication_date_raw=publication_raw,
         source_updated_at=normalize_date(source_updated_raw),
+        source_updated_at_raw=source_updated_raw,
         retrieved_at=retrieved_at,
         access_status=_effective_access_status(result),
+        extraction_status=extraction_status,
         summary=result.summary,
         full_text=result.full_text or _optional_str(raw.get("full_text")),
         document_url=_optional_str(raw.get("full_text_url") or raw.get("document_url")),
@@ -84,6 +87,8 @@ def result_to_canonical_precedent(
     retrieved_at = result.retrieved_at or (
         result.source_trace.retrieved_at if result.source_trace is not None else None
     )
+    updated_raw = result.updated_at
+    source_updated_raw = result.source_updated_at
     return CanonicalPrecedent(
         id=result.id,
         source=result.source,
@@ -95,10 +100,13 @@ def result_to_canonical_precedent(
         thesis=result.thesis,
         affected_cases=_map_cases(raw.get("affected_cases") or raw.get("processosAfetados")),
         paradigm_cases=result.paradigm_cases,
-        updated_at=normalize_date(result.updated_at),
-        source_updated_at=normalize_date(result.source_updated_at),
+        updated_at=normalize_date(updated_raw),
+        updated_at_raw=updated_raw,
+        source_updated_at=normalize_date(source_updated_raw),
+        source_updated_at_raw=source_updated_raw,
         retrieved_at=retrieved_at,
         access_status=_effective_access_status(result),
+        extraction_status=_effective_extraction_status(result),
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
         raw=raw,
@@ -143,14 +151,32 @@ def normalize_date(value: object) -> str | None:
 
 
 def _build_trace(result: JurisprudenceResult, *, parser_version: str) -> ExtractionTrace:
-    status = result.extraction_status
-    if status == ExtractionStatus.COMPLETE and not _has_primary_text(result):
-        status = ExtractionStatus.PARTIAL
+    status = _effective_extraction_status(result)
+    transformations = ["canonical_mapping"]
+    if result.access_status is None:
+        transformations.append("access_status_defaulted_to_partial")
+    if result.retrieved_at is None and result.source_trace is not None:
+        transformations.append("retrieved_at_inherited_from_source_trace")
+    if result.source_updated_at is None and result.updated_at:
+        transformations.append("source_updated_at_inherited_from_updated_at")
+    if result.full_text is None and (result.raw or {}).get("full_text"):
+        transformations.append("full_text_inherited_from_raw")
+    if status != result.extraction_status:
+        transformations.append("extraction_status_downgraded_to_partial")
+    for field_name, raw_value in (
+        ("judgment_date", result.judgment_date or (result.raw or {}).get("data_julgamento")),
+        ("publication_date", result.publication_date or (result.raw or {}).get("data_publicacao")),
+        ("source_updated_at", result.source_updated_at or result.updated_at),
+    ):
+        normalized_value = normalize_date(raw_value)
+        if raw_value and normalized_value and normalized_value != _optional_str(raw_value):
+            transformations.append(f"{field_name}_normalized_to_iso")
     return ExtractionTrace(
         parser=f"{result.source}.canonical_result_mapper",
         parser_version=parser_version,
         status=status,
         access_status=_effective_access_status(result),
+        transformations=transformations,
         metadata={"result_id": result.id, "result_type": result.type},
     )
 
@@ -159,6 +185,14 @@ def _effective_access_status(result: JurisprudenceResult) -> AccessStatus:
     """Never claim public access without explicit evidence from the provider."""
 
     return result.access_status or AccessStatus.PARTIAL
+
+
+def _effective_extraction_status(result: JurisprudenceResult) -> ExtractionStatus:
+    """Downgrade incomplete normalized results instead of claiming completeness."""
+
+    if result.extraction_status == ExtractionStatus.COMPLETE and not _has_primary_text(result):
+        return ExtractionStatus.PARTIAL
+    return result.extraction_status
 
 
 def _looks_like_decision(result: JurisprudenceResult) -> bool:
@@ -186,7 +220,7 @@ def _looks_like_decision(result: JurisprudenceResult) -> bool:
 
 
 def _has_primary_text(result: JurisprudenceResult) -> bool:
-    return bool(result.summary or result.thesis or result.question)
+    return bool(result.summary or result.thesis or result.question or result.full_text)
 
 
 def _first_value(*values: object) -> str | None:
