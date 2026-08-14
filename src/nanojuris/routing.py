@@ -14,6 +14,7 @@ JURISPRUDENCE_CATEGORIES = {
     "administrative_jurisprudence",
     "court_jurisprudence",
     "court_precedents",
+    "curated_jurisprudence",
     "electoral_jurisprudence",
     "jurisprudence",
     "qualified_precedents",
