@@ -257,6 +257,8 @@ class JurisprudenceQuery:
             value = getattr(self, field_name)
             if value and not _is_supported_query_date(value):
                 raise ValueError(f"{field_name} deve usar YYYY-MM-DD ou DD/MM/YYYY")
+        _validate_date_range(self.updated_from, self.updated_to, "updated")
+        _validate_date_range(self.published_from, self.published_to, "published")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -265,13 +267,29 @@ class JurisprudenceQuery:
 def _is_supported_query_date(value: str) -> bool:
     """Validate the date formats accepted by provider query contracts."""
 
+    return _parse_supported_query_date(value) is not None
+
+
+def _parse_supported_query_date(value: str) -> datetime | None:
+    """Parse a supported query date without changing its public representation."""
+
     for pattern in ("%Y-%m-%d", "%d/%m/%Y"):
         try:
-            datetime.strptime(value, pattern)
-            return True
+            return datetime.strptime(value, pattern)
         except ValueError:
             continue
-    return False
+    return None
+
+
+def _validate_date_range(start: str, end: str, field_prefix: str) -> None:
+    """Reject an inverted date range before it reaches a provider."""
+
+    if not start or not end:
+        return
+    parsed_start = _parse_supported_query_date(start)
+    parsed_end = _parse_supported_query_date(end)
+    if parsed_start is not None and parsed_end is not None and parsed_start > parsed_end:
+        raise ValueError(f"{field_prefix}_from nao pode ser posterior a {field_prefix}_to")
 
 
 @dataclass(slots=True)

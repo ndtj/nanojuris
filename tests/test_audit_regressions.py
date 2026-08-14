@@ -163,6 +163,25 @@ def test_unified_search_fetches_incremental_source_pages_after_first_window():
     assert provider.page_requests == [(1, 100), (2, 100)]
 
 
+@pytest.mark.parametrize(
+    ("start", "end", "message"),
+    [
+        ("2026-08-20", "2026-08-19", "published_from"),
+        ("20/08/2026", "19/08/2026", "updated_from"),
+    ],
+)
+def test_query_rejects_inverted_date_ranges(start, end, message):
+    kwargs = {
+        "published_from": start,
+        "published_to": end,
+    }
+    if message == "updated_from":
+        kwargs = {"updated_from": start, "updated_to": end}
+
+    with pytest.raises(ValueError, match=message):
+        JurisprudenceQuery(**kwargs)
+
+
 def test_canonical_mapper_treats_full_text_as_complete_primary_content():
     result = JurisprudenceResult(
         id="decision-full-text",

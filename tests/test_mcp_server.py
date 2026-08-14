@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
@@ -214,6 +215,17 @@ def test_create_server_rejects_invalid_enum_like_arguments(monkeypatch):
 
     with pytest.raises(ValueError, match="kind"):
         server.tools["store_get"]("nanojuris.db", "bad", "1")
+
+
+def test_resolve_store_id_rejects_paths_and_stays_inside_root(monkeypatch):
+    root = Path.cwd() / ".tmp" / "mcp-security-store"
+    monkeypatch.setenv("NANOJURIS_STORE_ROOT", str(root))
+
+    resolved = mcp_server._resolve_store_id("research")
+
+    assert resolved == root.resolve() / "research.db"
+    with pytest.raises(ValueError, match="filesystem path"):
+        mcp_server._resolve_store_id("../outside")
 
 
 def test_create_server_missing_optional_dependency(monkeypatch):

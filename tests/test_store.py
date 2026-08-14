@@ -15,6 +15,15 @@ def _accepts_store(store: CanonicalStore) -> int:
     return store.count()
 
 
+def test_sqlite_store_enables_foreign_keys_per_connection():
+    store = SQLiteStore(":memory:")
+
+    row = store.connection.execute("PRAGMA foreign_keys").fetchone()
+
+    assert row is not None
+    assert row[0] == 1
+
+
 def test_sqlite_store_saves_and_gets_canonical_decision():
     store = SQLiteStore(":memory:")
     decision = CanonicalDecision(
