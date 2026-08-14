@@ -6,6 +6,19 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 - Proximas mudancas serao registradas aqui antes da proxima release.
 
+## 0.3.0 - 2026-08-13
+
+- Provider publico de jurisprudencia do TJPR com busca HTML, filtros observados,
+  metadados de decisao, ementa e links oficiais.
+- Provider de Informativos de Jurisprudencia do CNJ com filtros, catalogo curado,
+  links oficiais e preservacao de PDF sob demanda com SHA-256.
+- Provider de Informativos de Jurisprudencia do TJCE com edicoes, itens,
+  metadados processuais, filtros publicos e links oficiais.
+- Fixtures, testes de contrato, validacoes live e dossies canonicos/legados para
+  os tres novos providers.
+- Registro, fila de desenvolvimento e auditoria documental atualizados para
+  37 providers implementados e 19 fontes candidatas.
+
 ## 0.2.0 - 2026-08-11
 
 - Provider TST com fixtures e contrato REST publico documentado.

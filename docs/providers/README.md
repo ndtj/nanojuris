@@ -48,8 +48,8 @@ O snapshot atual contém 57 dossiês:
 
 | Status | Quantidade | Interpretação |
 | --- | ---: | --- |
-| Implementados | 34 | Adapter registrado e disponível no pacote |
-| Candidatos | 22 | Fonte mapeada, ainda sem adapter runtime |
+| Implementados | 37 | Adapter registrado e disponível no pacote |
+| Candidatos | 19 | Fonte mapeada, ainda sem adapter runtime |
 | Família | 1 | Especificação compartilhada para futuros adapters |
 
 O [auditório documental](../provider-documentation-audit.md) mostra a
