@@ -6,8 +6,8 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `jsf_primefaces_jurisprudencia`.
 - URL inicial: `https://jurisprudencia.tjrr.jus.br/index.xhtml`.
-- Status de acesso: candidato pronto; GET e postback publico reproduzidos uma vez.
-- Status no NanoJuris: candidato, ainda sem provider implementado.
+- Status de acesso: rota publica revalidada; GET, postback e paginacao observados.
+- Status no NanoJuris: implementado, com parser offline e detalhe publico separado.
 
 ## Contrato HTTP
 
@@ -60,7 +60,7 @@ testada com baixa frequencia.
   - especie;
   - links tematicos.
 - Campos canonicos esperados: `CanonicalDecision`.
-- Inteiro teor: pendente.
+- Inteiro teor: rota publica por id observado, com texto HTML quando disponivel.
 
 ## Comportamento observado
 
@@ -72,19 +72,19 @@ testada com baixa frequencia.
 
 ## Fixtures
 
-- [ ] HTML inicial com `ViewState`.
-- [ ] fixture HTML de busca simples com `ViewState` normalizado.
-- [ ] fixture HTML de resultado com ementa/acordao.
-- [ ] Busca vazia.
-- [ ] Erro de postback/estado expirado.
+- [x] HTML inicial com `ViewState`.
+- [x] fixture HTML de busca simples com `ViewState` normalizado.
+- [x] fixture HTML de resultado com ementa/acordao.
+- [x] parser offline de busca, pagina e detalhe.
+- [ ] Busca vazia e erro de postback/estado expirado live.
 
 ## MCP e agentes
 
-- Quando usar: depois de provider e parser offline, com baixa frequencia.
+- Quando usar: para jurisprudencia publica do TJRR, com baixa frequencia.
 - Quando pular: quando houver timeout, estado JSF expirado ou resultado sem
   sinais juridicos.
-- Mensagem segura: "A fonte TJRR e publica e o postback foi reproduzido, mas
-  a disponibilidade pode oscilar e o contrato ainda aguarda fixture."
+- Mensagem segura: "A fonte TJRR e publica, mas sua disponibilidade e o
+  contrato JSF devem ser verificados na sessao atual."
 - Riscos: confundir estado de sessao JSF com token reaproveitavel.
 
 ## Validacao live 2026-08-11
@@ -94,12 +94,22 @@ testada com baixa frequencia.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
+## Implementacao Runtime
+
+`TjrrJurisProvider` abre uma sessao publica nova, extrai o formulario e o
+ViewState atuais, envia a busca e usa o postback AJAX do componente PrimeFaces
+para paginas posteriores. O parser usa os titulos semanticos de cada bloco de
+documento, preserva URLs de processo, impressao e inteiro teor em `raw` e
+marca `SearchPage.is_complete` somente quando o `rowCount` da fonte sustenta a
+janela retornada.
+
 ## Proximos passos
 
 - [x] Reproduzir postback com `requests` em sessao publica nova.
-- [ ] Gravar fixture sanitizada de busca simples em navegador ou requests limpo.
-- [ ] Criar parser offline.
-- [ ] Documentar parametros obrigatorios.
+- [x] Gravar fixtures reduzidas de formulario, resultado e detalhe.
+- [x] Criar parser offline e provider runtime.
+- [x] Documentar parametros obrigatorios e limites do contrato.
+- [ ] Ampliar live opt-in para vazio, estado expirado e detalhe em baixa frequencia.
 
 ## Aprofundamento Do Contrato - 2026-08-12
 

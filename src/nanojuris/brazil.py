@@ -413,6 +413,8 @@ _STATE_COURTS = [
         "state",
         state="RR",
         official_url="https://www.tjrr.jus.br/",
+        provider_status="implemented",
+        providers=("tjrr_juris",),
     ),
     CourtInfo(
         "TJRS",

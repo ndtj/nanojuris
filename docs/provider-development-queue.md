@@ -43,7 +43,7 @@ via MCP.
 | 9 | TJPI/JusPI | `implemented` | [tjpi_juspi.md](providers/tjpi_juspi/README.md) | monitorar live opt-in e ampliar filtros catalogados |
 | 10 | TJGO/Projudi | `implemented` | [tjgo_projudi_jurisprudencia.md](providers/tjgo_projudi_jurisprudencia/README.md) | validar paginacao live opt-in e numero de processo |
 | 11 | TNU/TRF2/TRF6 eproc federal | `implemented` | [eproc_jurisprudencia_federal.md](providers/eproc_jurisprudencia_federal/README.md) | validar inteiro teor live por instancia e ampliar filtros |
-| 12 | TJRR/Juris JSF | `candidate_ready` | [tjrr_juris.md](providers/tjrr_juris/README.md) | salvar fixture sanitizada e mapear paginacao |
+| 12 | TJRR/Juris JSF | `implemented` | [tjrr_juris.md](providers/tjrr_juris/README.md) | monitorar contrato live, vazio/expirado e detalhe |
 | 13 | TJMT/Jurisprudencia API | `blocked_or_inconclusive` | [tjmt_jurisprudencia_api.md](providers/tjmt_jurisprudencia_api/README.md) | repetir apenas se surgir nova superficie publica; nao usar login |
 | 14 | TJPA/Jurisprudencia BFF | `implemented` | [tjpa_jurisprudencia_bff.md](providers/tjpa_jurisprudencia_bff/README.md) | validar detalhe e filtros adicionais |
 | 15 | TJSC/eproc | `implemented` | [tjsc_eproc_jurisprudencia.md](providers/tjsc_eproc_jurisprudencia/README.md) | adicionar fixtures especificas e monitorar paginacao |
@@ -94,13 +94,15 @@ Antes de criar `src/nanojuris/providers/<provider>.py`:
    possuem adapters iniciais e devem receber aprofundamento incremental. O TST
    ja possui provider e dossie; o registro de descoberta esta em
    [public-provider-discovery-2026-08-10.md](public-provider-discovery-2026-08-10.md).
-2. **TRF5 e TJRR**: implementar os fluxos HTML/JSF com fixtures proprias e
-   classificacao explicita de paginacao e controles de acesso.
+2. **TRF5**: implementar os fluxos HTML com fixtures proprias e
+   classificacao explicita de paginacao e controles de acesso. O TJRR ja possui
+   provider, fixture e parser JSF/PrimeFaces; permanece em monitoramento live.
 3. **Falcao/JT**: somente avancar se a consulta publica normal deixar de
    retornar bloqueio; ele pode reduzir a necessidade de providers isolados de
    TRTs.
-4. **TJRR/Juris JSF**: alto potencial, mas exige entender `ViewState` e
-   postback PrimeFaces sem usar sessao privada.
+4. **TJRR/Juris JSF**: provider implementado com `ViewState` e postback
+   PrimeFaces; aprofundar apenas vazio, estado expirado e detalhe em validacao
+   live opt-in.
 5. **TJPA e TCU**: aprofundar detalhe, cache incremental e datasets adicionais;
    a busca inicial ja esta implementada com limites documentados.
 6. **TJMT API**: somente avancar se surgir uma nova superficie publica
