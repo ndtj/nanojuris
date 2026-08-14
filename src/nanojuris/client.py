@@ -293,34 +293,44 @@ class NanoJurisClient:
         errors: list[dict[str, str]] = []
         source_totals: dict[str, int] = {}
         source_completeness: dict[str, dict[str, Any]] = {}
-        source_window = min(100, max(page * page_size, page_size))
 
         def fetch_source(
             source: str,
-        ) -> tuple[list[UnifiedSearchRecord], int, SearchPage]:
-            if canonical:
+        ) -> tuple[list[UnifiedSearchRecord], int, SearchPage, int]:
+            records: list[UnifiedSearchRecord] = []
+            source_page = 1
+            pages_fetched = 0
+            page_result: SearchPage | None = None
+            target = page * page_size
+            source_page_size = min(100, target)
+            while len(records) < target:
                 page_result = self.search(
                     text,
                     source=source,
                     courts=courts,
                     types=types,
-                    page=1,
-                    page_size=source_window,
+                    page=source_page,
+                    page_size=source_page_size,
                     **filters,
                 )
-                records: list[UnifiedSearchRecord] = list(search_page_to_canonical(page_result))
-                return records, page_result.total, page_result
-            page_result = self.search(
-                text,
-                source=source,
-                courts=courts,
-                types=types,
-                page=1,
-                page_size=source_window,
-                **filters,
-            )
-            records = list(page_result.results)
-            return records, page_result.total, page_result
+                pages_fetched += 1
+                if canonical:
+                    page_records: list[UnifiedSearchRecord] = list(
+                        search_page_to_canonical(page_result)
+                    )
+                else:
+                    page_records = list(page_result.results)
+                if not page_records:
+                    break
+                records.extend(page_records)
+                if page_result.is_complete is True:
+                    break
+                if page_result.total >= 0 and len(records) >= page_result.total:
+                    break
+                source_page += 1
+            if page_result is None:
+                raise InternalProviderError(f"provider {source} returned no search page")
+            return records, page_result.total, page_result, pages_fetched
 
         executor = ThreadPoolExecutor(
             max_workers=max(1, min(self.config.unified_max_workers, len(routing.searched)))
@@ -339,14 +349,15 @@ class NanoJurisClient:
                 errors.append(_source_error(source, error))
                 continue
             try:
-                source_results, total, page_result = future.result()
+                source_results, total, page_result, pages_fetched = future.result()
                 source_totals[source] = total
                 source_completeness[source] = {
-                    "returned": len(page_result.results),
+                    "returned": len(source_results),
                     "reported_total": total,
                     "pagination_mode": page_result.pagination_mode,
                     "complete": page_result.is_complete,
                     "reason": page_result.completeness_reason,
+                    "pages_fetched": pages_fetched,
                 }
                 results.extend(source_results)
             except Exception as exc:
@@ -367,6 +378,7 @@ class NanoJurisClient:
                     "pagination_mode": "failed",
                     "complete": False,
                     "reason": "A fonte nao concluiu a consulta.",
+                    "pages_fetched": 0,
                 }
         executor.shutdown(wait=False, cancel_futures=True)
 

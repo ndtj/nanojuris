@@ -44,6 +44,12 @@ client
   Fachada Python e federacao com concorrencia limitada, deadline, deduplicacao
   e pagina global.
 
+  Na busca federada, cada fonte recebe uma janela incremental de ate 100
+  registros. Quando a pagina global solicitada ultrapassa a primeira janela,
+  o cliente consulta as paginas seguintes da mesma fonte ate reunir a janela
+  necessaria, respeitando o deadline global e registrando pages_fetched em
+  source_completeness.
+
 canonical
   Mapeamento de JurisprudenceResult para CanonicalDecision e CanonicalPrecedent.
 
