@@ -85,7 +85,7 @@ def test_core_courts_include_official_urls_and_source_systems():
     assert stj.official_url == "https://www.stj.jus.br/sites/portalp/Inicio"
     assert stj.source_system == "portal_proprio"
     assert stj.provider_status == "implemented"
-    assert stj.providers == ("stj_scon",)
+    assert stj.providers == ("stj_scon", "stj_dados_abertos_jurisprudencia")
     assert cnj.official_url == "https://www.cnj.jus.br/sistemas/datajud/"
     assert cnj.source_system == "datajud"
 

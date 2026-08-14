@@ -16,6 +16,7 @@ from nanojuris.errors import (
     InvalidQueryError,
     NanoJurisError,
     UnsupportedProviderError,
+    UnsupportedQueryError,
 )
 from nanojuris.models import (
     CanonicalDecision,
@@ -40,6 +41,7 @@ from nanojuris.providers.eproc_jurisprudencia_federal import (
 )
 from nanojuris.providers.stf_informativo import StfInformativoProvider
 from nanojuris.providers.stf_juris import StfJurisProvider
+from nanojuris.providers.stj_dados_abertos_jurisprudencia import StjDadosAbertosProvider
 from nanojuris.providers.stj_informativo import StjInformativoProvider
 from nanojuris.providers.stj_scon import StjSconProvider
 from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
@@ -135,6 +137,7 @@ class NanoJurisClient:
                 StfInformativoProvider(self.config),
                 StfJurisProvider(self.config),
                 StjInformativoProvider(self.config),
+                StjDadosAbertosProvider(self.config),
                 StjSconProvider(self.config),
                 StmJurisprudenciaProvider(self.config),
                 TstJurisprudenciaProvider(self.config),
@@ -538,6 +541,46 @@ class NanoJurisClient:
         """Return a normalized provider catalog."""
 
         return self._provider(source).get_catalog()
+
+    def list_source_datasets(
+        self,
+        *,
+        source: str,
+        query: str = "jurisprudencia",
+        rows: int = 20,
+    ) -> list[dict[str, Any]]:
+        """List datasets when a provider exposes a public dataset catalog."""
+
+        provider = self._provider(source)
+        method = getattr(provider, "list_source_datasets", None)
+        if not callable(method):
+            raise UnsupportedQueryError(f"Provider {source!r} does not expose a dataset catalog")
+        return method(query=query, rows=rows)
+
+    def describe_source_dataset(self, *, source: str, dataset_id: str) -> dict[str, Any]:
+        """Describe one public dataset without downloading its resources."""
+
+        provider = self._provider(source)
+        method = getattr(provider, "describe_dataset", None)
+        if not callable(method):
+            raise UnsupportedQueryError(f"Provider {source!r} does not describe datasets")
+        return method(dataset_id)
+
+    def plan_source_sync(
+        self,
+        *,
+        source: str,
+        dataset_id: str,
+        format: str = "JSON",
+        max_resources: int = 100,
+    ) -> dict[str, Any]:
+        """Plan a dataset sync without downloading any resource."""
+
+        provider = self._provider(source)
+        method = getattr(provider, "plan_source_sync", None)
+        if not callable(method):
+            raise UnsupportedQueryError(f"Provider {source!r} does not plan dataset syncs")
+        return method(dataset_id, format=format, max_resources=max_resources)
 
     def get_capabilities(self, *, source: str = "bnp_pangea") -> ProviderCapabilities:
         """Return declared capabilities and limits for one provider."""

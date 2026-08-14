@@ -42,11 +42,14 @@ def test_create_server_registers_expected_tools(monkeypatch):
 
     assert server.name == "nanojuris"
     assert set(server.tools) == {
+        "describe_source_dataset",
         "export_results",
         "get_decisions",
         "get_document",
         "list_courts",
+        "list_source_datasets",
         "list_sources",
+        "plan_source_sync",
         "search_jurisprudence",
         "search_unified",
         "source_contracts",
@@ -83,6 +86,13 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
     _install_fake_fastmcp(monkeypatch)
     calls = []
 
+    def recorder(name):
+        def inner(*args, **kwargs):
+            calls.append((name, args, kwargs))
+            return {"tool": name, "args": args, "kwargs": kwargs}
+
+        return inner
+
     monkeypatch.setattr(
         mcp_server,
         "list_sources_tool",
@@ -108,6 +118,9 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "source_validation_tool",
         lambda **kwargs: {"sources": kwargs.get("sources"), "passed": True},
     )
+    monkeypatch.setattr(mcp_server, "list_source_datasets_tool", recorder("datasets"))
+    monkeypatch.setattr(mcp_server, "describe_source_dataset_tool", recorder("describe"))
+    monkeypatch.setattr(mcp_server, "plan_source_sync_tool", recorder("plan_sync"))
 
     def fake_search_tool(text, **kwargs):
         calls.append(("search", text, kwargs))
@@ -131,6 +144,9 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "source": "tjdf_juris",
         "contracts": [],
     }
+    assert server.tools["list_source_datasets"]()["tool"] == "datasets"
+    assert server.tools["describe_source_dataset"]("dataset-1")["tool"] == "describe"
+    assert server.tools["plan_source_sync"]("dataset-1")["tool"] == "plan_sync"
     assert server.tools["source_validation"](["tjdf_juris"], text="icms")["passed"] is True
     assert (
         server.tools["search_jurisprudence"](
@@ -145,8 +161,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "a",
         "b",
     ]
-    assert calls[0][0] == "search"
-    assert calls[1][0] == "unified"
+    assert [call[0] for call in calls] == ["datasets", "describe", "plan_sync", "search", "unified"]
 
 
 def test_create_server_data_tools_delegate_to_tool_layer(monkeypatch):
