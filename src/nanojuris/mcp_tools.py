@@ -18,6 +18,7 @@ from nanojuris.exporters import (
 from nanojuris.health import check_sources
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore, StoredRecordKind
+from nanojuris.validation import validate_sources
 
 MAX_MCP_PAGE_SIZE = 50
 
@@ -74,6 +75,19 @@ def source_health_tool(
 
     active_client = client or NanoJurisClient()
     return check_sources(active_client, sources=sources, text=text, timeout=timeout)
+
+
+def source_validation_tool(
+    *,
+    sources: list[str] | None = None,
+    text: str = "responsabilidade civil",
+    timeout: float | None = None,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Run an explicit live contract validation for selected public sources."""
+
+    active_client = client or NanoJurisClient()
+    return validate_sources(active_client, sources=sources, text=text, timeout=timeout)
 
 
 def source_contracts_tool(

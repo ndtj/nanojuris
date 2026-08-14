@@ -52,6 +52,12 @@ from nanojuris.source_contracts import (
     summarize_contracts,
 )
 from nanojuris.store import CanonicalStore, ResearchRun, SQLiteStore, StoreStats
+from nanojuris.validation import (
+    ProviderValidationReport,
+    ProviderValidationStatus,
+    validate_provider,
+    validate_sources,
+)
 
 __all__ = [
     "AccessStatus",
@@ -84,6 +90,8 @@ __all__ = [
     "ParsedContent",
     "ProviderHealthReport",
     "ProviderHealthStatus",
+    "ProviderValidationReport",
+    "ProviderValidationStatus",
     "ProviderCapabilities",
     "ProviderCatalog",
     "ProviderOption",
@@ -95,6 +103,8 @@ __all__ = [
     "search_page_to_canonical",
     "check_provider",
     "check_sources",
+    "validate_provider",
+    "validate_sources",
     "SourceTrace",
     "SourceSystem",
     "SourceContractAssessment",

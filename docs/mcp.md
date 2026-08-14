@@ -105,6 +105,25 @@ Parametros:
 O health check faz chamadas reais aos portais publicos. Deve ser usado com
 baixa frequencia e respeitando os limites declarados por cada provider.
 
+### `source_validation`
+
+Executa uma consulta live pequena e valida o contrato normalizado observado
+pelo NanoJuris. Alem da disponibilidade, confirma identidade da fonte,
+paginacao basica, IDs, conteudo juridico minimo e rastreabilidade
+(`source_trace`) dos resultados.
+
+Estados adicionais:
+
+- `valid`: a resposta passou pelo contrato live minimo;
+- `empty`: a fonte respondeu validamente sem resultados;
+- `contract_invalid`: a fonte respondeu, mas o resultado nao cumpre o contrato;
+- `blocked`, `source_changed`, `rate_limited`, `source_unavailable` e `timeout`:
+  falhas operacionais classificadas sem mascaramento.
+
+A validacao faz chamadas reais somente quando solicitada. Ela nao roda na
+importacao, nos testes offline ou no CI padrao e nunca tenta contornar CAPTCHA,
+WAF ou outro controle de acesso.
+
 ### `source_contracts`
 
 Retorna maturidade, lacunas, proximos passos e recomendacao MCP de uma ou todas

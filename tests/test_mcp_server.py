@@ -51,6 +51,7 @@ def test_create_server_registers_expected_tools(monkeypatch):
         "source_contracts",
         "source_diagnostics",
         "source_health",
+        "source_validation",
         "store_export_run",
         "store_get",
         "store_query",
@@ -101,6 +102,11 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "source_contracts_tool",
         lambda source="": {"source": source, "contracts": []},
     )
+    monkeypatch.setattr(
+        mcp_server,
+        "source_validation_tool",
+        lambda **kwargs: {"sources": kwargs.get("sources"), "passed": True},
+    )
 
     def fake_search_tool(text, **kwargs):
         calls.append(("search", text, kwargs))
@@ -124,6 +130,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "source": "tjdf_juris",
         "contracts": [],
     }
+    assert server.tools["source_validation"](["tjdf_juris"], text="icms")["passed"] is True
     assert (
         server.tools["search_jurisprudence"](
             "icms",
