@@ -14,10 +14,10 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 
 ## Resumo
 
-- Dossies auditados: **57** (34 implemented, 22 candidates, 1 family).
+- Dossies auditados: **57** (35 implemented, 21 candidates, 1 family).
 - Dossies com secoes estruturais: **45/57**.
 - Canonical/legacy em paridade: **57/57**.
-- Prontidao: `family_spec`=1, `implementation_ready`=1, `needs_deepening`=33, `research_ready`=22.
+- Prontidao: `family_spec`=1, `implementation_ready`=2, `needs_deepening`=33, `research_ready`=21.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
@@ -64,7 +64,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`tjpb_pje_jurisprudencia`](docs/providers/tjpb_pje_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 0 |
 | [`tjpe_jurisprudencia`](docs/providers/tjpe_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
 | [`tjpi_juspi`](docs/providers/tjpi_juspi/README.md) | implemented | `needs_deepening` | 4 | medio | - | 4 | 3 |
-| [`tjpr_jurisprudencia`](docs/providers/tjpr_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
+| [`tjpr_jurisprudencia`](docs/providers/tjpr_jurisprudencia/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
 | [`tjrj_eproc_jurisprudencia`](docs/providers/tjrj_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 0 |
 | [`tjrn_jurisprudencia`](docs/providers/tjrn_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
 | [`tjro_liame`](docs/providers/tjro_liame/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |

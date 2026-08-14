@@ -43,6 +43,7 @@ A validacao live mais recente dos candidatos esta em
 | `tjgo_projudi_jurisprudencia` | jurisprudencia judicial | [tjgo_projudi_jurisprudencia.md](tjgo_projudi_jurisprudencia.md) |
 | `tjms_cjsg` | jurisprudencia CJSG/e-SAJ | [tjms_cjsg.md](tjms_cjsg.md) |
 | `tjpi_juspi` | jurisprudencia judicial | [tjpi_juspi.md](tjpi_juspi.md) |
+| `tjpr_jurisprudencia` | jurisprudencia judicial | [tjpr_jurisprudencia.md](tjpr_jurisprudencia.md) |
 | `tjsp_cjsg` | jurisprudencia CJSG/e-SAJ | [tjsp_cjsg.md](tjsp_cjsg.md) |
 | `tjsp_eproc_jurisprudencia` | jurisprudencia eproc | [tjsp_eproc_jurisprudencia.md](tjsp_eproc_jurisprudencia.md) |
 | `tjsp_esaj_cpopg` | consulta processual | [tjsp_esaj_cpopg.md](tjsp_esaj_cpopg.md) |
@@ -83,7 +84,7 @@ A validacao live mais recente dos candidatos esta em
 | TJRN Jurisprudencia | busca unificada anunciada; portal respondeu 403 | [tjrn_jurisprudencia.md](tjrn_jurisprudencia.md) |
 | TJTO Jurisprudencia | consulta indexada com campos ricos; replay HTTP pendente | [tjto_jurisprudencia.md](tjto_jurisprudencia.md) |
 | TJBA GraphQL | busca JSON estruturada validada; fixture pendente | [tjba_graphql.md](tjba_graphql.md) |
-| TJPR Jurisprudencia | resultado HTML publico validado; parser pendente | [tjpr_jurisprudencia.md](tjpr_jurisprudencia.md) |
+| TJPR Jurisprudencia | provider HTML implementado; busca e parser validados | [tjpr_jurisprudencia.md](tjpr_jurisprudencia.md) |
 | TJRS AJAX/SOLR | resposta estruturada com facets validada; parser pendente | [tjrs_solr.md](tjrs_solr.md) |
 | TJRO LIAME | catalogo publico de precedentes; sem busca geral de acordaos | [tjro_liame.md](tjro_liame.md) |
 
