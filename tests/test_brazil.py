@@ -49,6 +49,7 @@ def test_list_courts_filters_by_branch_state_and_status():
         "TJAC",
         "TJAL",
         "TJAM",
+        "TJBA",
         "TJDFT",
         "TJGO",
         "TJMS",

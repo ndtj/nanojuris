@@ -1,0 +1,7 @@
+{
+  "data": {
+    "findAllClasses": [{"id": "class-1", "codPai": "0", "descricao": "Apelacao Civel", "segundoGrau": true}],
+    "findAllOrgaosJulgadoresGroupByInstancia": {"todos": [{"id": "org-1", "nome": "Camara de Fixture", "instancia": "SEGUNDO_GRAU"}]},
+    "findAllRelatoresGroupByInstancia": {"todos": [{"id": "rel-1", "nome": "Relator de Fixture", "instancia": "SEGUNDO_GRAU"}]}
+  }
+}

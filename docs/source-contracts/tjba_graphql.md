@@ -1,6 +1,7 @@
 # TJBA - Jurisprudencia GraphQL
 
-Status atual: `candidate_ready`; provider ainda pendente de fixture e parser.
+Status atual: `implemented`; busca GraphQL e inteiro teor publico possuem
+provider, fixtures sanitizadas e testes de contrato.
 
 ## Contrato HTTP
 
@@ -22,20 +23,22 @@ sem inferir ids.
 
 ## Evidencia E Lacunas
 
-Uma busca publica por assunto retornou JSON decisorio real sem login ou captcha.
-O detalhe de inteiro teor usa o host oficial e identificador UUID, mas ainda
-precisa de fixture de detalhe, vazio, erro e paginacao antes do provider.
+Uma busca publica por assunto retornou JSON decisorio real sem login ou captcha
+quando enviada com os flags padrao do frontend (`segundoGrau`,
+`turmasRecursais`, tipos de decisao e `ordenadoPor`). Sem esses defaults, a
+fonte pode responder HTTP 200 com erro GraphQL interno; isso e falha de
+contrato, nunca resultado vazio.
 
 ## Promocao
 
-Salvar resposta GraphQL reduzida, resposta vazia e detalhe por UUID. Criar
-parser offline que preserve o JSON bruto, normalize os campos canonicos e
-retenha filtros/facets em `raw_metadata`.
+O provider preserva o envelope GraphQL em `raw`, normaliza datas para ISO,
+retorna facets em `SearchPage.aggregations` e acessa o inteiro teor por UUID.
 
 ## Validacao live 2026-08-11
 
 - Introspection HTTP 200 confirmou `filter`, `detalharProcesso`, catalogos e os tipos `Decisao`/`DecisaoFilter`.
-- Catalogos retornaram 38 orgaos, 211 relatores e 263 classes. `filter` respondeu erro interno nesta janela e precisa de revalidacao com valores aceitos.
+- Catalogos retornaram 38 orgaos, 211 relatores e 263 classes. A revalidacao
+  com os defaults do frontend retornou HTTP 200, 1.236.680 itens e decisao.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
@@ -66,16 +69,19 @@ Variaveis minimas:
 
 ```json
 {
-  "decisaoFilter": {"assunto": "dano moral"},
+  "decisaoFilter": {"assunto": "dano moral", "orgaos": [],
+    "relatores": [], "classes": [], "segundoGrau": true,
+    "turmasRecursais": true, "tipoAcordaos": true,
+    "tipoDecisoesMonocraticas": true, "ordenadoPor": "dataPublicacao"},
   "pageNumber": 0,
   "itemsPerPage": 10
 }
 ```
 
-`pageNumber` e `itemsPerPage` foram observados no contrato do frontend; o
-limite maximo de itens e a indexacao da primeira pagina ainda precisam ser
-confirmados por fixture. O adapter deve preservar `pageCount` e `itemCount`
-como metadados da pagina, sem tratar `pageCount` como total de decisoes.
+`pageNumber` e `itemsPerPage` sao baseados em zero e foram observados no
+contrato do frontend. O provider limita a janela a 50 itens. `itemCount` e o
+total de decisoes; `pageCount` permanece preservado em metadados porque a
+fonte pode usa-lo como contador de pagina ou repetir o total.
 
 ### Matriz De Filtros
 
@@ -103,10 +109,9 @@ inventados pela camada natural-language.
 
 Foi observada a superficie publica `GET
 https://jurisprudenciaws.tjba.jus.br/inteiroTeor/{uuid}`, retornando HTML de
-decisao com processo, relator, orgao e texto. O UUID ou identificador usado no
-detalhe ainda nao esta exposto no fragmento minimo da operacao `filter`; por
-isso o parser deve capturar o link/identificador real da resposta e nao
-reconstruir a URL por posicao.
+decisao com processo, relator, orgao e texto. Na resposta de `filter`, o campo
+`hash` e um UUID aceito pela rota de inteiro teor. O provider usa esse valor
+como identificador publico e preserva `id` e `sourceId` apenas como metadados.
 
 ### Estados E Erros
 
@@ -119,16 +124,28 @@ reconstruir a URL por posicao.
 
 ### MCP E Promocao
 
-O MCP pode usar TJBA somente depois de fixture GraphQL de sucesso, vazio,
-erro, pagina seguinte e detalhe. A resposta deve expor `itemCount`, pagina,
-filtros efetivos, ids de catalogo e `SourceTrace`. A promocao nao depende de
-introspection em producao: a query versionada deve ser pequena e coberta por
-teste offline.
+O MCP pode usar TJBA com baixa frequencia. A resposta expoe `itemCount`,
+pagina, filtros efetivos, ids de catalogo e `SourceTrace`. A promocao nao
+depende de introspection em producao: a query versionada e coberta por teste
+offline.
+
+## Validacao live 2026-08-14
+
+- O smoke integrado do `NanoJurisClient` consultou `dano moral` com uma janela
+  de um resultado e recebeu HTTP 200, `1.236.680` resultados totais e uma
+  decisao normalizada.
+- O mesmo resultado foi usado para consultar
+  `GET /inteiroTeor/{hash}`. A fonte respondeu HTTP 200 com HTML publico; o
+  provider extraiu 28.346 caracteres, calculou SHA-256 e marcou o documento
+  como `public` e `complete`.
+- O teste live correspondente esta em
+  `tests/test_tjba_graphql_live.py` e so executa quando
+  `NANOJURIS_RUN_LIVE=1`. Nenhum conteudo live foi gravado no repositorio.
 ## Identidade
 
-O provider candidato representa a pesquisa de jurisprudencia do TJBA por
-GraphQL. A fonte continua candidata porque a introspection/catalogos foram
-observados, mas a operacao de filtro apresentou erro interno na ultima janela.
+O provider representa a pesquisa de jurisprudencia do TJBA por GraphQL. A
+introspection foi usada somente na pesquisa de contrato; o runtime usa query
+versionada e falha explicitamente diante de `errors` GraphQL.
 
 ## Dados
 
@@ -136,11 +153,20 @@ Os dados juridicos observados incluem decisao, ementa, conteudo, processo,
 classe, relator, orgao, tipo, hash e data de publicacao. Facets e catalogos
 devem permanecer em metadados brutos.
 
+## Implementacao Runtime
+
+`TjbaGraphqlProvider` envia os defaults exigidos pelo frontend, converte datas
+para ISO, preserva facets, carrega catalogos oficiais e consulta o inteiro teor
+publico por UUID. Fixtures ficam em `tests/fixtures/` e nao contêm respostas
+reais ou dados pessoais desnecessarios.
+
 ## Proximos passos
 
-Salvar fixtures GraphQL de sucesso, vazio, erro, pagina e detalhe; validar
-novamente a operacao filter com valores de catalogo; somente entao criar o
-parser e o provider runtime.
+- [x] Fixture GraphQL de sucesso e vazio.
+- [x] Fixture de catalogo e detalhe.
+- [x] Classificacao de erros HTTP e GraphQL.
+- [x] Teste live opt-in de busca e inteiro teor publico.
+- [ ] Revalidar vazio e pagina seguinte em monitoramento live controlado.
 
 ## MCP
 
