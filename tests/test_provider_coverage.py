@@ -30,9 +30,7 @@ def test_provider_coverage_catalog_matches_runtime_sources() -> None:
     entries = {entry["source_id"]: entry for entry in catalog["entries"]}
     runtime_sources = {item.source for item in NanoJurisClient().list_sources()}
     implemented = {
-        source_id
-        for source_id, entry in entries.items()
-        if entry["lifecycle"] == "implemented"
+        source_id for source_id, entry in entries.items() if entry["lifecycle"] == "implemented"
     }
 
     assert implemented == runtime_sources
@@ -40,11 +38,13 @@ def test_provider_coverage_catalog_matches_runtime_sources() -> None:
     for source_id in runtime_sources:
         entry = entries[source_id]
         assert entry["documentation"]["human_doc"] == f"docs/providers/{source_id}/README.md"
-        assert entry["input_contract"]["search_modes"] == (
-            entry["source_contract"]["evidence"]["search_modes"]
+        assert (
+            entry["input_contract"]["search_modes"]
+            == (entry["source_contract"]["evidence"]["search_modes"])
         )
-        assert entry["output_contract"]["canonical_records"] == (
-            entry["source_contract"]["evidence"]["canonical_records"]
+        assert (
+            entry["output_contract"]["canonical_records"]
+            == (entry["source_contract"]["evidence"]["canonical_records"])
         )
 
 
