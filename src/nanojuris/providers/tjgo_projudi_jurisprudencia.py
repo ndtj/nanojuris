@@ -332,6 +332,7 @@ def _parse_result_card(
         summary=full_text,
         full_text=full_text or None,
         rapporteur=rapporteur,
+        publication_date=publication_date,
         updated_at=publication_date,
         highlights={},
         source_trace=result_trace,

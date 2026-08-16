@@ -1,0 +1,9 @@
+{
+  "reports": {"response": {"relatorios": [{"id": "1", "titulo": "Acórdãos", "url": "/sg/jurisprudencias/processos"}]}},
+  "types": {"tipos": [{"opcao_id": "1", "opcao": "Ementa"}, {"opcao_id": "7", "opcao": "Inteiro Teor"}]},
+  "classes": {"classes": [{"id_classe": "1", "str_classe": "Apelação Cível (1)"}]},
+  "magistrates": {"relatores": [{"pkmatricula": "1", "txnome": "RELATOR FIXTURE"}]},
+  "chambers": {"camaras": [{"pkcamara": "1", "txdescricao": "Câmara Fixture"}]},
+  "counties": {"comarcas": []},
+  "precedent_links": {"response": {"pesquisaSumulas": [{"titulo": "IRDR", "url": "https://example.invalid/irdr"}]}}
+}

@@ -48,6 +48,7 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     @property
     def base_url(self) -> str:
@@ -71,6 +72,7 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
                 "Links PJe/arquivo sao preservados, mas detalhe individual ainda nao foi "
                 "promovido.",
             ],
+            **self._last_http_metadata,
         )
         results, total = parse_cjf_results(html, trace=trace)
         page_size = _page_size(query.page_size)
@@ -167,6 +169,18 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
         if response.status_code >= 400:
             raise SourceUnavailableError(f"CJF/TRF1 rejected HTTP {response.status_code}")
         response.encoding = response.encoding or "utf-8"
+        content = bytes(getattr(response, "content", b"") or b"")
+        if not content:
+            content = response.text.encode(response.encoding or "utf-8", errors="replace")
+        headers = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": str(getattr(response, "url", url) or url),
+            "content_type": headers.get("Content-Type") or headers.get("content-type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+        }
         if _looks_like_access_control(response.text):
             raise AccessControlRequiredError("CJF/TRF1 jurisprudence returned access-control HTML")
         return response.text, getattr(response, "url", url)

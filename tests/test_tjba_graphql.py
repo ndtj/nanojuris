@@ -94,6 +94,17 @@ def test_search_maps_graphql_decision_and_preserves_facets():
     assert session.calls[0]["kwargs"]["json"]["variables"]["pageNumber"] == 0
 
 
+def test_search_maps_second_page_to_zero_based_graphql_page():
+    session = FakeSession([FakeResponse(fixture("tjba_graphql_success.json"))])
+    provider = TjbaGraphqlProvider(session=session)
+
+    page = provider.search(JurisprudenceQuery(text="dano moral", page=2, page_size=1))
+
+    assert page.page == 2
+    assert page.start == 2
+    assert session.calls[0]["kwargs"]["json"]["variables"]["pageNumber"] == 1
+
+
 def test_search_accepts_empty_source_result():
     response = FakeResponse(fixture("tjba_graphql_empty.json"))
     provider = TjbaGraphqlProvider(session=FakeSession([response]))

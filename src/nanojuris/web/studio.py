@@ -112,6 +112,7 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
         "sources": payload["sources"],
         "searched_sources": payload["searched_sources"],
         "skipped_sources": payload["skipped_sources"],
+        "routing_warnings": payload.get("routing_warnings", []),
         "source_totals": payload.get("source_totals", {}),
         "source_completeness": source_completeness,
         "sources_complete": payload.get("sources_complete", []),

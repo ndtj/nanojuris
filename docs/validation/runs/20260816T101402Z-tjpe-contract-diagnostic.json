@@ -1,0 +1,29 @@
+{
+  "source": "tjpe_jurisprudencia",
+  "scope": "public_contract_diagnostic",
+  "checked_at": "2026-08-16T10:14:02Z",
+  "endpoint": "GET https://consultajurisprudencia.app.tjpe.jus.br/api/v1/jurisprudencias?page=0&size=2",
+  "method": "GET",
+  "status": "source_unavailable",
+  "http_status": null,
+  "access_status": "source_unavailable",
+  "retrieval_status": "tls_certificate_error",
+  "extraction_status": "not_attempted",
+  "returned": null,
+  "reported_total": null,
+  "requested_page_size": 2,
+  "effective_page_size": null,
+  "pagination_mode": "offset",
+  "full_text_status": "not_validated_live",
+  "content_type": null,
+  "response_bytes": null,
+  "sha256": null,
+  "quality_flags": [
+    "certificate_chain_untrusted_in_probe_environment",
+    "contract_shape_confirmed_only_by_diagnostic_read_without_tls_verification"
+  ],
+  "limitations": [
+    "Provider runtime keeps verify_ssl enabled.",
+    "This artifact does not promote the source to live_validated or Gold."
+  ]
+}

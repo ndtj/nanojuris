@@ -44,8 +44,26 @@ class CanonicalStore(Protocol):
         publication_date_from: str | None = None,
         publication_date_to: str | None = None,
         limit: int = 100,
+        offset: int = 0,
     ) -> list[dict[str, Any]]:
         """Query stored records with structured filters."""
+
+    def count_records(
+        self,
+        *,
+        kind: StoredRecordKind | None = None,
+        source: str | None = None,
+        court: str | None = None,
+        case_number: str | None = None,
+        subject: str | None = None,
+        rapporteur: str | None = None,
+        decision_type: str | None = None,
+        precedent_type: str | None = None,
+        canonical_key: str | None = None,
+        publication_date_from: str | None = None,
+        publication_date_to: str | None = None,
+    ) -> int:
+        """Count records matching the structured query filters."""
 
     def stats(self) -> StoreStats:
         """Return aggregate counts for stored records."""
@@ -350,44 +368,71 @@ class SQLiteStore:
         publication_date_from: str | None = None,
         publication_date_to: str | None = None,
         limit: int = 100,
+        offset: int = 0,
     ) -> list[dict[str, Any]]:
-        """Query stored records with structured extraction filters."""
+        """Query a bounded page of records with structured extraction filters."""
 
-        filters = {
-            "kind": kind,
-            "source": source,
-            "court": court,
-            "case_number": case_number,
-            "subject": subject,
-            "rapporteur": rapporteur,
-            "decision_type": decision_type,
-            "precedent_type": precedent_type,
-            "canonical_key": canonical_key,
-        }
-        clauses: list[str] = []
-        params: list[object] = []
-        for column, value in filters.items():
-            if value:
-                clauses.append(f"{column} = ?")
-                params.append(value)
-        if publication_date_from:
-            clauses.append("publication_date >= ?")
-            params.append(_required_storage_date(publication_date_from))
-        if publication_date_to:
-            clauses.append("publication_date <= ?")
-            params.append(_required_storage_date(publication_date_to))
-        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
-        params.append(max(1, limit))
+        where, params = _record_query_components(
+            kind=kind,
+            source=source,
+            court=court,
+            case_number=case_number,
+            subject=subject,
+            rapporteur=rapporteur,
+            decision_type=decision_type,
+            precedent_type=precedent_type,
+            canonical_key=canonical_key,
+            publication_date_from=publication_date_from,
+            publication_date_to=publication_date_to,
+        )
+        params.extend([max(1, limit), max(0, offset)])
         rows = self.connection.execute(
             f"""
             SELECT record_json FROM canonical_records
             {where}
             ORDER BY publication_date DESC, updated_at DESC, id ASC
             LIMIT ?
+            OFFSET ?
             """,
             params,
         ).fetchall()
         return [json.loads(str(row["record_json"])) for row in rows]
+
+    def count_records(
+        self,
+        *,
+        kind: StoredRecordKind | None = None,
+        source: str | None = None,
+        court: str | None = None,
+        case_number: str | None = None,
+        subject: str | None = None,
+        rapporteur: str | None = None,
+        decision_type: str | None = None,
+        precedent_type: str | None = None,
+        canonical_key: str | None = None,
+        publication_date_from: str | None = None,
+        publication_date_to: str | None = None,
+    ) -> int:
+        """Count records matching the same filters accepted by query_records."""
+
+        where, params = _record_query_components(
+            kind=kind,
+            source=source,
+            court=court,
+            case_number=case_number,
+            subject=subject,
+            rapporteur=rapporteur,
+            decision_type=decision_type,
+            precedent_type=precedent_type,
+            canonical_key=canonical_key,
+            publication_date_from=publication_date_from,
+            publication_date_to=publication_date_to,
+        )
+        row = self.connection.execute(
+            f"SELECT COUNT(*) AS total FROM canonical_records {where}",
+            params,
+        ).fetchone()
+        return int(row["total"] if row is not None else 0)
 
     def stats(self) -> StoreStats:
         """Return aggregate counts for stored records."""
@@ -713,6 +758,48 @@ def _record_kind(record: CanonicalRecord) -> StoredRecordKind:
     if isinstance(record, CanonicalDocument):
         return "document"
     return "precedent"
+
+
+def _record_query_components(
+    *,
+    kind: StoredRecordKind | None = None,
+    source: str | None = None,
+    court: str | None = None,
+    case_number: str | None = None,
+    subject: str | None = None,
+    rapporteur: str | None = None,
+    decision_type: str | None = None,
+    precedent_type: str | None = None,
+    canonical_key: str | None = None,
+    publication_date_from: str | None = None,
+    publication_date_to: str | None = None,
+) -> tuple[str, list[object]]:
+    """Build one SQL predicate for both paged reads and matching counts."""
+
+    filters = {
+        "kind": kind,
+        "source": source,
+        "court": court,
+        "case_number": case_number,
+        "subject": subject,
+        "rapporteur": rapporteur,
+        "decision_type": decision_type,
+        "precedent_type": precedent_type,
+        "canonical_key": canonical_key,
+    }
+    clauses: list[str] = []
+    params: list[object] = []
+    for column, value in filters.items():
+        if value:
+            clauses.append(f"{column} = ?")
+            params.append(value)
+    if publication_date_from:
+        clauses.append("publication_date >= ?")
+        params.append(_required_storage_date(publication_date_from))
+    if publication_date_to:
+        clauses.append("publication_date <= ?")
+        params.append(_required_storage_date(publication_date_to))
+    return (f"WHERE {' AND '.join(clauses)}" if clauses else ""), params
 
 
 def _canonical_key(record: CanonicalRecord, *, kind: StoredRecordKind) -> str:

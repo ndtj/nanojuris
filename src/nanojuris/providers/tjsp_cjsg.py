@@ -5,9 +5,9 @@ from __future__ import annotations
 import hashlib
 import re
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import quote, urljoin
 
 import requests
 from bs4 import BeautifulSoup
@@ -504,6 +504,64 @@ def parse_cjsg_results(
         page_size=query.page_size,
         results=limited_results,
         source_trace=trace,
+    )
+
+
+def fetch_cjsg_page(
+    provider: Any,
+    query: JurisprudenceQuery,
+    *,
+    payload_builder: Any,
+    base_url: str,
+    source: str,
+    court: str,
+    id_prefix: str,
+    source_label: str,
+) -> SearchPage:
+    """Fetch one CJSG page through the source's public session flow.
+
+    CJSG/e-SAJ uses the initial search to establish the public result session
+    and a separate ``trocaDePagina.do`` request for subsequent pages. Keeping
+    both requests on the provider's session is required by the source
+    contract; it is not an access-control bypass.
+    """
+
+    initial_query = query if query.page == 1 else replace(query, page=1)
+    payload = payload_builder(initial_query)
+    html = provider._request_text("POST", "/resultadoCompleta.do", data=payload)
+    endpoint = "/resultadoCompleta.do"
+    trace_query: dict[str, Any] = {"payload": payload}
+    if query.page > 1 and _looks_like_cjsg_results(html):
+        selected = payload.get("tipoDecisaoSelecionados")
+        if isinstance(selected, list) and selected:
+            decision_type = str(selected[0])
+        else:
+            decision_type = str(payload.get("tipoDeDecisao") or "A")
+        endpoint = f"/trocaDePagina.do?tipoDeDecisao={quote(decision_type)}&pagina={query.page}"
+        html = provider._request_text("GET", endpoint)
+        trace_query.update({"tipoDeDecisao": decision_type, "pagina": query.page})
+    metadata = getattr(provider, "_last_http_metadata", {}) or {}
+    trace = SourceTrace(
+        provider=source,
+        endpoint=endpoint.split("?", 1)[0],
+        query=trace_query,
+        source_url=urljoin(base_url.rstrip("/") + "/", endpoint.lstrip("/")),
+        limitations=[
+            f"Fonte HTML publica {source_label} sujeita a mudancas de layout.",
+            "A paginacao usa a sessao publica e a rota trocaDePagina.do da fonte.",
+            "O provider nao tenta contornar captcha, login ou controles de acesso.",
+        ],
+        **metadata,
+    )
+    return parse_cjsg_results(
+        html,
+        query=query,
+        trace=trace,
+        base_url=base_url,
+        source=source,
+        court=court,
+        id_prefix=id_prefix,
+        source_label=source_label,
     )
 
 

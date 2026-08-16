@@ -50,6 +50,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true"
@@ -75,6 +76,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
                 "O resultado pode indicar segredo de justica ou conteudo pendente; "
                 "o provider preserva o status sem inferir inteiro teor.",
             ],
+            **self._last_http_metadata,
         )
         return parse_tjpr_results(
             html,
@@ -187,6 +189,16 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJPR search request failed: {exc}") from exc
         self._last_request = time.monotonic()
+        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
+        headers_received = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", action),
+            "content_type": headers_received.get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         return response.text, _strip_session_id(response.url)
 
     def _respect_rate_limit(self) -> None:
@@ -257,7 +269,7 @@ def _parse_tjpr_row(
     base_url: str,
     index: int,
 ) -> JurisprudenceResult | None:
-    link = row.select_one("a.decisao[href]")
+    link = row.select_one("a[href*='/jurisprudencia/j/']")
     if link is None:
         return None
     row_text = _normalize_text(row.get_text(" ", strip=True))
@@ -285,6 +297,12 @@ def _parse_tjpr_row(
         query=trace.query,
         source_url=document_url,
         limitations=trace.limitations,
+        http_status=trace.http_status,
+        final_url=trace.final_url,
+        content_type=trace.content_type,
+        content_sha256=trace.content_sha256,
+        response_bytes=trace.response_bytes,
+        retrieval_status=trace.retrieval_status,
     )
     return JurisprudenceResult(
         id=f"tjpr-{source_id}",
@@ -343,7 +361,10 @@ def _query_payload(query: JurisprudenceQuery) -> dict[str, str]:
 
 
 def _is_tjpr_row(row: Tag) -> bool:
-    return bool(row.select_one("input[name='idsSelecionados']") and row.select_one("a.decisao"))
+    return bool(
+        row.select_one("input[name='idsSelecionados']")
+        and row.select_one("a[href*='/jurisprudencia/j/']")
+    )
 
 
 def _input_value(row: Tag, name: str) -> str | None:

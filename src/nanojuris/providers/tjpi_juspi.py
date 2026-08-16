@@ -23,6 +23,7 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -50,6 +51,7 @@ class TjpiJuspiProvider(JurisprudenceProvider):
         self._last_request = 0.0
         self._last_response_content = b""
         self._last_response_content_type: str | None = None
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/jurisprudences/search"
@@ -66,6 +68,7 @@ class TjpiJuspiProvider(JurisprudenceProvider):
                 "Inteiro teor e retornado apenas quando a rota "
                 "/jurisprudences/<id>/public estiver publica.",
             ],
+            **self._last_http_metadata,
         )
         return parse_tjpi_results(
             html,
@@ -247,6 +250,14 @@ class TjpiJuspiProvider(JurisprudenceProvider):
         self._last_response_content_type = (getattr(response, "headers", None) or {}).get(
             "Content-Type"
         )
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", url),
+            "content_type": self._last_response_content_type,
+            "content_sha256": hashlib.sha256(self._last_response_content).hexdigest(),
+            "response_bytes": len(self._last_response_content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("TJPI/JusPI returned captcha or access-control HTML")
         return text
@@ -390,6 +401,12 @@ def _parse_result_card(
         query=trace.query,
         source_url=document_url,
         limitations=trace.limitations,
+        http_status=trace.http_status,
+        final_url=trace.final_url,
+        content_type=trace.content_type,
+        content_sha256=trace.content_sha256,
+        response_bytes=trace.response_bytes,
+        retrieval_status=trace.retrieval_status,
     )
     normalized_type = _normalize_decision_type(decision_type)
     return JurisprudenceResult(
@@ -400,7 +417,10 @@ def _parse_result_card(
         number=case_number or metadata.get("case_number"),
         summary=summary,
         rapporteur=metadata.get("rapporteur"),
+        publication_date=publication_date,
         updated_at=publication_date,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE,
         highlights={},
         source_trace=result_trace,
         raw={

@@ -17,7 +17,10 @@
 - Metodos: `POST` para busca e `GET` para arquivo publico.
 - Parametros: texto integral, ementa/resumo, numero CNJ, intervalo de data e
   tipo decisorio.
-- Paginacao: herdada da familia CJSG/e-SAJ; precisa fixture propria.
+- Paginacao: reproduzida em sessao publica com `POST /resultadoCompleta.do`
+  seguido de `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>`.
+- Limite remoto observado: 10 resultados por pagina; a capacidade de coleta
+  vem da navegacao por paginas, nao do aumento artificial de `page_size`.
 
 ## Dados retornados
 
@@ -65,3 +68,16 @@
 - [ ] Criar fixture propria do TJAM.
 - [ ] Validar labels amazonenses contra parser compartilhado.
 - [ ] Validar inteiro teor e resposta vazia.
+
+## Validacao live de capacidade - 2026-08-16
+
+- Consulta: `responsabilidade civil`, duas paginas, 20 itens solicitados.
+- Pagina 1: 10 resultados, 10 identificadores unicos, 10 com data.
+- Pagina 2: 10 resultados, nenhum identificador repetido, 10 com data.
+- Total remoto observado: 39.557.
+- Estado: `valid_with_source_page_limit`; a fonte impoe uma janela de 10 itens.
+- A mesma janela foi confirmada na Wave 2, com 30 IDs unicos em tres paginas.
+- Inteiro teor: capacidade declarada como chamada sob demanda; depende de a
+  rota publica `getArquivo.do` responder sem controle adicional.
+
+Evidencia estruturada: `docs/validation/runs/20260816T082800Z-cjsg-capacity-20260816.json`.

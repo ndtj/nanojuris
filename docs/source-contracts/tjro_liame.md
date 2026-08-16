@@ -1,64 +1,85 @@
-# TJRO - LIAME E Precedentes
+# TJRO LIAME Precedentes Qualificados
 
-Status atual: `documental` para catalogo de precedentes; nao e provider geral
-de acordaos.
+Status: `runtime_live_validated` | papel: `qualified_precedents`
 
-## Identidade Da Fonte
+Provider do catalogo de precedentes qualificados do TJRO. Ele nao representa
+o acervo geral de acordaos e permanece fora da busca textual unificada.
 
-- Portal: `https://liame.tjro.jus.br/`.
-- Categoria: precedentes qualificados e catalogo tematico.
-- Filtros observados: tribunal, especie, situacao e processo paradigma.
+## Identidade E Escopo
 
-O portal tambem informa sincronizacao com BNP, STF e TPU. O mapeamento nao
-confirmou uma rota publica de busca integral de acordaos do TJRO.
+- `source_id`: `tjro_liame`.
+- Portal: <https://liame.tjro.jus.br/>.
+- Busca: <https://liame.tjro.jus.br/pesquisa/precedentes>.
+- Escopo: IRDR/IAC e precedentes qualificados publicados pelo LIAME.
+- Fora do escopo: jurisprudencia geral, consulta processual e comunicacoes.
 
-## Diagnostico
+## Contrato HTTP Observado
 
-O probe inicial encontrou o portal e sinais de conteudo, mas classificou um
-texto de interface como `access_denied`. Isso deve ser tratado como falso
-positivo de diagnostico ate uma leitura semantica mais especifica, sem assumir
-que o acervo esta bloqueado.
+- `POST /api/pesquisa/precedentes`.
+- Content-Type: `application/json`.
+- Campos: `siglas`, `especies`, `texto`, `numero`,
+  `numero_processo_paradigma`, `assuntos`, `data_inicio`, `data_final`,
+  `situacao`, `ordenacao`, `page` e `page_size`.
+- Especies TJRO observadas: `incidente_assuncao_competencia` e
+  `incidente_demanda_repetitiva`.
+- Resposta: `data.total`, `data.page`, `data.page_size`, `data.total_pages`,
+  `data.has_next` e `data.results`.
+
+## Dados Retornados
+
+O registro preserva numero, questao, tese, relator, situacao, datas, assuntos,
+referencia legislativa, limite de suspensao e processos paradigma em `raw`.
+Processos paradigma sao normalizados como `ParadigmCase`.
+
+## Filtros E Paginaçao
+
+Implementados na query comum: texto, numero, tipos e datas de publicacao como
+janela de `data_inicio`/`data_final`, alem de pagina e tamanho. A API tambem
+possui situacao, assuntos e numero de processo paradigma; esses campos ainda
+aguardam extensao tipada da query comum.
+
+## Inteiro Teor E Documentos
+
+O registro pode conter URLs externas de decisoes de admissao ou merito. Elas
+permanecem referencias observadas e nao sao anunciadas como documento carregado.
+
+## Estados E Falhas
+
+- HTTP 200 com `data.results`: resultados publicos de precedentes.
+- HTTP 400/422: `QueryRejectedError`.
+- HTTP 401/403: `AccessControlRequiredError`.
+- HTTP 429: `RateLimitDetectedError`.
+- 5xx, rede ou contrato JSON alterado: falha observavel.
+
+## Evidencias, Fixtures E Testes
+
+- Fixture: `tests/fixtures/tjro_liame_results.json`.
+- Testes: `tests/test_tjro_liame.py`.
+- Evidencia live: `docs/validation/runs/20260816T125603Z-tjto-tjma-tjro-live.json`.
+- Rodada: consulta `empreitada` retornou um precedente qualificado.
+
+## Implementaçao E Integraçao
+
+- Modulo: `src/nanojuris/providers/tjro_liame.py`.
+- Classe: `TjroLiameProvider`.
+- Registro canonico: `CanonicalPrecedent` por meio do mapeamento de resultados.
+- Interfaces: Python, CLI, Studio e MCP; nao participa da busca textual unificada.
+
+## MCP E Agentes
+
+O agente deve rotular cada resultado como precedente qualificado TJRO e nunca
+apresenta-lo como amostra geral de acordaos. Deve preservar questao, tese,
+situacao, processo paradigma e links externos.
 
 ## Promocao
 
-Criar primeiro um adapter de `CanonicalPrecedent` com fixture de catalogo,
-filtros, vazio e detalhe. Buscar acordaos somente quando uma rota oficial de
-resultados for comprovada separadamente.
-
-## Validacao live 2026-08-11
-
-- O portal LIAME respondeu HTTP 200 e exibiu sinais de precedentes/processos.
-- A chamada nao confirmou uma busca geral de acordaos; o escopo deve permanecer em catalogo de precedentes ate haver rota de resultados.
-
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
-
-## Fonte Oficial
-
-- [LIAME TJRO](https://liame.tjro.jus.br/)
-## Contrato E Filtros
-
-A superficie LIAME confirmou catalogo de precedentes, com filtros de tribunal, especie, situacao e processo paradigma. Nao foi confirmada rota de busca geral de acordaos, nem metodo, payload, pagina, ordenacao ou detalhe por HTTP limpo. O contrato de eventual documento deve ser separado do catalogo.
-
-## Dados E MCP
-
-O adapter futuro deve retornar CanonicalPrecedent com especie, situacao, processo paradigma, tribunal, tese/ementa quando publicada e URL oficial. O MCP pode usar a fonte somente como catalogo de precedentes e deve dizer que ela nao representa o acervo geral de acordaos.
+Provider no maximo comprovado para precedentes qualificados. Gold contextual
+depende de rodadas live adicionais, testes dos filtros restantes e contrato
+documental separado para documentos vinculados.
 
 ## Proximos Passos
 
-Fechar fixture de catalogo com resultado, vazio, filtro e detalhe. So criar provider depois de confirmar schema, ids estaveis e limites da consulta.
-## MCP
-
-Usar somente como catalogo de precedentes e declarar que nao representa o
-acervo geral de acordaos. Manter a busca geral fora do roteamento ate contrato
-de resultados.
-
-## Contrato
-
-Confirmados apenas portal e filtros de catalogo: tribunal, especie, situacao
-e processo paradigma. Metodo, payload, pagina, ordenacao e detalhe continuam
-pendentes.
-
-## Dados
-
-O futuro CanonicalPrecedent deve preservar especie, situacao, processo
-paradigma, tribunal, tese/ementa e URL oficial quando publicados.
+- validar filtros de situacao, assunto e processo paradigma;
+- repetir a consulta live com pagina 2;
+- documentar separadamente documentos vinculados quando forem reproduzidos;
+- manter o provider fora da busca textual geral.

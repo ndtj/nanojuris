@@ -17,3 +17,10 @@ def test_inventory_marks_provider_contracts_as_compatibility_copies() -> None:
 
     assert "`docs/source-contracts/tcu_jurisprudencia.md` | `compatibility_copy`" in report
     assert "`docs/providers/tcu_jurisprudencia/README.md` | `canonical`" in report
+
+
+def test_inventory_does_not_misclassify_manual_maturity_plan_as_generated() -> None:
+    report = build_report()
+
+    assert "`docs/coverage/maturity-waves.md` | `active_guide`" in report
+    assert "Plano mantido manualmente" in report

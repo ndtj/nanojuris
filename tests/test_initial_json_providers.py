@@ -115,6 +115,7 @@ def test_tjpb_parser_and_public_token_flow() -> None:
 
     assert page.total == 48_534
     assert page.results[0].id == "tjpb-pje-ABC123"
+    assert page.results[0].judgment_date == "2026-01-01"
     assert page.results[0].raw["document_url"].endswith("/jurisprudencia/view/ABC123")
     assert session.calls[0]["method"] == "GET"
     payload = session.calls[1]["kwargs"]["json"]
@@ -184,6 +185,7 @@ def test_tjpa_payload_parser_and_catalog() -> None:
     assert page.total == 1
     assert page.results[0].id == "tjpa-bff-42"
     assert page.results[0].rapporteur == "Desembargador Exemplo"
+    assert page.results[0].publication_date == "01/02/2026"
     assert page.results[0].raw["full_text"] == "Inteiro teor disponivel."
 
     session = FakeSession(

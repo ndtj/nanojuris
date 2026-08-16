@@ -14,6 +14,7 @@ from nanojuris.models import (
     ProviderCapabilities,
     SearchPage,
 )
+from nanojuris.routing import route_unified_sources
 
 
 def test_canonical_mapper_preserves_access_evidence_and_date_meanings():
@@ -55,6 +56,64 @@ def test_query_rejects_unknown_filters_and_invalid_ranges():
 
     with pytest.raises(InvalidQueryError, match="page_size"):
         client.search("icms", source="missing", page_size=101)
+
+
+def test_unified_router_warns_when_refinement_filters_are_not_declared():
+    capability = ProviderCapabilities(
+        source="fixture",
+        display_name="Fixture",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        supports_unified_search=True,
+        supported_filters=["text"],
+    )
+
+    routed = route_unified_sources(
+        selected_sources=["fixture"],
+        capabilities={"fixture": capability},
+        text="dano moral",
+        filters={"published_from": "2021-01-01", "all_words": "transporte aereo"},
+    )
+
+    assert routed.searched == ["fixture"]
+    assert routed.skipped == []
+    assert {warning.reason for warning in routed.warnings} == {"filter_not_supported"}
+    assert {warning.source for warning in routed.warnings} == {"fixture"}
+
+
+def test_unified_router_does_not_warn_for_a_source_that_was_skipped():
+    capability = ProviderCapabilities(
+        source="fixture",
+        display_name="Fixture",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        supports_unified_search=True,
+        supported_filters=["text"],
+    )
+
+    routed = route_unified_sources(
+        selected_sources=["fixture"],
+        capabilities={"fixture": capability},
+        text="0802253-46.2017.8.15.2003",
+        filters={"number": "0802253-46.2017.8.15.2003", "all_words": "ICMS"},
+    )
+
+    assert routed.searched == []
+    assert [skip.reason for skip in routed.skipped] == ["identifier_filter_not_supported"]
+    assert routed.warnings == []
+
+
+def test_unified_search_marks_collection_incomplete_for_filter_warnings():
+    client = NanoJurisClient(providers=[_FederatedProvider("fixture", ["1"])])
+
+    payload = client.search_many(
+        "ICMS",
+        sources=["fixture"],
+        published_from="2021-01-01",
+    )
+
+    assert payload["routing_warnings"][0]["reason"] == "filter_not_supported"
+    assert payload["collection_complete"] is False
 
 
 class _FederatedProvider:

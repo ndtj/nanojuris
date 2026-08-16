@@ -30,10 +30,14 @@ Somente promover com uma superficie oficial que retorne resultado sem captcha
 ou com fixture obtida de fluxo publico permitido. Nao versionar tokens,
 cookies, credenciais ou dados de desafio.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-08-16
 
-- O formulario respondeu HTTP 200 e confirmou rotas por numero CNJ e por palavras, com filtros ricos.
-- Busca textual limpa com `dano moral` respondeu HTTP 401 pedindo codigo/captcha; nao houve tentativa de contorno.
+- O portal institucional respondeu HTTP 200 e redirecionou para o portal RUPE.
+- A pagina publica exibiu um link para o formulario legado de espelho de
+  acordao em `www5.tjmg.jus.br`.
+- A superficie atual nao comprovou busca textual reproduzivel; a evidencia
+  anterior de HTTP 401/captcha permanece aplicavel ao formulario legado.
+- Nao houve tentativa de contorno.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 

@@ -4,7 +4,39 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 ## Unreleased
 
-- Proximas mudancas serao registradas aqui antes da proxima release.
+- Corrigido o descarte silencioso de filtros de refinamento na busca unificada,
+  com avisos de contrato por fonte.
+- Corrigido o mapeamento de datas e booleanos no TJDFT/SISTJ, incluindo
+  `DataPublicacao`, `DataJulgamento` e a opcao `fetch_details` sem N+1.
+- MCP agora expoe data, frase exata e relator, usa TJDFT como default operacional
+  e permite paginar consultas locais com `total`, `has_more` e `next_offset`.
+- Consultas MCP sem registro retornam `found=false` em vez de excecao esperada;
+  o teto de pagina foi alinhado ao limite publico de 100 do core.
+- Corrigida a serializacao do formulario AJAX eproc: selects multivalorados sem
+  selecao nao adicionam filtros artificiais, e checkbox marcado sem valor usa
+  o valor HTML padrao `on`.
+- Corrigido o parser TJPR para aceitar os links publicos de acordaos e decisoes;
+  a busca agora preserva a janela de resultados e a paginação observadas.
+- Declarado o limite remoto de 10 itens por pagina do TJAM e TJRR; a repeticao
+  de pagina no postback TJRR continua sendo erro explicito de contrato.
+- Implementado o provider REST publico do TJPE, com paginacao zero-based,
+  `X-Total-Count`, datas separadas, texto de ementa/acordao/decisao, hash da
+  resposta e classificacao explicita de erros HTTP.
+- Implementado o provider publico do TJCE/CJSG, reutilizando o contrato e-SAJ
+  compartilhado e mantendo barreiras de acesso observaveis.
+- Implementado o provider publico do TJCE/SJURIS, com busca REST zero-based,
+  texto integral inline, preservacao do payload PDF quando presente, limite
+  remoto observado de 20 itens e classificacao explicita de erros HTTP.
+- Implementado o provider publico do TJMT, lendo a configuracao publica em
+  runtime, paginando a API de acordaos, separando datas e extraindo o inteiro
+  teor HTML inline sem persistir o token de aplicacao.
+- Implementado o provider publico do TJTO/Jurisprudencia 4.0, com paginacao por
+  offset, ementas estruturadas e inteiro teor HTML sob demanda preservado com
+  hash, tamanho e content-type.
+- Implementado o provider de catalogo publico do TJMA/JurisConsult. A busca
+  decisoria permanece explicitamente protegida por captcha e fora da federacao.
+- Implementado o provider do LIAME/TJRO para precedentes qualificados, fora da
+  busca textual geral e com processos paradigma preservados.
 
 ## 0.3.0 - 2026-08-13
 

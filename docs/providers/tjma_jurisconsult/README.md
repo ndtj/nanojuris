@@ -1,72 +1,88 @@
-# tjma_jurisconsult
+# TJMA JurisConsult
 
-## Identidade
-- Fonte oficial: Jurisconsult/TJMA.
-- Categoria: `court_jurisprudence` e `court_precedents` parcial.
-- Familia tecnica: `tjma_jurisconsult`.
-- URL inicial: `https://jurisconsult.tjma.jus.br/#/sg-jurisprudence-list`.
-- API observada: `https://apijuris.tjma.jus.br/v1`.
-- Status de acesso: metadados publicos; busca principal bloqueada por captcha no probe limpo.
+Status: `runtime_live_validated_catalog` | papel: `catalog_context`
 
-## Contrato HTTP
-- Rotas publicas auxiliares:
-  - `GET /jurisprudencia/lista_relatorios`
-  - `GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>`
-  - `GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>`
-  - `GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>`
-  - `GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>`
-  - `GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>`
-  - `GET /jurisprudencia/lista_todos_varas?comarca=<id>&tipoRelatorio=<id>`
-  - `GET /jurisprudencia/links_pesquisa_sumulas`
-- Rotas de busca retornadas por metadados:
-  - `/sg/jurisprudencias/processos`
-  - `/jurisprudencia/processos/pesquisa_acordaos_tr`
-  - `/jurisprudencia/processos/pesquisa_monocraticas`
-  - `/jurisprudencia/processos/pesquisa_monocraticas_tr`
-  - `/jurisprudencia/processos/sentencas_pg`
-  - `/jurisprudencia/processos/sentencas_je`
-- Metodos: `GET`.
-- Parametros obrigatorios da busca principal observada: `chave`, `tipoPesquisa`, `tokenG`, `keyId`.
-- Paginacao: endpoint possui variante `/infinito` no bundle, mas depende de token/validacao.
-- Ordenacao: nao mapeada.
-- Filtros: relatorio, tipo de pesquisa, sistema, relator, revisor, classe, camara, comarca, vara, datas e frase exata.
+Provider de catalogos publicos do JurisConsult/TJMA. A busca de resultados
+jurisprudenciais permanece controlada por captcha e nao e automatizada.
 
-## Dados retornados
-- Campos extraidos nos metadados: relatorios, rotas, tipos de pesquisa, camaras, links de sumulas/IAC/IRDR.
-- Campos canonicos: `CanonicalPrecedent` para links estaticos; `CanonicalDecision` apenas se busca principal tiver fluxo limpo no futuro.
-- Campos opcionais: classes, magistrados, comarcas e varas.
-- Campos instaveis: nomes de rota expostos pelo bundle e ids de filtros.
-- Inteiro teor: nao validado para busca principal.
-- Documentos vinculados: pendente.
+## Identidade E Escopo
 
-## Comportamento observado
-- Busca com resultado: nao promovida.
-- Busca sem resultado: nao promovida.
-- Erro HTTP esperado: `GET /sg/jurisprudencias/processos?...&tokenG=&keyId=` retornou HTTP 400 `captcha_not_provided`.
-- Controle de acesso/captcha: presente na busca principal.
-- Mudanca de layout: risco medio por SPA Ionic/Angular.
+- `source_id`: `tjma_jurisconsult`.
+- Portal: <https://jurisconsult.tjma.jus.br/>.
+- API: <https://apijuris.tjma.jus.br/v1>.
+- Escopo implementado: especies de relatorio, tipos de pesquisa, classes,
+  magistrados, camaras, comarcas e links de sumulas/precedentes.
+- Fora do escopo: coleta automatica de acordaos, decisoes e sentencas.
 
-## Fixtures
-- Sucesso: pendente para metadados.
-- Vazio: pendente.
-- Erro: `captcha_not_provided` pendente de fixture publica representativa.
-- Documento: nao aplicavel nesta fase.
+## Contrato HTTP Observado
 
-## MCP e agentes
-- Quando usar: descoberta de catalogo, filtros, relatorios e links oficiais de sumulas/IAC/IRDR do TJMA.
-- Quando pular: pesquisa textual de acordaos, monocraticas e sentencas enquanto exigir captcha.
-- Mensagem segura para o usuario: "O Jurisconsult/TJMA tem API publica para metadados, mas a busca principal exige captcha e nao sera automatizada."
-- Riscos: confundir metadado valido com provider completo de acordaos.
+Endpoints publicos de catalogo, todos reproduzidos com HTTP 200:
 
-## Validacao live 2026-08-11
+- `GET /jurisprudencia/lista_relatorios`.
+- `GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>`.
+- `GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>`.
+- `GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>`.
+- `GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>`.
+- `GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>`.
+- `GET /jurisprudencia/links_pesquisa_sumulas`.
 
-- Relatorios, links de sumulas, tipos, classes, magistrados e camaras responderam HTTP 200.
-- A busca principal continua respondendo `captcha_not_provided`; catalogo nao deve ser apresentado como consulta de acordaos.
+As rotas de resultados usam variantes de `/jurisprudencia/processos` e exigem
+`tokenG` e `keyId` de captcha. O provider retorna
+`AccessControlRequiredError` sem tentar criar ou reutilizar desafio.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+## Dados Retornados
 
-## Proximos passos
-- [ ] Criar parser/contract para `lista_relatorios` e `links_pesquisa_sumulas`.
-- [ ] Documentar links finais de Sumulas, IRDR e IAC.
-- [ ] Manter busca principal em `ACCESS_CONTROL_REQUIRED`.
-- [ ] Reavaliar apenas se surgir rota publica sem captcha.
+`ProviderCatalog.species` recebe os relatorios oficiais. O payload bruto
+preserva classes, magistrados, camaras, comarcas, tipos de pesquisa e links de
+IRDR/IAC/sumulas em `catalog.raw`.
+
+## Filtros E Paginaçao
+
+O catalogo aceita o identificador `tipoRelatorio` nas rotas oficiais. Nao ha
+paginaçao de resultados implementada porque a busca principal esta gated.
+
+## Inteiro Teor E Documentos
+
+Nao aplicavel nesta superficie. Nenhum link de catalogo e promovido como
+documento carregado.
+
+## Estados E Falhas
+
+- Catalogos publicos: `access_status=public`.
+- Busca principal: `access_control_required` por captcha.
+- Falha de rede ou 5xx: `SourceUnavailableError`.
+- HTTP 429: `RateLimitDetectedError`.
+
+Captcha nao e convertido em vazio nem em provider textual funcional.
+
+## Evidencias, Fixtures E Testes
+
+- Fixture: `tests/fixtures/tjma_jurisconsult_catalog.json`.
+- Testes: `tests/test_tjma_jurisconsult.py`.
+- Evidencia live: `docs/validation/runs/20260816T125603Z-tjto-tjma-tjro-live.json`.
+- Rodada: 7 especies, 135 classes e 313 magistrados observados.
+
+## Implementaçao E Integraçao
+
+- Modulo: `src/nanojuris/providers/tjma_jurisconsult.py`.
+- Classe: `TjmaJurisconsultProvider`.
+- Interfaces: catalogo Python, CLI, Studio e MCP; fora da busca unificada.
+
+## MCP E Agentes
+
+O agente pode usar o catalogo para desenho amostral e descoberta de filtros,
+mas deve dizer que ele nao contem resultados coletados. A busca textual deve
+ser reportada como controlada por captcha.
+
+## Promocao
+
+O provider esta no maximo comprovado para catalogo publico. So pode ganhar
+busca textual quando existir uma superficie oficial sem captcha ou um fluxo
+interativo explicitamente operado pelo usuario.
+
+## Proximos Passos
+
+- monitorar a disponibilidade dos catalogos publicos;
+- registrar mudancas de vocabulário e relatorios;
+- nao automatizar a busca enquanto o captcha continuar sendo requisito;
+- investigar somente superficies oficiais alternativas sem desafio.

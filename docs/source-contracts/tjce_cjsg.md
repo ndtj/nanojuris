@@ -6,8 +6,8 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `esaj_cjsg`.
 - URL de consulta: `https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do`.
-- Status de acesso: `candidate_needs_har`.
-- Status no NanoJuris: candidato, sem provider implementado.
+- Status de acesso: `source_unavailable` nesta validacao local; contrato live pendente.
+- Status no NanoJuris: provider implementado com contrato offline da familia CJSG.
 
 O portal oficial documenta uma base progressiva de jurisprudencia com ementas,
 acordaos e acesso ao inteiro teor. A pagina de consulta completa publica
@@ -33,24 +33,25 @@ interface HTML de consulta e apresentou os seguintes grupos de filtros:
 A documentacao oficial tambem afirma que a consulta permite acesso aos dados
 do processo e a integra do documento de acordao.
 
-## Rota observada
+## Rota e contrato de implementacao
 
 ```text
-GET https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do
+POST https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do
+GET  https://esaj.tjce.jus.br/cjsg/trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>
+GET  https://esaj.tjce.jus.br/cjsg/getArquivo.do?cdAcordao=<id>&cdForo=<foro>
 ```
 
-O acesso HTTP direto em sessao limpa, com `requests` e sem proxy de ambiente,
-sofreu `ConnectionResetError`/reset TLS antes de receber o HTML. Esse resultado
-nao prova indisponibilidade da fonte: a pagina oficial continua acessivel por
-outras superficies, mas ainda falta capturar um HAR limpo do fluxo de busca.
+O provider usa o contrato comum da familia e-SAJ/CJSG: a primeira chamada
+estabelece a sessao publica, paginas posteriores usam `trocaDePagina.do` e o
+inteiro teor usa `getArquivo.do`. Os nomes e valores do formulario TJCE ainda
+precisam de replay live especifico; por isso a implementacao offline nao e
+evidencia de que o TJCE aceite exatamente o mesmo payload do TJAC/TJMS.
 
 ## Contrato pendente
 
-Ainda nao foram confirmados por chamada reproduzivel:
+Ainda nao foram confirmados por chamada reproduzivel no TJCE:
 
-- metodo final de submissao;
-- `action` do formulario;
-- nomes dos campos e valores de checkbox/radio;
+- nomes finais dos campos e valores de checkbox/radio;
 - paginacao e ordenacao reais;
 - rota de detalhe e inteiro teor;
 - comportamento para resposta vazia e erros;
@@ -63,16 +64,18 @@ protecao.
 
 ## Decisao de produto
 
-O TJCE e um candidato de alto valor para a familia e-SAJ/CJSG, mas nao deve
-entrar no codigo enquanto o contrato de submissao nao for reproduzido e houver
-fixture real de resultado. A documentacao oficial e evidencia de existencia e
-escopo da fonte; nao substitui o teste do endpoint automatizavel.
+O TJCE entrou no codigo como adaptador offline da familia e-SAJ/CJSG, com
+parser, testes e classificacao de barreiras. Ele nao deve ser promovido para
+validado live ou Gold enquanto o formulario, a pagina de resultados e o
+inteiro teor nao forem reproduzidos no proprio host.
 
 ## Fixtures necessarias
 
-- [ ] HTML inicial da consulta completa.
-- [ ] HAR de busca textual pequena.
-- [ ] Fixture de resultado com processo, classe, orgao, data, relator e ementa.
+- [x] Fixture de resultado da familia para validar parser, identidade e trace.
+- [x] Testes offline de busca, pagina, documento, hash e bloqueio.
+- [ ] HTML inicial da consulta completa do TJCE.
+- [ ] HAR de busca textual pequena do TJCE.
+- [ ] Fixture de resultado do TJCE com processo, classe, orgao, data, relator e ementa.
 - [ ] Fixture de vazio.
 - [ ] Fixture de erro ou limite de acesso, se observado.
 - [ ] Fixture de detalhe/inteiro teor, se publico.
@@ -80,15 +83,15 @@ escopo da fonte; nao substitui o teste do endpoint automatizavel.
 
 ## MCP e agentes
 
-O MCP deve pular o TJCE enquanto o contrato permanecer pendente e informar a
-indisponibilidade automatica de forma explicita. Depois da validacao, a
-descricao da ferramenta deve separar busca por ementa de busca no inteiro teor,
-preservar o tipo de publicacao e expor a URL oficial de origem.
+O MCP e o Studio podem listar o TJCE como provider implementado, mas devem
+expor o estado live como pendente/indisponivel e nao como resultado vazio. A
+descricao deve separar busca no inteiro teor, ementa e documento carregado.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-08-16
 
 - GET da rota e-SAJ respondeu EOF TLS antes de entregar resposta neste ambiente.
-- A rota oficial permanece documentada, mas nao e considerada contrato reproduzivel sem nova evidencia de transporte ou HAR publico.
+- O acesso HTTP local voltou a encerrar a conexao antes do payload. Isso nao
+  valida nem invalida o contrato do tribunal; apenas impede a promocao live.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
@@ -99,8 +102,8 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 3. Salvar fixtures sem dados pessoais desnecessarios ao teste.
 4. Reaproveitar o parser da familia e-SAJ somente depois de comparar os
    seletores e os nomes de campo do TJCE.
-5. Promover para `candidate_ready` apenas quando o resultado decisorio for
-   reproduzido por HTTP limpo.
+5. Promover para `runtime_validated` apenas quando o resultado decisorio for
+   reproduzido por HTTP limpo no host TJCE.
 ## Dados Retornados E Mapeamento
 
 A pagina institucional sugere processo, classe, assunto, orgao julgador, comarca, relator, juiz prolator, registro, recurso, datas, tipo de publicacao, ementa e inteiro teor. Nenhum desses campos foi validado em resposta de busca nesta janela; portanto devem permanecer como campos esperados, nao como dados disponiveis. Quando houver fixture, preservar o HTML e o PDF/URL original.

@@ -1,6 +1,8 @@
 # TJRN - Pesquisa De Jurisprudencia
 
-Status atual: `blocked_or_inconclusive` para replay HTTP limpo.
+Status atual: `blocked_or_inconclusive` para replay HTTP limpo; a raiz do
+portal respondeu HTTP 200 em 2026-08-16, mas o contrato de busca ainda nao foi
+reproduzido.
 
 ## Identidade Da Fonte
 
@@ -26,9 +28,10 @@ mapeamento anterior, portanto nao deve ser confundido com o portal unificado.
 
 ## Diagnostico De Acesso
 
-O portal principal respondeu 403 no acesso automatizado atual. Isso e evidencia
-de controle ou politica de acesso na janela testada, nao prova de que o acervo
-nao exista. Nenhuma credencial ou bypass deve ser tentado.
+O portal apresentou comportamento variavel: HTTP 403 em uma janela e HTTP 200
+na raiz em 2026-08-16, com HTTP 403 nos scripts solicitados com referencia
+normal. Isso e evidencia de politica de acesso ou protecao da superficie, nao
+prova de que o acervo inexista. Nenhuma credencial ou bypass deve ser tentado.
 
 Classificacao: `blocked_or_inconclusive`, evidencia `B`.
 
@@ -39,10 +42,12 @@ rota de busca, payload, resposta JSON/HTML, campos, pagina, vazio, detalhe e
 inteiro teor. Reproduzir depois por HTTP limpo sem cookies pessoais e criar
 fixtures de sucesso, vazio e erro.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-08-16
 
-- Uma janela anterior respondeu HTTP 200, mas a repeticao atual respondeu HTTP 403.
-- A rota de busca, payload, paginacao e detalhe continuam sem contrato estavel; nao implementar com base no GET isolado.
+- A raiz respondeu HTTP 200 em uma sessao limpa, mas os bundles publicos
+  retornaram HTTP 403 e a rota de busca nao foi reproduzida.
+- O contrato de busca, paginacao, detalhe e documento continua pendente; nao
+  implementar com base no GET isolado.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 

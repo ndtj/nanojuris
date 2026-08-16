@@ -88,12 +88,17 @@ deve apenas manter o conteudo que a fonte publica.
 
 ## Paginacao e limites
 
-O HTML declara controles de paginacao e o total no texto dos cards. O endpoint
-de paginacao e o payload exato ainda precisam de fixture antes de coleta em
-escala. A busca repetida em curto intervalo acionou uma protecao temporaria no
-portal em uma das superficies de acesso. Isso deve ser exposto como controle
-de acesso/indisponibilidade, nunca tratado como resultado vazio e nunca
-contornado.
+O primeiro POST aceita `selTamanhoPagina` e retorna `hdnTotalResultado`,
+`hdnPaginaAtual`, `selTamanhoPagina` e `hdnUrlPaginar`. A rota AJAX indicada
+por `hdnUrlPaginar` e reutilizada pelo parser eproc compartilhado para paginas
+posteriores, mantendo a sessao publica.
+
+Uma resposta live observada retornou 50 cards, IDs tecnicos em `id`/`data-id`,
+datas em texto e links de inteiro teor. Na revalidacao Wave 2, paginas 1, 2 e 3
+retornaram 25 cards e IDs novos por pagina, com total remoto de 10.075. O
+payload de paginacao agora respeita a semantica do formulario: selects
+multivalorados sem selecao nao sao enviados artificialmente. Controle de
+acesso/indisponibilidade deve permanecer observavel e nunca ser contornado.
 
 ## Implementacao 2026-08-11
 
@@ -115,7 +120,8 @@ coleta em escala sem:
 3. fixture de inteiro teor;
 4. fixture de protecao/erro;
 5. parser offline resiliente a labels e IDs dinamicos;
-6. teste de paginacao e filtros de processo/data;
+6. teste offline de paginacao e filtros de processo/data; a paginacao live foi
+   validada na Wave 2;
 7. teste live opt-in com intervalo conservador.
 
 ## MCP e uso responsavel
@@ -132,6 +138,18 @@ navegador ou tentar atravessar captcha, WAF ou bloqueios de frequencia.
 - O contrato confirma a familia eproc compartilhada com TJRJ, mas campos e hosts permanecem especificos por tribunal.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+
+## Revalidacao de contrato - 2026-08-16
+
+- O card TJSC sem a classe `a.numero-processo` agora e aceito pelo parser por
+  `id_jurisprudencia`, processo textual, datas e link `data-link` oficial.
+- O ID tecnico e preservado como identidade do resultado e o inteiro teor
+  continua sob demanda.
+- Estado live atual: `valid` para paginas 1 a 3 na Wave 2, com 25 IDs novos por
+  pagina e total remoto de 10.075. Uma rodada anterior sem cards permanece
+  registrada como instabilidade histórica, não como resultado vazio.
+
+Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.
 
 ## Referencias oficiais
 

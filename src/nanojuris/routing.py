@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 from nanojuris.models import ProviderCapabilities
@@ -56,6 +56,7 @@ class RoutedSources:
 
     searched: list[str]
     skipped: list[SourceSkip]
+    warnings: list[SourceSkip] = field(default_factory=list)
 
 
 @dataclass(frozen=True, slots=True)
@@ -94,6 +95,7 @@ def route_unified_sources(
     has_identifier = bool(identifier_filters)
     searched: list[str] = []
     skipped: list[SourceSkip] = []
+    warnings: list[SourceSkip] = []
 
     for source in selected_sources:
         capability = capabilities.get(source)
@@ -108,10 +110,28 @@ def route_unified_sources(
         )
         if skip is None:
             searched.append(source)
+            if capability.supported_filters:
+                for filter_name in _unsupported_refinement_filters(
+                    capability,
+                    text=text,
+                    filters=filters,
+                ):
+                    warnings.append(
+                        SourceSkip(
+                            source=source,
+                            category=capability.category,
+                            reason="filter_not_supported",
+                            message=(
+                                f"A fonte nao declara suporte ao filtro {filter_name!r}. "
+                                "A fonte foi consultada, mas o resultado pode nao aplicar "
+                                "esse refinamento."
+                            ),
+                        )
+                    )
         else:
             skipped.append(skip)
 
-    return RoutedSources(searched=searched, skipped=skipped)
+    return RoutedSources(searched=searched, skipped=skipped, warnings=warnings)
 
 
 def build_routing_summary(
@@ -134,6 +154,15 @@ def build_routing_summary(
                 action="searched",
                 reason="source_applicable",
                 message=_searched_message(capability),
+            )
+        )
+    for warning in routed.warnings:
+        summary.append(
+            RoutingSummaryItem(
+                source=warning.source,
+                action="searched",
+                reason=warning.reason,
+                message=warning.message,
             )
         )
     for skip in routed.skipped:
@@ -228,6 +257,24 @@ def _identifier_filters(*, text: str, filters: dict[str, Any]) -> set[str]:
     if CNJ_NUMBER_RE.search(text):
         requested.add("number")
     return requested
+
+
+def _unsupported_refinement_filters(
+    capability: ProviderCapabilities,
+    *,
+    text: str,
+    filters: dict[str, Any],
+) -> set[str]:
+    """Return active non-identifier filters absent from a source contract."""
+
+    active = {name for name, value in filters.items() if _has_value(value)}
+    if _has_value(text):
+        active.add("text")
+    return {
+        name
+        for name in active.difference(IDENTIFIER_FILTERS)
+        if name not in capability.supported_filters
+    }
 
 
 def _has_value(value: Any) -> bool:

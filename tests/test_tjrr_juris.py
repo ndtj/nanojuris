@@ -74,9 +74,10 @@ def test_parse_tjrr_result_maps_metadata_and_full_text():
 
 def test_provider_posts_public_form_and_supports_primefaces_page_request():
     result = _fixture("tjrr_juris_result.html")
+    page_two_result = result.replace("(1 of 2)", "(2 of 2)").replace("id=321", "id=320")
     partial = (
         '<partial-response><changes><update id="table"><![CDATA['
-        f"{result}"
+        f"{page_two_result}"
         "]]></update></changes></partial-response>"
     )
     session = FakeSession(
@@ -96,6 +97,45 @@ def test_provider_posts_public_form_and_supports_primefaces_page_request():
     assert isinstance(ajax, dict)
     assert ajax["headers"]["Faces-Request"] == "partial/ajax"
     assert ajax["data"]["formPesquisa:j_idt155:dataTablePesquisa_first"] == "1"
+
+
+def test_provider_reuses_public_result_form_for_second_page_in_same_session():
+    result = _fixture("tjrr_juris_result.html")
+    page_two_result = result.replace("(1 of 2)", "(2 of 2)").replace("id=321", "id=320")
+    partial = (
+        '<partial-response><changes><update id="table"><![CDATA['
+        f"{page_two_result}"
+        "]]></update></changes></partial-response>"
+    )
+    session = FakeSession(
+        [
+            FakeResponse(_fixture("tjrr_juris_form.html")),
+            FakeResponse(result),
+            FakeResponse(result),
+            FakeResponse(partial),
+        ]
+    )
+    provider = TjrrJurisProvider(session=session)
+
+    provider.search(JurisprudenceQuery(text="dano moral", page=1, page_size=1))
+    page = provider.search(JurisprudenceQuery(text="dano moral", page=2, page_size=1))
+
+    assert page.results[0].id == "tjrr-juris-320"
+    assert [call["method"] for call in session.calls] == ["GET", "POST", "GET", "POST"]
+    assert session.calls[-1]["kwargs"]["headers"]["Faces-Request"] == "partial/ajax"
+
+
+def test_parser_caps_rows_to_source_reported_page_size():
+    fixture = _fixture("tjrr_juris_result.html")
+    page = parse_tjrr_results(
+        fixture + fixture,
+        query=JurisprudenceQuery(text="dano moral", page_size=1),
+        trace=SourceTrace(provider="tjrr_juris", endpoint="/index.xhtml"),
+        base_url="https://jurisprudencia.tjrr.jus.br",
+    )
+
+    assert page.page_size == 1
+    assert len(page.results) == 1
 
 
 def test_provider_get_document_uses_observed_public_id():
@@ -122,6 +162,7 @@ def test_provider_exposes_explicit_capabilities():
     assert capabilities.supports_full_text is True
     assert capabilities.supports_unified_search is True
     assert capabilities.pagination_mode == "page"
+    assert capabilities.max_remote_page_size == 10
     assert "number" in capabilities.supported_filters
     assert "GET /inteiroTeor.xhtml?id=<id>" in capabilities.endpoints
 

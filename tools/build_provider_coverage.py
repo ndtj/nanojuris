@@ -464,6 +464,8 @@ def _render_index(catalog: dict[str, Any]) -> str:
         "[improvement-queue.md](improvement-queue.md) |",
         "| Qual e o plano de ondas para maturidade dos providers? | "
         "[maturity-waves.md](maturity-waves.md) |",
+        "| Qual artefato e a fonte de verdade para cada pergunta? | "
+        "[source-of-truth.md](source-of-truth.md) |",
         "| Qual foi a ultima validacao live focada? | [live-status.md](live-status.md) |",
         "| Qual catalogo uma IA deve ler? | "
         "[../registry/provider-catalog.full.json](../registry/provider-catalog.full.json) |",
@@ -525,10 +527,10 @@ def _render_maturity(catalog: dict[str, Any]) -> str:
         "| Nivel | Uso recomendado | Criterio operacional |",
         "| --- | --- | --- |",
         "| `gold` | referencia para Studio, MCP, demos e jurimetria inicial | "
-        "contrato forte, baixo/medio risco, busca unificada e documentacao "
-        "sem pendencia critica |",
-        "| `silver` | uso produtivo com cautela | contrato bom, mas ainda com "
-        "lacunas de live, inteiro teor, filtros ou docs |",
+        "contrato forte, baixo/medio risco, busca unificada, offline completo e "
+        "documentacao estrutural completa |",
+        "| `silver` | uso produtivo com cautela | contrato nivel 4+, busca unificada "
+        "e evidencia offline; lacunas avancadas permanecem visiveis |",
         "| `bronze` | pesquisa tecnica e amadurecimento | provider existe, mas ainda "
         "precisa de fixtures, erros ou contrato mais profundo |",
         "| `context` | fonte complementar | precedentes, informativos, catalogos "
@@ -548,6 +550,15 @@ def _render_maturity(catalog: dict[str, Any]) -> str:
         lines.append(f"| `{key}` | {value} |")
     lines.extend(
         [
+            "",
+            "## Como Ler O Gate Prata",
+            "",
+            "Itens de checklist ainda abertos aparecem no dossie e no score, mas nao "
+            "bloqueiam automaticamente a camada `silver` quando nao representam "
+            "uma omissao estrutural. Isso separa backlog de aprofundamento da "
+            "ausencia de contrato minimo.",
+            "Risco operacional alto, WAF, TLS, CAPTCHA, timeout e mudanca de "
+            "contrato nunca viram resultado vazio e podem manter a fonte em `blocked`.",
             "",
             "## Principio De Qualidade",
             "",
@@ -790,12 +801,28 @@ def _parse_validation_runs() -> dict[str, dict[str, Any]]:
             artifact = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             continue
-        generated_at = str(artifact.get("generated_at") or "")
-        for report in artifact.get("reports", []):
-            if not isinstance(report, dict) or not report.get("source"):
+        generated_at = str(artifact.get("generated_at") or artifact.get("checked_at") or "")
+        reports = artifact.get("reports")
+        if reports is None:
+            # Live probes historically used `sources` for the same envelope
+            # shape. Accept both spellings so valid evidence is not lost.
+            reports = artifact.get("sources")
+        if isinstance(reports, list):
+            report_items = reports
+        elif artifact.get("source"):
+            # Document and provider-specific evidence may be stored as one
+            # standalone report instead of a multi-source validation envelope.
+            report_items = [artifact]
+        else:
+            report_items = []
+        for report in report_items:
+            if not isinstance(report, dict):
                 continue
             checked_at = str(report.get("checked_at") or generated_at)
-            source_id = str(report["source"])
+            source_value = report.get("source") or report.get("source_id")
+            if not source_value:
+                continue
+            source_id = str(source_value)
             previous = latest.get(source_id)
             if previous is None or checked_at >= previous[0]:
                 latest[source_id] = (checked_at, {**report, "_path": path})
@@ -803,9 +830,12 @@ def _parse_validation_runs() -> dict[str, dict[str, Any]]:
     for source_id, (checked_at, report) in latest.items():
         path = report.pop("_path")
         rows[source_id] = {
-            "status": report.get("status", "unknown"),
+            "status": report.get("status") or _status_from_evidence(report),
+            "scope": report.get("scope"),
             "date": checked_at[:10] or None,
             "checked_at": checked_at or None,
+            "document_id": report.get("document_id"),
+            "url": report.get("url"),
             "returned": report.get("returned"),
             "reported_total": report.get("reported_total"),
             "pagination_mode": report.get("pagination_mode"),
@@ -819,12 +849,39 @@ def _parse_validation_runs() -> dict[str, dict[str, Any]]:
             "full_text_status": report.get("full_text_status"),
             "content_type": report.get("content_type"),
             "content_sha256": report.get("content_sha256"),
+            "sha256": report.get("sha256") or report.get("content_sha256"),
             "response_bytes": report.get("response_bytes"),
+            "parser": report.get("parser"),
+            "parser_version": report.get("parser_version"),
             "note": report.get("message") or report.get("completeness_reason") or "",
             "error_type": report.get("error_type"),
-            "evidence": path.relative_to(ROOT).as_posix(),
+            "evidence": _evidence_path(path),
         }
     return rows
+
+
+def _status_from_evidence(report: dict[str, Any]) -> str:
+    """Classify standalone evidence when its producer omitted a summary status."""
+
+    access_status = str(report.get("access_status") or "")
+    retrieval_status = str(report.get("retrieval_status") or "")
+    extraction_status = str(report.get("extraction_status") or "")
+    if access_status in {"access_control_required", "login_required", "rate_limited"}:
+        return access_status
+    if retrieval_status in {"source_unavailable", "timeout", "error"}:
+        return "source_unavailable"
+    if retrieval_status == "ok" and extraction_status in {"complete", "partial"}:
+        return "valid"
+    return "unknown"
+
+
+def _evidence_path(path: Path) -> str:
+    """Return a stable repository path, or an absolute path for test fixtures."""
+
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
 
 
 def _default_live_status() -> dict[str, Any]:
@@ -873,6 +930,7 @@ def _document_contract(capability: Any | None) -> dict[str, Any]:
         "document_types": output["document_types"],
         "content_formats": output["content_formats"],
         "trace_expected": output["trace_expected"],
+        "full_text_access": getattr(capability, "full_text_access", "unknown"),
     }
 
 
@@ -880,6 +938,8 @@ def _pagination_contract(capability: Any | None) -> dict[str, Any]:
     return {
         "mode": getattr(capability, "pagination_mode", "unknown"),
         "declared": getattr(capability, "pagination_mode", "unknown") != "unknown",
+        "max_remote_page": getattr(capability, "max_remote_page", None),
+        "max_remote_page_size": getattr(capability, "max_remote_page_size", None),
     }
 
 
@@ -1118,16 +1178,34 @@ def _maturity_tier(
         return "mapped"
     level = getattr(contract, "contract_level", 1)
     risk = getattr(contract, "risk_level", "alto")
-    has_doc_gap = bool(doc.get("missing_sections")) or int(doc.get("unchecked", 0)) > 0
+    # Open checklist items are an improvement backlog, not automatically a
+    # contract failure. Structural omissions remain a hard documentation gate.
+    has_structural_doc_gap = bool(doc.get("missing_sections"))
     live = live_status["status"]
-    if risk == "alto" and live in {"blocked", "source_unavailable"}:
+    if live in {
+        "blocked",
+        "source_unavailable",
+        "access_control_required",
+        "captcha_detected",
+        "waf_detected",
+        "tls_verification_failed",
+    }:
         return "blocked"
     if capability.category not in {"court_jurisprudence", "administrative_jurisprudence"}:
         return "context"
-    if level >= 5 and risk in {"baixo", "medio"} and capability.supports_unified_search:
-        return "silver" if has_doc_gap else "gold"
-    if level >= 4 and capability.supports_unified_search:
-        return "silver" if not has_doc_gap else "bronze"
+    if (
+        level >= 5
+        and risk in {"baixo", "medio"}
+        and capability.supports_unified_search
+        and _offline_status(lifecycle, doc) == "complete"
+    ):
+        return "silver" if has_structural_doc_gap else "gold"
+    if (
+        level >= 4
+        and capability.supports_unified_search
+        and _offline_status(lifecycle, doc) in {"partial", "complete"}
+    ):
+        return "silver"
     if capability.supports_unified_search:
         return "bronze"
     return "context"

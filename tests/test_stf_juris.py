@@ -266,6 +266,10 @@ def test_provider_search_posts_stf_payload_and_parses_results():
     page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=2))
 
     assert page.results[0].id == "stf-juris-sjur561554"
+    assert page.source_trace is not None
+    assert page.source_trace.http_status == 200
+    assert page.source_trace.content_sha256
+    assert page.source_trace.retrieval_status == "ok"
     call = session.calls[0]
     assert call["url"] == "https://jurisprudencia.stf.jus.br/api/search/search"
     assert call["kwargs"]["headers"]["Accept"] == "application/json, text/plain, */*"

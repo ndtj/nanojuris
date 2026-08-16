@@ -28,6 +28,7 @@ from nanojuris.models import (
     ProviderCapabilities,
     ProviderCatalog,
     SearchPage,
+    SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.bnp_pangea import BnpPangeaProvider
@@ -50,27 +51,35 @@ from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
 from nanojuris.providers.tjam_cjsg import TjamCjsgProvider
 from nanojuris.providers.tjba_graphql import TjbaGraphqlProvider
+from nanojuris.providers.tjce_cjsg import TjceCjsgProvider
 from nanojuris.providers.tjce_informativos import TjceInformativosProvider
+from nanojuris.providers.tjce_sjuris import TjceSjurisProvider
 from nanojuris.providers.tjdf_juris import TjdfJurisProvider
 from nanojuris.providers.tjgo_projudi_jurisprudencia import TjgoProjudiJurisprudenciaProvider
+from nanojuris.providers.tjma_jurisconsult import TjmaJurisconsultProvider
 from nanojuris.providers.tjms_cjsg import TjmsCjsgProvider
+from nanojuris.providers.tjmt_jurisprudencia_api import TjmtJurisprudenciaApiProvider
 from nanojuris.providers.tjpa_jurisprudencia_bff import TjpaJurisprudenciaBffProvider
 from nanojuris.providers.tjpb_pje_jurisprudencia import TjpbPjeJurisprudenciaProvider
+from nanojuris.providers.tjpe_jurisprudencia import TjpeJurisprudenciaProvider
 from nanojuris.providers.tjpi_juspi import TjpiJuspiProvider
 from nanojuris.providers.tjpr_jurisprudencia import TjprJurisprudenciaProvider
 from nanojuris.providers.tjrj_eproc_jurisprudencia import TjrjEprocJurisprudenciaProvider
+from nanojuris.providers.tjro_liame import TjroLiameProvider
 from nanojuris.providers.tjrr_juris import TjrrJurisProvider
 from nanojuris.providers.tjrs_solr import TjrsSolrProvider
 from nanojuris.providers.tjsc_eproc_jurisprudencia import TjscEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_cjsg import TjspCjsgProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import TjspEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_nugepnac import TjspNugepnacProvider
+from nanojuris.providers.tjto_jurisprudencia import TjtoJurisprudenciaProvider
 from nanojuris.providers.tre_sp_temas import TreSpTemasProvider
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
 from nanojuris.providers.trf5_jurisprudencia import Trf5JurisprudenciaProvider
 from nanojuris.providers.tst_jurisprudencia import TstJurisprudenciaProvider
 from nanojuris.routing import (
     JURISPRUDENCE_CATEGORIES,
+    _unsupported_refinement_filters,
     build_routing_summary,
     route_unified_sources,
 )
@@ -93,6 +102,7 @@ class NanoJurisClient:
         "any_words",
         "without_words",
         "exact_phrase",
+        "rapporteur",
         "updated_from",
         "updated_to",
         "published_from",
@@ -140,24 +150,31 @@ class NanoJurisClient:
                 TceSpJurisprudenciaProvider(self.config),
                 TjceInformativosProvider(self.config),
                 TjacCjsgProvider(self.config),
+                TjceCjsgProvider(self.config),
+                TjceSjurisProvider(self.config),
                 TjdfJurisProvider(self.config),
                 TjgoProjudiJurisprudenciaProvider(self.config),
                 TjalCjsgProvider(self.config),
                 TjamCjsgProvider(self.config),
                 TjmsCjsgProvider(self.config),
+                TjmtJurisprudenciaApiProvider(self.config),
+                TjmaJurisconsultProvider(self.config),
                 TjbaGraphqlProvider(self.config),
                 TjpiJuspiProvider(self.config),
                 TjprJurisprudenciaProvider(self.config),
                 TjrrJurisProvider(self.config),
+                TjroLiameProvider(self.config),
                 TjrjEprocJurisprudenciaProvider(self.config),
                 TjpaJurisprudenciaBffProvider(self.config),
                 TjpbPjeJurisprudenciaProvider(self.config),
+                TjpeJurisprudenciaProvider(self.config),
                 TjspCjsgProvider(self.config),
                 TjspEprocJurisprudenciaProvider(self.config),
                 TjspNugepnacProvider(self.config),
                 TreSpTemasProvider(self.config),
                 TjrsSolrProvider(self.config),
                 TjscEprocJurisprudenciaProvider(self.config),
+                TjtoJurisprudenciaProvider(self.config),
                 TcuJurisprudenciaProvider(self.config),
                 Trf5JurisprudenciaProvider(self.config),
                 Trf2EprocJurisprudenciaProvider(self.config),
@@ -196,6 +213,7 @@ class NanoJurisClient:
                 any_words=str(filters.get("any_words") or ""),
                 without_words=str(filters.get("without_words") or ""),
                 exact_phrase=str(filters.get("exact_phrase") or ""),
+                rapporteur=str(filters.get("rapporteur") or ""),
                 updated_from=str(filters.get("updated_from") or ""),
                 updated_to=str(filters.get("updated_to") or ""),
                 published_from=str(filters.get("published_from") or ""),
@@ -216,7 +234,34 @@ class NanoJurisClient:
             )
         except ValueError as exc:
             raise InvalidQueryError(str(exc)) from exc
-        return self._provider(source).search(query)
+        provider = self._provider(source)
+        search_page = provider.search(query)
+        unsupported = _unsupported_refinement_filters(
+            provider.get_capabilities(),
+            text=text,
+            filters={
+                "exact_phrase": query.exact_phrase,
+                "all_words": query.all_words,
+                "any_words": query.any_words,
+                "without_words": query.without_words,
+                "rapporteur": query.rapporteur,
+                "published_from": query.published_from,
+                "published_to": query.published_to,
+                "updated_from": query.updated_from,
+                "updated_to": query.updated_to,
+            },
+        )
+        if unsupported:
+            trace = search_page.source_trace or SourceTrace(
+                provider=source,
+                endpoint="search",
+            )
+            trace.limitations.extend(
+                f"Filtro nao suportado pela declaracao do provider: {name}."
+                for name in sorted(unsupported)
+            )
+            search_page.source_trace = trace
+        return search_page
 
     def search_canonical(
         self,
@@ -288,6 +333,15 @@ class NanoJurisClient:
                 "precatory_number": filters.get("precatory_number"),
                 "police_document": filters.get("police_document"),
                 "cda": filters.get("cda"),
+                "rapporteur": filters.get("rapporteur"),
+                "exact_phrase": filters.get("exact_phrase"),
+                "all_words": filters.get("all_words"),
+                "any_words": filters.get("any_words"),
+                "without_words": filters.get("without_words"),
+                "published_from": filters.get("published_from"),
+                "published_to": filters.get("published_to"),
+                "updated_from": filters.get("updated_from"),
+                "updated_to": filters.get("updated_to"),
             },
         )
         results: list[UnifiedSearchRecord] = []
@@ -398,6 +452,7 @@ class NanoJurisClient:
         collection_complete = (
             bool(routing.searched)
             and not routing.skipped
+            and not routing.warnings
             and not errors
             and not (sources_partial or sources_unknown)
         )
@@ -405,6 +460,7 @@ class NanoJurisClient:
             "sources": selected_sources,
             "searched_sources": routing.searched,
             "skipped_sources": [skip.to_dict() for skip in routing.skipped],
+            "routing_warnings": [warning.to_dict() for warning in routing.warnings],
             "routing_summary": [
                 item.to_dict()
                 for item in build_routing_summary(
@@ -429,7 +485,7 @@ class NanoJurisClient:
                 "Todas as fontes declararam a janela coletada como completa."
                 if collection_complete
                 else "A resposta representa uma coleta parcial, desconhecida ou com falhas; "
-                "consulte source_completeness e errors."
+                "consulte routing_warnings, source_completeness e errors."
             ),
             "federated": True,
             "results": paged_results,

@@ -17,7 +17,8 @@
 - Metodos: `POST` para busca e `GET` para arquivo publico.
 - Parametros: texto integral, ementa/resumo, numero CNJ, intervalo de data e
   tipo de decisao.
-- Paginacao: herdada da familia CJSG/e-SAJ; precisa fixture propria.
+- Paginacao: reproduzida em sessao publica com `POST /resultadoCompleta.do`
+  seguido de `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>`.
 
 ## Dados retornados
 
@@ -65,3 +66,15 @@
 - [ ] Criar fixture propria do TJAL.
 - [ ] Comparar labels reais com TJSP/TJMS/TJAC.
 - [ ] Validar inteiro teor por `cdAcordao` e `cdForo`.
+
+## Validacao live de capacidade - 2026-08-16
+
+- Consulta: `responsabilidade civil`, duas paginas, 20 itens solicitados.
+- Pagina 1: 20 resultados, 20 identificadores unicos, 20 com data.
+- Pagina 2: 20 resultados, nenhum identificador repetido, 20 com data.
+- Total remoto observado: 157.021.
+- Estado: `valid` para a paginacao observada.
+- Inteiro teor: capacidade declarada como chamada sob demanda; depende de a
+  rota publica `getArquivo.do` responder sem controle adicional.
+
+Evidencia estruturada: `docs/validation/runs/20260816T082800Z-cjsg-capacity-20260816.json`.

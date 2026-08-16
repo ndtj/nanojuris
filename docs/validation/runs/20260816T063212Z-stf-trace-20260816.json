@@ -1,0 +1,49 @@
+{
+  "checked_sources": [
+    "stf_juris"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T06:32:12+00:00",
+  "passed": false,
+  "query": {
+    "page_size": 1,
+    "sha256": "4b228a6ea925aecce683f5abf5f05a24cb122b31c2c796a4ca33495d0de8c592",
+    "text": "responsabilidade civil"
+  },
+  "reports": [
+    {
+      "access_status": null,
+      "checked_at": "2026-08-16T06:32:12+00:00",
+      "checks": {},
+      "completeness": null,
+      "completeness_reason": null,
+      "content_sha256": null,
+      "content_type": null,
+      "effective_page_size": null,
+      "elapsed_ms": 550.89,
+      "endpoint": null,
+      "error_type": "SourceUnavailableError",
+      "extraction_status": null,
+      "failed_checks": [],
+      "full_text_status": null,
+      "http_status": null,
+      "message": "STF jurisprudence API SSL verification failed in this environment.",
+      "pagination_mode": null,
+      "passed": false,
+      "query_text": "responsabilidade civil",
+      "reported_total": null,
+      "requested_page_size": 1,
+      "response_bytes": null,
+      "retrieval_status": null,
+      "returned": 0,
+      "source": "stf_juris",
+      "source_url": null,
+      "status": "tls_verification_failed"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "stf-trace-20260816",
+  "summary": {
+    "tls_verification_failed": 1
+  }
+}

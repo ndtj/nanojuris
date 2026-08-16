@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import inspect
+
 import pytest
 
 from nanojuris.client import NanoJurisClient
@@ -90,6 +92,15 @@ class FakeProvider:
             supports_unified_search=True,
             supports_mcp=True,
         )
+
+
+class RecordingProvider(FakeProvider):
+    def __init__(self):
+        self.query = None
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        self.query = query
+        return super().search(query)
 
 
 class FailingProvider:
@@ -245,7 +256,7 @@ def test_search_jurisprudence_tool_returns_canonical_records_and_limits_page_siz
     )
 
     assert payload["canonical"] is True
-    assert payload["page_size"] == 50
+    assert payload["page_size"] == 100
     assert payload["results"][0]["case_number"] == "0003938-14.2017.8.26.0323"
     assert payload["results"][0]["subject"] == "Homicidio Qualificado"
 
@@ -259,6 +270,29 @@ def test_search_jurisprudence_tool_normalizes_invalid_page():
     )
 
     assert payload["page"] == 1
+
+
+def test_search_tools_expose_and_forward_refinement_filters():
+    expected = {"date_from", "date_to", "exact_phrase", "rapporteur"}
+    assert expected <= set(inspect.signature(search_jurisprudence_tool).parameters)
+    assert expected <= set(inspect.signature(search_unified_tool).parameters)
+
+    provider = RecordingProvider()
+    search_jurisprudence_tool(
+        "dano moral",
+        source="fake",
+        date_from="2021-01-01",
+        date_to="2021-12-31",
+        exact_phrase="transporte aereo",
+        rapporteur="Relator Exemplo",
+        client=NanoJurisClient(providers=[provider]),
+    )
+
+    assert provider.query is not None
+    assert provider.query.published_from == "2021-01-01"
+    assert provider.query.published_to == "2021-12-31"
+    assert provider.query.exact_phrase == "transporte aereo"
+    assert provider.query.rapporteur == "Relator Exemplo"
 
 
 def test_search_jurisprudence_tool_can_return_normalized_page():
@@ -363,7 +397,11 @@ def test_store_query_tool_filters_and_limits_local_records(tmp_path):
         limit=500,
     )
 
-    assert payload["limit"] == 50
+    assert payload["limit"] == 100
+    assert payload["offset"] == 0
+    assert payload["total"] == 1
+    assert payload["has_more"] is False
+    assert payload["next_offset"] is None
     assert [record["id"] for record in payload["results"]] == ["dec-1"]
     assert payload["results"][0]["case_number"] == "0003938-14.2017.8.26.0323"
 
@@ -394,8 +432,15 @@ def test_store_get_tool_rejects_missing_record(tmp_path):
     db_path = tmp_path / "nanojuris.db"
     _seed_store(db_path)
 
-    with pytest.raises(ValueError, match="Record not found"):
-        store_get_tool(str(db_path), "decision", "missing")
+    payload = store_get_tool(str(db_path), "decision", "missing")
+
+    assert payload == {
+        "db_path": str(db_path),
+        "kind": "decision",
+        "id": "missing",
+        "found": False,
+        "record": None,
+    }
 
 
 def test_store_runs_tool_lists_saved_runs(tmp_path):
@@ -416,6 +461,20 @@ def test_store_run_tool_returns_saved_run(tmp_path):
 
     assert payload["run"]["id"] == run_id
     assert payload["run"]["query"] == {"text": "homicidio qualificado"}
+
+
+def test_store_run_tool_returns_not_found_without_exception(tmp_path):
+    db_path = tmp_path / "nanojuris.db"
+    _seed_store(db_path)
+
+    payload = store_run_tool(str(db_path), "missing")
+
+    assert payload == {
+        "db_path": str(db_path),
+        "run_id": "missing",
+        "found": False,
+        "run": None,
+    }
 
 
 def test_store_run_records_tool_returns_saved_run_records(tmp_path):

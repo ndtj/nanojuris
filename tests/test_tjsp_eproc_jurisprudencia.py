@@ -10,22 +10,31 @@ from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
-    UnsupportedQueryError,
 )
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjsp_eproc_jurisprudencia import (
     TjspEprocJurisprudenciaProvider,
+    _extract_form_payload,
     parse_eproc_jurisprudencia_results,
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
-def test_tjsp_eproc_rejects_unproven_remote_pagination():
-    provider = TjspEprocJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+def test_tjsp_eproc_uses_public_ajax_pagination_contract():
+    fixture = (FIXTURES / "tnu_eproc_aposentadoria.html").read_text(encoding="latin-1")
+    session = FakeSession([FakeResponse(fixture), FakeResponse(fixture)])
+    provider = TjspEprocJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
 
-    with pytest.raises(UnsupportedQueryError, match="paginacao remota comprovada"):
-        provider.search(JurisprudenceQuery(text="teste", page=2))
+    page = provider.search(JurisprudenceQuery(text="teste", page=2, page_size=50))
+
+    assert page.pagination_mode == "page"
+    assert len(session.calls) == 2
+    assert "ajax_paginar_resultado" in session.calls[1]["url"]
+    assert session.calls[1]["kwargs"]["data"]["hdnPaginaAtual"] == "2"
+    assert session.calls[1]["kwargs"]["data"]["selTamanhoPagina"] == "50"
 
 
 class FakeResponse:
@@ -39,6 +48,8 @@ class FakeResponse:
         self.status_code = status_code
         self.encoding = "utf-8"
         self.url = url
+        self.content = text.encode("utf-8")
+        self.headers = {"Content-Type": "text/html; charset=utf-8"}
 
 
 class FakeSession:
@@ -81,10 +92,47 @@ def test_parse_eproc_jurisprudencia_results_maps_fixture():
     assert result.number == "4002141-42.2025.8.26.0132"
     assert result.rapporteur == "MARCELO EDUARDO DE SOUZA"
     assert result.updated_at == "22/07/2026"
+    assert result.publication_date == "22/07/2026"
     assert result.raw["case_class"] == "PJEC - PROCEDIMENTO DO JUIZADO ESPECIAL CÍVEL"
     assert result.raw["judging_body"] == "Vara do Juizado Especial Cível da Comarca de Catanduva"
     assert result.raw["full_text_url"].startswith(
         "https://eproc-consulta.tjsp.jus.br/consulta_1g/externo_controlador.php"
+    )
+
+
+def test_parse_eproc_accepts_tjsc_card_contract_without_process_link_class():
+    html = """
+    <div class="card resultadoItem" id="resultado321786847825565077325146609142">
+      <span>Documento 1 de 2</span>
+      <span>Decisoes Monocraticas do Tribunal de Justica</span>
+      <span>PROCESSO 5070037-16.2026.8.24.0000/TJSC</span>
+      <span>DATA DO JULGAMENTO 16/08/2026</span>
+      <span>DATA DA PUBLICACAO 16/08/2026</span>
+      <span>EMENTA A decisao publica contem a fundamentacao.</span>
+      <a
+        data-link="externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&amp;id_jurisprudencia=321786847825565077325146609142"
+      >article</a>
+    </div>
+    """
+    trace = SourceTrace(provider="tjsc_eproc_jurisprudencia", endpoint="/results")
+
+    results = parse_eproc_jurisprudencia_results(
+        html,
+        trace=trace,
+        source_url="https://eprocwebcon.tjsc.jus.br/consulta1g/",
+        source="tjsc_eproc_jurisprudencia",
+        court="TJSC",
+        id_prefix="tjsc-eproc-jurisprudencia",
+        source_label="TJSC/eproc jurisprudence",
+    )
+
+    assert len(results) == 1
+    assert results[0].id.endswith("321786847825565077325146609142")
+    assert results[0].number == "5070037-16.2026.8.24.0000"
+    assert results[0].judgment_date == "16/08/2026"
+    assert results[0].publication_date == "16/08/2026"
+    assert (
+        results[0].raw["full_text_url"].endswith("id_jurisprudencia=321786847825565077325146609142")
     )
 
 
@@ -119,6 +167,7 @@ def test_provider_search_posts_eproc_jurisprudencia_payload_and_parses_results()
     assert payload["txtProcesso"] == "40021414220258260132"
     assert payload["dtDecisaoInicio"] == "01/07/2026"
     assert payload["dtPublicacaoFim"] == "31/07/2026"
+    assert payload["selTamanhoPagina"] == "10"
 
 
 def test_provider_search_uses_exact_phrase_as_summary_query_text():
@@ -183,9 +232,33 @@ def test_provider_get_decisions_downloads_public_full_text():
 
     assert bundle.source == "tjsp_eproc_jurisprudencia"
     assert bundle.raw["id_jurisprudencia"] == "611784722886604694722042384549"
+    assert bundle.raw_bytes == b"<html>inteiro teor publico</html>"
+    assert bundle.source_trace is not None
+    assert bundle.source_trace.response_bytes == len(bundle.raw_bytes)
     assert session.calls[0]["kwargs"]["params"] == {
         "id_jurisprudencia": "611784722886604694722042384549"
     }
+
+
+def test_provider_get_document_preserves_public_bytes_and_extraction_trace():
+    provider = TjspEprocJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([FakeResponse("<html><body>Inteiro teor publico</body></html>")]),
+    )
+
+    document = provider.get_document("tjsp-eproc-jurisprudencia-611784722886604694722042384549")
+
+    assert document.id.endswith("611784722886604694722042384549")
+    assert document.text == "Inteiro teor publico"
+    assert document.content_type == "text/html"
+    assert document.raw_bytes == b"<html><body>Inteiro teor publico</body></html>"
+    assert document.sha256
+    assert document.byte_size == len(document.raw_bytes)
+    assert document.source_trace is not None
+    assert document.source_trace.http_status == 200
+    assert document.source_trace.response_bytes == document.byte_size
+    assert document.extraction_trace is not None
+    assert document.extraction_trace.status.value == "complete"
 
 
 def test_provider_detects_access_control_without_bypass():
@@ -209,6 +282,27 @@ def test_missing_result_cards_are_rejected():
         )
 
 
+def test_form_payload_matches_browser_for_empty_multiple_selects():
+    html = """
+    <form id="frmJurisprudenciaResultado">
+      <input type="checkbox" name="group" checked>
+      <select name="origins[]" multiple>
+        <option value="first">First</option>
+        <option value="second">Second</option>
+      </select>
+      <select name="order">
+        <option value="recent">Recent</option>
+      </select>
+    </form>
+    """
+
+    payload = _extract_form_payload(html)
+
+    assert "origins[]" not in payload
+    assert payload["group"] == "on"
+    assert payload["order"] == ["recent"]
+
+
 def test_request_exception_becomes_source_error():
     provider = TjspEprocJurisprudenciaProvider(
         NanoJurisConfig(rate_limit_interval=0),
@@ -229,4 +323,5 @@ def test_provider_capabilities_describe_jurisprudence_source():
     assert "full_text" in capabilities.search_modes
     assert "CanonicalDecision" in capabilities.canonical_records
     assert "id_jurisprudencia" in capabilities.extracted_fields
-    assert capabilities.supports_full_text is False
+    assert capabilities.supports_full_text is True
+    assert "CanonicalDocument" in capabilities.canonical_records

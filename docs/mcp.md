@@ -180,11 +180,16 @@ Parametros minimos:
 - `number`
 - `source_origin`: filtro especifico de fontes que expoem origem/base; no
   TJSP/eproc aceita `colegio_recursal`, `primeiro_grau` e `segundo_grau`;
+- `date_from` e `date_to`: intervalo de publicacao quando a fonte o declara;
+- `exact_phrase`;
+- `rapporteur`;
 - `page`
 - `page_size`
 - `canonical`
 
-O tamanho de pagina e limitado de forma conservadora para uso por agentes.
+O tamanho de pagina e limitado ao teto publico de 100 itens por resposta para
+evitar respostas arbitrariamente grandes. Para coletas maiores, use `page` ou
+o store local em paginas sucessivas.
 Use `source="all"`, `source="*"` ou `source="unified"` para agregar as fontes
 de jurisprudencia implementadas em uma unica resposta, preservando erros por
 fonte no campo `errors`.
@@ -204,6 +209,9 @@ Parametros principais:
 - `types`
 - `number`
 - `source_origin`
+- `date_from` e `date_to`
+- `exact_phrase`
+- `rapporteur`
 - `page`
 - `page_size`
 - `canonical`
@@ -237,6 +245,11 @@ isso evita apresentar resultados textualmente parecidos como correspondencia
 exata. Providers legados que ainda nao declaram `supported_filters` permanecem
 consultaveis, mas o agente deve tratar a resposta como evidencia textual e
 verificar o campo canonico retornado.
+
+Quando uma fonte e consultada, mas nao declara um refinamento como
+`date_from`, `exact_phrase` ou `rapporteur`, `routing_summary` inclui
+`reason=filter_not_supported`. A fonte nao e tratada como vazia: o agente deve
+considerar o aviso ao avaliar a completude.
 
 ### `export_results`
 
@@ -304,12 +317,18 @@ Parametros principais:
 - `precedent_type`
 - `publication_date_from`
 - `publication_date_to`
-
+- `offset`
 - `limit`
 
-O limite e restringido de forma conservadora para uso por agentes.
+O limite e restringido ao maximo de 100 por resposta. O retorno inclui `total`,
+`has_more` e `next_offset`, permitindo percorrer todos os registros sem
+confundir uma pagina limitada com uma consulta completa.
 
 ### `store_get`
+
+Quando o registro nao existe, a resposta e deterministica:
+`{"found": false, "record": null}`. Isso representa ausencia do identificador,
+nao uma falha inesperada do store.
 
 Recupera um registro canonico salvo por tipo e id.
 

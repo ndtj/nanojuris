@@ -1,0 +1,20 @@
+{
+  "response": {
+    "numFound": 2,
+    "start": 0,
+    "docs": [
+      {
+        "cod_ementa": "TJRS-0001",
+        "numero_processo": "70000000001",
+        "tipo_documento": "Acordao",
+        "nome_tribunal": "TJRS",
+        "nome_relator": "Relator de Fixture",
+        "orgao_julgador": "Camara de Fixture",
+        "data_julgamento": "2026-01-10",
+        "data_publicacao": "2026-01-20",
+        "ementa_completa": "Ementa publica de fixture do TJRS."
+      }
+    ]
+  },
+  "facets": []
+}

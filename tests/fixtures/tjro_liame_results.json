@@ -1,0 +1,27 @@
+{
+  "message": "Consulta realizada com sucesso.",
+  "data": {
+    "total": 1,
+    "page": 1,
+    "page_size": 1,
+    "total_pages": 1,
+    "has_next": false,
+    "has_previous": false,
+    "results": [{
+      "sigla": "TJRO",
+      "especie": "incidente_demanda_repetitiva",
+      "registro": {
+        "numero": "18",
+        "questao": "Questão pública de fixture.",
+        "tese": "Tese pública de fixture.",
+        "relator": "Des. Relator Fixture",
+        "situacao": "ADMITIDO",
+        "dataAtualizacao": "2026-08-13",
+        "dataAdmissao": "2026-07-10",
+        "dataJulgamento": "Não informado(a)",
+        "dataPublicacao": "Não informado(a)",
+        "processosParadigma": [{"classe": 12085, "numero": "08029144420258220000", "link": "Não informado(a)"}]
+      }
+    }]
+  }
+}

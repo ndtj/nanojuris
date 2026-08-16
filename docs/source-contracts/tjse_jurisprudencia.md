@@ -62,10 +62,12 @@ realizado por um usuario, contendo:
 
 Cookies pessoais, credenciais e tokens de sessao nao devem ser versionados.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-08-16
 
 - O formulario JSF respondeu HTTP 200 e confirmou filtros, ViewState, datas e botoes de pesquisa.
-- O bundle referencia Cloudflare Turnstile; nenhuma busca foi promovida sem token humano autorizado.
+- A superficie tambem referencia Cloudflare Turnstile. A busca automatizada
+  continuou sem resultado juridico reproduzivel, e nenhuma busca foi promovida
+  sem token humano autorizado.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 

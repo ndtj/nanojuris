@@ -1,5 +1,9 @@
 __pycache__/
 .pytest_cache/
+.pytest-*/
+pytest_*/
+.test-*/
+.tmp-*/
 .venv/
 venv/
 .external/

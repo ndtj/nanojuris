@@ -93,7 +93,7 @@ def create_server() -> Any:
         )
 
     @server.tool()
-    def source_diagnostics(source: str = "bnp_pangea") -> dict[str, Any]:
+    def source_diagnostics(source: str = "tjdf_juris") -> dict[str, Any]:
         """Return source capabilities, limits and responsible-use notes."""
 
         return source_diagnostics_tool(source)
@@ -184,11 +184,15 @@ def create_server() -> Any:
     @server.tool()
     def search_jurisprudence(
         text: str = "",
-        source: str = "bnp_pangea",
+        source: str = "tjdf_juris",
         courts: list[str] | None = None,
         types: list[str] | None = None,
         number: str = "",
         source_origin: str = "",
+        date_from: str = "",
+        date_to: str = "",
+        exact_phrase: str = "",
+        rapporteur: str = "",
         page: int = 1,
         page_size: int = 10,
         canonical: bool = True,
@@ -202,6 +206,10 @@ def create_server() -> Any:
             types=types,
             number=number,
             source_origin=source_origin,
+            date_from=date_from,
+            date_to=date_to,
+            exact_phrase=exact_phrase,
+            rapporteur=rapporteur,
             page=page,
             page_size=page_size,
             canonical=canonical,
@@ -215,6 +223,10 @@ def create_server() -> Any:
         types: list[str] | None = None,
         number: str = "",
         source_origin: str = "",
+        date_from: str = "",
+        date_to: str = "",
+        exact_phrase: str = "",
+        rapporteur: str = "",
         page: int = 1,
         page_size: int = 10,
         canonical: bool = True,
@@ -228,6 +240,10 @@ def create_server() -> Any:
             types=types,
             number=number,
             source_origin=source_origin,
+            date_from=date_from,
+            date_to=date_to,
+            exact_phrase=exact_phrase,
+            rapporteur=rapporteur,
             page=page,
             page_size=page_size,
             canonical=canonical,
@@ -264,7 +280,7 @@ def create_server() -> Any:
     @server.tool()
     def export_results(
         text: str = "",
-        source: str = "bnp_pangea",
+        source: str = "tjdf_juris",
         output_format: str = "canonical-jsonl",
         courts: list[str] | None = None,
         types: list[str] | None = None,
@@ -286,13 +302,13 @@ def create_server() -> Any:
         )
 
     @server.tool()
-    def get_document(document_id: str, source: str = "tjsp_cjsg") -> dict[str, Any]:
+    def get_document(document_id: str, source: str = "tjdf_juris") -> dict[str, Any]:
         """Return one public full-text document as canonical extraction data."""
 
         return get_document_tool(document_id, source=source)
 
     @server.tool()
-    def get_decisions(precedent_id: str, source: str = "bnp_pangea") -> dict[str, Any]:
+    def get_decisions(precedent_id: str, source: str = "tjdf_juris") -> dict[str, Any]:
         """Return public decision texts linked to a provider identifier."""
 
         return get_decisions_tool(precedent_id, source=source)
@@ -332,6 +348,7 @@ def create_server() -> Any:
         publication_date_from: str = "",
         publication_date_to: str = "",
         limit: int = 50,
+        offset: int = 0,
     ) -> dict[str, Any]:
         """Query records from a local NanoJuris SQLite store."""
 
@@ -351,6 +368,7 @@ def create_server() -> Any:
             publication_date_from=publication_date_from,
             publication_date_to=publication_date_to,
             limit=limit,
+            offset=offset,
         )
 
     @server.tool()

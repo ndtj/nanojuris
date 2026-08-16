@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import time
 from typing import Any
@@ -23,6 +24,7 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -54,6 +56,7 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
         self._last_request = 0.0
         self._last_response_content = b""
         self._last_response_content_type: str | None = None
+        self._last_http_metadata: dict[str, Any] = {}
 
     @property
     def base_url(self) -> str:
@@ -83,6 +86,7 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
                 "A resposta HTML pode alterar labels e codificacao sem aviso.",
                 "Paginacao e ordenacao ainda nao foram promovidas para coleta em escala.",
             ],
+            **self._last_http_metadata,
         )
         results = parse_trf5_results(html, trace=trace, base_url=self.base_url)
         page_size = _page_size(query.page_size)
@@ -227,6 +231,14 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
         self._last_response_content_type = (getattr(response, "headers", None) or {}).get(
             "Content-Type"
         )
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", url),
+            "content_type": self._last_response_content_type,
+            "content_sha256": hashlib.sha256(self._last_response_content).hexdigest(),
+            "response_bytes": len(self._last_response_content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         text = response.text
         if "captcha" in text.lower() or "acesso negado" in text.lower():
             raise AccessControlRequiredError("TRF5 jurisprudence returned access-control HTML")
@@ -277,6 +289,7 @@ def parse_trf5_results(
                 updated_at=metadata.get("data_julgamento"),
                 judgment_date=metadata.get("data_julgamento"),
                 access_status=AccessStatus.PUBLIC,
+                extraction_status=ExtractionStatus.COMPLETE,
                 source_trace=trace,
                 raw={
                     **metadata,

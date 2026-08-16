@@ -1,0 +1,21 @@
+{
+  "source": "tjto_jurisprudencia",
+  "scope": "candidate_portal_revalidation",
+  "checked_at": "2026-08-16T17:35:00Z",
+  "status": "access_controlled_or_inconclusive",
+  "access_status": "access_control_required",
+  "retrieval_status": "error",
+  "extraction_status": "failed",
+  "http_status": 403,
+  "endpoint": "https://jurisprudencia.tjto.jus.br/",
+  "method": "GET",
+  "browser_mode": "anonymous_headless",
+  "response_bytes": null,
+  "search_request_observed": false,
+  "full_text_status": "not_verified",
+  "limitations": [
+    "A resposta 403 ocorreu antes do formulario de pesquisa ser renderizado.",
+    "A observacao manual de uma busca funcional requer HAR anonimo para reproducao.",
+    "Nenhum payload ou rota foi inferido a partir de URLs indexadas."
+  ]
+}

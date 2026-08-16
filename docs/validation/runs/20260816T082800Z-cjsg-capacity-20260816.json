@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "scope": "cjsg-capacity-20260816",
+  "checked_at": "2026-08-16T08:28:00+00:00",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 20,
+    "pages": [1, 2]
+  },
+  "method": "public HTTP session followed by trocaDePagina.do; no bypass",
+  "reports": [
+    {
+      "source": "tjac_cjsg",
+      "page_1": {"returned": 20, "unique": 20, "overlap_previous": 0, "reported_total": 18193, "dated_items": 20, "endpoint": "/resultadoCompleta.do"},
+      "page_2": {"returned": 20, "unique": 20, "overlap_previous": 0, "reported_total": 18193, "dated_items": 20, "endpoint": "/trocaDePagina.do"},
+      "status": "valid",
+      "limitation": "The source returned 20 items per requested page."
+    },
+    {
+      "source": "tjal_cjsg",
+      "page_1": {"returned": 20, "unique": 20, "overlap_previous": 0, "reported_total": 157021, "dated_items": 20, "endpoint": "/resultadoCompleta.do"},
+      "page_2": {"returned": 20, "unique": 20, "overlap_previous": 0, "reported_total": 157021, "dated_items": 20, "endpoint": "/trocaDePagina.do"},
+      "status": "valid",
+      "limitation": "The source returned 20 items per requested page."
+    },
+    {
+      "source": "tjam_cjsg",
+      "page_1": {"returned": 10, "unique": 10, "overlap_previous": 0, "reported_total": 39557, "dated_items": 10, "endpoint": "/resultadoCompleta.do"},
+      "page_2": {"returned": 10, "unique": 10, "overlap_previous": 0, "reported_total": 39557, "dated_items": 10, "endpoint": "/trocaDePagina.do"},
+      "status": "valid_with_source_page_limit",
+      "limitation": "The source returned 10 items per requested page."
+    },
+    {
+      "source": "tjms_cjsg",
+      "page_1": {"returned": 20, "unique": 20, "overlap_previous": 0, "reported_total": 229013, "dated_items": 20, "endpoint": "/resultadoCompleta.do"},
+      "page_2": {"returned": 20, "unique": 20, "overlap_previous": 0, "reported_total": 229013, "dated_items": 20, "endpoint": "/trocaDePagina.do"},
+      "status": "valid",
+      "limitation": "The source returned 20 items per requested page."
+    }
+  ]
+}

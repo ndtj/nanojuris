@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import time
 from typing import Any
 from urllib.parse import urljoin
@@ -9,18 +10,16 @@ from urllib.parse import urljoin
 import requests
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     RateLimitDetectedError,
     SourceUnavailableError,
-    UnsupportedQueryError,
 )
 from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     ProviderCapabilities,
     SearchPage,
@@ -28,10 +27,9 @@ from nanojuris.models import (
 )
 from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import (
-    _build_payload,
     _extract_document_id,
     _looks_like_access_control,
-    parse_eproc_jurisprudencia_results,
+    fetch_eproc_page,
 )
 
 
@@ -61,25 +59,21 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
+        self._last_response_content = b""
 
     @property
     def source_url(self) -> str:
         return str(getattr(self.config, self.config_url_attr))
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
-        if query.page != 1:
-            raise UnsupportedQueryError(
-                f"{self.source_label} ainda nao possui paginacao remota comprovada; "
-                "use page=1 ou aguarde a promocao do contrato de paginação."
-            )
-        endpoint = "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados"
-        payload = _build_payload(query)
-        html, source_url = self._request_text("POST", endpoint, data=payload)
-        trace = SourceTrace(
-            provider=self.name,
-            endpoint=endpoint,
-            query=payload,
-            source_url=source_url,
+        return fetch_eproc_page(
+            self,
+            query,
+            source=self.name,
+            court=self.court,
+            id_prefix=self.id_prefix,
+            source_label=self.source_label,
             limitations=[
                 f"Jurisprudencia publica {self.court}/eproc validada com sessao HTTP limpa.",
                 "Resultados podem conter acordaos, decisoes monocraticas, sumulas, "
@@ -88,54 +82,18 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
                 "tenta contornar captcha, login ou controle de acesso.",
             ],
         )
-        results = parse_eproc_jurisprudencia_results(
-            html,
-            trace=trace,
-            source_url=source_url,
-            source=self.name,
-            court=self.court,
-            id_prefix=self.id_prefix,
-            source_label=self.source_label,
-        )
-        limited = results[: query.page_size]
-        start = ((query.page - 1) * query.page_size) + 1 if limited else 0
-        return SearchPage(
-            source=self.name,
-            total=len(results),
-            start=start,
-            end=start + len(limited) - 1 if limited else 0,
-            page=query.page,
-            page_size=query.page_size,
-            results=limited,
-            source_trace=trace,
-            pagination_mode="unknown",
-            is_complete=False,
-            completeness_reason=(
-                "A rota observada retorna a primeira pagina, mas o contrato de paginação "
-                "remota ainda não foi comprovado."
-            ),
-        )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
+        document = self.get_document(precedent_id)
         document_id = _extract_document_id(precedent_id)
-        endpoint = (
-            "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor"
-        )
-        params = {"id_jurisprudencia": document_id}
-        content, source_url = self._request_text("GET", endpoint, params=params)
-        trace = SourceTrace(
-            provider=self.name,
-            endpoint=endpoint,
-            query=params,
-            source_url=source_url,
-            limitations=[f"Inteiro teor publico da jurisprudencia eproc/{self.court}."],
-        )
+        content = document.text or ""
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
-            texts=[{"content": content, "content_type": "text/html"}],
-            source_trace=trace,
-            raw={"id_jurisprudencia": document_id},
+            texts=[{"content": content, "content_type": document.content_type or "text/plain"}],
+            source_trace=document.source_trace,
+            raw={"id_jurisprudencia": document_id, **document.raw_metadata},
+            raw_bytes=document.raw_bytes,
         )
 
     def get_document(self, document_id: str) -> CanonicalDocument:
@@ -153,23 +111,21 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
             limitations=[
                 f"Documento publico retornado pela rota de inteiro teor eproc/{self.court}."
             ],
+            **self._last_http_metadata,
         )
-        return CanonicalDocument(
-            id=f"{self.id_prefix}-document-{eproc_id}",
+        raw_content = self._last_response_content or content.encode("utf-8")
+        return build_canonical_document(
+            document_id=f"{self.id_prefix}-document-{eproc_id}",
             source=self.name,
             document_type="decisao",
-            content_type="text/html",
+            content=raw_content,
+            content_type=self._last_http_metadata.get("content_type") or "text/html",
             title=f"{self.court} eproc inteiro teor",
-            text=content,
             url=source_url,
             source_trace=trace,
-            extraction_trace=ExtractionTrace(
-                parser=f"{self.name}.get_document",
-                parser_version="1",
-                status=ExtractionStatus.COMPLETE,
-                access_status=AccessStatus.PUBLIC,
-            ),
+            access_status=AccessStatus.PUBLIC,
             raw_metadata={"id_jurisprudencia": eproc_id},
+            parser=f"{self.name}.get_document",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -221,10 +177,21 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
-            supported_filters=["text", "number"],
+            pagination_mode="page",
+            completeness_contract="reported_form_total_and_page_window",
+            full_text_access="detail_call",
+            supported_filters=[
+                "text",
+                "number",
+                "published_from",
+                "published_to",
+                "updated_from",
+                "updated_to",
+            ],
             limitations=[
-                "Rota publica validada por requests limpo em 2026-08-07.",
-                "O provider parseia os cards HTML da primeira pagina retornada pela fonte.",
+                "Rota publica validada por requests limpo em 2026-08-16.",
+                "A paginação usa a URL ajax_paginar_resultado e os campos ocultos "
+                "do formulario retornado pela propria fonte.",
                 "Origens observadas: "
                 f"{', '.join(self.origins) if self.origins else 'variavel por instancia'}.",
                 "A fonte pode alterar layout, filtros e labels sem aviso.",
@@ -258,6 +225,19 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
 
         response.encoding = response.encoding or "iso-8859-1"
         text = response.text
+        content = bytes(getattr(response, "content", b"") or b"")
+        if not content:
+            content = text.encode(response.encoding or "iso-8859-1", errors="replace")
+        headers = getattr(response, "headers", {}) or {}
+        self._last_response_content = content
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": str(getattr(response, "url", url) or url),
+            "content_type": headers.get("Content-Type") or headers.get("content-type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+        }
         if response.status_code == 429:
             raise RateLimitDetectedError(f"{self.source_label} returned HTTP 429")
         if response.status_code in {401, 403}:

@@ -23,6 +23,7 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -59,26 +60,34 @@ class TjdfJurisProvider(JurisprudenceProvider):
         results_params = _build_results_params(query, total=total)
         results_html = self._request_text("GET", TJDF_JURIS_ENDPOINT, params=results_params)
         document_ids = parse_tjdf_result_ids(results_html)[: query.page_size]
-        trace = SourceTrace(
-            provider=self.name,
-            endpoint=TJDF_JURIS_ENDPOINT,
-            query=results_params,
-            source_url=urljoin(self.config.tjdf_juris_url, TJDF_JURIS_ENDPOINT.lstrip("/")),
-            limitations=[
-                "Fonte HTML publica do TJDFT/SISTJ sujeita a mudancas de layout.",
-                "Busca validada por sessao HTTP limpa, sem captcha ou login no fluxo testado.",
-                "Detalhes sao coletados por numeroDoDocumento exposto na pagina de resultados.",
-            ],
+        results_trace = _trace_with_http_metadata(
+            SourceTrace(
+                provider=self.name,
+                endpoint=TJDF_JURIS_ENDPOINT,
+                query=results_params,
+                source_url=urljoin(self.config.tjdf_juris_url, TJDF_JURIS_ENDPOINT.lstrip("/")),
+                limitations=[
+                    "Fonte HTML publica do TJDFT/SISTJ sujeita a mudancas de layout.",
+                    "Busca validada por sessao HTTP limpa, sem captcha ou login no fluxo testado.",
+                    "Detalhes sao coletados sob demanda quando fetch_details=True.",
+                ],
+            ),
+            self._last_http_metadata,
         )
-        results = [
-            parse_tjdf_detail(
-                self._request_text("GET", TJDF_JURIS_ENDPOINT, params=_build_detail_params(item)),
-                document_id=item,
-                trace=_trace_with_http_metadata(trace, self._last_http_metadata),
-            )
-            for item in document_ids
-        ]
-        trace = _trace_with_http_metadata(trace, self._last_http_metadata)
+        if query.fetch_details:
+            results = [
+                parse_tjdf_detail(
+                    self._request_text(
+                        "GET", TJDF_JURIS_ENDPOINT, params=_build_detail_params(item)
+                    ),
+                    document_id=item,
+                    trace=_trace_with_http_metadata(results_trace, self._last_http_metadata),
+                )
+                for item in document_ids
+            ]
+        else:
+            results = parse_tjdf_list_results(results_html, trace=results_trace)[: query.page_size]
+        trace = results_trace
         start = ((query.page - 1) * query.page_size) + 1 if results else 0
         complete, completeness_reason = page_completeness(
             reported_total=total,
@@ -192,7 +201,18 @@ class TjdfJurisProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_total_and_page_window",
-            supported_filters=["text", "exact_phrase"],
+            supported_filters=[
+                "text",
+                "exact_phrase",
+                "all_words",
+                "any_words",
+                "without_words",
+                "rapporteur",
+                "published_from",
+                "published_to",
+                "updated_from",
+                "updated_to",
+            ],
             limitations=[
                 "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
                 "Inteiro teor PJe pode depender de link/documento externo.",
@@ -308,6 +328,41 @@ def parse_tjdf_result_ids(html: str) -> list[str]:
     return ids
 
 
+def parse_tjdf_list_results(html: str, *, trace: SourceTrace) -> list[JurisprudenceResult]:
+    """Parse list-page metadata without issuing one detail request per result."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    results: list[JurisprudenceResult] = []
+    for node in soup.select("#id_link_abrir_dados_acordao, [id*=id_link_abrir_dados_acordao]"):
+        document_id = _normalize_spaces(node.get_text(" ", strip=True)) or str(
+            node.get("value") or ""
+        )
+        if not document_id.isdigit():
+            continue
+        container = node.find_parent(["article", "li", "tr", "div"]) or node
+        list_text = _normalize_spaces(container.get_text(" ", strip=True))
+        summary = list_text if list_text and list_text != document_id else None
+        results.append(
+            JurisprudenceResult(
+                id=f"tjdf-acordao-{document_id}",
+                source="tjdf_juris",
+                court="TJDFT",
+                type="acordao",
+                number=document_id,
+                summary=summary,
+                access_status=AccessStatus.PUBLIC,
+                extraction_status=ExtractionStatus.PARTIAL,
+                source_trace=trace,
+                raw={
+                    "registry_number": document_id,
+                    "list_metadata_only": True,
+                    "list_text": list_text,
+                },
+            )
+        )
+    return results
+
+
 def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> JurisprudenceResult:
     fields = _extract_detail_fields_or_raise(html, document_id)
     case_text = fields.get("classe_do_processo", "")
@@ -362,7 +417,7 @@ def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> Jur
 
 
 def _build_initial_params(query: JurisprudenceQuery) -> dict[str, str]:
-    search_text = query.text or query.exact_phrase
+    search_text = _build_search_expression(query)
     return {
         "argumentoDePesquisa": search_text,
         "visaoId": "tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao",
@@ -377,7 +432,8 @@ def _build_initial_params(query: JurisprudenceQuery) -> dict[str, str]:
 
 
 def _build_results_params(query: JurisprudenceQuery, *, total: int) -> dict[str, str]:
-    search_text = query.text or query.exact_phrase
+    search_text = _build_search_expression(query)
+    date_type, date_start, date_end = _build_date_params(query)
     return {
         "visaoId": "tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao",
         "nomeDaPagina": "buscaLivre2",
@@ -386,15 +442,15 @@ def _build_results_params(query: JurisprudenceQuery, *, total: int) -> dict[str,
         "ramoJuridico": "",
         "baseDados": "[BASE_ACORDAOS, TURMAS_RECURSAIS, BASE_ACORDAO_PJE, BASE_HISTORICA]",
         "argumentoDePesquisa": search_text,
-        "desembargador": "",
+        "desembargador": query.rapporteur,
         "indexacao": "",
         "tipoDeNumero": "",
         "tipoDeRelator": "",
         "camposSelecionados": "[ESPELHO]",
         "numero": "",
-        "tipoDeData": "",
-        "dataFim": query.updated_to,
-        "dataInicio": query.updated_from,
+        "tipoDeData": date_type,
+        "dataFim": date_end,
+        "dataInicio": date_start,
         "ementa": query.exact_phrase,
         "orgaoJulgador": "",
         "legislacao": "",
@@ -402,6 +458,33 @@ def _build_results_params(query: JurisprudenceQuery, *, total: int) -> dict[str,
         "quantidadeDeRegistros": str(query.page_size),
         "totalHits": str(total),
     }
+
+
+def _build_search_expression(query: JurisprudenceQuery) -> str:
+    """Translate boolean query fields to the SISTJ public query syntax."""
+
+    expression = query.text.strip()
+    if query.exact_phrase and not expression:
+        expression = query.exact_phrase.strip()
+    elif query.exact_phrase and query.exact_phrase.strip() not in expression:
+        expression = f'{expression} "{query.exact_phrase.strip()}"'.strip()
+    if query.all_words:
+        expression = f'{expression} e "{query.all_words.strip()}"'.strip()
+    if query.any_words:
+        expression = f'{expression} ou ("{query.any_words.strip()}")'.strip()
+    if query.without_words:
+        expression = f'{expression} nao ("{query.without_words.strip()}")'.strip()
+    return expression
+
+
+def _build_date_params(query: JurisprudenceQuery) -> tuple[str, str, str]:
+    """Map the two canonical date meanings to SISTJ's selector values."""
+
+    if query.published_from or query.published_to:
+        return "DataPublicacao", query.published_from, query.published_to
+    if query.updated_from or query.updated_to:
+        return "DataJulgamento", query.updated_from, query.updated_to
+    return "", "", ""
 
 
 def _build_detail_params(document_id: str) -> dict[str, str]:

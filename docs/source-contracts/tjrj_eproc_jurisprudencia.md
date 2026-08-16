@@ -6,7 +6,8 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `html_jurisprudencia_eproc`.
 - URL inicial: `https://eproc1g.tjrj.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`.
-- Status de acesso: publico, validado em sessao HTTP limpa.
+- Status de acesso: rota publica revalidada; paginas consecutivas retornaram
+  cards e IDs novos na Wave 2.
 - Status no NanoJuris: implementado para busca e inteiro teor publico.
 
 O TJRJ mantem bases distintas durante a transicao do sistema: o eJURIS legado
@@ -68,8 +69,10 @@ um possivel dado inconsistente da origem.
 - Identificador tecnico: `id_jurisprudencia` numerico.
 - Codificacao: resposta observada como `iso-8859-1`; parser deve respeitar a
   codificacao declarada pela resposta e testar acentuacao.
-- Paginacao: controles HTML presentes; contrato de pagina seguinte ainda
-  precisa de fixture antes de coleta em escala.
+- Paginacao: o contrato compartilhado envia `hdnPaginaAtual`,
+  `selTamanhoPagina` e a rota AJAX declarada por `hdnUrlPaginar`; a pagina
+  seguinte nao foi promovida porque a rodada live de 2026-08-16 nao encontrou
+  cards de resultado.
 
 ## Limites e controles
 
@@ -104,9 +107,9 @@ um possivel dado inconsistente da origem.
 ## Implementacao 2026-08-11
 
 `TjrjEprocJurisprudenciaProvider` usa o parser eproc compartilhado, mas declara
-o host, tribunal, identificador e trace do TJRJ. Busca, normalizacao dos cards,
-download do inteiro teor e classificacao de controles de acesso estao
-disponiveis no runtime. A base eproc continua separada do eJURIS legado.
+o host, tribunal, identificador e trace do TJRJ. O runtime classifica resposta
+sem cards como alteracao de contrato, sem converter o caso em vazio. A base
+eproc continua separada do eJURIS legado.
 
 ## Proximos passos
 
@@ -122,6 +125,17 @@ disponiveis no runtime. A base eproc continua separada do eJURIS legado.
 - O payload minimo usa `txtPesquisa`, `rdoCampo`, `hdnExibirPesquisaAvancada` e `chkAgruparResultados`.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+
+## Revalidacao de capacidade - 2026-08-16
+
+- A consulta controlada `transporte aereo dano moral`, `page_size=25`, retornou
+  25 IDs novos em cada uma das paginas 1, 2 e 3; total remoto observado: 187.
+- Estado: `valid` para a paginacao observada. A rodada anterior sem cards segue
+  registrada como instabilidade histórica, não como resultado vazio.
+- O provider pode ser usado para coleta paginada dentro do contrato observado,
+  mantendo rate limit e tratamento explícito de alteração de fonte.
+
+Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.
 
 ## Referencias oficiais
 

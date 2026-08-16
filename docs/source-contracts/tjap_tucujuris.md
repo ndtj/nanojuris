@@ -39,10 +39,11 @@ Exigir HAR publico sem credenciais, resposta de busca com um item real, detalhe,
 inteiro teor e comportamento vazio. Depois, reproduzir a chamada por HTTP limpo
 com headers minimos e criar fixtures offline.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-08-16
 
-- A entrada Tucujuris respondeu HTTP 200, mas entregou shell HTML de 1.253 bytes sem sinais de resultado ou contrato decisorio.
-- O estado permanece bloqueado/inconclusivo; nao foi inferido endpoint a partir do shell.
+- A entrada Tucujuris respondeu HTTP 403 na revalidacao limpa.
+- O estado permanece bloqueado/inconclusivo; nao foi inferido endpoint a partir
+  de resposta de busca.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 

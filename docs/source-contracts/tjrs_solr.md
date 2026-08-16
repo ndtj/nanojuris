@@ -1,7 +1,8 @@
 # TJRS - Jurisprudencia AJAX/SOLR
 
-Status atual: `implemented` para busca JSON/SOLR; detalhe e inteiro teor ainda
-nao estao promovidos.
+Status atual: `implemented`; busca textual JSON/SOLR e paginacao por offset
+possuem contrato reproduzido, fixture offline e evidencia live recente.
+Detalhe e inteiro teor continuam explicitamente fora do contrato executavel.
 
 ## Identidade e escopo
 
@@ -9,17 +10,18 @@ nao estao promovidos.
   do Sul.
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: formulario AJAX legado com resposta SOLR-like em JSON.
-- O provider cobre busca de jurisprudencia e metadados retornados pelo indice;
-  nao representa consulta processual nem garante inteiro teor.
+- O provider cobre busca textual, numero de processo, metadados, facets e
+  highlighting retornados pelo indice.
+- Nao representa consulta processual nem anuncia inteiro teor.
 
 ## Contrato HTTP
 
 - Portal: `https://www.tjrs.jus.br/novo/buscas-solr/?aba=jurisprudencia`.
 - Iframe: `https://www.tjrs.jus.br/buscas/jurisprudencia/`.
 - Endpoint: `POST https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php`.
-- Tipo observado: JSON com header legado `text/html; charset=iso-8859-1`.
-
-Payload minimo reproduzido:
+- Tipo observado: corpo JSON com header legado
+  `text/html; charset=iso-8859-1`.
+- Payload minimo reproduzido:
 
 ```text
 action=consultas_solr_ajax
@@ -27,52 +29,72 @@ metodo=buscar_resultados
 parametros=aba=jurisprudencia&realizando_pesquisa=1&pagina_atual=1&q_palavra_chave=dano+moral&conteudo_busca=ementa_completa
 ```
 
-## Dados Retornados
+`page` e convertido para `pagina_atual`. `page_size` limita a janela local
+normalizada; `response.numFound` e preservado como total remoto.
+
+## Dados e rastreabilidade
 
 O envelope possui `responseHeader.params`, `response.numFound`,
-`response.docs`, facets e highlighting. As facets observadas incluem orgao,
-origem, relator/redator, ano, classe, assunto, tribunal, tipo de processo,
-mes/ano de publicacao e data de publicacao.
+`response.start`, `response.docs`, facets e highlighting. A identidade usa,
+em ordem, `cod_ementa`, `numero_processo` ou `_version_`; ausencia desses
+campos gera `ParserContractChangedError`, nunca um ID baseado no indice.
 
-## Implementacao 2026-08-11
+O `SourceTrace` registra endpoint, URL final, status HTTP, content-type,
+SHA-256 dos bytes recebidos, tamanho em bytes e `retrieval_status`. As datas
+de atualizacao, julgamento e publicacao sao mantidas em campos distintos.
 
-`TjrsSolrProvider` envia o formulario legado, preservando os separadores da
-query interna `parametros`, e normaliza os documentos retornados pelo envelope
-SOLR. O content-type legado nao e usado como decisao de parser: o corpo e
-validado como JSON. Facets, highlighting e o item bruto permanecem disponiveis.
+## Filtros e paginacao
 
-## Decisao Tecnica
+Filtros implementados: termo livre, frase exata, numero, pagina e intervalo de
+publicacao. Facets de orgao, origem, relator, ano, classe, assunto, tribunal,
+tipo de processo e mes/ano permanecem nos metadados brutos quando retornadas;
+nao sao tratados como filtros executaveis sem contrato adicional.
 
-O provider deve decodificar explicitamente ISO-8859-1, preservar facets e
-highlighting em `raw_metadata`, normalizar documentos para `CanonicalDecision`
-e manter links de processo/documento fornecidos pelo frontend. Ainda faltam
-fixtures de vazio, pagina seguinte, detalhe e inteiro teor.
+O modo e `offset`, com `numFound` e `start` da resposta. A completude da
+janela e calculada pela relacao entre total remoto, deslocamento e quantidade
+retornada.
 
-Busca e paginacao ja possuem parser e testes offline; detalhe e inteiro teor
-continuam deliberadamente fora do contrato executavel.
+## Fixtures e testes
 
-## Uso pelo MCP
+- Sucesso e parser: `tests/fixtures/tjrs_solr_results.json`.
+- Estados compartilhados: `tests/fixtures/provider_contracts.json`.
+- Testes: `tests/test_tjrs_solr.py`.
+- Cobertura: identidade estavel, datas semanticas, trace HTTP, hash, bytes,
+  resposta 429 e ausencia de identificador.
 
-O agente pode usar `tjrs_solr` para pesquisa textual, numero de processo e
-intervalo de publicacao. Deve preservar `numFound`, `start`, facets,
-highlighting, `SourceTrace` e o estado de completude da pagina. A resposta deve
-informar que detalhe e inteiro teor ainda nao estao validados e que o header
-`text/html` observado nao altera o fato de o corpo ser JSON.
+## Detalhe e inteiro teor
+
+O provider nao promove `document_url` numerica ou link legado a documento
+carregado. Rotas de detalhe e inteiro teor devem ser reproduzidas em sessao
+publica limpa, com fixture e teste, antes de serem expostas como capacidade.
+
+## Uso pelo MCP e Studio
+
+O agente pode usar `tjrs_solr` para pesquisa textual e deve receber total,
+offset, facets, highlighting, trace e completude. A interface deve informar
+que o resultado e de indice/ementa e que detalhe e inteiro teor nao foram
+validados pelo provider.
+
+## Validacao live
+
+Em `2026-08-16`, a busca publica por `responsabilidade civil` respondeu com
+HTTP 200, total remoto e documento normalizado. A evidencia estruturada esta
+em `docs/validation/runs/20260816T070048Z-gold-wave-1-20260816.json`.
+
+Essa rodada antecedeu a correcao que passou a incluir os metadados HTTP no
+trace do TJRS; uma nova rodada deve ser usada para monitoramento posterior.
+
+## Limitacoes e proxima promocao
+
+- O content-type legado nao deve decidir o parser: o corpo precisa ser JSON
+  validado.
+- `numFound` nao garante coleta integral do corpus.
+- Filtros de facets, pagina vazia e pagina posterior ainda precisam de
+  amostras live adicionais.
+- O provider pode atingir Gold para busca textual sem inteiro teor, desde que
+  a estabilidade do contrato e da paginacao permaneça comprovada.
 
 ## Proximos passos
 
-1. adicionar fixture de resposta vazia e pagina seguinte;
-2. validar rotas publicas de detalhe e inteiro teor sem controle de acesso;
-3. mapear filtros de faceta somente depois de reproduzir payload e retorno;
-4. executar teste live opt-in com termo especifico e `page_size` pequeno.
-
-## Validacao live 2026-08-11
-
-- O POST legado respondeu HTTP 200 com JSON, embora o content-type seja `text/html; charset=iso-8859-1`.
-- `response.numFound` foi 612.403, com 10 documentos, facets, highlighting, paginas e query no envelope.
-
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
-
-## Fonte Oficial
-
-- [Busca de jurisprudencia do TJRS](https://www.tjrs.jus.br/buscas/jurisprudencia/)
+- Revalidar pagina vazia e pagina posterior em monitoramento live controlado.
+- Mapear rotas publicas de detalhe e inteiro teor antes de anuncia-las.

@@ -1,0 +1,29 @@
+[
+  {
+    "chave": "fixture-1",
+    "codigoProcesso": "123456",
+    "npu": "0000001-23.2024.8.17.0001",
+    "npuSemFormatacao": "00000012320248170001",
+    "relator": "Desembargador de Fixture",
+    "nomeOrgaoJulgador": "Camara de Fixture",
+    "classeCNJ": "198",
+    "descrClasseCNJ": "APELACAO CIVEL",
+    "dataJulgamento": "2026-08-15T20:37:22.044-03:00",
+    "dataPublicacao": "2026-08-16T09:10:11.000-03:00",
+    "textoEmenta": "<p>Ementa publica de fixture.</p>",
+    "textoAcordao": "<p>Inteiro teor publico de fixture.</p>"
+  },
+  {
+    "chave": "fixture-2",
+    "codigoProcesso": "123457",
+    "npu": "0000002-24.2024.8.17.0001",
+    "npuSemFormatacao": "00000022420248170001",
+    "relator": "Relator de Fixture",
+    "nomeOrgaoJulgador": "Turma de Fixture",
+    "descrClasseCNJ": "AGRAVO DE INSTRUMENTO",
+    "dataJulgamento": "2026-07-10T10:00:00-03:00",
+    "dataPublicacao": "2026-07-12T10:00:00-03:00",
+    "textoEmenta": "<p>Resumo de fixture.</p>",
+    "textoDecisao": null
+  }
+]

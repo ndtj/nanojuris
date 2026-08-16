@@ -62,7 +62,10 @@ class ProviderCapabilities:
     supports_mcp: bool = False
     supports_studio: bool = False
     pagination_mode: str = "unknown"
+    max_remote_page: int | None = None
+    max_remote_page_size: int | None = None
     completeness_contract: str = "unknown"
+    full_text_access: str = "unknown"
     supported_filters: list[str] = field(default_factory=list)
     limitations: list[str] = field(default_factory=list)
     responsible_use: list[str] = field(default_factory=list)
@@ -235,6 +238,7 @@ class JurisprudenceQuery:
     include_cancelled: bool = False
     order_by: str = "Text"
     number: str = ""
+    rapporteur: str = ""
     party_name: str = ""
     party_document: str = ""
     lawyer_name: str = ""

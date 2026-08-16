@@ -129,7 +129,8 @@
             "supports_full_text": {"type": "boolean"},
             "document_types": {"type": "array", "items": {"type": "string"}},
             "content_formats": {"type": "array", "items": {"type": "string"}},
-            "trace_expected": {"type": "boolean"}
+            "trace_expected": {"type": "boolean"},
+            "full_text_access": {"type": "string"}
           },
           "additionalProperties": false
         },
@@ -138,7 +139,9 @@
           "required": ["mode", "declared"],
           "properties": {
             "mode": {"type": "string"},
-            "declared": {"type": "boolean"}
+            "declared": {"type": "boolean"},
+            "max_remote_page": {"type": ["integer", "null"], "minimum": 1},
+            "max_remote_page_size": {"type": ["integer", "null"], "minimum": 1}
           },
           "additionalProperties": false
         },

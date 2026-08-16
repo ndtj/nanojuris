@@ -1,0 +1,47 @@
+{
+  "pagina": {
+    "content": [
+      {
+        "id": "02486960420248060001_33695153",
+        "idDocumento": 33695153,
+        "nomeDocumento": "ACÓRDÃO",
+        "numeroProcesso": "02486960420248060001",
+        "classe": "APELAÇÃO CÍVEL",
+        "orgaoJulgador": "3ª Câmara de Direito Privado",
+        "magistrado": "MARCOS WILLIAM LEITE DE OLIVEIRA",
+        "dataJulgamento": [
+          2026,
+          2,
+          11
+        ],
+        "dataPublicacao": "n/d",
+        "ementa": "Ementa pública de fixture.",
+        "conteudo": "Inteiro teor público de fixture.",
+        "pdfAutenticadoBase64": "JVBERi0xLjQKZml4dHVyZQ==",
+        "origem": "PJE",
+        "siglaSistema": "PJE",
+        "idScpu": "123",
+        "partes": [],
+        "assuntos": [
+          {
+            "descricao": "TRANSPORTE AEREO"
+          }
+        ],
+        "assunto": "TRANSPORTE AEREO",
+        "situacaoScpu": "ATIVO",
+        "assuntoCompleto": "TRANSPORTE AEREO"
+      }
+    ],
+    "totalPages": 1,
+    "totalElements": 1,
+    "number": 0,
+    "size": 1,
+    "numberOfElements": 1,
+    "first": true,
+    "last": true,
+    "empty": false,
+    "pageable": {}
+  },
+  "filtros": {},
+  "id": "fixture"
+}

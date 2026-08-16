@@ -139,3 +139,18 @@ texto normalizado e disponibilizado em `CanonicalDocument.text`; a resposta
 original permanece em `raw_bytes` e e identificada por SHA-256, tamanho,
 content-type e `SourceTrace`. Isso comprova carregamento do documento HTML,
 mas nao implica que a fonte ofereca PDF.
+
+## Filtros e modo de detalhe
+
+- `published_from`/`published_to` sao enviados ao SISTJ com
+  `tipoDeData=DataPublicacao`.
+- `updated_from`/`updated_to` representam a data de julgamento e sao enviados
+  com `tipoDeData=DataJulgamento`.
+- `rapporteur` e enviado como `desembargador`.
+- `all_words`, `any_words` e `without_words` sao traduzidos para a sintaxe
+  booleana observada no formulario publico (`e`, `ou` e `nao`).
+- `fetch_details=False` usa somente a pagina de resultados, sem uma requisicao
+  de detalhe por item; os registros ficam marcados como parciais e nao devem
+  ser interpretados como inteiro teor.
+- `fetch_details=True` carrega o detalhe publico de cada resultado e habilita o
+  preenchimento dos campos detalhados e do documento quando a fonte o fornece.

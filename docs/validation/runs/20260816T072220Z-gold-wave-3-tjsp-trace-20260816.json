@@ -1,0 +1,59 @@
+{
+  "checked_sources": [
+    "tjsp_eproc_jurisprudencia"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T07:22:21+00:00",
+  "passed": true,
+  "query": {
+    "page_size": 1,
+    "sha256": "4b228a6ea925aecce683f5abf5f05a24cb122b31c2c796a4ca33495d0de8c592",
+    "text": "responsabilidade civil"
+  },
+  "reports": [
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T07:22:20+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": false,
+      "completeness_reason": "A rota observada retorna a primeira pagina; paginação remota ainda não foi comprovada.",
+      "content_sha256": "0444ba742b323e80259c72a51d91a3bf09073eba357c2763a40cb14234dd47c5",
+      "content_type": "text/html; charset=iso-8859-1",
+      "effective_page_size": 1,
+      "elapsed_ms": 1707.28,
+      "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "document_available",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "unknown",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 10,
+      "requested_page_size": 1,
+      "response_bytes": 2233310,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "tjsp_eproc_jurisprudencia",
+      "source_url": "https://eproc-consulta.tjsp.jus.br/consulta_1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "status": "valid"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "gold-wave-3-tjsp-trace-20260816",
+  "summary": {
+    "valid": 1
+  }
+}

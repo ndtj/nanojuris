@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import time
 import unicodedata
@@ -21,6 +22,7 @@ from nanojuris.errors import (
 from nanojuris.models import (
     AccessStatus,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -44,6 +46,7 @@ class StjInformativoProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/jurisprudencia/externo/informativo/"
@@ -66,6 +69,7 @@ class StjInformativoProvider(JurisprudenceProvider):
                 "Fonte curada por notas; nao substitui busca integral de acordaos SCON.",
                 "Links para acordaos/inteiro teor podem apontar para rotas protegidas.",
             ],
+            **self._last_http_metadata,
         )
         return parse_stj_informativo_results(
             html,
@@ -146,6 +150,16 @@ class StjInformativoProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"STJ Informativo request failed: {exc}") from exc
         response.encoding = response.encoding or "ISO-8859-1"
         text = response.text
+        content = bytes(getattr(response, "content", b"") or text.encode(response.encoding))
+        headers_received = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", url),
+            "content_type": headers_received.get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         if response.status_code in {401, 403} and _looks_like_access_control(text):
             raise AccessControlRequiredError("STJ Informativo requires access-control validation")
         if response.status_code == 429:
@@ -258,6 +272,12 @@ def _item_to_result(
         query=trace.query,
         source_url=document_url or trace.source_url,
         limitations=trace.limitations,
+        http_status=trace.http_status,
+        final_url=trace.final_url,
+        content_type=trace.content_type,
+        content_sha256=trace.content_sha256,
+        response_bytes=trace.response_bytes,
+        retrieval_status=trace.retrieval_status,
     )
     return JurisprudenceResult(
         id=f"stj-informativo-{informativo or index}-{_slug(case_number or title or str(index))}",
@@ -268,6 +288,8 @@ def _item_to_result(
         summary=body or title or None,
         rapporteur=rapporteur,
         updated_at=judgment_date,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE,
         source_trace=source_trace,
         raw={
             "informativo": informativo,

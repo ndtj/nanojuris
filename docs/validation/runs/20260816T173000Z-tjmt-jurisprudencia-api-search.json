@@ -1,0 +1,47 @@
+{
+  "source": "tjmt_jurisprudencia_api",
+  "scope": "public_search_contract",
+  "checked_at": "2026-08-16T17:30:00Z",
+  "status": "valid",
+  "access_status": "public",
+  "retrieval_status": "ok",
+  "extraction_status": "complete",
+  "full_text_status": "inline",
+  "pagination_mode": "page",
+  "http_status": 200,
+  "endpoint": "https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/Acordao",
+  "method": "GET",
+  "query": "transporte aereo dano moral",
+  "requested_page_size": 5,
+  "effective_page_size": 5,
+  "reported_total": 7578,
+  "returned": 5,
+  "full_text_items": 5,
+  "content_type": "application/json; charset=utf-8",
+  "response_bytes": 806831,
+  "content_sha256": "5b64b7b8f7c89d033ac279fae45dfea905fd096a1aede9b0cdf3e47ed5092550",
+  "page_one": {
+    "page": 1,
+    "returned": 5,
+    "full_text_items": 5,
+    "reported_total": 7578
+  },
+  "page_two": {
+    "page": 2,
+    "returned": 5,
+    "new_ids_against_page_one": 4,
+    "note": "A sobreposicao dinamica de um item foi observada; a deduplicacao do provider permanece explicita."
+  },
+  "config": {
+    "endpoint": "https://jurisprudencia.tjmt.jus.br/assets/config/config.json",
+    "http_status": 200,
+    "api_url_discovered": "https://hellsgate-preview.tjmt.jus.br/jurisprudencia",
+    "token_persisted": false
+  },
+  "limitations": [
+    "O contador geral CountTotal inclui outras categorias; o provider usa CountAcordaoDocumento.",
+    "Filtros de relator, orgao julgador e booleanos avancados ainda nao foram reproduzidos.",
+    "A rota de relatorio independente foi observada, mas nao validada como detalhe estavel.",
+    "O token publico do config nao foi gravado no artefato."
+  ]
+}

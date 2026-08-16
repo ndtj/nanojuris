@@ -46,6 +46,7 @@ class StjSconProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/SCON/pesquisar.jsp"
@@ -61,6 +62,7 @@ class StjSconProvider(JurisprudenceProvider):
                 "Operadores de busca pertencem ao STJ e sao repassados sem reinterpretacao.",
                 "O provider detecta captcha/controle de acesso e nao implementa bypass.",
             ],
+            **self._last_http_metadata,
         )
         return parse_stj_scon_results(
             html,
@@ -270,6 +272,18 @@ class StjSconProvider(JurisprudenceProvider):
 
         response.encoding = response.encoding or "utf-8"
         text = response.text
+        content = bytes(getattr(response, "content", b"") or b"")
+        if not content:
+            content = text.encode(response.encoding or "utf-8", errors="replace")
+        headers = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": str(getattr(response, "url", request_url) or request_url),
+            "content_type": headers.get("Content-Type") or headers.get("content-type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+        }
         if response.status_code in {401, 403} and _looks_like_access_control(text):
             raise AccessControlRequiredError("STJ/SCON requires access-control validation")
         if response.status_code == 429:

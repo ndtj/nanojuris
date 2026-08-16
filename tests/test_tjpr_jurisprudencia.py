@@ -28,6 +28,7 @@ class FakeResponse:
         self.content = text.encode("utf-8")
         self.status_code = status_code
         self.url = url
+        self.headers = {"Content-Type": "text/html; charset=utf-8"}
 
 
 class FakeSession:
@@ -92,6 +93,22 @@ def test_parse_tjpr_results_maps_decisions_and_excludes_corte_idh():
     assert pending.raw["content_pending_release"] is True
 
 
+def test_parser_accepts_acordao_link_class_from_live_contract():
+    html = load_fixture("tjpr_jurisprudencia_results.html").replace(
+        'class="decisao negrito"', 'class="acordao negrito"', 1
+    )
+
+    page = parse_tjpr_results(
+        html,
+        query=JurisprudenceQuery(text="responsabilidade civil", page_size=5),
+        trace=trace(),
+        base_url="https://portal.tjpr.jus.br",
+    )
+
+    assert len(page.results) == 2
+    assert page.results[0].id == "tjpr-2100000000000001"
+
+
 def test_parse_tjpr_empty_page_is_complete():
     html = "<html><body><div>0 registro(s) encontrado(s)</div></body></html>"
     page = parse_tjpr_results(
@@ -139,6 +156,10 @@ def test_provider_replays_public_form_and_preserves_query_contract():
     assert payload["dataPublicacaoInicio"] == "01/01/2024"
     assert payload["pageNumber"] == "2"
     assert session.calls[1]["kwargs"]["verify"] is True
+    assert page.source_trace is not None
+    assert page.source_trace.http_status == 200
+    assert page.source_trace.response_bytes == len(fixture.encode("utf-8"))
+    assert page.source_trace.content_sha256
 
 
 def test_client_registers_tjpr_provider():

@@ -60,7 +60,7 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         ],
     },
     "stf_juris": {
-        "contract_level": 3,
+        "contract_level": 4,
         "source_family": "api_json_jurisprudencia_superior",
         "mcp_recommendation": ("Use quando a API responder JSON; reporte AWS WAF/SSL sem bypass."),
         "jurimetry_fit": "alto para acordaos constitucionais quando o acesso estiver estavel.",
@@ -86,21 +86,121 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         ],
     },
     "stj_informativo": {
-        "contract_level": 4,
+        "contract_level": 5,
         "source_family": "html_jurisprudencia_curada_superior",
         "mcp_recommendation": (
             "Use para notas oficiais do STJ; complemente com SCON quando acordao integral "
             "estiver acessivel sem validacao."
         ),
-        "jurimetry_fit": "medio-alto para teses curadas do STJ; limitado para contagem integral.",
+        "jurimetry_fit": (
+            "alto para estudos de teses e informativos oficiais; limitado para corpus integral."
+        ),
         "risk_level": "medio",
         "gaps": [
             "Adicionar fixtures de multiplas notas, zero resultado e links CNOT.",
             "Mapear filtros oficiais por ramo, orgao julgador e ministro.",
         ],
     },
+    "tjba_graphql": {
+        "contract_level": 5,
+        "source_family": "api_graphql_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use para busca textual e inteiro teor HTML publico; preserve o hash UUID "
+            "e o trace de cada documento."
+        ),
+        "jurimetry_fit": "alto para pesquisa textual estadual com documento publico.",
+        "risk_level": "medio",
+        "gaps": [
+            "Monitorar mudancas no schema GraphQL e nos catalogos de filtros.",
+            "Expandir a amostra live de pagina vazia e paginas posteriores.",
+        ],
+    },
+    "tjrs_solr": {
+        "contract_level": 5,
+        "source_family": "api_ajax_solr_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use para pesquisa textual e facetas do TJRS; nao anuncie detalhe ou inteiro "
+            "teor ate que uma rota publica seja reproduzida."
+        ),
+        "jurimetry_fit": "alto para busca textual e contagens do indice, com limites documentados.",
+        "risk_level": "medio",
+        "gaps": [
+            "Validar pagina vazia e pagina posterior em monitoramento live controlado.",
+            "Mapear rotas publicas de detalhe e inteiro teor antes de anuncia-las.",
+        ],
+    },
+    "tjrr_juris": {
+        "contract_level": 5,
+        "source_family": "jsf_primefaces_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use com baixa frequencia para busca publica TJRR; preserve a sessao JSF, "
+            "a janela efetiva e o detalhe por id observado."
+        ),
+        "jurimetry_fit": "alto para estudos estaduais quando a sessao publica estiver estavel.",
+        "risk_level": "medio",
+        "gaps": [
+            "Ampliar live controlado para vazio, estado expirado e detalhe.",
+            "Monitorar nomes dinamicos de campos JSF e limites PrimeFaces.",
+        ],
+    },
+    "tjpr_jurisprudencia": {
+        "contract_level": 5,
+        "source_family": "html_form_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use para busca textual e ementas publicas do TJPR; trate links de detalhe "
+            "como disponiveis, nao como inteiro teor carregado."
+        ),
+        "jurimetry_fit": "alto para pesquisa textual estadual com ementa e metadados.",
+        "risk_level": "medio",
+        "gaps": [
+            "Ampliar fixtures por filtros e estados de conteudo pendente.",
+            "Validar se a rota de detalhe pode ser carregada por URL preservada.",
+        ],
+    },
+    "tjpa_jurisprudencia_bff": {
+        "contract_level": 5,
+        "source_family": "api_json_bff_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use para busca textual TJPA, preservando o limite tecnico e distinguindo "
+            "texto integral embutido de documento separado."
+        ),
+        "jurimetry_fit": "alto para analise textual estadual, com limite tecnico declarado.",
+        "risk_level": "medio",
+        "gaps": [
+            "Completar fixtures de filtros, vazio e erro do BFF.",
+            "Validar uma rota publica de detalhe antes de anuncia-la.",
+        ],
+    },
+    "tjpb_pje_jurisprudencia": {
+        "contract_level": 5,
+        "source_family": "api_json_pje_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use quando a sessao publica fornecer token e busca JSON; preserve o "
+            "documento HTML observado e diagnostique desafios sem bypass."
+        ),
+        "jurimetry_fit": "alto para pesquisa textual estadual com documento publico sob demanda.",
+        "risk_level": "medio",
+        "gaps": [
+            "Ampliar fixtures de token, vazio e desafio de acesso.",
+            "Validar live o detalhe HTML com identificador da busca em baixa frequencia.",
+        ],
+    },
+    "tjpi_juspi": {
+        "contract_level": 5,
+        "source_family": "html_jurisprudencia_tribunal",
+        "mcp_recommendation": (
+            "Use para pesquisa textual e detalhe HTML publico do TJPI/JusPI, "
+            "preservando public_id, paginacao e trace."
+        ),
+        "jurimetry_fit": "alto para estudos estaduais com busca paginada e documento publico.",
+        "risk_level": "medio",
+        "gaps": [
+            "Adicionar validacao live opt-in de detalhe e pagina posterior.",
+            "Catalogar valores textuais dos filtros publicados no formulario.",
+        ],
+    },
     "stj_scon": {
-        "contract_level": 3,
+        "contract_level": 4,
         "source_family": "html_jurisprudencia_superior",
         "mcp_recommendation": (
             "Use com page_size pequeno e reporte verificacao automatica sem bypass."
@@ -153,7 +253,7 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         ],
     },
     "tjsp_cjsg": {
-        "contract_level": 3,
+        "contract_level": 4,
         "source_family": "html_esaj_cjsg",
         "mcp_recommendation": (
             "Use quando a fonte publica nao exigir captcha; reporte bloqueio sem bypass."

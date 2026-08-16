@@ -38,3 +38,10 @@ python tools/build_provider_coverage.py --write
 ```
 
 The generated human entry point is `docs/coverage/README.md`.
+
+The two JSON files have different responsibilities. `providers.json` is the
+small lifecycle inventory used to discover documented sources and candidates.
+`provider-catalog.full.json` is the generated operational view that joins this
+inventory to runtime capabilities, documentation readiness and validation
+evidence. Use the latter for Studio, MCP and agent routing; use the former when
+changing the documented source inventory.

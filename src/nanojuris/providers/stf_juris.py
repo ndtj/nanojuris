@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import unicodedata
 from typing import Any
@@ -99,6 +100,7 @@ class StfJurisProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/api/search/search"
@@ -120,6 +122,7 @@ class StfJurisProvider(JurisprudenceProvider):
                 "Sessao limpa pode receber desafio AWS WAF e deve ser reportada sem bypass.",
                 "Inteiro teor fica como URL publica; get_document ainda nao e promovido.",
             ],
+            **self._last_http_metadata,
         )
         return parse_stf_search_response(
             response_json,
@@ -219,6 +222,19 @@ class StfJurisProvider(JurisprudenceProvider):
             ) from exc
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"STF jurisprudence request failed: {exc}") from exc
+
+        raw_content = bytes(getattr(response, "content", b"") or b"")
+        if not raw_content:
+            raw_content = (getattr(response, "text", "") or "").encode("utf-8")
+        headers = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": str(getattr(response, "url", url) or url),
+            "content_type": headers.get("Content-Type") or headers.get("content-type"),
+            "content_sha256": hashlib.sha256(raw_content).hexdigest(),
+            "response_bytes": len(raw_content),
+            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+        }
 
         if response.status_code == 429:
             raise RateLimitDetectedError("STF jurisprudence API returned HTTP 429")

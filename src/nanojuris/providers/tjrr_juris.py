@@ -66,6 +66,37 @@ class TjrrJurisProvider(JurisprudenceProvider):
         initial_soup = BeautifulSoup(initial.text, "html.parser")
         form = initial_soup.select_one("form#menuinicial")
         if form is None:
+            result_form = initial_soup.select_one("form#formPesquisa")
+            if query.page > 1 and result_form is not None and _has_result_markup(initial.text):
+                fields = _hidden_fields(result_form)
+                response = self._request_page(
+                    initial.text,
+                    query,
+                    fallback_fields=fields,
+                )
+                trace = _source_trace(
+                    self.name,
+                    endpoint=_endpoint_from_response(response, "/index.xhtml"),
+                    query={"text": query.text, "number": query.number, "page": query.page},
+                    response=response,
+                    limitations=[
+                        "A fonte usa JSF/PrimeFaces com ViewState e cookies dinamicos por sessao.",
+                        (
+                            "A pagina foi solicitada a partir da forma publica de resultados "
+                            "da sessao."
+                        ),
+                        (
+                            "O provider nao reutiliza cookies, ViewState ou identificadores "
+                            "de outra sessao."
+                        ),
+                    ],
+                )
+                return parse_tjrr_results(
+                    response.text,
+                    query=query,
+                    trace=trace,
+                    base_url=self.config.tjrr_juris_url,
+                )
             raise ParserContractChangedError("TJRR nao retornou o formulario publico menuinicial")
         fields = _build_search_fields(form, query)
         action = str(form.get("action") or "/index.xhtml")
@@ -206,6 +237,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
             supports_studio=True,
             supports_live_tests=True,
             pagination_mode="page",
+            max_remote_page_size=10,
             completeness_contract="reported_total_and_page_window",
             supported_filters=[
                 "text",
@@ -242,7 +274,11 @@ class TjrrJurisProvider(JurisprudenceProvider):
         table_id = str(
             table.get("id") if table is not None else "formPesquisa:j_idt155:dataTablePesquisa"
         )
-        rows = min(30, max(1, query.page_size))
+        rows = _reported_page_size(html) or min(10, max(1, query.page_size))
+        for selector in form.select("select[name]") if form is not None else []:
+            name = str(selector.get("name") or "")
+            if name.endswith("_rppDD"):
+                fields[name] = str(rows)
         fields.update(
             {
                 "javax.faces.partial.ajax": "true",
@@ -250,6 +286,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 "javax.faces.partial.execute": table_id,
                 "javax.faces.partial.render": table_id,
                 "javax.faces.behavior.event": "page",
+                "javax.faces.partial.event": "page",
                 f"{table_id}_pagination": "true",
                 f"{table_id}_first": str((query.page - 1) * rows),
                 f"{table_id}_rows": str(rows),
@@ -317,6 +354,11 @@ def parse_tjrr_results(
     """Parse a TJRR full or PrimeFaces partial response."""
 
     markup = _extract_partial_markup(html)
+    reported_page = _reported_current_page(markup)
+    if reported_page is not None and reported_page != query.page:
+        raise ParserContractChangedError(
+            f"TJRR retornou a pagina {reported_page}, mas a consulta solicitou {query.page}"
+        )
     soup = BeautifulSoup(markup, "html.parser")
     roots = soup.select("div[id^=resultados]")
     if not roots:
@@ -354,6 +396,9 @@ def parse_tjrr_results(
         raise ParserContractChangedError("TJRR retornou containers sem campos juridicos")
     total = _reported_total(markup) or len(results)
     actual_page_size = _reported_page_size(markup) or query.page_size
+    # PrimeFaces can include more containers than the declared source window.
+    # Keep the source-reported page contract instead of leaking extra rows.
+    results = results[:actual_page_size]
     start = (query.page - 1) * actual_page_size + 1
     complete, reason = page_completeness(
         reported_total=total,
@@ -421,7 +466,7 @@ def _parse_result(
         document_id
         or case_number
         or hashlib.sha256(
-            f"{case_class}|{rapporteur}|{judgment_date}|{summary}|{index}".encode()
+            f"{case_class}|{rapporteur}|{judgment_date}|{publication_date}|{summary}".encode()
         ).hexdigest()[:16]
     )
     return JurisprudenceResult(
@@ -574,6 +619,11 @@ def _reported_page_size(markup: str) -> int | None:
     if match:
         return int(match.group(1))
     return None
+
+
+def _reported_current_page(markup: str) -> int | None:
+    match = PAGE_COUNT_PATTERN.search(markup)
+    return int(match.group(1)) if match else None
 
 
 def _extract_partial_markup(markup: str) -> str:

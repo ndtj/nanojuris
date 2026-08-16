@@ -1,0 +1,96 @@
+{
+  "checked_sources": [
+    "tjrs_solr",
+    "tjba_graphql"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T07:10:46+00:00",
+  "passed": true,
+  "query": {
+    "page_size": 1,
+    "sha256": "e74ccec4ec28c2f714152a14a30c443f9162316d7e9bbf9f2067cc93765d1232",
+    "text": "nanojuris-termo-inexistente-20260816-9f6c2"
+  },
+  "reports": [
+    {
+      "access_status": null,
+      "checked_at": "2026-08-16T07:10:45+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true
+      },
+      "completeness": true,
+      "completeness_reason": "A fonte informou total zero para a consulta.",
+      "content_sha256": "2fb1c8135ee560a1d0d4ba15913728e5e1cf373a67100ad73fe5a8c90db8cf41",
+      "content_type": "text/html; charset=iso-8859-1",
+      "effective_page_size": 1,
+      "elapsed_ms": 743.68,
+      "endpoint": "/buscas/jurisprudencia/ajax.php",
+      "error_type": null,
+      "extraction_status": null,
+      "failed_checks": [],
+      "full_text_status": "not_returned",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "offset",
+      "passed": true,
+      "query_text": "nanojuris-termo-inexistente-20260816-9f6c2",
+      "reported_total": 0,
+      "requested_page_size": 1,
+      "response_bytes": 3666,
+      "retrieval_status": "ok",
+      "returned": 0,
+      "source": "tjrs_solr",
+      "source_url": "https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php",
+      "status": "empty"
+    },
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T07:10:45+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": false,
+      "completeness_reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "content_sha256": "23ffaced301014f7fca4e13cc8c5e21ffe7a4714b18589444095412a9629024f",
+      "content_type": "application/json;charset=UTF-8",
+      "effective_page_size": 1,
+      "elapsed_ms": 1677.03,
+      "endpoint": "/graphql",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "returned",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "page",
+      "passed": true,
+      "query_text": "nanojuris-termo-inexistente-20260816-9f6c2",
+      "reported_total": 357949,
+      "requested_page_size": 1,
+      "response_bytes": 64436,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "tjba_graphql",
+      "source_url": "https://jurisprudenciaws.tjba.jus.br/graphql",
+      "status": "valid"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "gold-wave-1-empty-20260816",
+  "summary": {
+    "empty": 1,
+    "valid": 1
+  }
+}

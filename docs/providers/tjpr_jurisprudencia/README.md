@@ -126,6 +126,36 @@ teor.
 
 ## Proximos passos
 
-Fechar fixture de formulario com nomes dos parametros, multivalores,
-ordenacao, pagina, vazio, detalhe e resultado sem conteudo. Depois implementar
-parser offline antes do fetcher live.
+Manter fixture de formulario com nomes dos parametros, multivalores,
+ordenacao, pagina, vazio, detalhe e resultado sem conteudo. A busca e o parser
+offline ja estao implementados; o proximo gate e comprovar uma pagina seguinte
+estavel e o contrato de detalhe antes de anunciar inteiro teor.
+
+## Validacao live de capacidade - 2026-08-16
+
+- Consulta: `responsabilidade civil`, 50 itens solicitados.
+- Pagina 1: 20 resultados, 20 identificadores unicos e 20 com data.
+- Pagina 2: 5 resultados, nenhum identificador repetido e 5 com data.
+- Total remoto observado: 996.477.
+- Estado historico, anterior ao ajuste do parser: a janela observada foi
+  interpretada como uma limitacao da fonte, mas a evidencia posterior mostrou
+  que o provider estava aceitando apenas uma parte dos links de acordaos.
+- Inteiro teor: nao promovido; ementa/conteudo editorial nao substitui
+  documento carregado.
+
+Evidencia estruturada: `docs/validation/runs/20260816T084500Z-tjpr-tjrr-capacity-20260816.json`.
+
+## Revalidacao Wave 2 - 2026-08-16
+
+- Consulta: `transporte aereo dano moral`, `page_size=25`.
+- Pagina 1: 25 resultados e 25 identificadores novos.
+- Pagina 2: 25 resultados e 25 identificadores novos.
+- Pagina 3: 25 resultados e 25 identificadores novos.
+- Total remoto observado: 21.510.
+- Estado atual: `valid`; o provider reconhece os links oficiais de acordaos
+  tanto com classe `acordao` quanto `decisao`, sem confundir os registros da
+  Corte IDH, que possuem campo de selecao distinto.
+- O resultado confirma que a observacao `20+5` acima era uma limitacao do
+  parser, nao um teto comprovado da fonte.
+
+Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.

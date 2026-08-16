@@ -19,6 +19,7 @@ REGISTRY_PATH = ROOT / "docs" / "registry" / "providers.json"
 PROVIDERS_DIR = ROOT / "docs" / "providers"
 LEGACY_DIR = ROOT / "docs" / "source-contracts"
 REPORT_PATH = ROOT / "docs" / "provider-documentation-audit.md"
+STATE_FIXTURES_PATH = ROOT / "tests" / "fixtures" / "provider_contracts.json"
 
 SECTION_PATTERNS: dict[str, tuple[str, ...]] = {
     "identity": (r"^##\s+Identidade", r"^##\s+Identity", r"^# .*Pesquisa De"),
@@ -101,6 +102,23 @@ def _assessment_map() -> dict[str, Any]:
         return {}
 
 
+def _state_fixture_references(source_id: str) -> list[str]:
+    """Return references for the shared, provider-scoped state fixtures."""
+
+    if not STATE_FIXTURES_PATH.is_file():
+        return []
+    try:
+        payload = json.loads(STATE_FIXTURES_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return []
+    if source_id not in payload.get("providers", {}):
+        return []
+    return [
+        f"tests/fixtures/provider_contracts.json#providers/{source_id}/{scenario}"
+        for scenario in payload["providers"][source_id].get("scenarios", [])
+    ]
+
+
 def audit() -> list[dict[str, Any]]:
     registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
     assessments = _assessment_map()
@@ -119,7 +137,10 @@ def audit() -> list[dict[str, Any]]:
         missing = [name for name, present in sections.items() if not present]
         unchecked = len(re.findall(r"(?m)^- \[ \]", text))
         checked = len(re.findall(r"(?m)^- \[[xX]\]", text))
-        fixture_refs = sorted(set(re.findall(r"tests/fixtures/[A-Za-z0-9_./-]+", text)))
+        fixture_refs = sorted(
+            set(re.findall(r"tests/fixtures/[A-Za-z0-9_./-]+", text))
+            | set(_state_fixture_references(source_id))
+        )
         if status == "family":
             readiness = "family_spec"
         elif status == "candidate":

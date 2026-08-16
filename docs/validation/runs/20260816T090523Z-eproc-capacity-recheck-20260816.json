@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "scope": "eproc-capacity-recheck-20260816",
+  "checked_at": "2026-08-16T09:05:23Z",
+  "query": {
+    "text": "responsabilidade civil",
+    "requested_page_size": 50,
+    "pages": [1, 2]
+  },
+  "method": "public HTTP requests with a fresh client and no bypass",
+  "reports": [
+    {
+      "source": "tjsc_eproc_jurisprudencia",
+      "status": "source_contract_changed_or_unavailable",
+      "error_type": "ParserContractChangedError",
+      "message": "The response did not contain result cards after a public live request.",
+      "public_route": "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "promoted_for_capacity": false
+    },
+    {
+      "source": "tjrj_eproc_jurisprudencia",
+      "status": "source_contract_changed_or_unavailable",
+      "error_type": "ParserContractChangedError",
+      "message": "The response did not contain result cards after a public live request.",
+      "public_route": "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "promoted_for_capacity": false
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "status": "access_control_required",
+      "error_type": "AccessControlRequiredError",
+      "message": "The source returned access-control HTML.",
+      "public_route": "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "promoted_for_capacity": false
+    }
+  ],
+  "limitations": [
+    "A failed or controlled-access response is not a real empty result.",
+    "TJSC had returned public cards with stable ids and dates in an earlier request in this same validation wave; page 2 still requires a reproducible live confirmation."
+  ]
+}

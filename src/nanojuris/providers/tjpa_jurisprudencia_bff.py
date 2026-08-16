@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import time
 from typing import Any
 from urllib.parse import urljoin
@@ -18,6 +19,7 @@ from nanojuris.errors import (
 from nanojuris.models import (
     AccessStatus,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -43,6 +45,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     @property
     def base_url(self) -> str:
@@ -69,6 +72,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "A pagina da API e baseada em zero.",
                 "Filtros de classe e assunto exigem ids vindos de /filtros.",
             ],
+            **self._last_http_metadata,
         )
         return parse_tjpa_search_response(data, query=query, trace=trace)
 
@@ -205,6 +209,16 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
             )
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJPA jurisprudence request failed: {exc}") from exc
+        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
+        headers = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", url),
+            "content_type": headers.get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         if response.status_code == 429:
             raise RateLimitDetectedError("TJPA jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -301,6 +315,8 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
         raise ParserContractChangedError("TJPA result missing stable id")
     summary = _first_string(item, "ementatextopuro", "textoementa", "textopuro")
     full_text = _first_string(item, "textopuro", "textooriginal", "full_text", "conteudo")
+    judgment_date = _first_string(item, "datajulgamento", "data_julgamento")
+    publication_date = _first_string(item, "datapublicacao", "data_publicacao")
     return JurisprudenceResult(
         id=f"tjpa-bff-{external_id}",
         source="tjpa_jurisprudencia_bff",
@@ -310,8 +326,12 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
         summary=summary,
         full_text=full_text or None,
         rapporteur=_nested_name(item.get("relator")),
-        updated_at=_first_string(item, "datapublicacao", "datajulgamento", "datadocumento"),
+        judgment_date=judgment_date,
+        publication_date=publication_date,
+        updated_at=publication_date or judgment_date or _first_string(item, "datadocumento"),
         source_trace=trace,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE,
         raw={
             **item,
             "full_text": full_text,

@@ -40,7 +40,7 @@ Cada provider deve responder, de forma auditavel:
 
 ## Onda 1 - Catalogo Operacional
 
-Status: em execucao.
+Status: concluida como baseline; manter regeneracao e testes de drift.
 
 Entregas:
 
@@ -60,7 +60,8 @@ Criterio de saida:
 
 ## Onda 2A - Hardening Documental Dos P0
 
-Status: proxima frente.
+Status: concluida como baseline documental; 33 dossies ainda exigem
+aprofundamento operacional segundo o catalogo atual.
 
 Escopo inicial:
 
@@ -108,6 +109,30 @@ Criterio de saida:
   falha esperada;
 - nenhum timeout, 403 ou captcha e tratado como zero resultado;
 - documentos preservam hash, tamanho, content type e access status.
+
+Status: baseline implementado; a cobertura deve continuar provider por provider
+sem promover uma fonte apenas por possuir um parser.
+
+## Onda 2C - Evidencia E Qualidade Operacional
+
+Status: proxima frente de maior ganho.
+
+Escopo:
+
+1. registrar cada rodada live em JSON e Markdown derivados;
+2. separar `live_status` de score documental e de contrato offline;
+3. transformar a fila generica em proxima acao verificavel por provider;
+4. fechar fixtures e testes dos providers textuais de maior impacto;
+5. refletir falhas de qualidade, paginacao, identidade e inteiro teor no
+   catalogo, Studio e MCP.
+
+Criterio de saida:
+
+- toda afirmacao de disponibilidade live aponta para evidencia datada;
+- resultado vazio, bloqueio, indisponibilidade e contrato alterado possuem
+  estados diferentes;
+- nenhum provider e promovido sem fixture, teste e criterio de aceite;
+- o Studio e o MCP exibem a mesma leitura operacional do catalogo.
 
 ## Onda 3 - Busca Unificada Profissional
 
@@ -177,12 +202,12 @@ Criterio de saida:
 
 ## Ordem Recomendada
 
-1. fechar Onda 2A para os cinco P0 de maior impacto;
-2. regenerar catalogo e verificar score;
-3. criar fixtures faltantes dos mesmos cinco P0;
-4. amadurecer `tjsp_eproc_jurisprudencia` e familia CJSG/e-SAJ;
-5. rever busca unificada antes de adicionar nova leva de providers;
-6. so entao expandir para novos candidatos com contrato completo.
+1. executar Onda 2C com evidencias e contratos dos providers de maior impacto;
+2. corrigir qualidade de identidade, datas, paginacao e documento antes de
+   ampliar a quantidade de fontes;
+3. amadurecer `tjsp_eproc_jurisprudencia` e a familia CJSG/e-SAJ;
+4. rever a busca unificada com base nos estados reais de cada fonte;
+5. so entao expandir para novos candidatos com contrato completo.
 
 ## Definicao De Pronto
 

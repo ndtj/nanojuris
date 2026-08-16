@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "scope": "wave2-acceptance",
+  "checked_at": "2026-08-16T09:40:54Z",
+  "query": {
+    "text": "transporte aereo dano moral",
+    "sha256": "28da63454f34edec309d893d46a281836da11cf51f261ebcafeb95f6a295adfb",
+    "requested_page_size": 25,
+    "pages": [1, 2, 3]
+  },
+  "reports": [
+    {
+      "source": "tjsc_eproc_jurisprudencia",
+      "status": "valid",
+      "page_1": {"returned": 25, "unique": 25, "reported_total": 10075},
+      "page_2": {"returned": 25, "new_ids": 25, "unique_cumulative": 50},
+      "page_3": {"returned": 25, "new_ids": 25, "unique_cumulative": 75},
+      "access_status": "public",
+      "extraction_status": "complete",
+      "retrieval_status": "ok",
+      "full_text_status": "document_available",
+      "limitations": ["A fonte informa uma janela parcial do total remoto."]
+    },
+    {
+      "source": "tjrj_eproc_jurisprudencia",
+      "status": "valid",
+      "page_1": {"returned": 25, "unique": 25, "reported_total": 187},
+      "page_2": {"returned": 25, "new_ids": 25, "unique_cumulative": 50},
+      "page_3": {"returned": 25, "new_ids": 25, "unique_cumulative": 75},
+      "access_status": "public",
+      "extraction_status": "complete",
+      "retrieval_status": "ok",
+      "full_text_status": "document_available",
+      "limitations": ["A fonte informa uma janela parcial do total remoto."]
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "status": "valid",
+      "page_1": {"returned": 25, "unique": 25, "reported_total": 21510},
+      "page_2": {"returned": 25, "new_ids": 25, "unique_cumulative": 50},
+      "page_3": {"returned": 25, "new_ids": 25, "unique_cumulative": 75},
+      "access_status": "public",
+      "extraction_status": "complete",
+      "retrieval_status": "ok",
+      "full_text_status": "not_verified",
+      "limitations": ["A superfície retornou ementa/resumo; inteiro teor não foi promovido."]
+    },
+    {
+      "source": "tjam_cjsg",
+      "status": "valid_with_source_page_limit",
+      "page_1": {"returned": 10, "unique": 10, "reported_total": 430},
+      "page_2": {"returned": 10, "new_ids": 10, "unique_cumulative": 20},
+      "page_3": {"returned": 10, "new_ids": 10, "unique_cumulative": 30},
+      "access_status": "public",
+      "extraction_status": "complete",
+      "retrieval_status": "ok",
+      "full_text_status": "document_available",
+      "limitations": ["A fonte retornou no máximo 10 itens por página nesta rodada."]
+    },
+    {
+      "source": "tjba_graphql",
+      "status": "valid",
+      "page_1": {"returned": 25, "unique": 25, "reported_total": 1269460},
+      "page_2": {"returned": 25, "new_ids": 25, "unique_cumulative": 50},
+      "page_3": {"returned": 25, "new_ids": 24, "unique_cumulative": 74},
+      "access_status": "public",
+      "extraction_status": "complete",
+      "retrieval_status": "ok",
+      "full_text_status": "full_text_in_search"
+    },
+    {
+      "source": "tjpa_jurisprudencia_bff",
+      "status": "valid",
+      "page_1": {"returned": 25, "unique": 25, "reported_total": 10000},
+      "page_2": {"returned": 25, "new_ids": 25, "unique_cumulative": 50},
+      "page_3": {"returned": 25, "new_ids": 25, "unique_cumulative": 75},
+      "access_status": "public",
+      "extraction_status": "complete",
+      "retrieval_status": "ok",
+      "full_text_status": "full_text_in_search"
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "status": "access_controlled",
+      "page_1": {"returned": 25, "unique": 25, "reported_total": 25675},
+      "page_2": {"error": "AccessControlRequiredError"},
+      "access_status": "access_control_required",
+      "extraction_status": "not_attempted",
+      "retrieval_status": "blocked",
+      "full_text_status": "not_verified",
+      "limitations": ["A página 2 permaneceu protegida; nenhum bypass foi tentado."]
+    },
+    {
+      "source": "tjsp_cjsg",
+      "status": "access_controlled",
+      "page_1": {"error": "AccessControlRequiredError"},
+      "access_status": "access_control_required",
+      "extraction_status": "not_attempted",
+      "retrieval_status": "blocked",
+      "full_text_status": "not_verified",
+      "limitations": ["WAF/captcha permaneceu observável; nenhum bypass foi tentado."]
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "total": 8,
+    "guards_preserved": ["tjam_cjsg", "tjba_graphql", "tjpa_jurisprudencia_bff", "tjsp_eproc_jurisprudencia", "tjsp_cjsg"]
+  }
+}

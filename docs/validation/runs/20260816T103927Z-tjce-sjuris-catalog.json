@@ -1,0 +1,29 @@
+{
+  "source_id": "tjce_sjuris",
+  "scope": "candidate_catalog_contract",
+  "checked_at": "2026-08-16T10:39:27Z",
+  "portal": {
+    "url": "https://sjuris.tjce.jus.br/",
+    "http_status": 200,
+    "content_type": "text/html",
+    "response_bytes": 28121
+  },
+  "api": {
+    "base_url": "https://gateway.tjce.jus.br/sjuris/api/v1",
+    "route": "/jurisprudencia/buscaListaCampos/4",
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 681418,
+    "payload_kind": "hierarchical_subject_catalog",
+    "payload_fields_observed": ["chave", "quantidade", "dados", "assunto", "codigo_assunto", "filhos"]
+  },
+  "search_contract": {
+    "status": "not_reproduced",
+    "retrieval_status": "catalog_only",
+    "extraction_status": "metadata_only",
+    "full_text_status": "not_validated_live"
+  },
+  "quality_flags": ["public_catalog_confirmed", "result_route_pending"],
+  "limitations": ["do_not_infer_search_route_from_catalog_route"]
+}

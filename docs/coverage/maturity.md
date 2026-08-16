@@ -6,8 +6,8 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 
 | Nivel | Uso recomendado | Criterio operacional |
 | --- | --- | --- |
-| `gold` | referencia para Studio, MCP, demos e jurimetria inicial | contrato forte, baixo/medio risco, busca unificada e documentacao sem pendencia critica |
-| `silver` | uso produtivo com cautela | contrato bom, mas ainda com lacunas de live, inteiro teor, filtros ou docs |
+| `gold` | referencia para Studio, MCP, demos e jurimetria inicial | contrato forte, baixo/medio risco, busca unificada, offline completo e documentacao estrutural completa |
+| `silver` | uso produtivo com cautela | contrato nivel 4+, busca unificada e evidencia offline; lacunas avancadas permanecem visiveis |
 | `bronze` | pesquisa tecnica e amadurecimento | provider existe, mas ainda precisa de fixtures, erros ou contrato mais profundo |
 | `context` | fonte complementar | precedentes, informativos, catalogos ou datasets que ajudam a pesquisa, mas nao sao busca textual ampla |
 | `mapped` | backlog de desenvolvimento | fonte documentada sem provider runtime |
@@ -18,12 +18,18 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 
 | Nivel | Quantidade |
 | --- | ---: |
-| `bronze` | 21 |
-| `context` | 6 |
+| `blocked` | 3 |
+| `bronze` | 1 |
+| `context` | 8 |
 | `family` | 1 |
-| `gold` | 1 |
-| `mapped` | 16 |
-| `silver` | 9 |
+| `gold` | 15 |
+| `mapped` | 9 |
+| `silver` | 17 |
+
+## Como Ler O Gate Prata
+
+Itens de checklist ainda abertos aparecem no dossie e no score, mas nao bloqueiam automaticamente a camada `silver` quando nao representam uma omissao estrutural. Isso separa backlog de aprofundamento da ausencia de contrato minimo.
+Risco operacional alto, WAF, TLS, CAPTCHA, timeout e mudanca de contrato nunca viram resultado vazio e podem manter a fonte em `blocked`.
 
 ## Principio De Qualidade
 

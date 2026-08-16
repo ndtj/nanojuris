@@ -15,6 +15,8 @@ from nanojuris.errors import (
 from nanojuris.models import CanonicalDecision, JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjdf_juris import (
     TjdfJurisProvider,
+    _build_initial_params,
+    _build_results_params,
     parse_tjdf_detail,
     parse_tjdf_result_ids,
     parse_tjdf_total,
@@ -66,7 +68,9 @@ def test_search_maps_tjdf_jurisprudence_result():
     )
     provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
-    page = provider.search(JurisprudenceQuery(text="infanticidio", page=1, page_size=1))
+    page = provider.search(
+        JurisprudenceQuery(text="infanticidio", page=1, page_size=1, fetch_details=True)
+    )
 
     assert page.source == "tjdf_juris"
     assert page.total == 31
@@ -114,6 +118,7 @@ def test_search_sends_tjdf_summary_filter():
         JurisprudenceQuery(
             exact_phrase="infanticidio",
             page_size=1,
+            fetch_details=True,
         )
     )
 
@@ -123,6 +128,37 @@ def test_search_sends_tjdf_summary_filter():
     assert results_params["argumentoDePesquisa"] == "infanticidio"
     assert results_params["ementa"] == "infanticidio"
     assert results_params["numero"] == ""
+
+
+def test_tjdf_maps_boolean_and_date_filters_to_public_contract():
+    query = JurisprudenceQuery(
+        text="dano moral",
+        all_words="transporte aereo",
+        any_words="voo",
+        without_words="penal",
+        published_from="2021-01-01",
+        published_to="2021-12-31",
+        rapporteur="SANDRA REVES",
+    )
+
+    initial = _build_initial_params(query)
+    results = _build_results_params(query, total=10)
+    blob = str(initial) + str(results)
+
+    assert all(term in blob for term in ("transporte aereo", "voo", "penal"))
+    assert results["tipoDeData"] == "DataPublicacao"
+    assert results["dataInicio"] == "2021-01-01"
+    assert results["dataFim"] == "2021-12-31"
+    assert results["desembargador"] == "SANDRA REVES"
+
+
+def test_tjdf_maps_judgment_date_filter_separately():
+    results = _build_results_params(
+        JurisprudenceQuery(updated_from="2021-01-01", updated_to="2021-12-31"), total=10
+    )
+
+    assert results["tipoDeData"] == "DataJulgamento"
+    assert results["dataInicio"] == "2021-01-01"
 
 
 def test_search_page_maps_to_canonical_decision():
@@ -135,7 +171,7 @@ def test_search_page_maps_to_canonical_decision():
     )
     provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
-    page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=1))
+    page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=1, fetch_details=True))
     records = search_page_to_canonical(page)
 
     assert len(records) == 1
@@ -167,6 +203,25 @@ def test_parse_tjdf_detail_accepts_fallback_document_id():
 
     assert result.id == "tjdf-acordao-1917641"
     assert result.source_trace is not None
+
+
+def test_search_without_fetch_details_avoids_detail_requests():
+    session = FakeSession(
+        [
+            FakeResponse(load_fixture("tjdf_juris_initial.html")),
+            FakeResponse(load_fixture("tjdf_juris_results.html")),
+        ]
+    )
+    provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=2))
+
+    assert [result.id for result in page.results] == [
+        "tjdf-acordao-1917641",
+        "tjdf-acordao-1907747",
+    ]
+    assert all(result.extraction_status.value == "partial" for result in page.results)
+    assert len(session.calls) == 2
 
 
 def test_get_document_rejects_detail_without_acordao_fields():

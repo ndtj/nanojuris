@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "scope": "tjpr-tjrr-capacity-20260816",
+  "checked_at": "2026-08-16T08:45:00+00:00",
+  "query": {"text": "responsabilidade civil", "requested_page_size": 50, "pages": [1, 2]},
+  "reports": [
+    {
+      "source": "tjpr_jurisprudencia",
+      "page_1": {"returned": 20, "unique": 20, "reported_total": 996477, "dated_items": 20},
+      "page_2": {"returned": 5, "unique": 5, "overlap_previous": 0, "reported_total": 996477, "dated_items": 5},
+      "status": "valid_with_source_page_limit",
+      "limitations": ["The source returned an effective window smaller than the requested 50 items."]
+    },
+    {
+      "source": "tjrr_juris",
+      "page_1": {"returned": 10, "unique": 10, "reported_total": 13929, "dated_items": 10, "effective_page_size": 10},
+      "page_2": {"status": "contract_changed", "error": "ParserContractChangedError", "message": "The source returned page 1 for a request for page 2."},
+      "status": "source_pagination_not_validated",
+      "limitations": ["The public PrimeFaces response ignored the requested page event; duplicate records are rejected."]
+    }
+  ]
+}

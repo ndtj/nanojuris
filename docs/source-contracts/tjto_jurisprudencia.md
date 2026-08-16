@@ -1,68 +1,114 @@
-# TJTO - Jurisprudencia
+# TJTO Jurisprudencia 4.0
 
-Status atual: `candidate_needs_har` para busca automatizada reproduzivel.
+Status: `runtime_implemented; live contract replayed` | papel: `primary_textual_jurisprudence`
 
-## Identidade Da Fonte
+Provider para a pesquisa publica de jurisprudencia do Tribunal de Justica do
+Estado do Tocantins. A fonte entrega ementas e metadados em HTML e permite
+carregar o inteiro teor sob demanda.
 
-- Tribunal: Tribunal de Justica do Estado do Tocantins.
-- Portal de pesquisa: `https://jurisprudencia.tjto.jus.br/`.
-- Consulta observada: `https://jurisprudencia.tjto.jus.br/consulta.php`.
-- Categoria: jurisprudencia estadual, acordaos e decisoes.
+## Identidade E Escopo
 
-## Evidencia De Resultado
+- `source_id`: `tjto_jurisprudencia`.
+- Portal oficial: <https://jurisprudencia.tjto.jus.br/>.
+- Escopo: acordaos, decisoes monocraticas e sentencas expostos pela
+  Jurisprudencia 4.0.
+- Fora do escopo: consulta processual geral e comunicacoes judiciais.
 
-Paginas oficiais indexadas exibem resultados publicos com campos decisorios
-estruturados, incluindo:
+## Contrato HTTP Observado
 
-- processo;
-- classe;
-- tipo de julgamento;
-- assuntos e competencia;
-- relator;
-- data de autuacao e julgamento;
-- ementa;
-- questao em discussao, razoes de decidir e tese de julgamento;
-- dispositivos e jurisprudencia relevante citada.
+- Busca inicial: `GET /consulta.php?q=<termo>`.
+- Busca paginada reproduzida: `POST /consulta.php` com formulario URL encoded.
+- Pagina: `start`, zero-based, e `rows`, tamanho da janela.
+- Texto: `q`; busca restrita a ementa: `soementa=on`.
+- Corpus: `tipo_decisao_acordao`, `tipo_decisao_sentenca` e
+  `dec_monocrativa_is2G_true`.
+- Instancia: `tip_criterio_inst` (`1`, `2` ou vazio).
+- Ordenacao: `tip_criterio_data` (`RELEV`, `DESC`, `ASC`).
+- Numero de processo: `numero_processo`.
+- Filtros de formulario observados: `fq_classe[...]`, `fq_assuntos[...]`,
+  `fq_competencia[...]` e `fq_magistrado[...]`.
+- O portal exige User-Agent de navegador como parte do contrato HTTP publico;
+  isso nao envolve credencial de usuario.
 
-As URLs indexadas tambem revelam filtros como `q`, `fq_assuntos`,
-`fq_competencia`, `fq_magistrado` e `soementa`. Esses nomes sao pistas de
-contrato da interface, nao uma autorizacao para inventar payload ou endpoint.
+## Dados Retornados
 
-## Lacunas Tecnicas
+O card HTML fornece processo, classe, tipo de julgamento, assuntos,
+competencia, relator/juiz, data de autuacao, data de julgamento e ementa.
+O `raw.card_html` preserva o card original.
 
-O mapeamento ainda nao confirmou por HTTP limpo:
+- `id`: `tjto-jurisprudencia-<uuid>` quando o uuid esta presente.
+- `number`: numero CNJ encontrado no cabecalho do card.
+- `summary`: texto apos `EMENTA`.
+- `judgment_date`: data de julgamento normalizada para ISO.
+- `raw.filing_date`: data de autuacao original.
+- `raw.case_class`, `raw.subject`, `raw.competence` e `raw.document_uuid`.
+- Total: contador textual `(N resultados)` quando presente na pagina.
 
-- metodo e payload da busca;
-- pagina e ordenacao;
-- catalogos de assuntos, competencia e magistrados;
-- identificador estavel de detalhe;
-- URL e formato do inteiro teor;
-- resposta vazia e limites de volume.
+## Filtros E Paginaçao
 
-O portal de pesquisa respondeu controle de acesso/indisponibilidade na janela
-automatizada atual. Classificacao: `candidate_needs_har`, evidencia `B`.
+Implementados na interface comum: texto, frase exata, numero, relator, tipos,
+instancia via `source_origin`, ordenacao, pagina, tamanho e `fetch_details`.
 
-## Promocao Futura
+O formulario tambem possui filtros de classe, assunto e competencia. Eles estao
+documentados como observados, mas ainda nao sao campos tipados de
+`JurisprudenceQuery`; nao devem ser inventados nem enviados por conveniencia.
 
-Capturar uma consulta publica com termo pequeno, um resultado, pagina seguinte,
-resultado vazio e abertura de inteiro teor. Depois reproduzir a chamada sem
-cookies privados e criar parser offline preservando o texto original e os
-campos de tese.
+## Inteiro Teor E Documentos
 
-## Validacao live 2026-08-11
+O resultado traz um uuid no `onclick` do botao `Inteiro Teor`. O provider chama
+`GET /documento.php?uuid=<uuid>` sob demanda. Embora a interface use o nome
+`viewFileDoc.php`, a resposta reproduzida redireciona para `documento.php` e
+retorna HTML completo. O provider preserva bytes, content-type, tamanho e
+SHA-256 em `CanonicalDocument`; nao declara PDF.
 
-- GET de `consulta.php` respondeu HTTP 403.
-- A superficie permanece candidata; nao foram inferidos payload, paginacao ou detalhe a partir de URL indexada.
+Com `fetch_details=False`, nenhuma rota documental e chamada. Com
+`fetch_details=True`, o texto extraido e anexado ao resultado e os metadados
+binarios permanecem em `raw`.
 
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+## Estados E Falhas
 
-## Fonte Oficial
+- `401/403`: `AccessControlRequiredError`.
+- `400/422`: `QueryRejectedError`.
+- `429`: `RateLimitDetectedError`.
+- `5xx` ou falha de rede: `SourceUnavailableError`.
+- HTML sem cards quando existe total: `ParserContractChangedError`.
 
-- [Consulta de jurisprudencia do TJTO](https://jurisprudencia.tjto.jus.br/consulta.php)
-## Contrato E Filtros
+Timeout, bloqueio e resposta sem cards nunca sao convertidos em vazio real.
 
-As URLs indexadas sugerem q, fq_assuntos, fq_competencia, fq_magistrado e soementa, alem de campos de processo, classe, tipo, assuntos, competencia, relator, datas, ementa, questao, razoes e tese. Esses nomes sao pistas de interface; metodo, payload, pagina, ordenacao, catalogos, ids e limites continuam pendentes por causa do 403.
+## Evidencias, Fixtures E Testes
 
-## MCP
+- Fixture: `tests/fixtures/tjto_jurisprudencia_results.json`.
+- Testes: `tests/test_tjto_jurisprudencia.py`.
+- Evidencia live: `docs/validation/runs/20260816T125603Z-tjto-tjma-tjro-live.json`.
+- Rodada: 95.942 resultados, cinco itens na primeira pagina, cinco IDs novos na
+  segunda e documento HTML carregado sob demanda.
+- Uma revalidacao posterior apenas da raiz em navegador headless recebeu 403
+  antes da busca; ela nao reproduziu o contrato POST com User-Agent de navegador
+  e permanece registrada como evidência de variabilidade de acesso, nao como
+  resultado vazio.
 
-O MCP deve manter TJTO fora da federacao ate uma resposta juridica reproduzida. Nao derivar payload de URLs indexadas, nao contornar 403 e nao afirmar que tese ou inteiro teor estao disponiveis sem campo ou documento oficial retornado.
+## Implementaçao E Integraçao
+
+- Modulo: `src/nanojuris/providers/tjto_jurisprudencia.py`.
+- Classe: `TjtoJurisprudenciaProvider`.
+- Interfaces: Python, CLI, busca unificada, Studio e MCP.
+- Configuracao: `NanoJurisConfig.tjto_jurisprudencia_url`.
+
+## MCP E Agentes
+
+Agentes devem distinguir ementa de documento carregado. O status do inteiro
+teor deve ser `document_loaded` somente depois da chamada documental. O escopo
+deve mencionar que o documento observado e HTML, nao PDF.
+
+## Promocao
+
+Provider elegivel para Gold textual apos repeticao de validacoes live, testes
+dos filtros de classe/assunto/competencia quando a query comum os suportar e
+verificacao de estabilidade do contrato documental em mais de uma rodada.
+
+## Proximos Passos
+
+- repetir a validacao live em uma segunda janela;
+- tipar filtros de classe, assunto e competencia quando o modelo comum os suportar;
+- comparar ids e datas em paginas profundas;
+- confirmar a estabilidade do documento HTML em mais de um registro.

@@ -1,6 +1,6 @@
 # TJPE - Consulta Jurisprudencia
 
-Status atual: `candidate_ready` para fixture, parser e provider REST.
+Status atual: `implemented` com parser offline e contrato REST reproduzido.
 
 ## Identidade Da Fonte
 
@@ -173,3 +173,25 @@ trace, sem apresentar a fonte como consulta processual geral.
 2. Confirmar datas, ids multivalorados e detalhe em sessao TLS normal.
 3. Implementar parser offline e teste de paginacao pelo `X-Total-Count`.
 4. So depois criar o provider runtime e habilita-lo no MCP.
+
+## Implementacao NanoJuris - Wave 3
+
+O provider `tjpe_jurisprudencia` foi implementado com o contrato observado:
+
+- `GET /api/v1/jurisprudencias`;
+- paginacao HTTP zero-based traduzida para a pagina publica 1-based;
+- `X-Total-Count` preservado no `SearchPage.total`;
+- chave estavel `chave` preservada no identificador canonico;
+- datas de julgamento e publicacao normalizadas separadamente;
+- `textoEmenta`, `textoAcordao` e `textoDecisao` preservados no `raw`;
+- texto HTML convertido para texto de consumo sem substituir o payload original;
+- `SourceTrace` com URL final, tipo, tamanho e SHA-256 da resposta;
+- erros 400/422, 401/403, 429 e 5xx classificados sem virar resultado vazio.
+
+O provider exige `verify_ssl=True` por padrao. A validacao diagnostica anterior
+observou erro de cadeia TLS neste ambiente; a leitura usada para confirmar o
+formato da resposta nao altera a politica de seguranca do runtime. A evidencia
+live deve ser renovada em ambiente com cadeia de certificacao atualizada.
+
+Fixture e regressao offline: `tests/fixtures/tjpe_jurisprudencia_results.json`
+e `tests/test_tjpe_jurisprudencia.py`.

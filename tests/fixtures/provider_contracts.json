@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Offline state evidence for providers that are being promoted from bronze to silver.",
+  "scenarios": {
+    "success": {
+      "http_status": 200,
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "result_kind": "structured_results"
+    },
+    "empty": {
+      "http_status": 200,
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "result_kind": "real_empty"
+    },
+    "non_success": {
+      "http_status": 503,
+      "access_status": "source_unavailable",
+      "retrieval_status": "unavailable",
+      "extraction_status": "not_attempted",
+      "result_kind": "source_unavailable"
+    }
+  },
+  "providers": {
+    "cjf_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "stf_juris": {"scenarios": ["success", "empty", "non_success"]},
+    "stj_informativo": {"scenarios": ["success", "empty", "non_success"]},
+    "stj_scon": {"scenarios": ["success", "empty", "non_success"]},
+    "stm_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "tce_sp_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "tcu_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "tjac_cjsg": {"scenarios": ["success", "empty", "non_success"]},
+    "tjal_cjsg": {"scenarios": ["success", "empty", "non_success"]},
+    "tjam_cjsg": {"scenarios": ["success", "empty", "non_success"]},
+    "tjba_graphql": {"scenarios": ["success", "empty", "non_success"]},
+    "tjgo_projudi_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "tjms_cjsg": {"scenarios": ["success", "empty", "non_success"]},
+    "tjpa_jurisprudencia_bff": {"scenarios": ["success", "empty", "non_success"]},
+    "tjpb_pje_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "tjpi_juspi": {"scenarios": ["success", "empty", "non_success"]},
+    "tjrj_eproc_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "tjrr_juris": {"scenarios": ["success", "empty", "non_success"]},
+    "tjsp_cjsg": {"scenarios": ["success", "empty", "non_success"]},
+    "tjsp_eproc_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]},
+    "trf5_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]}
+    ,"stf_informativo": {"scenarios": ["success", "empty", "non_success"]}
+    ,"tjdf_juris": {"scenarios": ["success", "empty", "non_success"]}
+    ,"tjrs_solr": {"scenarios": ["success", "empty", "non_success"]}
+    ,"tjsc_eproc_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]}
+    ,"trf4_eproc_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]}
+    ,"tst_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]}
+    ,"tnu_eproc_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]}
+    ,"tjpr_jurisprudencia": {"scenarios": ["success", "empty", "non_success"]}
+  }
+}

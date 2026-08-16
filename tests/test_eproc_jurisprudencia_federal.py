@@ -7,7 +7,7 @@ import requests
 
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import AccessControlRequiredError, UnsupportedQueryError
+from nanojuris.errors import AccessControlRequiredError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.eproc_jurisprudencia_federal import (
     TnuEprocJurisprudenciaProvider,
@@ -152,7 +152,8 @@ def test_federal_eproc_provider_search_posts_payload_and_canonicalizes(
     canonical = search_page_to_canonical(page)
 
     assert page.source == source
-    assert page.total == 10
+    # The source-reported total is distinct from the current page window.
+    assert page.total > len(page.results)
     assert len(page.results) == 3
     assert canonical[0].source == source
     call = session.calls[0]
@@ -171,7 +172,10 @@ def test_federal_eproc_get_document_returns_public_html():
     document = provider.get_document("trf2-eproc-jurisprudencia-21786042808698528830162508954")
 
     assert document.source == "trf2_eproc_jurisprudencia"
-    assert document.text == "<html>inteiro teor federal</html>"
+    assert document.text == "inteiro teor federal"
+    assert document.raw_bytes == b"<html>inteiro teor federal</html>"
+    assert document.sha256
+    assert document.byte_size == len(document.raw_bytes)
     assert document.raw_metadata["id_jurisprudencia"] == "21786042808698528830162508954"
 
 
@@ -195,11 +199,20 @@ def test_federal_eproc_request_exception_becomes_source_error():
         provider.search(JurisprudenceQuery(text="teste"))
 
 
-def test_federal_eproc_rejects_unproven_remote_pagination():
-    provider = TnuEprocJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+def test_federal_eproc_uses_public_ajax_pagination_contract():
+    fixture = _fixture("tnu_eproc_aposentadoria.html")
+    session = FakeSession([FakeResponse(fixture), FakeResponse(fixture)])
+    provider = TnuEprocJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
 
-    with pytest.raises(UnsupportedQueryError, match="paginacao remota comprovada"):
-        provider.search(JurisprudenceQuery(text="teste", page=2))
+    page = provider.search(JurisprudenceQuery(text="teste", page=2, page_size=50))
+
+    assert page.pagination_mode == "page"
+    assert len(session.calls) == 2
+    assert "ajax_paginar_resultado" in session.calls[1]["url"]
+    assert session.calls[1]["kwargs"]["data"]["hdnPaginaAtual"] == "2"
+    assert session.calls[1]["kwargs"]["data"]["selTamanhoPagina"] == "50"
 
 
 def test_federal_eproc_capabilities_describe_instances():

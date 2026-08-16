@@ -1,0 +1,90 @@
+{
+  "scope": "state_candidate_surface_audit",
+  "checked_at": "2026-08-16T10:39:27Z",
+  "transport": {
+    "tls": "normal",
+    "trust_env": false,
+    "cookies": "ephemeral_session_only",
+    "bypass_attempted": false
+  },
+  "results": [
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "portal_url": "https://jurisprudencia.tjmt.jus.br/",
+      "portal_http_status": 200,
+      "portal_content_type": "text/html",
+      "portal_bytes": 2342,
+      "observed_surface": "Angular SPA",
+      "observed_routes": [
+        "/jurisprudencia/api/consulta/<tipoConsulta>",
+        "/jurisprudencia/api/termo/<termo>",
+        "/jurisprudencia/api/consulta/relator",
+        "/jurisprudencia/api/consulta/orgao-julgador",
+        "/jurisprudencia/api/consulta/classe",
+        "/jurisprudencia/VisualizaRelatorio/RetornaDocumentoAcordao"
+      ],
+      "api_without_frontend_header": {
+        "http_status": 401,
+        "access_status": "api_auth_required",
+        "retrieval_status": "http_401",
+        "extraction_status": "not_attempted"
+      },
+      "live_status": "blocked_or_inconclusive",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["api_contract_observed_but_auth_header_not_reproducible"],
+      "limitations": ["preview_api_host", "no_public_result_payload"]
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "portal_url": "https://jurisprudencia.tjrn.jus.br/",
+      "portal_http_status": 200,
+      "portal_content_type": "text/html",
+      "observed_surface": "portal_root",
+      "asset_observations": ["public_scripts_returned_http_403"],
+      "live_status": "blocked_or_inconclusive",
+      "access_status": "source_policy_or_protection",
+      "retrieval_status": "asset_http_403",
+      "extraction_status": "not_attempted",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["search_contract_not_reproduced"]
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "portal_url": "https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "portal_http_status": 200,
+      "observed_surface": "JSF_PrimeFaces_form",
+      "observed_filters": ["term", "process_number", "cnj_number", "document_type", "competence", "rapporteur", "judging_body", "class", "period", "search_scope"],
+      "challenge_observed": "Cloudflare Turnstile",
+      "live_status": "blocked_or_inconclusive",
+      "access_status": "challenge_required",
+      "retrieval_status": "form_loaded_result_not_reproduced",
+      "extraction_status": "not_attempted",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["captcha_or_turnstile_before_result"]
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "portal_url": "https://rupe.tjmg.jus.br/rupe/portaljus/intranet/principal.rupe",
+      "portal_http_status": 200,
+      "observed_surface": "RUPE_portal",
+      "public_jurisprudence_link_observed": "http://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+      "live_status": "blocked_or_inconclusive",
+      "access_status": "surface_not_reproduced",
+      "retrieval_status": "portal_loaded_search_not_attempted",
+      "extraction_status": "not_attempted",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["portal_is_not_search_result_contract"]
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "portal_url": "https://jurisprudencia.tjto.jus.br/consulta.php",
+      "portal_http_status": 403,
+      "live_status": "blocked_or_inconclusive",
+      "access_status": "access_control_required",
+      "retrieval_status": "http_403",
+      "extraction_status": "not_attempted",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["short_access_denied_response"]
+    }
+  ]
+}

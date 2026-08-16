@@ -1,0 +1,63 @@
+{
+  "checked_at": "2026-08-16T12:56:03Z",
+  "scope": "missing_state_providers_live",
+  "query": "transporte aereo dano moral",
+  "sources": [
+    {
+      "source_id": "tjto_jurisprudencia",
+      "endpoint": "POST https://jurisprudencia.tjto.jus.br/consulta.php",
+      "http_status": 200,
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "reported_total": 95942,
+      "returned": 5,
+      "page_size": 5,
+      "page_2_new_ids": 5,
+      "full_text_status": "loaded_on_demand",
+      "document_endpoint": "GET https://jurisprudencia.tjto.jus.br/documento.php?uuid=<uuid>",
+      "document_content_type": "text/html",
+      "document_bytes": 3458562,
+      "document_text_chars": 65584,
+      "document_sha256": "9e3275a260aec1be9279c3024819d61074682e061b8d9bb42bebcc6a9c05f948",
+      "limitations": [
+        "O portal requer User-Agent de navegador como parte do contrato HTTP.",
+        "O endpoint visualizado como viewFileDoc redireciona para documento.php e entrega HTML, nao PDF."
+      ]
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "scope": "public_catalog",
+      "access_status": "public_catalog_search_controlled",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "catalog_species": 7,
+      "catalog_classes": 135,
+      "catalog_magistrates": 313,
+      "search_access_status": "access_control_required",
+      "search_access_reason": "captcha tokenG/keyId exigido pela rota de resultados",
+      "limitations": [
+        "A busca de acordaos, decisoes e sentencas nao foi automatizada.",
+        "O catalogo nao representa resultados coletados."
+      ]
+    },
+    {
+      "source_id": "tjro_liame",
+      "endpoint": "POST https://liame.tjro.jus.br/api/pesquisa/precedentes",
+      "http_status": 200,
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "query": "empreitada",
+      "reported_total": 1,
+      "returned": 1,
+      "page_size": 5,
+      "coverage_role": "qualified_precedents",
+      "full_text_status": "not_implemented",
+      "limitations": [
+        "LIAME e um catalogo de precedentes qualificados, nao o acervo geral de acordaos do TJRO.",
+        "Documentos vinculados permanecem como URLs observadas."
+      ]
+    }
+  ]
+}

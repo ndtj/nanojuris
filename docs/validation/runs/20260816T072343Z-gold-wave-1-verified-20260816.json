@@ -1,0 +1,99 @@
+{
+  "checked_sources": [
+    "tjrs_solr",
+    "tjba_graphql"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T07:23:45+00:00",
+  "passed": true,
+  "query": {
+    "page_size": 1,
+    "sha256": "4b228a6ea925aecce683f5abf5f05a24cb122b31c2c796a4ca33495d0de8c592",
+    "text": "responsabilidade civil"
+  },
+  "reports": [
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T07:23:43+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": false,
+      "completeness_reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "content_sha256": "0bd7a1394aa4cfdf100b14a46d96648479a0dbd976fe9e07d76d9a48f2f4285b",
+      "content_type": "text/html; charset=iso-8859-1",
+      "effective_page_size": 1,
+      "elapsed_ms": 797.85,
+      "endpoint": "/buscas/jurisprudencia/ajax.php",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "not_returned",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "offset",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 692019,
+      "requested_page_size": 1,
+      "response_bytes": 408894,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "tjrs_solr",
+      "source_url": "https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php",
+      "status": "valid"
+    },
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T07:23:43+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": false,
+      "completeness_reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "content_sha256": "49a314e5d57f44e0bb2fa311ba49b8a64fd2442f5c1c22a81624f1805e046e34",
+      "content_type": "application/json;charset=UTF-8",
+      "effective_page_size": 1,
+      "elapsed_ms": 1628.1,
+      "endpoint": "/graphql",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "returned",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "page",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 1963121,
+      "requested_page_size": 1,
+      "response_bytes": 46145,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "tjba_graphql",
+      "source_url": "https://jurisprudenciaws.tjba.jus.br/graphql",
+      "status": "valid"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "gold-wave-1-verified-20260816",
+  "summary": {
+    "valid": 2
+  }
+}

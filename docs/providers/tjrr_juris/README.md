@@ -18,6 +18,8 @@
 - Parametros conhecidos: formulario publico com termo livre, pesquisa avancada,
   relator, numero SISCOM/PROJUDI, datas, ementa/indexacao e especie.
 - Postback: reproduzido com `javax.faces.ViewState` obtido na mesma sessao.
+- Limite remoto observado: `rows=10`; solicitações maiores são reduzidas pela
+  própria fonte e a capacidade deve ser expressa por páginas sucessivas.
 - `javax.faces.ViewState`: deve vir da propria sessao publica; nao pode ser
   reutilizado de navegador pessoal.
 
@@ -140,9 +142,12 @@ termo e comando em uma versao do portal, mas sao ids de apresentacao e podem
 mudar. O parser deve localizar labels/names atuais na fixture, nao fixar apenas
 indices JSF.
 
-Paginacao, total, links de detalhe e rota de inteiro teor ainda nao possuem
-contrato fechado. HTML 200 sem sinais de resultado e HTML de estado expirado
-nao devem ser interpretados como vazio sem verificar a mensagem da fonte.
+O contrato de pagina foi testado novamente em 2026-08-16. A pagina 1 publica
+retornou dez itens, mas a tentativa de pagina 2 devolveu novamente o marcador
+de pagina 1. O provider levanta `ParserContractChangedError` para impedir
+duplicacao silenciosa. Isso e uma alteracao/limitacao observada na fonte, nao
+um resultado vazio. HTML 200 sem sinais de resultado e HTML de estado expirado
+continuam sem poder ser interpretados como vazio.
 
 ### MCP E Gate De Promocao
 
@@ -169,3 +174,18 @@ parser. A resposta nao foi versionada no repositorio para evitar armazenar
 dados pessoais e markup de apresentacao. O proximo gate continua sendo uma
 fixture reduzida e revisada com campos juridicos, vazio, erro de ViewState,
 pagina seguinte e detalhe.
+
+## Validacao live de capacidade - 2026-08-16
+
+- Pagina 1: 10 resultados, 10 identificadores unicos, 10 com data, total
+  remoto observado de 13.929.
+- Pagina 2: a fonte retornou marcador de pagina 1; o provider recusou a pagina
+  como `ParserContractChangedError` em vez de repetir registros.
+- Estado: `source_pagination_not_validated`.
+- Limite: a busca segue utilizavel para a primeira pagina, mas nao deve ser
+  tratada como coleta paginada completa ate a fonte honrar o evento PrimeFaces.
+- Em 2026-08-16, sessões limpas também reportaram `rows=10` para solicitações
+  de 25, 50 e 100. A página 2 devolveu o marcador da página 1; o provider
+  mantém `ParserContractChangedError` e não mascara a duplicação.
+
+Evidencia estruturada: `docs/validation/runs/20260816T084500Z-tjpr-tjrr-capacity-20260816.json`.

@@ -1,0 +1,27 @@
+{
+  "source": "tjce_cjsg",
+  "scope": "candidate_contract_diagnostic",
+  "checked_at": "2026-08-16T10:30:00Z",
+  "endpoint": "https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do",
+  "method": "GET",
+  "http_status": null,
+  "access_status": "source_unavailable",
+  "retrieval_status": "connection_reset_before_http_response",
+  "extraction_status": "failed",
+  "returned": 0,
+  "reported_total": null,
+  "latency_ms": null,
+  "content_type": null,
+  "response_bytes": 0,
+  "sha256": null,
+  "full_text_status": "not_validated_live",
+  "quality_flags": [
+    "no_http_payload",
+    "contract_not_live_reproduced"
+  ],
+  "limitations": [
+    "A conexao foi encerrada antes de qualquer status HTTP ou payload.",
+    "O diagnostico nao prova indisponibilidade permanente do tribunal.",
+    "A implementacao offline do provider nao constitui evidencia live do host TJCE."
+  ]
+}

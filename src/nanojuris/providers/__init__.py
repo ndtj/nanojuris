@@ -17,17 +17,23 @@ from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
 from nanojuris.providers.tjam_cjsg import TjamCjsgProvider
+from nanojuris.providers.tjce_cjsg import TjceCjsgProvider
+from nanojuris.providers.tjce_sjuris import TjceSjurisProvider
 from nanojuris.providers.tjdf_juris import TjdfJurisProvider
 from nanojuris.providers.tjgo_projudi_jurisprudencia import TjgoProjudiJurisprudenciaProvider
+from nanojuris.providers.tjma_jurisconsult import TjmaJurisconsultProvider
 from nanojuris.providers.tjms_cjsg import TjmsCjsgProvider
+from nanojuris.providers.tjmt_jurisprudencia_api import TjmtJurisprudenciaApiProvider
 from nanojuris.providers.tjpa_jurisprudencia_bff import TjpaJurisprudenciaBffProvider
 from nanojuris.providers.tjpb_pje_jurisprudencia import TjpbPjeJurisprudenciaProvider
 from nanojuris.providers.tjrj_eproc_jurisprudencia import TjrjEprocJurisprudenciaProvider
+from nanojuris.providers.tjro_liame import TjroLiameProvider
 from nanojuris.providers.tjrs_solr import TjrsSolrProvider
 from nanojuris.providers.tjsc_eproc_jurisprudencia import TjscEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_cjsg import TjspCjsgProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import TjspEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_nugepnac import TjspNugepnacProvider
+from nanojuris.providers.tjto_jurisprudencia import TjtoJurisprudenciaProvider
 from nanojuris.providers.tre_sp_temas import TreSpTemasProvider
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
 from nanojuris.providers.trf5_jurisprudencia import Trf5JurisprudenciaProvider
@@ -42,6 +48,8 @@ __all__ = [
     "StmJurisprudenciaProvider",
     "TceSpJurisprudenciaProvider",
     "TjacCjsgProvider",
+    "TjceCjsgProvider",
+    "TjceSjurisProvider",
     "TjdfJurisProvider",
     "TjgoProjudiJurisprudenciaProvider",
     "TjpaJurisprudenciaBffProvider",
@@ -50,10 +58,14 @@ __all__ = [
     "TjalCjsgProvider",
     "TjamCjsgProvider",
     "TjmsCjsgProvider",
+    "TjmtJurisprudenciaApiProvider",
+    "TjmaJurisconsultProvider",
     "TjspCjsgProvider",
     "TjspEprocJurisprudenciaProvider",
     "TjspNugepnacProvider",
+    "TjtoJurisprudenciaProvider",
     "TjrsSolrProvider",
+    "TjroLiameProvider",
     "TjscEprocJurisprudenciaProvider",
     "TcuJurisprudenciaProvider",
     "TreSpTemasProvider",

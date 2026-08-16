@@ -21,7 +21,7 @@ from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore, StoredRecordKind
 from nanojuris.validation import validate_sources
 
-MAX_MCP_PAGE_SIZE = 50
+MAX_MCP_PAGE_SIZE = 100
 
 
 def list_sources_tool(client: NanoJurisClient | None = None) -> dict[str, Any]:
@@ -58,7 +58,7 @@ def list_courts_tool(
 
 
 def source_diagnostics_tool(
-    source: str = "bnp_pangea",
+    source: str = "tjdf_juris",
     *,
     client: NanoJurisClient | None = None,
 ) -> dict[str, Any]:
@@ -202,11 +202,15 @@ def sync_source_resource_tool(
 def search_jurisprudence_tool(
     text: str = "",
     *,
-    source: str = "bnp_pangea",
+    source: str = "tjdf_juris",
     courts: list[str] | None = None,
     types: list[str] | None = None,
     number: str = "",
     source_origin: str = "",
+    date_from: str = "",
+    date_to: str = "",
+    exact_phrase: str = "",
+    rapporteur: str = "",
     page: int = 1,
     page_size: int = 10,
     canonical: bool = True,
@@ -225,6 +229,10 @@ def search_jurisprudence_tool(
                 types=types or [],
                 number=number,
                 source_origin=source_origin,
+                published_from=date_from,
+                published_to=date_to,
+                exact_phrase=exact_phrase,
+                rapporteur=rapporteur,
                 page=normalized_page,
                 page_size=limited_page_size,
                 canonical=canonical,
@@ -238,6 +246,10 @@ def search_jurisprudence_tool(
             types=types or [],
             number=number,
             source_origin=source_origin,
+            published_from=date_from,
+            published_to=date_to,
+            exact_phrase=exact_phrase,
+            rapporteur=rapporteur,
             page=normalized_page,
             page_size=limited_page_size,
         )
@@ -255,6 +267,10 @@ def search_jurisprudence_tool(
         types=types or [],
         number=number,
         source_origin=source_origin,
+        published_from=date_from,
+        published_to=date_to,
+        exact_phrase=exact_phrase,
+        rapporteur=rapporteur,
         page=normalized_page,
         page_size=limited_page_size,
     )
@@ -269,6 +285,10 @@ def search_unified_tool(
     types: list[str] | None = None,
     number: str = "",
     source_origin: str = "",
+    date_from: str = "",
+    date_to: str = "",
+    exact_phrase: str = "",
+    rapporteur: str = "",
     page: int = 1,
     page_size: int = 10,
     canonical: bool = True,
@@ -285,6 +305,10 @@ def search_unified_tool(
             types=types or [],
             number=number,
             source_origin=source_origin,
+            published_from=date_from,
+            published_to=date_to,
+            exact_phrase=exact_phrase,
+            rapporteur=rapporteur,
             page=_page(page),
             page_size=_limit_page_size(page_size),
             canonical=canonical,
@@ -327,7 +351,7 @@ def search_unified_store_tool(
 def export_results_tool(
     text: str = "",
     *,
-    source: str = "bnp_pangea",
+    source: str = "tjdf_juris",
     output_format: str = "canonical-jsonl",
     courts: list[str] | None = None,
     types: list[str] | None = None,
@@ -359,7 +383,7 @@ def export_results_tool(
 def get_document_tool(
     document_id: str,
     *,
-    source: str = "tjsp_cjsg",
+    source: str = "tjdf_juris",
     client: NanoJurisClient | None = None,
 ) -> dict[str, Any]:
     """Return one public full-text document as a canonical document."""
@@ -376,7 +400,7 @@ def get_document_tool(
 def get_decisions_tool(
     precedent_id: str,
     *,
-    source: str = "bnp_pangea",
+    source: str = "tjdf_juris",
     client: NanoJurisClient | None = None,
 ) -> dict[str, Any]:
     """Return public decision texts linked to a provider identifier."""
@@ -433,10 +457,13 @@ def store_query_tool(
     publication_date_from: str = "",
     publication_date_to: str = "",
     limit: int = 50,
+    offset: int = 0,
 ) -> dict[str, Any]:
-    """Query records from a local SQLite canonical store."""
+    """Query a bounded page and expose total/has_more for complete traversal."""
 
     with SQLiteStore(db_path) as store:
+        normalized_limit = _limit_page_size(limit)
+        normalized_offset = _offset(offset)
         records = store.query_records(
             kind=kind,
             source=source or None,
@@ -449,11 +476,31 @@ def store_query_tool(
             canonical_key=canonical_key or None,
             publication_date_from=publication_date_from or None,
             publication_date_to=publication_date_to or None,
-            limit=_limit_page_size(limit),
+            limit=normalized_limit,
+            offset=normalized_offset,
+        )
+        total = store.count_records(
+            kind=kind,
+            source=source or None,
+            court=court or None,
+            case_number=case_number or None,
+            subject=subject or None,
+            rapporteur=rapporteur or None,
+            decision_type=decision_type or None,
+            precedent_type=precedent_type or None,
+            canonical_key=canonical_key or None,
+            publication_date_from=publication_date_from or None,
+            publication_date_to=publication_date_to or None,
         )
     return {
         "db_path": db_path,
-        "limit": _limit_page_size(limit),
+        "limit": normalized_limit,
+        "offset": normalized_offset,
+        "total": total,
+        "has_more": normalized_offset + len(records) < total,
+        "next_offset": normalized_offset + len(records)
+        if normalized_offset + len(records) < total
+        else None,
         "results": records,
     }
 
@@ -464,11 +511,18 @@ def store_get_tool(db_path: str, kind: StoredRecordKind, record_id: str) -> dict
     with SQLiteStore(db_path) as store:
         record = store.get(kind, record_id)
     if record is None:
-        raise ValueError("Record not found")
+        return {
+            "db_path": db_path,
+            "kind": kind,
+            "id": record_id,
+            "found": False,
+            "record": None,
+        }
     return {
         "db_path": db_path,
         "kind": kind,
         "id": record_id,
+        "found": True,
         "record": record,
     }
 
@@ -491,9 +545,10 @@ def store_run_tool(db_path: str, run_id: str) -> dict[str, Any]:
     with SQLiteStore(db_path) as store:
         run = store.get_research_run(run_id)
     if run is None:
-        raise ValueError("Research run not found")
+        return {"db_path": db_path, "run_id": run_id, "found": False, "run": None}
     return {
         "db_path": db_path,
+        "found": True,
         "run": run,
     }
 

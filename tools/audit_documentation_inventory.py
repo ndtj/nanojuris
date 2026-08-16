@@ -44,6 +44,12 @@ def classify(path: Path) -> tuple[str, str, str]:
             "Copia legada com links, catalogo e testes de paridade ativos.",
         )
     if value.startswith("docs/coverage/"):
+        if value == "docs/coverage/maturity-waves.md":
+            return (
+                "active_guide",
+                "revisar_periodicamente",
+                "Plano mantido manualmente; os indicadores de cobertura sao gerados separadamente.",
+            )
         return "generated", "manter", "Gerado por build_provider_coverage.py."
     if value.startswith("docs/validation/runs/"):
         return "historical_evidence", "manter", "Evidencia live estruturada e auditavel."

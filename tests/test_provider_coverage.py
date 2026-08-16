@@ -5,6 +5,7 @@ from pathlib import Path
 
 from nanojuris.catalog import get_provider_catalog_entry, load_provider_catalog
 from nanojuris.client import NanoJurisClient
+from tools import build_provider_coverage as coverage_builder
 from tools.build_provider_coverage import build_catalog, render_docs
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -100,3 +101,61 @@ def test_reference_provider_scores_above_mapped_candidates() -> None:
             assert (
                 entry["maturity_score"]["total"] < entries["tjdf_juris"]["maturity_score"]["total"]
             )
+
+
+def test_standalone_document_evidence_is_consumed_by_catalog(monkeypatch, tmp_path) -> None:
+    artifact = {
+        "source": "stj_scon",
+        "scope": "public_full_text_document",
+        "checked_at": "2026-08-16T16:15:00-03:00",
+        "document_id": "stj-scon-document-202502858982",
+        "status": "valid",
+        "http_status": 200,
+        "access_status": "public",
+        "retrieval_status": "ok",
+        "extraction_status": "complete",
+        "full_text_status": "loaded",
+        "content_type": "application/pdf",
+        "response_bytes": 270212,
+        "sha256": "a" * 64,
+        "parser": "stj_scon.get_document",
+    }
+    (tmp_path / "document.json").write_text(json.dumps(artifact), encoding="utf-8")
+    monkeypatch.setattr(coverage_builder, "VALIDATION_RUNS_DIR", tmp_path)
+
+    rows = coverage_builder._parse_validation_runs()
+
+    assert rows["stj_scon"]["status"] == "valid"
+    assert rows["stj_scon"]["scope"] == "public_full_text_document"
+    assert rows["stj_scon"]["full_text_status"] == "loaded"
+    assert rows["stj_scon"]["sha256"] == "a" * 64
+    assert rows["stj_scon"]["evidence"].endswith("/document.json")
+
+
+def test_validation_envelope_sources_are_consumed(monkeypatch, tmp_path) -> None:
+    artifact = {
+        "checked_at": "2026-08-16T12:56:03Z",
+        "scope": "missing_state_providers_live",
+        "sources": [
+            {
+                "source_id": "tjro_liame",
+                "checked_at": "2026-08-16T12:56:03Z",
+                "status": "valid",
+                "http_status": 200,
+                "access_status": "public",
+                "retrieval_status": "ok",
+                "extraction_status": "complete",
+                "returned": 1,
+                "reported_total": 1,
+            }
+        ],
+    }
+    path = tmp_path / "envelope.json"
+    path.write_text(json.dumps(artifact), encoding="utf-8")
+    monkeypatch.setattr(coverage_builder, "VALIDATION_RUNS_DIR", tmp_path)
+
+    rows = coverage_builder._parse_validation_runs()
+
+    assert rows["tjro_liame"]["status"] == "valid"
+    assert rows["tjro_liame"]["access_status"] == "public"
+    assert rows["tjro_liame"]["evidence"].endswith("/envelope.json")

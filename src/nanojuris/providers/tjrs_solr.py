@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import time
 from typing import Any
 from urllib.parse import quote_plus, urljoin
@@ -41,6 +42,7 @@ class TjrsSolrProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     @property
     def base_url(self) -> str:
@@ -74,6 +76,7 @@ class TjrsSolrProvider(JurisprudenceProvider):
                 "O parser decodifica o envelope SOLR e preserva facets/highlighting.",
                 "Rotas de detalhe e inteiro teor ainda nao foram promovidas.",
             ],
+            **self._last_http_metadata,
         )
         return parse_tjrs_search_response(data, query=query, trace=trace)
 
@@ -156,6 +159,17 @@ class TjrsSolrProvider(JurisprudenceProvider):
             )
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJRS jurisprudence request failed: {exc}") from exc
+        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", url),
+            "content_type": response.headers.get("Content-Type")
+            if hasattr(response, "headers")
+            else None,
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         if response.status_code == 429:
             raise RateLimitDetectedError("TJRS jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -273,7 +287,10 @@ def _doc_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudence
         number=_first(item, "numero_processo"),
         summary=summary or None,
         rapporteur=_first(item, "nome_relator", "relator_redator") or None,
-        updated_at=_first(item, "data_publicacao", "data_julgamento") or None,
+        updated_at=_first(item, "data_atualizacao") or None,
+        judgment_date=_first(item, "data_julgamento") or None,
+        publication_date=_first(item, "data_publicacao") or None,
+        access_status=AccessStatus.PUBLIC,
         source_trace=trace,
         raw={
             **item,

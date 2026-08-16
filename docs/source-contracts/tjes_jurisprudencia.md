@@ -41,10 +41,11 @@ registrar a resposta de resultados e abrir um item real. Criar tambem um
 provider documental separado para os ementarios PDF, sem misturar esse acervo
 curado com a busca geral de acordaos.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-08-16
 
-- Portal atual sofreu timeout de leitura em 25 segundos; rota ColdFusion legada respondeu HTTP 404.
-- Nenhuma busca, paginacao ou detalhe foi promovida. Ementarios PDF continuam sendo superficie documental independente.
+- Portal atual respondeu HTTP 503; a rota ColdFusion legada respondeu HTTP 404.
+- Nenhuma busca, paginacao ou detalhe foi promovida. Ementarios PDF continuam
+  sendo superficie documental independente.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 

@@ -1,0 +1,90 @@
+{
+  "checked_sources": [
+    "stj_scon",
+    "cjf_jurisprudencia"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T06:34:11+00:00",
+  "passed": false,
+  "query": {
+    "page_size": 1,
+    "sha256": "4b228a6ea925aecce683f5abf5f05a24cb122b31c2c796a4ca33495d0de8c592",
+    "text": "responsabilidade civil"
+  },
+  "reports": [
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T06:34:09+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": null,
+      "completeness_reason": null,
+      "content_sha256": "41c0baa626b5f0158176efc15d3e1587f37ed707d4e268ab73dd81e66b234b1f",
+      "content_type": "text/html;charset=ISO-8859-1",
+      "effective_page_size": 1,
+      "elapsed_ms": 2223.86,
+      "endpoint": "/SCON/pesquisar.jsp",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "document_available",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "unknown",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 40424,
+      "requested_page_size": 1,
+      "response_bytes": 258674,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "stj_scon",
+      "source_url": "https://scon.stj.jus.br/SCON/pesquisar.jsp",
+      "status": "valid"
+    },
+    {
+      "access_status": null,
+      "checked_at": "2026-08-16T06:34:09+00:00",
+      "checks": {},
+      "completeness": null,
+      "completeness_reason": null,
+      "content_sha256": null,
+      "content_type": null,
+      "effective_page_size": null,
+      "elapsed_ms": 633.69,
+      "endpoint": null,
+      "error_type": "AccessControlRequiredError",
+      "extraction_status": null,
+      "failed_checks": [],
+      "full_text_status": null,
+      "http_status": null,
+      "message": "CJF/TRF1 jurisprudence returned access-control HTML",
+      "pagination_mode": null,
+      "passed": false,
+      "query_text": "responsabilidade civil",
+      "reported_total": null,
+      "requested_page_size": 1,
+      "response_bytes": null,
+      "retrieval_status": null,
+      "returned": 0,
+      "source": "cjf_jurisprudencia",
+      "source_url": null,
+      "status": "blocked"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "stj-cjf-trace-20260816",
+  "summary": {
+    "blocked": 1,
+    "valid": 1
+  }
+}

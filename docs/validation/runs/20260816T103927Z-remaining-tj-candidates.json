@@ -1,0 +1,72 @@
+{
+  "scope": "remaining_state_candidate_audit",
+  "checked_at": "2026-08-16T10:39:27Z",
+  "transport": {
+    "tls": "normal",
+    "trust_env": false,
+    "cookies": "ephemeral_session_only",
+    "bypass_attempted": false
+  },
+  "results": [
+    {
+      "source_id": "tjap_tucujuris",
+      "endpoint": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "http_status": 403,
+      "access_status": "access_control_required",
+      "retrieval_status": "http_403",
+      "extraction_status": "not_attempted",
+      "live_status": "blocked_or_inconclusive",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["no_search_contract"]
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "endpoints": [
+        "https://sistemas.tjes.jus.br/portaltj/Pesquisa.aspx",
+        "https://aplicativos.tjes.jus.br/sistemaspublicos/consulta_jurisprudencia/cons_jurisp.cfm"
+      ],
+      "observations": [
+        {"endpoint": "current_portal", "http_status": 503, "retrieval_status": "source_unavailable"},
+        {"endpoint": "legacy_search", "http_status": 404, "retrieval_status": "not_found"}
+      ],
+      "access_status": "source_unavailable_or_changed",
+      "extraction_status": "not_attempted",
+      "live_status": "blocked_or_inconclusive",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["legacy_surface_changed"]
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "portal_url": "https://jurisconsult.tjma.jus.br/",
+      "api_base": "https://apijuris.tjma.jus.br/v1",
+      "metadata_routes": [
+        "/jurisprudencia/lista_relatorios",
+        "/jurisprudencia/links_pesquisa_sumulas",
+        "/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=1"
+      ],
+      "metadata_http_status": 200,
+      "search_probe": {
+        "route": "/sg/jurisprudencias/processos",
+        "http_status": 400,
+        "access_status": "challenge_or_token_required",
+        "retrieval_status": "http_400_missing_challenge_parameters"
+      },
+      "live_status": "metadata_public_search_controlled",
+      "extraction_status": "metadata_only",
+      "full_text_status": "not_validated_live",
+      "quality_flags": ["do_not_promote_metadata_as_decision_search"]
+    },
+    {
+      "source_id": "tjro_liame",
+      "endpoint": "https://liame.tjro.jus.br/",
+      "http_status": 200,
+      "access_status": "public",
+      "retrieval_status": "portal_loaded",
+      "extraction_status": "catalog_scope_only",
+      "live_status": "contextual_catalog",
+      "full_text_status": "not_validated_live",
+      "coverage_role": "qualified_precedent_catalog",
+      "quality_flags": ["not_general_decision_search"]
+    }
+  ]
+}

@@ -78,6 +78,10 @@ def test_provider_search_posts_tjam_cjsg_payload_and_parses_results():
     assert page.source == "tjam_cjsg"
     assert page.results[0].id == "tjam-cjsg-20787558-0"
     assert page.results[0].court == "TJAM"
+    assert page.source_trace is not None
+    assert page.source_trace.http_status == 200
+    assert page.source_trace.content_sha256
+    assert page.source_trace.response_bytes == len(_fixture_html().encode("utf-8"))
     call = session.calls[0]
     payload = call["kwargs"]["data"]
     assert call["method"] == "POST"
@@ -86,6 +90,18 @@ def test_provider_search_posts_tjam_cjsg_payload_and_parses_results():
     assert payload["dados.buscaEmenta"] == "homicidio"
     assert payload["dados.nuProcOrigem"] == "0003949-10.2024.8.04.0000"
     assert payload["tipoDecisaoSelecionados"] == ["A"]
+
+
+def test_provider_search_page_two_uses_public_cjsg_pagination_route():
+    fixture = _fixture_html()
+    session = FakeSession([FakeResponse(fixture), FakeResponse(fixture)])
+    provider = TjamCjsgProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    provider.search(JurisprudenceQuery(text="infanticidio", page=2, page_size=20))
+
+    assert len(session.calls) == 2
+    assert "/trocaDePagina.do?" in session.calls[1]["url"]
+    assert "pagina=2" in session.calls[1]["url"]
 
 
 def test_provider_get_decisions_builds_tjam_getarquivo_url():
@@ -133,3 +149,4 @@ def test_provider_capabilities_describe_tjam_contract():
     assert capabilities.source_url == "https://consultasaj.tjam.jus.br/cjsg"
     assert "CanonicalDecision" in capabilities.canonical_records
     assert "case_number" in capabilities.search_modes
+    assert capabilities.max_remote_page_size == 10

@@ -23,6 +23,7 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -48,6 +49,7 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     @property
     def base_url(self) -> str:
@@ -78,6 +80,7 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
                 "A pagina do PJe e baseada em um; o provider preserva essa semantica.",
                 "O provider nao resolve Cloudflare, captcha ou qualquer desafio humano.",
             ],
+            **self._last_http_metadata,
         )
         return parse_tjpb_search_response(data, query=query, trace=trace, base_url=self.base_url)
 
@@ -242,6 +245,16 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
             )
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJPB jurisprudence request failed: {exc}") from exc
+        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
+        headers = getattr(response, "headers", {}) or {}
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": getattr(response, "url", url),
+            "content_type": headers.get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": "ok" if response.status_code < 400 else "error",
+        }
         if response.status_code == 429:
             raise RateLimitDetectedError("TJPB jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -313,6 +326,7 @@ def _hit_to_result(
     if not external_id:
         raise ParserContractChangedError("TJPB result missing _id")
     summary = _optional_str(item.get("ementa"))
+    judgment_date = _optional_str(item.get("dt_ementa"))
     return JurisprudenceResult(
         id=f"tjpb-pje-{external_id}",
         source="tjpb_pje_jurisprudencia",
@@ -320,7 +334,10 @@ def _hit_to_result(
         type="jurisprudencia_pje",
         number=_optional_str(item.get("numero_processo")),
         summary=summary,
-        updated_at=_optional_str(item.get("dt_ementa")),
+        judgment_date=judgment_date,
+        updated_at=judgment_date,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE,
         source_trace=trace,
         raw={
             **item,
