@@ -19,6 +19,13 @@ A rodada de pesquisa mais recente esta em
 registra novas superficies e separa rotas observadas de contratos prontos para
 implementacao.
 
+## Fronteira De Produto
+
+A descoberta pode registrar superficies processuais quando elas aparecem no
+ecossistema dos tribunais, mas elas nao devem ser promovidas como providers do
+NanoJuris. Consulta processual, DataJud/CNJ, DJEN, comunicacoes judiciais e
+linhas do tempo devem ser documentadas ou migradas para NanoJud.
+
 ## Sequencia recomendada
 
 1. Registrar a entrada feita no navegador: URL inicial, numero/termo pesquisado,

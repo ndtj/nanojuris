@@ -7,6 +7,7 @@ import json
 import re
 import sys
 from collections import Counter
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +38,7 @@ SECTION_PATTERNS: dict[str, tuple[str, ...]] = {
         r"^##\s+Dados canonicos",
         r"^##\s+Campos extraidos",
         r"^##\s+Mapeamento Canonico",
+        r"^##\s+Dados Retornados",
         r"^##\s+Evidencia De Resultado",
     ),
     "states": (
@@ -57,12 +59,20 @@ SECTION_PATTERNS: dict[str, tuple[str, ...]] = {
         r"^##\s+Fixtures necessarias",
         r"^##\s+Decisao",
     ),
-    "mcp": (r"^##\s+MCP", r"^##\s+Uso Via MCP", r"^##\s+Uso via MCP"),
+    "mcp": (
+        r"^##\s+MCP",
+        r"^##\s+Uso Via MCP",
+        r"^##\s+Uso via MCP",
+        r"^##\s+Uso pelo MCP",
+    ),
     "next_steps": (
         r"^##\s+Proximos passos",
         r"^##\s+Próximos passos",
         r"^##\s+Promocao Futura",
         r"^##\s+Decisao De Mapeamento",
+        r"^##\s+Decisao Tecnica",
+        r"^##\s+Criterio de promocao",
+        r"^##\s+Promocao Para Provider",
     ),
 }
 
@@ -141,7 +151,7 @@ def audit() -> list[dict[str, Any]]:
 
 
 def render(rows: list[dict[str, Any]]) -> str:
-    today = "2026-08-12"
+    today = date.today().isoformat()
     readiness = Counter(row["readiness"] for row in rows)
     statuses = Counter(row["status"] for row in rows)
     structurally_complete = sum(not row["missing_sections"] for row in rows)
@@ -179,7 +189,7 @@ def render(rows: list[dict[str, Any]]) -> str:
         "continuam sendo bloqueios reais.",
         "",
         "A evidencia live mais recente esta em "
-        "[live-validation-2026-08-11.md](live-validation-2026-08-11.md).",
+        "[live-validation-latest.md](live-validation-latest.md).",
         "A evidencia historica das 28 fontes candidatas esta em "
         "[candidate-live-validation-2026-08-11.md](candidate-live-validation-2026-08-11.md).",
         "",

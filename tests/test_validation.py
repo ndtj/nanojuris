@@ -5,7 +5,12 @@ from dataclasses import dataclass, field
 import pytest
 
 from nanojuris.cli import main
-from nanojuris.errors import AccessControlRequiredError, ParserContractChangedError
+from nanojuris.errors import (
+    AccessControlRequiredError,
+    ParserContractChangedError,
+    QueryRejectedError,
+    UnsupportedQueryError,
+)
 from nanojuris.models import JurisprudenceQuery, JurisprudenceResult, SearchPage, SourceTrace
 from nanojuris.validation import (
     ProviderValidationStatus,
@@ -15,9 +20,16 @@ from nanojuris.validation import (
 
 
 class FakeProvider:
-    def __init__(self, name: str, *, results: list[JurisprudenceResult] | None = None):
+    def __init__(
+        self,
+        name: str,
+        *,
+        results: list[JurisprudenceResult] | None = None,
+        returned_page_size: int | None = None,
+    ):
         self.name = name
         self.results = results or []
+        self.returned_page_size = returned_page_size
         self.error: Exception | None = None
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
@@ -34,7 +46,7 @@ class FakeProvider:
             start=1 if self.results else 0,
             end=len(self.results),
             page=query.page,
-            page_size=query.page_size,
+            page_size=self.returned_page_size or query.page_size,
             results=self.results,
             source_trace=trace,
             pagination_mode="page",
@@ -105,6 +117,8 @@ def test_validate_provider_contains_malformed_normalized_response():
     [
         (AccessControlRequiredError("blocked"), ProviderValidationStatus.BLOCKED),
         (ParserContractChangedError("changed"), ProviderValidationStatus.SOURCE_CHANGED),
+        (QueryRejectedError("query rejected"), ProviderValidationStatus.QUERY_REJECTED),
+        (UnsupportedQueryError("unsupported"), ProviderValidationStatus.UNSUPPORTED_QUERY),
     ],
 )
 def test_validate_provider_preserves_live_failure_category(error, status):
@@ -115,6 +129,19 @@ def test_validate_provider_preserves_live_failure_category(error, status):
 
     assert report.status == status
     assert report.passed is False
+
+
+def test_validate_provider_accepts_provider_page_size_larger_than_request():
+    report = validate_provider(
+        FakeProvider(
+            "normalizes-page-size",
+            results=[result("normalizes-page-size")],
+            returned_page_size=20,
+        )
+    )
+
+    assert report.status == ProviderValidationStatus.VALID
+    assert report.checks["page_size"] is True
 
 
 def test_validate_sources_preserves_order_and_summary():

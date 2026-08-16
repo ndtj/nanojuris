@@ -1,0 +1,43 @@
+# NanoJuris
+
+NanoJuris is an open source Python library for public Brazilian jurisprudence,
+precedents, decisions, public full text when available, provenance and
+jurimetry.
+
+Primary documentation for humans and AI:
+
+- Coverage index: docs/coverage/README.md
+- Machine-readable provider catalog: docs/registry/provider-catalog.full.json
+- Provider catalog schema: docs/registry/provider-catalog.schema.json
+- Provider dossiers: docs/providers/README.md
+- Source contracts: docs/source-contracts/README.md
+- Architecture: docs/architecture.md
+- Quickstart: docs/quickstart.md
+- MCP: docs/mcp.md
+- Responsible use: docs/responsible-use.md
+- Agent rules: AGENTS.md
+
+Product boundary:
+
+- NanoJuris: jurisprudence, precedents, decisions, informativos, public full
+  text, canonical records, source trace, extraction trace and legal datasets.
+- NanoJud: procedural case lookup, DataJud, DJEN, court communications,
+  movements, parties and procedural timelines.
+
+When selecting sources for broad statistical jurisprudence research, prefer
+providers marked in the catalog as:
+
+- coverage_role: primary_textual_jurisprudence
+- maturity_tier: gold or silver
+- interfaces.unified_search: true
+
+Generated artifacts:
+
+- docs/coverage/*
+- docs/registry/provider-catalog.full.json
+
+Regenerate them with:
+
+```bash
+python tools/build_provider_coverage.py --write
+```

@@ -16,6 +16,12 @@ Para o portao de qualidade Ouro e os contratos de completude, veja
 Para uso por agentes de IA com MCP local, veja
 [ai-agent-usage.md](ai-agent-usage.md).
 
+## Fronteira com NanoJud
+
+Consulta processual, DataJud/CNJ, DJEN, comunicacoes judiciais, partes,
+movimentacoes e linhas do tempo nao sao fontes operacionais do NanoJuris. Esses
+fluxos pertencem ao NanoJud. Veja [migration-to-nanojud.md](migration-to-nanojud.md).
+
 ## Por que existe
 
 Um projeto nacional e escalavel precisa responder perguntas operacionais sem
@@ -135,26 +141,6 @@ Cobertura objetiva:
 - catalogo publico de orgaos e especies;
 - sugestoes quando o endpoint publico estiver disponivel.
 
-### `comunica_pje`
-
-Categoria: comunicacoes judiciais publicas.
-
-Cobertura objetiva:
-
-- busca textual em comunicacoes do Comunica PJe/DJEN;
-- filtro por tribunal via `siglaTribunal`;
-- busca por numero de processo via `numeroProcesso` sem mascara;
-- filtro por data de disponibilizacao via `dataDisponibilizacaoInicio` e
-    `dataDisponibilizacaoFim`;
-- tipo de comunicacao/documento, orgao, classe, texto, data de disponibilizacao,
-  numero do processo e link publico;
-- canonicalizacao como `CanonicalDecision` por compatibilidade operacional,
-  preservando `type="comunicacao"` para diferenciar de acordaos.
-
-Estado atual: provider implementado com fixture offline e busca live reproduzida
-em sessao limpa para `infanticidio`, `TJSP`, `STJ`, numero de processo e filtro
-por data de disponibilizacao.
-
 ### `tjdf_juris`
 
 Categoria: jurisprudencia de tribunal.
@@ -268,52 +254,6 @@ Cobertura objetiva:
 - `get_document` marca redirecionamento para login/CAS como
   `access_status=login_required`;
 - deteccao de captcha/controle de acesso sem bypass.
-
-### `tjsp_esaj_cpopg`
-
-Categoria: consulta processual publica.
-
-Cobertura objetiva:
-
-- consulta de processo de primeiro grau por numero CNJ;
-- busca de lista por nome da parte (`NMPARTE`) e OAB (`NUMOAB`) reproduzida com
-    sessao HTTP limpa;
-- modos de formulario mapeados para documento da parte (`DOCPARTE`), advogado
-    (`NMADVOGADO`), precatoria (`PRECATORIA`), documento de delegacia (`DOCDELEG`)
-    e CDA (`NUMCDA`), sujeitos a variacao de acesso da fonte;
-- redirect oficial `search.do` para `show.do` quando a fonte encontra o caso;
-- classe, assunto, foro, vara, juiz, distribuicao, controle, area, partes e
-        movimentacoes em texto publico;
-- partes e movimentacoes estruturadas quando o HTML publico contem seletores
-    estaveis;
-- resultados de lista com numero CNJ, papel, nome da parte, classe, assunto,
-    data de recebimento, vara e URL publica;
-- normalizacao para `CanonicalDocument` e resumo em `JurisprudenceResult`;
-- deteccao de captcha, multiplas consultas simultaneas e controle de acesso sem
-    bypass.
-
-Estado atual: provider expandido para detalhe por numero CNJ e listas CPOPg.
-Smoke live reproduzido para `NMPARTE` com 4 resultados e `NUMOAB` com 2
-resultados durante a descoberta.
-
-### `tjac_esaj_cpopg`
-
-Categoria: consulta processual publica.
-
-Cobertura objetiva:
-
-- consulta de processo de primeiro grau por numero CNJ;
-- redirect oficial `search.do` para `show.do` quando a fonte encontra o caso;
-- classe, assunto, foro, vara, distribuicao, controle, area, partes e
-    movimentacoes em texto publico;
-- partes e movimentacoes estruturadas quando o HTML publico contem seletores
-    estaveis;
-- normalizacao para `CanonicalDocument` e resumo em `JurisprudenceResult`;
-- deteccao de captcha, login e controle de acesso sem bypass.
-
-Estado atual: provider implementado para detalhe por numero CNJ. Smoke limpo
-reproduzido para `0001970-91.2024.8.01.0001`, com redirect oficial para
-`show.do` e campos processuais publicos.
 
 ### `tjsp_nugepnac`
 

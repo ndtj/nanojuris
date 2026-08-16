@@ -29,6 +29,23 @@ Para uma visão humana da cobertura, consulte o [mapa de cobertura](provider-cov
 e o [auditório documental](provider-documentation-audit.md). Os relatórios de
 validação registram a evidência live sem prometer disponibilidade permanente.
 
+A rodada live mais recente esta em [live-validation-latest.md](live-validation-latest.md).
+
+### Perfis de selecao no Studio
+
+O Studio expoe o catalogo inteiro, mas oferece tres perfis para que a primeira
+consulta seja rapida e compreensivel:
+
+| Perfil | Fontes | Uso |
+| --- | ---: | --- |
+| `maduras` | 7 | primeira consulta com contratos de menor risco operacional |
+| `jurisprudencia` | 34 | cobertura recomendada, incluindo fontes avancadas e restritas |
+| `todas` | 40 | auditoria ampla do catalogo; o roteador explica pulos e falhas |
+
+O perfil nao altera o contrato do provider nem transforma uma fonte restrita
+em disponivel. Para agentes, use `list_sources`, `source_contracts` e o campo
+`routing_summary` da busca unificada antes de interpretar a completude.
+
 ## Estados de acesso
 
 Quando uma consulta é executada, os estados relevantes podem incluir:

@@ -19,8 +19,8 @@ from nanojuris.errors import (
     SourceUnavailableError,
     UnsupportedProviderError,
 )
-from nanojuris.web.schemas import StudioSearchRequest
-from nanojuris.web.studio import studio_search, studio_sources_payload
+from nanojuris.web.schemas import StudioSearchRequest, StudioValidationRequest
+from nanojuris.web.studio import studio_search, studio_sources_payload, studio_validate
 
 
 def create_app(client: NanoJurisClient | None = None) -> Any:
@@ -71,6 +71,18 @@ def create_app(client: NanoJurisClient | None = None) -> Any:
         try:
             request = StudioSearchRequest.from_payload(payload)
             return studio_search(active_client, request)
+        except Exception as exc:  # noqa: BLE001 - API boundary
+            raise _as_http_exception(HTTPException, exc) from exc
+
+    @app.post("/api/validate")
+    def validate(payload: dict[str, Any]) -> dict[str, Any]:
+        """Run an explicit, bounded live contract check for selected sources."""
+
+        try:
+            request = StudioValidationRequest.from_payload(payload)
+            return studio_validate(active_client, request)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
         except Exception as exc:  # noqa: BLE001 - API boundary
             raise _as_http_exception(HTTPException, exc) from exc
 

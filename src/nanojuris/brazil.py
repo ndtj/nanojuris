@@ -451,7 +451,7 @@ _STATE_COURTS = [
         official_url="https://www.tjsp.jus.br/",
         source_system="esaj_cjsg",
         provider_status="implemented",
-        providers=("tjsp_cjsg", "tjsp_eproc_jurisprudencia", "tjsp_esaj_cpopg"),
+        providers=("tjsp_cjsg", "tjsp_eproc_jurisprudencia"),
     ),
     CourtInfo(
         "TJTO",

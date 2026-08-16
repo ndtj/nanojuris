@@ -87,5 +87,5 @@ def test_provider_documentation_audit_report_is_current() -> None:
     assert report_path.read_text(encoding="utf-8") == render(audit())
 
     rows = audit()
-    assert len(rows) == 57
+    assert len(rows) == 54
     assert all(row["parity"] for row in rows)

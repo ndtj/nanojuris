@@ -23,7 +23,7 @@ def test_get_court_normalizes_acronyms():
     assert court.official_url == "https://www.tjsp.jus.br/"
     assert court.source_system == "esaj_cjsg"
     assert court.provider_status == "implemented"
-    assert court.providers == ("tjsp_cjsg", "tjsp_eproc_jurisprudencia", "tjsp_esaj_cpopg")
+    assert court.providers == ("tjsp_cjsg", "tjsp_eproc_jurisprudencia")
     assert normalize_court_code(" trf-1 ") == "TRF1"
 
 

@@ -13,21 +13,18 @@ segredo de justica ou controles de acesso.
 
 | Familia | Exemplos | Melhor uso | Complexidade | Observacoes |
 | --- | --- | --- | --- | --- |
-| APIs publicas/documentadas | DataJud/CNJ, BNP/Pangea, Comunica PJe/DJEN | dados estruturados, cobertura nacional, precedentes e comunicacoes | media | melhor ponto de partida quando endpoints aceitam payloads estaveis |
+| APIs publicas/documentadas | BNP/Pangea e APIs jurisprudenciais | precedentes qualificados e jurisprudencia textual | media | melhor ponto de partida quando endpoints aceitam payloads estaveis |
 | Portais de jurisprudencia dos tribunais superiores | STF, STJ, TST, TSE, STM | acordaos, sumulas, repetitivos, repercussao geral | media/alta | cada tribunal tem contratos e filtros proprios |
 | Portais HTML legados | TJSP/CJSG, e-SAJ, consultas estaduais | jurisprudencia estadual e inteiro teor quando publico | alta | HTML muda, pode haver captcha/controle de acesso |
-| Plataformas processuais | eproc, PJe, Projudi, e-SAJ CPO | consulta processual e documentos publicos pontuais | alta | frequentemente exigem validacao humana ou limitam documentos |
-| Diarios oficiais e comunicacoes | DJEN, DJe, DOU, diarios locais | publicacoes, movimentacoes e atos oficiais | media | bom para datasets, menos direto para jurisprudencia consolidada |
-| Dados abertos e repositórios institucionais | CNJ, STJ dados abertos, portais gov.br | bases historicas, metadados e estudos | media | requer dicionario de campos e versionamento de datasets |
+| Plataformas de jurisprudencia | eproc, PJe, Projudi, e-SAJ CJSG | acordaos, ementas e inteiro teor publico | alta | frequentemente exigem validacao humana ou limitam documentos |
+| Dados abertos e repositórios institucionais | STJ dados abertos e portais institucionais | bases historicas, metadados e estudos | media | requer dicionario de campos e versionamento de datasets |
 
 ## Prioridade de implementacao
 
 | Prioridade | Fonte/familia | Justificativa | Saida esperada |
 | --- | --- | --- | --- |
 | P0 | BNP/Pangea | ja implementado; precedentes qualificados nacionais | `CanonicalPrecedent`, decisoes vinculadas quando disponiveis |
-| P0 | Comunica PJe/DJEN | ja implementado; API publica nacional para comunicacoes judiciais | comunicacoes como `CanonicalDecision` com `type="comunicacao"` |
 | P0 | TJDFT/SISTJ | ja implementado; rota limpa validada a partir de inteligencia CourtsBR | acordaos como `CanonicalDecision` e detalhe HTML publico |
-| P0 | TJAC/e-SAJ CPOPg | ja implementado; processo publico 1G validado por redirect oficial | `CanonicalDocument` de autos/processo publico |
 | P0 | TJMS/CJSG | ja implementado; rota limpa validada a partir de projeto aberto TJMS/e-SAJ | acordaos como `CanonicalDecision` e inteiro teor quando publico |
 | P0 | TJSP/CJSG | ja implementado parcialmente; maior tribunal estadual; HTML real validado | `CanonicalDecision`, `CanonicalDocument` quando publico |
 | P0 | TJSP/NugepNac | ja implementado; catalogo oficial limpo de IRDR/IAC | `CanonicalPrecedent` com tema, questao e tese |
@@ -68,7 +65,6 @@ segredo de justica ou controles de acesso.
 | P1 | TSE/TREs SJUR metadados | backend oficial identificado; classes e relatorias retornam JSON publico, mas busca principal retornou antirrobo | catalogo/filtros eleitorais; decisoes somente se fluxo limpo existir |
 | P1 | TRT2/PJe jurisprudencia metadados | SPA e `/juris-backend/api/opcoes` publicos; documentos retornam `tokenDesafio`/`imagem` | contrato parcial e diagnostico de acesso; nao coletar documentos |
 | P1 | CJF/TRF1 hub e ementario | hub publico e ementario documental; ainda sem endpoint limpo de resultado | rota documental/catalogo |
-| P1 | DataJud/CNJ | cobertura nacional estruturada por processo e classe | metadados nacionais e ponte para jurimetria |
 | P2 | TST/TSE/STM | ramos especializados com alta demanda de pesquisa | decisoes e precedentes por ramo |
 | P2 | TRFs e TJs via familia de sistema | ampliar cobertura regional com reuso de parsers | providers por sistema antes de providers por tribunal |
 
@@ -77,9 +73,7 @@ segredo de justica ou controles de acesso.
 A cobertura ampla do Brasil deve priorizar familias tecnicas reutilizaveis:
 
 - `bnp_pangea`: API JSON de precedentes;
-- `comunica_pje`: API JSON de comunicacoes judiciais/DJEN;
 - `tjdf_juris`: HTML SISTJ/TJDFT para acordaos e bases indexadas;
-- `tjac_esaj_cpopg`: e-SAJ CPOPg/TJAC para consulta processual publica;
 - `tjms_cjsg`: HTML e-SAJ/CJSG do TJMS;
 - `tjgo_projudi_jurisprudencia`: HTML publico PROJUDI/TJGO com POST de busca,
   cards decisorios e inteiro teor embutido no resultado;
@@ -120,7 +114,6 @@ A cobertura ampla do Brasil deve priorizar familias tecnicas reutilizaveis:
 - `esaj`: familia Softplan/e-SAJ para tribunais que compartilham padroes;
 - `eproc`: familia eproc, com pesquisa publica quando disponivel;
 - `pje`: familia PJe, normalmente com maior incidencia de controle de acesso;
-- `datajud`: API CNJ para dados estruturados nacionais;
 - `stj_scon`, `stf_juris`, `tst_jurisprudencia`: providers por tribunal
   superior quando o contrato for proprio.
 

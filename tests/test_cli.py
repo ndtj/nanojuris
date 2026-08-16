@@ -87,7 +87,7 @@ def test_cli_documento_compact_omits_long_fields(monkeypatch, capsys):
             return CanonicalDocument(
                 id=document_id,
                 source=source,
-                document_type="processo_1g",
+                document_type="acordao",
                 text="Texto publico longo",
                 raw_metadata={
                     "case_number": "0003938-14.2017.8.26.0323",
@@ -120,7 +120,6 @@ def test_cli_tribunais_filters_brazilian_courts(capsys):
     assert payload[0]["providers"] == [
         "tjsp_cjsg",
         "tjsp_eproc_jurisprudencia",
-        "tjsp_esaj_cpopg",
     ]
 
 
@@ -278,7 +277,7 @@ def test_cli_buscar_passes_number_filter(monkeypatch, capsys):
         def search(self, text, **kwargs):
             calls.append({"text": text, **kwargs})
             return SearchPage(
-                source="comunica_pje",
+                source="tjdf_juris",
                 total=0,
                 start=0,
                 end=0,
@@ -294,7 +293,7 @@ def test_cli_buscar_passes_number_filter(monkeypatch, capsys):
             "buscar",
             "",
             "--fonte",
-            "comunica_pje",
+            "tjdf_juris",
             "--numero",
             "1500780-26.2025.8.26.0603",
             "--limite",
@@ -304,9 +303,9 @@ def test_cli_buscar_passes_number_filter(monkeypatch, capsys):
 
     assert exit_code == 0
     assert calls[0]["number"] == "1500780-26.2025.8.26.0603"
-    assert calls[0]["source"] == "comunica_pje"
+    assert calls[0]["source"] == "tjdf_juris"
     payload = json.loads(capsys.readouterr().out)
-    assert payload["source"] == "comunica_pje"
+    assert payload["source"] == "tjdf_juris"
 
 
 def test_cli_store_query_filters_records(tmp_path, capsys):
@@ -339,8 +338,8 @@ def test_cli_store_query_compact_omits_long_fields(tmp_path, capsys):
         store.save(
             CanonicalDocument(
                 id="doc-1",
-                source="tjsp_esaj_cpopg",
-                document_type="processo_1g",
+                source="tjsp_cjsg",
+                document_type="acordao",
                 text="texto longo publico",
                 raw_metadata={"case_number": "0003938-14.2017.8.26.0323"},
             )

@@ -98,7 +98,7 @@ Essa distinção evita reportar `total=len(cards)` como total nacional. No estad
 atual, a busca do provider e uma pagina valida, e o `SearchPage.total` ainda e
 uma contagem da resposta parseada, nao o total remoto do TRF4.
 
-## Estrutura dos cards e campos
+## Dados e mapeamento canonico
 
 Cada resultado usa `.resultadoItem`. O parser reconhece:
 
@@ -193,6 +193,14 @@ de contagem. Ao abrir inteiro teor, deve chamar o documento por ID e retornar
 o link oficial. Se a pergunta exigir classe, relator, orgao, assunto ou
 precedente relevante, o agente deve dizer que esses filtros foram observados
 na fonte, mas ainda nao foram convertidos no contrato unificado do provider.
+
+## Proximos passos
+
+1. versionar fixture sanitizada com total remoto e tamanhos oficiais;
+2. fechar fixture de pagina vazia e replay da rota AJAX de paginacao;
+3. separar filtros observados de filtros efetivamente enviados pelo provider;
+4. promover catalogos de classes, relatores e orgaos somente com contrato
+   reproduzido e teste offline.
 
 ## Referencias oficiais
 

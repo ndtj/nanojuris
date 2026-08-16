@@ -43,6 +43,38 @@ Sequencia recomendada:
 responsabilidade civil dano moral consumidor
 ```
 
+### Verificacao live das fontes
+
+O botao **verificar fontes** executa uma consulta minima nas fontes selecionadas
+e mostra o contrato observado naquele momento. A verificacao e opt-in: abrir o
+Studio nao dispara requisicoes contra tribunais automaticamente.
+
+Os estados possuem significados diferentes:
+
+- `valida`: a resposta passou pelo contrato normalizado minimo;
+- `vazia`: a fonte respondeu, mas nao retornou registros para a consulta;
+- `bloqueada`: a fonte exigiu controle de acesso;
+- `indisponivel`: houve falha de rede, timeout ou indisponibilidade;
+- `contrato alterado` / `contrato invalido`: a resposta nao corresponde ao
+  contrato esperado e precisa de investigacao do provider.
+
+Chamada equivalente pela API local:
+
+```powershell
+$body = @{
+  query = "responsabilidade civil"
+  sources = @("tjdf_juris", "tst_jurisprudencia")
+  timeout = 45
+} | ConvertTo-Json -Depth 6
+
+Invoke-RestMethod `
+  -Uri http://127.0.0.1:8765/api/validate `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body $body `
+  -TimeoutSec 60
+```
+
 Exemplo de chamada direta da API do Studio:
 
 ```powershell
@@ -113,4 +145,3 @@ NanoJuris nao tenta contornar controles de acesso. Ele centraliza rotas publicas
 validas, preserva dados juridicos estruturados, expõe diagnostico transparente
 e permite que advogados, pesquisadores e agentes de IA trabalhem com
 jurisprudencia publica de forma rastreavel.
-

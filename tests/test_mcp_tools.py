@@ -196,7 +196,6 @@ def test_list_courts_tool_filters_brazilian_courts():
     assert payload["courts"][0]["providers"] == (
         "tjsp_cjsg",
         "tjsp_eproc_jurisprudencia",
-        "tjsp_esaj_cpopg",
     )
 
 

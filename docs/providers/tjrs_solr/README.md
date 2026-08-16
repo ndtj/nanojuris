@@ -3,6 +3,15 @@
 Status atual: `implemented` para busca JSON/SOLR; detalhe e inteiro teor ainda
 nao estao promovidos.
 
+## Identidade e escopo
+
+- Fonte oficial: portal de jurisprudencia do Tribunal de Justica do Rio Grande
+  do Sul.
+- Categoria: `court_jurisprudence`.
+- Familia tecnica: formulario AJAX legado com resposta SOLR-like em JSON.
+- O provider cobre busca de jurisprudencia e metadados retornados pelo indice;
+  nao representa consulta processual nem garante inteiro teor.
+
 ## Contrato HTTP
 
 - Portal: `https://www.tjrs.jus.br/novo/buscas-solr/?aba=jurisprudencia`.
@@ -41,6 +50,21 @@ fixtures de vazio, pagina seguinte, detalhe e inteiro teor.
 
 Busca e paginacao ja possuem parser e testes offline; detalhe e inteiro teor
 continuam deliberadamente fora do contrato executavel.
+
+## Uso pelo MCP
+
+O agente pode usar `tjrs_solr` para pesquisa textual, numero de processo e
+intervalo de publicacao. Deve preservar `numFound`, `start`, facets,
+highlighting, `SourceTrace` e o estado de completude da pagina. A resposta deve
+informar que detalhe e inteiro teor ainda nao estao validados e que o header
+`text/html` observado nao altera o fato de o corpo ser JSON.
+
+## Proximos passos
+
+1. adicionar fixture de resposta vazia e pagina seguinte;
+2. validar rotas publicas de detalhe e inteiro teor sem controle de acesso;
+3. mapear filtros de faceta somente depois de reproduzir payload e retorno;
+4. executar teste live opt-in com termo especifico e `page_size` pequeno.
 
 ## Validacao live 2026-08-11
 

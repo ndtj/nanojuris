@@ -211,9 +211,6 @@ def _looks_like_decision(result: JurisprudenceResult) -> bool:
         "acórdão",
         "monocratica",
         "monocrática",
-        "comunicacao",
-        "comunicação",
-        "processo",
         "sentenca",
         "sentença",
     }

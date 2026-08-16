@@ -337,10 +337,10 @@ def test_client_search_many_reports_skipped_sources_by_semantic_reason():
         {
             "source": "case_lookup",
             "category": "case_lookup",
-            "reason": "case_lookup_requires_identifier",
+            "reason": "outside_jurisprudence_scope",
             "message": (
-                "Consulta processual exige numero CNJ, parte, documento, OAB "
-                "ou outro identificador; nao e uma busca textual de jurisprudencia."
+                "Consulta processual pertence ao NanoJud e nao participa da busca "
+                "textual de jurisprudencia do NanoJuris."
             ),
         },
         {
@@ -363,10 +363,10 @@ def test_client_search_many_reports_skipped_sources_by_semantic_reason():
         {
             "source": "case_lookup",
             "action": "skipped",
-            "reason": "case_lookup_requires_identifier",
+            "reason": "outside_jurisprudence_scope",
             "message": (
-                "Consulta processual exige numero CNJ, parte, documento, OAB "
-                "ou outro identificador; nao e uma busca textual de jurisprudencia."
+                "Consulta processual pertence ao NanoJud e nao participa da busca "
+                "textual de jurisprudencia do NanoJuris."
             ),
         },
         {
@@ -381,7 +381,7 @@ def test_client_search_many_reports_skipped_sources_by_semantic_reason():
     ]
 
 
-def test_client_search_many_allows_case_lookup_when_identifier_is_present():
+def test_client_search_many_keeps_case_lookup_outside_jurisprudence_scope():
     client = NanoJurisClient(providers=[FakeProvider(), CaseLookupProvider()])
 
     payload = client.search_many(
@@ -391,9 +391,19 @@ def test_client_search_many_allows_case_lookup_when_identifier_is_present():
         canonical=False,
     )
 
-    assert payload["searched_sources"] == ["fake", "case_lookup"]
-    assert payload["skipped_sources"] == []
-    assert payload["total_returned"] == 2
+    assert payload["searched_sources"] == ["fake"]
+    assert payload["skipped_sources"] == [
+        {
+            "source": "case_lookup",
+            "category": "case_lookup",
+            "reason": "outside_jurisprudence_scope",
+            "message": (
+                "Consulta processual pertence ao NanoJud e nao participa da busca "
+                "textual de jurisprudencia do NanoJuris."
+            ),
+        }
+    ]
+    assert payload["total_returned"] == 1
 
 
 def test_client_search_many_skips_jurisprudence_sources_without_identifier_contract():

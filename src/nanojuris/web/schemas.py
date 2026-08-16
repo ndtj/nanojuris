@@ -42,6 +42,32 @@ class StudioSearchRequest:
         return kwargs
 
 
+@dataclass(slots=True)
+class StudioValidationRequest:
+    """Bounded live validation request exposed by the Studio."""
+
+    query: str = "responsabilidade civil"
+    sources: list[str] = field(default_factory=list)
+    timeout: float = 45.0
+
+    @classmethod
+    def from_payload(cls, payload: dict[str, Any]) -> StudioValidationRequest:
+        query = str(payload.get("query") or payload.get("text") or "responsabilidade civil").strip()
+        if not query:
+            raise ValueError("query must not be empty")
+        if len(query) > 500:
+            raise ValueError("query must contain at most 500 characters")
+
+        raw_timeout = payload.get("timeout", 45)
+        try:
+            timeout = float(raw_timeout)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("timeout must be a number") from exc
+        if not 1 <= timeout <= 120:
+            raise ValueError("timeout must be between 1 and 120 seconds")
+        return cls(query=query, sources=_string_list(payload.get("sources")), timeout=timeout)
+
+
 def _string_list(value: Any) -> list[str]:
     if value in (None, "", "all"):
         return []

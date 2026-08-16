@@ -6,8 +6,12 @@ const state = {
   status: {},
   routing: [],
   loading: false,
+  validation: null,
+  validationLoading: false,
+  validationError: "",
   error: "",
   lastQuery: "",
+  sourceFilter: "",
   filters: {
     date_from: "",
     date_to: "",
@@ -117,22 +121,42 @@ function render() {
             <aside class="sidebar">
               <div class="sidebar-header">
                 <h2>Fontes</h2>
-                <span class="selection-count">${state.selected.size}/${state.sources.length}</span>
+                <span class="selection-count" aria-live="polite">${state.selected.size}/${state.sources.length}</span>
               </div>
+              <p class="source-policy">
+                ${state.defaultSources.length} estaveis por padrao ·
+                ${state.sources.filter((source) => source.recommended_for_studio).length} recomendadas ·
+                ${state.sources.length} catalogadas
+              </p>
               <div class="source-presets" aria-label="Presets de fontes">
-                <button class="ghost" data-preset="default" type="button">maduras</button>
-                <button class="ghost" data-preset="juris" type="button">jurisprudencia</button>
-                <button class="ghost" data-preset="all" type="button">todas</button>
-                <button class="ghost" data-preset="clear" type="button">limpar</button>
+                <button class="ghost" data-preset="default" type="button" title="Fontes estaveis para uma primeira consulta">maduras (${state.defaultSources.length})</button>
+                <button class="ghost" data-preset="juris" type="button" title="Todas as fontes recomendadas para jurisprudencia">jurisprudencia (${state.sources.filter((source) => source.recommended_for_studio).length})</button>
+                <button class="ghost" data-preset="all" type="button" title="Todo o catalogo registrado">todas (${state.sources.length})</button>
+                <button class="ghost" data-preset="clear" type="button" title="Limpar a selecao atual">limpar</button>
+                <button class="ghost validate-button" data-action="validate" type="button" title="Executar uma verificacao live limitada nas fontes selecionadas" ${
+                  state.validationLoading ? "disabled" : ""
+                }>verificar fontes</button>
               </div>
+              <label class="source-filter" for="source-filter">
+                Filtrar catalogo
+                <input
+                  id="source-filter"
+                  type="search"
+                  autocomplete="off"
+                  placeholder="TJDFT, STF, eproc..."
+                  value="${escapeAttribute(state.sourceFilter)}"
+                />
+              </label>
+              <p class="source-filter-count">${visibleSources().length} de ${state.sources.length} fontes visiveis</p>
               ${renderSelectionWarning()}
               <div class="source-list">
-                ${state.sources.map(renderSource).join("")}
+                ${visibleSources().map(renderSource).join("") || '<p class="source-filter-empty">Nenhuma fonte corresponde ao filtro.</p>'}
               </div>
             </aside>
 
             <section class="content">
               ${renderStatus()}
+              ${renderValidation()}
               ${renderDiagnostics()}
               ${state.error ? `<div class="empty">${escapeHtml(state.error)}</div>` : renderResults()}
             </section>
@@ -159,6 +183,10 @@ function renderSource(source) {
   const checked = state.selected.has(source.source) ? "checked" : "";
   const filters = (source.supported_filters || []).slice(0, 4).join(" - ");
   const tier = source.studio_tier || "experimental";
+  const liveReport = (state.validation?.reports || []).find(
+    (report) => report.source === source.source,
+  );
+  const liveStatus = liveReport ? ` - live ${validationStatusLabel(liveReport.status)}` : "";
   return `
     <label class="source-card ${escapeHtml(tier)}" title="${escapeAttribute(
       source.jurimetry_fit || "",
@@ -173,11 +201,134 @@ function renderSource(source) {
           ${escapeHtml(source.category)}
           - nivel ${escapeHtml(source.contract_level || "?")}
           - risco ${escapeHtml(source.risk_level || "?")}
+          - ${escapeHtml(tier)}
           ${filters ? ` - ${escapeHtml(filters)}` : ""}
+          ${escapeHtml(liveStatus)}
+          ${source.documentation_url ? ` - <a class="source-doc" href="${escapeAttribute(source.documentation_url)}" target="_blank" rel="noreferrer">contrato</a>` : ""}
         </span>
       </span>
     </label>
   `;
+}
+
+function renderValidation() {
+  if (state.validationLoading) {
+    return `
+      <section class="validation-panel" aria-live="polite" aria-busy="true">
+        <div class="validation-header">
+          <div>
+            <h2>Verificacao live</h2>
+            <p>Consultando as fontes selecionadas com uma requisicao pequena e controlada.</p>
+          </div>
+          <span class="status-chip">em andamento</span>
+        </div>
+      </section>
+    `;
+  }
+  if (!state.validation && !state.validationError) return "";
+  if (state.validationError) {
+    return `
+      <section class="validation-panel validation-error" aria-live="polite">
+        <div class="validation-header">
+          <div>
+            <h2>Verificacao live</h2>
+            <p>${escapeHtml(state.validationError)}</p>
+          </div>
+          <span class="status-chip failed">erro</span>
+        </div>
+      </section>
+    `;
+  }
+  const payload = state.validation;
+  const summary = Object.entries(payload.summary || {});
+  const reports = payload.reports || [];
+  return `
+    <section class="validation-panel" aria-live="polite">
+      <div class="validation-header">
+        <div>
+          <h2>Verificacao live</h2>
+          <p>${reports.length} fonte(s) verificadas para "${escapeHtml(payload.query?.text || "")}".</p>
+        </div>
+        <span class="status-chip ${payload.passed ? "ok" : "failed"}">${
+          payload.complete ? (payload.passed ? "contrato ok" : "atencao") : "parcial"
+        }</span>
+      </div>
+      <div class="validation-summary">
+        ${summary
+          .map(
+            ([status, count]) =>
+              `<span class="validation-count ${escapeHtml(status)}"><strong>${count}</strong>${escapeHtml(
+                validationStatusLabel(status),
+              )}</span>`,
+          )
+          .join("")}
+      </div>
+      <div class="validation-list">
+        ${reports.map(renderValidationReport).join("")}
+      </div>
+      <p class="validation-note">A verificacao e um retrato live. Ela nao garante disponibilidade futura nem substitui a leitura da fonte oficial.</p>
+    </section>
+  `;
+}
+
+function renderValidationReport(report) {
+  const details = [
+    report.returned ? `${report.returned} resultado(s)` : "sem resultados",
+    report.elapsed_ms ? `${Math.round(report.elapsed_ms)} ms` : "tempo nao informado",
+  ];
+  if (report.reported_total !== null && report.reported_total !== undefined) {
+    details.push(`${report.reported_total} total na fonte`);
+  }
+  return `
+    <div class="validation-row ${escapeHtml(report.status)}">
+      <div>
+        <strong>${escapeHtml(report.source)}</strong>
+        <span>${escapeHtml(details.join(" - "))}</span>
+      </div>
+      <span class="status-chip ${escapeHtml(report.status)}">${escapeHtml(
+        validationStatusLabel(report.status),
+      )}</span>
+      ${
+        report.message
+          ? `<p>${escapeHtml(validationHumanMessage(report))}</p>
+             <details class="validation-details">
+               <summary>detalhes tecnicos</summary>
+               <span>${escapeHtml(report.message)}</span>
+             </details>`
+          : ""
+      }
+    </div>
+  `;
+}
+
+function validationHumanMessage(report) {
+  return {
+    blocked: "A fonte exige controle de acesso externo.",
+    rate_limited: "A fonte sinalizou limite de requisicoes.",
+    source_unavailable: "A fonte nao respondeu ou ficou indisponivel nesta verificacao.",
+    source_changed: "A resposta da fonte mudou e precisa de revisao do provider.",
+    contract_invalid: "A resposta nao passou pelo contrato normalizado minimo.",
+    timeout: "A fonte excedeu o limite de tempo da verificacao.",
+    error: "A verificacao encontrou um erro no provider.",
+    query_rejected: "A fonte rejeitou a combinacao de consulta enviada.",
+    unsupported_query: "Este provider nao oferece esta modalidade de consulta.",
+  }[report.status] || report.message;
+}
+
+function validationStatusLabel(status) {
+  return {
+    valid: "valida",
+    empty: "vazia",
+    blocked: "bloqueada",
+    rate_limited: "limite",
+    source_unavailable: "indisponivel",
+    source_changed: "contrato alterado",
+    contract_invalid: "contrato invalido",
+    timeout: "timeout",
+    error: "erro",
+    query_rejected: "consulta rejeitada",
+    unsupported_query: "nao aplicavel",
+  }[status] || status;
 }
 
 function renderStatus() {
@@ -287,7 +438,10 @@ function renderResult(result, index) {
               : ""
           }
         </div>
-        <pre class="json-view">${escapeHtml(JSON.stringify(result, null, 2))}</pre>
+        <details class="raw-payload">
+          <summary>ver JSON completo</summary>
+          <pre class="json-view">${escapeHtml(JSON.stringify(result, null, 2))}</pre>
+        </details>
       </div>
     </details>
   `;
@@ -298,11 +452,19 @@ function bindEvents() {
   document.querySelectorAll("[data-preset]").forEach((item) => {
     item.addEventListener("click", () => applyPreset(item.dataset.preset));
   });
+  document.querySelector("[data-action='validate']")?.addEventListener("click", validateSources);
   document.querySelector("#query")?.addEventListener("input", updateStateFromInputs);
   document.querySelector("#date-from")?.addEventListener("change", updateStateFromInputs);
   document.querySelector("#date-to")?.addEventListener("change", updateStateFromInputs);
   document.querySelector("#number")?.addEventListener("input", updateStateFromInputs);
   document.querySelector("#limit")?.addEventListener("change", updateStateFromInputs);
+  document.querySelector("#source-filter")?.addEventListener("input", (event) => {
+    state.sourceFilter = event.target.value || "";
+    render();
+    const filter = document.querySelector("#source-filter");
+    filter?.focus();
+    filter?.setSelectionRange(state.sourceFilter.length, state.sourceFilter.length);
+  });
   document.querySelector("#copy-all")?.addEventListener("click", () => {
     copyText(JSON.stringify(state.results, null, 2));
   });
@@ -313,6 +475,9 @@ function bindEvents() {
       else state.selected.delete(source);
       render();
     });
+  });
+  document.querySelectorAll(".source-doc").forEach((item) => {
+    item.addEventListener("click", (event) => event.stopPropagation());
   });
   document.querySelectorAll("[data-copy]").forEach((item) => {
     item.addEventListener("click", (event) => {
@@ -358,6 +523,32 @@ async function submitSearch(event) {
   }
 }
 
+async function validateSources() {
+  updateStateFromInputs();
+  state.validationLoading = true;
+  state.validationError = "";
+  render();
+  try {
+    const response = await fetch("/api/validate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sources: [...state.selected],
+        query: state.lastQuery.trim() || "responsabilidade civil",
+        timeout: 45,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.detail || "Falha na verificacao live");
+    state.validation = payload;
+  } catch (error) {
+    state.validationError = error.message || String(error);
+  } finally {
+    state.validationLoading = false;
+    render();
+  }
+}
+
 function updateStateFromInputs() {
   state.lastQuery = document.querySelector("#query")?.value || state.lastQuery;
   state.filters = {
@@ -388,6 +579,18 @@ function applyPreset(preset) {
 
 function selectedSources() {
   return state.sources.filter((source) => state.selected.has(source.source));
+}
+
+function visibleSources() {
+  const query = state.sourceFilter.trim().toLowerCase();
+  if (!query) return state.sources;
+  return state.sources.filter((source) =>
+    [source.source, source.display_name, source.category]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase()
+      .includes(query),
+  );
 }
 
 async function copyText(text) {

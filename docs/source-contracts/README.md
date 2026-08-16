@@ -27,7 +27,6 @@ A validacao live mais recente dos candidatos esta em
 | --- | --- | --- |
 | `bnp_pangea` | precedentes qualificados | [bnp_pangea.md](bnp_pangea.md) |
 | `cnj_jurisprudencia` | jurisprudencia curada | [cnj_jurisprudencia.md](cnj_jurisprudencia.md) |
-| `comunica_pje` | comunicacoes judiciais | [comunica_pje.md](comunica_pje.md) |
 | `tnu_eproc_jurisprudencia` | jurisprudencia eproc federal | [tnu_eproc_jurisprudencia.md](tnu_eproc_jurisprudencia.md) |
 | `stf_informativo` | jurisprudencia curada | [stf_informativo.md](stf_informativo.md) |
 | `stf_juris` | jurisprudencia superior | [stf_juris.md](stf_juris.md) |
@@ -38,7 +37,6 @@ A validacao live mais recente dos candidatos esta em
 | `tce_sp_jurisprudencia` | jurisprudencia administrativa | [tce_sp_jurisprudencia.md](tce_sp_jurisprudencia.md) |
 | `tjce_informativos` | jurisprudencia curada | [tjce_informativos.md](tjce_informativos.md) |
 | `tjac_cjsg` | jurisprudencia CJSG/e-SAJ | [tjac_cjsg.md](tjac_cjsg.md) |
-| `tjac_esaj_cpopg` | consulta processual | [tjac_esaj_cpopg.md](tjac_esaj_cpopg.md) |
 | `tjal_cjsg` | jurisprudencia CJSG/e-SAJ | [tjal_cjsg.md](tjal_cjsg.md) |
 | `tjam_cjsg` | jurisprudencia CJSG/e-SAJ | [tjam_cjsg.md](tjam_cjsg.md) |
 | `tjdf_juris` | jurisprudencia judicial | [tjdf_juris.md](tjdf_juris.md) |
@@ -48,7 +46,6 @@ A validacao live mais recente dos candidatos esta em
 | `tjpr_jurisprudencia` | jurisprudencia judicial | [tjpr_jurisprudencia.md](tjpr_jurisprudencia.md) |
 | `tjsp_cjsg` | jurisprudencia CJSG/e-SAJ | [tjsp_cjsg.md](tjsp_cjsg.md) |
 | `tjsp_eproc_jurisprudencia` | jurisprudencia eproc | [tjsp_eproc_jurisprudencia.md](tjsp_eproc_jurisprudencia.md) |
-| `tjsp_esaj_cpopg` | consulta processual | [tjsp_esaj_cpopg.md](tjsp_esaj_cpopg.md) |
 | `tjsp_nugepnac` | precedentes locais | [tjsp_nugepnac.md](tjsp_nugepnac.md) |
 | `tre_sp_temas` | jurisprudencia eleitoral tematica | [tre_sp_temas.md](tre_sp_temas.md) |
 | `trf2_eproc_jurisprudencia` | jurisprudencia eproc federal | [trf2_eproc_jurisprudencia.md](trf2_eproc_jurisprudencia.md) |

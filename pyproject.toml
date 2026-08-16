@@ -66,6 +66,9 @@ dev = [
   "ruff>=0.5",
   "twine>=5.0"
 ]
+qa = [
+  "playwright>=1.40"
+]
 mcp = [
   "mcp>=1.0,<3"
 ]
@@ -89,7 +92,8 @@ nanojuris-studio = "nanojuris.web.server:main"
 testpaths = ["tests"]
 addopts = "-ra"
 markers = [
-  "live: testes opcionais que consultam fontes externas reais"
+  "live: testes opcionais que consultam fontes externas reais",
+  "e2e: testes de navegador locais com Playwright"
 ]
 
 [tool.ruff]

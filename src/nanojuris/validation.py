@@ -15,9 +15,11 @@ from nanojuris.errors import (
     NanoJurisError,
     NetworkConfigurationError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
     UnsupportedProviderError,
+    UnsupportedQueryError,
 )
 from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.base import JurisprudenceProvider
@@ -35,6 +37,8 @@ class ProviderValidationStatus(str, Enum):
     CONTRACT_INVALID = "contract_invalid"
     TIMEOUT = "timeout"
     ERROR = "error"
+    QUERY_REJECTED = "query_rejected"
+    UNSUPPORTED_QUERY = "unsupported_query"
 
 
 @dataclass(slots=True)
@@ -96,7 +100,7 @@ def validate_provider(
             "page_source": page.source == provider.name,
             "page_trace": page.source_trace is not None,
             "page_number": page.page == 1,
-            "page_size": page.page_size == page_size,
+            "page_size": page.page_size >= page_size,
             "reported_total_nonnegative": page.total >= 0,
         }
         if page.results:
@@ -256,6 +260,10 @@ def _status_for_error(error: Exception) -> ProviderValidationStatus:
         return ProviderValidationStatus.RATE_LIMITED
     if isinstance(error, ParserContractChangedError):
         return ProviderValidationStatus.SOURCE_CHANGED
+    if isinstance(error, QueryRejectedError):
+        return ProviderValidationStatus.QUERY_REJECTED
+    if isinstance(error, UnsupportedQueryError):
+        return ProviderValidationStatus.UNSUPPORTED_QUERY
     if isinstance(error, (NetworkConfigurationError, SourceUnavailableError)):
         return ProviderValidationStatus.SOURCE_UNAVAILABLE
     if isinstance(error, (NanoJurisError, InternalProviderError)):

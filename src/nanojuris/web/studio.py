@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections import Counter
 from dataclasses import asdict, is_dataclass
 from enum import Enum
 from typing import Any, cast
@@ -9,7 +10,8 @@ from typing import Any, cast
 from nanojuris.client import NanoJurisClient
 from nanojuris.models import ProviderCapabilities
 from nanojuris.source_contracts import assess_source_contract
-from nanojuris.web.schemas import StudioSearchRequest
+from nanojuris.validation import validate_sources
+from nanojuris.web.schemas import StudioSearchRequest, StudioValidationRequest
 
 UNIVERSAL_FILTERS = [
     "text",
@@ -47,10 +49,34 @@ def studio_sources_payload(client: NanoJurisClient) -> dict[str, Any]:
         item["risk_level"] = contract.risk_level
         item["jurimetry_fit"] = contract.jurimetry_fit
         item["studio_tier"] = _studio_tier(capability, contract.risk_level, contract.contract_level)
+        item["documentation_url"] = (
+            "https://github.com/ndtj/nanojuris/blob/main/docs/providers/"
+            f"{capability.source}/README.md"
+        )
         sources.append(item)
     return {
         "total": len(sources),
         "default_sources": _default_studio_sources(sources),
+        "recommended_sources": [
+            str(item["source"]) for item in sources if item.get("recommended_for_studio")
+        ],
+        "tier_counts": dict(Counter(str(item["studio_tier"]) for item in sources)),
+        "selection_policy": {
+            "default": "stable",
+            "jurisprudence": "recommended",
+            "all": "catalog",
+            "default_explanation": (
+                "O modo padrao seleciona fontes estaveis para uma primeira consulta previsivel."
+            ),
+            "jurisprudence_explanation": (
+                "O modo jurisprudencia inclui fontes recomendadas, inclusive contratos avancados "
+                "e fontes com risco de acesso explicitamente sinalizado."
+            ),
+            "all_explanation": (
+                "O modo todas consulta todo o catalogo; fontes fora do escopo podem ser puladas "
+                "pelo roteador e falhas permanecem visiveis."
+            ),
+        },
         "sources": sources,
     }
 
@@ -82,6 +108,29 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
         "errors": payload["errors"],
         "results": results,
     }
+
+
+def studio_validate(
+    client: NanoJurisClient,
+    request: StudioValidationRequest,
+) -> dict[str, Any]:
+    """Run the same live contract validation used by CLI and MCP."""
+
+    sources = request.sources or studio_sources_payload(client)["default_sources"]
+    method = getattr(client, "validate_sources", None)
+    if callable(method):
+        return _jsonable(
+            method(sources=sources, text=request.query, timeout=request.timeout, page_size=1)
+        )
+    return _jsonable(
+        validate_sources(
+            client,
+            sources=sources,
+            text=request.query,
+            timeout=request.timeout,
+            page_size=1,
+        )
+    )
 
 
 def supported_filters_for(capability: ProviderCapabilities) -> list[str]:

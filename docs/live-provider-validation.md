@@ -24,6 +24,12 @@ fonte respondeu, mas a normalizacao perdeu uma garantia minima. `blocked`,
 classificadas e devem orientar a investigacao, sem serem convertidas em
 resultado vazio.
 
+`query_rejected` significa que a fonte rejeitou a combinacao de parametros;
+`unsupported_query` significa que a modalidade solicitada nao faz parte do
+contrato daquele provider, como um catalogo sem busca online ou uma consulta
+processual que exige numero CNJ. Esses estados nao devem ser tratados como
+mudanca de contrato ou indisponibilidade da fonte.
+
 ## MCP
 
 Agentes podem chamar `source_validation` com `sources`, `text` e `timeout`.

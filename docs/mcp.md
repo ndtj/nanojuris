@@ -225,11 +225,10 @@ Para uso por agentes, a resposta tambem separa roteamento semantico:
 - `errors`: fontes chamadas que falharam por indisponibilidade, captcha,
   controle de acesso ou mudanca de contrato.
 
-Essa separacao evita falso diagnostico. Uma fonte `case_lookup`, por exemplo,
-nao deve ser tratada como quebrada quando o usuario pergunta por uma tese
-jurisprudencial livre como `idpj`; ela exige numero CNJ, parte, documento, OAB
-ou outro identificador. Do mesmo modo, uma fonte de `judicial_communications`
-retorna comunicacoes/intimacoes, nao julgados para estudo jurimetrico.
+Essa separacao evita falso diagnostico. Fontes de consulta processual,
+DataJud/CNJ, DJEN e comunicacoes judiciais pertencem ao NanoJud. No NanoJuris,
+o MCP deve tratar esses pedidos como fora do escopo da busca textual de
+jurisprudencia.
 
 Quando a consulta informa `number`, `party_name`, `oab` ou outro identificador,
 o roteador compara o filtro com `supported_filters` da fonte. Uma fonte que

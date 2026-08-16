@@ -143,13 +143,13 @@ retornados.
 | `routing_summary` | Explicacao pronta para o usuario sobre consultar, pular ou falhar. |
 | `errors` | Fontes chamadas que falharam por erro real, acesso ou contrato. |
 
-Isso evita falso diagnostico. Uma consulta textual como `idpj` nao deve chamar
-fontes `case_lookup` sem numero CNJ, parte, OAB ou documento. Do mesmo modo,
-uma fonte de comunicacoes judiciais nao deve ser usada como jurisprudencia
-decisoria.
+Isso evita falso diagnostico. O NanoJuris nao usa fontes de consulta processual
+ou comunicacoes judiciais na busca textual de jurisprudencia. Se a pergunta do
+usuario pedir andamentos, partes, movimentacoes, DataJud/CNJ, DJEN ou timeline,
+roteie a tarefa para NanoJud.
 
-Se a pergunta trouxer numero CNJ, parte, OAB ou outro identificador, confira
-tambem `skipped_sources`. Uma fonte que nao declara o filtro em
+Se a pergunta trouxer numero CNJ como filtro de uma decisao jurisprudencial,
+confira tambem `skipped_sources`. Uma fonte que nao declara o filtro em
 `supported_filters` pode ser pulada para evitar falso positivo por texto
 parecido. Isso e diferente de uma fonte que foi chamada e falhou: a primeira
 decisao e semantica, a segunda e um erro operacional ou de contrato.

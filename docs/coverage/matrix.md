@@ -1,0 +1,60 @@
+# Coverage Matrix
+
+Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualmente os dados tabulares.
+
+| Fonte | Ciclo | Papel | Maturidade | Prioridade | Live | Busca Unificada | Inteiro Teor | Doc |
+| --- | --- | --- | --- | --- | --- | ---: | ---: | --- |
+| [`bnp_pangea`](../providers/bnp_pangea/README.md) | implemented | `precedent_context` | `context` | `P1_contextual_value` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`cjf_jurisprudencia`](../providers/cjf_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`cnj_jurisprudencia`](../providers/cnj_jurisprudencia/README.md) | implemented | `curated_context` | `context` | `P1_contextual_value` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`eproc_jurisprudencia_federal`](../providers/eproc_jurisprudencia_federal/README.md) | family | `implementation_family` | `family` | `P1_family_reuse` | `not_checked_in_latest_focused_run` | nao | nao | `family_spec` |
+| [`falcao_jt`](../providers/falcao_jt/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`justica_eleitoral_sjur`](../providers/justica_eleitoral_sjur/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`stf_informativo`](../providers/stf_informativo/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`stf_juris`](../providers/stf_juris/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`stj_dados_abertos_jurisprudencia`](../providers/stj_dados_abertos_jurisprudencia/README.md) | implemented | `dataset_pipeline` | `context` | `P1_contextual_value` | `not_checked_in_latest_focused_run` | nao | nao | `needs_deepening` |
+| [`stj_informativo`](../providers/stj_informativo/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`stj_scon`](../providers/stj_scon/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`stm_jurisprudencia`](../providers/stm_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tce_sp_jurisprudencia`](../providers/tce_sp_jurisprudencia/README.md) | implemented | `administrative_context` | `bronze` | `P2_maintain` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`tcu_jurisprudencia`](../providers/tcu_jurisprudencia/README.md) | implemented | `administrative_context` | `bronze` | `P2_maintain` | `valid` | sim | nao | `needs_deepening` |
+| [`tjac_cjsg`](../providers/tjac_cjsg/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjal_cjsg`](../providers/tjal_cjsg/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjam_cjsg`](../providers/tjam_cjsg/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjap_tucujuris`](../providers/tjap_tucujuris/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjba_graphql`](../providers/tjba_graphql/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjce_cjsg`](../providers/tjce_cjsg/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjce_informativos`](../providers/tjce_informativos/README.md) | implemented | `curated_context` | `context` | `P1_contextual_value` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`tjce_sjuris`](../providers/tjce_sjuris/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjdf_juris`](../providers/tjdf_juris/README.md) | implemented | `primary_textual_jurisprudence` | `gold` | `P0_reference_provider` | `valid` | sim | sim | `implementation_ready` |
+| [`tjes_jurisprudencia`](../providers/tjes_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjgo_projudi_jurisprudencia`](../providers/tjgo_projudi_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`tjma_jurisconsult`](../providers/tjma_jurisconsult/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjmg_jurisprudencia`](../providers/tjmg_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjms_cjsg`](../providers/tjms_cjsg/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjmt_jurisprudencia_api`](../providers/tjmt_jurisprudencia_api/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjpa_jurisprudencia_bff`](../providers/tjpa_jurisprudencia_bff/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`tjpb_pje_jurisprudencia`](../providers/tjpb_pje_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjpe_jurisprudencia`](../providers/tjpe_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjpi_juspi`](../providers/tjpi_juspi/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjpr_jurisprudencia`](../providers/tjpr_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `implementation_ready` |
+| [`tjrj_eproc_jurisprudencia`](../providers/tjrj_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjrn_jurisprudencia`](../providers/tjrn_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjro_liame`](../providers/tjro_liame/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjrr_juris`](../providers/tjrr_juris/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjrs_solr`](../providers/tjrs_solr/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `valid` | sim | nao | `implementation_ready` |
+| [`tjsc_eproc_jurisprudencia`](../providers/tjsc_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `implementation_ready` |
+| [`tjse_jurisprudencia`](../providers/tjse_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tjsp_cjsg`](../providers/tjsp_cjsg/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tjsp_eproc_jurisprudencia`](../providers/tjsp_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`tjsp_nugepnac`](../providers/tjsp_nugepnac/README.md) | implemented | `precedent_context` | `context` | `P1_contextual_value` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`tjto_jurisprudencia`](../providers/tjto_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tnu_eproc_jurisprudencia`](../providers/tnu_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`tre_sp_temas`](../providers/tre_sp_temas/README.md) | implemented | `curated_context` | `context` | `P1_contextual_value` | `not_checked_in_latest_focused_run` | sim | nao | `needs_deepening` |
+| [`trf2_eproc_jurisprudencia`](../providers/trf2_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`trf3_jurisprudencia`](../providers/trf3_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`trf4_eproc_jurisprudencia`](../providers/trf4_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `source_unavailable` | sim | sim | `needs_deepening` |
+| [`trf5_jurisprudencia`](../providers/trf5_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `bronze` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`trf6_eproc_jurisprudencia`](../providers/trf6_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `not_checked_in_latest_focused_run` | sim | sim | `needs_deepening` |
+| [`trt2_pje_jurisprudencia`](../providers/trt2_pje_jurisprudencia/README.md) | candidate | `mapped_candidate` | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
+| [`tst_jurisprudencia`](../providers/tst_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | `silver` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |

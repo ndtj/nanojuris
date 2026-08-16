@@ -22,6 +22,8 @@ site/
 .build-temp-root/
 .pytest-basetemp-*/
 .coverage
+artifacts/studio/
+test-results/
 coverage.xml
 htmlcov/
 *.log

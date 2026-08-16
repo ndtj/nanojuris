@@ -161,7 +161,7 @@ blocos de configuração para clientes compatíveis e as regras de segurança.
 ## O que o NanoJuris entrega
 
 - **Consulta:** busca textual, filtros e paginação conforme o contrato de cada fonte.
-- **Normalização:** modelos comuns para decisões, precedentes, comunicações e documentos.
+- **Normalização:** modelos comuns para decisões, precedentes e documentos decisórios.
 - **Rastreabilidade:** fonte, endpoint, parâmetros, horário, status de acesso e evidências.
 - **Extração:** texto e metadados públicos, incluindo inteiro teor quando a fonte o entrega.
 - **Persistência:** pesquisa reprodutível em SQLite, com runs e exportação.
@@ -176,13 +176,23 @@ desenvolvimento:
 | Estado | Quantidade | Significado |
 | --- | ---: | --- |
 | Providers implementados | 37 | Há adapter registrado no pacote |
-| Fontes candidatas | 19 | Há evidência ou pesquisa, mas não são runtime |
+| Fontes candidatas | 16 | Há evidência ou pesquisa, mas não são runtime |
 | Especificações de família | 1 | Contrato compartilhado aguardando adapters |
 
 Consulte o [catálogo machine-readable](docs/registry/providers.json), a
 [matriz de cobertura](docs/provider-coverage-map.md) e os
 [dossiês individuais](docs/providers/README.md). Cada dossiê distingue rota
 observada, resposta reproduzida e provider pronto para uso.
+
+No Studio, a selecao **maduras** inicia com 7 fontes estaveis; **jurisprudencia**
+inclui as fontes recomendadas para busca textual; e **todas** expande para os providers
+registrados. Esses modos sao conveniencias de selecao, nao garantias de
+disponibilidade live: falhas, bloqueios externos e resultados vazios permanecem
+visiveis na resposta.
+
+Consulta processual, DataJud/CNJ, DJEN, comunicacoes judiciais, partes,
+movimentacoes e linhas do tempo pertencem ao NanoJud. Veja
+[migration-to-nanojud.md](docs/migration-to-nanojud.md).
 
 ## Arquitetura em camadas
 

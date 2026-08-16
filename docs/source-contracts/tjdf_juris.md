@@ -67,6 +67,20 @@ do `tjdf_juris`; ela nao deve gerar um segundo provider para o mesmo tribunal.
 O parser deve preservar `registros`, agregacoes e campos desconhecidos em
 `raw`, alem de registrar a URL e os parametros no `SourceTrace`.
 
+## Dados e mapeamento canonico
+
+| Campo observado | Campo NanoJuris | Regra |
+| --- | --- | --- |
+| `uuid`/`identificador` | `id` e `raw.external_id` | preservar o identificador da API |
+| `processo` | `case_number` | manter a mascara retornada |
+| `ementa`/`inteiroTeor` | `summary`/`full_text` | nao confundir trecho com inteiro teor |
+| `nomeRelator` | `rapporteur` | preservar o texto original |
+| `dataJulgamento`/`dataPublicacao` | datas canonicas | normalizar para ISO e guardar o valor bruto |
+| `descricaoOrgaoJulgador` | `judging_body` | preservar tambem em `raw` |
+
+Registros sem `possuiInteiroTeor` ou sem texto completo permanecem parciais;
+o provider nao infere inteiro teor a partir da ementa.
+
 ## Pontos fortes
 
 - Fonte adequada para busca textual de jurisprudencia.

@@ -59,20 +59,6 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
             "Cobrir heuristica de sugestoes/catalogo para consultas curtas.",
         ],
     },
-    "comunica_pje": {
-        "contract_level": 3,
-        "source_family": "api_publica_comunicacoes",
-        "mcp_recommendation": (
-            "Use para comunicacoes judiciais; nao use como fonte de jurisprudencia."
-        ),
-        "jurimetry_fit": "baixo para jurisprudencia; alto para monitoramento de comunicacoes.",
-        "risk_level": "medio",
-        "gaps": [
-            "Isolar contrato de erros HTTP 500 e janelas de data.",
-            "Documentar diferenca entre DJEN/Comunicacoes PJe e jurisprudencia.",
-            "Adicionar matriz de campos por tribunal/origem quando houver variacao.",
-        ],
-    },
     "stf_juris": {
         "contract_level": 3,
         "source_family": "api_json_jurisprudencia_superior",
@@ -245,8 +231,6 @@ FAMILY_DEFAULTS = {
     "tjal_cjsg": "html_esaj_cjsg",
     "tjam_cjsg": "html_esaj_cjsg",
     "tjms_cjsg": "html_esaj_cjsg",
-    "tjac_esaj_cpopg": "html_esaj_cpopg",
-    "tjsp_esaj_cpopg": "html_esaj_cpopg",
     "tce_sp_jurisprudencia": "catalogo_administrativo",
     "tjsp_nugepnac": "catalogo_precedentes",
     "tre_sp_temas": "catalogo_tematico_eleitoral",

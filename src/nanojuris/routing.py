@@ -171,18 +171,16 @@ def _skip_reason(
             message="A fonte nao declara suporte explicito a busca unificada.",
         )
 
-    if capability.category == "case_lookup" and not has_identifier:
+    if capability.category == "case_lookup":
         return SourceSkip(
             source=capability.source,
             category=capability.category,
-            reason="case_lookup_requires_identifier",
+            reason="outside_jurisprudence_scope",
             message=(
-                "Consulta processual exige numero CNJ, parte, documento, OAB "
-                "ou outro identificador; nao e uma busca textual de jurisprudencia."
+                "Consulta processual pertence ao NanoJud e nao participa da busca "
+                "textual de jurisprudencia do NanoJuris."
             ),
         )
-    if capability.category == "case_lookup":
-        return None
 
     unsupported_identifiers = (
         identifier_filters.difference(capability.supported_filters)
@@ -246,7 +244,7 @@ def _searched_message(capability: ProviderCapabilities | None) -> str:
     if capability is None:
         return "A fonte foi consultada porque foi solicitada explicitamente."
     if capability.category == "case_lookup":
-        return "A fonte foi consultada porque havia identificador processual suficiente."
+        return "A fonte foi consultada explicitamente, mas consulta processual pertence ao NanoJud."
     if capability.category == "qualified_precedents":
         return "A fonte foi consultada por cobrir precedentes qualificados."
     if capability.category == "court_precedents":

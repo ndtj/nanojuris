@@ -33,7 +33,6 @@ from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.bnp_pangea import BnpPangeaProvider
 from nanojuris.providers.cjf_jurisprudencia import CjfJurisprudenciaProvider
 from nanojuris.providers.cnj_jurisprudencia import CnjJurisprudenciaProvider
-from nanojuris.providers.comunica_pje import ComunicaPjeProvider
 from nanojuris.providers.eproc_jurisprudencia_federal import (
     TnuEprocJurisprudenciaProvider,
     Trf2EprocJurisprudenciaProvider,
@@ -48,7 +47,6 @@ from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
 from nanojuris.providers.tce_sp_jurisprudencia import TceSpJurisprudenciaProvider
 from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
-from nanojuris.providers.tjac_esaj_cpopg import TjacEsajCpopgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
 from nanojuris.providers.tjam_cjsg import TjamCjsgProvider
 from nanojuris.providers.tjba_graphql import TjbaGraphqlProvider
@@ -66,7 +64,6 @@ from nanojuris.providers.tjrs_solr import TjrsSolrProvider
 from nanojuris.providers.tjsc_eproc_jurisprudencia import TjscEprocJurisprudenciaProvider
 from nanojuris.providers.tjsp_cjsg import TjspCjsgProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import TjspEprocJurisprudenciaProvider
-from nanojuris.providers.tjsp_esaj_cpopg import TjspEsajCpopgProvider
 from nanojuris.providers.tjsp_nugepnac import TjspNugepnacProvider
 from nanojuris.providers.tre_sp_temas import TreSpTemasProvider
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
@@ -132,7 +129,6 @@ class NanoJurisClient:
                 BnpPangeaProvider(self.config),
                 CjfJurisprudenciaProvider(self.config),
                 CnjJurisprudenciaProvider(self.config),
-                ComunicaPjeProvider(self.config),
                 TnuEprocJurisprudenciaProvider(self.config),
                 StfInformativoProvider(self.config),
                 StfJurisProvider(self.config),
@@ -144,7 +140,6 @@ class NanoJurisClient:
                 TceSpJurisprudenciaProvider(self.config),
                 TjceInformativosProvider(self.config),
                 TjacCjsgProvider(self.config),
-                TjacEsajCpopgProvider(self.config),
                 TjdfJurisProvider(self.config),
                 TjgoProjudiJurisprudenciaProvider(self.config),
                 TjalCjsgProvider(self.config),
@@ -159,7 +154,6 @@ class NanoJurisClient:
                 TjpbPjeJurisprudenciaProvider(self.config),
                 TjspCjsgProvider(self.config),
                 TjspEprocJurisprudenciaProvider(self.config),
-                TjspEsajCpopgProvider(self.config),
                 TjspNugepnacProvider(self.config),
                 TreSpTemasProvider(self.config),
                 TjrsSolrProvider(self.config),
@@ -639,6 +633,28 @@ class NanoJurisClient:
             suggestions = provider.list_suggestions(text)  # type: ignore[attr-defined]
             return list(suggestions)
         return []
+
+    def validate_sources(
+        self,
+        *,
+        sources: list[str] | None = None,
+        text: str = "responsabilidade civil",
+        page_size: int = 1,
+        timeout: float | None = None,
+        max_workers: int | None = None,
+    ) -> dict[str, Any]:
+        """Run the bounded live contract check shared by CLI, MCP and Studio."""
+
+        from nanojuris.validation import validate_sources
+
+        return validate_sources(
+            self,
+            sources=sources,
+            text=text,
+            page_size=page_size,
+            timeout=timeout,
+            max_workers=max_workers,
+        )
 
     def _default_unified_sources(self) -> list[str]:
         return [
