@@ -22,7 +22,7 @@ from nanojuris.health import check_sources
 from nanojuris.route_probe import parse_json_payload, parse_key_value_pairs, probe_route
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore
-from nanojuris.validation import validate_sources
+from nanojuris.validation import validate_sources, write_validation_artifacts
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -72,6 +72,28 @@ def build_parser() -> argparse.ArgumentParser:
         default="json",
         help="Formato de saida",
     )
+
+    buscar_unificada = sub.add_parser(
+        "buscar-unificada",
+        help="Pesquisar jurisprudencia em varias fontes com completude explicita",
+    )
+    buscar_unificada.add_argument("texto", nargs="?", default="", help="Texto de busca")
+    buscar_unificada.add_argument(
+        "--fontes",
+        default="",
+        help="Providers separados por virgula; vazio usa as fontes unificadas",
+    )
+    buscar_unificada.add_argument("--orgaos", default="", help="Siglas separadas por virgula")
+    buscar_unificada.add_argument("--tipos", default="", help="Tipos separados por virgula")
+    buscar_unificada.add_argument("--numero", default="", help="Numero de processo ou precedente")
+    buscar_unificada.add_argument("--pagina", type=int, default=1)
+    buscar_unificada.add_argument("--limite", type=int, default=10)
+    buscar_unificada.add_argument(
+        "--store",
+        default="",
+        help="Salvar a pagina canonical em um banco SQLite e criar um ResearchRun",
+    )
+    buscar_unificada.add_argument("--label", default="", help="Rotulo opcional para a busca salva")
 
     precedente = sub.add_parser("precedente", help="Obter decisoes vinculadas a um precedente")
     precedente.add_argument("id", help="ID do precedente, ex.: stf-rg-615")
@@ -140,6 +162,16 @@ def build_parser() -> argparse.ArgumentParser:
     )
     validar.add_argument("--texto", default="responsabilidade civil")
     validar.add_argument("--timeout", type=float, default=None)
+    validar.add_argument(
+        "--artefatos-dir",
+        default="",
+        help="Diretorio para salvar evidencias JSON e Markdown da validacao live",
+    )
+    validar.add_argument(
+        "--escopo",
+        default="provider-validation",
+        help="Identificador legivel da rodada de validacao",
+    )
 
     contratos = sub.add_parser(
         "contratos",
@@ -357,6 +389,42 @@ def main(argv: list[str] | None = None) -> int:
             print(_format_search(page, args.formato))
             return 0
 
+        if args.command == "buscar-unificada":
+            sources = _split_csv(args.fontes)
+            courts = _split_csv(args.orgaos)
+            types = _split_csv(args.tipos)
+            if args.store:
+                run = client.search_many_and_store_run(
+                    args.texto,
+                    sources=sources or None,
+                    courts=courts,
+                    types=types,
+                    number=args.numero,
+                    page=args.pagina,
+                    page_size=args.limite,
+                    store=args.store,
+                    label=args.label or None,
+                )
+                print(
+                    json.dumps(
+                        {"run_id": run.id, "stored": run.record_count, "source": run.source},
+                        ensure_ascii=False,
+                        indent=2,
+                    )
+                )
+                return 0
+            search_payload = client.search_many(
+                args.texto,
+                sources=sources or None,
+                courts=courts,
+                types=types,
+                number=args.numero,
+                page=args.pagina,
+                page_size=args.limite,
+            )
+            print(json.dumps(search_payload, ensure_ascii=False, indent=2, default=_json_default))
+            return 0
+
         if args.command == "precedente":
             bundle = client.get_decisions(args.id, source=args.fonte)
             print(json.dumps(bundle.to_dict(), ensure_ascii=False, indent=2))
@@ -425,6 +493,16 @@ def main(argv: list[str] | None = None) -> int:
                 text=args.texto,
                 timeout=args.timeout,
             )
+            if args.artefatos_dir:
+                json_path, markdown_path = write_validation_artifacts(
+                    validation_payload,
+                    output_dir=args.artefatos_dir,
+                    scope=args.escopo,
+                )
+                validation_payload["artifacts"] = {
+                    "json": str(json_path),
+                    "markdown": str(markdown_path),
+                }
             print(json.dumps(validation_payload, ensure_ascii=False, indent=2))
             return 0 if validation_payload["passed"] else 1
 
@@ -566,6 +644,12 @@ def _format_search(page: Any, output_format: str) -> str:
     if output_format == "markdown":
         return search_page_to_markdown(page)
     return json.dumps(page.to_dict(), ensure_ascii=False, indent=2)
+
+
+def _json_default(value: Any) -> Any:
+    if hasattr(value, "to_dict"):
+        return value.to_dict()
+    raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable")
 
 
 def _read_text_file(path: str) -> str:

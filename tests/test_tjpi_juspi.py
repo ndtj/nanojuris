@@ -150,6 +150,8 @@ def test_get_document_returns_canonical_document_with_hash():
     assert document.document_type == "decisao_terminativa"
     assert document.text and "Acordo homologado" in document.text
     assert document.sha256
+    assert document.raw_bytes is not None
+    assert document.byte_size == len(document.raw_bytes)
     assert document.raw_metadata["public_id"] == "35510999"
 
 

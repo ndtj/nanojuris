@@ -131,3 +131,11 @@ acervo inteiro.
 4. localizar detalhe publico por `uuid` ou `identificador`;
 5. comparar cobertura e campos com o fluxo HTML antes de tornar a API a rota
    preferencial.
+
+## Inteiro teor e contrato de bytes
+
+`get_document()` carrega o detalhe HTML publico por `numeroDoDocumento`. O
+texto normalizado e disponibilizado em `CanonicalDocument.text`; a resposta
+original permanece em `raw_bytes` e e identificada por SHA-256, tamanho,
+content-type e `SourceTrace`. Isso comprova carregamento do documento HTML,
+mas nao implica que a fonte ofereca PDF.

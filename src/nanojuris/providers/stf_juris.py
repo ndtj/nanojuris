@@ -343,6 +343,10 @@ def _hit_to_result(hit: dict[str, Any], *, trace: SourceTrace) -> JurisprudenceR
         summary=summary,
         rapporteur=_rapporteur(source),
         updated_at=_optional_str(source.get("publicacao_data") or source.get("julgamento_data")),
+        judgment_date=_optional_str(source.get("julgamento_data")),
+        publication_date=_optional_str(source.get("publicacao_data")),
+        source_updated_at=_optional_str(source.get("dg_atualizado_em")),
+        access_status=AccessStatus.PUBLIC,
         highlights=_parse_highlights(hit.get("highlight")),
         source_trace=source_trace,
         raw={
@@ -353,6 +357,7 @@ def _hit_to_result(hit: dict[str, Any], *, trace: SourceTrace) -> JurisprudenceR
             "orgao_julgador": _optional_str(source.get("orgao_julgador")),
             "data_julgamento": _optional_str(source.get("julgamento_data")),
             "data_publicacao": _optional_str(source.get("publicacao_data")),
+            "source_updated_at": _optional_str(source.get("dg_atualizado_em")),
             "document_url": full_text_url,
             "full_text_url": full_text_url,
             "process_url": _optional_str(source.get("acompanhamento_processual_url")),

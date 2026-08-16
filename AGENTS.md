@@ -85,6 +85,13 @@ python tools/build_provider_coverage.py --write
 pytest tests/test_provider_documentation.py tests/test_provider_coverage.py
 ```
 
+For a conservative documentation cleanup, generate the inventory before moving
+or deleting anything:
+
+```bash
+python tools/audit_documentation_inventory.py --write
+```
+
 ## Responsible Use
 
 NanoJuris must not bypass CAPTCHA, WAF, login, rate limits, secrecy restrictions

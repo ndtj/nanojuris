@@ -58,18 +58,19 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
         if not term:
             raise ValueError("TCU jurisprudence search requires a term or number")
         endpoint = SUMMARY_PATH
-        response, source_url = self._request_stream(endpoint)
+        response, source_url, elapsed_ms = self._request_stream(endpoint)
         page_size = _page_size(query.page_size)
-        trace = SourceTrace(
-            provider=self.name,
+        trace = self._build_trace(
+            response,
             endpoint=endpoint,
+            source_url=source_url,
+            elapsed_ms=elapsed_ms,
             query={
                 "text": term,
                 "page": query.page,
                 "page_size": page_size,
                 "dataset": "acordao-completo-resumo",
             },
-            source_url=source_url,
             limitations=[
                 "A busca percorre o dataset publico de resumo e pode exigir leitura extensa.",
                 "O dataset pode crescer; o provider limita a leitura local a 80 MB por chamada.",
@@ -100,7 +101,7 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
 
     def get_catalog(self) -> ProviderCatalog:
         endpoint = MANIFEST_PATH
-        response, source_url = self._request_stream(endpoint)
+        response, source_url, elapsed_ms = self._request_stream(endpoint)
         content = response.content
         response.close()
         try:
@@ -109,10 +110,11 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
             raise ParserContractChangedError(
                 "TCU manifest is not a valid pipe-delimited CSV"
             ) from exc
-        trace = SourceTrace(
-            provider=self.name,
+        trace = self._build_trace(
+            response,
             endpoint=endpoint,
             source_url=source_url,
+            elapsed_ms=elapsed_ms,
             limitations=["O manifesto publica bases, anos, tamanhos e URLs oficiais."],
         )
         species = [
@@ -180,9 +182,10 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
             ],
         )
 
-    def _request_stream(self, endpoint: str) -> tuple[requests.Response, str]:
+    def _request_stream(self, endpoint: str) -> tuple[requests.Response, str, float]:
         self._respect_rate_limit()
         url = urljoin(self.base_url + "/", endpoint.lstrip("/"))
+        started_at = time.monotonic()
         try:
             response = self.session.get(
                 url,
@@ -208,7 +211,37 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
         if response.status_code >= 400:
             response.close()
             raise SourceUnavailableError(f"TCU jurisprudence returned HTTP {response.status_code}")
-        return response, getattr(response, "url", url)
+        return response, getattr(response, "url", url), (time.monotonic() - started_at) * 1000
+
+    def _build_trace(
+        self,
+        response: requests.Response,
+        *,
+        endpoint: str,
+        source_url: str,
+        elapsed_ms: float,
+        query: dict[str, object] | None = None,
+        limitations: list[str] | None = None,
+    ) -> SourceTrace:
+        headers = getattr(response, "headers", {}) or {}
+        content_length = headers.get("Content-Length")
+        try:
+            response_bytes = int(content_length) if content_length else None
+        except (TypeError, ValueError):
+            response_bytes = None
+        return SourceTrace(
+            provider=self.name,
+            endpoint=endpoint,
+            query=query or {},
+            source_url=source_url,
+            http_status=getattr(response, "status_code", None),
+            final_url=getattr(response, "url", source_url),
+            content_type=headers.get("Content-Type"),
+            response_bytes=response_bytes,
+            elapsed_ms=elapsed_ms,
+            retrieval_status="success",
+            limitations=limitations or [],
+        )
 
     def _respect_rate_limit(self) -> None:
         interval = self.config.rate_limit_interval
@@ -286,6 +319,7 @@ def _search_summary_csv(
                 court="TCU",
                 type="acordao_resumo",
                 summary=summary or None,
+                access_status=AccessStatus.PUBLIC,
                 source_trace=trace,
                 raw={
                     "KEY": key,

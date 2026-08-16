@@ -1,0 +1,26 @@
+{
+  "source": "stj_scon",
+  "scope": "public_full_text_document",
+  "checked_at": "2026-08-16T16:15:00-03:00",
+  "document_id": "stj-scon-document-202502858982",
+  "request_reference": "stj-scon-202502858982",
+  "endpoint": "GET /SCON/GetInteiroTeorDoAcordao",
+  "url": "https://scon.stj.jus.br/SCON/GetInteiroTeorDoAcordao?num_registro=202502858982&dt_publicacao=09/03/2026",
+  "http_status": 200,
+  "access_status": "public",
+  "retrieval_status": "ok",
+  "extraction_status": "complete",
+  "full_text_status": "loaded",
+  "content_type": "application/pdf",
+  "response_bytes": 270212,
+  "text_characters": 21327,
+  "sha256": "e11df19d1ad9177794af18895945e26bc8e6907a29a180b7d0c3a783770708e4",
+  "parser": "stj_scon.get_document",
+  "parser_version": "1",
+  "text_extractor": "pypdf",
+  "limitations": [
+    "Validacao realizada com uma decisao publica e uma rota observada.",
+    "A busca SCON pode exigir verificacao automatica em ambientes limpos.",
+    "Esta evidencia nao representa disponibilidade permanente da fonte."
+  ]
+}

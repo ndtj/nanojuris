@@ -21,7 +21,7 @@ alteracao do proprio portal.
 | `stj_scon` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `stm_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tce_sp_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
-| `tcu_jurisprudencia` | `valid` | 2026-08-15 | 1 | 1 | `unknown` | 15,2 s | busca no CSV publico de resumo |
+| `tcu_jurisprudencia` | `valid` | 2026-08-16 | 1 | 1 | `unknown` | 12803.23 | - |
 | `tjac_cjsg` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjal_cjsg` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjam_cjsg` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
@@ -30,7 +30,7 @@ alteracao do proprio portal.
 | `tjce_cjsg` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjce_informativos` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjce_sjuris` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
-| `tjdf_juris` | `valid` | 2026-08-15 | 1 | 131875 | `page` | 2,7 s | contrato e conteudo normalizados |
+| `tjdf_juris` | `valid` | 2026-08-16 | 1 | 131875 | `page` | 2561.1 | A resposta e uma janela parcial do total informado pela fonte. |
 | `tjes_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjgo_projudi_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjma_jurisconsult` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
@@ -46,7 +46,7 @@ alteracao do proprio portal.
 | `tjrn_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjro_liame` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjrr_juris` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
-| `tjrs_solr` | `valid` | 2026-08-15 | 1 | 692019 | `offset` | 1,3 s | JSON SOLR com resultado e trace |
+| `tjrs_solr` | `valid` | 2026-08-16 | 1 | 692019 | `offset` | 1540.2 | A resposta e uma janela parcial do total informado pela fonte. |
 | `tjsc_eproc_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjse_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjsp_cjsg` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
@@ -57,8 +57,8 @@ alteracao do proprio portal.
 | `tre_sp_temas` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `trf2_eproc_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `trf3_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
-| `trf4_eproc_jurisprudencia` | `source_unavailable` | 2026-08-15 | 0 | - | `-` | 20,1 s | timeout de conexao; repetir em outra rede |
+| `trf4_eproc_jurisprudencia` | `valid` | 2026-08-16 | 1 | 10 | `unknown` | 2177.5 | - |
 | `trf5_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `trf6_eproc_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `trt2_pje_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
-| `tst_jurisprudencia` | `valid` | 2026-08-15 | 1 | 841967 | `offset` | 1,7 s | API REST com resultado e trace |
+| `tst_jurisprudencia` | `valid` | 2026-08-16 | 1 | 841967 | `offset` | 1324.01 | A resposta e uma janela parcial do total informado pela fonte. |

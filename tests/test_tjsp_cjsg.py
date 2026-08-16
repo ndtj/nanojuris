@@ -126,6 +126,8 @@ def test_parse_cjsg_results_maps_fixture():
     assert first.number == "0003938-14.2017.8.26.0323"
     assert first.rapporteur == "Airton Vieira"
     assert first.updated_at == "30/07/2026"
+    assert first.publication_date is None
+    assert first.access_status.value == "public"
     assert first.raw["classe"] == "Apelacao Criminal"
     assert first.raw["assunto"] == "Homicidio Qualificado"
     assert first.raw["comarca"] == "Lorena"
@@ -205,12 +207,13 @@ def test_provider_get_document_returns_canonical_document():
     assert document.id == "tjsp-cjsg-20787558-0"
     assert document.source == "tjsp_cjsg"
     assert document.document_type == "acordao"
-    assert document.content_type == "text/plain"
+    assert document.content_type == "text/html"
     assert document.title == "Inteiro Teor - TJSP"
     assert document.text is not None
     assert "Homicidio qualificado" in document.text
     assert document.sha256 is not None
     assert document.byte_size == document.raw_metadata["raw_content_bytes"]
+    assert document.raw_bytes is not None
     assert document.extraction_trace is not None
     assert document.extraction_trace.metadata["cd_acordao"] == "20787558"
     assert document.raw_metadata["cd_foro"] == "0"

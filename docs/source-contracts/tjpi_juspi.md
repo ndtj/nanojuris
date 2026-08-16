@@ -86,3 +86,10 @@
 - [x] Implementar `tjpi_juspi.py`.
 - [ ] Adicionar teste live opt-in.
 - [ ] Catalogar valores de filtros com parser de formulario.
+
+## Inteiro teor e contrato de bytes
+
+`GET /jurisprudences/<id>/public` e uma rota publica de detalhe HTML validada
+por fixture. O provider preserva a resposta original em `raw_bytes`, extrai o
+conteudo juridico para `text` e registra SHA-256, tamanho, content-type e
+status de extração. A fonte nao foi anunciada como PDF.

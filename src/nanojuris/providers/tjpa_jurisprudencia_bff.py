@@ -154,7 +154,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "GET /bff/api/decisoes/recentes",
                 "POST /bff/api/decisoes/pesquisar-por-classe-assunto",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -300,6 +300,7 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
     if not external_id:
         raise ParserContractChangedError("TJPA result missing stable id")
     summary = _first_string(item, "ementatextopuro", "textoementa", "textopuro")
+    full_text = _first_string(item, "textopuro", "textooriginal", "full_text", "conteudo")
     return JurisprudenceResult(
         id=f"tjpa-bff-{external_id}",
         source="tjpa_jurisprudencia_bff",
@@ -307,12 +308,13 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
         type=_first_string(item, "tipo", "especie") or "jurisprudencia",
         number=_first_string(item, "numeroprocesso"),
         summary=summary,
+        full_text=full_text or None,
         rapporteur=_nested_name(item.get("relator")),
         updated_at=_first_string(item, "datapublicacao", "datajulgamento", "datadocumento"),
         source_trace=trace,
         raw={
             **item,
-            "full_text": _first_string(item, "textopuro", "textooriginal"),
+            "full_text": full_text,
             "orgao_julgador": _first_string(item, "orgaojulgadorcolegiado", "orgaojulgador"),
             "case_class": _first_string(item, "classe"),
             "subject": _first_string(item, "indexacao"),
@@ -332,9 +334,22 @@ def _as_list(value: object) -> list[Any]:
 def _first_string(item: dict[str, Any], *keys: str) -> str:
     for key in keys:
         value = item.get(key)
-        if value is not None and str(value).strip():
-            return str(value).strip()
+        normalized = _string_value(value)
+        if normalized:
+            return normalized
     return ""
+
+
+def _string_value(value: object) -> str:
+    if isinstance(value, dict):
+        for key in ("descricao", "nome", "name", "label", "sigla", "codigo", "id"):
+            nested = value.get(key)
+            if nested is not None and str(nested).strip():
+                return str(nested).strip()
+        return ""
+    if isinstance(value, list):
+        return "; ".join(item for item in (_string_value(entry) for entry in value) if item)
+    return str(value).strip() if value is not None else ""
 
 
 def _nested_name(value: object) -> str | None:

@@ -12,6 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -22,8 +23,6 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -49,6 +48,8 @@ class TjpiJuspiProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_response_content = b""
+        self._last_response_content_type: str | None = None
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/jurisprudences/search"
@@ -110,35 +111,24 @@ class TjpiJuspiProvider(JurisprudenceProvider):
     def get_document(self, document_id: str) -> CanonicalDocument:
         bundle = self.get_decisions(document_id)
         content = str(bundle.texts[0].get("content") if bundle.texts else "")
-        content_bytes = content.encode("utf-8")
+        raw_content = self._last_response_content or content.encode("utf-8")
         metadata = dict(bundle.raw or {})
         access_status = AccessStatus(
             str(metadata.get("access_status") or AccessStatus.PUBLIC.value)
         )
-        status = ExtractionStatus.COMPLETE if content.strip() else ExtractionStatus.EMPTY
-        return CanonicalDocument(
-            id=document_id,
+        return build_canonical_document(
+            document_id=document_id,
             source=self.name,
             document_type=str(metadata.get("decision_type") or "decisao"),
-            content_type="text/plain",
+            content=raw_content,
+            content_type=self._last_response_content_type or "text/html",
             title=str(metadata.get("title") or f"TJPI/JusPI jurisprudencia {document_id}"),
-            text=content,
+            text_override=content,
             url=bundle.source_trace.source_url if bundle.source_trace else None,
-            sha256=hashlib.sha256(content_bytes).hexdigest(),
-            byte_size=len(content_bytes),
-            retrieved_at=bundle.source_trace.retrieved_at if bundle.source_trace else None,
             access_status=access_status,
             source_trace=bundle.source_trace,
-            extraction_trace=ExtractionTrace(
-                parser="tjpi_juspi.get_document",
-                parser_version="1",
-                status=status,
-                access_status=access_status,
-                content_sha256=hashlib.sha256(content_bytes).hexdigest(),
-                content_bytes=len(content_bytes),
-                metadata=metadata,
-            ),
             raw_metadata=metadata,
+            parser="tjpi_juspi.get_document",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -251,6 +241,12 @@ class TjpiJuspiProvider(JurisprudenceProvider):
                 f"TJPI/JusPI rejected request with HTTP {response.status_code}"
             )
         text = response.text
+        self._last_response_content = bytes(
+            getattr(response, "content", None) or text.encode("utf-8")
+        )
+        self._last_response_content_type = (getattr(response, "headers", None) or {}).get(
+            "Content-Type"
+        )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("TJPI/JusPI returned captcha or access-control HTML")
         return text

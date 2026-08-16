@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import time
 import unicodedata
@@ -150,6 +151,7 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
                 },
                 timeout=self.config.timeout,
                 allow_redirects=True,
+                verify=self.config.verify_ssl,
                 **kwargs,
             )
         except requests.RequestException as exc:
@@ -165,6 +167,8 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
         if response.status_code >= 400:
             raise SourceUnavailableError(f"CJF/TRF1 rejected HTTP {response.status_code}")
         response.encoding = response.encoding or "utf-8"
+        if _looks_like_access_control(response.text):
+            raise AccessControlRequiredError("CJF/TRF1 jurisprudence returned access-control HTML")
         return response.text, getattr(response, "url", url)
 
     def _respect_rate_limit(self) -> None:
@@ -188,28 +192,33 @@ def parse_cjf_results(html: str, *, trace: SourceTrace) -> tuple[list[Jurisprude
             return [], 0
         raise ParserContractChangedError("CJF/TRF1 result tables not found")
     results: list[JurisprudenceResult] = []
-    for index, table in enumerate(tables):
+    for table in tables:
         fields = _table_fields(table)
         number = _first_process_number(fields.get("numero", ""))
         if not number:
             continue
+        publication_date = fields.get("data_da_publicacao") or fields.get("data da publicacao")
         document_url = _first_href(table, "Acesse Aqui")
         results.append(
             JurisprudenceResult(
-                id=f"cjf-trf1-{number.replace('-', '').replace('.', '')}-{index}",
+                id=_stable_cjf_id(number, fields, document_url),
                 source="cjf_jurisprudencia",
                 court="TRF1",
                 type=_normalize_type(fields.get("tipo")),
                 number=number,
                 summary=fields.get("ementa"),
                 rapporteur=fields.get("relator(a)"),
-                updated_at=fields.get("data da publicacao") or fields.get("data"),
+                updated_at=publication_date or fields.get("data"),
+                judgment_date=fields.get("data"),
+                publication_date=publication_date,
+                access_status=AccessStatus.PUBLIC,
                 source_trace=trace,
                 raw={
                     **fields,
                     "case_class": fields.get("classe"),
                     "judging_body": fields.get("orgao_julgador"),
-                    "publication_date": fields.get("data_da_publicacao"),
+                    "publication_date": publication_date,
+                    "judgment_date": fields.get("data"),
                     "document_url": document_url,
                     "source_court": fields.get("origem") or "TRF1",
                 },
@@ -290,3 +299,31 @@ def _clean_text(value: str) -> str:
 
 def _page_size(value: int) -> int:
     return max(1, min(int(value or 10), 50))
+
+
+def _stable_cjf_id(number: str, fields: dict[str, str], document_url: str | None) -> str:
+    """Build an identity independent of result-table ordering."""
+
+    identity = "|".join(
+        [
+            number,
+            fields.get("tipo", ""),
+            fields.get("data", ""),
+            fields.get("data_da_publicacao", fields.get("data da publicacao", "")),
+            document_url or "",
+        ]
+    )
+    digest = hashlib.sha256(identity.encode("utf-8")).hexdigest()[:16]
+    return f"cjf-trf1-{digest}"
+
+
+def _looks_like_access_control(html: str) -> bool:
+    lowered = html.lower()
+    markers = (
+        "captcha",
+        "recaptcha",
+        "acesso negado",
+        "verificacao automatica",
+        "enable javascript and cookies",
+    )
+    return any(marker in lowered for marker in markers) and "table_resultado" not in lowered

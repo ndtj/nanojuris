@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 import time
 import unicodedata
@@ -12,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -22,8 +24,6 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -50,6 +50,7 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         payload = build_tst_search_payload(query)
@@ -73,6 +74,7 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
                 "O provider nao usa cookies pessoais, captcha ou bypass de controle.",
             ],
         )
+        trace = _trace_with_http_metadata(trace, self._last_http_metadata)
         return parse_tst_search_response(data, query=query, trace=trace, api_url=self.api_url)
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -86,6 +88,7 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             source_url=source_url,
             limitations=["Inteiro teor HTML publico retornado pelo backend oficial do TST."],
         )
+        trace = _trace_with_http_metadata(trace, self._last_http_metadata)
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
@@ -97,7 +100,10 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
     def get_document(self, document_id: str) -> CanonicalDocument:
         external_id = _extract_document_id(document_id)
         endpoint = f"/rest/documentos/{external_id}"
-        html, source_url = self._request_text(endpoint)
+        response = self._request("GET", endpoint)
+        html = response.text
+        source_url = getattr(response, "url", self.api_url + endpoint)
+        content = bytes(getattr(response, "content", None) or html.encode("utf-8"))
         text = _clean_html(html)
         trace = SourceTrace(
             provider=self.name,
@@ -106,23 +112,21 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             source_url=source_url,
             limitations=["Documento publico retornado pela rota oficial de inteiro teor do TST."],
         )
-        return CanonicalDocument(
-            id=f"tst-jurisprudencia-document-{external_id}",
+        trace = _trace_with_http_metadata(trace, self._last_http_metadata)
+        return build_canonical_document(
+            document_id=f"tst-jurisprudencia-document-{external_id}",
             source=self.name,
             document_type="acordao",
-            content_type="text/html",
+            content=content,
+            content_type=(getattr(response, "headers", None) or {}).get("Content-Type")
+            or "text/html",
             title="TST inteiro teor",
-            text=text,
+            text_override=text,
             url=source_url,
             access_status=AccessStatus.PUBLIC,
             source_trace=trace,
-            extraction_trace=ExtractionTrace(
-                parser="tst_jurisprudencia.get_document",
-                parser_version="1",
-                status=ExtractionStatus.COMPLETE if text else ExtractionStatus.PARTIAL,
-                access_status=AccessStatus.PUBLIC,
-            ),
             raw_metadata={"external_id": external_id},
+            parser="tst_jurisprudencia.get_document",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -232,6 +236,7 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         }
         if method == "POST":
             headers["Referer"] = self.config.tst_jurisprudencia_url.rstrip("/") + "/"
+        started = time.perf_counter()
         try:
             response = self.session.request(
                 method,
@@ -257,6 +262,16 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             raise ParserContractChangedError(
                 "TST jurisprudence search returned HTML instead of JSON"
             )
+        content = bytes(getattr(response, "content", None) or response.text.encode("utf-8"))
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": str(getattr(response, "url", None) or url),
+            "content_type": (getattr(response, "headers", None) or {}).get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
+            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+        }
         return response
 
     def _respect_rate_limit(self) -> None:
@@ -267,6 +282,26 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         if elapsed < interval:
             time.sleep(interval - elapsed)
         self._last_request = time.monotonic()
+
+
+def _trace_with_http_metadata(trace: SourceTrace, metadata: dict[str, Any]) -> SourceTrace:
+    """Attach observed transport facts without inferring unavailable values."""
+
+    return SourceTrace(
+        provider=trace.provider,
+        endpoint=trace.endpoint,
+        query=trace.query,
+        source_url=trace.source_url,
+        limitations=trace.limitations,
+        http_status=metadata.get("http_status"),
+        final_url=metadata.get("final_url"),
+        content_type=metadata.get("content_type"),
+        content_sha256=metadata.get("content_sha256"),
+        response_bytes=metadata.get("response_bytes"),
+        elapsed_ms=metadata.get("elapsed_ms"),
+        retrieval_status=metadata.get("retrieval_status"),
+        transformations=trace.transformations,
+    )
 
 
 def build_tst_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
@@ -371,6 +406,14 @@ def _record_to_result(
         query=trace.query,
         source_url=document_url,
         limitations=trace.limitations,
+        http_status=trace.http_status,
+        final_url=trace.final_url,
+        content_type=trace.content_type,
+        content_sha256=trace.content_sha256,
+        response_bytes=trace.response_bytes,
+        elapsed_ms=trace.elapsed_ms,
+        retrieval_status=trace.retrieval_status,
+        transformations=trace.transformations,
     )
     tipo_value = record.get("tipo")
     tipo: dict[str, Any] = tipo_value if isinstance(tipo_value, dict) else {}
@@ -397,6 +440,7 @@ def _record_to_result(
         summary=summary or None,
         rapporteur=_optional_str(record.get("nomRelator")),
         updated_at=_optional_str(record.get("dtaPublicacao") or record.get("dtaJulgamento")),
+        access_status=AccessStatus.PUBLIC if source_trace.http_status == 200 else None,
         source_trace=source_trace,
         raw={
             "registry_id": source_id,

@@ -124,8 +124,10 @@ resposta HTML original no campo bruto ou no documento recuperado.
 | `dispositivo` | `disposition` |
 | `/rest/documentos/{id}` | `document_url` |
 
-O `SourceTrace` deve registrar a base efetiva, rota, pagina, limite, termo e
-horario da consulta. O provider deve sinalizar que o acervo e de
+O `SourceTrace` registra a base efetiva, rota, pagina, limite, termo e horario
+da consulta. Quando observados pela resposta HTTP, tambem sao preservados
+`http_status`, `final_url`, `content_type`, `content_sha256`, `response_bytes`,
+`elapsed_ms` e `retrieval_status`. O provider deve sinalizar que o acervo e de
 jurisprudencia trabalhista do TST.
 
 ## Limites e responsabilidade
@@ -165,3 +167,11 @@ O MCP deve expor o TST como fonte especializada e informar no resultado:
 Promover para `implemented` somente depois de fixture publica versionada,
 parser offline, testes de contrato, capability declaration, tratamento de
 HTML/documento e teste live opt-in passarem no CI local.
+
+## Inteiro teor e contrato de bytes
+
+`GET /rest/documentos/{id}` e uma rota publica de inteiro teor HTML. O
+provider preserva os bytes originais recebidos, calcula SHA-256 e tamanho e
+extrai o texto para `CanonicalDocument.text`. O Studio e o MCP devem expor
+esses metadados e deixar claro que a extração textual nao substitui o
+documento bruto.

@@ -12,6 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -22,8 +23,6 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -100,7 +99,9 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
     def get_document(self, document_id: str) -> CanonicalDocument:
         external_id = _normalize_id(document_id)
         endpoint = f"/jurisprudencia/view/{external_id}"
-        html, source_url = self._request_text("GET", endpoint, params={"words": ""})
+        response = self._request("GET", endpoint, params={"words": ""})
+        html = response.text
+        source_url = getattr(response, "url", self.base_url + endpoint)
         soup = BeautifulSoup(html, "html.parser")
         for element in soup.select("script, style, noscript, nav, footer"):
             element.decompose()
@@ -108,30 +109,31 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
         text = _normalize_text(content.get_text("\n", strip=True) if content else "")
         if not text:
             raise ParserContractChangedError("TJPB detail returned empty public content")
-        return CanonicalDocument(
-            id=f"tjpb-pje-document-{external_id}",
+        content_bytes = bytes(getattr(response, "content", None) or html.encode("utf-8"))
+        headers = getattr(response, "headers", {}) or {}
+        trace = SourceTrace(
+            provider=self.name,
+            endpoint=endpoint,
+            query={"id": external_id},
+            source_url=source_url,
+            final_url=source_url,
+            http_status=int(getattr(response, "status_code", 200) or 200),
+            content_type=headers.get("Content-Type"),
+            content_sha256=hashlib.sha256(content_bytes).hexdigest(),
+            response_bytes=len(content_bytes),
+        )
+        return build_canonical_document(
+            document_id=f"tjpb-pje-document-{external_id}",
             source=self.name,
             document_type="jurisprudencia",
-            content_type="text/html",
+            content=content_bytes,
+            content_type=headers.get("Content-Type") or "text/html",
             title="TJPB PJe Jurisprudencia",
-            text=text,
             url=source_url,
-            sha256=hashlib.sha256(html.encode("utf-8")).hexdigest(),
-            byte_size=len(html.encode("utf-8")),
+            source_trace=trace,
             access_status=AccessStatus.PUBLIC,
-            source_trace=SourceTrace(
-                provider=self.name,
-                endpoint=endpoint,
-                query={"id": external_id},
-                source_url=source_url,
-            ),
-            extraction_trace=ExtractionTrace(
-                parser="tjpb_pje_jurisprudencia.get_document",
-                parser_version="1",
-                status=ExtractionStatus.COMPLETE,
-                access_status=AccessStatus.PUBLIC,
-            ),
-            raw_metadata={"external_id": external_id, "source_content_type": "text/html"},
+            raw_metadata={"external_id": external_id},
+            parser="tjpb_pje_jurisprudencia.get_document",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:

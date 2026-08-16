@@ -101,6 +101,9 @@ Antes de consultar fontes reais, o agente deve:
 6. Interpretar separadamente `searched_sources`, `skipped_sources` e `errors`.
 7. Usar `get_document` ou `get_decisions` apenas quando a fonte suportar
    documento publico sem bypass.
+8. Usar `search_unified_store` quando a pesquisa precisar ser reaberta,
+   exportada ou auditada depois; o run salvo preserva completude, totais,
+   fontes e erros da execucao.
 
 ## Perguntas naturais recomendadas
 
@@ -142,6 +145,9 @@ retornados.
 | `skipped_sources` | Fontes puladas porque nao se aplicavam a pergunta. |
 | `routing_summary` | Explicacao pronta para o usuario sobre consultar, pular ou falhar. |
 | `errors` | Fontes chamadas que falharam por erro real, acesso ou contrato. |
+| `source_completeness` | Estado por fonte, incluindo total remoto, quantidade coletada e paginacao. |
+| `collection_complete` | Indica se todas as fontes chamadas declararam a janela como completa. |
+| `deduplicated_total` | Quantidade apos a deduplicacao e ordenacao federadas. |
 
 Isso evita falso diagnostico. O NanoJuris nao usa fontes de consulta processual
 ou comunicacoes judiciais na busca textual de jurisprudencia. Se a pergunta do

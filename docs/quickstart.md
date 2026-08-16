@@ -71,6 +71,28 @@ nanojuris buscar "ICMS consumidor final" --formato jsonl
 nanojuris buscar "ICMS consumidor final" --formato canonical-jsonl
 ```
 
+Para pesquisar varias fontes com um envelope federado de completude:
+
+```bash
+nanojuris buscar-unificada "responsabilidade civil" \
+  --fontes tjdf_juris,tst_jurisprudencia \
+  --limite 5
+```
+
+O JSON informa fontes realmente consultadas, fontes puladas, erros, total
+remoto por fonte, deduplicacao e se a coleta e completa ou parcial. Uma busca
+unificada tambem pode ser salva como uma pesquisa reproduzivel:
+
+```bash
+nanojuris buscar-unificada "responsabilidade civil" \
+  --fontes tjdf_juris,tst_jurisprudencia \
+  --store nanojuris.db \
+  --label "Responsabilidade civil - federada"
+```
+
+O `run_id` retornado pode ser consultado com `nanojuris store run` e exportado
+com `nanojuris store export`.
+
 ## Descubra fontes antes de pesquisar
 
 ```bash

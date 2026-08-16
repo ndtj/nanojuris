@@ -13,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -24,7 +25,6 @@ from nanojuris.models import (
     CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -170,6 +170,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
                 "raw_content_type": content_type or "text/html",
                 **extraction_metadata,
             },
+            raw_bytes=raw_content,
         )
 
     def get_document(self, document_id: str) -> CanonicalDocument:
@@ -471,6 +472,8 @@ def parse_cjsg_results(
             summary=summary,
             rapporteur=labels.get("relator(a)") or labels.get("relator"),
             updated_at=labels.get("data de registro") or labels.get("data de publicação"),
+            publication_date=labels.get("data de publicação") or labels.get("data de publicacao"),
+            access_status=AccessStatus.PUBLIC,
             highlights={},
             source_trace=result_trace,
             raw={
@@ -481,6 +484,8 @@ def parse_cjsg_results(
                 "assunto": subject,
                 "comarca": labels.get("comarca"),
                 "orgao_julgador": labels.get("órgão julgador") or labels.get("orgao julgador"),
+                "data_publicacao": labels.get("data de publicação")
+                or labels.get("data de publicacao"),
                 "labels": labels,
             },
         )
@@ -529,46 +534,31 @@ def cjsg_decision_bundle_to_document(
     """Convert a CJSG public getArquivo response into a canonical document."""
 
     content = str(bundle.texts[0].get("content") if bundle.texts else "")
-    content_type = str(bundle.texts[0].get("content_type") if bundle.texts else "text/plain")
+    source_content_type = bundle.texts[0].get("source_content_type") if bundle.texts else None
+    extracted_content_type = bundle.texts[0].get("content_type") if bundle.texts else None
+    content_type = str(source_content_type or extracted_content_type or "text/plain")
     metadata = dict(bundle.raw or {})
-    warnings = list(metadata.get("warnings") or [])
-    raw_content_sha256 = str(metadata.get("raw_content_sha256") or "") or None
-    raw_content_bytes = metadata.get("raw_content_bytes")
-    content_sha256 = raw_content_sha256
-    content_byte_size = int(raw_content_bytes) if raw_content_bytes is not None else None
-    if raw_content_sha256 is None or content_byte_size is None:
-        warnings.append(
-            "A resposta bruta nao foi preservada; hash e tamanho do documento original "
-            "nao podem ser afirmados com integridade binaria."
-        )
     access_status = _metadata_access_status(metadata)
-    status = (
-        ExtractionStatus.COMPLETE if content.strip() and not warnings else ExtractionStatus.PARTIAL
+    warnings = [str(item) for item in metadata.get("warnings") or []]
+    extraction_status = (
+        ExtractionStatus.PARTIAL if warnings or not content.strip() else ExtractionStatus.COMPLETE
     )
-    return CanonicalDocument(
-        id=document_id,
+    raw_content = bundle.raw_bytes or content.encode("utf-8")
+    return build_canonical_document(
+        document_id=document_id,
         source=source,
         document_type="acordao",
+        content=raw_content,
         content_type=content_type,
         title=str(metadata.get("document_title") or title),
-        text=content,
+        text_override=content,
         url=bundle.source_trace.source_url if bundle.source_trace else None,
-        sha256=content_sha256,
-        byte_size=content_byte_size,
-        retrieved_at=bundle.source_trace.retrieved_at if bundle.source_trace else None,
         access_status=access_status,
         source_trace=bundle.source_trace,
-        extraction_trace=ExtractionTrace(
-            parser=parser,
-            parser_version="1",
-            status=status,
-            access_status=access_status,
-            content_sha256=content_sha256,
-            content_bytes=content_byte_size,
-            warnings=warnings,
-            metadata=metadata,
-        ),
         raw_metadata=metadata,
+        parser=parser,
+        extraction_status_override=extraction_status,
+        extraction_warnings=warnings,
     )
 
 

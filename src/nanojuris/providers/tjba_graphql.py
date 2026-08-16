@@ -12,6 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -23,8 +24,6 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -192,35 +191,29 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
         )
 
     def get_document(self, document_id: str) -> CanonicalDocument:
-        bundle = self.get_decisions(document_id)
-        text = str(bundle.texts[0].get("content") if bundle.texts else "")
-        raw = dict(bundle.raw)
-        digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
-        access_status = AccessStatus(str(raw.get("access_status") or AccessStatus.PUBLIC.value))
-        return CanonicalDocument(
-            id=document_id,
+        identifier = _parse_tjba_identifier(document_id)
+        endpoint = f"/inteiroTeor/{identifier}"
+        response = self._request("GET", endpoint, headers={"Accept": "text/html,*/*"})
+        content = bytes(response.content)
+        trace = _source_trace(
+            self.name,
+            endpoint=endpoint,
+            query={"id": identifier},
+            response=response,
+            limitations=["Inteiro teor publico consultado por identificador observado."],
+        )
+        return build_canonical_document(
+            document_id=document_id,
             source=self.name,
             document_type="acordao",
-            content_type="text/html",
+            content=content,
+            content_type=response.headers.get("Content-Type"),
             title=f"TJBA inteiro teor {document_id}",
-            text=text,
-            url=bundle.source_trace.source_url if bundle.source_trace else None,
-            sha256=digest,
-            byte_size=len(text.encode("utf-8")),
-            retrieved_at=bundle.source_trace.retrieved_at if bundle.source_trace else None,
-            access_status=access_status,
-            extraction_status=ExtractionStatus.COMPLETE if text else ExtractionStatus.EMPTY,
-            source_trace=bundle.source_trace,
-            extraction_trace=ExtractionTrace(
-                parser="tjba_graphql.get_document",
-                parser_version="1",
-                status=ExtractionStatus.COMPLETE if text else ExtractionStatus.EMPTY,
-                access_status=access_status,
-                content_sha256=digest,
-                content_bytes=len(text.encode("utf-8")),
-                metadata=raw,
-            ),
-            raw_metadata=raw,
+            url=trace.source_url,
+            source_trace=trace,
+            access_status=AccessStatus.PUBLIC,
+            raw_metadata={"identifier": identifier},
+            parser="tjba_graphql.get_document",
         )
 
     def get_catalog(self) -> ProviderCatalog:

@@ -91,15 +91,38 @@ como `CanonicalDocument` HTML.
 
 ## Fixtures e criterio de promocao
 
-- [ ] fixture HTML da pagina inicial com token redigido/normalizado;
-- [ ] fixture HTML de resultados com pelo menos dois tipos documentais;
-- [ ] fixture de resultado vazio;
+- `tests/fixtures/trf5_jurisprudencia_results.html` cobre token de sessao,
+  resultado, ementa e inteiro teor referenciado;
+- `tests/fixtures/trf5_jurisprudencia_empty.html` cobre zero resultado;
+- `tests/fixtures/trf5_jurisprudencia_access_control.html` cobre bloqueio;
+- `tests/fixtures/trf5_jurisprudencia_contract_changed.html` cobre mudanca de
+  contrato;
+
+- [x] fixture HTML da pagina inicial/resultados com token normalizado;
+- [x] fixture HTML de resultado com acordao e metadados canonicos;
+- [x] fixture de resultado vazio, acesso controlado e contrato alterado;
 - [ ] teste de paginacao;
 - [x] parser offline e `ProviderCapabilities`;
 - [ ] teste live opt-in com limite pequeno.
 
 O provider so deve ser implementado depois que o parser offline reproduzir os
 campos canonicos e os estados vazio/erro.
+
+## Proximos passos
+
+1. Criar fixture do formulario inicial com `wi.token` normalizado e codificacao
+   preservada.
+2. Criar fixture de resultado com pelo menos acordao, decisao monocratica e
+   informativo, quando observados publicamente na mesma superficie.
+3. Criar fixture de resultado vazio para termo improvavel e classificar como
+   `SearchPage` vazia, nao como erro.
+4. Mapear paginacao, ordenacao e quantidade maxima de registros sem assumir
+   parametros nao testados.
+5. Validar `exibe_modelo.wsp` como rota de inteiro teor separada, preservando
+   content type, bytes, hash e access status.
+6. Testar filtros por orgao julgador, classe, relator, numero de processo,
+   datas e legislacao com chamadas pequenas.
+7. Registrar teste live opt-in com timeout curto e intervalo entre chamadas.
 
 ## Validacao live 2026-08-11
 
@@ -150,3 +173,11 @@ disponivel; o estado de acesso precisa ser reportado separadamente.
 Fixtures de promocao: formulario com token normalizado, busca com cada grupo
 de filtro, resultado misto de tipos documentais, pagina vazia, erro de sessao,
 detalhe e link de inteiro teor.
+
+## Inteiro teor e contrato de bytes
+
+`GET /jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=<id>` retorna o
+detalhe HTML observado. O provider preserva os bytes da resposta, extrai o
+texto HTML e registra SHA-256, tamanho, content-type e URL final. A fonte
+continua com paginacao remota e ordenacao pendentes de contrato; a existencia
+de link nao e usada como prova de PDF.

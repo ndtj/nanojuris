@@ -92,6 +92,35 @@ O provider classifica sinais do HTML sem resolver nenhum controle:
 Se houver sinais de captcha/controle sem container de resultado, o provider
 levanta `AccessControlRequiredError`.
 
+## Dados
+
+O CJSG/e-SAJ retorna resultados HTML com metadados textuais e links de
+documento. A normalizacao deve preservar a distincao entre ementa, campos de
+cabecalho e inteiro teor.
+
+| Campo observado | Campo canonico | Observacao |
+| --- | --- | --- |
+| Numero do processo | `process_number` | deve ser normalizado sem perder a forma exibida |
+| Classe/assunto | `class_name`, `subject`, `raw` | em alguns layouts aparece como bloco unico; preservar bruto |
+| Comarca/origem | `origin` | nao confundir comarca com orgao julgador |
+| Orgao julgador | `judging_body` | camara, turma ou colegiado quando exibido |
+| Relator | `reporting_judge` | remover label, preservar nome como exibido |
+| Data de julgamento/publicacao/registro | `judgment_date`, `publication_date`, `raw` | nunca usar uma data como substituta silenciosa da outra |
+| Ementa/resumo | `summary` | ementa da lista, nao inteiro teor |
+| `cdAcordao` e `cdForo` | `raw`, `document_url` | identificadores tecnicos para URL oficial |
+| HTML/PDF do arquivo | `CanonicalDocument` | somente quando rota de documento responder publicamente |
+
+Regras de integridade:
+
+- `getArquivo.do` deve calcular hash e tamanho a partir dos bytes originais
+  antes de qualquer conversao de texto;
+- PDF binario deve ser classificado como documento binario nao parseado ate
+  existir parser especifico;
+- pagina de login, CAS, captcha ou `emptySession.jsp` nao pode gerar
+  `summary` vazio nem documento publico;
+- paginacao via `trocaDePagina.do` so e valida na mesma sessao de uma busca
+  principal publica bem-sucedida.
+
 ## Estados de resposta
 
 | Estado | Como o provider deve tratar |
@@ -156,10 +185,10 @@ publica quando a consulta for bloqueada.
 
 ## Fixtures esperadas
 
-- resultado CJSG com ementa;
-- pagina com captcha/access-control;
-- pagina de zero resultado;
-- inteiro teor publico;
+- `tests/fixtures/tjsp_cjsg_result.html` cobre resultado CJSG com ementa;
+- `tests/fixtures/tjsp_cjsg_access_control.html` cobre captcha/access-control;
+- `tests/fixtures/tjsp_cjsg_empty.html` cobre zero resultado;
+- `tests/fixtures/tjsp_cjsg_document.html` cobre inteiro teor HTML publico;
 
 ## Proximos passos
 

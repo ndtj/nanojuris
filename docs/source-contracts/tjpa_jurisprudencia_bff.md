@@ -7,7 +7,9 @@
 - Familia tecnica: `spa_bff_jurisprudencia`.
 - URL inicial: `https://jurisprudencia.tjpa.jus.br/`.
 - Status de acesso: `public` para a busca textual JSON e catalogos observados.
-- Status no NanoJuris: implementado para busca e catalogos; detalhe ainda nao promovido.
+- Status no NanoJuris: implementado para busca textual, texto integral embutido
+  quando retornado pelo BFF e catalogos; detalhe documental separado ainda nao
+  promovido.
 
 O contrato foi revalidado em 2026-08-11 a partir do portal oficial e do bundle
 publico atual. A rota de resultados exige `POST`; o `GET` simples em
@@ -200,6 +202,15 @@ vazia nesta sessao. Quando os valores exatos de `origens[].origem` e
 `tipos[].descricao` foram obtidos de `/filtros`, a busca retornou HTTP 200, um
 resultado e total tecnico de 10.000. Filtros de classe/assunto ainda exigem
 fixture de sucesso.
+
+### Inteiro teor na busca
+
+Quando o item retorna `textopuro`, `textooriginal`, `full_text` ou `conteudo`,
+o provider preenche `JurisprudenceResult.full_text` e preserva o objeto JSON
+original em `raw`. Isso e texto integral embutido na resposta de busca, nao
+uma garantia de rota documental por id. O contrato informa essa diferenca ao
+Studio, CLI e MCP; `document_url` so deve ser adicionado quando a fonte
+retornar uma URL documental real.
 
 ## Comportamento e riscos
 

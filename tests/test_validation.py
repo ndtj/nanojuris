@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 
 import pytest
@@ -9,6 +10,7 @@ from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
     QueryRejectedError,
+    SourceUnavailableError,
     UnsupportedQueryError,
 )
 from nanojuris.models import JurisprudenceQuery, JurisprudenceResult, SearchPage, SourceTrace
@@ -16,6 +18,7 @@ from nanojuris.validation import (
     ProviderValidationStatus,
     validate_provider,
     validate_sources,
+    write_validation_artifacts,
 )
 
 
@@ -119,6 +122,10 @@ def test_validate_provider_contains_malformed_normalized_response():
         (ParserContractChangedError("changed"), ProviderValidationStatus.SOURCE_CHANGED),
         (QueryRejectedError("query rejected"), ProviderValidationStatus.QUERY_REJECTED),
         (UnsupportedQueryError("unsupported"), ProviderValidationStatus.UNSUPPORTED_QUERY),
+        (
+            SourceUnavailableError("request failed: ProxyError('Unable to connect to proxy')"),
+            ProviderValidationStatus.NETWORK_CONFIGURATION,
+        ),
     ],
 )
 def test_validate_provider_preserves_live_failure_category(error, status):
@@ -158,6 +165,26 @@ def test_validate_sources_preserves_order_and_summary():
     assert [item["source"] for item in payload["reports"]] == ["healthy", "empty"]
     assert payload["summary"] == {"empty": 1, "valid": 1}
     assert payload["passed"] is True
+    assert len(payload["query"]["sha256"]) == 64
+
+
+def test_validation_artifacts_preserve_machine_readable_evidence(tmp_path):
+    payload = validate_sources(
+        FakeClient({"healthy": FakeProvider("healthy", results=[result("healthy")])}),
+        text="icms",
+    )
+
+    json_path, markdown_path = write_validation_artifacts(
+        payload,
+        output_dir=tmp_path,
+        scope="unified-contract",
+    )
+
+    artifact = json.loads(json_path.read_text(encoding="utf-8"))
+    assert artifact["scope"] == "unified-contract"
+    assert artifact["reports"][0]["source"] == "healthy"
+    assert artifact["reports"][0]["requested_page_size"] == 1
+    assert "Hash da consulta" in markdown_path.read_text(encoding="utf-8")
 
 
 def test_cli_validation_returns_failure_for_contract_problem(monkeypatch, capsys):

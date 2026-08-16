@@ -43,6 +43,8 @@
 - Campos canonicos: `CanonicalDecision`.
 - Campos opcionais: quantidade de ocorrencias no inteiro teor, unidade judicial e id de arquivo.
 - Campos instaveis: estrutura HTML de cards e textos longos sem separadores claros.
+- Tipo de ato: reconhecido semanticamente entre os campos do card; a data de
+  publicacao nao e usada como `decision_type` quando a ordem do HTML variar.
 - Inteiro teor: presente no proprio HTML de resultado no probe com `dano moral`.
 - Documentos vinculados: botao `Baixar Inteiro teor` com `Id_Arquivo`, mas download separado ainda nao confirmado.
 - `supports_full_text` permanece falso: o texto embutido pode ser obtido durante a busca, mas `get_document(id)` nao possui contrato estavel.

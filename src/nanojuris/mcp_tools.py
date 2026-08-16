@@ -7,6 +7,7 @@ from dataclasses import asdict, is_dataclass
 from typing import Any
 
 from nanojuris.brazil import CourtBranch, SourceSystem, list_courts
+from nanojuris.catalog import get_provider_catalog_entry
 from nanojuris.client import NanoJurisClient
 from nanojuris.exporters import (
     research_run_to_export,
@@ -28,7 +29,13 @@ def list_sources_tool(client: NanoJurisClient | None = None) -> dict[str, Any]:
 
     active_client = client or NanoJurisClient()
     return {
-        "sources": [_to_jsonable(capability) for capability in active_client.list_sources()],
+        "sources": [
+            {
+                "capabilities": _to_jsonable(capability),
+                "coverage": get_provider_catalog_entry(capability.source),
+            }
+            for capability in active_client.list_sources()
+        ],
     }
 
 
@@ -61,6 +68,7 @@ def source_diagnostics_tool(
     return {
         "source": source,
         "capabilities": _to_jsonable(active_client.get_capabilities(source=source)),
+        "coverage": get_provider_catalog_entry(source),
     }
 
 
@@ -282,6 +290,38 @@ def search_unified_tool(
             canonical=canonical,
         )
     )
+
+
+def search_unified_store_tool(
+    text: str = "",
+    *,
+    db_path: str,
+    sources: list[str] | None = None,
+    courts: list[str] | None = None,
+    types: list[str] | None = None,
+    number: str = "",
+    source_origin: str = "",
+    page: int = 1,
+    page_size: int = 10,
+    label: str | None = None,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Search public sources and save one auditable federated research run."""
+
+    active_client = client or NanoJurisClient()
+    run = active_client.search_many_and_store_run(
+        text,
+        store=db_path,
+        sources=sources,
+        courts=courts,
+        types=types,
+        number=number,
+        source_origin=source_origin,
+        page=_page(page),
+        page_size=_limit_page_size(page_size),
+        label=label,
+    )
+    return {"run": run.to_dict()}
 
 
 def export_results_tool(
@@ -557,6 +597,8 @@ def _offset(offset: int) -> int:
 
 
 def _to_jsonable(value: object) -> Any:
+    if hasattr(value, "to_dict") and callable(value.to_dict):
+        return _to_jsonable(value.to_dict())
     if is_dataclass(value) and not isinstance(value, type):
         return _to_jsonable(asdict(value))
     if isinstance(value, dict):

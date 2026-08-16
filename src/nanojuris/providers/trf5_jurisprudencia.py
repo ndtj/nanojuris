@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
 import time
 from typing import Any
@@ -12,6 +11,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -23,8 +23,6 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -54,6 +52,8 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_response_content = b""
+        self._last_response_content_type: str | None = None
 
     @property
     def base_url(self) -> str:
@@ -128,26 +128,20 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
     def get_document(self, document_id: str) -> CanonicalDocument:
         bundle = self.get_decisions(document_id)
         content = str(bundle.texts[0]["content"])
-        content_bytes = content.encode("utf-8")
-        return CanonicalDocument(
-            id=f"trf5-jurisprudencia-document-{_extract_document_id(document_id)}",
+        raw_content = self._last_response_content or content.encode("utf-8")
+        return build_canonical_document(
+            document_id=f"trf5-jurisprudencia-document-{_extract_document_id(document_id)}",
             source=self.name,
             document_type="jurisprudencia",
-            content_type="text/html",
+            content=raw_content,
+            content_type=self._last_response_content_type or "text/html",
             title="TRF5 Jurisprudencia",
-            text=content,
+            text_override=content,
             url=bundle.source_trace.source_url if bundle.source_trace else None,
-            sha256=hashlib.sha256(content_bytes).hexdigest(),
-            byte_size=len(content_bytes),
             access_status=AccessStatus.PUBLIC,
             source_trace=bundle.source_trace,
-            extraction_trace=ExtractionTrace(
-                parser="trf5_jurisprudencia.get_document",
-                parser_version="1",
-                status=ExtractionStatus.COMPLETE,
-                access_status=AccessStatus.PUBLIC,
-            ),
             raw_metadata=bundle.raw,
+            parser="trf5_jurisprudencia.get_document",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -213,6 +207,7 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
                 },
                 timeout=self.config.timeout,
                 allow_redirects=True,
+                verify=self.config.verify_ssl,
                 **kwargs,
             )
         except requests.RequestException as exc:
@@ -226,6 +221,12 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
         if response.status_code >= 400:
             raise SourceUnavailableError(f"TRF5 jurisprudence rejected HTTP {response.status_code}")
         response.encoding = response.encoding or "iso-8859-1"
+        self._last_response_content = bytes(
+            getattr(response, "content", None) or response.text.encode("utf-8")
+        )
+        self._last_response_content_type = (getattr(response, "headers", None) or {}).get(
+            "Content-Type"
+        )
         text = response.text
         if "captcha" in text.lower() or "acesso negado" in text.lower():
             raise AccessControlRequiredError("TRF5 jurisprudence returned access-control HTML")
@@ -274,6 +275,8 @@ def parse_trf5_results(
                 number=number_match.group(0),
                 summary=summary,
                 updated_at=metadata.get("data_julgamento"),
+                judgment_date=metadata.get("data_julgamento"),
+                access_status=AccessStatus.PUBLIC,
                 source_trace=trace,
                 raw={
                     **metadata,

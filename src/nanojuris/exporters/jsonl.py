@@ -45,6 +45,8 @@ def to_canonical_jsonl(
 
 
 def _to_jsonable(value: object) -> Any:
+    if hasattr(value, "to_dict") and callable(value.to_dict):
+        return _to_jsonable(value.to_dict())
     if is_dataclass(value) and not isinstance(value, type):
         return _to_jsonable(asdict(value))
     if isinstance(value, dict):

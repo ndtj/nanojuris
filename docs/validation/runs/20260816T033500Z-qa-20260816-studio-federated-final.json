@@ -1,0 +1,99 @@
+{
+  "checked_sources": [
+    "tjdf_juris",
+    "tst_jurisprudencia"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T03:35:03+00:00",
+  "passed": true,
+  "query": {
+    "page_size": 1,
+    "sha256": "4b228a6ea925aecce683f5abf5f05a24cb122b31c2c796a4ca33495d0de8c592",
+    "text": "responsabilidade civil"
+  },
+  "reports": [
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T03:35:00+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": false,
+      "completeness_reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "content_sha256": "216e5770f9eb38b2c8d7c60f16f67e5a04e178526398bb4fccc78877678b7bbf",
+      "content_type": "text/html;charset=ISO-8859-1",
+      "effective_page_size": 1,
+      "elapsed_ms": 2561.1,
+      "endpoint": "/IndexadorAcordaos-web/sistj",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "document_available",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "page",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 131875,
+      "requested_page_size": 1,
+      "response_bytes": 48246,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "tjdf_juris",
+      "source_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj",
+      "status": "valid"
+    },
+    {
+      "access_status": "public",
+      "checked_at": "2026-08-16T03:35:00+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": false,
+      "completeness_reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "content_sha256": "a512b6e1f46d78627c55f9abf8e063dd13a94664273ebd89db5a1f856bd5def8",
+      "content_type": "application/json",
+      "effective_page_size": 1,
+      "elapsed_ms": 1324.01,
+      "endpoint": "/rest/pesquisa-textual/1/1",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "document_available",
+      "http_status": 200,
+      "message": null,
+      "pagination_mode": "offset",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 841967,
+      "requested_page_size": 1,
+      "response_bytes": 131813,
+      "retrieval_status": "ok",
+      "returned": 1,
+      "source": "tst_jurisprudencia",
+      "source_url": "https://jurisprudencia-backend2.tst.jus.br/rest/pesquisa-textual/1/1",
+      "status": "valid"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "qa-20260816-studio-federated-final",
+  "summary": {
+    "valid": 2
+  }
+}

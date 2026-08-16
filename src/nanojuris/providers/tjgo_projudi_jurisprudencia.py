@@ -302,7 +302,7 @@ def _parse_result_card(
     paragraphs = [text for text in paragraphs if text]
     judging_body = paragraphs[0] if len(paragraphs) > 0 else None
     rapporteur = paragraphs[1] if len(paragraphs) > 1 else None
-    decision_type = _normalize_decision_type(paragraphs[2] if len(paragraphs) > 2 else "decisao")
+    decision_type = _find_decision_type(paragraphs)
     publication_date = _extract_publication_date(card_text)
     full_text_element = card.select_one(".conteudoTexto")
     full_text = (
@@ -427,7 +427,17 @@ def _extract_file_id(card: Any) -> str | None:
     return None
 
 
-def _normalize_decision_type(value: str) -> str:
+def _find_decision_type(values: list[str]) -> str:
+    """Find the explicit act label without relying on card paragraph position."""
+
+    for value in values:
+        decision_type = _normalize_decision_type(value)
+        if decision_type is not None:
+            return decision_type
+    return "decisao"
+
+
+def _normalize_decision_type(value: str) -> str | None:
     normalized = _normalize_text(value).lower()
     if "senten" in normalized:
         return "sentenca"
@@ -435,7 +445,7 @@ def _normalize_decision_type(value: str) -> str:
         return "acordao"
     if "decis" in normalized:
         return "decisao"
-    return normalized or "decisao"
+    return None
 
 
 def _first_match(pattern: re.Pattern[str], text: str) -> str | None:

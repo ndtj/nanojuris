@@ -103,6 +103,33 @@ A fixture publica `tests/fixtures/stf_juris_infanticidio.json` foi reduzida para
 dois resultados e preserva o formato real de `hits`, `highlight` e
 `aggregations`.
 
+## Dados
+
+O contrato observado separa tres camadas de conteudo:
+
+| Grupo | Campos de origem | Uso canonico |
+| --- | --- | --- |
+| Identificacao | `id`, `base`, `titulo`, `processo_codigo_completo`, `processo_numero` | identificador estavel, numero processual e titulo exibivel |
+| Classe e orgao | `processo_classe_processual_unificada_sigla`, `processo_classe_processual_unificada_extenso`, `orgao_julgador` | classe, tipo decisorio e orgao julgador |
+| Relatoria | `relator_processo_nome`, `relator_acordao_nome`, `ministro_facet` | relator preferencial e faceta de ministro |
+| Datas | `julgamento_data`, `publicacao_data` | `judgment_date` e `publication_date`, preservando valor bruto quando formato divergir |
+| Conteudo textual | `ementa_texto`, `decisao_texto`, `sumula_texto`, `documental_tese_texto` | ementa, decisao, sumula ou tese conforme a base retornada |
+| Contexto documental | `partes_lista_texto`, `documental_legislacao_citada_texto`, `documental_jurisprudencia_citada_texto`, `documental_indexacao_texto`, `documental_assunto_texto` | campos auxiliares em `raw` e campos canonicos quando houver correspondencia direta |
+| URLs | `inteiro_teor_url`, `acompanhamento_processual_url`, `dje_url` | links oficiais preservados com access status independente |
+| Facetas | `aggregations.<nome>.buckets[]` | catalogos de filtros e diagnostico, nao resultados decisorios |
+
+Regras de normalizacao:
+
+- `publication_date` deve vir de `publicacao_data`, nunca de data de
+  atualizacao da coleta;
+- `judgment_date` deve vir de `julgamento_data`;
+- `source_updated_at` e `retrieved_at` devem permanecer separados quando
+  existirem;
+- `highlight` serve para explicar por que o resultado foi retornado, mas nao
+  substitui ementa, decisao ou texto integral;
+- `inteiro_teor_url` nao prova disponibilidade do documento; acesso ao inteiro
+  teor deve ser validado em rota propria.
+
 ## Estados de resposta
 
 | Estado | Como o provider deve tratar |
@@ -175,7 +202,8 @@ alto. O agente deve:
 ## Fixtures esperadas
 
 - `tests/fixtures/stf_juris_infanticidio.json` implementada;
-- futura fixture de zero resultado JSON;
+- `tests/fixtures/stf_juris_empty.json` implementada;
+- `tests/fixtures/stf_juris_waf.html` implementada;
 - futura fixture de bases adicionais quando o frontend expuser `decisoes`,
   `sumulas` ou `informativos`;
 - futura fixture de inteiro teor somente se a URL publica responder sem WAF,
@@ -188,6 +216,7 @@ alto. O agente deve:
 - [x] Implementar parser puro para contrato JSON observado.
 - [x] Adicionar diagnostico de AWS WAF e SSL.
 - [x] Declarar capabilities e integrar ao cliente padrao.
+- [x] Cobrir pagina vazia e resposta AWS WAF com fixtures offline.
 - [ ] Validar bases adicionais do frontend.
 - [ ] Criar teste live opt-in para registrar `AccessControlRequiredError` quando
   a origem exigir WAF.

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from nanojuris.models import ProviderCapabilities
+from nanojuris.models import CanonicalDocument, ProviderCapabilities
 from nanojuris.source_contracts import assess_source_contract
 from nanojuris.web.app import create_app
 
@@ -39,6 +39,20 @@ class FakeStudioClient:
 
     def get_source_contract(self, *, source: str) -> Any:
         return assess_source_contract(self.get_capabilities(source=source))
+
+    def get_document(self, document_id: str, *, source: str) -> CanonicalDocument:
+        return CanonicalDocument(
+            id=document_id,
+            source=source,
+            document_type="acordao",
+            content_type="text/plain",
+            title="Inteiro teor de demonstracao",
+            text="Inteiro teor publico de demonstracao para o Studio.",
+            url="https://example.org/documento-publico",
+            sha256="a" * 64,
+            byte_size=51,
+            raw_bytes=b"Inteiro teor publico de demonstracao para o Studio.",
+        )
 
     def search_many(
         self,

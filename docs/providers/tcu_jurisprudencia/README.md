@@ -153,17 +153,17 @@ Quando o dataset nao possuir ementa, relator ou processo, o provider deve
 deixar o campo nulo e preservar o dado original. Ausencia de campo nao e
 motivo para fabricar uma equivalencia judicial.
 
-## Fixtures E Testes Necessarios
+## Fixtures E Testes
 
-- fixture pequena do manifesto com pelo menos uma entrada de cada base;
-- fixture de cabecalho e duas linhas de cada CSV principal;
-- parser de delimitador `|`, aspas, HTML embutido e acentos;
-- teste de `Range`/stream sem exigir download integral;
-- teste de schema desconhecido ou coluna ausente;
-- teste de duplicidade por `KEY`;
-- teste de atualizacao do manifesto e checksum opcional;
-- teste opt-in de uma URL pequena, com limite de bytes e timeout;
-- nenhum teste deve baixar o acervo historico completo em CI.
+- `tests/fixtures/tcu_manifest.csv`: manifesto publico reduzido;
+- `tests/fixtures/tcu_acordao_resumo.csv`: sucesso com HTML em `VISAOGERAL`;
+- `tests/fixtures/tcu_acordao_resumo_empty.csv`: vazio real;
+- `tests/fixtures/tcu_manifest_contract_changed.txt`: contrato invalido;
+- `tests/test_tcu_jurisprudencia.py`: parsing, preservacao do campo bruto,
+  vazio e mudanca de contrato sem download integral.
+
+Ainda faltam fixture representativa para cada schema adicional, deduplicacao em
+sincronizacao local e teste opt-in limitado para `Range`.
 
 ## Uso Via MCP
 
@@ -188,10 +188,10 @@ e download integral ainda nao fazem parte do contrato executavel.
 
 ## Promocao Para Provider
 
-- [x] adicionar parser e teste offline do manifesto e do resumo;
+- [x] adicionar fixtures e testes offline do manifesto e do resumo;
 - [x] declarar `ProviderCapabilities` como fonte de dados abertos;
 - [x] documentar limite de leitura e atualizacao;
-- [ ] adicionar fixture representativa versionada para cada schema;
+- [ ] adicionar fixture representativa versionada para cada schema adicional;
 - [ ] validar um arquivo pequeno em live opt-in;
 - [ ] implementar cache local com metadados de origem;
 - [ ] manter a pesquisa interativa fora do provider ate o firewall permitir um
@@ -203,6 +203,17 @@ e download integral ainda nao fazem parte do contrato executavel.
 - A pesquisa interativa permanece separada: o endpoint de resultados respondeu firewall HTML, nao JSON.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+
+## Validacao Live 2026-08-16
+
+O adapter executavel consultou o CSV publico de resumo com a consulta
+`responsabilidade civil`, retornando um registro em 12,8 s. A evidencia
+estruturada esta em
+[`docs/validation/runs/20260816T023226Z-tcu-open-data-contract.json`](https://github.com/ndtj/nanojuris/blob/main/docs/validation/runs/20260816T023226Z-tcu-open-data-contract.json).
+O provider registra HTTP, URL final, tipo/tamanho quando fornecidos pelo
+servidor e `access_status=public` para resultados efetivamente extraidos. Como
+a leitura e streaming, hash e tamanho do corpo so sao afirmados quando a fonte
+os fornecer sem exigir a retencao integral do arquivo.
 
 ## Fontes Oficiais
 

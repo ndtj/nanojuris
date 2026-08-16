@@ -444,6 +444,28 @@ def test_client_search_and_store_run_returns_saved_run():
     assert store.get_research_run_records(run.id)[0]["id"] == "fake-1"
 
 
+def test_client_search_many_and_store_run_preserves_federated_completeness():
+    provider = FakeProvider()
+    client = NanoJurisClient(providers=[provider])
+    store = SQLiteStore(":memory:")
+
+    run = client.search_many_and_store_run(
+        "ICMS",
+        sources=["fake"],
+        store=store,
+        label="Pesquisa federada ICMS",
+    )
+
+    saved = store.get_research_run(run.id)
+    assert run.source == "federated"
+    assert run.record_count == 1
+    assert saved is not None
+    assert saved["query"]["sources"] == ["fake"]
+    assert saved["query"]["total_returned"] == 1
+    assert saved["query"]["collection_complete"] is False
+    assert saved["query"]["source_completeness"]["fake"]["complete"] is None
+
+
 def test_client_delegates_decisions_and_parameters():
     provider = FakeProvider()
     client = NanoJurisClient(providers=[provider])

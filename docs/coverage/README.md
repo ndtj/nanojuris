@@ -12,7 +12,7 @@ quais estao maduras para busca unificada e quais ainda exigem aprofundamento.
 - Providers implementados: **37**.
 - Fontes na busca unificada: **36**.
 - Fontes primarias de jurisprudencia textual: **29**.
-- Fontes com algum suporte a inteiro teor/documento: **20**.
+- Fontes com algum suporte a inteiro teor/documento: **22**.
 
 ## Como Usar
 
@@ -23,6 +23,9 @@ quais estao maduras para busca unificada e quais ainda exigem aprofundamento.
 | Quais campos e formatos cada provider entrega? | [outputs.md](outputs.md) |
 | Quais campos canonicos estao cobertos? | [field-coverage.md](field-coverage.md) |
 | O que significa ouro, prata, bronze e experimental? | [maturity.md](maturity.md) |
+| Como o score de maturidade e calculado? | [maturity-score.md](maturity-score.md) |
+| Quais providers devemos amadurecer primeiro? | [improvement-queue.md](improvement-queue.md) |
+| Qual e o plano de ondas para maturidade dos providers? | [maturity-waves.md](maturity-waves.md) |
 | Qual foi a ultima validacao live focada? | [live-status.md](live-status.md) |
 | Qual catalogo uma IA deve ler? | [../registry/provider-catalog.full.json](../registry/provider-catalog.full.json) |
 

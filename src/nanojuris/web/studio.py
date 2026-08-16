@@ -7,6 +7,7 @@ from dataclasses import asdict, is_dataclass
 from enum import Enum
 from typing import Any, cast
 
+from nanojuris.catalog import get_provider_catalog_entry
 from nanojuris.client import NanoJurisClient
 from nanojuris.models import ProviderCapabilities
 from nanojuris.source_contracts import assess_source_contract
@@ -53,9 +54,12 @@ def studio_sources_payload(client: NanoJurisClient) -> dict[str, Any]:
             "https://github.com/ndtj/nanojuris/blob/main/docs/providers/"
             f"{capability.source}/README.md"
         )
+        item["coverage"] = get_provider_catalog_entry(capability.source)
         sources.append(item)
     return {
         "total": len(sources),
+        "runtime_total": len(sources),
+        "catalog_total": len(sources),
         "default_sources": _default_studio_sources(sources),
         "recommended_sources": [
             str(item["source"]) for item in sources if item.get("recommended_for_studio")
@@ -95,17 +99,34 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
     )
     results = [_jsonable(result) for result in payload["results"]]
     routing = payload.get("routing_summary", [])
+    source_completeness = payload.get("source_completeness", {})
+    errors = payload.get("errors", [])
     return {
         "query": request.query,
         "page": payload["page"],
         "page_size": payload["page_size"],
         "total": payload["total_returned"],
+        "total_available": payload.get("total_available", payload["total_returned"]),
+        "total_returned": payload["total_returned"],
+        "deduplicated_total": payload.get("deduplicated_total", payload["total_returned"]),
         "sources": payload["sources"],
         "searched_sources": payload["searched_sources"],
         "skipped_sources": payload["skipped_sources"],
-        "source_status": _source_status(routing, results),
+        "source_totals": payload.get("source_totals", {}),
+        "source_completeness": source_completeness,
+        "sources_complete": payload.get("sources_complete", []),
+        "sources_partial": payload.get("sources_partial", []),
+        "sources_unknown": payload.get("sources_unknown", []),
+        "collection_complete": payload.get("collection_complete"),
+        "completeness_reason": payload.get("completeness_reason"),
+        "source_status": _source_status(
+            routing,
+            results,
+            source_completeness=source_completeness,
+            errors=errors,
+        ),
         "routing_summary": routing,
-        "errors": payload["errors"],
+        "errors": errors,
         "results": results,
     }
 
@@ -151,21 +172,46 @@ def supported_filters_for(capability: ProviderCapabilities) -> list[str]:
 def _source_status(
     routing_summary: list[dict[str, Any]],
     results: list[dict[str, Any]],
+    *,
+    source_completeness: dict[str, dict[str, Any]] | None = None,
+    errors: list[dict[str, Any]] | None = None,
 ) -> dict[str, dict[str, Any]]:
+    source_completeness = source_completeness or {}
+    errors = errors or []
     counts: dict[str, int] = {}
     for result in results:
         source = str(result.get("source") or "")
         counts[source] = counts.get(source, 0) + 1
 
     status: dict[str, dict[str, Any]] = {}
+    error_sources = {str(item.get("source") or "") for item in errors}
     for item in routing_summary:
         source = str(item.get("source") or "")
         action = str(item.get("action") or "")
+        completeness = source_completeness.get(source, {})
+        returned = int(completeness.get("returned", counts.get(source, 0)) or 0)
+        reported_total = completeness.get("reported_total")
+        if source in error_sources or action == "failed":
+            current_status = "failed"
+        elif action == "skipped":
+            current_status = "skipped"
+        elif completeness.get("complete") is False:
+            current_status = "partial"
+        elif completeness.get("complete") is None and completeness:
+            current_status = "unknown"
+        elif completeness and returned == 0 and reported_total == 0:
+            current_status = "empty"
+        else:
+            current_status = _status_from_action(action)
         status[source] = {
-            "status": _status_from_action(action),
-            "count": counts.get(source, 0),
+            "status": current_status,
+            "count": returned,
+            "reported_total": reported_total,
+            "pagination_mode": completeness.get("pagination_mode"),
+            "pages_fetched": completeness.get("pages_fetched"),
+            "complete": completeness.get("complete"),
             "reason": item.get("reason"),
-            "message": item.get("message"),
+            "message": completeness.get("reason") or item.get("message"),
         }
     for source, count in counts.items():
         status.setdefault(
@@ -242,6 +288,8 @@ def _default_studio_sources(sources: list[dict[str, Any]]) -> list[str]:
 
 
 def _jsonable(value: Any) -> Any:
+    if hasattr(value, "to_dict") and callable(value.to_dict):
+        return _jsonable(value.to_dict())
     if is_dataclass(value):
         return _jsonable(asdict(cast(Any, value)))
     if isinstance(value, Enum):

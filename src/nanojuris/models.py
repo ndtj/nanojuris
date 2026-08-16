@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
@@ -122,6 +123,7 @@ class CanonicalDocument:
     content_type: str | None = None
     title: str | None = None
     text: str | None = None
+    raw_bytes: bytes | None = field(default=None, repr=False, compare=False)
     url: str | None = None
     sha256: str | None = None
     byte_size: int | None = None
@@ -132,8 +134,13 @@ class CanonicalDocument:
     extraction_trace: ExtractionTrace | None = None
     raw_metadata: dict[str, Any] = field(default_factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+    def to_dict(self, *, include_raw_bytes: bool = False) -> dict[str, Any]:
+        payload = asdict(self)
+        raw_bytes = payload.pop("raw_bytes", None)
+        payload["raw_bytes_preserved"] = raw_bytes is not None
+        if include_raw_bytes and raw_bytes is not None:
+            payload["raw_bytes_base64"] = base64.b64encode(raw_bytes).decode("ascii")
+        return payload
 
 
 @dataclass(slots=True)
@@ -355,9 +362,15 @@ class DecisionBundle:
     texts: list[dict[str, Any]] = field(default_factory=list)
     source_trace: SourceTrace | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
+    raw_bytes: bytes | None = field(default=None, repr=False, compare=False)
 
-    def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+    def to_dict(self, *, include_raw_bytes: bool = False) -> dict[str, Any]:
+        payload = asdict(self)
+        raw_bytes = payload.pop("raw_bytes", None)
+        payload["raw_bytes_preserved"] = raw_bytes is not None
+        if include_raw_bytes and raw_bytes is not None:
+            payload["raw_bytes_base64"] = base64.b64encode(raw_bytes).decode("ascii")
+        return payload
 
 
 @dataclass(slots=True)

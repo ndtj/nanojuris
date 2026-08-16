@@ -13,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     ParserContractChangedError,
     RateLimitDetectedError,
@@ -22,7 +23,6 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -48,6 +48,8 @@ class TjdfJurisProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
+        self._last_response_content = b""
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         initial_params = _build_initial_params(query)
@@ -72,10 +74,11 @@ class TjdfJurisProvider(JurisprudenceProvider):
             parse_tjdf_detail(
                 self._request_text("GET", TJDF_JURIS_ENDPOINT, params=_build_detail_params(item)),
                 document_id=item,
-                trace=trace,
+                trace=_trace_with_http_metadata(trace, self._last_http_metadata),
             )
             for item in document_ids
         ]
+        trace = _trace_with_http_metadata(trace, self._last_http_metadata)
         start = ((query.page - 1) * query.page_size) + 1 if results else 0
         complete, completeness_reason = page_completeness(
             reported_total=total,
@@ -132,30 +135,23 @@ class TjdfJurisProvider(JurisprudenceProvider):
             source_url=urljoin(self.config.tjdf_juris_url, TJDF_JURIS_ENDPOINT.lstrip("/")),
             limitations=["Documento HTML publico do TJDFT/SISTJ."],
         )
+        trace = _trace_with_http_metadata(trace, self._last_http_metadata)
         soup = BeautifulSoup(html, "html.parser")
         text = _normalize_spaces(soup.get_text(" ", strip=True))
-        content_bytes = html.encode("utf-8")
-        return CanonicalDocument(
-            id=canonical_document_id,
+        content = self._last_response_content or html.encode("utf-8")
+        return build_canonical_document(
+            document_id=canonical_document_id,
             source=self.name,
             document_type="acordao",
-            content_type="text/html",
+            content=content,
+            content_type=self._last_http_metadata.get("content_type") or "text/html",
             title=f"TJDFT acordao {document_id}",
-            text=text,
+            text_override=text,
             url=trace.source_url,
-            sha256=hashlib.sha256(content_bytes).hexdigest(),
-            byte_size=len(content_bytes),
-            retrieved_at=trace.retrieved_at,
             access_status=AccessStatus.PUBLIC,
             source_trace=trace,
-            extraction_trace=ExtractionTrace(
-                parser="tjdf_juris.get_document",
-                parser_version="1",
-                content_sha256=hashlib.sha256(content_bytes).hexdigest(),
-                content_bytes=len(content_bytes),
-                metadata={"numeroDoDocumento": normalized_document_id},
-            ),
             raw_metadata={"numeroDoDocumento": normalized_document_id},
+            parser="tjdf_juris.get_document",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -215,6 +211,7 @@ class TjdfJurisProvider(JurisprudenceProvider):
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        started = time.perf_counter()
         try:
             response = self.session.request(
                 method,
@@ -233,6 +230,17 @@ class TjdfJurisProvider(JurisprudenceProvider):
             raise SourceUnavailableError(
                 f"TJDFT/SISTJ rejected request with HTTP {response.status_code}"
             )
+        content = bytes(getattr(response, "content", None) or response.text.encode("utf-8"))
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": str(getattr(response, "url", None) or url),
+            "content_type": (getattr(response, "headers", None) or {}).get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
+            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+        }
+        self._last_response_content = content
         response.encoding = response.encoding or "ISO-8859-1"
         return response.text
 
@@ -244,6 +252,25 @@ class TjdfJurisProvider(JurisprudenceProvider):
         if elapsed < interval:
             time.sleep(interval - elapsed)
         self._last_request = time.monotonic()
+
+
+def _trace_with_http_metadata(trace: SourceTrace, metadata: dict[str, Any]) -> SourceTrace:
+    """Attach observed transport facts without inferring unavailable values."""
+
+    return SourceTrace(
+        provider=trace.provider,
+        endpoint=trace.endpoint,
+        query=trace.query,
+        source_url=trace.source_url,
+        limitations=trace.limitations,
+        http_status=metadata.get("http_status"),
+        final_url=metadata.get("final_url"),
+        content_type=metadata.get("content_type"),
+        content_sha256=metadata.get("content_sha256"),
+        response_bytes=metadata.get("response_bytes"),
+        elapsed_ms=metadata.get("elapsed_ms"),
+        retrieval_status=metadata.get("retrieval_status"),
+    )
 
 
 def parse_tjdf_total(html: str) -> int:
@@ -298,6 +325,14 @@ def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> Jur
         query={"numeroDoDocumento": document_id},
         source_url=document_url,
         limitations=trace.limitations,
+        http_status=trace.http_status,
+        final_url=trace.final_url,
+        content_type=trace.content_type,
+        content_sha256=trace.content_sha256,
+        response_bytes=trace.response_bytes,
+        elapsed_ms=trace.elapsed_ms,
+        retrieval_status=trace.retrieval_status,
+        transformations=trace.transformations,
     )
     return JurisprudenceResult(
         id=f"tjdf-acordao-{registry_number}",
@@ -309,6 +344,7 @@ def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> Jur
         status=decision_outcome,
         rapporteur=fields.get("relatora"),
         updated_at=publication_date or judgment_date,
+        access_status=AccessStatus.PUBLIC if result_trace.http_status == 200 else None,
         source_trace=result_trace,
         raw={
             "registry_number": registry_number,

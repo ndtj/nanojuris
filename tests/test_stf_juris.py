@@ -64,6 +64,10 @@ def _fixture(name: str) -> dict:
     return json.loads((FIXTURES / name).read_text(encoding="utf-8"))
 
 
+def _fixture_text(name: str) -> str:
+    return (FIXTURES / name).read_text(encoding="utf-8")
+
+
 def test_build_stf_search_payload_maps_query_contract():
     payload = build_stf_search_payload(
         JurisprudenceQuery(
@@ -135,6 +139,9 @@ def test_parse_stf_search_response_maps_fixture():
     assert first.number == "ARE 1589201 AgR-segundo"
     assert first.rapporteur == "FLAVIO DINO"
     assert first.updated_at == "2026-05-06"
+    assert first.judgment_date == "2026-04-29"
+    assert first.publication_date == "2026-05-06"
+    assert first.access_status.value == "public"
     assert first.raw["classe"] == "ARE-AgR-segundo"
     assert first.raw["case_class"] == "SEGUNDO AG.REG. NO RECURSO EXTRAORDINARIO COM AGRAVO"
     assert first.raw["orgao_julgador"] == "Primeira Turma"
@@ -162,6 +169,34 @@ def test_parse_stf_search_response_accepts_empty_result_page():
     assert page.start == 0
     assert page.end == 0
     assert page.aggregations == {}
+
+
+def test_parse_stf_empty_fixture_is_not_a_contract_failure():
+    page = parse_stf_search_response(
+        _fixture("stf_juris_empty.json"),
+        query=JurisprudenceQuery(text="termo sem resultado", page_size=5),
+        trace=SourceTrace(provider="stf_juris", endpoint="/api/search/search"),
+    )
+
+    assert page.total == 0
+    assert page.results == []
+
+
+def test_provider_detects_waf_fixture_without_bypass():
+    provider = StfJurisProvider(
+        session=FakeSession(
+            [
+                FakeResponse(
+                    None,
+                    text=_fixture_text("stf_juris_waf.html"),
+                    status_code=200,
+                )
+            ]
+        )
+    )
+
+    with pytest.raises(AccessControlRequiredError, match="AWS WAF"):
+        provider.search(JurisprudenceQuery(text="teste"))
 
 
 def test_parse_stf_search_response_maps_alternate_document_shapes():

@@ -3,7 +3,11 @@ const state = {
   defaultSources: [],
   selected: new Set(),
   results: [],
+  documents: {},
+  documentLoading: new Set(),
+  documentErrors: {},
   status: {},
+  searchMeta: null,
   routing: [],
   loading: false,
   validation: null,
@@ -334,16 +338,32 @@ function validationStatusLabel(status) {
 function renderStatus() {
   const entries = Object.entries(state.status);
   const total = state.results.length;
-  const ok = entries.filter(([, item]) => item.status === "ok").length;
+  const meta = state.searchMeta || {};
+  const sourcesWithResults = entries.filter(([, item]) => Number(item.count || 0) > 0).length;
+  const partial = entries.filter(([, item]) => item.status === "partial").length;
+  const empty = entries.filter(([, item]) => item.status === "empty").length;
   const failed = entries.filter(([, item]) => item.status === "failed").length;
   const skipped = entries.filter(([, item]) => item.status === "skipped").length;
+  const complete = meta.collection_complete === true;
   return `
     <div class="metrics">
-      <div class="metric"><strong>${total}</strong><span>resultados normalizados</span></div>
-      <div class="metric"><strong>${ok}</strong><span>fontes consultadas</span></div>
+      <div class="metric"><strong>${total}</strong><span>resultados nesta pagina</span></div>
+      <div class="metric"><strong>${meta.total_available ?? total}</strong><span>disponiveis na coleta</span></div>
+      <div class="metric"><strong>${sourcesWithResults}</strong><span>fontes com resultados</span></div>
+      <div class="metric"><strong>${partial}</strong><span>fontes parciais</span></div>
+      <div class="metric"><strong>${empty}</strong><span>fontes sem resultados</span></div>
       <div class="metric"><strong>${skipped}</strong><span>fora do escopo</span></div>
       <div class="metric"><strong>${failed}</strong><span>falhas visiveis</span></div>
     </div>
+    ${
+      meta.collection_complete !== null && meta.collection_complete !== undefined
+        ? `<div class="completeness-banner ${complete ? "complete" : "partial"}" role="status">
+             <strong>${complete ? "coleta completa" : "coleta parcial"}</strong>
+             <span>${escapeHtml(meta.completeness_reason || "Consulte o estado de cada fonte antes de interpretar a amostra.")}</span>
+             <span>Deduplicados: ${meta.deduplicated_total ?? total}</span>
+           </div>`
+        : ""
+    }
     <div class="status-strip">
       ${
         entries.length
@@ -353,7 +373,7 @@ function renderStatus() {
                   `<span class="status-chip ${escapeHtml(item.status)}" title="${escapeAttribute(
                     item.message || "",
                   )}">${escapeHtml(source)} - ${item.count || 0} - ${escapeHtml(
-                    item.status,
+                    statusLabel(item.status),
                   )}</span>`,
               )
               .join("")
@@ -365,7 +385,7 @@ function renderStatus() {
 
 function renderDiagnostics() {
   const entries = Object.entries(state.status).filter(([, item]) =>
-    ["failed", "skipped", "unknown"].includes(item.status),
+    ["failed", "skipped", "partial", "empty", "unknown"].includes(item.status),
   );
   if (!entries.length) return "";
   return `
@@ -376,9 +396,10 @@ function renderDiagnostics() {
           .map(
             ([source, item]) => `
               <div class="diagnostic ${escapeHtml(item.status)}">
-                <strong>${escapeHtml(source)} - ${escapeHtml(item.status)}</strong>
+                <strong>${escapeHtml(source)} - ${escapeHtml(statusLabel(item.status))}</strong>
                 <span>${escapeHtml(item.reason || "sem motivo declarado")}</span>
-                <p>${escapeHtml(item.message || "Sem mensagem tecnica retornada.")}</p>
+                <p>${escapeHtml(item.message || sourceStatusMessage(item))}</p>
+                <small>${item.count || 0} coletados${item.reported_total !== null && item.reported_total !== undefined ? ` de ${item.reported_total} informados pela fonte` : ""}</small>
               </div>
             `,
           )
@@ -393,11 +414,13 @@ function renderResults() {
     return '<div class="empty">Consultando fontes publicas. Algumas rotas podem demorar ou exigir validacao externa.</div>';
   }
   if (!state.results.length) {
-    return '<div class="empty">Digite uma tese, termo juridico ou numero de processo para iniciar.</div>';
+    return state.searchMeta
+      ? '<div class="empty">Nenhum resultado nesta coleta. Verifique o estado de cada fonte e a completude antes de concluir que nao existem resultados.</div>'
+      : '<div class="empty">Digite uma tese, termo juridico ou numero de processo para iniciar.</div>';
   }
   return `
     <div class="results-header">
-      <h2>Resultados completos</h2>
+      <h2>Resultados da coleta</h2>
       <button class="ghost" id="copy-all" type="button">copiar JSON</button>
     </div>
     <div class="results">
@@ -409,6 +432,13 @@ function renderResults() {
 function renderResult(result, index) {
   const summary = resultSummary(result);
   const sourceUrl = result.document_url || result.url;
+  const resultKey = documentKey(result);
+  const loadedDocument = state.documents[resultKey];
+  const documentError = state.documentErrors[resultKey];
+  const source = state.sources.find((item) => item.source === result.source);
+  const canLoadDocument = Boolean(
+    result.full_text || result.document_url || source?.supports_full_text,
+  );
   return `
     <details class="result" ${index === 0 ? "open" : ""}>
       <summary>
@@ -430,14 +460,24 @@ function renderResult(result, index) {
             .join("")}
         </div>
         ${summary ? `<p>${escapeHtml(summary)}</p>` : ""}
+        ${renderEvidence(result)}
         <div class="actions">
           <button class="ghost" data-copy="${index}" type="button">copiar resultado</button>
           ${
+            canLoadDocument && !loadedDocument
+              ? `<button class="ghost" data-load-document="${escapeAttribute(resultKey)}" type="button" ${
+                  state.documentLoading.has(resultKey) ? "disabled" : ""
+                }>${state.documentLoading.has(resultKey) ? "carregando inteiro teor..." : "carregar inteiro teor"}</button>`
+              : ""
+          }
+          ${
             sourceUrl
-              ? `<a class="ghost" href="${escapeAttribute(sourceUrl)}" target="_blank" rel="noreferrer">abrir fonte</a>`
+              ? `<a class="ghost source-doc" href="${escapeAttribute(sourceUrl)}" target="_blank" rel="noreferrer">abrir fonte</a>`
               : ""
           }
         </div>
+        ${documentError ? `<p class="document-error">${escapeHtml(documentError)}</p>` : ""}
+        ${loadedDocument ? renderLoadedDocument(loadedDocument) : ""}
         <details class="raw-payload">
           <summary>ver JSON completo</summary>
           <pre class="json-view">${escapeHtml(JSON.stringify(result, null, 2))}</pre>
@@ -445,6 +485,84 @@ function renderResult(result, index) {
       </div>
     </details>
   `;
+}
+
+function documentKey(result) {
+  return `${result.source || "unknown"}:${result.id || result.document_url || "document"}`;
+}
+
+function renderLoadedDocument(document) {
+  const trace = document.extraction_trace || {};
+  const sourceTrace = document.source_trace || {};
+  return `
+    <section class="full-text-panel" aria-label="Inteiro teor carregado">
+      <div class="full-text-heading">
+        <strong>Inteiro teor carregado sob demanda</strong>
+        <span class="status-chip ok">${escapeHtml(evidenceLabel(document.extraction_status || "loaded"))}</span>
+      </div>
+      <div class="evidence-grid">
+        <div><span>Formato</span><strong>${escapeHtml(document.content_type || "nao informado")}</strong></div>
+        <div><span>Tamanho</span><strong>${escapeHtml(formatBytes(document.byte_size))}</strong></div>
+        <div><span>SHA-256</span><strong class="hash-value">${escapeHtml(document.sha256 || "nao informado")}</strong></div>
+        <div><span>Bytes originais</span><strong>${document.raw_bytes_preserved ? "preservados" : "nao informado"}</strong></div>
+      </div>
+      <p class="document-provenance">${escapeHtml(sourceTrace.final_url || document.url || "Fonte oficial nao informada")}</p>
+      ${document.text ? `<pre class="full-text-content">${escapeHtml(document.text)}</pre>` : `<p>O documento foi carregado, mas nao possui texto extraivel (${escapeHtml(trace.status || "status nao informado")}).</p>`}
+    </section>
+  `;
+}
+
+function formatBytes(value) {
+  const bytes = Number(value || 0);
+  if (!bytes) return "nao informado";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function renderEvidence(result) {
+  const fullTextStatus = result.full_text_status || (result.full_text ? "loaded" : result.document_url ? "document_available" : "not_returned");
+  const accessStatus = result.access_status || result.extraction_trace?.access_status || "not_observed";
+  const extractionStatus = result.extraction_status || result.extraction_trace?.extraction_status || "not_observed";
+  return `
+    <div class="evidence-grid" aria-label="Estado da evidencia">
+      <div><span>Conteudo textual</span><strong>${escapeHtml(evidenceLabel(fullTextStatus))}</strong></div>
+      <div><span>Acesso observado</span><strong>${escapeHtml(evidenceLabel(accessStatus))}</strong></div>
+      <div><span>Extracao</span><strong>${escapeHtml(evidenceLabel(extractionStatus))}</strong></div>
+    </div>
+  `;
+}
+
+function evidenceLabel(value) {
+  return {
+    loaded: "inteiro teor carregado",
+    document_available: "documento disponivel",
+    not_returned: "nao retornado na busca",
+    public: "publico observado",
+    partial: "parcial ou nao observado",
+    complete: "completa",
+    not_observed: "nao observado",
+  }[value] || value;
+}
+
+function statusLabel(value) {
+  return {
+    ok: "resultado",
+    complete: "completa",
+    partial: "parcial",
+    empty: "vazia",
+    failed: "falha",
+    skipped: "fora do escopo",
+    unknown: "desconhecida",
+  }[value] || value;
+}
+
+function sourceStatusMessage(item) {
+  if (item.status === "empty") return "A fonte respondeu sem resultados para esta consulta.";
+  if (item.status === "partial") return "A fonte retornou apenas uma janela parcial do total informado.";
+  if (item.status === "skipped") return "A fonte nao foi consultada por incompatibilidade com a consulta.";
+  if (item.status === "failed") return "A fonte falhou; isso nao significa ausencia de jurisprudencia.";
+  return "Sem mensagem tecnica retornada.";
 }
 
 function bindEvents() {
@@ -485,6 +603,30 @@ function bindEvents() {
       copyText(JSON.stringify(result, null, 2));
     });
   });
+  document.querySelectorAll("[data-load-document]").forEach((item) => {
+    item.addEventListener("click", () => loadDocument(item.dataset.loadDocument));
+  });
+}
+
+async function loadDocument(key) {
+  const result = state.results.find((item) => documentKey(item) === key);
+  if (!result || !result.id) return;
+  state.documentLoading.add(key);
+  delete state.documentErrors[key];
+  render();
+  try {
+    const source = encodeURIComponent(result.source || "");
+    const documentId = encodeURIComponent(result.id);
+    const response = await fetch(`/api/documents/${source}/${documentId}`);
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.detail || "A fonte nao carregou o documento.");
+    state.documents[key] = payload;
+  } catch (error) {
+    state.documentErrors[key] = error.message || String(error);
+  } finally {
+    state.documentLoading.delete(key);
+    render();
+  }
 }
 
 async function submitSearch(event) {
@@ -515,6 +657,7 @@ async function submitSearch(event) {
     state.results = payload.results || [];
     state.status = payload.source_status || {};
     state.routing = payload.routing_summary || [];
+    state.searchMeta = payload;
   } catch (error) {
     state.error = error.message || String(error);
   } finally {

@@ -90,17 +90,39 @@ executavel.
 
 ## Fixtures e criterio de promocao
 
-- [ ] fixture TRF1 de formulario com ViewState normalizado;
-- [ ] fixture de resultados com ementa e links PJe/arquivo;
-- [ ] fixture vazia e fixture de erro JSF;
+- `tests/fixtures/cjf_trf1_success.html` cobre formulario, resultado, ementa,
+  link externo, identidade estavel e datas separadas;
+- `tests/fixtures/cjf_trf1_empty.html` cobre zero resultado;
+- `tests/fixtures/cjf_trf1_access_control.html` cobre controle de acesso;
+- `tests/fixtures/cjf_trf1_contract_changed.html` cobre mudanca de contrato;
+
+- [x] fixture TRF1 de formulario com ViewState normalizado;
+- [x] fixture de resultados com ementa e links PJe/arquivo;
+- [x] fixture vazia, acesso controlado e contrato alterado;
 - [ ] fixture separada da superficie unificada;
 - [x] parser offline resiliente a IDs dinamicos;
-- [ ] testes de paginacao e de preservacao da origem;
+- [x] teste de identidade estavel, datas separadas e preservacao da origem;
 - [ ] teste live opt-in com pagina pequena.
 
 O provider deve ser separado em `cjf_trf1_jurisprudencia` e, se o contrato
 unificado for confirmado, `cjf_jurisprudencia_unificada`; nao juntar as duas
 superficies em um parser sem discriminacao de origem.
+
+## Proximos passos
+
+1. Criar fixture offline do formulario TRF1 com `javax.faces.ViewState`
+   substituido por marcador estavel.
+2. Criar fixture reduzida de resultado com pelo menos um item com link PJe e
+   um item com link de arquivo publico, preservando origem, orgao e datas.
+3. Reproduzir a superficie unificada em sessao limpa e decidir se ela vira
+   provider separado ou apenas fonte candidata.
+4. Adicionar teste de paginacao com preservacao de `source_court`, impedindo
+   mistura entre CJF, TRF1, JEF1 e superficie unificada.
+5. Validar `get_document` apenas depois de separar contratos PJe, arquivo HTML
+   e arquivo binario; ate la, o provider deve expor URL e access status, nao
+   texto integral inferido.
+6. Rodar teste live opt-in com termo juridico pequeno e registrar no dossie a
+   data, HTTP status, total declarado e estado de acesso.
 
 ## Validacao live 2026-08-11
 

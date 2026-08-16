@@ -261,6 +261,10 @@ def _doc_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudence
     if not external_id:
         raise ParserContractChangedError("TJRS document missing stable identifier")
     summary = _first(item, "ementa_completa", "ementa_text", "ementa")
+    document_reference = _first(item, "documento_tiff")
+    document_url = (
+        document_reference if document_reference.startswith(("http://", "https://")) else None
+    )
     return JurisprudenceResult(
         id=f"tjrs-solr-{external_id}",
         source="tjrs_solr",
@@ -274,7 +278,8 @@ def _doc_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudence
         raw={
             **item,
             "orgao_julgador": _first(item, "orgao_julgador"),
-            "document_url": _first(item, "documento_tiff"),
+            "document_url": document_url,
+            "document_reference": document_reference or None,
         },
     )
 

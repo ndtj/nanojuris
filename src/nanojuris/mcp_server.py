@@ -18,6 +18,7 @@ from nanojuris.mcp_tools import (
     list_sources_tool,
     plan_source_sync_tool,
     search_jurisprudence_tool,
+    search_unified_store_tool,
     search_unified_tool,
     source_contracts_tool,
     source_diagnostics_tool,
@@ -230,6 +231,34 @@ def create_server() -> Any:
             page=page,
             page_size=page_size,
             canonical=canonical,
+        )
+
+    @server.tool()
+    def search_unified_store(
+        text: str = "",
+        store_id: str = "default",
+        sources: list[str] | None = None,
+        courts: list[str] | None = None,
+        types: list[str] | None = None,
+        number: str = "",
+        source_origin: str = "",
+        page: int = 1,
+        page_size: int = 10,
+        label: str | None = None,
+    ) -> dict[str, Any]:
+        """Search public sources and save an auditable local research run."""
+
+        return search_unified_store_tool(
+            text,
+            db_path=str(_resolve_store_id(store_id)),
+            sources=sources,
+            courts=courts,
+            types=types,
+            number=number,
+            source_origin=source_origin,
+            page=page,
+            page_size=page_size,
+            label=label,
         )
 
     @server.tool()

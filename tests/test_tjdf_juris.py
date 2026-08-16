@@ -86,6 +86,12 @@ def test_search_maps_tjdf_jurisprudence_result():
     assert result.raw["registry_number"] == "1917641"
     assert result.raw["judging_body"] == "7 Turma Civel"
     assert result.raw["judgment_date"] == "04/09/2024"
+    assert result.source_trace is not None
+    assert result.source_trace.http_status == 200
+    assert result.source_trace.response_bytes > 0
+    assert result.source_trace.content_sha256
+    assert result.source_trace.retrieval_status == "ok"
+    assert result.access_status.value == "public"
 
     assert len(session.calls) == 3
     assert session.calls[0]["method"] == "GET"
@@ -182,7 +188,8 @@ def test_get_document_accepts_search_result_id_prefix():
     document = provider.get_document("tjdf-acordao-1917641")
 
     assert document.id == "tjdf-acordao-1917641"
-    assert document.raw_metadata == {"numeroDoDocumento": "1917641"}
+    assert document.raw_metadata["numeroDoDocumento"] == "1917641"
+    assert document.raw_metadata["raw_content_preserved"] is True
 
 
 @pytest.mark.parametrize(

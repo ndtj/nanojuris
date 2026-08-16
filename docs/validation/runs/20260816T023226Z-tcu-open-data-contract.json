@@ -1,0 +1,59 @@
+{
+  "checked_sources": [
+    "tcu_jurisprudencia"
+  ],
+  "complete": true,
+  "generated_at": "2026-08-16T02:32:39+00:00",
+  "passed": true,
+  "query": {
+    "page_size": 1,
+    "sha256": "4b228a6ea925aecce683f5abf5f05a24cb122b31c2c796a4ca33495d0de8c592",
+    "text": "responsabilidade civil"
+  },
+  "reports": [
+    {
+      "access_status": null,
+      "checked_at": "2026-08-16T02:32:26+00:00",
+      "checks": {
+        "page_number": true,
+        "page_size": true,
+        "page_source": true,
+        "page_trace": true,
+        "reported_total_nonnegative": true,
+        "result_content": true,
+        "result_ids": true,
+        "result_sources": true,
+        "result_traces": true
+      },
+      "completeness": null,
+      "completeness_reason": null,
+      "content_sha256": null,
+      "content_type": null,
+      "effective_page_size": 1,
+      "elapsed_ms": 12803.23,
+      "endpoint": "/dados-abertos/jurisprudencia/arquivos/acordao-completo/acordao-completo-resumo.csv",
+      "error_type": null,
+      "extraction_status": "complete",
+      "failed_checks": [],
+      "full_text_status": "not_returned",
+      "http_status": null,
+      "message": null,
+      "pagination_mode": "unknown",
+      "passed": true,
+      "query_text": "responsabilidade civil",
+      "reported_total": 1,
+      "requested_page_size": 1,
+      "response_bytes": null,
+      "retrieval_status": null,
+      "returned": 1,
+      "source": "tcu_jurisprudencia",
+      "source_url": "https://sites.tcu.gov.br/dados-abertos/jurisprudencia/arquivos/acordao-completo/acordao-completo-resumo.csv",
+      "status": "valid"
+    }
+  ],
+  "schema_version": "1.0",
+  "scope": "tcu-open-data-contract",
+  "summary": {
+    "valid": 1
+  }
+}

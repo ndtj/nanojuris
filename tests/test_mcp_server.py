@@ -53,6 +53,7 @@ def test_create_server_registers_expected_tools(monkeypatch):
         "sync_source_resource",
         "search_jurisprudence",
         "search_unified",
+        "search_unified_store",
         "source_contracts",
         "source_diagnostics",
         "source_health",
@@ -133,8 +134,13 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         calls.append(("unified", text, kwargs))
         return {"text": text, **kwargs}
 
+    def fake_unified_store_tool(text, **kwargs):
+        calls.append(("unified_store", text, kwargs))
+        return {"text": text, **kwargs}
+
     monkeypatch.setattr(mcp_server, "search_jurisprudence_tool", fake_search_tool)
     monkeypatch.setattr(mcp_server, "search_unified_tool", fake_unified_tool)
+    monkeypatch.setattr(mcp_server, "search_unified_store_tool", fake_unified_store_tool)
 
     server = mcp_server.create_server()
 
@@ -165,6 +171,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "a",
         "b",
     ]
+    assert server.tools["search_unified_store"]("icms", store_id="research")["text"] == "icms"
     assert [call[0] for call in calls] == [
         "datasets",
         "describe",
@@ -172,6 +179,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "sync",
         "search",
         "unified",
+        "unified_store",
     ]
 
 

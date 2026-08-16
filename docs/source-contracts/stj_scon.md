@@ -14,8 +14,10 @@
 O HAR publico analisado em 06/08/2026 mostrou que a busca principal de acordaos
 usa `GET /SCON/pesquisar.jsp` com parametros na query string. O escopo atual
 cobre lista de resultados, parser por fixture HTML publica representativa e parser da
-estrutura real `.documento` observada no HAR. O inteiro teor ainda nao foi
-promovido como contrato estavel.
+estrutura real `.documento` observada no HAR e carga sob demanda do documento
+oficial. `get_document()` aceita o id estavel `stj-scon-<numero_registro>` ou
+a URL oficial preservada em `raw.document_url`, calcula o hash dos bytes
+recebidos e extrai texto de PDF quando o suporte `pypdf` esta instalado.
 
 Um HAR complementar recebido em 06/08/2026 confirmou que o frontend tambem usa
 rotas auxiliares para filtros, sugestoes e selecao de documento. Elas entram no
@@ -26,6 +28,7 @@ estavel ate serem reduzidas a fixtures e testes:
 GET  /SCON/SearchFiltroBRS
 GET  /SCON/jurisprudencia/pesquisaAjax.jsp
 POST /SCON/ActionSelecionaDocumento
+GET  /SCON/GetInteiroTeorDoAcordao
 ```
 
 O mesmo HAR carregou recursos de reCAPTCHA, Cloudflare Insights, Dynatrace,
@@ -80,7 +83,37 @@ Rotas auxiliares observadas no HAR complementar:
 | --- | --- | --- |
 | `/SCON/SearchFiltroBRS` | busca/filtro BRS com `livre`, `b`, `l`, `i`, `operador`, `ordenacao` | declarada em capabilities, ainda nao usada como rota primaria |
 | `/SCON/jurisprudencia/pesquisaAjax.jsp` | chamadas Ajax da tela de pesquisa por `livre`, `operador`, `pagina` e tipo | contrato observado, aguarda fixture especifica |
-| `/SCON/ActionSelecionaDocumento` | acao de selecao/abertura de documento | contrato observado, aguarda validacao de inteiro teor publico |
+| `/SCON/ActionSelecionaDocumento` | acao de selecao/abertura de documento | contrato observado, nao usado como rota primaria |
+| `/SCON/GetInteiroTeorDoAcordao` | documento oficial HTML/PDF por `num_registro` | implementado em `get_document()` |
+
+## Dados
+
+A superficie SCON mistura identificacao do documento, metadados processuais,
+ementa e links JavaScript para rotas internas. O provider deve extrair somente
+o que estiver presente no HTML retornado.
+
+| Campo observado | Campo canonico | Observacao |
+| --- | --- | --- |
+| `.clsIdentificacaoDocumento` | `title`, `raw.short_identifier` | identificacao exibida pelo STJ |
+| Processo | `process_number` | preservar numero exibido e normalizacao CNJ quando possivel |
+| Registro | `raw.registry_number`, id estavel | deve ter prioridade na identidade persistente |
+| Classe/tipo | `class_name`, `decision_type` | nao inferir base quando a rota for diferente de acordaos |
+| Relator | `reporting_judge` | nome como exibido no resultado |
+| Orgao julgador | `judging_body` | turma, secao ou corte quando presente |
+| Data de julgamento | `judgment_date` | data propria, separada de publicacao |
+| Data de publicacao | `publication_date` | data propria, separada de julgamento |
+| Ementa | `summary` | texto da ementa/lista, nao inteiro teor completo |
+| `inteiro_teor(...)` | `document_url`, `raw` | link oficial; carga sob demanda pode retornar HTML ou PDF |
+| `processo(...)` | `raw.process_url` | acompanhamento processual, contexto auxiliar |
+
+Regras de identidade e datas:
+
+- a identidade persistente deve usar `registry_number`, depois
+  `process_number` normalizado, depois hash estavel dos campos oficiais;
+- indice de pagina jamais deve ser usado como ID persistente;
+- `publication_date` e `judgment_date` devem permanecer separados;
+- operadores STJ em `livre` devem ser preservados, nao traduzidos por
+  heuristica juridica do NanoJuris.
 
 ## Estados de resposta
 
@@ -93,6 +126,15 @@ Rotas auxiliares observadas no HAR complementar:
 | HTTP 429 | Levantar `RateLimitDetectedError`. |
 | HTTP 5xx | Levantar `SourceUnavailableError`. |
 | HTML sem container esperado | Levantar `ParserContractChangedError`. |
+
+## Inteiro teor
+
+O documento e carregado sob demanda, nunca automaticamente para todos os
+resultados da busca. O retorno canonico informa `content_type`, `text`,
+`sha256`, `byte_size`, `access_status`, `extraction_status` e os traces HTTP e
+de extracao. Os bytes originais permanecem preservados em
+`CanonicalDocument.raw_bytes`. Uma URL existente ou resposta HTTP 200 sem
+conteudo documental nao e promovida como texto integral.
 
 ## Teste De Conexao Limpa
 
@@ -120,7 +162,7 @@ contorno.
 - Separar acordaos, monocraticas, sumulas e informativos como superficies
   tecnicas diferentes.
 - Ampliar fixtures de monocraticas, sumulas e informativos.
-- Validar URL publica de inteiro teor antes de promover `get_document`.
+- Adicionar fixture binaria de PDF publico e ampliar a verificacao de completude.
 - Documentar operadores oficiais com exemplos seguros.
 
 ## MCP e agentes
@@ -139,8 +181,8 @@ Recomendacao: fonte estrategica, mas ainda inicial. O agente deve:
 - `tests/fixtures/stj_scon_real_documentos.html` implementada;
 - `tests/fixtures/stj_scon_access_control.html` implementada;
 - `tests/fixtures/stj_scon_empty.html` implementada;
-- futura fixture de inteiro teor publico, somente se a URL responder sem
-  bypass.
+- fixture de inteiro teor publico ainda deve ser adicionada sem cookies ou
+  credenciais; a implementacao offline ja cobre o contrato de bytes.
 
 ## Proximos passos
 
@@ -151,5 +193,7 @@ Recomendacao: fonte estrategica, mas ainda inicial. O agente deve:
 - [x] Reavaliar nivel de contrato para 3 quando o dossie HTTP estiver completo.
 - [x] Mapear HAR complementar com rotas `SearchFiltroBRS`, `pesquisaAjax.jsp` e
   `ActionSelecionaDocumento`.
+- [x] Implementar `get_document()` com hash, tamanho, content-type e bytes
+  originais preservados.
 - [ ] Criar teste live opt-in para registrar `AccessControlRequiredError` quando
   a origem exigir verificacao automatica.

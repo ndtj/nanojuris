@@ -1,0 +1,11 @@
+{
+  "result": {
+    "hits": {
+      "total": 0,
+      "hits": []
+    },
+    "aggregations": {
+      "base": {"buckets": []}
+    }
+  }
+}

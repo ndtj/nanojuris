@@ -97,6 +97,31 @@ def test_parse_tjgo_empty_search_returns_empty_page():
     assert page.results == []
 
 
+def test_parse_tjgo_does_not_treat_publication_date_as_decision_type():
+    html = """
+    <html><body>1 resultados encontrados
+      <div class="search-result">
+        <h4>1234567-89.2026.8.09.0001</h4>
+        <p>Unidade judicial</p>
+        <p>Magistrado</p>
+        <p>Publicado em 07/08/2026 03:10:24</p>
+        <p>Decisão</p>
+        <p class="conteudoTexto">Texto público da decisão.</p>
+      </div>
+    </body></html>
+    """
+
+    page = parse_tjgo_results(
+        html,
+        query=JurisprudenceQuery(text="decisao", page_size=1),
+        trace=_trace(),
+        base_url="https://projudi.tjgo.jus.br",
+    )
+
+    assert page.results[0].type == "decisao"
+    assert page.results[0].updated_at == "07/08/2026 03:10:24"
+
+
 def test_provider_search_posts_public_projudi_payload():
     provider = TjgoProjudiJurisprudenciaProvider(
         NanoJurisConfig(rate_limit_interval=0),

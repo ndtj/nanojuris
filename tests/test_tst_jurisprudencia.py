@@ -137,6 +137,13 @@ def test_provider_search_posts_public_tst_payload():
     assert call["url"].endswith("/rest/pesquisa-textual/1/1")
     assert call["kwargs"]["json"]["e"] == "responsabilidade"
     assert call["kwargs"]["json"]["tipos"] == ["ACORDAO"]
+    trace = page.results[0].source_trace
+    assert trace is not None
+    assert trace.http_status == 200
+    assert trace.response_bytes == 0
+    assert trace.content_sha256
+    assert trace.retrieval_status == "ok"
+    assert page.results[0].access_status.value == "public"
 
 
 def test_provider_get_document_returns_canonical_html_document():
@@ -156,6 +163,10 @@ def test_provider_get_document_returns_canonical_html_document():
     assert document.source == "tst_jurisprudencia"
     assert document.text == "Acordao Inteiro teor publico."
     assert document.content_type == "text/html"
+    assert document.raw_bytes == html.encode("utf-8")
+    assert document.sha256 is not None
+    assert document.byte_size == len(html.encode("utf-8"))
+    assert document.extraction_trace is not None
 
 
 @pytest.mark.parametrize(

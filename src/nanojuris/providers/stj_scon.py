@@ -13,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -21,6 +22,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -75,6 +77,70 @@ class StjSconProvider(JurisprudenceProvider):
             raw={"message": "stj_scon does not expose linked precedent decisions yet"},
         )
 
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Load the public SCON document referenced by a search result.
+
+        The result id contains the stable SCON registry number.  Callers may
+        also pass the exact official document URL captured in ``raw`` when a
+        publication date is required by the source.
+        """
+
+        if document_id.startswith(("http://", "https://")):
+            url = document_id
+            endpoint = "/SCON/GetInteiroTeorDoAcordao"
+            params: dict[str, str] = {}
+            canonical_id = _document_id_from_url(document_id)
+        else:
+            registry_number = _extract_registry_from_document_id(document_id)
+            endpoint = "/SCON/GetInteiroTeorDoAcordao"
+            params = {"num_registro": registry_number}
+            url = urljoin(self.config.stj_scon_url.rstrip("/") + "/", endpoint.lstrip("/"))
+            canonical_id = f"stj-scon-document-{registry_number}"
+
+        response = self._request_response(
+            "GET",
+            endpoint,
+            url=url,
+            params=params,
+            accept="application/pdf, text/html, */*",
+        )
+        content = bytes(getattr(response, "content", b""))
+        if not content:
+            raise ParserContractChangedError("STJ/SCON document response is empty")
+        headers = getattr(response, "headers", {}) or {}
+        final_url = str(getattr(response, "url", None) or url)
+        trace = SourceTrace(
+            provider=self.name,
+            endpoint=endpoint,
+            query=params,
+            source_url=final_url,
+            final_url=final_url,
+            http_status=int(getattr(response, "status_code", 200) or 200),
+            content_type=headers.get("Content-Type"),
+            limitations=[
+                "Documento publico carregado sob demanda pela rota oficial SCON.",
+                "O texto e derivado do PDF/HTML, mantendo os bytes originais no documento.",
+            ],
+        )
+        return build_canonical_document(
+            document_id=canonical_id,
+            source=self.name,
+            document_type="acordao",
+            content=content,
+            content_type=headers.get("Content-Type"),
+            url=final_url,
+            title="STJ SCON inteiro teor",
+            source_trace=trace,
+            access_status=AccessStatus.PUBLIC,
+            raw_metadata={
+                "registry_number": _extract_registry_from_document_id(document_id)
+                if not document_id.startswith(("http://", "https://"))
+                else None,
+                "document_reference": document_id,
+            },
+            parser="stj_scon.get_document",
+        )
+
     def get_capabilities(self) -> ProviderCapabilities:
         return ProviderCapabilities(
             source=self.name,
@@ -83,8 +149,8 @@ class StjSconProvider(JurisprudenceProvider):
             category="court_jurisprudence",
             search_modes=["text", "case_number", "stj_query_language"],
             document_types=["acordao"],
-            content_formats=["html"],
-            canonical_records=["CanonicalDecision"],
+            content_formats=["html", "pdf"],
+            canonical_records=["CanonicalDecision", "CanonicalDocument"],
             extracted_fields=[
                 "case_number",
                 "registry_number",
@@ -107,8 +173,9 @@ class StjSconProvider(JurisprudenceProvider):
                 "GET /SCON/SearchFiltroBRS",
                 "GET /SCON/jurisprudencia/pesquisaAjax.jsp",
                 "POST /SCON/ActionSelecionaDocumento",
+                "GET /SCON/GetInteiroTeorDoAcordao",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -123,10 +190,7 @@ class StjSconProvider(JurisprudenceProvider):
                     "HAR complementar observou SearchFiltroBRS, pesquisaAjax.jsp "
                     "e ActionSelecionaDocumento."
                 ),
-                (
-                    "Inteiro teor sera ampliado em etapa posterior quando "
-                    "a URL publica responder sem controle de acesso."
-                ),
+                "A carga documental e feita sob demanda a partir do registro ou URL oficial.",
                 "Sessao limpa em ambiente automatizado pode receber verificacao Cloudflare/STJ.",
             ],
             responsible_use=[
@@ -169,18 +233,36 @@ class StjSconProvider(JurisprudenceProvider):
         return mapping.get(normalized, value or "-@DOCN")
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> str:
-        self._respect_rate_limit()
         url = urljoin(self.config.stj_scon_url.rstrip("/") + "/", path.lstrip("/"))
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "User-Agent": self.config.user_agent,
-        }
+        response = self._request_response(
+            method,
+            path,
+            url=url,
+            accept="text/html, */*",
+            **kwargs,
+        )
+        response.encoding = response.encoding or "utf-8"
+        return response.text
+
+    def _request_response(
+        self,
+        method: str,
+        path: str,
+        *,
+        url: str | None = None,
+        accept: str,
+        **kwargs: Any,
+    ) -> requests.Response:
+        self._respect_rate_limit()
+        request_url = url or urljoin(self.config.stj_scon_url.rstrip("/") + "/", path.lstrip("/"))
+        headers = {"Accept": accept, "User-Agent": self.config.user_agent}
         try:
             response = self.session.request(
                 method,
-                url,
+                request_url,
                 headers=headers,
                 timeout=self.config.timeout,
+                verify=self.config.verify_ssl,
                 **kwargs,
             )
         except requests.RequestException as exc:
@@ -200,7 +282,7 @@ class StjSconProvider(JurisprudenceProvider):
             )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("STJ/SCON requires captcha or access control")
-        return text
+        return response
 
     def _respect_rate_limit(self) -> None:
         interval = self.config.rate_limit_interval
@@ -278,6 +360,9 @@ def parse_stj_scon_results(
             summary=_text(item, ".ementa") or None,
             rapporteur=_text(item, ".relator") or None,
             updated_at=_text(item, ".data-publicacao") or _text(item, ".data-julgamento") or None,
+            judgment_date=_text(item, ".data-julgamento") or None,
+            publication_date=_text(item, ".data-publicacao") or None,
+            access_status=AccessStatus.PUBLIC,
             highlights={},
             source_trace=result_trace,
             raw={
@@ -341,6 +426,9 @@ def _parse_stj_document_items(
             summary=fields.get("ementa"),
             rapporteur=fields.get("relator"),
             updated_at=_extract_date(publication) or fields.get("data do julgamento"),
+            judgment_date=_extract_date(fields.get("data do julgamento")),
+            publication_date=_extract_date(publication),
+            access_status=AccessStatus.PUBLIC,
             highlights={},
             source_trace=result_trace,
             raw={
@@ -412,6 +500,18 @@ def _extract_stj_document_url(item: Any, *, base_url: str) -> str | None:
         if "GetInteiroTeorDoAcordao" in href:
             return urljoin(base_url.rstrip("/") + "/", href.lstrip("/"))
     return None
+
+
+def _extract_registry_from_document_id(document_id: str) -> str:
+    match = re.search(r"(?:stj-scon-|num_registro=)(\d+)", document_id)
+    if not match:
+        raise ValueError("STJ SCON document_id must contain a registry number")
+    return match.group(1)
+
+
+def _document_id_from_url(document_url: str) -> str:
+    registry = _extract_registry_from_document_id(document_url)
+    return f"stj-scon-document-{registry}"
 
 
 def _parse_document_total(items: list[Any]) -> int:

@@ -58,7 +58,25 @@ class FakeStudioClient:
             ],
             "page": 1,
             "page_size": 5,
+            "total_available": 1,
             "total_returned": 1,
+            "deduplicated_total": 1,
+            "source_totals": {"tjdf_juris": 1},
+            "source_completeness": {
+                "tjdf_juris": {
+                    "returned": 1,
+                    "reported_total": 1,
+                    "complete": True,
+                    "pagination_mode": "page",
+                    "pages_fetched": 1,
+                    "reason": "fixture complete",
+                }
+            },
+            "sources_complete": ["tjdf_juris"],
+            "sources_partial": [],
+            "sources_unknown": [],
+            "collection_complete": True,
+            "completeness_reason": "Todas as fontes declararam a janela coletada como completa.",
             "results": [
                 CanonicalDecision(
                     id="dec-1",
@@ -139,6 +157,8 @@ def test_studio_sources_payload_marks_recommended_jurisprudence_sources():
     payload = studio_sources_payload(FakeStudioClient())
 
     assert payload["total"] == 2
+    assert payload["runtime_total"] == 2
+    assert payload["catalog_total"] == 2
     assert payload["default_sources"] == ["tjdf_juris"]
     assert payload["recommended_sources"] == ["tjdf_juris"]
     assert payload["tier_counts"] == {"stable": 1, "context": 1}
@@ -174,7 +194,60 @@ def test_studio_search_returns_source_status_and_jsonable_results():
     assert payload["total"] == 1
     assert payload["source_status"]["tjdf_juris"]["status"] == "ok"
     assert payload["source_status"]["tjdf_juris"]["count"] == 1
+    assert payload["collection_complete"] is True
+    assert payload["source_totals"] == {"tjdf_juris": 1}
+    assert payload["source_completeness"]["tjdf_juris"]["complete"] is True
     assert payload["results"][0]["case_number"] == "0000000-00.2026.8.07.0000"
+
+
+def test_studio_search_distinguishes_partial_and_empty_sources():
+    class MultiSourceClient(FakeStudioClient):
+        def search_many(self, text, **kwargs):
+            del text, kwargs
+            return {
+                "sources": ["tjdf_juris", "provider_empty"],
+                "searched_sources": ["tjdf_juris", "provider_empty"],
+                "skipped_sources": [],
+                "routing_summary": [
+                    {"source": "tjdf_juris", "action": "searched", "reason": "eligible"},
+                    {"source": "provider_empty", "action": "searched", "reason": "eligible"},
+                ],
+                "page": 1,
+                "page_size": 5,
+                "total_available": 1,
+                "total_returned": 1,
+                "deduplicated_total": 1,
+                "source_totals": {"tjdf_juris": 4, "provider_empty": 0},
+                "source_completeness": {
+                    "tjdf_juris": {
+                        "returned": 1,
+                        "reported_total": 4,
+                        "complete": False,
+                        "reason": "janela parcial",
+                    },
+                    "provider_empty": {
+                        "returned": 0,
+                        "reported_total": 0,
+                        "complete": True,
+                        "reason": "nenhum resultado",
+                    },
+                },
+                "sources_complete": ["provider_empty"],
+                "sources_partial": ["tjdf_juris"],
+                "sources_unknown": [],
+                "collection_complete": False,
+                "completeness_reason": "coleta parcial",
+                "results": [],
+                "errors": [],
+            }
+
+    request = StudioSearchRequest(query="idpj", sources=["tjdf_juris", "provider_empty"])
+    payload = studio_search(MultiSourceClient(), request)
+
+    assert payload["source_status"]["tjdf_juris"]["status"] == "partial"
+    assert payload["source_status"]["provider_empty"]["status"] == "empty"
+    assert payload["sources_partial"] == ["tjdf_juris"]
+    assert payload["collection_complete"] is False
 
 
 def test_studio_validation_request_has_bounded_defaults():

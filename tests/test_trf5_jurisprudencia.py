@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from nanojuris.client import NanoJurisClient
@@ -25,6 +27,8 @@ HTML = """
 </td></tr></table>
 </body></html>
 """
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def test_trf5_rejects_unproven_remote_pagination() -> None:
@@ -65,6 +69,64 @@ def test_parse_trf5_results_maps_html_row() -> None:
     assert page[0].type == "acordao"
     assert page[0].raw["orgao_julgador"] == "Primeira Turma - JFSE"
     assert "DANO MORAL" in (page[0].summary or "")
+
+
+def test_parse_trf5_fixture_maps_public_result_and_judgment_date() -> None:
+    fixture = (FIXTURES / "trf5_jurisprudencia_results.html").read_text(encoding="utf-8")
+    page = parse_trf5_results(
+        fixture,
+        trace=SourceTrace(provider="trf5_jurisprudencia", endpoint="/resultado"),
+        base_url="https://jurisprudencia.trf5.jus.br",
+    )
+
+    assert len(page) == 1
+    assert page[0].id == "trf5-jurisprudencia-90001"
+    assert page[0].judgment_date == "10/03/2025"
+    assert page[0].access_status.value == "public"
+
+
+def test_trf5_parser_accepts_empty_fixture() -> None:
+    assert (
+        parse_trf5_results(
+            (FIXTURES / "trf5_jurisprudencia_empty.html").read_text(encoding="utf-8"),
+            trace=SourceTrace(provider="trf5_jurisprudencia", endpoint="/resultado"),
+            base_url="https://jurisprudencia.trf5.jus.br",
+        )
+        == []
+    )
+
+
+def test_trf5_parser_rejects_contract_fixture() -> None:
+    with pytest.raises(ParserContractChangedError):
+        parse_trf5_results(
+            (FIXTURES / "trf5_jurisprudencia_contract_changed.html").read_text(encoding="utf-8"),
+            trace=SourceTrace(provider="trf5_jurisprudencia", endpoint="/resultado"),
+            base_url="https://jurisprudencia.trf5.jus.br",
+        )
+
+
+def test_trf5_get_document_preserves_original_html_bytes() -> None:
+    html = "<html><body>Inteiro teor TRF5 publico.</body></html>"
+    provider = Trf5JurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([FakeResponse(html, "https://example.test/detail")]),
+    )
+
+    document = provider.get_document("trf5-jurisprudencia-25751")
+
+    assert document.text == html
+    assert document.raw_bytes == html.encode("utf-8")
+    assert document.sha256 is not None
+    assert document.byte_size == len(document.raw_bytes)
+
+
+def test_trf5_provider_detects_access_control_fixture() -> None:
+    fixture = (FIXTURES / "trf5_jurisprudencia_access_control.html").read_text(encoding="utf-8")
+    session = FakeSession([FakeResponse(fixture, "https://jurisprudencia.trf5.jus.br")])
+    provider = Trf5JurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    with pytest.raises(Exception, match="access-control"):
+        provider.search(JurisprudenceQuery(text="teste"))
 
 
 def test_trf5_search_performs_session_get_then_result_post() -> None:

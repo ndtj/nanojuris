@@ -110,7 +110,9 @@ def test_provider_get_document_returns_canonical_document():
     assert document.source == "tjms_cjsg"
     assert document.document_type == "acordao"
     assert document.text == "<html>inteiro teor publico</html>"
-    assert document.raw_metadata == {"cd_acordao": "224478", "cd_foro": "0"}
+    assert document.raw_metadata["cd_acordao"] == "224478"
+    assert document.raw_metadata["cd_foro"] == "0"
+    assert document.raw_metadata["raw_content_preserved"] is True
 
 
 def test_provider_detects_access_control_without_bypass():

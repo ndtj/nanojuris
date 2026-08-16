@@ -47,14 +47,30 @@
         "lifecycle",
         "display_name",
         "category",
+        "identity",
+        "implementation_status",
+        "offline_status",
+        "live_status",
         "coverage_role",
         "maturity_tier",
+        "maturity_score",
         "development_priority",
         "documentation",
         "live_validation",
+        "live_evidence",
         "input_contract",
         "output_contract",
+        "search_contract",
+        "document_contract",
+        "pagination_contract",
+        "error_contract",
+        "quality_contract",
+        "known_defects",
+        "recommended_for",
+        "not_recommended_for",
         "interfaces",
+        "mcp",
+        "studio",
         "jurimetry",
         "ai_usage",
         "source_contract"
@@ -69,16 +85,71 @@
         },
         "display_name": {"type": "string"},
         "category": {"type": "string"},
+        "identity": {
+          "type": "object",
+          "required": ["source_id", "display_name", "source_url", "category"],
+          "properties": {
+            "source_id": {"type": "string"},
+            "display_name": {"type": "string"},
+            "source_url": {"type": ["string", "null"], "format": "uri"},
+            "category": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "implementation_status": {"enum": ["runtime", "none", "family", "unknown"]},
+        "offline_status": {"enum": ["complete", "partial", "missing", "not_applicable"]},
+        "live_status": {"type": "string"},
         "coverage_role": {"type": "string"},
         "maturity_tier": {
           "enum": ["gold", "silver", "bronze", "context", "mapped", "blocked", "family"]
         },
+        "maturity_score": {
+          "type": "object",
+          "required": ["total", "grade", "dimensions", "blockers", "next_actions"],
+          "properties": {
+            "total": {"type": "integer", "minimum": 0, "maximum": 100},
+            "grade": {"enum": ["A", "B", "C", "D"]},
+            "dimensions": {"type": "object"},
+            "blockers": {"type": "array", "items": {"type": "string"}},
+            "next_actions": {"type": "array", "items": {"type": "string"}}
+          },
+          "additionalProperties": false
+        },
         "development_priority": {"type": "string"},
         "documentation": {"type": "object"},
         "live_validation": {"type": "object"},
+        "live_evidence": {"type": "object"},
         "input_contract": {"type": "object"},
         "output_contract": {"type": "object"},
+        "search_contract": {"type": "object"},
+        "document_contract": {
+          "type": "object",
+          "required": ["supports_full_text", "document_types", "content_formats", "trace_expected"],
+          "properties": {
+            "supports_full_text": {"type": "boolean"},
+            "document_types": {"type": "array", "items": {"type": "string"}},
+            "content_formats": {"type": "array", "items": {"type": "string"}},
+            "trace_expected": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "pagination_contract": {
+          "type": "object",
+          "required": ["mode", "declared"],
+          "properties": {
+            "mode": {"type": "string"},
+            "declared": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "error_contract": {"type": "object"},
+        "quality_contract": {"type": "object"},
+        "known_defects": {"type": "array", "items": {"type": "string"}},
+        "recommended_for": {"type": "array", "items": {"type": "string"}},
+        "not_recommended_for": {"type": "array", "items": {"type": "string"}},
         "interfaces": {"type": "object"},
+        "mcp": {"type": "object"},
+        "studio": {"type": "object"},
         "jurimetry": {"type": "object"},
         "ai_usage": {"type": "object"},
         "source_contract": {

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from hashlib import sha256
 from pathlib import Path
 
 import pytest
@@ -14,10 +15,21 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class FakeResponse:
-    def __init__(self, text: str, status_code: int = 200):
+    def __init__(
+        self,
+        text: str,
+        status_code: int = 200,
+        *,
+        content: bytes | None = None,
+        url: str = "https://scon.stj.jus.br/SCON/pesquisar.jsp",
+        content_type: str = "text/html",
+    ):
         self.text = text
+        self.content = content if content is not None else text.encode("utf-8")
         self.status_code = status_code
         self.encoding = "utf-8"
+        self.url = url
+        self.headers = {"Content-Type": content_type}
 
 
 class FakeSession:
@@ -65,6 +77,9 @@ def test_parse_stj_scon_results_maps_fixture():
     assert first.number == "1234567/SP"
     assert first.rapporteur == "Ministro Exemplo"
     assert first.updated_at == "18/03/2026"
+    assert first.judgment_date == "12/03/2026"
+    assert first.publication_date == "18/03/2026"
+    assert first.access_status.value == "public"
     assert first.raw["classe"] == "AgInt no REsp"
     assert first.raw["registro"] == "202400123456"
     assert first.raw["registry_number"] == "202400123456"
@@ -93,6 +108,9 @@ def test_parse_stj_scon_results_maps_real_har_shape_fixture():
     assert first.number == "REsp 1613561 / SP RECURSO ESPECIAL 2016/0017168-2"
     assert first.rapporteur == "Ministro HERMAN BENJAMIN (1132)"
     assert first.updated_at == "01/09/2020"
+    assert first.judgment_date == "25/04/2017"
+    assert first.publication_date == "01/09/2020"
+    assert first.access_status.value == "public"
     assert first.raw["classe"] == "RESP 1613561"
     assert first.raw["registry_number"] == "201600171682"
     assert first.raw["orgao_julgador"] == "T2 - SEGUNDA TURMA"
@@ -132,6 +150,7 @@ def test_provider_search_gets_scon_params_and_parses_results():
         "livre": "recurso especial",
         "processo": "1234567/SP",
     }
+    assert call["kwargs"]["verify"] is True
 
 
 def test_provider_capabilities_describe_stj_scon_contract():
@@ -144,10 +163,37 @@ def test_provider_capabilities_describe_stj_scon_contract():
         "GET /SCON/SearchFiltroBRS",
         "GET /SCON/jurisprudencia/pesquisaAjax.jsp",
         "POST /SCON/ActionSelecionaDocumento",
+        "GET /SCON/GetInteiroTeorDoAcordao",
     ]
-    assert capabilities.canonical_records == ["CanonicalDecision"]
+    assert capabilities.canonical_records == ["CanonicalDecision", "CanonicalDocument"]
+    assert capabilities.supports_full_text is True
     assert "stj_query_language" in capabilities.search_modes
     assert "document_url" in capabilities.extracted_fields
+
+
+def test_provider_get_document_preserves_official_pdf_bytes_and_hash():
+    pdf = b"%PDF-1.4\nSTJ public document fixture\n%%EOF"
+    session = FakeSession(
+        [
+            FakeResponse(
+                "",
+                content=pdf,
+                url="https://scon.stj.jus.br/SCON/GetInteiroTeorDoAcordao?num_registro=202400123456",
+                content_type="application/pdf",
+            )
+        ]
+    )
+    provider = StjSconProvider(session=session)
+
+    document = provider.get_document("stj-scon-202400123456")
+
+    assert document.raw_bytes == pdf
+    assert document.sha256 == sha256(pdf).hexdigest()
+    assert document.byte_size == len(pdf)
+    assert document.content_type == "application/pdf"
+    assert document.source_trace is not None
+    assert document.source_trace.response_bytes == len(pdf)
+    assert session.calls[0]["kwargs"]["params"] == {"num_registro": "202400123456"}
 
 
 def test_client_registers_stj_scon_by_default():

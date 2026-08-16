@@ -120,7 +120,7 @@ def test_studio_loads_sources_and_searches(page: Any, studio_url: str) -> None:
     page.locator("#query").fill("responsabilidade civil")
     page.locator("#search-form button[type='submit']").click()
 
-    expect(page.locator(".results-header")).to_contain_text("Resultados completos")
+    expect(page.locator(".results-header")).to_contain_text("Resultados da coleta")
     expect(page.locator(".result").first).to_be_visible()
     expect(page.locator(".result-title").first).to_contain_text("Responsabilidade civil")
     expect(page.locator(".status-chip.ok").first).to_be_visible()
@@ -139,6 +139,9 @@ def test_studio_reports_partial_failures(page: Any, studio_url: str) -> None:
     expect(page.locator(".diagnostics")).to_contain_text("provider_restricted")
     expect(page.locator(".status-chip.failed")).to_be_visible()
     expect(page.locator(".status-chip.skipped")).to_be_visible()
+    expect(
+        page.locator(".metric").filter(has_text="fontes com resultados").locator("strong")
+    ).to_have_text("3")
     _capture(page, "05-partial-failure-desktop.png")
 
 
@@ -198,7 +201,7 @@ def test_studio_empty_state_is_distinct(page: Any, studio_url: str) -> None:
     page.locator("#query").fill("vazio")
     page.locator("#search-form button[type='submit']").click()
 
-    expect(page.locator(".empty")).to_contain_text("Digite uma tese")
+    expect(page.locator(".empty")).to_contain_text("Nenhum resultado nesta coleta")
     expect(page.locator(".status-chip.ok").first).to_be_visible()
     expect(page.locator(".diagnostics")).to_have_count(0)
     _capture(page, "06-empty-state-desktop.png")
@@ -228,6 +231,22 @@ def test_studio_result_can_expand_and_copy(page: Any, studio_url: str) -> None:
     expect(document_link).to_have_count(1)
     expect(document_link).to_be_visible()
     _capture(page, "08-result-expanded-desktop.png")
+
+
+@pytest.mark.e2e
+def test_studio_loads_full_text_on_demand(page: Any, studio_url: str) -> None:
+    page.goto(studio_url)
+    page.locator("#query").fill("tese de demonstracao")
+    page.locator("#search-form button[type='submit']").click()
+
+    result = page.locator(".result").first
+    if result.get_attribute("open") is None:
+        result.locator("summary").click()
+    result.locator("[data-load-document]").click()
+
+    expect(result.locator(".full-text-panel")).to_contain_text("Inteiro teor carregado")
+    expect(result.locator(".full-text-content")).to_contain_text("Inteiro teor publico")
+    expect(result.locator(".hash-value")).to_contain_text("a" * 64)
 
 
 @pytest.mark.e2e

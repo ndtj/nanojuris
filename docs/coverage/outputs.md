@@ -14,7 +14,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `stf_juris` | CanonicalDecision | acordao | json | 13 | nao | sim |
 | `stj_dados_abertos_jurisprudencia` | ProviderCatalog, CanonicalDecision, ResearchRun | acordao_espelho, integra_decisao, acordao_dje | json, csv, zip | 17 | nao | sim |
 | `stj_informativo` | CanonicalDecision | informativo, nota_jurisprudencia | html | 9 | nao | sim |
-| `stj_scon` | CanonicalDecision | acordao | html | 9 | nao | sim |
+| `stj_scon` | CanonicalDecision, CanonicalDocument | acordao | html, pdf | 9 | sim | sim |
 | `stm_jurisprudencia` | CanonicalDecision, CanonicalDocument | acordao | html | 9 | sim | sim |
 | `tce_sp_jurisprudencia` | CanonicalPrecedent | sumula, boletim_jurisprudencia | html | 6 | nao | sim |
 | `tcu_jurisprudencia` | CanonicalDecision, CanonicalPrecedent | acordao, jurisprudencia_selecionada, sumula, boletim | csv, text/html | 5 | nao | sim |
@@ -33,7 +33,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `tjmg_jurisprudencia` | - | - | - | 0 | nao | nao |
 | `tjms_cjsg` | CanonicalDecision, CanonicalDocument | acordao, homologation, decision | html | 12 | sim | sim |
 | `tjmt_jurisprudencia_api` | - | - | - | 0 | nao | nao |
-| `tjpa_jurisprudencia_bff` | CanonicalDecision | acordao, decisao_monocratica | json | 10 | nao | sim |
+| `tjpa_jurisprudencia_bff` | CanonicalDecision | acordao, decisao_monocratica | json | 10 | sim | sim |
 | `tjpb_pje_jurisprudencia` | CanonicalDecision, CanonicalDocument | jurisprudencia_pje, acordao, decisao | json, html | 5 | sim | sim |
 | `tjpe_jurisprudencia` | - | - | - | 0 | nao | nao |
 | `tjpi_juspi` | CanonicalDecision, CanonicalDocument | acordao, decisao_terminativa, sumula | html | 11 | sim | sim |

@@ -516,6 +516,80 @@ class NanoJurisClient:
                 label=label,
             )
 
+    def search_many_and_store_run(
+        self,
+        text: str = "",
+        *,
+        store: SQLiteStore | str | Path,
+        sources: list[str] | None = None,
+        courts: list[str] | None = None,
+        types: list[str] | None = None,
+        page: int = 1,
+        page_size: int = 10,
+        label: str | None = None,
+        **filters: Any,
+    ) -> ResearchRun:
+        """Persist one reproducible federated search run.
+
+        The saved query retains source-level completeness and errors so a run
+        cannot be interpreted as a complete national collection by accident.
+        Only the canonical records returned in the requested page are stored.
+        """
+
+        payload = self.search_many(
+            text,
+            sources=sources,
+            courts=courts,
+            types=types,
+            page=page,
+            page_size=page_size,
+            canonical=True,
+            **filters,
+        )
+        query = {
+            "text": text,
+            "sources": payload["sources"],
+            "searched_sources": payload["searched_sources"],
+            "skipped_sources": payload["skipped_sources"],
+            "courts": courts or [],
+            "types": types or [],
+            "page": page,
+            "page_size": page_size,
+            "total_available": payload["total_available"],
+            "total_returned": payload["total_returned"],
+            "deduplicated_total": payload["deduplicated_total"],
+            "source_totals": payload["source_totals"],
+            "source_completeness": payload["source_completeness"],
+            "sources_complete": payload["sources_complete"],
+            "sources_partial": payload["sources_partial"],
+            "sources_unknown": payload["sources_unknown"],
+            "collection_complete": payload["collection_complete"],
+            "completeness_reason": payload["completeness_reason"],
+            "errors": payload["errors"],
+            **filters,
+        }
+        records = [
+            record
+            for record in payload["results"]
+            if isinstance(record, (CanonicalDecision, CanonicalPrecedent))
+        ]
+        if isinstance(store, SQLiteStore):
+            return store.save_research_run(
+                source="federated",
+                text=text,
+                query=query,
+                records=records,
+                label=label,
+            )
+        with SQLiteStore(store) as sqlite_store:
+            return sqlite_store.save_research_run(
+                source="federated",
+                text=text,
+                query=query,
+                records=records,
+                label=label,
+            )
+
     def get_decisions(self, precedent_id: str, *, source: str = "bnp_pangea") -> DecisionBundle:
         """Return decisions linked to a precedent."""
 

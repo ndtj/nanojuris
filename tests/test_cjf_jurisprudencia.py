@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import ParserContractChangedError
+from nanojuris.errors import AccessControlRequiredError, ParserContractChangedError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.cjf_jurisprudencia import CjfJurisprudenciaProvider, parse_cjf_results
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 HTML = """
 <html><body>
@@ -69,12 +73,64 @@ def test_parse_cjf_trf1_result_tables() -> None:
 
     assert total == 7483
     assert len(results) == 1
-    assert results[0].id.endswith("-0")
+    assert results[0].id.startswith("cjf-trf1-")
     assert results[0].court == "TRF1"
     assert results[0].number == "1001321-42.2024.4.01.3300"
     assert results[0].rapporteur == "Relator Exemplo"
     assert results[0].raw["judging_body"] == "Primeira Turma"
     assert results[0].raw["document_url"] == "https://pje2g.trf1.jus.br/publica"
+
+
+def test_parse_cjf_fixture_has_stable_identity_and_separate_dates() -> None:
+    fixture = (FIXTURES / "cjf_trf1_success.html").read_text(encoding="utf-8")
+
+    first, _ = parse_cjf_results(
+        fixture,
+        trace=SourceTrace(provider="cjf_jurisprudencia", endpoint="/trf1/index.xhtml"),
+    )
+    second, _ = parse_cjf_results(
+        fixture,
+        trace=SourceTrace(provider="cjf_jurisprudencia", endpoint="/trf1/index.xhtml"),
+    )
+
+    assert first[0].id == second[0].id
+    assert first[0].judgment_date == "01/02/2025"
+    assert first[0].publication_date == "05/02/2025"
+    assert first[0].access_status is not None
+    assert first[0].access_status.value == "public"
+
+
+def test_cjf_parser_accepts_empty_fixture() -> None:
+    results, total = parse_cjf_results(
+        (FIXTURES / "cjf_trf1_empty.html").read_text(encoding="utf-8"),
+        trace=SourceTrace(provider="cjf_jurisprudencia", endpoint="/trf1/index.xhtml"),
+    )
+
+    assert results == []
+    assert total == 0
+
+
+def test_cjf_parser_rejects_contract_fixture() -> None:
+    with pytest.raises(ParserContractChangedError):
+        parse_cjf_results(
+            (FIXTURES / "cjf_trf1_contract_changed.html").read_text(encoding="utf-8"),
+            trace=SourceTrace(provider="cjf_jurisprudencia", endpoint="/trf1/index.xhtml"),
+        )
+
+
+def test_cjf_provider_detects_access_control_fixture() -> None:
+    session = FakeSession(
+        [
+            FakeResponse(
+                (FIXTURES / "cjf_trf1_access_control.html").read_text(encoding="utf-8"),
+                "https://jurisprudencia.cjf.jus.br/trf1/index.xhtml",
+            )
+        ]
+    )
+    provider = CjfJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    with pytest.raises(AccessControlRequiredError, match="access-control"):
+        provider.search(JurisprudenceQuery(text="teste"))
 
 
 def test_cjf_provider_posts_viewstate_and_type() -> None:

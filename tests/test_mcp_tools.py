@@ -185,8 +185,9 @@ def _seed_multi_run(path):
 def test_list_sources_tool_returns_capabilities():
     payload = list_sources_tool(_client())
 
-    assert payload["sources"][0]["source"] == "fake"
-    assert payload["sources"][0]["canonical_records"] == ["CanonicalDecision"]
+    assert payload["sources"][0]["capabilities"]["source"] == "fake"
+    assert payload["sources"][0]["capabilities"]["canonical_records"] == ["CanonicalDecision"]
+    assert payload["sources"][0]["coverage"] is None
 
 
 def test_list_courts_tool_filters_brazilian_courts():

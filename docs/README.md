@@ -12,6 +12,7 @@ NanoJuris. O projeto separa claramente **usar**, **entender**, **expandir** e
 | Consultar pelo terminal | [Quickstart: CLI](quickstart.md#use-a-cli) |
 | Conectar um agente de IA | [MCP local](mcp.md) |
 | Salvar e exportar pesquisas | [Armazenamento](storage.md) |
+| Carregar e auditar inteiro teor | [Documentos](documents.md) |
 | Escolher uma fonte | [Capacidades por fonte](source-capabilities.md) |
 | Ver implementação, validação e evidência live | [Status das fontes](provider-status.md) |
 
