@@ -132,7 +132,7 @@ def build_catalog() -> dict[str, Any]:
 
     return {
         "schema_version": "1.0",
-        "generated_at": date.today().isoformat(),
+        "generated_at": _snapshot_date(),
         "scope": {
             "product": "NanoJuris",
             "primary_goal": (
@@ -453,6 +453,20 @@ def _default_live_status() -> dict[str, Any]:
         "note": "sem validacao focada nesta rodada",
         "evidence": None,
     }
+
+
+def _snapshot_date() -> str:
+    """Return a stable coverage snapshot date for generated docs."""
+
+    if CATALOG_PATH.is_file():
+        try:
+            existing = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            existing = {}
+        generated_at = existing.get("generated_at")
+        if isinstance(generated_at, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", generated_at):
+            return generated_at
+    return date.today().isoformat()
 
 
 def _input_contract(capability: Any | None) -> dict[str, Any]:

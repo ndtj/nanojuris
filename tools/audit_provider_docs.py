@@ -151,7 +151,7 @@ def audit() -> list[dict[str, Any]]:
 
 
 def render(rows: list[dict[str, Any]]) -> str:
-    today = date.today().isoformat()
+    today = _snapshot_date()
     readiness = Counter(row["readiness"] for row in rows)
     statuses = Counter(row["status"] for row in rows)
     structurally_complete = sum(not row["missing_sections"] for row in rows)
@@ -233,6 +233,25 @@ def render(rows: list[dict[str, Any]]) -> str:
         ]
     )
     return "\n".join(lines) + "\n"
+
+
+def _snapshot_date() -> str:
+    """Return a stable generated-doc snapshot date.
+
+    Generated documentation must be reproducible in CI even when the runner is
+    already in a different UTC date than the local machine that wrote the file.
+    Reuse the committed report date when present; new reports fall back to the
+    current local date.
+    """
+
+    if REPORT_PATH.is_file():
+        match = re.search(
+            r"Snapshot local:\s+`(?P<date>\d{4}-\d{2}-\d{2})`",
+            REPORT_PATH.read_text(encoding="utf-8"),
+        )
+        if match:
+            return match.group("date")
+    return date.today().isoformat()
 
 
 def main() -> int:
