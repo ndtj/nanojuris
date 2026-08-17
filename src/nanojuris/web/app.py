@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from importlib import resources
 from pathlib import Path
 from typing import Any
@@ -43,6 +44,16 @@ def create_app(client: NanoJurisClient | None = None) -> Any:
         description="Local unified jurisprudence search UI for NanoJuris.",
     )
     static_dir = _static_dir()
+    workbench_enabled = os.getenv("NANOJURIS_WORKBENCH_ENABLED", "1").lower() not in {
+        "0",
+        "false",
+        "no",
+    }
+    workbench_default = os.getenv("NANOJURIS_WORKBENCH_DEFAULT", "1").lower() not in {
+        "0",
+        "false",
+        "no",
+    }
 
     @app.get("/api/health")
     def health() -> dict[str, Any]:
@@ -95,6 +106,25 @@ def create_app(client: NanoJurisClient | None = None) -> Any:
 
     @app.get("/")
     def index() -> FileResponse:
+        entrypoint = "index.html" if workbench_default and workbench_enabled else "studio.html"
+        return FileResponse(static_dir / entrypoint)
+
+    @app.get("/studio")
+    @app.get("/studio/{path:path}")
+    def studio(path: str = "") -> FileResponse:
+        """Serve the legacy Studio entrypoint during the migration window."""
+
+        del path
+        return FileResponse(static_dir / "studio.html")
+
+    @app.get("/workbench")
+    @app.get("/workbench/{path:path}")
+    def workbench(path: str = "") -> FileResponse:
+        """Serve the parallel Workbench route without removing the Studio."""
+
+        del path
+        if not workbench_enabled:
+            raise HTTPException(status_code=404, detail="Workbench desabilitado.")
         return FileResponse(static_dir / "index.html")
 
     @app.get("/favicon.ico", include_in_schema=False)

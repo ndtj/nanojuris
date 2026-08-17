@@ -11,6 +11,7 @@ from nanojuris.models import CanonicalDecision, ProviderCapabilities
 from nanojuris.web.schemas import StudioSearchRequest, StudioValidationRequest
 from nanojuris.web.server import main as studio_server_main
 from nanojuris.web.studio import (
+    _source_status,
     studio_search,
     studio_sources_payload,
     supported_filters_for,
@@ -58,6 +59,11 @@ class FakeStudioClient:
             ],
             "page": 1,
             "page_size": 5,
+            "observed_total_pages": 1,
+            "has_more": False,
+            "next_page": None,
+            "previous_page": None,
+            "pagination_complete": True,
             "total_available": 1,
             "total_returned": 1,
             "deduplicated_total": 1,
@@ -127,6 +133,15 @@ def test_studio_search_request_normalizes_payload():
     assert request.search_kwargs()["published_from"] == "2026-01-01"
 
 
+def test_studio_search_request_preserves_structured_types():
+    request = StudioSearchRequest.from_payload(
+        {"query": "responsabilidade", "types": ["acordao"], "filters": {}}
+    )
+
+    assert request.types == ["acordao"]
+    assert "types" not in request.search_kwargs()
+
+
 def test_studio_search_request_rejects_invalid_filters():
     with pytest.raises(ValueError, match="filters"):
         StudioSearchRequest.from_payload({"filters": []})
@@ -162,7 +177,7 @@ def test_studio_sources_payload_marks_recommended_jurisprudence_sources():
     assert payload["default_sources"] == ["tjdf_juris"]
     assert payload["recommended_sources"] == ["tjdf_juris"]
     assert payload["tier_counts"] == {"stable": 1, "context": 1}
-    assert payload["selection_policy"]["default"] == "stable"
+    assert payload["selection_policy"]["default"] == "recommended"
     assert payload["sources"][0]["documentation_url"].endswith(
         "/docs/providers/tjdf_juris/README.md"
     )
@@ -195,6 +210,8 @@ def test_studio_search_returns_source_status_and_jsonable_results():
     assert payload["source_status"]["tjdf_juris"]["status"] == "ok"
     assert payload["source_status"]["tjdf_juris"]["count"] == 1
     assert payload["collection_complete"] is True
+    assert payload["has_more"] is False
+    assert payload["observed_total_pages"] == 1
     assert payload["source_totals"] == {"tjdf_juris": 1}
     assert payload["source_completeness"]["tjdf_juris"]["complete"] is True
     assert payload["results"][0]["case_number"] == "0000000-00.2026.8.07.0000"
@@ -250,6 +267,22 @@ def test_studio_search_distinguishes_partial_and_empty_sources():
     assert payload["collection_complete"] is False
 
 
+def test_studio_source_status_distinguishes_ssl_failures():
+    status = _source_status(
+        [{"source": "stf_informativo", "action": "failed"}],
+        [],
+        errors=[
+            {
+                "source": "stf_informativo",
+                "error_type": "SslVerificationError",
+                "error": "certificate verify failed",
+            }
+        ],
+    )
+
+    assert status["stf_informativo"]["status"] == "ssl_error"
+
+
 def test_studio_validation_request_has_bounded_defaults():
     request = StudioValidationRequest.from_payload({"sources": "tjdf_juris", "timeout": 10})
 
@@ -277,7 +310,8 @@ def test_real_studio_catalog_exposes_maturity_selection_profiles():
     payload = studio_sources_payload(NanoJurisClient())
 
     assert payload["total"] == 44
-    assert len(payload["default_sources"]) == 8
+    assert len(payload["default_sources"]) == 40
+    assert payload["default_sources"] == payload["recommended_sources"]
     assert len(payload["recommended_sources"]) == 40
     assert payload["tier_counts"] == {
         "advanced": 15,
@@ -366,6 +400,46 @@ def test_create_app_serves_static_entrypoints():
     assert client.get("/").status_code == 200
     assert client.get("/assets/studio.js").status_code == 200
     assert client.get("/favicon.ico").status_code == 200
+
+
+def test_create_app_exposes_parallel_workbench_route():
+    pytest.importorskip("fastapi")
+    from fastapi.testclient import TestClient
+
+    from nanojuris.web import app as studio_app
+
+    client = TestClient(studio_app.create_app(client=FakeStudioClient()))
+
+    response = client.get("/workbench")
+
+    assert response.status_code == 200
+    assert "NanoJuris" in response.text
+
+
+def test_create_app_can_activate_workbench_as_root(monkeypatch):
+    pytest.importorskip("fastapi")
+    from fastapi.testclient import TestClient
+
+    from nanojuris.web import app as studio_app
+
+    monkeypatch.setenv("NANOJURIS_WORKBENCH_DEFAULT", "1")
+    client = TestClient(studio_app.create_app(client=FakeStudioClient()))
+
+    assert "NanoJuris Workbench" in client.get("/").text
+    assert "NanoJuris Studio" in client.get("/studio").text
+
+
+def test_create_app_can_disable_workbench_with_feature_flag(monkeypatch):
+    pytest.importorskip("fastapi")
+    from fastapi.testclient import TestClient
+
+    from nanojuris.web import app as studio_app
+
+    monkeypatch.setenv("NANOJURIS_WORKBENCH_ENABLED", "0")
+    client = TestClient(studio_app.create_app(client=FakeStudioClient()))
+
+    assert client.get("/workbench").status_code == 404
+    assert "NanoJuris Studio" in client.get("/").text
 
 
 def test_create_app_exposes_validation_endpoint():

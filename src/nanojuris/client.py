@@ -456,6 +456,12 @@ class NanoJurisClient:
             and not errors
             and not (sources_partial or sources_unknown)
         )
+        observed_total_pages = (len(results) + page_size - 1) // page_size if page_size else 0
+        page_end = offset + len(paged_results)
+        # A partial collection is not proof that another federated page can be
+        # materialized safely. Only expose a next page when the current
+        # in-memory collection actually contains one.
+        has_more = page_end < len(results)
         return {
             "sources": selected_sources,
             "searched_sources": routing.searched,
@@ -475,6 +481,11 @@ class NanoJurisClient:
             "total_available": len(results),
             "total_returned": len(paged_results),
             "deduplicated_total": len(results),
+            "observed_total_pages": observed_total_pages,
+            "has_more": has_more,
+            "next_page": page + 1 if has_more else None,
+            "previous_page": page - 1 if page > 1 else None,
+            "pagination_complete": collection_complete,
             "source_totals": source_totals,
             "source_completeness": source_completeness,
             "sources_complete": sources_complete,

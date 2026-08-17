@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Any
 
 from nanojuris.models import CanonicalDocument, ProviderCapabilities
@@ -120,11 +121,27 @@ class FakeStudioClient:
                 }
             )
 
+        has_more = page == 1 and bool(results)
+        if page > 1 and results:
+            continuation = dict(results[0])
+            continuation["id"] = f"{continuation['source']}-demo-002"
+            continuation["title"] = "Segunda pagina de demonstracao"
+            results = [continuation]
+
         return {
             "query": query,
             "page": page,
             "page_size": page_size,
+            "total_available": len(results) + 1 if has_more else len(results),
             "total_returned": len(results),
+            "deduplicated_total": len(results) + 1 if has_more else len(results),
+            "observed_total_pages": 2 if has_more else page,
+            "has_more": has_more,
+            "next_page": page + 1 if has_more else None,
+            "previous_page": page - 1 if page > 1 else None,
+            "pagination_complete": not has_more,
+            "collection_complete": not has_more,
+            "completeness_reason": "janela de demonstracao parcial" if has_more else "completa",
             "sources": sources,
             "searched_sources": searched,
             "skipped_sources": skipped,
@@ -225,4 +242,7 @@ def _capability(
     )
 
 
+# The compatibility suite must exercise the legacy entrypoint explicitly even
+# when production defaults to Workbench at the root.
+os.environ["NANOJURIS_WORKBENCH_DEFAULT"] = "0"
 app = create_app(client=FakeStudioClient())

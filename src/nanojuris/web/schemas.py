@@ -13,6 +13,7 @@ class StudioSearchRequest:
     query: str = ""
     sources: list[str] = field(default_factory=list)
     filters: dict[str, Any] = field(default_factory=dict)
+    types: list[str] = field(default_factory=list)
     page: int = 1
     page_size: int = 10
     canonical: bool = True
@@ -28,6 +29,7 @@ class StudioSearchRequest:
             query=str(payload.get("query") or payload.get("text") or ""),
             sources=_string_list(payload.get("sources")),
             filters=filters,
+            types=_string_list(payload.get("types") or filters.get("types")),
             page=max(1, int(payload.get("page") or 1)),
             page_size=max(1, min(50, int(payload.get("page_size") or payload.get("limit") or 10))),
             canonical=bool(payload.get("canonical", True)),
@@ -35,6 +37,7 @@ class StudioSearchRequest:
 
     def search_kwargs(self) -> dict[str, Any]:
         kwargs = dict(self.filters)
+        kwargs.pop("types", None)
         if "date_from" in kwargs and "published_from" not in kwargs:
             kwargs["published_from"] = kwargs.pop("date_from")
         if "date_to" in kwargs and "published_to" not in kwargs:

@@ -66,11 +66,12 @@ def studio_sources_payload(client: NanoJurisClient) -> dict[str, Any]:
         ],
         "tier_counts": dict(Counter(str(item["studio_tier"]) for item in sources)),
         "selection_policy": {
-            "default": "stable",
+            "default": "recommended",
             "jurisprudence": "recommended",
             "all": "catalog",
             "default_explanation": (
-                "O modo padrao seleciona fontes estaveis para uma primeira consulta previsivel."
+                "O modo padrao consulta todas as fontes recomendadas para pesquisa; "
+                "a concorrencia e os timeouts continuam limitados pelo cliente."
             ),
             "jurisprudence_explanation": (
                 "O modo jurisprudencia inclui fontes recomendadas, inclusive contratos avancados "
@@ -92,6 +93,7 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
     payload = client.search_many(
         request.query,
         sources=sources,
+        types=request.types,
         page=request.page,
         page_size=request.page_size,
         canonical=request.canonical,
@@ -109,6 +111,11 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
         "total_available": payload.get("total_available", payload["total_returned"]),
         "total_returned": payload["total_returned"],
         "deduplicated_total": payload.get("deduplicated_total", payload["total_returned"]),
+        "observed_total_pages": payload.get("observed_total_pages", 1),
+        "has_more": payload.get("has_more", False),
+        "next_page": payload.get("next_page"),
+        "previous_page": payload.get("previous_page"),
+        "pagination_complete": payload.get("pagination_complete"),
         "sources": payload["sources"],
         "searched_sources": payload["searched_sources"],
         "skipped_sources": payload["skipped_sources"],
@@ -185,15 +192,18 @@ def _source_status(
         counts[source] = counts.get(source, 0) + 1
 
     status: dict[str, dict[str, Any]] = {}
-    error_sources = {str(item.get("source") or "") for item in errors}
+    errors_by_source = {
+        str(item.get("source") or ""): item for item in errors if item.get("source")
+    }
     for item in routing_summary:
         source = str(item.get("source") or "")
         action = str(item.get("action") or "")
         completeness = source_completeness.get(source, {})
         returned = int(completeness.get("returned", counts.get(source, 0)) or 0)
         reported_total = completeness.get("reported_total")
-        if source in error_sources or action == "failed":
-            current_status = "failed"
+        error = errors_by_source.get(source, {})
+        if error or action == "failed":
+            current_status = _status_from_error(error) if error else "failed"
         elif action == "skipped":
             current_status = "skipped"
         elif completeness.get("complete") is False:
@@ -212,7 +222,12 @@ def _source_status(
             "pages_fetched": completeness.get("pages_fetched"),
             "complete": completeness.get("complete"),
             "reason": item.get("reason"),
-            "message": completeness.get("reason") or item.get("message"),
+            "message": (
+                completeness.get("reason")
+                or item.get("message")
+                or error.get("error")
+                or error.get("message")
+            ),
         }
     for source, count in counts.items():
         status.setdefault(
@@ -230,6 +245,18 @@ def _status_from_action(action: str) -> str:
     if action == "failed":
         return "failed"
     return "unknown"
+
+
+def _status_from_error(error: dict[str, Any]) -> str:
+    """Classify environmental certificate failures without calling them empty."""
+
+    text = " ".join(
+        str(error.get(field) or "")
+        for field in ("error_type", "type", "error", "message", "reason")
+    ).lower()
+    if "ssl" in text or "certificate" in text or "tls" in text:
+        return "ssl_error"
+    return "failed"
 
 
 def _normalize_mode(mode: str) -> str:
@@ -272,20 +299,19 @@ def _studio_tier(
 
 
 def _default_studio_sources(sources: list[dict[str, Any]]) -> list[str]:
-    stable = [
+    """Return every recommended research source, preserving catalog order.
+
+    Search concurrency and per-provider deadlines are enforced by the unified
+    client. Capping this list here silently excluded advanced providers from
+    the Studio's default search.
+    """
+
+    return [
         str(item["source"])
         for item in sources
-        if item.get("recommended_for_studio") and item.get("studio_tier") == "stable"
+        if item.get("recommended_for_studio")
+        and item.get("studio_tier") in {"stable", "advanced", "restricted"}
     ]
-    if len(stable) >= 3:
-        return stable[:8]
-    advanced = [
-        str(item["source"])
-        for item in sources
-        if item.get("recommended_for_studio") and item.get("studio_tier") == "advanced"
-    ]
-    defaults = stable + advanced
-    return defaults[:8]
 
 
 def _jsonable(value: Any) -> Any:

@@ -21,3 +21,5 @@ recursive-include frontend *.html
 recursive-include frontend *.json
 recursive-include frontend/src *.tsx
 recursive-include frontend/src *.css
+prune frontend/node_modules
+prune frontend/node_modules.deno

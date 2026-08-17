@@ -207,6 +207,9 @@ def test_unified_search_applies_global_pagination_and_deduplication():
     assert payload["total_returned"] == 1
     assert payload["results"][0].case_number == "3"
     assert payload["collection_complete"] is False
+    assert payload["has_more"] is False
+    assert payload["previous_page"] == 1
+    assert payload["observed_total_pages"] == 2
     assert payload["sources_unknown"] == ["a", "b"]
     assert payload["source_completeness"]["a"]["complete"] is None
 
@@ -218,6 +221,8 @@ def test_unified_search_fetches_incremental_source_pages_after_first_window():
     payload = client.search_many("ICMS", sources=["paged"], page=11, page_size=10)
 
     assert payload["total_returned"] == 10
+    assert payload["has_more"] is True
+    assert payload["observed_total_pages"] == 20
     assert payload["source_completeness"]["paged"]["pages_fetched"] == 2
     assert provider.page_requests == [(1, 100), (2, 100)]
 

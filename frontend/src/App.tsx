@@ -2,6 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { Search } from "lucide-react";
 import "./styles.css";
+import Workbench from "./workbench/Workbench";
 
 type Source = {
   source: string;
@@ -31,7 +32,7 @@ type Filters = {
   page_size: string;
 };
 
-function App() {
+function StudioApp() {
   const [sources, setSources] = React.useState<Source[]>([]);
   const [defaultSources, setDefaultSources] = React.useState<string[]>([]);
   const [selected, setSelected] = React.useState<Set<string>>(new Set());
@@ -242,6 +243,17 @@ function App() {
       </section>
     </main>
   );
+}
+
+function App() {
+  const pathname = window.location.pathname;
+  const workbenchDefault = import.meta.env.VITE_WORKBENCH_DEFAULT !== "0";
+  const workbenchRoute = pathname === "/workbench" || pathname.startsWith("/workbench/");
+  const rootUsesWorkbench = pathname === "/" && workbenchDefault;
+  React.useEffect(() => {
+    document.title = workbenchRoute || rootUsesWorkbench ? "NanoJuris Workbench" : "NanoJuris Studio";
+  }, [rootUsesWorkbench, workbenchRoute]);
+  return workbenchRoute || rootUsesWorkbench ? <Workbench /> : <StudioApp />;
 }
 
 createRoot(document.getElementById("root")!).render(<App />);

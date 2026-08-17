@@ -3,14 +3,8 @@
 from __future__ import annotations
 
 import os
-import re
-import socket
-import subprocess
-import sys
-import time
 from pathlib import Path
 from typing import Any
-from urllib.request import urlopen
 
 import pytest
 
@@ -18,96 +12,6 @@ playwright_sync = pytest.importorskip("playwright.sync_api")
 expect = playwright_sync.expect
 
 ROOT = Path(__file__).resolve().parents[2]
-
-
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item: Any, call: Any):
-    """Expose the test report to the page fixture for failure-only traces."""
-
-    outcome = yield
-    setattr(item, f"rep_{call.when}", outcome.get_result())
-
-
-@pytest.fixture(autouse=True)
-def assert_no_browser_errors(page: Any):
-    """Fail browser tests when the page emits runtime JavaScript errors."""
-
-    errors: list[str] = []
-
-    def capture_console(message: Any) -> None:
-        if message.type == "error":
-            errors.append(message.text)
-
-    page.on("console", capture_console)
-    page.on("pageerror", lambda error: errors.append(str(error)))
-    yield
-    assert errors == [], "Browser emitted errors: " + "; ".join(errors)
-
-
-@pytest.fixture(scope="session")
-def browser():
-    """Launch one Chromium instance for the browser test session."""
-
-    with playwright_sync.sync_playwright() as playwright:
-        browser = playwright.chromium.launch()
-        yield browser
-        browser.close()
-
-
-@pytest.fixture
-def page(browser: Any, request: pytest.FixtureRequest):
-    """Create an isolated browser context for each test."""
-
-    context = browser.new_context(viewport={"width": 1280, "height": 900})
-    context.tracing.start(screenshots=True, snapshots=True, sources=True)
-    page = context.new_page()
-    try:
-        yield page
-    finally:
-        report = getattr(request.node, "rep_call", None)
-        if report is not None and report.failed:
-            output = Path(os.getenv("NANOJURIS_PLAYWRIGHT_RESULTS", "test-results"))
-            output.mkdir(parents=True, exist_ok=True)
-            filename = re.sub(r"[^A-Za-z0-9_.-]", "_", request.node.nodeid)[:120]
-            context.tracing.stop(path=output / f"{filename}.zip")
-        else:
-            context.tracing.stop()
-        context.close()
-
-
-@pytest.fixture(scope="session")
-def studio_url() -> str:
-    """Start the fixture-backed Studio server for the browser session."""
-
-    port = _free_port()
-    process = subprocess.Popen(
-        [
-            sys.executable,
-            "-m",
-            "uvicorn",
-            "tests.e2e.studio_fixture_app:app",
-            "--host",
-            "127.0.0.1",
-            "--port",
-            str(port),
-            "--log-level",
-            "error",
-        ],
-        cwd=ROOT,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.PIPE,
-        text=True,
-    )
-    url = f"http://127.0.0.1:{port}"
-    try:
-        _wait_for_server(url)
-        yield url
-    finally:
-        process.terminate()
-        try:
-            process.wait(timeout=10)
-        except subprocess.TimeoutExpired:
-            process.kill()
 
 
 @pytest.mark.e2e
@@ -135,14 +39,48 @@ def test_studio_reports_partial_failures(page: Any, studio_url: str) -> None:
     page.locator("#search-form button[type='submit']").click()
 
     expect(page.locator(".diagnostics")).to_be_visible()
-    expect(page.locator(".diagnostics")).to_contain_text("provider_failed")
-    expect(page.locator(".diagnostics")).to_contain_text("provider_restricted")
+    expect(page.locator(".diagnostics summary")).to_contain_text("2 observacoes")
+    page.locator(".diagnostics summary").click()
+    expect(page.locator(".diagnostics")).to_contain_text("Fonte indisponivel")
+    expect(page.locator(".diagnostics")).to_contain_text("Fonte com controle de acesso")
     expect(page.locator(".status-chip.failed")).to_be_visible()
     expect(page.locator(".status-chip.skipped")).to_be_visible()
     expect(
         page.locator(".metric").filter(has_text="fontes com resultados").locator("strong")
     ).to_have_text("3")
     _capture(page, "05-partial-failure-desktop.png")
+
+
+@pytest.mark.e2e
+def test_studio_paginates_the_federated_window(page: Any, studio_url: str) -> None:
+    page.goto(studio_url)
+    page.locator("#query").fill("responsabilidade civil")
+    page.locator("#search-form button[type='submit']").click()
+
+    expect(page.locator(".pagination")).to_contain_text("pagina 1")
+    expect(page.locator("[data-page='2']")).to_be_enabled()
+    page.locator("[data-page='2']").click()
+
+    expect(page.locator(".pagination")).to_contain_text("pagina 2")
+    expect(page.locator(".result-title").first).to_contain_text("Segunda pagina")
+
+
+@pytest.mark.e2e
+def test_studio_sends_advanced_search_filters(page: Any, studio_url: str) -> None:
+    page.goto(studio_url)
+    page.locator(".advanced-filters summary").click()
+    page.locator("#exact_phrase").fill("responsabilidade objetiva")
+    page.locator("#all_words").fill("dano moral")
+    page.locator("#rapporteur").fill("Relator de Demonstracao")
+
+    with page.expect_request(lambda request: request.url.endswith("/api/search")) as request_info:
+        page.locator("#query").fill("responsabilidade civil")
+        page.locator("#search-form button[type='submit']").click()
+
+    body = request_info.value.post_data_json
+    assert body["filters"]["exact_phrase"] == "responsabilidade objetiva"
+    assert body["filters"]["all_words"] == "dano moral"
+    assert body["filters"]["rapporteur"] == "Relator de Demonstracao"
 
 
 @pytest.mark.e2e
@@ -215,7 +153,7 @@ def test_studio_result_can_expand_and_copy(page: Any, studio_url: str) -> None:
 
     result = page.locator(".result").first
     if result.get_attribute("open") is None:
-        result.locator("summary").click()
+        result.locator("summary").first.click()
     expect(result.locator(".metadata-grid")).to_be_visible()
     raw_payload = result.locator(".raw-payload")
     expect(raw_payload.locator(".json-view")).to_be_hidden()
@@ -241,7 +179,7 @@ def test_studio_loads_full_text_on_demand(page: Any, studio_url: str) -> None:
 
     result = page.locator(".result").first
     if result.get_attribute("open") is None:
-        result.locator("summary").click()
+        result.locator("summary").first.click()
     result.locator("[data-load-document]").click()
 
     expect(result.locator(".full-text-panel")).to_contain_text("Inteiro teor carregado")
@@ -277,24 +215,6 @@ def test_studio_primary_controls_are_keyboard_reachable(page: Any, studio_url: s
     first_source.focus()
     page.keyboard.press("Space")
     expect(first_source).not_to_be_checked()
-
-
-def _free_port() -> int:
-    with socket.socket() as sock:
-        sock.bind(("127.0.0.1", 0))
-        return int(sock.getsockname()[1])
-
-
-def _wait_for_server(url: str) -> None:
-    deadline = time.monotonic() + 20
-    while time.monotonic() < deadline:
-        try:
-            with urlopen(f"{url}/api/health", timeout=1) as response:
-                if response.status == 200:
-                    return
-        except OSError:
-            time.sleep(0.2)
-    raise RuntimeError(f"Studio fixture server did not start: {url}")
 
 
 def _capture(page: Any, filename: str) -> None:
