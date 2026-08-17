@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import logging
 import os
-from importlib import resources
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -45,11 +44,6 @@ def create_app(client: NanoJurisClient | None = None) -> Any:
     )
     static_dir = _static_dir()
     workbench_enabled = os.getenv("NANOJURIS_WORKBENCH_ENABLED", "1").lower() not in {
-        "0",
-        "false",
-        "no",
-    }
-    workbench_default = os.getenv("NANOJURIS_WORKBENCH_DEFAULT", "1").lower() not in {
         "0",
         "false",
         "no",
@@ -106,25 +100,27 @@ def create_app(client: NanoJurisClient | None = None) -> Any:
 
     @app.get("/")
     def index() -> FileResponse:
-        entrypoint = "index.html" if workbench_default and workbench_enabled else "studio.html"
-        return FileResponse(static_dir / entrypoint)
+        return frontend()
 
     @app.get("/studio")
     @app.get("/studio/{path:path}")
     def studio(path: str = "") -> FileResponse:
-        """Serve the legacy Studio entrypoint during the migration window."""
+        """Serve the official NanoJuris Studio Workbench."""
 
         del path
-        return FileResponse(static_dir / "studio.html")
+        return frontend()
 
     @app.get("/workbench")
     @app.get("/workbench/{path:path}")
     def workbench(path: str = "") -> FileResponse:
-        """Serve the parallel Workbench route without removing the Studio."""
+        """Serve the Workbench compatibility route."""
 
         del path
+        return frontend()
+
+    def frontend() -> FileResponse:
         if not workbench_enabled:
-            raise HTTPException(status_code=404, detail="Workbench desabilitado.")
+            raise HTTPException(status_code=404, detail="NanoJuris Studio desabilitado.")
         return FileResponse(static_dir / "index.html")
 
     @app.get("/favicon.ico", include_in_schema=False)
@@ -172,4 +168,6 @@ def _as_http_exception(
 
 
 def _static_dir() -> Path:
-    return Path(str(resources.files("nanojuris.web.static")))
+    """Return the filesystem directory containing the bundled Studio frontend."""
+
+    return Path(__file__).with_name("static")

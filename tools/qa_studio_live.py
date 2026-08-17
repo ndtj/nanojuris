@@ -58,6 +58,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:8766")
     parser.add_argument("--artifacts-dir", type=Path, default=DEFAULT_ARTIFACTS)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Arquivo JSON de saida; por padrao, cria um artefato versionado por execucao.",
+    )
     parser.add_argument("--timeout", type=int, default=180_000)
     parser.add_argument("--headed", action="store_true")
     args = parser.parse_args()
@@ -97,7 +103,9 @@ def main() -> int:
         finally:
             browser.close()
 
-    output = args.artifacts_dir / "qa-studio-live-2026-08-16.json"
+    output = args.output or (
+        args.artifacts_dir / f"qa-studio-live-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}.json"
+    )
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
     print(f"Artefato: {output}")

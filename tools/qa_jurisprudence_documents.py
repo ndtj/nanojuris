@@ -91,7 +91,30 @@ def _probe_source(
             report["provider_document"] = _provider_document_probe(client, source, result.get("id"))
         if document_url:
             report["public_url"] = _public_url_probe(document_url, timeout)
-        report["status"] = "checked"
+        failures: list[dict[str, Any]] = []
+        provider_document = report.get("provider_document") or {}
+        public_url = report.get("public_url") or {}
+        if provider_document.get("status") in {"error", "empty_document"}:
+            failures.append(
+                {
+                    "surface": "provider_document",
+                    "status": provider_document.get(
+                        "error_type", provider_document.get("status", "error")
+                    ),
+                }
+            )
+        if public_url.get("status") in {"error", "http_error"}:
+            failures.append(
+                {
+                    "surface": "public_url",
+                    "status": public_url.get("http_status", public_url.get("error_type", "error")),
+                }
+            )
+        if failures:
+            report["document_failures"] = failures
+            report["status"] = "partial"
+        else:
+            report["status"] = "checked"
     except Exception as exc:  # noqa: BLE001 - retain provider-specific failure diagnostics
         report["status"] = "error"
         report["error_type"] = type(exc).__name__
@@ -159,6 +182,8 @@ def _summary(reports: list[dict[str, Any]]) -> dict[str, int]:
         "provider_document_loaded": 0,
         "public_url_reachable": 0,
         "public_url_document_like": 0,
+        "document_probe_failures": 0,
+        "partial": 0,
         "errors": 0,
     }
     for report in reports:
@@ -172,6 +197,10 @@ def _summary(reports: list[dict[str, Any]]) -> dict[str, int]:
             summary["public_url_reachable"] += 1
         if report.get("public_url", {}).get("looks_like_document"):
             summary["public_url_document_like"] += 1
+        if report.get("document_failures"):
+            summary["document_probe_failures"] += 1
+        if report.get("status") == "partial":
+            summary["partial"] += 1
         if report.get("status") == "error":
             summary["errors"] += 1
     return summary

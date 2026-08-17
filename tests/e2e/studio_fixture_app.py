@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from typing import Any
 
 from nanojuris.models import CanonicalDocument, ProviderCapabilities
@@ -242,7 +241,4 @@ def _capability(
     )
 
 
-# The compatibility suite must exercise the legacy entrypoint explicitly even
-# when production defaults to Workbench at the root.
-os.environ["NANOJURIS_WORKBENCH_DEFAULT"] = "0"
 app = create_app(client=FakeStudioClient())

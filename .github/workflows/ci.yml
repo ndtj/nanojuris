@@ -45,6 +45,9 @@ jobs:
       - name: Check package
         run: python -m twine check dist/*
 
+      - name: Enforce package size budget
+        run: python tools/check_package_size.py --distribution dist
+
   package-smoke:
     name: Optional extras and clean wheel install
     runs-on: ubuntu-latest
@@ -71,6 +74,9 @@ jobs:
       - name: Validate distribution metadata
         run: python -m twine check dist/*
 
+      - name: Enforce package size budget
+        run: python tools/check_package_size.py --distribution dist
+
       - name: Install wheel in a clean environment
         run: |
           python -m venv .smoke-venv
@@ -96,3 +102,33 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install "dist/$(basename dist/*.whl)[studio]"
           python -c "from nanojuris.web.app import create_app; create_app(); print('studio extra ok')"
+
+  frontend:
+    name: Workbench frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Type check frontend
+        working-directory: frontend
+        run: npm run typecheck
+
+      - name: Build frontend bundle
+        working-directory: frontend
+        run: npm run build
+
+      - name: Verify generated bundle is committed
+        run: git diff --exit-code -- src/nanojuris/web/static

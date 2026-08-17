@@ -28,21 +28,12 @@ proxy ambiental alterasse a observacao das fontes.
   janela de resultados;
 - falhas externas permaneceram visiveis e nao foram convertidas em vazio.
 
-## Prints
+## Artefatos visuais e estruturados
 
-### Jornadas de pesquisa
-
-- [Responsabilidade civil - desktop](../../artifacts/studio/live-responsabilidade-civil-desktop.png)
-- [Responsabilidade civil - mobile](../../artifacts/studio/live-responsabilidade-civil-mobile.png)
-- [Infanticidio - desktop](../../artifacts/studio/live-infanticidio-desktop.png)
-- [Improbidade administrativa - desktop](../../artifacts/studio/live-improbidade-administrativa-desktop.png)
-- [Acesso controlado e contrato - desktop](../../artifacts/studio/live-acesso-controlado-e-contrato-desktop.png)
-
-### Artefatos estruturados
-
-- [Relatorio das jornadas do Studio](../../artifacts/studio/qa-studio-live-2026-08-16.json)
-- [Documentos - infanticidio](../../artifacts/studio/qa-jurisprudence-documents-2026-08-16.json)
-- [Documentos - responsabilidade civil](../../artifacts/studio/qa-jurisprudence-documents-responsabilidade-civil-2026-08-16.json)
+Os screenshots e JSONs desta rodada foram gerados localmente em
+`artifacts/studio/`, diretório ignorado pelo Git. Eles foram removidos durante
+a limpeza do workspace; este documento mantém os resultados textuais e a
+matriz de evidências da rodada.
 
 ## Jornadas reais
 

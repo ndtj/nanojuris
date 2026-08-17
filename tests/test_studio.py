@@ -398,7 +398,8 @@ def test_create_app_serves_static_entrypoints():
     client = TestClient(studio_app.create_app(client=FakeStudioClient()))
 
     assert client.get("/").status_code == 200
-    assert client.get("/assets/studio.js").status_code == 200
+    assert "NanoJuris Studio" in client.get("/").text
+    assert client.get("/assets/studio.js").status_code == 404
     assert client.get("/favicon.ico").status_code == 200
 
 
@@ -416,17 +417,17 @@ def test_create_app_exposes_parallel_workbench_route():
     assert "NanoJuris" in response.text
 
 
-def test_create_app_can_activate_workbench_as_root(monkeypatch):
+def test_create_app_serves_workbench_as_the_official_studio_root():
     pytest.importorskip("fastapi")
     from fastapi.testclient import TestClient
 
     from nanojuris.web import app as studio_app
 
-    monkeypatch.setenv("NANOJURIS_WORKBENCH_DEFAULT", "1")
     client = TestClient(studio_app.create_app(client=FakeStudioClient()))
 
-    assert "NanoJuris Workbench" in client.get("/").text
+    assert "NanoJuris Studio" in client.get("/").text
     assert "NanoJuris Studio" in client.get("/studio").text
+    assert "NanoJuris Studio" in client.get("/workbench").text
 
 
 def test_create_app_can_disable_workbench_with_feature_flag(monkeypatch):

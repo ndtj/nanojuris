@@ -56,7 +56,6 @@ nanojuris = [
   "py.typed",
   "data/*.json",
   "web/static/index.html",
-  "web/static/studio.html",
   "web/static/assets/*"
 ]
 

@@ -99,11 +99,10 @@ Os cinco skips são validações live opt-in de fontes externas, não falhas da 
 
 ## Evidência visual do Studio
 
-As imagens abaixo foram geradas pela auditoria E2E existente:
-
-- [Studio desktop inicial](../../artifacts/studio/qa-real-final-initial-desktop.png)
-- [Studio mobile inicial](../../artifacts/studio/qa-real-final-initial-mobile.png)
-- [Studio desktop de validação](../../artifacts/studio/qa-real-final-validation-desktop.png)
+As imagens desta rodada foram artefatos locais gerados pela auditoria E2E e
+armazenados em `artifacts/studio/`, diretório ignorado pelo Git. Esses arquivos
+foram removidos durante a limpeza do workspace; os achados textuais permanecem
+como registro histórico.
 
 ### Pontos positivos
 

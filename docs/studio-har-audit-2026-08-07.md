@@ -1,5 +1,8 @@
 # NanoJuris Studio HAR Audit - 2026-08-07
 
+> Registro histórico da interface anterior. As referências a `studio.css` e
+> `studio.js` descrevem a captura de 2026-08-07 e não o bundle oficial atual.
+
 ## Escopo
 
 Auditoria do HAR `127.0.0.1 completo.har`, capturado contra o Studio local em

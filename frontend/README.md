@@ -1,10 +1,10 @@
 # NanoJuris frontend
 
-The React/Vite frontend exposes two experiences during the migration:
+The React/Vite frontend exposes the official NanoJuris Studio Workbench:
 
-- `/`: NanoJuris Workbench, the primary interface;
-- `/studio`: legacy Studio kept as a compatibility fallback;
-- `/workbench`: explicit Workbench route.
+- `/`: official NanoJuris Studio;
+- `/studio`: official Studio route;
+- `/workbench`: compatibility alias.
 
 ## Development
 
@@ -27,9 +27,6 @@ npm run build
 The build generates the static bundle consumed by `nanojuris studio`. Node is a
 build-time dependency only. `node_modules` and Deno caches are excluded from
 the Python sdist and wheel.
-
-Set `VITE_WORKBENCH_DEFAULT=0` for a temporary legacy-root transition. The
-Workbench remains available at `/workbench` in either mode.
 
 To disable the route at the FastAPI layer without removing its files:
 

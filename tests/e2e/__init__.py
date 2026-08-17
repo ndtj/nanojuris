@@ -1,1 +1,1 @@
-"""Browser-level tests for NanoJuris Studio."""
+"""Browser-level tests for the official NanoJuris Studio Workbench."""

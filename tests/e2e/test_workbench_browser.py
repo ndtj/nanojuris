@@ -24,9 +24,9 @@ def _capture(page: Any, filename: str) -> None:
 
 @pytest.mark.e2e
 def test_workbench_loads_real_api_mode(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
-    expect(page).to_have_title("NanoJuris Workbench")
+    expect(page).to_have_title("NanoJuris Studio")
     expect(page.locator(".wb-shell")).to_be_visible()
     expect(page.locator(".wb-result").first).to_be_visible()
     expect(page.locator(".wb-reader")).to_be_visible()
@@ -38,7 +38,7 @@ def test_workbench_loads_real_api_mode(page: Any, studio_url: str) -> None:
 
 @pytest.mark.e2e
 def test_workbench_reader_and_provenance(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
     page.locator(".wb-result").first.click()
     expect(page.locator(".wb-reader")).to_be_visible()
@@ -51,7 +51,7 @@ def test_workbench_reader_and_provenance(page: Any, studio_url: str) -> None:
 
 @pytest.mark.e2e
 def test_workbench_states_and_command_palette(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
     expect(page.locator(".wb-eyebrow")).to_contain_text(re.compile("mock|api"))
     state_picker = page.locator(".wb-toolbar > select:last-child")
@@ -84,7 +84,7 @@ def test_workbench_initial_loading_and_catalog_are_explicit(page: Any, studio_ur
         })();
         """
     )
-    page.goto(f"{studio_url}/workbench", wait_until="commit")
+    page.goto(f"{studio_url}/studio", wait_until="commit")
     page.wait_for_timeout(250)
 
     expect(page.locator(".wb-loading-state")).to_contain_text("Preparando pesquisa federada")
@@ -101,7 +101,7 @@ def test_workbench_initial_loading_and_catalog_are_explicit(page: Any, studio_ur
 
 @pytest.mark.e2e
 def test_workbench_search_focus_is_single_compact_control(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     page.locator(".wb-search input").focus()
 
     metrics = page.evaluate(
@@ -132,7 +132,7 @@ def test_workbench_search_focus_is_single_compact_control(page: Any, studio_url:
 
 @pytest.mark.e2e
 def test_workbench_elite_typography_and_touch_targets(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     expect(page.locator(".wb-result").first).to_be_visible()
     metrics = page.evaluate(
         """
@@ -179,7 +179,7 @@ def test_workbench_heading_flow_has_no_vertical_overlap(
     page: Any, studio_url: str, width: int, height: int
 ) -> None:
     page.set_viewport_size({"width": width, "height": height})
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     expect(page.locator(".wb-result").first).to_be_visible()
     metrics = page.evaluate(
         """
@@ -218,7 +218,7 @@ def test_workbench_heading_flow_has_no_vertical_overlap(
 @pytest.mark.e2e
 def test_workbench_mobile_text_and_controls_remain_readable(page: Any, studio_url: str) -> None:
     page.set_viewport_size({"width": 390, "height": 844})
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     expect(page.locator(".wb-result").first).to_be_visible()
     metrics = page.evaluate(
         """
@@ -243,7 +243,7 @@ def test_workbench_mobile_text_and_controls_remain_readable(page: Any, studio_ur
 
 @pytest.mark.e2e
 def test_workbench_long_summary_cannot_overlap_next_result(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     page.locator(".wb-result p").first.evaluate(
         "element => { element.textContent = 'Ementa jurídica longa '.repeat(80); }"
     )
@@ -268,7 +268,7 @@ def test_workbench_long_summary_cannot_overlap_next_result(page: Any, studio_url
 
 @pytest.mark.e2e
 def test_workbench_served_text_has_no_mojibake(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     text = page.locator(".wb-shell").inner_text()
     assert not re.search(r"Ã[\x80-\xBF]", text)
     assert not re.search(r"Â[\x80-\xBF]", text)
@@ -279,7 +279,7 @@ def test_workbench_served_text_has_no_mojibake(page: Any, studio_url: str) -> No
 @pytest.mark.e2e
 def test_workbench_has_no_mobile_horizontal_overflow(page: Any, studio_url: str) -> None:
     page.set_viewport_size({"width": 390, "height": 844})
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
     expect(page.locator(".wb-shell")).to_be_visible()
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
@@ -293,7 +293,7 @@ def test_workbench_mobile_drawers_start_closed_and_close_with_escape(
     page: Any, studio_url: str
 ) -> None:
     page.set_viewport_size({"width": 375, "height": 812})
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
     expect(page.locator(".wb-reader")).to_be_hidden()
     page.locator(".wb-mobile-menu").click()
@@ -316,7 +316,7 @@ def test_workbench_mobile_drawers_start_closed_and_close_with_escape(
 def test_workbench_provider_filter_routes_selected_source_and_all_restores(
     page: Any, studio_url: str
 ) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
     source_rows = page.locator(".wb-sidebar-sources .wb-source-row")
     assert source_rows.count() >= 2
@@ -341,7 +341,7 @@ def test_workbench_provider_filter_routes_selected_source_and_all_restores(
 
 @pytest.mark.e2e
 def test_workbench_served_bundle_has_no_fabricated_content(page: Any, studio_url: str) -> None:
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
 
     script_urls = page.locator("script[src]").evaluate_all("els => els.map(el => el.src)")
     for script_url in script_urls:
@@ -374,7 +374,7 @@ def test_workbench_responsive_contract(page: Any, studio_url: str, width: int, h
     """Keep the workbench bounded at the target IDE viewports."""
 
     page.set_viewport_size({"width": width, "height": height})
-    page.goto(f"{studio_url}/workbench")
+    page.goto(f"{studio_url}/studio")
     expect(page.locator(".wb-shell")).to_be_visible()
     expect(page.locator(".wb-result").first).to_be_visible()
 

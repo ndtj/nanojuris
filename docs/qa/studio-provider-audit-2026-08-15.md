@@ -21,7 +21,8 @@ Cada status representa o comportamento observado nesta rede e neste instante.
 - console/page errors: nenhum;
 - validacao live do perfil estavel: **4 validas e 3 indisponiveis**.
 
-Prints gerados localmente em `artifacts/studio/`:
+Prints gerados localmente em `artifacts/studio/` (removidos após a auditoria;
+o diretório é ignorado pelo Git):
 
 - `qa-real-final-initial-desktop.png` - estado inicial;
 - `qa-real-final-filter-tjdft.png` - filtro do catalogo por TJDFT;
