@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -70,7 +70,7 @@ def main() -> int:
 
     args.artifacts_dir.mkdir(parents=True, exist_ok=True)
     report: dict[str, Any] = {
-        "generated_at": datetime.now(UTC).isoformat(),
+        "generated_at": datetime.now(timezone.utc).isoformat(),
         "studio_url": args.url,
         "viewport_cases": {
             "desktop": {"width": 1440, "height": 1000},
@@ -104,7 +104,8 @@ def main() -> int:
             browser.close()
 
     output = args.output or (
-        args.artifacts_dir / f"qa-studio-live-{datetime.now(UTC).strftime('%Y%m%dT%H%M%SZ')}.json"
+        args.artifacts_dir
+        / f"qa-studio-live-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
     )
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))

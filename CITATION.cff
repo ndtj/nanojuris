@@ -8,8 +8,8 @@ authors:
     affiliation: "Nucleo de Direito, Tecnologia e Jurimetria (NDTJ)"
 repository-code: "https://github.com/ndtj/nanojuris"
 license: MIT
-version: 0.2.0
-date-released: 2026-08-11
+version: 0.3.0
+date-released: 2026-08-13
 keywords:
   - jurisprudence
   - legaltech

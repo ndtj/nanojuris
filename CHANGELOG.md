@@ -4,6 +4,10 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 ## Unreleased
 
+- Corrigida a compatibilidade dos utilitarios de QA com Python 3.10 e ampliado
+  o gate de lint/format para incluir exemplos e ferramentas.
+- Atualizados os metadados de citacao para a release 0.3.0.
+
 - Corrigido o descarte silencioso de filtros de refinamento na busca unificada,
   com avisos de contrato por fonte.
 - Corrigido o mapeamento de datas e booleanos no TJDFT/SISTJ, incluindo

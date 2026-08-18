@@ -175,8 +175,8 @@ desenvolvimento:
 
 | Estado | Quantidade | Significado |
 | --- | ---: | --- |
-| Providers implementados | 37 | Há adapter registrado no pacote |
-| Fontes candidatas | 16 | Há evidência ou pesquisa, mas não são runtime |
+| Providers implementados | 44 | Há adapter registrado no pacote |
+| Fontes candidatas | 9 | Há evidência ou pesquisa, mas não são runtime |
 | Especificações de família | 1 | Contrato compartilhado aguardando adapters |
 
 Consulte o [catálogo machine-readable](docs/registry/providers.json), a
