@@ -42,3 +42,10 @@ ao NanoJud.
 - APIs e exports versionados;
 - erro operacional explicável ao usuário;
 - operação segura sem bypass de controles externos.
+
+## Especificações complementares
+
+- [Blueprint de extração premium](extraction-blueprint.md);
+- [Contrato de provider](../contracts/provider-contract.md);
+- [Arquitetura de runtime](../architecture/runtime.md);
+- [Mudança de implantação OCI](../changes/0001-oci-initial-deployment/spec.md).

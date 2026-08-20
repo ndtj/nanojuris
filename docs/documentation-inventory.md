@@ -2,7 +2,7 @@
 
 Gerado por `python tools/audit_documentation_inventory.py --write`. Este inventario orienta consolidacoes sem apagar contratos, evidencias ou caminhos de compatibilidade sem uma migracao explicita.
 
-Documentos inventariados: **217** (`active_guide`=39, `canonical`=74, `compatibility_copy`=54, `generated`=10, `historical_evidence`=40).
+Documentos inventariados: **226** (`active_guide`=39, `canonical`=74, `compatibility_copy`=54, `generated`=10, `historical_evidence`=49).
 
 ## Regra De Limpeza
 
@@ -16,14 +16,14 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `CONTRIBUTING.md` | `canonical` | 3 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `GOVERNANCE.md` | `canonical` | 4 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `MAINTAINERS.md` | `canonical` | 4 | Entrada normativa, de produto ou de governanca. | `manter` |
-| `README.md` | `canonical` | 27 | Entrada normativa, de produto ou de governanca. | `manter` |
+| `README.md` | `canonical` | 28 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `SECURITY.md` | `canonical` | 3 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `SPECS.md` | `canonical` | 0 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `docs/README.md` | `canonical` | 1 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `docs/ai-agent-usage.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/architecture.md` | `canonical` | 4 | Entrada normativa, de produto ou de governanca. | `manter` |
-| `docs/audience-ux.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
-| `docs/candidate-live-validation-2026-08-11.md` | `historical_evidence` | 56 | Registro de pesquisa, QA ou validacao. | `manter` |
+| `docs/audience-ux.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
+| `docs/candidate-live-validation-2026-08-11.md` | `historical_evidence` | 48 | Registro de pesquisa, QA ou validacao. | `manter` |
 | `docs/case-studies.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/courtsbr-provider-analysis.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/coverage/README.md` | `generated` | 2 | Gerado por build_provider_coverage.py. | `manter` |
@@ -39,7 +39,7 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `docs/coverage/source-of-truth.md` | `generated` | 1 | Gerado por build_provider_coverage.py. | `manter` |
 | `docs/demo-studio-mcp.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/documents.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
-| `docs/elite-extraction-blueprint.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
+| `docs/elite-extraction-blueprint.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/external-court-scraper-survey-2026-08-02.md` | `historical_evidence` | 1 | Registro de pesquisa, QA ou validacao. | `manter` |
 | `docs/extraction-pipeline.md` | `active_guide` | 4 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/github-scraper-research.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
@@ -48,7 +48,7 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `docs/implementation-live-validation-2026-08-11.md` | `historical_evidence` | 1 | Registro de pesquisa, QA ou validacao. | `manter` |
 | `docs/jurimetry-idpj-demo.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/live-provider-validation.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
-| `docs/live-validation-2026-08-11.md` | `historical_evidence` | 66 | Registro de pesquisa, QA ou validacao. | `manter` |
+| `docs/live-validation-2026-08-11.md` | `historical_evidence` | 58 | Registro de pesquisa, QA ou validacao. | `manter` |
 | `docs/live-validation-2026-08-15.md` | `historical_evidence` | 1 | Registro de pesquisa, QA ou validacao. | `manter` |
 | `docs/live-validation-latest.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/mcp.md` | `canonical` | 4 | Entrada normativa, de produto ou de governanca. | `manter` |
@@ -65,61 +65,61 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `docs/provider-status.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/providers.md` | `active_guide` | 3 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/providers/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/bnp_pangea/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/cjf_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/cnj_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/eproc_jurisprudencia_federal/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/falcao_jt/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/justica_eleitoral_sjur/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/stf_informativo/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/stf_juris/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/stj_dados_abertos_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/stj_informativo/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/stj_scon/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/stm_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tce_sp_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tcu_jurisprudencia/README.md` | `canonical` | 2 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjac_cjsg/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjal_cjsg/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjam_cjsg/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjap_tucujuris/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjba_graphql/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjce_cjsg/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjce_informativos/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjce_sjuris/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjdf_juris/README.md` | `canonical` | 2 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/bnp_pangea/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/cjf_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/cnj_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/eproc_jurisprudencia_federal/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/falcao_jt/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/justica_eleitoral_sjur/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/stf_informativo/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/stf_juris/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/stj_dados_abertos_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/stj_informativo/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/stj_scon/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/stm_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tce_sp_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tcu_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjac_cjsg/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjal_cjsg/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjam_cjsg/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjap_tucujuris/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjba_graphql/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjce_cjsg/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjce_informativos/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjce_sjuris/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjdf_juris/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
 | `docs/providers/tjdf_juris/api-v1.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
-| `docs/providers/tjes_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjgo_projudi_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjma_jurisconsult/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjmg_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjms_cjsg/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjmt_jurisprudencia_api/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjpa_jurisprudencia_bff/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjpb_pje_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjpe_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjpi_juspi/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjpr_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjrj_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjrn_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjro_liame/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjrr_juris/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjrs_solr/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjsc_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjse_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjsp_cjsg/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjsp_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjsp_nugepnac/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tjto_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tnu_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tre_sp_temas/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/trf2_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/trf3_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/trf4_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/trf5_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/trf6_eproc_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/trt2_pje_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
-| `docs/providers/tst_jurisprudencia/README.md` | `canonical` | 1 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjes_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjgo_projudi_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjma_jurisconsult/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjmg_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjms_cjsg/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjmt_jurisprudencia_api/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjpa_jurisprudencia_bff/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjpb_pje_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjpe_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjpi_juspi/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjpr_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjrj_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjrn_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjro_liame/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjrr_juris/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjrs_solr/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjsc_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjse_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjsp_cjsg/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjsp_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjsp_nugepnac/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tjto_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tnu_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tre_sp_temas/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/trf2_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/trf3_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/trf4_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/trf5_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/trf6_eproc_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/trt2_pje_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
+| `docs/providers/tst_jurisprudencia/README.md` | `canonical` | 0 | Dossie tecnico canônico por provider. | `manter` |
 | `docs/public-provider-discovery-2026-08-10.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/qa/professional-usage-audit-2026-08-16.md` | `historical_evidence` | 0 | Registro de pesquisa, QA ou validacao. | `manter` |
 | `docs/qa/studio-live-journey-2026-08-16.md` | `historical_evidence` | 0 | Registro de pesquisa, QA ou validacao. | `manter` |
@@ -133,7 +133,7 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `docs/roadmap.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/route-mapping-playbook.md` | `canonical` | 6 | Entrada normativa, de produto ou de governanca. | `manter` |
 | `docs/route-mapping-results-2026-08-07.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
-| `docs/source-capabilities.md` | `active_guide` | 5 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
+| `docs/source-capabilities.md` | `active_guide` | 4 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/source-contracts.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/source-contracts/README.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/source-contracts/bnp_pangea.md` | `compatibility_copy` | 1 | Copia legada com links, catalogo e testes de paridade ativos. | `manter` |
@@ -226,7 +226,16 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `docs/validation/runs/20260816T084500Z-tjpr-tjrr-capacity-20260816.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
 | `docs/validation/runs/20260816T090523Z-eproc-capacity-recheck-20260816.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
 | `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T101402Z-tjpe-contract-diagnostic.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T103000Z-tjce-cjsg-contract-diagnostic.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T103927Z-remaining-tj-candidates.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T103927Z-state-candidate-surfaces.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T103927Z-tjce-sjuris-catalog.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T111431Z-tjce-sjuris-search.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T125603Z-tjto-tjma-tjro-live.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
 | `docs/validation/runs/20260816T161500Z-stj-scon-document.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T173000Z-tjmt-jurisprudencia-api-search.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
+| `docs/validation/runs/20260816T173500Z-tjto-anonymous-portal.md` | `historical_evidence` | 0 | Evidencia live estruturada e auditavel. | `manter` |
 
 ## Caminhos Duplicados Intencionais
 

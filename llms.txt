@@ -12,6 +12,9 @@ Primary documentation for humans and AI:
 - Provider dossiers: docs/providers/README.md
 - Source contracts: docs/source-contracts/README.md
 - Architecture: docs/architecture.md
+- SDD constitution: specs/constitution.md
+- SDD product and extraction specifications: specs/product/
+- SDD changes and verification: specs/changes/
 - Quickstart: docs/quickstart.md
 - MCP: docs/mcp.md
 - Responsible use: docs/responsible-use.md

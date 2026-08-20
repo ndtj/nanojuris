@@ -44,6 +44,18 @@ Em caso de conflito, a precedência é:
 Uma especificação não autoriza acessar fontes externas, burlar controles ou
 publicar dados. Essas ações continuam sujeitas às regras de uso responsável.
 
+## Relação com `docs/`
+
+`specs/` é a camada normativa de intenção, contrato, decisão e evidência.
+`docs/` continua sendo a camada pública de uso, operação, dossiês, catálogos e
+evidências históricas. Um documento público não deve ser removido só porque
+existe uma especificação equivalente.
+
+Durante a migração, documentos antigos que possuem links externos ou dependem
+de testes devem virar apontadores curtos para a fonte SDD. Cópias de provider,
+catálogos gerados e evidências históricas só podem ser removidos depois que suas
+dependências forem eliminadas e a auditoria documental for atualizada.
+
 ## Nomenclatura
 
 Use identificadores estáveis e descritivos:

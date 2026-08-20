@@ -49,6 +49,13 @@ NanoJuris. O projeto separa claramente **usar**, **entender**, **expandir** e
 | Preparar uma release | [Checklist de release](release-checklist.md) |
 | Preparar a transferência institucional | [Checklist GitHub](github-transfer-checklist.md) |
 
+## 5. Especificar e operar
+
+O fluxo normativo Spec-Driven Development está em
+[`../specs/`](../specs/README.md). Ele contém a constituição, especificações de
+produto, contratos, decisões, tarefas e evidências. Esta pasta continua sendo a
+camada de documentação pública, guias operacionais, dossiês e evidências.
+
 ## Como ler um provider
 
 Cada provider possui um dossiê próprio em

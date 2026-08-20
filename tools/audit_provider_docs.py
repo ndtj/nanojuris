@@ -161,7 +161,9 @@ def audit() -> list[dict[str, Any]]:
                 "unchecked": unchecked,
                 "checked": checked,
                 "fixture_references": fixture_refs,
-                "canonical_path": f"docs/providers/{source_id}/README.md",
+                # The generated report lives under docs/, so links must be
+                # relative to that directory rather than repository-root paths.
+                "canonical_path": f"providers/{source_id}/README.md",
                 "legacy_path": f"docs/source-contracts/{source_id}.md",
                 "parity": path.is_file()
                 and legacy.is_file()

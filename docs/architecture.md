@@ -1,5 +1,9 @@
 # Architecture
 
+Este é o guia público de arquitetura. A intenção normativa e os invariantes de
+runtime ficam em [specs/architecture/runtime.md](../specs/architecture/runtime.md)
+e devem ser atualizados em conjunto quando a arquitetura mudar.
+
 NanoJuris e organizado em camadas, com separacao explicita entre aquisicao,
 normalizacao por fonte e registro canonico. O objetivo e preservar a evidencia
 original antes de criar uma visao comum entre tribunais.
