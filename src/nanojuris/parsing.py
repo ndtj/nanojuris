@@ -252,8 +252,9 @@ class HtmlNode:
 
     @property
     def depth(self) -> int:
-        if hasattr(self.element, "iterancestors"):
-            return sum(1 for _ in self.element.iterancestors())
+        iterancestors = getattr(self.element, "iterancestors", None)
+        if callable(iterancestors):
+            return sum(1 for _ in iterancestors())
         return sum(1 for _ in getattr(self.element, "parents", ()))
 
     def text(self, separator: str = " ", strip: bool = True) -> str:
@@ -279,6 +280,8 @@ class HtmlNode:
 
     def get(self, attribute: str, default: str | None = None) -> str | None:
         value = self.element.get(attribute) if hasattr(self.element, "get") else None
+        if isinstance(value, (list, tuple)):
+            return " ".join(str(item) for item in value)
         return str(value) if value is not None else default
 
     def __getitem__(self, attribute: str) -> str:
@@ -316,8 +319,9 @@ class HtmlNode:
 
     @property
     def children(self) -> HtmlNodes:
-        if hasattr(self.element, "iterchildren"):
-            items = list(self.element.iterchildren())
+        iterchildren = getattr(self.element, "iterchildren", None)
+        if callable(iterchildren):
+            items = list(iterchildren())
         else:
             items = [item for item in self.element.children if _is_node(item)]
         return HtmlNodes([self.document._wrap(item) for item in items], self.document)
