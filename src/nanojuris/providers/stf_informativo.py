@@ -136,6 +136,9 @@ class StfInformativoProvider(JurisprudenceProvider):
                 "GET /arquivo/cms/informativoSTF/anexo/Informativo_Dados/Dados_InformativosSTF.xlsx"
             ],
             supports_full_text=False,
+            pagination_mode="local_window",
+            completeness_contract="reported_total_and_page_window",
+            full_text_access="not_available",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,

@@ -10,8 +10,6 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
-from bs4 import BeautifulSoup
-
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -29,6 +27,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 
 SEARCH_PATH = "/trf1/index.xhtml"
 PROCESS_RE = re.compile(r"\b\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}\b")
@@ -121,6 +120,9 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
             access_statuses=[AccessStatus.PUBLIC, AccessStatus.SOURCE_UNAVAILABLE],
             endpoints=["GET /trf1/index.xhtml", "POST /trf1/index.xhtml"],
             supports_full_text=False,
+            pagination_mode="local_window",
+            completeness_contract="reported_total_and_source_page_window",
+            full_text_access="link_only",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -198,10 +200,10 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
 def parse_cjf_results(html: str, *, trace: SourceTrace) -> tuple[list[JurisprudenceResult], int]:
     """Parse TRF1 semantic result tables and their total count."""
 
-    soup = BeautifulSoup(html, "html.parser")
-    tables = soup.select("table.table_resultado")
+    document = parse_html(html)
+    tables = document.select("table.table_resultado")
     if not tables:
-        text = soup.get_text(" ", strip=True)
+        text = document.get_text(" ", strip=True)
         if "Nenhum resultado" in text:
             return [], 0
         raise ParserContractChangedError("CJF/TRF1 result tables not found")
@@ -240,24 +242,24 @@ def parse_cjf_results(html: str, *, trace: SourceTrace) -> tuple[list[Jurisprude
         )
     if not results:
         raise ParserContractChangedError("CJF/TRF1 result tables contain no decisions")
-    match = TOTAL_RE.search(soup.get_text(" ", strip=True))
+    match = TOTAL_RE.search(document.get_text(" ", strip=True))
     return results, int(match.group(1)) if match else len(results)
 
 
 def _build_jsf_payload(html: str, query: JurisprudenceQuery) -> dict[str, Any]:
-    soup = BeautifulSoup(html, "html.parser")
-    form = soup.find("form", id="formulario") or soup.find("form")
+    document = parse_html(html)
+    form = document.select_one("form#formulario") or document.select_one("form")
     payload: dict[str, Any] = {}
     if form:
-        for node in form.find_all(["input", "select", "textarea"]):
+        for node in form.css("input, select, textarea"):
             name = str(node.get("name") or "")
             if not name or node.get("type") in {"submit", "button"}:
                 continue
-            if node.name == "select":
+            if node.tag.casefold() == "select":
                 selected = [
                     item.get("value", "")
-                    for item in node.find_all("option")
-                    if item.has_attr("selected")
+                    for item in node.css("option[selected]")
+                    if item.get("value") is not None
                 ]
                 if selected:
                     payload[name] = selected
@@ -269,21 +271,23 @@ def _build_jsf_payload(html: str, query: JurisprudenceQuery) -> dict[str, Any]:
     return payload
 
 
-def _table_fields(table: Any) -> dict[str, str]:
+def _table_fields(table: HtmlNode) -> dict[str, str]:
     fields: dict[str, str] = {}
-    for label in table.select("span.label_pontilhada"):
-        key = _normalize_key(label.get_text(" ", strip=True))
+    for label in table.css("span.label_pontilhada"):
+        key = _normalize_key(label.text(" ", strip=True))
         wrapper = label.find_parent("div")
-        rows = wrapper.select("tr") if wrapper else []
+        rows = wrapper.css("tr") if wrapper else []
         if key and len(rows) >= 2:
-            fields[key] = _clean_text(rows[-1].get_text(" ", strip=True))
+            fields[key] = _clean_text(rows[-1].text(" ", strip=True))
     return fields
 
 
-def _first_href(table: Any, text: str) -> str | None:
-    for link in table.find_all("a", href=True):
-        if text.lower() in link.get_text(" ", strip=True).lower():
-            return str(link["href"])
+def _first_href(table: HtmlNode, text: str) -> str | None:
+    for link in table.css("a[href]"):
+        if text.lower() in link.text(" ", strip=True).lower():
+            href = link.get("href")
+            if href:
+                return href
     return None
 
 

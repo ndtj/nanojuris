@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from nanojuris.canonical import search_page_to_canonical
+from nanojuris.collection import CollectionReport
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     InternalProviderError,
@@ -47,6 +48,7 @@ from nanojuris.providers.stj_scon import StjSconProvider
 from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
 from nanojuris.providers.tce_sp_jurisprudencia import TceSpJurisprudenciaProvider
 from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
+from nanojuris.providers.justica_eleitoral_sjur import JusticaEleitoralSjurProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
 from nanojuris.providers.tjam_cjsg import TjamCjsgProvider
@@ -176,6 +178,7 @@ class NanoJurisClient:
                 TjscEprocJurisprudenciaProvider(self.config),
                 TjtoJurisprudenciaProvider(self.config),
                 TcuJurisprudenciaProvider(self.config),
+                JusticaEleitoralSjurProvider(self.config),
                 Trf5JurisprudenciaProvider(self.config),
                 Trf2EprocJurisprudenciaProvider(self.config),
                 Trf4EprocJurisprudenciaProvider(self.config),
@@ -240,6 +243,8 @@ class NanoJurisClient:
             provider.get_capabilities(),
             text=text,
             filters={
+                "courts": query.courts,
+                "types": query.types,
                 "exact_phrase": query.exact_phrase,
                 "all_words": query.all_words,
                 "any_words": query.any_words,
@@ -249,6 +254,9 @@ class NanoJurisClient:
                 "published_to": query.published_to,
                 "updated_from": query.updated_from,
                 "updated_to": query.updated_to,
+                "source_origin": query.source_origin,
+                "source_origins": query.source_origins,
+                "fetch_details": query.fetch_details,
             },
         )
         if unsupported:
@@ -286,6 +294,35 @@ class NanoJurisClient:
             **filters,
         )
         return search_page_to_canonical(search_page)
+
+    def collect(
+        self,
+        query: JurisprudenceQuery,
+        *,
+        source: str = "bnp_pangea",
+        store: SQLiteStore | None = None,
+        checkpoint_path: str | Path | None = None,
+        max_pages: int = 100,
+        max_records: int = 10_000,
+        resume: bool = True,
+        clear_checkpoint_on_complete: bool = False,
+    ) -> CollectionReport:
+        """Collect one source with canonicalization, deduplication and checkpointing."""
+
+        from nanojuris.collection import CollectionRunner
+
+        provider = self._provider(source)
+        return CollectionRunner(
+            provider,
+            store=store,
+            checkpoint_path=checkpoint_path,
+            max_pages=max_pages,
+            max_records=max_records,
+        ).collect(
+            query,
+            resume=resume,
+            clear_checkpoint_on_complete=clear_checkpoint_on_complete,
+        )
 
     def search_many(
         self,
@@ -325,6 +362,8 @@ class NanoJurisClient:
             capabilities=capabilities,
             text=text,
             filters={
+                "courts": courts,
+                "types": types,
                 "number": filters.get("number"),
                 "party_name": filters.get("party_name") or filters.get("parte"),
                 "party_document": filters.get("party_document"),
@@ -342,6 +381,9 @@ class NanoJurisClient:
                 "published_to": filters.get("published_to"),
                 "updated_from": filters.get("updated_from"),
                 "updated_to": filters.get("updated_to"),
+                "source_origin": filters.get("source_origin") or filters.get("origin"),
+                "source_origins": filters.get("source_origins") or filters.get("origins"),
+                "fetch_details": filters.get("fetch_details"),
             },
         )
         results: list[UnifiedSearchRecord] = []

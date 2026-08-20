@@ -110,24 +110,23 @@ def route_unified_sources(
         )
         if skip is None:
             searched.append(source)
-            if capability.supported_filters:
-                for filter_name in _unsupported_refinement_filters(
-                    capability,
-                    text=text,
-                    filters=filters,
-                ):
-                    warnings.append(
-                        SourceSkip(
-                            source=source,
-                            category=capability.category,
-                            reason="filter_not_supported",
-                            message=(
-                                f"A fonte nao declara suporte ao filtro {filter_name!r}. "
-                                "A fonte foi consultada, mas o resultado pode nao aplicar "
-                                "esse refinamento."
-                            ),
-                        )
+            for filter_name in _unsupported_refinement_filters(
+                capability,
+                text=text,
+                filters=filters,
+            ):
+                warnings.append(
+                    SourceSkip(
+                        source=source,
+                        category=capability.category,
+                        reason="filter_not_supported",
+                        message=(
+                            f"A fonte nao declara suporte ao filtro {filter_name!r}. "
+                            "A fonte foi consultada, mas o resultado pode nao aplicar "
+                            "esse refinamento."
+                        ),
                     )
+                )
         else:
             skipped.append(skip)
 
@@ -270,6 +269,12 @@ def _unsupported_refinement_filters(
     active = {name for name, value in filters.items() if _has_value(value)}
     if _has_value(text):
         active.add("text")
+    # A provider that explicitly declares unified search but has not yet
+    # populated its filter list still has the mandatory free-text contract.
+    # Keep the legacy behavior for that baseline while warning on every
+    # additional refinement that lacks evidence.
+    if not capability.supported_filters:
+        active.discard("text")
     return {
         name
         for name in active.difference(IDENTIFIER_FILTERS)

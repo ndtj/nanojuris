@@ -20,7 +20,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | --- | ---: |
 | `blocked` | 3 |
 | `bronze` | 1 |
-| `context` | 8 |
+| `context` | 9 |
 | `family` | 1 |
 | `gold` | 15 |
 | `mapped` | 9 |

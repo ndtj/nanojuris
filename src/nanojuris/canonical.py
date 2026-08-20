@@ -2,9 +2,6 @@
 
 from __future__ import annotations
 
-import re
-from datetime import date, datetime
-
 from nanojuris.models import (
     AccessStatus,
     CanonicalDecision,
@@ -15,6 +12,7 @@ from nanojuris.models import (
     ParadigmCase,
     SearchPage,
 )
+from nanojuris.normalization import normalize_date_value
 
 DEFAULT_CANONICAL_PARSER_VERSION = "1"
 
@@ -130,24 +128,7 @@ def search_page_to_canonical(
 
 def normalize_date(value: object) -> str | None:
     """Normalize known source date formats to ISO date, preserving unknown raw values elsewhere."""
-
-    text = _optional_str(value)
-    if not text:
-        return None
-    for parser in (
-        lambda item: datetime.fromisoformat(item.replace("Z", "+00:00")).date(),
-        lambda item: datetime.strptime(item, "%d/%m/%Y").date(),
-        lambda item: datetime.strptime(item, "%d-%m-%Y").date(),
-        lambda item: date.fromisoformat(item[:10]),
-    ):
-        try:
-            return parser(text).isoformat()
-        except (TypeError, ValueError):
-            continue
-    match = re.fullmatch(r"(\d{4})/(\d{2})/(\d{2})", text)
-    if match:
-        return f"{match.group(1)}-{match.group(2)}-{match.group(3)}"
-    return None
+    return normalize_date_value(value)
 
 
 def _build_trace(result: JurisprudenceResult, *, parser_version: str) -> ExtractionTrace:

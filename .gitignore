@@ -19,6 +19,7 @@ site/
 /.mypy_cache/
 .ruff_cache/
 .tmp/
+.nanojuris-test-stores/
 .build-tmp/
 .tmp-prepush/
 .dist-prepush/

@@ -7,8 +7,10 @@ import pytest
 from nanojuris.client import NanoJurisClient
 from nanojuris.mcp_tools import (
     export_results_tool,
+    collect_jurisprudence_tool,
     get_decisions_tool,
     get_document_tool,
+    discover_provider_tool,
     list_courts_tool,
     list_sources_tool,
     search_jurisprudence_tool,
@@ -124,6 +126,19 @@ class FailingProvider:
 
 def _client() -> NanoJurisClient:
     return NanoJurisClient(providers=[FakeProvider()])
+
+
+def test_discover_provider_tool_uses_local_bounded_engine(monkeypatch):
+    class FakeRun:
+        def to_dict(self, *, include_body=False):
+            return {"run_id": "run-1", "include_body": include_body}
+
+    monkeypatch.setattr(
+        "nanojuris.mcp_tools.DiscoveryCrawler.crawl",
+        lambda self, url: FakeRun(),
+    )
+    result = discover_provider_tool("https://example.test/jurisprudencia")
+    assert result == {"run_id": "run-1", "include_body": False}
 
 
 def _seed_store(path):
@@ -337,6 +352,23 @@ def test_search_unified_tool_returns_results_and_source_errors():
             "message": "provider failing failed with an unexpected internal error",
         }
     ]
+
+
+def test_collect_jurisprudence_tool_persists_resumable_canonical_records(tmp_path):
+    payload = collect_jurisprudence_tool(
+        "homicidio",
+        source="fake",
+        db_path=str(tmp_path / "collection.db"),
+        checkpoint_path=str(tmp_path / "collection.json"),
+        max_pages=1,
+        client=_client(),
+    )
+
+    assert payload["source"] == "fake"
+    assert payload["report"]["records_saved"] == 1
+    assert payload["report"]["checkpoint_path"].endswith("collection.json")
+    with SQLiteStore(tmp_path / "collection.db") as store:
+        assert store.stats().decisions == 1
 
 
 def test_export_results_tool_returns_requested_format():

@@ -120,6 +120,7 @@ class TjceInformativosProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="local_window",
             completeness_contract="observed_edition_window",
+            full_text_access="not_available",
             supported_filters=[
                 "text",
                 "number",

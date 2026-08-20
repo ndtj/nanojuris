@@ -71,6 +71,10 @@ dev = [
 qa = [
   "playwright>=1.40"
 ]
+performance = [
+  "lxml>=5.0",
+  "cssselect>=1.2"
+]
 mcp = [
   "mcp>=1.0,<3"
 ]

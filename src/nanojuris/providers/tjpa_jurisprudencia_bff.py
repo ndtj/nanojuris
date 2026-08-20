@@ -159,6 +159,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "POST /bff/api/decisoes/pesquisar-por-classe-assunto",
             ],
             supports_full_text=True,
+            full_text_access="inline",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,

@@ -120,6 +120,7 @@ class TjrsSolrProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="offset",
             completeness_contract="reported_total_and_offset_window",
+            full_text_access="not_available",
             supported_filters=[
                 "text",
                 "exact_phrase",
@@ -128,9 +129,11 @@ class TjrsSolrProvider(JurisprudenceProvider):
                 "published_from",
                 "published_to",
             ],
+            unsupported_filters=["types", "oab"],
             limitations=[
                 "O backend retorna no maximo o page size solicitado pelo frontend.",
                 "Facets sao preservadas sem serem tratadas como campos canonicos de decisao.",
+                "Facets de tipo e OAB observadas no indice nao sao filtros runtime promovidos.",
                 "Detalhe e inteiro teor ainda precisam de rota publica validada.",
             ],
             responsible_use=[

@@ -60,6 +60,21 @@ def test_search_distinguishes_empty_fixture_from_contract_change() -> None:
     assert page.source_trace is not None
 
 
+def test_search_preserves_multiline_quoted_csv_records() -> None:
+    response = StreamResponse(
+        b'KEY|VISAOGERAL\n"AC-2"|"<p>Direito administrativo em duas linhas.\nContinua na ementa.</p>"\n',
+        url="https://sites.tcu.gov.br/dados-abertos/jurisprudencia/summary.csv",
+    )
+    provider = TcuJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([response])
+    )
+
+    page = provider.search(JurisprudenceQuery(text="direito", page_size=1))
+
+    assert page.results[0].id == "tcu-acordao-resumo-AC-2"
+    assert "duas linhas" in (page.results[0].summary or "")
+
+
 def test_manifest_fixture_preserves_official_dataset_metadata() -> None:
     rows = parse_tcu_manifest(fixture_bytes("tcu_manifest.csv").decode("utf-8"))
 

@@ -164,6 +164,9 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
                 ),
             ],
             supports_full_text=True,
+            pagination_mode="page",
+            completeness_contract="reported_form_total_and_page_window",
+            full_text_access="detail_call",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -171,7 +174,6 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
-            full_text_access="detail_call",
             supported_filters=[
                 "text",
                 "number",

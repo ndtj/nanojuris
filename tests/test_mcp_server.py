@@ -43,6 +43,8 @@ def test_create_server_registers_expected_tools(monkeypatch):
     assert server.name == "nanojuris"
     assert set(server.tools) == {
         "describe_source_dataset",
+        "collect_jurisprudence",
+        "discover_provider",
         "export_results",
         "get_decisions",
         "get_document",
@@ -138,9 +140,14 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         calls.append(("unified_store", text, kwargs))
         return {"text": text, **kwargs}
 
+    def fake_collect_tool(text, **kwargs):
+        calls.append(("collect", text, kwargs))
+        return {"text": text, **kwargs}
+
     monkeypatch.setattr(mcp_server, "search_jurisprudence_tool", fake_search_tool)
     monkeypatch.setattr(mcp_server, "search_unified_tool", fake_unified_tool)
     monkeypatch.setattr(mcp_server, "search_unified_store_tool", fake_unified_store_tool)
+    monkeypatch.setattr(mcp_server, "collect_jurisprudence_tool", fake_collect_tool)
 
     server = mcp_server.create_server()
 
@@ -172,6 +179,9 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "b",
     ]
     assert server.tools["search_unified_store"]("icms", store_id="research")["text"] == "icms"
+    assert server.tools["collect_jurisprudence"](
+        "icms", source="fake", store_id="research"
+    )["text"] == "icms"
     assert [call[0] for call in calls] == [
         "datasets",
         "describe",
@@ -180,6 +190,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "search",
         "unified",
         "unified_store",
+        "collect",
     ]
 
 

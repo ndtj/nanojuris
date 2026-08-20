@@ -14,10 +14,10 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 
 ## Resumo
 
-- Dossies auditados: **54** (44 implemented, 9 candidates, 1 family).
-- Dossies com secoes estruturais: **52/54**.
-- Canonical/legacy em paridade: **54/54**.
-- Prontidao: `family_spec`=1, `implementation_ready`=10, `needs_deepening`=34, `research_ready`=9.
+- Dossies auditados: **55** (45 implemented, 9 candidates, 1 family).
+- Dossies com secoes estruturais: **53/55**.
+- Canonical/legacy em paridade: **55/55**.
+- Prontidao: `family_spec`=1, `implementation_ready`=10, `needs_deepening`=35, `research_ready`=9.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
@@ -34,7 +34,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`cnj_jurisprudencia`](providers/cnj_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 1 |
 | [`eproc_jurisprudencia_federal`](providers/eproc_jurisprudencia_federal/README.md) | family | `family_spec` | - | research | - | 1 | 3 |
 | [`falcao_jt`](providers/falcao_jt/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
-| [`justica_eleitoral_sjur`](providers/justica_eleitoral_sjur/README.md) | candidate | `research_ready` | - | research | - | 5 | 0 |
+| [`justica_eleitoral_sjur`](providers/justica_eleitoral_sjur/README.md) | implemented | `needs_deepening` | 4 | medio | - | 4 | 4 |
 | [`stf_informativo`](providers/stf_informativo/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 3 | 3 |
 | [`stf_juris`](providers/stf_juris/README.md) | implemented | `needs_deepening` | 4 | alto | - | 3 | 6 |
 | [`stj_dados_abertos_jurisprudencia`](providers/stj_dados_abertos_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 1 | 0 |
@@ -63,6 +63,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`tjpe_jurisprudencia`](providers/tjpe_jurisprudencia/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
 | [`tjpi_juspi`](providers/tjpi_juspi/README.md) | implemented | `needs_deepening` | 5 | medio | - | 4 | 6 |
 | [`tjpr_jurisprudencia`](providers/tjpr_jurisprudencia/README.md) | implemented | `implementation_ready` | 5 | medio | - | 0 | 4 |
+| [`tjrj_ejuris`](providers/tjrj_ejuris/README.md) | candidate | `research_ready` | - | research | - | 4 | 0 |
 | [`tjrj_eproc_jurisprudencia`](providers/tjrj_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 3 |
 | [`tjrn_jurisprudencia`](providers/tjrn_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
 | [`tjro_liame`](providers/tjro_liame/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |

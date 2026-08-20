@@ -1,0 +1,492 @@
+{
+  "generated_at": "2026-08-20T05:55:49+00:00",
+  "query": {
+    "text": "direito",
+    "all_words": "",
+    "any_words": "",
+    "without_words": "",
+    "exact_phrase": "",
+    "updated_from": "",
+    "updated_to": "",
+    "published_from": "",
+    "published_to": "",
+    "include_cancelled": false,
+    "order_by": "Text",
+    "number": "",
+    "rapporteur": "",
+    "party_name": "",
+    "party_document": "",
+    "lawyer_name": "",
+    "oab": "",
+    "precatory_number": "",
+    "police_document": "",
+    "cda": "",
+    "source_origin": "",
+    "source_origins": [],
+    "fetch_details": false,
+    "courts": [],
+    "types": [],
+    "page": 1,
+    "page_size": 1
+  },
+  "provider_count": 44,
+  "summary": {
+    "access_controlled": 3,
+    "query_contract_rejected": 2,
+    "source_unavailable": 6,
+    "valid_data": 33
+  },
+  "providers": [
+    {
+      "source": "bnp_pangea",
+      "class": "BnpPangeaProvider",
+      "status": "query_contract_rejected",
+      "error_type": "QueryRejectedError",
+      "error": "BNP rejected request with HTTP 400; response='Requisição inválida'; payload={'filtro': {'buscaGeral': 'direito', 'todasPalavras': '', 'quaisquerPalavras': '', 'semPalavras': '', 'trechoExato': '', 'atualizacaoDesde': '', 'atualizacaoAte': '', 'cancelados': False, 'ordenacao': 'Text', 'nr': '', 'pagi",
+      "elapsed_ms": 329
+    },
+    {
+      "source": "cjf_jurisprudencia",
+      "class": "CjfJurisprudenciaProvider",
+      "status": "access_controlled",
+      "error_type": "AccessControlRequiredError",
+      "error": "CJF/TRF1 jurisprudence returned access-control HTML",
+      "elapsed_ms": 390
+    },
+    {
+      "source": "cnj_jurisprudencia",
+      "class": "CnjJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 10,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 382
+    },
+    {
+      "source": "stf_informativo",
+      "class": "StfInformativoProvider",
+      "status": "source_unavailable",
+      "error_type": "SourceUnavailableError",
+      "error": "STF Informativo XLSX SSL verification failed in this environment.",
+      "elapsed_ms": 332
+    },
+    {
+      "source": "stf_juris",
+      "class": "StfJurisProvider",
+      "status": "source_unavailable",
+      "error_type": "SourceUnavailableError",
+      "error": "STF jurisprudence API SSL verification failed in this environment.",
+      "elapsed_ms": 348
+    },
+    {
+      "source": "stj_dados_abertos_jurisprudencia",
+      "class": "StjDadosAbertosProvider",
+      "status": "query_contract_rejected",
+      "error_type": "UnsupportedQueryError",
+      "error": "STJ dados abertos nao oferece busca jurisprudencial online; sincronize um recurso e pesquise o indice local",
+      "elapsed_ms": 0
+    },
+    {
+      "source": "stj_informativo",
+      "class": "StjInformativoProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 11841,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 2596
+    },
+    {
+      "source": "stj_scon",
+      "class": "StjSconProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 321737,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 6767
+    },
+    {
+      "source": "stm_jurisprudencia",
+      "class": "StmJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 11987,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 1522
+    },
+    {
+      "source": "tce_sp_jurisprudencia",
+      "class": "TceSpJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 2,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 497
+    },
+    {
+      "source": "tcu_jurisprudencia",
+      "class": "TcuJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 1,
+      "quality_records": 1,
+      "retrieval_status": "success",
+      "http_status": 200,
+      "elapsed_ms": 8138
+    },
+    {
+      "source": "tjac_cjsg",
+      "class": "TjacCjsgProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 81641,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 955
+    },
+    {
+      "source": "tjal_cjsg",
+      "class": "TjalCjsgProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 401468,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1357
+    },
+    {
+      "source": "tjam_cjsg",
+      "class": "TjamCjsgProvider",
+      "status": "source_unavailable",
+      "error_type": "SourceUnavailableError",
+      "error": "TJAM/CJSG request failed: HTTPSConnectionPool(host='consultasaj.tjam.jus.br', port=443): Read timed out. (read timeout=10)",
+      "elapsed_ms": 10408
+    },
+    {
+      "source": "tjba_graphql",
+      "class": "TjbaGraphqlProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 2669451,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1635
+    },
+    {
+      "source": "tjce_cjsg",
+      "class": "TjceCjsgProvider",
+      "status": "source_unavailable",
+      "error_type": "SourceUnavailableError",
+      "error": "TJCE/CJSG request failed: HTTPSConnectionPool(host='esaj.tjce.jus.br', port=443): Max retries exceeded with url: /cjsg/resultadoCompleta.do (Caused by SSLError(SSLZeroReturnError(6, 'TLS/SSL connection has been closed (EOF) (_ssl.c:1010)')))",
+      "elapsed_ms": 384
+    },
+    {
+      "source": "tjce_informativos",
+      "class": "TjceInformativosProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 61,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 2261
+    },
+    {
+      "source": "tjce_sjuris",
+      "class": "TjceSjurisProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 126857,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1063
+    },
+    {
+      "source": "tjdf_juris",
+      "class": "TjdfJurisProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 920837,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 2447
+    },
+    {
+      "source": "tjgo_projudi_jurisprudencia",
+      "class": "TjgoProjudiJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 180480,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 705
+    },
+    {
+      "source": "tjma_jurisconsult",
+      "class": "TjmaJurisconsultProvider",
+      "status": "access_controlled",
+      "error_type": "AccessControlRequiredError",
+      "error": "TJMA JurisConsult exige captcha na busca de resultados; o NanoJuris disponibiliza somente o catalogo publico.",
+      "elapsed_ms": 0
+    },
+    {
+      "source": "tjms_cjsg",
+      "class": "TjmsCjsgProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 767911,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1609
+    },
+    {
+      "source": "tjmt_jurisprudencia_api",
+      "class": "TjmtJurisprudenciaApiProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 431742,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1926
+    },
+    {
+      "source": "tjpa_jurisprudencia_bff",
+      "class": "TjpaJurisprudenciaBffProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 10000,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 8638
+    },
+    {
+      "source": "tjpb_pje_jurisprudencia",
+      "class": "TjpbPjeJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 167509,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 684
+    },
+    {
+      "source": "tjpe_jurisprudencia",
+      "class": "TjpeJurisprudenciaProvider",
+      "status": "source_unavailable",
+      "error_type": "SourceUnavailableError",
+      "error": "TJPE jurisprudence request failed: HTTPSConnectionPool(host='consultajurisprudencia.app.tjpe.jus.br', port=443): Max retries exceeded with url: /api/v1/jurisprudencias?page=0&size=1&pesquisaLivre.contains=direito (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certi",
+      "elapsed_ms": 395
+    },
+    {
+      "source": "tjpi_juspi",
+      "class": "TjpiJuspiProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 212112,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1851
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "class": "TjprJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 3467684,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 3160
+    },
+    {
+      "source": "tjrj_eproc_jurisprudencia",
+      "class": "TjrjEprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 37483,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1094
+    },
+    {
+      "source": "tjro_liame",
+      "class": "TjroLiameProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 2,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 840
+    },
+    {
+      "source": "tjrr_juris",
+      "class": "TjrrJurisProvider",
+      "status": "valid_data",
+      "results": 10,
+      "total": 64731,
+      "quality_records": 10,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1988
+    },
+    {
+      "source": "tjrs_solr",
+      "class": "TjrsSolrProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 3255576,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 739
+    },
+    {
+      "source": "tjsc_eproc_jurisprudencia",
+      "class": "TjscEprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 3031460,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 2476
+    },
+    {
+      "source": "tjsp_cjsg",
+      "class": "TjspCjsgProvider",
+      "status": "access_controlled",
+      "error_type": "AccessControlRequiredError",
+      "error": "TJSP/CJSG requires captcha or another access-control step (has_search_form, has_recaptcha_field, has_uuid_captcha_field, has_access_control_route, has_login_script)",
+      "elapsed_ms": 288
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "class": "TjspEprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 1242252,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 3052
+    },
+    {
+      "source": "tjsp_nugepnac",
+      "class": "TjspNugepnacProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 1,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 805
+    },
+    {
+      "source": "tjto_jurisprudencia",
+      "class": "TjtoJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 165554,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1368
+    },
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "class": "TnuEprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 20149,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 846
+    },
+    {
+      "source": "tre_sp_temas",
+      "class": "TreSpTemasProvider",
+      "status": "source_unavailable",
+      "error_type": "SourceUnavailableError",
+      "error": "TRE-SP temas rejected request with HTTP 403",
+      "elapsed_ms": 308
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "class": "Trf2EprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 625159,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1343
+    },
+    {
+      "source": "trf4_eproc_jurisprudencia",
+      "class": "Trf4EprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 10,
+      "quality_records": 1,
+      "retrieval_status": null,
+      "http_status": null,
+      "elapsed_ms": 2010
+    },
+    {
+      "source": "trf5_jurisprudencia",
+      "class": "Trf5JurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 1,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1369
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "class": "Trf6EprocJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 151917,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 1230
+    },
+    {
+      "source": "tst_jurisprudencia",
+      "class": "TstJurisprudenciaProvider",
+      "status": "valid_data",
+      "results": 1,
+      "total": 2626343,
+      "quality_records": 1,
+      "retrieval_status": "ok",
+      "http_status": 200,
+      "elapsed_ms": 904
+    }
+  ]
+}

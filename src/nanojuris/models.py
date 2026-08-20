@@ -50,6 +50,7 @@ class ProviderCapabilities:
     document_types: list[str] = field(default_factory=list)
     content_formats: list[str] = field(default_factory=list)
     canonical_records: list[str] = field(default_factory=list)
+    semantic_discriminator: str | None = None
     extracted_fields: list[str] = field(default_factory=list)
     access_statuses: list[AccessStatus] = field(default_factory=list)
     endpoints: list[str] = field(default_factory=list)
@@ -67,6 +68,7 @@ class ProviderCapabilities:
     completeness_contract: str = "unknown"
     full_text_access: str = "unknown"
     supported_filters: list[str] = field(default_factory=list)
+    unsupported_filters: list[str] = field(default_factory=list)
     limitations: list[str] = field(default_factory=list)
     responsible_use: list[str] = field(default_factory=list)
 

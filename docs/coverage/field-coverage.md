@@ -12,7 +12,7 @@ semantica do campo; mede declaracao objetiva no contrato do provider.
 | `cnj_jurisprudencia` | 0 | 1 | 0 | 1 | 1 | 4 |
 | `eproc_jurisprudencia_federal` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `falcao_jt` | 0 | 0 | 0 | 0 | 0 | 0 |
-| `justica_eleitoral_sjur` | 0 | 0 | 0 | 0 | 0 | 0 |
+| `justica_eleitoral_sjur` | 0 | 0 | 0 | 0 | 0 | 4 |
 | `stf_informativo` | 1 | 3 | 2 | 1 | 0 | 17 |
 | `stf_juris` | 1 | 3 | 2 | 2 | 0 | 13 |
 | `stj_dados_abertos_jurisprudencia` | 0 | 0 | 0 | 0 | 0 | 17 |
@@ -41,6 +41,7 @@ semantica do campo; mede declaracao objetiva no contrato do provider.
 | `tjpe_jurisprudencia` | 1 | 3 | 2 | 2 | 0 | 9 |
 | `tjpi_juspi` | 1 | 5 | 2 | 1 | 1 | 11 |
 | `tjpr_jurisprudencia` | 1 | 2 | 2 | 1 | 1 | 9 |
+| `tjrj_ejuris` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `tjrj_eproc_jurisprudencia` | 1 | 3 | 2 | 2 | 1 | 12 |
 | `tjrn_jurisprudencia` | 0 | 0 | 0 | 0 | 0 | 0 |
 | `tjro_liame` | 2 | 3 | 1 | 1 | 0 | 10 |

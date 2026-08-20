@@ -172,6 +172,7 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
                 "GET https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=<uuid>",
             ],
             supports_full_text=True,
+            full_text_access="detail_call",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,

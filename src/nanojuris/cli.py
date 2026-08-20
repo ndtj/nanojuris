@@ -6,6 +6,7 @@ import argparse
 import json
 import sys
 from typing import Any, cast
+from urllib.parse import urlparse
 
 from nanojuris import __version__
 from nanojuris.brazil import list_courts
@@ -23,6 +24,11 @@ from nanojuris.route_probe import parse_json_payload, parse_key_value_pairs, pro
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore
 from nanojuris.validation import validate_sources, write_validation_artifacts
+from nanojuris.discovery.browser import BrowserDiscoveryClient
+from nanojuris.discovery.crawler import DiscoveryCrawler
+from nanojuris.discovery.draft import write_sdd_artifacts
+from nanojuris.discovery.http import HttpDiscoveryClient
+from nanojuris.discovery.models import DiscoveryPolicy
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -94,6 +100,26 @@ def build_parser() -> argparse.ArgumentParser:
         help="Salvar a pagina canonical em um banco SQLite e criar um ResearchRun",
     )
     buscar_unificada.add_argument("--label", default="", help="Rotulo opcional para a busca salva")
+
+    coletar = sub.add_parser(
+        "coletar",
+        help="Coletar páginas de um provider com deduplicação e checkpoint",
+    )
+    coletar.add_argument("texto", nargs="?", default="", help="Texto de busca")
+    coletar.add_argument("--fonte", default="bnp_pangea", help="Provider de origem")
+    coletar.add_argument("--numero", default="", help="Número de processo ou precedente")
+    coletar.add_argument("--pagina", type=int, default=1)
+    coletar.add_argument("--limite", type=int, default=100)
+    coletar.add_argument("--max-paginas", type=int, default=100)
+    coletar.add_argument("--max-registros", type=int, default=10_000)
+    coletar.add_argument("--checkpoint", default="", help="Arquivo JSON para retomar a coleta")
+    coletar.add_argument("--store", default="", help="Banco SQLite para persistência por lote")
+    coletar.add_argument("--sem-retomar", action="store_true", help="Ignorar checkpoint existente")
+    coletar.add_argument(
+        "--limpar-checkpoint",
+        action="store_true",
+        help="Remover checkpoint quando a coleta terminar completamente",
+    )
 
     precedente = sub.add_parser("precedente", help="Obter decisoes vinculadas a um precedente")
     precedente.add_argument("id", help="ID do precedente, ex.: stf-rg-615")
@@ -251,6 +277,25 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Desabilitar verificacao SSL apenas para diagnostico local.",
     )
+
+    descobrir = sub.add_parser(
+        "descobrir-provider",
+        help="Descobrir rotas publicas e gerar artefatos SDD de provider",
+    )
+    descobrir.add_argument("url", help="URL publica inicial")
+    descobrir.add_argument(
+        "--dominio",
+        action="append",
+        default=[],
+        help="Dominio permitido; pode ser repetido",
+    )
+    descobrir.add_argument("--saida", default="", help="Diretorio para salvar evidencias e drafts SDD")
+    descobrir.add_argument("--cache-dir", default="", help="Diretorio de replay/cache por fingerprint")
+    descobrir.add_argument("--browser", action="store_true", help="Usar Playwright opcional")
+    descobrir.add_argument("--paginas", type=int, default=20)
+    descobrir.add_argument("--profundidade", type=int, default=2)
+    descobrir.add_argument("--max-bytes", type=int, default=5_000_000)
+    descobrir.add_argument("--timeout", type=float, default=30.0)
 
     store = sub.add_parser("store", help="Consultar um store SQLite local")
     store_sub = store.add_subparsers(dest="store_command", required=True)
@@ -425,6 +470,40 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(search_payload, ensure_ascii=False, indent=2, default=_json_default))
             return 0
 
+        if args.command == "coletar":
+            from nanojuris.models import JurisprudenceQuery
+
+            query = JurisprudenceQuery(
+                text=args.texto,
+                page=args.pagina,
+                page_size=args.limite,
+                number=args.numero,
+            )
+            if args.store:
+                with SQLiteStore(args.store) as store_backend:
+                    report = client.collect(
+                        query,
+                        source=args.fonte,
+                        store=store_backend,
+                        checkpoint_path=args.checkpoint or None,
+                        max_pages=args.max_paginas,
+                        max_records=args.max_registros,
+                        resume=not args.sem_retomar,
+                        clear_checkpoint_on_complete=args.limpar_checkpoint,
+                    )
+            else:
+                report = client.collect(
+                    query,
+                    source=args.fonte,
+                    checkpoint_path=args.checkpoint or None,
+                    max_pages=args.max_paginas,
+                    max_records=args.max_registros,
+                    resume=not args.sem_retomar,
+                    clear_checkpoint_on_complete=args.limpar_checkpoint,
+                )
+            print(json.dumps(report.to_dict(), ensure_ascii=False, indent=2))
+            return 0 if report.complete or not report.failures else 2
+
         if args.command == "precedente":
             bundle = client.get_decisions(args.id, source=args.fonte)
             print(json.dumps(bundle.to_dict(), ensure_ascii=False, indent=2))
@@ -558,6 +637,29 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
             return 0 if result.ok else 2
+
+        if args.command == "descobrir-provider":
+            parsed = urlparse(args.url)
+            domains = tuple(args.dominio or ([parsed.hostname] if parsed.hostname else []))
+            policy = DiscoveryPolicy(
+                allowed_domains=domains,
+                max_pages=args.paginas,
+                max_depth=args.profundidade,
+                max_bytes_per_response=args.max_bytes,
+                max_total_bytes=max(args.max_bytes, args.max_bytes * 5),
+                timeout_seconds=args.timeout,
+                user_agent=client.config.user_agent,
+            )
+            run = (
+                BrowserDiscoveryClient(policy).discover(args.url)
+                if args.browser
+                else DiscoveryCrawler(HttpDiscoveryClient(policy, cache_dir=args.cache_dir or None)).crawl(args.url)
+            )
+            payload = run.to_dict(include_body=False)
+            if args.saida:
+                payload["artifacts_dir"] = str(write_sdd_artifacts(run, args.saida))
+            print(json.dumps(payload, ensure_ascii=False, indent=2, default=_json_default))
+            return 0
 
         if args.command == "store":
             with SQLiteStore(args.db) as store:

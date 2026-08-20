@@ -126,6 +126,22 @@ def test_provider_search_sends_public_get_params():
     }
 
 
+def test_provider_maps_rapporteur_filter_to_public_relator_field():
+    provider = TjpiJuspiProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([FakeResponse(load_fixture("tjpi_juspi_empty.html"))]),
+    )
+
+    provider.search(
+        JurisprudenceQuery(
+            text="dano moral",
+            rapporteur="DIOCLÉCIO",
+        )
+    )
+
+    assert provider.session.calls[0]["kwargs"]["params"]["relator"] == "DIOCLÉCIO"
+
+
 def test_extract_tjpi_document_text_maps_public_detail():
     text, metadata = extract_tjpi_document_text(load_fixture("tjpi_juspi_detail.html"))
 

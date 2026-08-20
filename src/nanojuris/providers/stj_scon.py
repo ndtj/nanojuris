@@ -10,8 +10,6 @@ from typing import Any
 from urllib.parse import unquote, urljoin
 
 import requests
-from bs4 import BeautifulSoup
-
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
@@ -31,6 +29,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.parsing import HtmlNode, parse_html
 
 
 class StjSconProvider(JurisprudenceProvider):
@@ -178,6 +177,9 @@ class StjSconProvider(JurisprudenceProvider):
                 "GET /SCON/GetInteiroTeorDoAcordao",
             ],
             supports_full_text=True,
+            pagination_mode="page",
+            completeness_contract="reported_total_and_page_window",
+            full_text_access="detail_call",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -320,9 +322,9 @@ def parse_stj_scon_results(
     if _looks_like_access_control(html):
         raise AccessControlRequiredError("STJ/SCON returned captcha/access-control HTML")
 
-    soup = BeautifulSoup(html, "html.parser")
-    real_items = soup.select(".documento")
-    result_root = soup.select_one("#resultados") or soup.select_one(".resultados")
+    document = parse_html(html, base_url=base_url)
+    real_items = document.select(".documento")
+    result_root = document.select_one("#resultados") or document.select_one(".resultados")
     if result_root is None and real_items:
         return _parse_stj_document_items(
             real_items,
@@ -344,13 +346,13 @@ def parse_stj_scon_results(
             )
         raise ParserContractChangedError("STJ/SCON result container not found")
 
-    total, start, end = _parse_pagination(result_root.get_text(" ", strip=True))
+    total, start, end = _parse_pagination(result_root.text(" ", strip=True))
     results: list[JurisprudenceResult] = []
     for _index, item in enumerate(result_root.select(".documento, .resultado"), start=1):
         anchor = item.select_one("a.doclink, a[href]")
         registry_number = _text(item, ".registro") or _extract_registry(anchor)
         case_number = _text(item, ".processo") or (
-            anchor.get_text(" ", strip=True) if anchor else ""
+            anchor.text(" ", strip=True) if anchor else ""
         )
         if not registry_number and not case_number:
             continue
@@ -366,7 +368,7 @@ def parse_stj_scon_results(
         )
         case_class = _text(item, ".classe") or ""
         result = JurisprudenceResult(
-            id=_stable_stj_id(registry_number, case_number, item.get_text(" ", strip=True)),
+            id=_stable_stj_id(registry_number, case_number, item.text(" ", strip=True)),
             source="stj_scon",
             court="STJ",
             type="acordao",
@@ -407,7 +409,7 @@ def parse_stj_scon_results(
 
 
 def _parse_stj_document_items(
-    items: list[Any],
+    items: list[HtmlNode],
     *,
     query: JurisprudenceQuery,
     trace: SourceTrace,
@@ -432,7 +434,7 @@ def _parse_stj_document_items(
         )
         publication = fields.get("data da publicacao/fonte")
         result = JurisprudenceResult(
-            id=_stable_stj_id(registry_number, case_number, item.get_text(" ", strip=True)),
+            id=_stable_stj_id(registry_number, case_number, item.text(" ", strip=True)),
             source="stj_scon",
             court="STJ",
             type="acordao",
@@ -473,7 +475,7 @@ def _parse_stj_document_items(
     )
 
 
-def _extract_stj_document_fields(item: Any) -> dict[str, str]:
+def _extract_stj_document_fields(item: HtmlNode) -> dict[str, str]:
     fields: dict[str, str] = {}
     for paragraph in item.select(".paragrafoBRS"):
         title = _normalize_label(_text(paragraph, ".docTitulo"))
@@ -496,7 +498,7 @@ def _normalize_identifier(value: str) -> str:
     return re.sub(r"[^0-9A-Za-z]+", "", value).lower()
 
 
-def _extract_stj_registry(item: Any) -> str:
+def _extract_stj_registry(item: HtmlNode) -> str:
     for anchor in item.select("a[href]"):
         href = unquote(str(anchor.get("href") or ""))
         match = re.search(r"num_registro=(\d+)", href)
@@ -505,7 +507,7 @@ def _extract_stj_registry(item: Any) -> str:
     return ""
 
 
-def _extract_stj_document_url(item: Any, *, base_url: str) -> str | None:
+def _extract_stj_document_url(item: HtmlNode, *, base_url: str) -> str | None:
     for anchor in item.select("a[href]"):
         href = unquote(str(anchor.get("href") or ""))
         match = re.search(r"inteiro_teor\('([^']+)'\)", href)
@@ -528,7 +530,7 @@ def _document_id_from_url(document_url: str) -> str:
     return f"stj-scon-document-{registry}"
 
 
-def _parse_document_total(items: list[Any]) -> int:
+def _parse_document_total(items: list[HtmlNode]) -> int:
     if not items:
         return 0
     text = _normalize_spaces(_text(items[0], ".clsNumDocumento"))
@@ -551,9 +553,9 @@ def _parse_pagination(text: str) -> tuple[int, int, int]:
     return total, start, end
 
 
-def _text(item: Any, selector: str) -> str:
+def _text(item: HtmlNode, selector: str) -> str:
     element = item.select_one(selector)
-    return element.get_text(" ", strip=True) if element else ""
+    return element.text(" ", strip=True) if element else ""
 
 
 def _normalize_label(label: str) -> str:
@@ -566,7 +568,7 @@ def _normalize_spaces(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def _extract_registry(anchor: Any) -> str:
+def _extract_registry(anchor: HtmlNode | None) -> str:
     if anchor is None:
         return ""
     href = str(anchor.get("href") or "")

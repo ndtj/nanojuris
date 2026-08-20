@@ -4,12 +4,12 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 
 | Fonte | Registros Canonicos | Tipos | Formatos | Campos | Inteiro Teor | Trace |
 | --- | --- | --- | --- | ---: | ---: | ---: |
-| `bnp_pangea` | CanonicalPrecedent | precedent, linked_decision_metadata | json | 9 | sim | sim |
+| `bnp_pangea` | CanonicalPrecedent | precedent, linked_decision_metadata | json | 9 | nao | sim |
 | `cjf_jurisprudencia` | CanonicalDecision | acordao, sumula, arguicao, decisao_monocratica | html | 12 | nao | sim |
 | `cnj_jurisprudencia` | CanonicalDecision, CanonicalDocument | informativo_jurisprudencia | html, pdf | 4 | nao | sim |
 | `eproc_jurisprudencia_federal` | - | - | - | 0 | nao | nao |
 | `falcao_jt` | - | - | - | 0 | nao | nao |
-| `justica_eleitoral_sjur` | - | - | - | 0 | nao | nao |
+| `justica_eleitoral_sjur` | ProviderCatalog | catalog_metadata | json | 4 | nao | sim |
 | `stf_informativo` | CanonicalDecision | informativo, acordao_resumido, tese_informativo | xlsx | 17 | nao | sim |
 | `stf_juris` | CanonicalDecision | acordao | json | 13 | nao | sim |
 | `stj_dados_abertos_jurisprudencia` | ProviderCatalog, CanonicalDecision, ResearchRun | acordao_espelho, integra_decisao, acordao_dje | json, csv, zip | 17 | nao | sim |
@@ -38,6 +38,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `tjpe_jurisprudencia` | CanonicalDecision | acordao, decisao | json, html | 9 | sim | sim |
 | `tjpi_juspi` | CanonicalDecision, CanonicalDocument | acordao, decisao_terminativa, sumula | html | 11 | sim | sim |
 | `tjpr_jurisprudencia` | CanonicalDecision | acordao, decisao_monocratica, decisao | html | 9 | nao | sim |
+| `tjrj_ejuris` | - | - | - | 0 | nao | nao |
 | `tjrj_eproc_jurisprudencia` | CanonicalDecision, CanonicalDocument | acordao, decisao_monocratica, sumula, despacho, sentenca | html | 12 | sim | sim |
 | `tjrn_jurisprudencia` | - | - | - | 0 | nao | nao |
 | `tjro_liame` | CanonicalPrecedent | irdr, iac | json | 10 | nao | sim |

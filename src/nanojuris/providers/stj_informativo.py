@@ -10,8 +10,6 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
-from bs4 import BeautifulSoup
-
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -29,6 +27,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
@@ -124,6 +123,7 @@ class StjInformativoProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="local_window",
             completeness_contract="observed_window_only",
+            full_text_access="link_only",
             supported_filters=["text", "number"],
             limitations=[
                 "Retorna notas curadas do Informativo STJ, nao a base integral SCON.",
@@ -195,10 +195,10 @@ def parse_stj_informativo_results(
 
     if _looks_like_access_control(html):
         raise AccessControlRequiredError("STJ Informativo returned access-control HTML")
-    soup = BeautifulSoup(html, "html.parser")
-    items = soup.select(".clsInformativoBlocoItem")
+    document = parse_html(html)
+    items = document.select(".clsInformativoBlocoItem")
     if not items:
-        text = soup.get_text(" ", strip=True).lower()
+        text = document.get_text(" ", strip=True).lower()
         if "nenhum item encontrado" in text or "notas encontradas: 0" in text:
             return SearchPage(
                 source="stj_informativo",
@@ -220,7 +220,7 @@ def parse_stj_informativo_results(
         for index, item in enumerate(items, start=1)
     ]
     matches = [item for item in results if _matches_result(item, query)]
-    total = _parse_total(soup) or len(matches)
+    total = _parse_total(document) or len(matches)
     start_index = max(query.page - 1, 0) * query.page_size
     page_results = matches[start_index : start_index + query.page_size]
     start = start_index + 1 if page_results else 0
@@ -250,13 +250,13 @@ def parse_stj_informativo_results(
 
 
 def _item_to_result(
-    item: Any,
+    item: HtmlNode,
     *,
     trace: SourceTrace,
     base_url: str,
     index: int,
 ) -> JurisprudenceResult:
-    text = _normalize_spaces(item.get_text(" ", strip=True))
+    text = _normalize_spaces(item.text(" ", strip=True))
     title = _extract_title(item, text)
     body = _extract_body(item, title)
     case_number = _extract_case_number(item)
@@ -305,10 +305,10 @@ def _item_to_result(
     )
 
 
-def _extract_title(item: Any, fallback_text: str) -> str:
+def _extract_title(item: HtmlNode, fallback_text: str) -> str:
     title_candidates = item.select(".clsInformativoTextoBlocoTitulo, .clsInformativoTitulo")
     for candidate in title_candidates:
-        text = _normalize_spaces(candidate.get_text(" ", strip=True))
+        text = _normalize_spaces(candidate.text(" ", strip=True))
         if text and not text.lower().startswith("informativo"):
             return text
     match = re.search(r"(DIREITO\s+.+?\.)\s+Compartilhe:", fallback_text, re.I)
@@ -318,30 +318,30 @@ def _extract_title(item: Any, fallback_text: str) -> str:
     return _normalize_spaces(match.group(1)) if match else ""
 
 
-def _extract_body(item: Any, title: str) -> str:
+def _extract_body(item: HtmlNode, title: str) -> str:
     body = item.select_one(".clsInformativoTexto")
     if body:
-        return _normalize_spaces(body.get_text(" ", strip=True))
-    text = _normalize_spaces(item.get_text(" ", strip=True))
+        return _normalize_spaces(body.text(" ", strip=True))
+    text = _normalize_spaces(item.text(" ", strip=True))
     if title and title in text:
         return _normalize_spaces(text.split(title, 1)[-1])
     return text
 
 
-def _extract_case_number(item: Any) -> str | None:
+def _extract_case_number(item: HtmlNode) -> str | None:
     for anchor in item.select("a[href]"):
-        text = _normalize_spaces(anchor.get_text(" ", strip=True))
+        text = _normalize_spaces(anchor.text(" ", strip=True))
         if re.search(r"\b[A-Z]{1,8}\s+\d", text):
             return text
-    text = _normalize_spaces(item.get_text(" ", strip=True))
+    text = _normalize_spaces(item.text(" ", strip=True))
     match = re.search(r"\b([A-Z]{1,8}\s+\d[\d\.\-]*/?[A-Z]{0,2})\b", text)
     return match.group(1) if match else None
 
 
-def _extract_document_url(item: Any, *, base_url: str) -> str | None:
+def _extract_document_url(item: HtmlNode, *, base_url: str) -> str | None:
     fallback: str | None = None
     for anchor in item.select("a[href]"):
-        text = anchor.get_text(" ", strip=True)
+        text = anchor.text(" ", strip=True)
         href = str(anchor.get("href") or "")
         if re.search(r"\b[A-Z]{1,8}\s+\d", text):
             return urljoin(base_url.rstrip("/") + "/", href.lstrip("/"))
@@ -391,8 +391,8 @@ def _matches_result(result: JurisprudenceResult, query: JurisprudenceQuery) -> b
     return True
 
 
-def _parse_total(soup: BeautifulSoup) -> int:
-    text = _normalize_spaces(soup.get_text(" ", strip=True))
+def _parse_total(document: HtmlDocument) -> int:
+    text = _normalize_spaces(document.get_text(" ", strip=True))
     match = re.search(r"Notas encontradas:\s*(\d+)", text, re.I)
     return int(match.group(1)) if match else 0
 

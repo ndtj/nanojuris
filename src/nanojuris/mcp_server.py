@@ -10,6 +10,8 @@ from typing import Any, cast
 
 from nanojuris.mcp_tools import (
     describe_source_dataset_tool,
+    collect_jurisprudence_tool,
+    discover_provider_tool,
     export_results_tool,
     get_decisions_tool,
     get_document_tool,
@@ -123,6 +125,32 @@ def create_server() -> Any:
         """Return source contract maturity, gaps and deepening steps."""
 
         return source_contracts_tool(source)
+
+    @server.tool()
+    def discover_provider(
+        url: str,
+        domains: list[str] | None = None,
+        output_dir: str = "",
+        cache_dir: str = "",
+        browser: bool = False,
+        max_pages: int = 20,
+        max_depth: int = 2,
+        max_bytes: int = 5_000_000,
+        timeout: float = 30.0,
+    ) -> dict[str, Any]:
+        """Discover public provider routes and produce auditable SDD evidence."""
+
+        return discover_provider_tool(
+            url,
+            domains=domains,
+            output_dir=output_dir,
+            cache_dir=cache_dir,
+            browser=browser,
+            max_pages=max_pages,
+            max_depth=max_depth,
+            max_bytes=max_bytes,
+            timeout=timeout,
+        )
 
     @server.tool()
     def list_source_datasets(
@@ -247,6 +275,52 @@ def create_server() -> Any:
             page=page,
             page_size=page_size,
             canonical=canonical,
+        )
+
+    @server.tool()
+    def collect_jurisprudence(
+        text: str = "",
+        source: str = "bnp_pangea",
+        store_id: str = "default",
+        checkpoint_id: str = "",
+        number: str = "",
+        source_origin: str = "",
+        date_from: str = "",
+        date_to: str = "",
+        exact_phrase: str = "",
+        rapporteur: str = "",
+        courts: list[str] | None = None,
+        types: list[str] | None = None,
+        page: int = 1,
+        page_size: int = 100,
+        max_pages: int = 100,
+        max_records: int = 10_000,
+        resume: bool = True,
+        clear_checkpoint_on_complete: bool = False,
+    ) -> dict[str, Any]:
+        """Collect one public source into an auditable resumable local store."""
+
+        return collect_jurisprudence_tool(
+            text,
+            source=source,
+            db_path=str(_resolve_store_id(store_id)),
+            checkpoint_path=(
+                str(_resolve_checkpoint_id(checkpoint_id)) if checkpoint_id else ""
+            ),
+            number=number,
+            source_origin=source_origin,
+            date_from=date_from,
+            date_to=date_to,
+            exact_phrase=exact_phrase,
+            rapporteur=rapporteur,
+            courts=courts,
+            types=types,
+            page=page,
+            page_size=page_size,
+            max_pages=max_pages,
+            max_records=max_records,
+            resume=resume,
+            clear_checkpoint_on_complete=clear_checkpoint_on_complete,
         )
 
     @server.tool()
@@ -437,6 +511,22 @@ def _resolve_store_id(store_id: str) -> Path:
         candidate.relative_to(root)
     except ValueError as exc:
         raise ValueError("store_id escapes the configured NanoJuris store root") from exc
+    return candidate
+
+
+def _resolve_checkpoint_id(checkpoint_id: str) -> Path:
+    """Resolve a checkpoint identifier below the configured local store root."""
+
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,63}", checkpoint_id):
+        raise ValueError("checkpoint_id must be a simple local identifier")
+    root = Path(os.getenv("NANOJURIS_STORE_ROOT", "~/.nanojuris/stores")).expanduser().resolve()
+    checkpoint_root = root / "checkpoints"
+    checkpoint_root.mkdir(parents=True, exist_ok=True)
+    candidate = (checkpoint_root / f"{checkpoint_id}.json").resolve()
+    try:
+        candidate.relative_to(checkpoint_root)
+    except ValueError as exc:
+        raise ValueError("checkpoint_id escapes the configured NanoJuris store root") from exc
     return candidate
 
 

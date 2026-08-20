@@ -26,7 +26,10 @@
   - `relator`: nome textual publicado no formulario.
   - `classe`: classe textual publicada no formulario.
   - `orgao`: orgao/colegiado textual publicado no formulario.
-  - `data_min`: data inicial.
+- `data_min`: data inicial.
+- Runtime NanoJuris promove `types`, `rapporteur`, `source_origin`, `updated_from`
+  e `updated_to` para os campos públicos `tipo`, `relator`, `orgao`, `data_min`
+  e `data_max`.
   - `data_max`: data final.
 - Paginacao: links oficiais usam `page=<n>`.
 - Ordenacao/filtros: filtros textuais do formulario; ordenacao nao observada.

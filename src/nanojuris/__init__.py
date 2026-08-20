@@ -17,10 +17,25 @@ from nanojuris.canonical import (
     result_to_canonical_precedent,
     search_page_to_canonical,
 )
+from nanojuris.collection import (
+    CollectionCheckpoint,
+    CollectionFailure,
+    CollectionReport,
+    CollectionRunner,
+)
 from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import NetworkConfigurationError, QueryRejectedError, UnsupportedQueryError
 from nanojuris.extraction import FetchedContent, FetchRequest, HttpFetcher, ParsedContent
+from nanojuris.normalization import (
+    first_nonempty,
+    normalize_cnj_number,
+    normalize_date_value,
+    normalize_decision_type,
+    normalize_text,
+    normalize_url,
+)
+from nanojuris.parsing import HtmlDocument, HtmlNode, HtmlNodes, parse_html
 from nanojuris.health import (
     ProviderHealthReport,
     ProviderHealthStatus,
@@ -66,6 +81,10 @@ __all__ = [
     "CanonicalDecision",
     "CanonicalDocument",
     "CanonicalPrecedent",
+    "CollectionCheckpoint",
+    "CollectionFailure",
+    "CollectionReport",
+    "CollectionRunner",
     "CanonicalStore",
     "contracts_payload",
     "COURTS",
@@ -77,6 +96,9 @@ __all__ = [
     "FetchedContent",
     "FetchRequest",
     "HttpFetcher",
+    "HtmlDocument",
+    "HtmlNode",
+    "HtmlNodes",
     "ImplementationStatus",
     "get_court",
     "JurisprudenceQuery",
@@ -84,10 +106,17 @@ __all__ = [
     "list_courts",
     "NanoJurisClient",
     "NanoJurisConfig",
+    "normalize_cnj_number",
+    "normalize_date_value",
+    "normalize_decision_type",
+    "normalize_text",
+    "normalize_url",
+    "first_nonempty",
     "NetworkConfigurationError",
     "normalize_court_code",
     "ParadigmCase",
     "ParsedContent",
+    "parse_html",
     "ProviderHealthReport",
     "ProviderHealthStatus",
     "ProviderValidationReport",

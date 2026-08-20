@@ -181,6 +181,56 @@ def test_cli_probe_rota_outputs_route_diagnostic(monkeypatch, capsys):
     assert payload["quality_grade"] == "A"
 
 
+def test_cli_discover_provider_delegates_to_bounded_crawler(monkeypatch, capsys):
+    class FakeRun:
+        def to_dict(self, *, include_body=False):
+            return {"run_id": "run-cli", "include_body": include_body}
+
+    monkeypatch.setattr("nanojuris.cli.DiscoveryCrawler.crawl", lambda self, url: FakeRun())
+    exit_code = main(
+        [
+            "descobrir-provider",
+            "https://example.test/jurisprudencia",
+            "--dominio",
+            "example.test",
+        ]
+    )
+    assert exit_code == 0
+    assert json.loads(capsys.readouterr().out)["run_id"] == "run-cli"
+
+
+def test_cli_parser_accepts_resumable_collection_command(monkeypatch, capsys):
+    class FakeReport:
+        complete = True
+        failures = []
+
+        def to_dict(self):
+            return {"complete": self.complete, "source": "fake"}
+
+    class FakeClient:
+        def collect(self, query, **kwargs):
+            assert query.text == "responsabilidade civil"
+            assert kwargs["max_pages"] == 3
+            return FakeReport()
+
+    monkeypatch.setattr("nanojuris.cli.NanoJurisClient", FakeClient)
+    exit_code = main(
+        [
+            "coletar",
+            "responsabilidade civil",
+            "--fonte",
+            "fake",
+            "--checkpoint",
+            ".tmp/collection.json",
+            "--max-paginas",
+            "3",
+        ]
+    )
+
+    assert exit_code == 0
+    assert json.loads(capsys.readouterr().out)["complete"] is True
+
+
 def test_cli_probe_rota_accepts_json_file(monkeypatch, capsys):
     calls = []
 

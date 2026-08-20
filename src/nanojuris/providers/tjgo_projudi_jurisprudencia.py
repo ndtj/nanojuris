@@ -9,8 +9,6 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
-from bs4 import BeautifulSoup
-
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -31,6 +29,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.pagination import page_completeness
+from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
 
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
@@ -134,6 +133,7 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_total_and_page_window",
+            full_text_access="inline_result_text",
             supported_filters=["text", "number"],
             limitations=[
                 "O inteiro teor pode ser extraido do HTML de resultado quando a fonte "
@@ -202,9 +202,9 @@ def parse_tjgo_results(
 
     if _looks_like_blocked_page(html):
         raise AccessControlRequiredError("TJGO/Projudi returned access-control HTML")
-    soup = BeautifulSoup(html, "html.parser")
-    cards = soup.select("div.search-result")
-    total = _parse_total(soup)
+    document = parse_html(html, base_url=base_url)
+    cards = document.select("div.search-result")
+    total = _parse_total(document)
     if not cards:
         complete, completeness_reason = page_completeness(
             reported_total=total,
@@ -292,7 +292,7 @@ def tjgo_result_to_document(result: JurisprudenceResult) -> CanonicalDocument:
 
 
 def _parse_result_card(
-    card: Any, *, trace: SourceTrace, base_url: str
+    card: HtmlNode, *, trace: SourceTrace, base_url: str
 ) -> JurisprudenceResult | None:
     card_text = _normalize_text(card.get_text("\n", strip=True))
     case_number = _first_match(CNJ_PATTERN, card_text)
@@ -405,8 +405,8 @@ def _map_decision_type(value: str) -> str:
     return mapping.get(normalized, value)
 
 
-def _parse_total(soup: BeautifulSoup) -> int:
-    text = soup.get_text(" ", strip=True)
+def _parse_total(document: HtmlDocument) -> int:
+    text = document.get_text(" ", strip=True) if hasattr(document, "get_text") else document.text()
     match = re.search(r"([\d.]+)\s+resultados encontrados", text, re.I)
     if not match:
         return 0

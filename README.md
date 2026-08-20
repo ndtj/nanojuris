@@ -58,6 +58,8 @@ provider explicita essa distinção.
 | Ver o estado real das fontes | [Status das fontes](docs/provider-status.md) |
 | Criar ou corrigir um provider | [Guia de providers](docs/provider-development.md) |
 | Auditar uma coleta | [Pipeline de extração](docs/extraction-pipeline.md) |
+| Descobrir um provider | [Descoberta de providers](docs/provider-discovery.md) |
+| Executar coleta longa resumível | [Descoberta e coleta](docs/provider-discovery.md#coleta-longa-e-retomável) |
 
 ## Instalação
 
@@ -183,6 +185,38 @@ Consulte o [catálogo machine-readable](docs/registry/providers.json), a
 [matriz de cobertura](docs/provider-coverage-map.md) e os
 [dossiês individuais](docs/providers/README.md). Cada dossiê distingue rota
 observada, resposta reproduzida e provider pronto para uso.
+
+### Auditoria live de discovery
+
+O sweep bounded registra rotas, filtros, contratos, hashes, estados de acesso e
+TODOs sem promover automaticamente nenhum parser:
+
+```bash
+python tools/discover_all_providers.py --live --include-catalog-candidates
+```
+
+Para a rodada aprofundada reproduzida nesta auditoria:
+
+```bash
+python tools/discover_all_providers.py --live --include-catalog-candidates \
+  --max-pages 5 --max-depth 2 --timeout 8 --delay 0.25
+```
+
+Os resultados versionáveis ficam em
+[`docs/provider-discovery/all-provider-sweep.json`](docs/provider-discovery/all-provider-sweep.json)
+e na [matriz legível](docs/provider-discovery/all-provider-sweep.md). POSTs sem
+payload contratado não são submetidos; bloqueios, robots, SSO, rate limit e
+timeouts permanecem diagnósticos explícitos.
+
+A auditoria do contrato federado está em
+[`docs/provider-discovery/unified-contract-matrix.md`](docs/provider-discovery/unified-contract-matrix.md),
+com JSON estruturado em
+[`docs/provider-discovery/unified-contract-matrix.json`](docs/provider-discovery/unified-contract-matrix.json).
+Ela mostra quais filtros são declarados por fonte e separa os perfis semânticos
+de decisão, precedente, conteúdo curado e documento.
+
+O ledger de fechamento por provider está em
+[`docs/provider-discovery/provider-closure-ledger.md`](docs/provider-discovery/provider-closure-ledger.md).
 
 No Studio, a selecao **maduras** inicia com 7 fontes estaveis; **jurisprudencia**
 inclui as fontes recomendadas para busca textual; e **todas** expande para os providers

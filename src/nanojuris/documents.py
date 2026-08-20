@@ -7,8 +7,6 @@ import re
 from io import BytesIO
 from typing import Any
 
-from bs4 import BeautifulSoup
-
 from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
@@ -16,6 +14,7 @@ from nanojuris.models import (
     ExtractionTrace,
     SourceTrace,
 )
+from nanojuris.parsing import parse_html
 
 
 def build_canonical_document(
@@ -162,7 +161,7 @@ def extract_text(
             transformations,
         )
     if content_type in {"text/html", "application/xhtml+xml"}:
-        text = _normalize_text(BeautifulSoup(content, "html.parser").get_text(" ", strip=True))
+        text = _normalize_text(parse_html(content).visible_text())
         transformations.append("html_text_extracted")
         return (
             (text or None),

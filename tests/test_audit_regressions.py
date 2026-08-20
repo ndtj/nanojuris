@@ -81,6 +81,28 @@ def test_unified_router_warns_when_refinement_filters_are_not_declared():
     assert {warning.source for warning in routed.warnings} == {"fixture"}
 
 
+def test_unified_router_warns_for_courts_and_types_without_contract():
+    capability = ProviderCapabilities(
+        source="fixture",
+        display_name="Fixture",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        supports_unified_search=True,
+        supported_filters=["text"],
+    )
+
+    routed = route_unified_sources(
+        selected_sources=["fixture"],
+        capabilities={"fixture": capability},
+        text="tributario",
+        filters={"courts": ["TJSP"], "types": ["acordao"]},
+    )
+
+    assert routed.searched == ["fixture"]
+    assert {warning.reason for warning in routed.warnings} == {"filter_not_supported"}
+    assert {warning.message.split("'")[1] for warning in routed.warnings} == {"courts", "types"}
+
+
 def test_unified_router_does_not_warn_for_a_source_that_was_skipped():
     capability = ProviderCapabilities(
         source="fixture",

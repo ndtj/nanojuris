@@ -135,6 +135,9 @@ campos de processo ausentes.
 - `source`: `tcu`.
 - `source_system`: `tcu_jurisprudencia_abertos`.
 - `source_id`: `KEY`.
+- `dataset` e o discriminador semantico: `acordao-completo-resumo` representa
+  decisoes; datasets de jurisprudencia selecionada, sumulas ou boletins devem
+  ser tratados como corpus distintos.
 - `decision_type`: `acordao`, `jurisprudencia_selecionada`, `resposta_consulta`,
   `sumula` ou `boletim`.
 - `court`: `TCU`.

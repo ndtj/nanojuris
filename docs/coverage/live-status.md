@@ -42,6 +42,7 @@ alteracao do proprio portal.
 | `tjpe_jurisprudencia` | `source_unavailable` | 2026-08-16 | - | - | `offset` | - | - |
 | `tjpi_juspi` | `valid` | 2026-08-16 | 1 | 63468 | `page` | 2197.72 | A resposta e uma janela parcial do total informado pela fonte. |
 | `tjpr_jurisprudencia` | `valid` | 2026-08-16 | - | - | `-` | - | - |
+| `tjrj_ejuris` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjrj_eproc_jurisprudencia` | `valid` | 2026-08-16 | - | - | `-` | - | - |
 | `tjrn_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tjro_liame` | `valid` | 2026-08-16 | 1 | 1 | `-` | - | - |

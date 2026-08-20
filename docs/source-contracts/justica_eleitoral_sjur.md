@@ -6,9 +6,8 @@
 - Familia tecnica: `justica_eleitoral_sjur`.
 - URL inicial TSE: `https://jurisprudencia.tse.jus.br/`.
 - URL inicial TREs: `https://jurisprudencia-tres.tse.jus.br/`.
-- Status de acesso: paginas e metadados publicos validados; busca decisoria
-  ainda nao promovida por falta de resposta limpa reproduzivel no probe de
-  2026-08-11.
+- Status de acesso: catalogos de metadados publicos promovidos; busca decisoria
+  ainda nao promovida por falta de resposta limpa reproduzivel.
 
 ## Contrato HTTP
 - Host API observado: `https://sjur-pesquisa-api.tse.jus.br/{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa`.
@@ -52,6 +51,13 @@
 - Campos canonicos possiveis: catalogo auxiliar de filtros, nao `CanonicalDecision` nesta fase.
 - Busca de decisoes: pendente; `POST /public/pesquisa` retornou mensagem de falha antirrobo com lista vazia.
 
+## Fixtures e testes
+- `tests/fixtures/sjur_classes.json`
+- `tests/fixtures/sjur_relatorias.json`
+- `tests/fixtures/sjur_eleicoes.json`
+- `tests/fixtures/sjur_normas.json`
+- `tests/test_justica_eleitoral_sjur.py`
+
 ## Comportamento observado
 - Metadados TSE: HTTP 200, JSON publico.
 - Metadados TRE-SP: HTTP 200, JSON publico.
@@ -69,8 +75,9 @@
   fecharam um contrato de resultados reproduzivel. Nao tratar isso como bypass.
 
 ## Decisao
-- Promover apenas como contrato parcial P1.
-- Nao implementar provider de decisoes enquanto a rota exigir antirrobo, token ou validacao humana.
+- Promover como adapter `catalog_only` P1 para classes, relatorias, eleicoes e normas.
+- Manter a busca de decisoes fora da federacao enquanto a rota exigir antirrobo,
+  token ou validacao humana.
 - Usar o contrato atual para descoberta de filtros eleitorais e para orientar pesquisa futura com HAR/DevTools.
 
 ## MCP e agentes
@@ -108,7 +115,7 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 ## Proximos passos
 - [ ] Coletar HAR revisado sem cookies, tokens ou dados locais de navegador de uma busca manual autorizada para entender payload exato.
 - [ ] Verificar se existe endpoint documentado de busca sem token.
-- [ ] Criar fixture de `classes` e `relatorias`.
+- [x] Criar fixtures de `classes`, `relatorias`, `eleicoes` e `normas` para o adapter de catalogo.
 - [ ] Adicionar testes de diagnostico para `anti_robot`.
 - [ ] Capturar HAR limpo da nova SPA beta e confirmar endpoint de resultados,
   payload, paginacao e detalhe sem token privado.
@@ -153,7 +160,8 @@ exportacao. Os nomes exatos e os enums desses campos ainda precisam ser
 capturados em HAR limpo de pesquisa autorizada. Nao tratar a existencia de uma
 rota no JavaScript como prova de disponibilidade publica.
 
-O provider somente deve ser promovido quando houver fixtures para catalogos,
+O adapter de catalogo foi promovido com fixtures dos quatro endpoints publicos.
+O provider de decisoes somente deve ser promovido quando houver fixtures para
 busca valida, busca vazia, paginacao, erro de antirrobo, detalhe e download;
 cada resposta deve registrar `access_status`, URL final, status HTTP e se o
 inteiro teor foi realmente obtido.

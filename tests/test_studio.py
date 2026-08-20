@@ -309,12 +309,12 @@ def test_studio_validate_reuses_shared_validation_contract():
 def test_real_studio_catalog_exposes_maturity_selection_profiles():
     payload = studio_sources_payload(NanoJurisClient())
 
-    assert payload["total"] == 44
-    assert len(payload["default_sources"]) == 40
+    assert payload["total"] == 45
+    assert len(payload["default_sources"]) == 41
     assert payload["default_sources"] == payload["recommended_sources"]
-    assert len(payload["recommended_sources"]) == 40
+    assert len(payload["recommended_sources"]) == 41
     assert payload["tier_counts"] == {
-        "advanced": 15,
+        "advanced": 16,
         "context": 4,
         "restricted": 10,
         "stable": 15,

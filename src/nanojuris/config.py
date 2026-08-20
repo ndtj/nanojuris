@@ -66,6 +66,8 @@ class NanoJurisConfig:
     trf5_jurisprudencia_url: str = "https://jurisprudencia.trf5.jus.br"
     cjf_trf1_jurisprudencia_url: str = "https://jurisprudencia.cjf.jus.br"
     tcu_jurisprudencia_url: str = "https://sites.tcu.gov.br"
+    tse_sjur_url: str = "https://jurisprudencia.tse.jus.br"
+    tse_sjur_api_url: str = "https://sjur-pesquisa-api.tse.jus.br"
     # Conservative default for public court endpoints; tests and controlled
     # local fixtures can explicitly set this to zero.
     rate_limit_interval: float = 0.25

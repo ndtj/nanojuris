@@ -192,6 +192,7 @@ class TjdfJurisProvider(JurisprudenceProvider):
                 "GET /IndexadorAcordaos-web/sistj?comando=abrirDadosDoAcordao",
             ],
             supports_full_text=True,
+            full_text_access="detail_call",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,

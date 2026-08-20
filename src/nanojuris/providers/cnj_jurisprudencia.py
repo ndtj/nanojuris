@@ -153,6 +153,7 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_html_page_only",
+            full_text_access="link_only",
             supported_filters=[
                 "text",
                 "number",

@@ -22,8 +22,8 @@
           "precedent",
           "linked_decision_metadata"
         ],
-        "full_text_access": "unknown",
-        "supports_full_text": true,
+        "full_text_access": "not_available",
+        "supports_full_text": false,
         "trace_expected": true
       },
       "documentation": {
@@ -57,7 +57,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "text",
           "court",
@@ -135,18 +135,17 @@
         ],
         "dimensions": {
           "documentation": 8,
-          "input": 16,
-          "output": 22,
+          "input": 20,
+          "output": 19,
           "product": 15,
           "reliability": 12
         },
         "grade": "B",
         "next_actions": [
           "completar secoes faltantes do dossie",
-          "validar inteiro teor com hash, tamanho e access_status",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 73
+        "total": 74
       },
       "maturity_tier": "context",
       "mcp": {
@@ -158,7 +157,8 @@
         "status": "declared"
       },
       "not_recommended_for": [
-        "broad_textual_jurimetry"
+        "broad_textual_jurimetry",
+        "full_text_only_research"
       ],
       "offline_status": "missing",
       "output_contract": {
@@ -183,14 +183,14 @@
           "paradigm_cases",
           "aggregations"
         ],
-        "supports_full_text": true,
+        "supports_full_text": false,
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "page"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -207,7 +207,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "text",
           "court",
@@ -240,7 +240,7 @@
           "canonical_records": [
             "CanonicalPrecedent"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_total_and_page_window",
           "document_types": [
             "precedent",
             "linked_decision_metadata"
@@ -266,7 +266,7 @@
             "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
             "Nem todo precedente possui textos de decisoes no endpoint publico."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "page",
           "responsible_use": [
             "Aplicar timeout e rate limit em consultas em lote.",
             "Preservar SourceTrace e payload de consulta para auditoria."
@@ -279,7 +279,7 @@
             "date_range"
           ],
           "supports_catalog": true,
-          "supports_full_text": true,
+          "supports_full_text": false,
           "supports_live_tests": true,
           "supports_mcp": true,
           "supports_suggestions": true
@@ -296,7 +296,6 @@
           "Criar ou atualizar dossie em docs/providers/<provider>/README.md e manter a copia de compatibilidade em docs/source-contracts.",
           "Salvar fixtures publicas para sucesso, vazio e erro esperado.",
           "Adicionar teste de parser e teste de contrato de erro.",
-          "Validar get_document/get_decisions com documento publico e trace completo.",
           "Atacar primeiro: Expandir a matriz de rejeicoes HTTP 400 por tribunal, especie e combinacao de filtros."
         ],
         "risk_level": "medio",
@@ -307,7 +306,6 @@
           "Categoria operacional: qualified_precedents.",
           "Possui endpoints/rotas publicas declaradas.",
           "Declara campos extraidos para auditoria.",
-          "Suporta algum fluxo de inteiro teor/documento publico.",
           "Expoe catalogo ou parametros publicos.",
           "Possui teste live opcional para verificacao controlada."
         ]
@@ -346,7 +344,7 @@
           "arguicao",
           "decisao_monocratica"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -379,7 +377,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "full_text",
           "summary",
@@ -485,7 +483,7 @@
         ],
         "dimensions": {
           "documentation": 15,
-          "input": 10,
+          "input": 14,
           "output": 22,
           "product": 15,
           "reliability": 11
@@ -494,7 +492,7 @@
         "next_actions": [
           "fechar checklist objetivo do dossie"
         ],
-        "total": 73
+        "total": 77
       },
       "maturity_tier": "blocked",
       "mcp": {
@@ -542,10 +540,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -561,7 +559,7 @@
         "jurimetry"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "full_text",
           "summary",
@@ -587,7 +585,7 @@
           "canonical_records": [
             "CanonicalDecision"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_total_and_source_page_window",
           "document_types": [
             "acordao",
             "sumula",
@@ -617,7 +615,7 @@
             "A fonte retorna uma pagina volumosa e o provider limita os resultados locais.",
             "Inteiro teor externo nao e inferido nem baixado sem contrato individual."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Usar page_size pequeno e intervalo entre chamadas.",
             "Preservar origem TRF1, URLs externas e SourceTrace.",
@@ -693,7 +691,7 @@
         "document_types": [
           "informativo_jurisprudencia"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -1286,73 +1284,91 @@
     {
       "ai_usage": {
         "preflight": [
-          "ler dossie",
-          "nao executar como provider runtime"
+          "list_sources",
+          "source_contracts",
+          "validar fonte quando a coleta exigir dado live"
         ],
-        "recommendation": "Fonte candidate; usar apenas para planejamento.",
+        "recommendation": "Pode ser exposta no MCP com diagnosticos e limites preservados.",
         "safe_to_route": false
       },
-      "category": "research_candidate",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "display_name": "JUSTICA ELEITORAL SJUR",
+      "category": "electoral_jurisprudence",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "display_name": "SJUR - Justica Eleitoral",
       "document_contract": {
-        "content_formats": [],
-        "document_types": [],
-        "full_text_access": "unknown",
+        "content_formats": [
+          "json"
+        ],
+        "document_types": [
+          "catalog_metadata"
+        ],
+        "full_text_access": "not_available",
         "supports_full_text": false,
-        "trace_expected": false
+        "trace_expected": true
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 0,
+        "fixture_references": 4,
         "human_doc": "docs/providers/justica_eleitoral_sjur/README.md",
         "legacy_doc": "docs/source-contracts/justica_eleitoral_sjur.md",
         "missing_sections": [],
-        "open_items": 5,
-        "readiness": "research_ready"
+        "open_items": 4,
+        "readiness": "needs_deepening"
       },
       "error_contract": {
-        "access_statuses": [],
-        "limitations": [],
-        "risk_level": "research"
+        "access_statuses": [
+          "public",
+          "access_control_required",
+          "source_unavailable"
+        ],
+        "limitations": [
+          "A busca de decisoes permanece fora do contrato runtime.",
+          "O endpoint principal pode exigir validacao antirrobo/token.",
+          "Catalogos devem ser tratados como snapshot da fonte no instante da consulta."
+        ],
+        "risk_level": "medio"
       },
       "identity": {
-        "category": "research_candidate",
-        "display_name": "JUSTICA ELEITORAL SJUR",
+        "category": "electoral_jurisprudence",
+        "display_name": "SJUR - Justica Eleitoral",
         "source_id": "justica_eleitoral_sjur",
-        "source_url": null
+        "source_url": "https://jurisprudencia.tse.jus.br"
       },
-      "implementation_status": "none",
+      "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
-        "search_modes": [],
+        "pagination_mode": "none",
+        "search_modes": [
+          "catalog"
+        ],
         "supported_filters": [],
-        "supports_catalog": false,
+        "supports_catalog": true,
         "supports_suggestions": false,
         "text_query": false
       },
       "interfaces": {
-        "cli": false,
-        "live_tests": false,
-        "mcp": false,
-        "studio": false,
+        "cli": true,
+        "live_tests": true,
+        "mcp": true,
+        "studio": true,
         "unified_search": false
       },
       "jurimetry": {
         "dataset_ready": false,
-        "fit": "aguarda implementacao",
+        "fit": "baixo; fonte especializada fora de jurisprudencia decisoria comum.",
         "minimum_requirements": [
-          "contrato HTTP reproduzido",
-          "fixture de sucesso",
-          "campos canonicos mapeados"
+          "identificador juridico estavel",
+          "conteudo juridico textual",
+          "data normalizada ou preservada em campo raw",
+          "trace de fonte",
+          "estado de completude da pagina"
         ]
       },
       "known_defects": [
         "documentacao_com_pendencias_abertas",
-        "live:not_checked_in_latest_focused_run"
+        "live:not_checked_in_latest_focused_run",
+        "gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
       ],
-      "lifecycle": "candidate",
+      "lifecycle": "implemented",
       "live_evidence": {
         "date": null,
         "evidence": null,
@@ -1376,73 +1392,164 @@
       },
       "maturity_score": {
         "blockers": [
-          "sem provider runtime",
+          "fora da busca unificada",
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 9,
-          "input": 0,
-          "output": 0,
-          "product": 0,
-          "reliability": 2
+          "documentation": 13,
+          "input": 6,
+          "output": 6,
+          "product": 6,
+          "reliability": 12
         },
         "grade": "D",
         "next_actions": [
-          "reproduzir contrato HTTP publico e criar fixture minima",
           "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 11
+        "total": 43
       },
-      "maturity_tier": "mapped",
+      "maturity_tier": "context",
       "mcp": {
-        "enabled": false,
-        "limitations": [],
-        "status": "not_exposed"
+        "enabled": true,
+        "limitations": [
+          "A busca de decisoes permanece fora do contrato runtime.",
+          "O endpoint principal pode exigir validacao antirrobo/token.",
+          "Catalogos devem ser tratados como snapshot da fonte no instante da consulta."
+        ],
+        "status": "declared"
       },
       "not_recommended_for": [
         "broad_textual_jurimetry",
         "full_text_only_research"
       ],
-      "offline_status": "not_applicable",
+      "offline_status": "complete",
       "output_contract": {
-        "canonical_records": [],
-        "content_formats": [],
-        "document_types": [],
-        "extracted_fields": [],
+        "canonical_records": [
+          "ProviderCatalog"
+        ],
+        "content_formats": [
+          "json"
+        ],
+        "document_types": [
+          "catalog_metadata"
+        ],
+        "extracted_fields": [
+          "classes",
+          "relatorias",
+          "eleicoes",
+          "normas"
+        ],
         "supports_full_text": false,
-        "trace_expected": false
+        "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "none"
       },
       "quality_contract": {
-        "documentation_readiness": "research_ready",
-        "fixture_references": 0,
+        "documentation_readiness": "needs_deepening",
+        "fixture_references": 4,
         "latest_live_status": "not_checked_in_latest_focused_run",
         "quality_flags": [
           "open_documentation_items",
           "live_not_recently_checked"
         ]
       },
-      "recommended_for": [],
+      "recommended_for": [
+        "agent_assisted_research",
+        "contextual_legal_research"
+      ],
       "search_contract": {
-        "pagination_mode": "unknown",
-        "search_modes": [],
+        "pagination_mode": "none",
+        "search_modes": [
+          "catalog"
+        ],
         "supported_filters": [],
-        "supports_catalog": false,
+        "supports_catalog": true,
         "supports_suggestions": false,
         "text_query": false
       },
-      "source_contract": null,
+      "source_contract": {
+        "category": "electoral_jurisprudence",
+        "contract_label": "campos_canonicos_estaveis",
+        "contract_level": 4,
+        "display_name": "SJUR - Justica Eleitoral",
+        "evidence": {
+          "canonical_records": [
+            "ProviderCatalog"
+          ],
+          "completeness_contract": "catalog_snapshot_only",
+          "document_types": [
+            "catalog_metadata"
+          ],
+          "endpoints": [
+            "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/classes",
+            "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/relatorias",
+            "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/eleicoes",
+            "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/normas"
+          ],
+          "extracted_fields": [
+            "classes",
+            "relatorias",
+            "eleicoes",
+            "normas"
+          ],
+          "limitations": [
+            "A busca de decisoes permanece fora do contrato runtime.",
+            "O endpoint principal pode exigir validacao antirrobo/token.",
+            "Catalogos devem ser tratados como snapshot da fonte no instante da consulta."
+          ],
+          "pagination_mode": "none",
+          "responsible_use": [
+            "Usar apenas as rotas publicas de catalogo reproduzidas.",
+            "Nao contornar tokens, antirrobo ou validacao humana.",
+            "Preservar SourceTrace e o payload do tribunal consultado."
+          ],
+          "search_modes": [
+            "catalog"
+          ],
+          "supports_catalog": true,
+          "supports_full_text": false,
+          "supports_live_tests": true,
+          "supports_mcp": true,
+          "supports_suggestions": false
+        },
+        "gaps": [
+          "Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+        ],
+        "jurimetry_fit": "baixo; fonte especializada fora de jurisprudencia decisoria comum.",
+        "maturity": "intermediario",
+        "mcp_recommendation": "Pode ser exposta no MCP com diagnosticos e limites preservados.",
+        "next_steps": [
+          "Criar ou atualizar dossie em docs/providers/<provider>/README.md e manter a copia de compatibilidade em docs/source-contracts.",
+          "Salvar fixtures publicas para sucesso, vazio e erro esperado.",
+          "Adicionar teste de parser e teste de contrato de erro.",
+          "Atacar primeiro: Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+        ],
+        "risk_level": "medio",
+        "source": "justica_eleitoral_sjur",
+        "source_family": "electoral_jurisprudence",
+        "strengths": [
+          "Declara capacidades por ProviderCapabilities.",
+          "Categoria operacional: electoral_jurisprudence.",
+          "Possui endpoints/rotas publicas declaradas.",
+          "Declara campos extraidos para auditoria.",
+          "Expoe catalogo ou parametros publicos.",
+          "Possui teste live opcional para verificacao controlada."
+        ]
+      },
       "source_id": "justica_eleitoral_sjur",
       "studio": {
-        "enabled": false,
-        "limitations": [],
-        "status": "not_exposed"
+        "enabled": true,
+        "limitations": [
+          "A busca de decisoes permanece fora do contrato runtime.",
+          "O endpoint principal pode exigir validacao antirrobo/token.",
+          "Catalogos devem ser tratados como snapshot da fonte no instante da consulta."
+        ],
+        "status": "declared"
       }
     },
     {
@@ -1468,7 +1575,7 @@
           "acordao_resumido",
           "tese_informativo"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "not_available",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -1502,7 +1609,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "case_number",
@@ -1568,7 +1675,7 @@
         ],
         "dimensions": {
           "documentation": 13,
-          "input": 12,
+          "input": 16,
           "output": 22,
           "product": 15,
           "reliability": 16
@@ -1578,7 +1685,7 @@
           "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 78
+        "total": 82
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -1630,10 +1737,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -1651,7 +1758,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "case_number",
@@ -1674,7 +1781,7 @@
           "canonical_records": [
             "CanonicalDecision"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_total_and_page_window",
           "document_types": [
             "informativo",
             "acordao_resumido",
@@ -1708,7 +1815,7 @@
             "Links de inteiro teor do portal STF podem exigir validacao separada.",
             "Alguns ambientes Windows podem precisar configurar verify_ssl=False por falha local de cadeia SSL."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Usar como fonte estruturada de teses e resumos oficiais do STF.",
             "Preservar SourceTrace e URL oficial da planilha.",
@@ -1784,7 +1891,7 @@
         "document_types": [
           "acordao"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -1820,7 +1927,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "offset",
         "search_modes": [
           "text",
           "case_number",
@@ -1929,7 +2036,7 @@
         ],
         "dimensions": {
           "documentation": 14,
-          "input": 12,
+          "input": 16,
           "output": 22,
           "product": 15,
           "reliability": 10
@@ -1939,7 +2046,7 @@
           "fechar checklist objetivo do dossie",
           "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
         ],
-        "total": 73
+        "total": 77
       },
       "maturity_tier": "blocked",
       "mcp": {
@@ -1985,10 +2092,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "offset"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -2005,7 +2112,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "offset",
         "search_modes": [
           "text",
           "case_number",
@@ -2033,7 +2140,7 @@
           "canonical_records": [
             "CanonicalDecision"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_total_and_offset_window",
           "document_types": [
             "acordao"
           ],
@@ -2061,7 +2168,7 @@
             "Alguns ambientes podem falhar na cadeia SSL do dominio STF.",
             "Documentos de inteiro teor via portal STF podem retornar 403 em sessao limpa."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "offset",
           "responsible_use": [
             "Nao contornar AWS WAF, captcha, cookies ou desafios JavaScript.",
             "Usar page_size pequeno e preservar SourceTrace.",
@@ -2475,7 +2582,7 @@
           "informativo",
           "nota_jurisprudencia"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -2803,7 +2910,7 @@
         "document_types": [
           "acordao"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -2839,7 +2946,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "text",
           "case_number",
@@ -2942,7 +3049,7 @@
         ],
         "dimensions": {
           "documentation": 16,
-          "input": 10,
+          "input": 14,
           "output": 25,
           "product": 15,
           "reliability": 12
@@ -2953,7 +3060,7 @@
           "validar inteiro teor com hash, tamanho e access_status",
           "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
         ],
-        "total": 78
+        "total": 82
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -2995,10 +3102,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "page"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -3015,7 +3122,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "text",
           "case_number",
@@ -3039,7 +3146,7 @@
             "CanonicalDecision",
             "CanonicalDocument"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_total_and_page_window",
           "document_types": [
             "acordao"
           ],
@@ -3067,7 +3174,7 @@
             "A carga documental e feita sob demanda a partir do registro ou URL oficial.",
             "Sessao limpa em ambiente automatizado pode receber verificacao Cloudflare/STJ."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "page",
           "responsible_use": [
             "Nao tentar contornar captcha, login ou controles de acesso.",
             "Usar testes live apenas quando explicitamente habilitados.",
@@ -3144,7 +3251,7 @@
         "document_types": [
           "acordao"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -3451,7 +3558,7 @@
           "sumula",
           "boletim_jurisprudencia"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -3484,7 +3591,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "catalog",
@@ -3550,7 +3657,7 @@
         ],
         "dimensions": {
           "documentation": 12,
-          "input": 12,
+          "input": 16,
           "output": 6,
           "product": 12,
           "reliability": 10
@@ -3561,7 +3668,7 @@
           "rodar validacao live pequena com termo juridico padrao",
           "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
         ],
-        "total": 52
+        "total": 56
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -3600,10 +3707,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -3618,7 +3725,7 @@
         "agent_assisted_research"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "catalog",
@@ -3641,7 +3748,7 @@
           "canonical_records": [
             "CanonicalPrecedent"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "observed_window_only",
           "document_types": [
             "sumula",
             "boletim_jurisprudencia"
@@ -3663,7 +3770,7 @@
             "Provider usa catalogos estaticos; busca dinamica com reCAPTCHA nao e automatizada.",
             "Boletins sao listados por URL publica; texto integral pode variar por pagina."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Preservar URL publica e SourceTrace para auditoria.",
             "Nao tentar resolver reCAPTCHA da busca dinamica do TCE-SP."
@@ -3738,7 +3845,7 @@
           "sumula",
           "boletim"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "inline_summary",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -3771,7 +3878,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "full_text",
           "summary",
@@ -3872,7 +3979,7 @@
         ],
         "dimensions": {
           "documentation": 13,
-          "input": 12,
+          "input": 16,
           "output": 14,
           "product": 12,
           "reliability": 14
@@ -3881,7 +3988,7 @@
         "next_actions": [
           "fechar checklist objetivo do dossie"
         ],
-        "total": 65
+        "total": 69
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -3924,10 +4031,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -3941,7 +4048,7 @@
         "agent_assisted_research"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "full_text",
           "summary",
@@ -3966,7 +4073,7 @@
             "CanonicalDecision",
             "CanonicalPrecedent"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "observed_window_or_source_limit",
           "document_types": [
             "acordao",
             "jurisprudencia_selecionada",
@@ -3990,7 +4097,7 @@
             "A busca live no resumo percorre um CSV grande e possui limite de leitura.",
             "Campos ausentes no dataset permanecem nulos; nao sao inferidos."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Preferir manifesto, Range e sincronizacao incremental.",
             "Respeitar tamanho dos arquivos e evitar varreduras repetidas.",
@@ -5294,7 +5401,7 @@
           "acordao",
           "decisao_monocratica"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -6009,7 +6116,7 @@
         "document_types": [
           "informativo_item"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "not_available",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -6668,7 +6775,7 @@
           "tema",
           "informativo"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -7179,7 +7286,7 @@
           "sentenca",
           "acordao"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "inline_result_text",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -8663,7 +8770,7 @@
           "acordao",
           "decisao_monocratica"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "inline",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -9016,7 +9123,7 @@
           "acordao",
           "decisao"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -9715,7 +9822,7 @@
           "decisao_terminativa",
           "sumula"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -9762,7 +9869,12 @@
         ],
         "supported_filters": [
           "text",
-          "number"
+          "number",
+          "types",
+          "rapporteur",
+          "source_origin",
+          "updated_from",
+          "updated_to"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -9855,17 +9967,17 @@
         ],
         "dimensions": {
           "documentation": 13,
-          "input": 14,
+          "input": 16,
           "output": 25,
           "product": 15,
           "reliability": 16
         },
-        "grade": "B",
+        "grade": "A",
         "next_actions": [
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 83
+        "total": 85
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -9942,7 +10054,12 @@
         ],
         "supported_filters": [
           "text",
-          "number"
+          "number",
+          "types",
+          "rapporteur",
+          "source_origin",
+          "updated_from",
+          "updated_to"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -10069,7 +10186,7 @@
           "decisao_monocratica",
           "decisao"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "not_available",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -10382,6 +10499,168 @@
           "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor."
         ],
         "status": "declared"
+      }
+    },
+    {
+      "ai_usage": {
+        "preflight": [
+          "ler dossie",
+          "nao executar como provider runtime"
+        ],
+        "recommendation": "Fonte candidate; usar apenas para planejamento.",
+        "safe_to_route": false
+      },
+      "category": "research_candidate",
+      "coverage_role": "mapped_candidate",
+      "development_priority": "P1_candidate_contract",
+      "display_name": "TJRJ EJURIS",
+      "document_contract": {
+        "content_formats": [],
+        "document_types": [],
+        "full_text_access": "unknown",
+        "supports_full_text": false,
+        "trace_expected": false
+      },
+      "documentation": {
+        "canonical_legacy_parity": true,
+        "fixture_references": 0,
+        "human_doc": "docs/providers/tjrj_ejuris/README.md",
+        "legacy_doc": "docs/source-contracts/tjrj_ejuris.md",
+        "missing_sections": [],
+        "open_items": 4,
+        "readiness": "research_ready"
+      },
+      "error_contract": {
+        "access_statuses": [],
+        "limitations": [],
+        "risk_level": "research"
+      },
+      "identity": {
+        "category": "research_candidate",
+        "display_name": "TJRJ EJURIS",
+        "source_id": "tjrj_ejuris",
+        "source_url": null
+      },
+      "implementation_status": "none",
+      "input_contract": {
+        "pagination_mode": "unknown",
+        "search_modes": [],
+        "supported_filters": [],
+        "supports_catalog": false,
+        "supports_suggestions": false,
+        "text_query": false
+      },
+      "interfaces": {
+        "cli": false,
+        "live_tests": false,
+        "mcp": false,
+        "studio": false,
+        "unified_search": false
+      },
+      "jurimetry": {
+        "dataset_ready": false,
+        "fit": "aguarda implementacao",
+        "minimum_requirements": [
+          "contrato HTTP reproduzido",
+          "fixture de sucesso",
+          "campos canonicos mapeados"
+        ]
+      },
+      "known_defects": [
+        "documentacao_com_pendencias_abertas",
+        "live:not_checked_in_latest_focused_run"
+      ],
+      "lifecycle": "candidate",
+      "live_evidence": {
+        "date": null,
+        "evidence": null,
+        "latency": null,
+        "note": "sem validacao focada nesta rodada",
+        "pagination_mode": null,
+        "reported_total": null,
+        "returned": null,
+        "status": "not_checked_in_latest_focused_run"
+      },
+      "live_status": "not_checked_in_latest_focused_run",
+      "live_validation": {
+        "date": null,
+        "evidence": null,
+        "latency": null,
+        "note": "sem validacao focada nesta rodada",
+        "pagination_mode": null,
+        "reported_total": null,
+        "returned": null,
+        "status": "not_checked_in_latest_focused_run"
+      },
+      "maturity_score": {
+        "blockers": [
+          "sem provider runtime",
+          "dossie com pendencias abertas"
+        ],
+        "dimensions": {
+          "documentation": 9,
+          "input": 0,
+          "output": 0,
+          "product": 0,
+          "reliability": 2
+        },
+        "grade": "D",
+        "next_actions": [
+          "reproduzir contrato HTTP publico e criar fixture minima",
+          "fechar checklist objetivo do dossie",
+          "rodar validacao live pequena com termo juridico padrao"
+        ],
+        "total": 11
+      },
+      "maturity_tier": "mapped",
+      "mcp": {
+        "enabled": false,
+        "limitations": [],
+        "status": "not_exposed"
+      },
+      "not_recommended_for": [
+        "broad_textual_jurimetry",
+        "full_text_only_research"
+      ],
+      "offline_status": "not_applicable",
+      "output_contract": {
+        "canonical_records": [],
+        "content_formats": [],
+        "document_types": [],
+        "extracted_fields": [],
+        "supports_full_text": false,
+        "trace_expected": false
+      },
+      "pagination_contract": {
+        "declared": false,
+        "max_remote_page": null,
+        "max_remote_page_size": null,
+        "mode": "unknown"
+      },
+      "quality_contract": {
+        "documentation_readiness": "research_ready",
+        "fixture_references": 0,
+        "latest_live_status": "not_checked_in_latest_focused_run",
+        "quality_flags": [
+          "open_documentation_items",
+          "live_not_recently_checked"
+        ]
+      },
+      "recommended_for": [],
+      "search_contract": {
+        "pagination_mode": "unknown",
+        "search_modes": [],
+        "supported_filters": [],
+        "supports_catalog": false,
+        "supports_suggestions": false,
+        "text_query": false
+      },
+      "source_contract": null,
+      "source_id": "tjrj_ejuris",
+      "studio": {
+        "enabled": false,
+        "limitations": [],
+        "status": "not_exposed"
       }
     },
     {
@@ -11263,7 +11542,7 @@
           "acordao",
           "monocratic_decision"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -11619,7 +11898,7 @@
           "decisao",
           "informativo"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "not_available",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -11640,6 +11919,7 @@
         "limitations": [
           "O backend retorna no maximo o page size solicitado pelo frontend.",
           "Facets sao preservadas sem serem tratadas como campos canonicos de decisao.",
+          "Facets de tipo e OAB observadas no indice nao sao filtros runtime promovidos.",
           "Detalhe e inteiro teor ainda precisam de rota publica validada."
         ],
         "risk_level": "medio"
@@ -11773,6 +12053,7 @@
         "limitations": [
           "O backend retorna no maximo o page size solicitado pelo frontend.",
           "Facets sao preservadas sem serem tratadas como campos canonicos de decisao.",
+          "Facets de tipo e OAB observadas no indice nao sao filtros runtime promovidos.",
           "Detalhe e inteiro teor ainda precisam de rota publica validada."
         ],
         "status": "declared"
@@ -11877,6 +12158,7 @@
           "limitations": [
             "O backend retorna no maximo o page size solicitado pelo frontend.",
             "Facets sao preservadas sem serem tratadas como campos canonicos de decisao.",
+            "Facets de tipo e OAB observadas no indice nao sao filtros runtime promovidos.",
             "Detalhe e inteiro teor ainda precisam de rota publica validada."
           ],
           "pagination_mode": "offset",
@@ -11928,6 +12210,7 @@
         "limitations": [
           "O backend retorna no maximo o page size solicitado pelo frontend.",
           "Facets sao preservadas sem serem tratadas como campos canonicos de decisao.",
+          "Facets de tipo e OAB observadas no indice nao sao filtros runtime promovidos.",
           "Detalhe e inteiro teor ainda precisam de rota publica validada."
         ],
         "status": "declared"
@@ -12475,7 +12758,7 @@
           "monocratic_decision",
           "homologation"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -12510,7 +12793,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "full_text",
           "summary",
@@ -12616,7 +12899,7 @@
         ],
         "dimensions": {
           "documentation": 15,
-          "input": 10,
+          "input": 14,
           "output": 25,
           "product": 15,
           "reliability": 10
@@ -12627,7 +12910,7 @@
           "validar inteiro teor com hash, tamanho e access_status",
           "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
         ],
-        "total": 75
+        "total": 79
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -12673,10 +12956,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "page"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -12693,7 +12976,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "full_text",
           "summary",
@@ -12719,7 +13002,7 @@
             "CanonicalDecision",
             "CanonicalDocument"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_total_and_page_window",
           "document_types": [
             "acordao",
             "monocratic_decision",
@@ -12750,7 +13033,7 @@
             "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
             "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login sem bypass."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "page",
           "responsible_use": [
             "Nao tentar contornar captcha, login ou controles de acesso.",
             "Usar testes live apenas quando explicitamente habilitados."
@@ -12866,7 +13149,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "full_text",
           "summary",
@@ -12974,7 +13257,7 @@
         ],
         "dimensions": {
           "documentation": 12,
-          "input": 12,
+          "input": 16,
           "output": 25,
           "product": 15,
           "reliability": 12
@@ -12984,7 +13267,7 @@
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 76
+        "total": 80
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -13031,10 +13314,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "page"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -13051,7 +13334,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "page",
         "search_modes": [
           "full_text",
           "summary",
@@ -13080,7 +13363,7 @@
             "CanonicalDecision",
             "CanonicalDocument"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "reported_form_total_and_page_window",
           "document_types": [
             "sentenca",
             "acordao",
@@ -13111,7 +13394,7 @@
             "A fonte pode alterar hashes, layouts e listas de filtros sem aviso.",
             "O provider detecta controles de acesso e nao implementa bypass."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "page",
           "responsible_use": [
             "Usar consultas pequenas e rate limit em coletas exploratorias.",
             "Preservar id_jurisprudencia, URLs e SourceTrace para auditoria.",
@@ -13191,7 +13474,7 @@
           "irdr",
           "iac"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -13224,7 +13507,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "number",
@@ -13291,7 +13574,7 @@
         ],
         "dimensions": {
           "documentation": 9,
-          "input": 12,
+          "input": 16,
           "output": 15,
           "product": 12,
           "reliability": 12
@@ -13301,7 +13584,7 @@
           "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 60
+        "total": 64
       },
       "maturity_tier": "context",
       "mcp": {
@@ -13346,10 +13629,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -13366,7 +13649,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "number",
@@ -13391,7 +13674,7 @@
           "canonical_records": [
             "CanonicalPrecedent"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "observed_window_only",
           "document_types": [
             "irdr",
             "iac"
@@ -13419,7 +13702,7 @@
             "A pagina de detalhe contem tese e questao; inteiro teor CJSG pode exigir verificacao.",
             "Fonte HTML institucional sujeita a mudancas de layout."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Usar consultas pequenas e preservar codigoNoticia e SourceTrace.",
             "Nao reutilizar URLs com tokens de captcha presentes em links do CJSG."
@@ -14202,7 +14485,7 @@
         "document_types": [
           "tema_selecionado"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "link_only",
         "supports_full_text": false,
         "trace_expected": true
       },
@@ -14235,7 +14518,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "thematic_catalog"
@@ -14299,7 +14582,7 @@
         ],
         "dimensions": {
           "documentation": 9,
-          "input": 12,
+          "input": 16,
           "output": 11,
           "product": 12,
           "reliability": 12
@@ -14309,7 +14592,7 @@
           "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 56
+        "total": 60
       },
       "maturity_tier": "context",
       "mcp": {
@@ -14346,10 +14629,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -14365,7 +14648,7 @@
         "contextual_legal_research"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "text",
           "thematic_catalog"
@@ -14387,7 +14670,7 @@
           "canonical_records": [
             "CanonicalPrecedent"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "observed_window_only",
           "document_types": [
             "tema_selecionado"
           ],
@@ -14405,7 +14688,7 @@
             "Fonte tematica, nao uma busca geral de acordaos.",
             "Links de inteiro teor podem apontar para sistemas eleitorais externos."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Usar como curadoria tematica eleitoral paulista.",
             "Preservar URL da pagina tematica e links de decisoes selecionadas."
@@ -15005,7 +15288,7 @@
           "decisao",
           "despacho"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -15041,7 +15324,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "full_text",
           "summary",
@@ -15143,7 +15426,7 @@
         ],
         "dimensions": {
           "documentation": 12,
-          "input": 10,
+          "input": 14,
           "output": 25,
           "product": 15,
           "reliability": 18
@@ -15153,7 +15436,7 @@
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 80
+        "total": 84
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -15198,10 +15481,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "local_window"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -15218,7 +15501,7 @@
         "structured_data_analysis"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "local_window",
         "search_modes": [
           "full_text",
           "summary",
@@ -15243,7 +15526,7 @@
             "CanonicalDecision",
             "CanonicalDocument"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "observed_window_only",
           "document_types": [
             "acordao",
             "decisao",
@@ -15272,7 +15555,7 @@
             "A fonte pode alterar hashes, layouts e listas de filtros sem aviso.",
             "O provider detecta controles de acesso e nao implementa bypass."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "local_window",
           "responsible_use": [
             "Usar consultas pequenas e rate limit em coletas exploratorias.",
             "Preservar id_jurisprudencia, URLs e SourceTrace para auditoria.",
@@ -15352,7 +15635,7 @@
           "informativo",
           "sumula"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -15386,7 +15669,7 @@
       },
       "implementation_status": "runtime",
       "input_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "none",
         "search_modes": [
           "full_text",
           "summary",
@@ -15492,7 +15775,7 @@
         ],
         "dimensions": {
           "documentation": 15,
-          "input": 11,
+          "input": 15,
           "output": 25,
           "product": 15,
           "reliability": 14
@@ -15502,7 +15785,7 @@
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 80
+        "total": 84
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -15543,10 +15826,10 @@
         "trace_expected": true
       },
       "pagination_contract": {
-        "declared": false,
+        "declared": true,
         "max_remote_page": null,
         "max_remote_page_size": null,
-        "mode": "unknown"
+        "mode": "none"
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
@@ -15562,7 +15845,7 @@
         "jurimetry"
       ],
       "search_contract": {
-        "pagination_mode": "unknown",
+        "pagination_mode": "none",
         "search_modes": [
           "full_text",
           "summary",
@@ -15590,7 +15873,7 @@
             "CanonicalDecision",
             "CanonicalDocument"
           ],
-          "completeness_contract": "unknown",
+          "completeness_contract": "observed_window_only",
           "document_types": [
             "acordao",
             "decisao_monocratica",
@@ -15616,7 +15899,7 @@
             "O token de sessao e dinamico e nunca deve ser salvo em fixture.",
             "A fonte usa HTML legado e ISO-8859-1 em respostas observadas."
           ],
-          "pagination_mode": "unknown",
+          "pagination_mode": "none",
           "responsible_use": [
             "Usar page_size pequeno e intervalo entre chamadas.",
             "Preservar o id_documento e SourceTrace para auditoria.",
@@ -16225,7 +16508,7 @@
           "sumula",
           "precedente_normativo"
         ],
-        "full_text_access": "unknown",
+        "full_text_access": "detail_call",
         "supports_full_text": true,
         "trace_expected": true
       },
@@ -16596,7 +16879,7 @@
   "summary": {
     "by_coverage_role": {
       "administrative_context": 2,
-      "curated_context": 3,
+      "curated_context": 4,
       "dataset_pipeline": 1,
       "implementation_family": 1,
       "mapped_candidate": 9,
@@ -16608,7 +16891,7 @@
       "access_controlled": 2,
       "access_controlled_or_inconclusive": 1,
       "blocked": 1,
-      "not_checked_in_latest_focused_run": 20,
+      "not_checked_in_latest_focused_run": 21,
       "source_pagination_not_validated": 1,
       "source_unavailable": 1,
       "tls_verification_failed": 1,
@@ -16619,32 +16902,32 @@
     "by_lifecycle": {
       "candidate": 9,
       "family": 1,
-      "implemented": 44
+      "implemented": 45
     },
     "by_maturity_tier": {
       "blocked": 3,
       "bronze": 1,
-      "context": 8,
+      "context": 9,
       "family": 1,
       "gold": 15,
       "mapped": 9,
       "silver": 17
     },
-    "implemented_sources": 44,
+    "implemented_sources": 45,
     "primary_textual_sources": 34,
     "score": {
-      "average": 78.1,
+      "average": 78.5,
       "needs_attention": [
-        "cjf_jurisprudencia",
-        "stf_juris",
         "stm_jurisprudencia",
         "tjce_cjsg",
         "tjgo_projudi_jurisprudencia",
+        "cjf_jurisprudencia",
+        "stf_juris",
+        "tjam_cjsg",
         "tjsp_cjsg",
-        "tjsp_eproc_jurisprudencia",
-        "stf_informativo",
-        "stj_scon",
-        "tjam_cjsg"
+        "tjac_cjsg",
+        "tjal_cjsg",
+        "tjms_cjsg"
       ],
       "top": [
         "tjdf_juris",
@@ -16654,8 +16937,8 @@
         "tjpr_jurisprudencia"
       ]
     },
-    "sources_with_full_text": 28,
-    "total_sources": 54,
+    "sources_with_full_text": 27,
+    "total_sources": 55,
     "unified_search_sources": 41
   }
 }

@@ -72,6 +72,7 @@ A validacao live mais recente dos candidatos esta em
 | TRF3 Jurisprudencia | interface oficial rica; nivel B e timeout HTTP registrado | [trf3_jurisprudencia.md](trf3_jurisprudencia.md) |
 | TJPB PJe Jurisprudencia | candidato com risco WAF | [tjpb_pje_jurisprudencia.md](tjpb_pje_jurisprudencia.md) |
 | TJRJ/eproc Jurisprudencia | candidato pronto para fixture | [tjrj_eproc_jurisprudencia.md](tjrj_eproc_jurisprudencia.md) |
+| TJRJ/eJURIS legado | candidato com WebForms e reCAPTCHA | [tjrj_ejuris.md](tjrj_ejuris.md) |
 | Falcao/Justica do Trabalho | candidato prioritario bloqueado no probe | [falcao_jt.md](falcao_jt.md) |
 | TRF5 Jurisprudencia | candidato pronto para fixture | [trf5_jurisprudencia.md](trf5_jurisprudencia.md) |
 | CJF/TRF1 Jurisprudencia | candidato pronto para fixture | [cjf_jurisprudencia.md](cjf_jurisprudencia.md) |

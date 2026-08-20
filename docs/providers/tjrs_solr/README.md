@@ -50,6 +50,9 @@ publicacao. Facets de orgao, origem, relator, ano, classe, assunto, tribunal,
 tipo de processo e mes/ano permanecem nos metadados brutos quando retornadas;
 nao sao tratados como filtros executaveis sem contrato adicional.
 
+Em particular, facets de tipo e OAB nao sao filtros runtime promovidos pelo
+provider.
+
 O modo e `offset`, com `numFound` e `start` da resposta. A completude da
 janela e calculada pela relacao entre total remoto, deslocamento e quantidade
 retornada.

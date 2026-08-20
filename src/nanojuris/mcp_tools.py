@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, is_dataclass
+from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from nanojuris.brazil import CourtBranch, SourceSystem, list_courts
 from nanojuris.catalog import get_provider_catalog_entry
@@ -17,9 +19,15 @@ from nanojuris.exporters import (
     to_jsonl,
 )
 from nanojuris.health import check_sources
+from nanojuris.models import JurisprudenceQuery
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore, StoredRecordKind
 from nanojuris.validation import validate_sources
+from nanojuris.discovery.browser import BrowserDiscoveryClient
+from nanojuris.discovery.crawler import DiscoveryCrawler
+from nanojuris.discovery.draft import write_sdd_artifacts
+from nanojuris.discovery.http import HttpDiscoveryClient
+from nanojuris.discovery.models import DiscoveryPolicy
 
 MAX_MCP_PAGE_SIZE = 100
 
@@ -117,6 +125,42 @@ def source_contracts_tool(
     }
 
 
+def discover_provider_tool(
+    url: str,
+    *,
+    domains: list[str] | None = None,
+    output_dir: str = "",
+    cache_dir: str = "",
+    browser: bool = False,
+    max_pages: int = 20,
+    max_depth: int = 2,
+    max_bytes: int = 5_000_000,
+    timeout: float = 30.0,
+) -> dict[str, Any]:
+    """Run bounded provider discovery and return evidence/SDD artifact metadata."""
+
+    parsed = urlparse(url)
+    default_domain = parsed.hostname or ""
+    allowed_domains = tuple(domains or ([default_domain] if default_domain else []))
+    policy = DiscoveryPolicy(
+        allowed_domains=allowed_domains,
+        max_pages=max_pages,
+        max_depth=max_depth,
+        max_bytes_per_response=max_bytes,
+        max_total_bytes=max(max_bytes, max_bytes * 5),
+        timeout_seconds=timeout,
+    )
+    if browser:
+        run = BrowserDiscoveryClient(policy).discover(url)
+    else:
+        run = DiscoveryCrawler(HttpDiscoveryClient(policy, cache_dir=cache_dir or None)).crawl(url)
+    payload: dict[str, Any] = run.to_dict(include_body=False)
+    if output_dir:
+        artifacts = write_sdd_artifacts(run, Path(output_dir))
+        payload["artifacts_dir"] = str(artifacts)
+    return payload
+
+
 def list_source_datasets_tool(
     source: str = "stj_dados_abertos_jurisprudencia",
     *,
@@ -129,7 +173,7 @@ def list_source_datasets_tool(
     active_client = client or NanoJurisClient()
     return {
         "source": source,
-        "query": query,
+        "query": _to_jsonable(query),
         "rows": rows,
         "datasets": active_client.list_source_datasets(source=source, query=query, rows=rows),
     }
@@ -314,6 +358,64 @@ def search_unified_tool(
             canonical=canonical,
         )
     )
+
+
+def collect_jurisprudence_tool(
+    text: str = "",
+    *,
+    source: str = "bnp_pangea",
+    db_path: str,
+    checkpoint_path: str = "",
+    number: str = "",
+    source_origin: str = "",
+    date_from: str = "",
+    date_to: str = "",
+    exact_phrase: str = "",
+    rapporteur: str = "",
+    courts: list[str] | None = None,
+    types: list[str] | None = None,
+    page: int = 1,
+    page_size: int = 100,
+    max_pages: int = 100,
+    max_records: int = 10_000,
+    resume: bool = True,
+    clear_checkpoint_on_complete: bool = False,
+    client: NanoJurisClient | None = None,
+) -> dict[str, Any]:
+    """Collect one public source with resumable canonical persistence."""
+
+    active_client = client or NanoJurisClient()
+    query = JurisprudenceQuery(
+        text=text,
+        number=number,
+        source_origin=source_origin,
+        published_from=date_from,
+        published_to=date_to,
+        exact_phrase=exact_phrase,
+        rapporteur=rapporteur,
+        courts=courts or [],
+        types=types or [],
+        page=_page(page),
+        page_size=_limit_page_size(page_size),
+    )
+    with SQLiteStore(db_path) as store:
+        report = active_client.collect(
+            query,
+            source=source,
+            store=store,
+            checkpoint_path=checkpoint_path or None,
+            max_pages=max(1, max_pages),
+            max_records=max(1, max_records),
+            resume=resume,
+            clear_checkpoint_on_complete=clear_checkpoint_on_complete,
+        )
+    return {
+        "source": source,
+        "db_path": db_path,
+        "checkpoint_path": checkpoint_path or None,
+        "query": query,
+        "report": report.to_dict(),
+    }
 
 
 def search_unified_store_tool(

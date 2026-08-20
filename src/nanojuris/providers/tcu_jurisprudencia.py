@@ -147,6 +147,7 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
             document_types=["acordao", "jurisprudencia_selecionada", "sumula", "boletim"],
             content_formats=["csv", "text/html"],
             canonical_records=["CanonicalDecision", "CanonicalPrecedent"],
+            semantic_discriminator="dataset",
             extracted_fields=[
                 "dataset_key",
                 "summary",
@@ -163,6 +164,9 @@ class TcuJurisprudenciaProvider(JurisprudenceProvider):
                 "jurisprudencia-selecionada.csv",
             ],
             supports_full_text=False,
+            pagination_mode="local_window",
+            completeness_contract="observed_window_or_source_limit",
+            full_text_access="inline_summary",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -290,18 +294,25 @@ def _search_summary_csv(
     results: list[JurisprudenceResult] = []
     consumed = 0
     truncated = False
-    for line in response.iter_lines(decode_unicode=True):
-        if line is None:
-            continue
-        encoded = str(line).encode("utf-8", "replace")
-        consumed += len(encoded)
-        if consumed > MAX_SCAN_BYTES:
-            truncated = True
-            break
-        try:
-            row = next(csv.reader([str(line)], delimiter="|"))
-        except csv.Error:
-            continue
+    def decoded_lines():
+        nonlocal consumed, truncated
+        for raw_line in response.iter_lines(decode_unicode=False):
+            if raw_line is None:
+                continue
+            line = (
+                raw_line.decode("utf-8", "replace")
+                if isinstance(raw_line, bytes)
+                else str(raw_line)
+            )
+            consumed += len(line.encode("utf-8", "replace"))
+            if consumed > MAX_SCAN_BYTES:
+                truncated = True
+                return
+            yield line
+
+    # csv.reader consumes the iterator as records, preserving quoted fields
+    # that span multiple physical lines in the public dataset.
+    for row in csv.reader(decoded_lines(), delimiter="|"):
         if not row or target not in " ".join(row).casefold():
             continue
         if row[0].strip().upper() == "KEY":

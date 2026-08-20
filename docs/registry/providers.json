@@ -40,7 +40,7 @@
     "tjrs_solr",
     "tcu_jurisprudencia",
     "tjsc_eproc_jurisprudencia",
-                        "tjsp_cjsg",
+    "tjsp_cjsg",
     "tjsp_eproc_jurisprudencia",
     "tjsp_nugepnac",
     "tnu_eproc_jurisprudencia",
@@ -49,15 +49,16 @@
     "trf4_eproc_jurisprudencia",
     "trf5_jurisprudencia",
     "trf6_eproc_jurisprudencia",
-    "tst_jurisprudencia"
+    "tst_jurisprudencia",
+    "justica_eleitoral_sjur"
   ],
   "candidates": [
     "falcao_jt",
-    "justica_eleitoral_sjur",
     "tjap_tucujuris",
     "tjes_jurisprudencia",
     "tjmg_jurisprudencia",
     "tjrn_jurisprudencia",
+    "tjrj_ejuris",
     "tjse_jurisprudencia",
     "trf3_jurisprudencia",
     "trt2_pje_jurisprudencia"

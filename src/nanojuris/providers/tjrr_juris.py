@@ -231,6 +231,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 "GET /inteiroTeor.xhtml?id=<id>",
             ],
             supports_full_text=True,
+            full_text_access="detail_call",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,

@@ -11,7 +11,8 @@ from dataclasses import asdict, dataclass, field
 from typing import Any, Literal
 
 import requests
-from bs4 import BeautifulSoup
+
+from nanojuris.parsing import parse_html
 
 RouteStatus = Literal[
     "live_valid",
@@ -369,11 +370,9 @@ def _visible_text_and_title(text: str, content_type: str) -> tuple[str, str]:
         return _normalize_spaces(text), ""
     if not text:
         return "", ""
-    soup = BeautifulSoup(text, "html.parser")
-    for node in soup(["script", "style", "noscript"]):
-        node.decompose()
-    visible = _normalize_spaces(soup.get_text(" ", strip=True))
-    title = soup.title.get_text(strip=True) if soup.title else ""
+    document = parse_html(text)
+    visible = _normalize_spaces(document.visible_text())
+    title = document.title or ""
     return visible, title
 
 

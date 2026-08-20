@@ -10,7 +10,6 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
-from bs4 import BeautifulSoup, Tag
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
@@ -30,6 +29,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.pagination import page_completeness
+from nanojuris.parsing import HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
 
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
@@ -132,6 +132,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_tjpr_window",
+            full_text_access="not_available",
             supported_filters=[
                 "text",
                 "number",
@@ -170,7 +171,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
                 verify=self.config.verify_ssl,
             )
             _raise_for_tjpr_response(initial, "TJPR initial search")
-            form = BeautifulSoup(initial.text, "html.parser").select_one("form#pesquisaForm")
+            form = parse_html(initial.content, base_url=initial.url).select_one("form#pesquisaForm")
             if form is None or not form.get("action"):
                 raise ParserContractChangedError("TJPR search form pesquisaForm not found")
             payload = _form_payload(form)
@@ -219,17 +220,17 @@ def parse_tjpr_results(
 ) -> SearchPage:
     """Parse TJPR's public result table without including Corte IDH rows."""
 
-    soup = BeautifulSoup(html, "html.parser")
-    table = soup.select_one("table.resultTable.jurisprudencia")
+    document = parse_html(html, base_url=base_url)
+    table = document.select_one("table.resultTable.jurisprudencia")
     if table is None:
-        text = _normalize_text(soup.get_text(" ", strip=True))
+        text = _normalize_text(document.text())
         if _is_explicit_empty(text) and not _looks_like_access_control(text):
             return _empty_page(query, trace, "A fonte respondeu sem registros TJPR.")
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("TJPR returned an access-control page")
         raise ParserContractChangedError("TJPR jurisprudence result table not found")
 
-    total = _parse_total(soup.get_text(" ", strip=True))
+    total = _parse_total(document.text())
     rows = [row for row in table.select("tr") if _is_tjpr_row(row)]
     results: list[JurisprudenceResult] = []
     for index, row in enumerate(rows, start=1):
@@ -263,7 +264,7 @@ def parse_tjpr_results(
 
 
 def _parse_tjpr_row(
-    row: Tag,
+    row: HtmlNode,
     *,
     trace: SourceTrace,
     base_url: str,
@@ -334,13 +335,15 @@ def _parse_tjpr_row(
     )
 
 
-def _form_payload(form: Tag) -> dict[str, str]:
+def _form_payload(form: HtmlNode) -> dict[str, str]:
     payload: dict[str, str] = {}
     for field in form.select("input[name]"):
         field_type = str(field.get("type") or "text").lower()
         if field_type in {"button", "submit", "checkbox", "radio"}:
             continue
-        payload[str(field["name"])] = str(field.get("value") or "")
+        name = field.get("name")
+        if name:
+            payload[name] = str(field.get("value") or "")
     return payload
 
 
@@ -360,19 +363,19 @@ def _query_payload(query: JurisprudenceQuery) -> dict[str, str]:
     }
 
 
-def _is_tjpr_row(row: Tag) -> bool:
+def _is_tjpr_row(row: HtmlNode) -> bool:
     return bool(
         row.select_one("input[name='idsSelecionados']")
         and row.select_one("a[href*='/jurisprudencia/j/']")
     )
 
 
-def _input_value(row: Tag, name: str) -> str | None:
+def _input_value(row: HtmlNode, name: str) -> str | None:
     field = row.select_one(f"input[name='{name}']")
     return str(field.get("value")) if field and field.get("value") else None
 
 
-def _extract_parenthesized_type(link: Tag, row_text: str) -> str:
+def _extract_parenthesized_type(link: HtmlNode, row_text: str) -> str:
     match = re.search(r"\(([^)]+)\)", link.parent.get_text(" ", strip=True) if link.parent else "")
     value = _normalize_text(match.group(1)) if match else "decisao"
     normalized = value.lower()

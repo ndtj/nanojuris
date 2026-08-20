@@ -270,6 +270,7 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
                 "GET /inteiroTeor/<uuid>",
             ],
             supports_full_text=True,
+            full_text_access="detail_call",
             supports_catalog=True,
             supports_live_tests=True,
             supports_cli=True,

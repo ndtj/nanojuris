@@ -177,6 +177,7 @@ class TjpiJuspiProvider(JurisprudenceProvider):
                 "GET /jurisprudences/<id>/public",
             ],
             supports_full_text=True,
+            full_text_access="detail_call",
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -186,7 +187,15 @@ class TjpiJuspiProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_total_and_page_window",
-            supported_filters=["text", "number"],
+            supported_filters=[
+                "text",
+                "number",
+                "types",
+                "rapporteur",
+                "source_origin",
+                "updated_from",
+                "updated_to",
+            ],
             limitations=[
                 "Contrato HTML server-side sem API JSON publica observada.",
                 "Paginacao por parametro page foi observada em links publicos da propria fonte.",
@@ -208,8 +217,8 @@ class TjpiJuspiProvider(JurisprudenceProvider):
         decision_type = _map_decision_type(query.types[0]) if query.types else ""
         if decision_type:
             params["tipo"] = decision_type
-        if query.lawyer_name:
-            params["relator"] = query.lawyer_name
+        if query.rapporteur or query.lawyer_name:
+            params["relator"] = query.rapporteur or query.lawyer_name
         if query.source_origin:
             params["orgao"] = query.source_origin
         if query.updated_from:

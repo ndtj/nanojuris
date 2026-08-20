@@ -77,6 +77,24 @@ class StoreStats:
     by_kind: dict[str, int]
     by_source: dict[str, int]
 
+    @property
+    def decisions(self) -> int:
+        """Backward-compatible count for decision records."""
+
+        return int(self.by_kind.get("decision", 0))
+
+    @property
+    def precedents(self) -> int:
+        """Convenience count for precedent records."""
+
+        return int(self.by_kind.get("precedent", 0))
+
+    @property
+    def documents(self) -> int:
+        """Convenience count for document records."""
+
+        return int(self.by_kind.get("document", 0))
+
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
