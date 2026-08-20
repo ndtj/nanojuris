@@ -97,3 +97,40 @@ python tools/audit_documentation_inventory.py --write
 NanoJuris must not bypass CAPTCHA, WAF, login, rate limits, secrecy restrictions
 or access controls. The correct behavior is explicit diagnosis with provenance,
 not silent omission.
+
+## Spec-Driven Development
+
+NanoJuris follows a spec-driven workflow. The canonical SDD artifacts live under
+`specs/` and are versioned with the code. Prompts and chat history are working
+inputs, not the source of truth.
+
+Before implementing a non-trivial change, the agent must:
+
+1. read `specs/constitution.md` and `specs/README.md`;
+2. create or update a change package under `specs/changes/<id>/`;
+3. record behavior, constraints, acceptance criteria and failure semantics;
+4. produce a design and small executable tasks;
+5. implement only after the specification is internally consistent;
+6. run the required verification and record evidence in `verification.md`.
+
+Every change package must contain, at minimum:
+
+- `spec.md`: intent, scope, behavior and acceptance criteria;
+- `design.md`: architecture, interfaces, data and security decisions;
+- `tasks.md`: ordered implementation tasks with dependencies;
+- `verification.md`: commands, results, evidence and known deviations.
+
+For provider changes, the canonical provider documentation order in this file
+still applies. SDD artifacts complement, but do not replace, provider dossiers,
+source contracts, fixtures or tests. Do not edit generated catalogs manually.
+
+Agents must distinguish between:
+
+- `inspect`: read-only discovery and diagnosis;
+- `plan`: proposed changes and validation plans;
+- `apply`: implementation in a working tree or development environment;
+- `release`: production, publication, destructive or externally visible action.
+
+`release` actions require explicit human authorization and a recorded plan. No
+agent may store credentials in the repository or receive unrestricted cloud
+administrator access.
