@@ -30,6 +30,23 @@ implementação e aprovação da mesma mudança.
 | Security Agent | mudança e plano | threat model e achados |
 | Release Agent | aprovação | deploy, smoke test e rollback |
 
+## Revisao premium por especialidade
+
+Para mudancas de alto impacto, os papeis devem entregar pareceres separados
+antes do aceite:
+
+| Especialista | Pergunta de saida | Artefato ou evidencia |
+| --- | --- | --- |
+| Principal Architect | A solucao e simples, evolutiva e coerente? | `design.md`, ADR/C4 |
+| Product/Domain Owner | O comportamento resolve o problema correto? | `spec.md`, aceite |
+| Provider/Data Engineer | Identidade, completude e provenance sao preservadas? | contrato, fixtures |
+| Platform/SRE | Pode operar, medir e recuperar? | SLO, runbook, restore |
+| Security/Privacy | Menor privilegio e ameacas estao cobertos? | `threat-model.md` |
+| QA/Verification | Cada requisito tem prova reproduzivel? | `traceability.md`, `verification.md` |
+
+Nenhum parecer pode ser convertido em aprovacao automatica por um agente. A
+discordancia deve permanecer registrada como risco ou pergunta aberta.
+
 ## Gates
 
 ```text

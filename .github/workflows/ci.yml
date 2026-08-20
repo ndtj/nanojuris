@@ -33,6 +33,9 @@ jobs:
       - name: Lint
         run: python -m ruff check src tests examples tools
 
+      - name: Validate SDD packages
+        run: python tools/validate_sdd.py
+
       - name: Format check
         run: python -m ruff format --check src tests examples tools
 

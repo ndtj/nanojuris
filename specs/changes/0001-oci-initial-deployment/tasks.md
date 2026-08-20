@@ -15,6 +15,18 @@ Status: `proposed`
 - [ ] T11 — testar backup e restauração
 - [ ] T12 — aprovar produção e registrar evidência
 
+## Rastreabilidade de execucao
+
+- T1/T2/T3: `REQ-001`, `REQ-003`;
+- T4/T11: `REQ-004`;
+- T5/T6: `REQ-002`;
+- T7/T8: `REQ-003`, `REQ-004`;
+- T9/T10: `REQ-005`, `REQ-006`;
+- T12: `AC-009`, `REQ-004`.
+
+Cada tarefa deve atualizar a matriz de `traceability.md` e registrar comando,
+resultado ou impedimento antes de ser marcada como concluida.
+
 ## Ordem
 
 ```text

@@ -120,6 +120,13 @@ Every change package must contain, at minimum:
 - `tasks.md`: ordered implementation tasks with dependencies;
 - `verification.md`: commands, results, evidence and known deviations.
 
+For high-impact or production changes, also create `research.md`, `clarify.md`,
+`traceability.md` and, when there is a security boundary, `threat-model.md`.
+Use stable IDs for requirements (`REQ-NNN`), acceptance criteria (`AC-NNN`)
+and tasks (`TNN`). Run `python tools/validate_sdd.py` before handing off a
+change. Large changes must be decomposed into independently verifiable
+sub-changes before implementation.
+
 For provider changes, the canonical provider documentation order in this file
 still applies. SDD artifacts complement, but do not replace, provider dossiers,
 source contracts, fixtures or tests. Do not edit generated catalogs manually.

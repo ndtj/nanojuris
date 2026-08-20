@@ -35,6 +35,17 @@ GitHub nanojuris-infra
 - produção usa plan + aprovação + apply;
 - o primeiro deploy deve ser reversível antes de ser considerado aceito.
 
+## Decomposicao e limites da decisao
+
+O change e um envelope de programa, nao uma tarefa unica de implementacao.
+`spec-of-specs.md` divide a entrega em pacotes menores. A escolha final entre
+Compute e Container Instance permanece uma decisao de implementacao apos a
+clarificacao de custo, observabilidade, persistencia e operacao.
+
+O modelo arquitetural deve manter, no minimo, uma visao de contexto, containers
+e implantacao; os nomes e fluxos precisam ser consistentes com
+`specs/architecture/runtime.md`.
+
 ## Riscos
 
 - limites e indisponibilidade dos tribunais externos;

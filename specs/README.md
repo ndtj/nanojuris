@@ -56,6 +56,25 @@ de testes devem virar apontadores curtos para a fonte SDD. Cópias de provider,
 catálogos gerados e evidências históricas só podem ser removidos depois que suas
 dependências forem eliminadas e a auditoria documental for atualizada.
 
+## Qualidade e decomposicao
+
+Antes de uma mudanca nao trivial, registre pesquisa em `research.md` e
+perguntas/hipoteses em `clarify.md`. Requisitos e criterios devem ter IDs
+estaveis (`REQ-001`, `AC-001`), tarefas devem referencia-los e a verificacao
+deve fechar a cadeia em `traceability.md`.
+
+Mudancas grandes devem comecar por um `spec-of-specs.md` que as decomponha em
+pacotes menores, cada um com escopo e gate proprios. A referencia operacional
+dos gates esta em [`quality-gates.md`](quality-gates.md). O validador
+executavel e `python tools/validate_sdd.py` e e um gate de CI; ele nao
+substitui revisao de dominio, seguranca ou aceite humano.
+
+Para mudancas de producao, o pacote tambem deve ter rastreabilidade completa,
+threat model quando houver superficie de seguranca, SLI/SLO, rollback,
+backup/restauracao, plano de incidentes e fontes externas registradas.
+Os alvos operacionais iniciais estao em
+[`operations/service-levels.md`](operations/service-levels.md).
+
 ## Nomenclatura
 
 Use identificadores estáveis e descritivos:
