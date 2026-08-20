@@ -12,12 +12,12 @@ from urllib.robotparser import RobotFileParser
 import requests
 from requests import Response as RequestsResponse
 
+from nanojuris.discovery.cache import DiscoveryCache
 from nanojuris.discovery.extract import (
     extract_filter_candidates,
     extract_route_candidates,
     suggest_selector_candidates,
 )
-from nanojuris.discovery.cache import DiscoveryCache
 from nanojuris.discovery.models import (
     DiscoveryEvidence,
     DiscoveryPolicy,
@@ -47,7 +47,14 @@ class HttpDiscoveryClient:
         self._robots: dict[str, RobotFileParser | None] = {}
         self.cache = DiscoveryCache(cache_dir) if cache_dir else None
 
-    def discover(self, url: str, *, method: str = "GET", query: Mapping[str, Any] | None = None, body: Any = None) -> DiscoveryRun:
+    def discover(
+        self,
+        url: str,
+        *,
+        method: str = "GET",
+        query: Mapping[str, Any] | None = None,
+        body: Any = None,
+    ) -> DiscoveryRun:
         run = DiscoveryRun(run_id=uuid.uuid4().hex, started_at=_utc_now(), policy=self.policy)
         evidence = self.fetch(
             run_id=run.run_id,
@@ -69,7 +76,7 @@ class HttpDiscoveryClient:
                 cached.limitations = [*cached.limitations, "response replayed from discovery cache"]
                 return cached
         if self.policy.respect_robots and not self._can_fetch(request.url):
-            response = DiscoveryResponse(
+            robots_response = DiscoveryResponse(
                 status_code=None,
                 url=request.url,
                 final_url=request.url,
@@ -80,7 +87,7 @@ class HttpDiscoveryClient:
                 captured_at=_utc_now(),
                 seed_url=seed_url,
                 request=request,
-                response=response,
+                response=robots_response,
                 status=DiscoveryStatus.ROBOTS_DISALLOWED,
                 limitations=["robots.txt disallowed this URL"],
             )
@@ -88,7 +95,7 @@ class HttpDiscoveryClient:
         current_url = request.url
         redirects: list[dict[str, Any]] = []
         started = time.perf_counter()
-        response: RequestsResponse | None = None
+        http_response: RequestsResponse | None = None
         body_bytes = b""
         transport_status = "complete"
         error_type: str | None = None
@@ -96,7 +103,7 @@ class HttpDiscoveryClient:
         try:
             for _ in range(self.policy.max_redirects + 1):
                 assert_allowed_url(current_url, self.policy)
-                response = self.session.request(
+                http_response = self.session.request(
                     request.method.upper(),
                     current_url,
                     params=request.query,
@@ -106,20 +113,30 @@ class HttpDiscoveryClient:
                     headers=request.headers,
                     stream=True,
                 )
-                location = response.headers.get("Location")
-                if response.is_redirect and location:
-                    redirects.append({"status": response.status_code, "url": current_url, "location": location})
+                location = http_response.headers.get("Location")
+                if http_response.is_redirect and location:
+                    redirects.append(
+                        {
+                            "status": http_response.status_code,
+                            "url": current_url,
+                            "location": location,
+                        }
+                    )
                     current_url = urljoin(current_url, location)
-                    response.close()
+                    http_response.close()
                     continue
-                body_bytes = _read_bounded(response, self.policy.max_bytes_per_response)
+                body_bytes = _read_bounded(http_response, self.policy.max_bytes_per_response)
                 break
             else:
                 transport_status = "redirect_limit"
                 error_type = "redirect_limit"
                 error = "redirect limit exceeded"
         except ValueError as exc:
-            transport_status, error_type, error = "redirect_outside_allowlist", "redirect_outside_allowlist", str(exc)
+            transport_status, error_type, error = (
+                "redirect_outside_allowlist",
+                "redirect_outside_allowlist",
+                str(exc),
+            )
         except requests.exceptions.Timeout as exc:
             transport_status, error_type, error = "timeout", "timeout", str(exc)
         except requests.exceptions.SSLError as exc:
@@ -127,18 +144,24 @@ class HttpDiscoveryClient:
         except requests.exceptions.RequestException as exc:
             transport_status, error_type, error = "source_unavailable", "request_error", str(exc)
         finally:
-            if response is not None:
-                response.close()
+            if http_response is not None:
+                http_response.close()
 
         elapsed_ms = (time.perf_counter() - started) * 1000
-        status_code = response.status_code if response is not None and transport_status == "complete" else None
-        content_type = response.headers.get("Content-Type", "") if response is not None else ""
+        status_code = (
+            http_response.status_code
+            if http_response is not None and transport_status == "complete"
+            else None
+        )
+        content_type = (
+            http_response.headers.get("Content-Type", "") if http_response is not None else ""
+        )
         response_model = DiscoveryResponse(
             status_code=status_code,
             url=request.url,
             final_url=current_url if status_code is not None else None,
             content_type=content_type,
-            headers=redact_headers(response.headers if response is not None else {}),
+            headers=redact_headers(http_response.headers if http_response is not None else {}),
             body=body_bytes,
             elapsed_ms=elapsed_ms,
             redirects=redirects,
@@ -159,12 +182,12 @@ class HttpDiscoveryClient:
         )
         probe = analyze_route_response(
             url=request.url,
-            final_url=response_model.final_url,
+            final_url=response_model.final_url or response_model.url,
             method=request.method,
             status_code=response_model.status_code or 0,
             content=body_bytes,
             content_type=content_type,
-            elapsed_ms=elapsed_ms,
+            elapsed_ms=int(elapsed_ms),
         )
         status = (
             _status_from_transport(transport_status)
@@ -208,20 +231,23 @@ class HttpDiscoveryClient:
         if origin not in self._robots:
             robots_url = f"{origin}/robots.txt"
             try:
-                response = self.session.get(robots_url, timeout=self.policy.timeout_seconds, allow_redirects=False)
-                if response.status_code == 404:
+                robots_response = self.session.get(
+                    robots_url, timeout=self.policy.timeout_seconds, allow_redirects=False
+                )
+                if robots_response.status_code == 404:
                     parser: RobotFileParser | None = None
-                elif 200 <= response.status_code < 300:
+                elif 200 <= robots_response.status_code < 300:
                     parser = RobotFileParser()
                     parser.set_url(robots_url)
-                    parser.parse(response.text.splitlines())
+                    parser.parse(robots_response.text.splitlines())
                 else:
                     parser = RobotFileParser()
                     parser.parse(["User-agent: *", "Disallow: /"])
                 self._robots[origin] = parser
             except requests.RequestException:
-                self._robots[origin] = RobotFileParser()
-                self._robots[origin].parse(["User-agent: *", "Disallow: /"])
+                fallback = RobotFileParser()
+                fallback.parse(["User-agent: *", "Disallow: /"])
+                self._robots[origin] = fallback
         parser = self._robots[origin]
         return parser is None or parser.can_fetch(self.policy.user_agent, url)
 
@@ -288,11 +314,19 @@ def _access_status(status: DiscoveryStatus):
         return AccessStatus.ACCESS_CONTROL_REQUIRED
     if status == DiscoveryStatus.REDIRECT_OUTSIDE_ALLOWLIST:
         return AccessStatus.ACCESS_CONTROL_REQUIRED
-    if status in {DiscoveryStatus.SOURCE_UNAVAILABLE, DiscoveryStatus.TIMEOUT, DiscoveryStatus.TLS_ERROR}:
+    if status in {
+        DiscoveryStatus.SOURCE_UNAVAILABLE,
+        DiscoveryStatus.TIMEOUT,
+        DiscoveryStatus.TLS_ERROR,
+    }:
         return AccessStatus.SOURCE_UNAVAILABLE
     if status == DiscoveryStatus.EMPTY:
         return AccessStatus.NOT_FOUND
-    return AccessStatus.PUBLIC if status in {DiscoveryStatus.VALID, DiscoveryStatus.CANDIDATE} else AccessStatus.PARTIAL
+    return (
+        AccessStatus.PUBLIC
+        if status in {DiscoveryStatus.VALID, DiscoveryStatus.CANDIDATE}
+        else AccessStatus.PARTIAL
+    )
 
 
 def _extraction_status(status: DiscoveryStatus, has_body: bool):
@@ -302,7 +336,11 @@ def _extraction_status(status: DiscoveryStatus, has_body: bool):
         return ExtractionStatus.EMPTY
     if status in {DiscoveryStatus.ACCESS_CONTROLLED, DiscoveryStatus.RATE_LIMITED}:
         return ExtractionStatus.PARTIAL
-    if status in {DiscoveryStatus.SOURCE_UNAVAILABLE, DiscoveryStatus.TIMEOUT, DiscoveryStatus.TLS_ERROR}:
+    if status in {
+        DiscoveryStatus.SOURCE_UNAVAILABLE,
+        DiscoveryStatus.TIMEOUT,
+        DiscoveryStatus.TLS_ERROR,
+    }:
         return ExtractionStatus.FAILED
     return ExtractionStatus.COMPLETE
 

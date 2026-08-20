@@ -129,8 +129,10 @@ def _classify_todo(
     # Candidate snapshots predate adapter promotion.  Once the source has a
     # runtime module, versioned fixtures and tests, close the stale generic
     # adapter TODO with the current local contract evidence.
-    if "criar adapter" in todo.lower() and local["has_tests"] and (
-        local["has_fixtures"] or local["has_inline_fixtures"]
+    if (
+        "criar adapter" in todo.lower()
+        and local["has_tests"]
+        and (local["has_fixtures"] or local["has_inline_fixtures"])
     ):
         return {
             "status": "implemented_with_local_evidence",
@@ -147,7 +149,8 @@ def _classify_todo(
     if "robots.txt" in todo.lower() and "robots_disallowed" in statuses:
         return {
             "status": "blocked_external",
-            "evidence": evidence + ["docs/provider-discovery/all-provider-sweep.json#robots_disallowed"],
+            "evidence": evidence
+            + ["docs/provider-discovery/all-provider-sweep.json#robots_disallowed"],
             "next_action": "revalidar somente após alteração autorizada da política pública/robots",
         }
     if "controle de acesso" in todo.lower() and statuses.intersection(
@@ -155,7 +158,8 @@ def _classify_todo(
     ):
         return {
             "status": "blocked_external",
-            "evidence": evidence + ["docs/provider-discovery/all-provider-sweep.json#access_controlled"],
+            "evidence": evidence
+            + ["docs/provider-discovery/all-provider-sweep.json#access_controlled"],
             "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado",
         }
     if "indisponibilidade" in todo.lower() and statuses.intersection(
@@ -163,7 +167,8 @@ def _classify_todo(
     ):
         return {
             "status": "blocked_external",
-            "evidence": evidence + ["docs/provider-discovery/all-provider-sweep.json#source_unavailable"],
+            "evidence": evidence
+            + ["docs/provider-discovery/all-provider-sweep.json#source_unavailable"],
             "next_action": "retestar em janela autorizada e preservar diagnóstico de falha",
         }
     if "sinais de jurisprudência" in todo.lower():
@@ -177,9 +182,16 @@ def _classify_todo(
     if "GETs declarados" in todo:
         comparison = row.get("contract_comparison") or {}
         unobserved = comparison.get("unobserved_declared_get_routes") or []
-        if unobserved and local["has_tests"] and (
-            "get_document" in combined
-            or any(route.get("declaration", "").split("/")[-1].lower() in combined for route in unobserved)
+        if (
+            unobserved
+            and local["has_tests"]
+            and (
+                "get_document" in combined
+                or any(
+                    route.get("declaration", "").split("/")[-1].lower() in combined
+                    for route in unobserved
+                )
+            )
         ):
             return {
                 "status": "implemented_with_local_evidence",
@@ -193,8 +205,10 @@ def _classify_todo(
                 "evidence": evidence + ["POST implementation + provider test + fixture"],
                 "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado",
             }
-    if "fixture" in todo.lower() and local["has_tests"] and (
-        local["has_fixtures"] or local["has_inline_fixtures"]
+    if (
+        "fixture" in todo.lower()
+        and local["has_tests"]
+        and (local["has_fixtures"] or local["has_inline_fixtures"])
     ):
         return {
             "status": "implemented_with_local_evidence",

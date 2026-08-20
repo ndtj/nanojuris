@@ -19,6 +19,6 @@ def test_selector_memory_requires_approval_before_resolution() -> None:
         assert memory.resolve(document, source="fixture", field="summary") == []
         approved = memory.approve(entry.id)
         assert approved.approved is True
-        assert [node.text() for node in memory.resolve(document, source="fixture", field="summary")] == [
-            "Texto da ementa"
-        ]
+        assert [
+            node.text() for node in memory.resolve(document, source="fixture", field="summary")
+        ] == ["Texto da ementa"]

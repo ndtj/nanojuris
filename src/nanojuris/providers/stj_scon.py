@@ -10,6 +10,7 @@ from typing import Any
 from urllib.parse import unquote, urljoin
 
 import requests
+
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
@@ -28,8 +29,8 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
-from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.parsing import HtmlNode, parse_html
+from nanojuris.providers.base import JurisprudenceProvider
 
 
 class StjSconProvider(JurisprudenceProvider):
@@ -351,9 +352,7 @@ def parse_stj_scon_results(
     for _index, item in enumerate(result_root.select(".documento, .resultado"), start=1):
         anchor = item.select_one("a.doclink, a[href]")
         registry_number = _text(item, ".registro") or _extract_registry(anchor)
-        case_number = _text(item, ".processo") or (
-            anchor.text(" ", strip=True) if anchor else ""
-        )
+        case_number = _text(item, ".processo") or (anchor.text(" ", strip=True) if anchor else "")
         if not registry_number and not case_number:
             continue
         document_url = (

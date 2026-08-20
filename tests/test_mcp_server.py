@@ -179,9 +179,10 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "b",
     ]
     assert server.tools["search_unified_store"]("icms", store_id="research")["text"] == "icms"
-    assert server.tools["collect_jurisprudence"](
-        "icms", source="fake", store_id="research"
-    )["text"] == "icms"
+    assert (
+        server.tools["collect_jurisprudence"]("icms", source="fake", store_id="research")["text"]
+        == "icms"
+    )
     assert [call[0] for call in calls] == [
         "datasets",
         "describe",

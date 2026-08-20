@@ -4,7 +4,6 @@ import pytest
 
 from nanojuris.parsing import HtmlDocument, parse_html
 
-
 HTML = """
 <html><body>
   <main id="content">
@@ -14,7 +13,7 @@ HTML = """
     <a href="/documentos/1.pdf">inteiro teor</a>
   </main>
 </body></html>
-""".encode("utf-8")
+""".encode()
 
 
 def test_parser_supports_css_text_attributes_links_and_forms() -> None:

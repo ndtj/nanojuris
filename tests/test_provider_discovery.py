@@ -1,15 +1,18 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from uuid import uuid4
 
 import pytest
 
-from nanojuris.discovery.draft import build_sdd_artifacts, write_sdd_artifacts
-from nanojuris.discovery.crawler import DiscoveryCrawler
 from nanojuris.discovery.cache import DiscoveryCache
-from nanojuris.discovery.extract import extract_filter_candidates, extract_route_candidates, suggest_selector_candidates
+from nanojuris.discovery.crawler import DiscoveryCrawler
+from nanojuris.discovery.draft import build_sdd_artifacts, write_sdd_artifacts
+from nanojuris.discovery.extract import (
+    extract_filter_candidates,
+    extract_route_candidates,
+    suggest_selector_candidates,
+)
 from nanojuris.discovery.models import (
     DiscoveryEvidence,
     DiscoveryPolicy,
@@ -23,7 +26,9 @@ from nanojuris.discovery.replay import replay_analysis
 from nanojuris.models import AccessStatus, ExtractionStatus
 
 
-def _evidence(body: bytes = b"<html><body><p>Ementa decisao</p></body></html>") -> DiscoveryEvidence:
+def _evidence(
+    body: bytes = b"<html><body><p>Ementa decisao</p></body></html>",
+) -> DiscoveryEvidence:
     response = DiscoveryResponse(
         status_code=200,
         url="https://example.test/jurisprudencia",
@@ -71,7 +76,10 @@ def test_extract_routes_from_html_forms_scripts_and_links():
         "https://example.test/api/search",
         "https://example.test/api/results?page=2",
     }
-    assert next(candidate for candidate in candidates if candidate.url.endswith("/api/search")).method == "POST"
+    assert (
+        next(candidate for candidate in candidates if candidate.url.endswith("/api/search")).method
+        == "POST"
+    )
 
 
 def test_selector_candidates_are_suggestions_with_confidence():
@@ -82,12 +90,12 @@ def test_selector_candidates_are_suggestions_with_confidence():
 
 
 def test_extract_filter_candidates_preserves_html_contract_fields_and_options():
-    html = b'''
+    html = b"""
     <form action="/search" method="post">
       <input name="texto" placeholder="Termos" required>
       <select name="tipo"><option value="AC">Acordao</option><option value="SV">Sumula</option></select>
     </form>
-    '''
+    """
     candidates = extract_filter_candidates("https://example.test", html, "text/html")
     by_name = {candidate.name: candidate for candidate in candidates}
     assert by_name["texto"].required is True
@@ -98,7 +106,12 @@ def test_replay_analysis_does_not_need_network():
     draft_dir = Path(".tmp") / f"provider-discovery-test-{uuid4().hex}"
     try:
         write_sdd_artifacts(
-            DiscoveryRun("run-1", "2026-08-20T00:00:00+00:00", DiscoveryPolicy(("example.test",)), [_evidence()]),
+            DiscoveryRun(
+                "run-1",
+                "2026-08-20T00:00:00+00:00",
+                DiscoveryPolicy(("example.test",)),
+                [_evidence()],
+            ),
             draft_dir,
         )
         result = replay_analysis(draft_dir / "evidence.json")
@@ -111,11 +124,18 @@ def test_replay_analysis_does_not_need_network():
 
 
 def test_sdd_drafts_contain_traceable_run_and_required_sections():
-    run = DiscoveryRun("run-1", "2026-08-20T00:00:00+00:00", DiscoveryPolicy(("example.test",)), [_evidence()])
-    artifacts = build_sdd_artifacts(run)
-    assert {"research.md", "spec.md", "design.md", "tasks.md", "verification.md", "threat-model.md"} <= set(
-        artifacts
+    run = DiscoveryRun(
+        "run-1", "2026-08-20T00:00:00+00:00", DiscoveryPolicy(("example.test",)), [_evidence()]
     )
+    artifacts = build_sdd_artifacts(run)
+    assert {
+        "research.md",
+        "spec.md",
+        "design.md",
+        "tasks.md",
+        "verification.md",
+        "threat-model.md",
+    } <= set(artifacts)
     assert "run-1" in artifacts["spec.md"]
 
 

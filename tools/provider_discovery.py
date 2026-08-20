@@ -24,7 +24,9 @@ def main() -> int:
     parser.add_argument("--domain", action="append", help="Domínio permitido; pode ser repetido")
     parser.add_argument("--output", required=True, help="Diretório de saída dos artefatos")
     parser.add_argument("--browser", action="store_true", help="Usar Playwright opcional")
-    parser.add_argument("--no-robots", action="store_true", help="Não consultar robots.txt; uso excepcional")
+    parser.add_argument(
+        "--no-robots", action="store_true", help="Não consultar robots.txt; uso excepcional"
+    )
     parser.add_argument("--max-bytes", type=int, default=5_000_000)
     parser.add_argument("--max-pages", type=int, default=20)
     parser.add_argument("--max-depth", type=int, default=2)

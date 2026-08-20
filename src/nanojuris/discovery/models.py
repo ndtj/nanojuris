@@ -51,7 +51,9 @@ class DiscoveryPolicy:
     user_agent: str = "NanoJuris/provider-discovery"
 
     def __post_init__(self) -> None:
-        domains = tuple(domain.lower().strip().rstrip(".") for domain in self.allowed_domains if domain.strip())
+        domains = tuple(
+            domain.lower().strip().rstrip(".") for domain in self.allowed_domains if domain.strip()
+        )
         if not domains:
             raise ValueError("allowed_domains deve conter ao menos um domínio")
         if any("/" in domain or ":" in domain for domain in domains):
@@ -269,7 +271,9 @@ class DiscoveryRun:
             "started_at": self.started_at,
             "finished_at": self.finished_at,
             "policy": self.policy.to_dict(),
-            "evidences": [evidence.to_dict(include_body=include_body) for evidence in self.evidences],
+            "evidences": [
+                evidence.to_dict(include_body=include_body) for evidence in self.evidences
+            ],
             "metrics": self.metrics(),
         }
 
@@ -278,10 +282,16 @@ class DiscoveryRun:
             "observations": len(self.evidences),
             "response_bytes": sum(evidence.response.response_bytes for evidence in self.evidences),
             "statuses": _count_values(evidence.status.value for evidence in self.evidences),
-            "access_statuses": _count_values(evidence.access_status.value for evidence in self.evidences),
+            "access_statuses": _count_values(
+                evidence.access_status.value for evidence in self.evidences
+            ),
             "route_candidates": sum(len(evidence.route_candidates) for evidence in self.evidences),
-            "selector_candidates": sum(len(evidence.selector_candidates) for evidence in self.evidences),
-            "filter_candidates": sum(len(evidence.filter_candidates) for evidence in self.evidences),
+            "selector_candidates": sum(
+                len(evidence.selector_candidates) for evidence in self.evidences
+            ),
+            "filter_candidates": sum(
+                len(evidence.filter_candidates) for evidence in self.evidences
+            ),
         }
 
 

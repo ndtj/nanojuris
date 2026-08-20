@@ -10,6 +10,7 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
+
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -27,8 +28,8 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
-from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 from nanojuris.pagination import page_completeness
+from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
 
 

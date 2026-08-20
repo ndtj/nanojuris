@@ -148,7 +148,9 @@ def extract_filter_candidates(
                 if not name:
                     continue
                 field_type = str(field_node.get("type") or field_node.tag or "unknown").lower()
-                label = str(field_node.get("aria-label") or field_node.get("placeholder") or "").strip()
+                label = str(
+                    field_node.get("aria-label") or field_node.get("placeholder") or ""
+                ).strip()
                 values: list[str] = []
                 if field_node.tag == "select":
                     values = [
@@ -183,7 +185,9 @@ def extract_filter_candidates(
                     candidates,
                     FilterCandidate(
                         name=name,
-                        field_type="json_array" if isinstance(value, list) else type(value).__name__,
+                        field_type="json_array"
+                        if isinstance(value, list)
+                        else type(value).__name__,
                         values=[str(item) for item in values[:50]],
                         source="json_key",
                         confidence=0.55,
@@ -194,13 +198,30 @@ def extract_filter_candidates(
 
 
 def _append_filter(candidates: list[FilterCandidate], candidate: FilterCandidate) -> None:
-    if not any(item.name == candidate.name and item.source == candidate.source for item in candidates):
+    if not any(
+        item.name == candidate.name and item.source == candidate.source for item in candidates
+    ):
         candidates.append(candidate)
 
 
 def _looks_like_filter_name(name: str) -> bool:
     lowered = name.lower()
-    return any(marker in lowered for marker in ("filter", "filtro", "query", "search", "page", "sort", "tipo", "classe", "orgao", "relator", "data"))
+    return any(
+        marker in lowered
+        for marker in (
+            "filter",
+            "filtro",
+            "query",
+            "search",
+            "page",
+            "sort",
+            "tipo",
+            "classe",
+            "orgao",
+            "relator",
+            "data",
+        )
+    )
 
 
 def _append_candidate(

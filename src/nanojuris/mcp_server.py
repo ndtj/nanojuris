@@ -9,8 +9,8 @@ from pathlib import Path
 from typing import Any, cast
 
 from nanojuris.mcp_tools import (
-    describe_source_dataset_tool,
     collect_jurisprudence_tool,
+    describe_source_dataset_tool,
     discover_provider_tool,
     export_results_tool,
     get_decisions_tool,
@@ -304,9 +304,7 @@ def create_server() -> Any:
             text,
             source=source,
             db_path=str(_resolve_store_id(store_id)),
-            checkpoint_path=(
-                str(_resolve_checkpoint_id(checkpoint_id)) if checkpoint_id else ""
-            ),
+            checkpoint_path=(str(_resolve_checkpoint_id(checkpoint_id)) if checkpoint_id else ""),
             number=number,
             source_origin=source_origin,
             date_from=date_from,

@@ -2,7 +2,6 @@ from pathlib import Path
 
 from tools.audit_provider_discovery_offline import audit
 
-
 ROOT = Path(__file__).resolve().parents[1]
 
 

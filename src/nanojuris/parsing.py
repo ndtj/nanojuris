@@ -18,7 +18,8 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup, Tag
 
 try:  # Optional performance backend.
-    from lxml import etree, html as lxml_html
+    from lxml import etree
+    from lxml import html as lxml_html
 except ImportError:  # pragma: no cover - exercised in minimal installations
     etree = None  # type: ignore[assignment]
     lxml_html = None  # type: ignore[assignment]
@@ -67,7 +68,9 @@ class HtmlDocument:
                 # Some public endpoints return malformed/empty fragments with
                 # a successful status. Keep the observation usable through
                 # the permissive fallback instead of dropping the provider.
-                fallback = source if isinstance(source, str) else source.decode("utf-8", errors="replace")
+                fallback = (
+                    source if isinstance(source, str) else source.decode("utf-8", errors="replace")
+                )
                 self._soup = BeautifulSoup(fallback, "html.parser")
                 self._root = self._soup
                 self._backend = "beautifulsoup"
@@ -88,7 +91,7 @@ class HtmlDocument:
         base_url: str = "",
         max_bytes: int = 10_000_000,
         encoding: str = "utf-8",
-    ) -> "HtmlDocument":
+    ) -> HtmlDocument:
         return cls(text.encode(encoding, errors="replace"), base_url=base_url, max_bytes=max_bytes)
 
     @property
@@ -123,7 +126,7 @@ class HtmlDocument:
         node = self.select_one("title")
         return node.text(strip=True) if node is not None else None
 
-    def css(self, selector: str) -> "HtmlNodes":
+    def css(self, selector: str) -> HtmlNodes:
         """Select nodes with CSS, using lxml when cssselect is installed."""
 
         if not selector or not selector.strip():
@@ -140,15 +143,15 @@ class HtmlDocument:
         except Exception as exc:  # BeautifulSoup exposes multiple selector errors.
             raise ValueError(f"Seletor CSS inválido: {selector}") from exc
 
-    def select(self, selector: str) -> "HtmlNodes":
+    def select(self, selector: str) -> HtmlNodes:
         """BeautifulSoup-compatible alias used by migrated provider parsers."""
 
         return self.css(selector)
 
-    def select_one(self, selector: str) -> "HtmlNode | None":
+    def select_one(self, selector: str) -> HtmlNode | None:
         return self.css(selector).first
 
-    def xpath(self, expression: str) -> "HtmlNodes":
+    def xpath(self, expression: str) -> HtmlNodes:
         """Select nodes with XPath when the optional lxml backend is active."""
 
         if self._backend != "lxml" or etree is None:
@@ -166,7 +169,7 @@ class HtmlDocument:
         exact: bool = False,
         case_sensitive: bool = False,
         limit: int | None = None,
-    ) -> "HtmlNodes":
+    ) -> HtmlNodes:
         """Find the smallest structural elements containing a text label."""
 
         needle = _clean_text(text)
@@ -190,15 +193,15 @@ class HtmlDocument:
         *,
         flags: int = 0,
         limit: int | None = None,
-    ) -> "HtmlNodes":
+    ) -> HtmlNodes:
         compiled = re.compile(pattern, flags) if isinstance(pattern, str) else pattern
         matches = [node for node in self._all_nodes() if compiled.search(node.text())]
         return HtmlNodes(matches[:limit] if limit is not None else matches, self)
 
-    def links(self) -> "HtmlNodes":
+    def links(self) -> HtmlNodes:
         return self.css("a[href]")
 
-    def forms(self) -> "HtmlNodes":
+    def forms(self) -> HtmlNodes:
         return self.css("form")
 
     def json(self) -> Any:
@@ -216,10 +219,10 @@ class HtmlDocument:
             return etree.tostring(self._root, encoding="unicode", method="html")
         return str(self._root)
 
-    def _wrap(self, value: Any) -> "HtmlNode":
+    def _wrap(self, value: Any) -> HtmlNode:
         return HtmlNode(value, self)
 
-    def _all_nodes(self) -> list["HtmlNode"]:
+    def _all_nodes(self) -> list[HtmlNode]:
         if self._backend == "lxml":
             return [self._wrap(item) for item in self._root.iter() if _is_node(item)]
         soup = self._get_soup()
@@ -270,7 +273,9 @@ class HtmlNode:
     def visible_text(self, separator: str = " ") -> str:
         """Return visible text for this node, excluding script-like children."""
 
-        return parse_html(self.html, max_bytes=max(len(self.html.encode("utf-8")), 1)).visible_text(separator)
+        return parse_html(self.html, max_bytes=max(len(self.html.encode("utf-8")), 1)).visible_text(
+            separator
+        )
 
     def get(self, attribute: str, default: str | None = None) -> str | None:
         value = self.element.get(attribute) if hasattr(self.element, "get") else None
@@ -291,14 +296,14 @@ class HtmlNode:
         return str(self.element)
 
     @property
-    def parent(self) -> "HtmlNode | None":
+    def parent(self) -> HtmlNode | None:
         getparent = getattr(self.element, "getparent", None)
         parent = getparent() if callable(getparent) else None
         if parent is None:
             parent = getattr(self.element, "parent", None)
         return self.document._wrap(parent) if parent is not None and _is_node(parent) else None
 
-    def find_parent(self, tag: str | None = None) -> "HtmlNode | None":
+    def find_parent(self, tag: str | None = None) -> HtmlNode | None:
         """Return the closest ancestor matching an optional tag name."""
 
         current = self.parent
@@ -310,14 +315,14 @@ class HtmlNode:
         return None
 
     @property
-    def children(self) -> "HtmlNodes":
+    def children(self) -> HtmlNodes:
         if hasattr(self.element, "iterchildren"):
             items = list(self.element.iterchildren())
         else:
             items = [item for item in self.element.children if _is_node(item)]
         return HtmlNodes([self.document._wrap(item) for item in items], self.document)
 
-    def css(self, selector: str) -> "HtmlNodes":
+    def css(self, selector: str) -> HtmlNodes:
         if isinstance(self.element, Tag):
             return HtmlNodes(
                 [self.document._wrap(item) for item in self.element.select(selector)],
@@ -334,13 +339,13 @@ class HtmlNode:
             self.document,
         )
 
-    def select(self, selector: str) -> "HtmlNodes":
+    def select(self, selector: str) -> HtmlNodes:
         return self.css(selector)
 
-    def select_one(self, selector: str) -> "HtmlNode | None":
+    def select_one(self, selector: str) -> HtmlNode | None:
         return self.css(selector).first
 
-    def xpath(self, expression: str) -> "HtmlNodes":
+    def xpath(self, expression: str) -> HtmlNodes:
         if not hasattr(self.element, "xpath"):
             return self.document.xpath(expression)
         return HtmlNodes(
@@ -385,7 +390,7 @@ class HtmlNode:
         threshold: float = 0.65,
         limit: int = 10,
         within: HtmlDocument | None = None,
-    ) -> "HtmlNodes":
+    ) -> HtmlNodes:
         """Suggest structurally similar nodes without changing a parser."""
 
         reference = self.signature()
@@ -423,19 +428,19 @@ class HtmlNodes(list[HtmlNode]):
     def attrs(self, name: str) -> list[str | None]:
         return [item.get(name) for item in self]
 
-    def css(self, selector: str) -> "HtmlNodes":
+    def css(self, selector: str) -> HtmlNodes:
         return HtmlNodes(
             [child for item in self for child in item.css(selector)],
             self.document,
         )
 
-    def xpath(self, expression: str) -> "HtmlNodes":
+    def xpath(self, expression: str) -> HtmlNodes:
         return HtmlNodes(
             [child for item in self for child in item.xpath(expression)],
             self.document,
         )
 
-    def filter(self, predicate: Callable[[HtmlNode], bool]) -> "HtmlNodes":
+    def filter(self, predicate: Callable[[HtmlNode], bool]) -> HtmlNodes:
         return HtmlNodes((item for item in self if predicate(item)), self.document)
 
 
@@ -478,9 +483,7 @@ def _selector_part(node: HtmlNode) -> str:
     if identifier and _SAFE_SELECTOR_PART.fullmatch(identifier):
         return f"#{identifier}"
     classes = [
-        item
-        for item in (node.get("class") or "").split()
-        if _SAFE_SELECTOR_PART.fullmatch(item)
+        item for item in (node.get("class") or "").split() if _SAFE_SELECTOR_PART.fullmatch(item)
     ]
     part = tag + "".join(f".{item}" for item in classes[:3])
     if node.parent is not None:

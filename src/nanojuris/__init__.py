@@ -17,25 +17,16 @@ from nanojuris.canonical import (
     result_to_canonical_precedent,
     search_page_to_canonical,
 )
+from nanojuris.client import NanoJurisClient
 from nanojuris.collection import (
     CollectionCheckpoint,
     CollectionFailure,
     CollectionReport,
     CollectionRunner,
 )
-from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import NetworkConfigurationError, QueryRejectedError, UnsupportedQueryError
 from nanojuris.extraction import FetchedContent, FetchRequest, HttpFetcher, ParsedContent
-from nanojuris.normalization import (
-    first_nonempty,
-    normalize_cnj_number,
-    normalize_date_value,
-    normalize_decision_type,
-    normalize_text,
-    normalize_url,
-)
-from nanojuris.parsing import HtmlDocument, HtmlNode, HtmlNodes, parse_html
 from nanojuris.health import (
     ProviderHealthReport,
     ProviderHealthStatus,
@@ -59,6 +50,15 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.normalization import (
+    first_nonempty,
+    normalize_cnj_number,
+    normalize_date_value,
+    normalize_decision_type,
+    normalize_text,
+    normalize_url,
+)
+from nanojuris.parsing import HtmlDocument, HtmlNode, HtmlNodes, parse_html
 from nanojuris.source_contracts import (
     SourceContractAssessment,
     assess_source_contract,

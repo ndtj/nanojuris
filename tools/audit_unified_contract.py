@@ -11,9 +11,10 @@ import argparse
 import json
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
@@ -128,13 +129,18 @@ def _row(capability: Any, smoke: dict[str, Any], sweep: dict[str, Any]) -> dict[
         gaps.append("completeness_contract_unknown")
     if capability.full_text_access == "unknown":
         gaps.append("full_text_access_evidence_unknown")
-    if not capability.supports_full_text and capability.full_text_access in {"unknown", "not_declared"}:
+    if not capability.supports_full_text and capability.full_text_access in {
+        "unknown",
+        "not_declared",
+    }:
         gaps.append("full_text_not_declared")
     if observed_not_promoted:
         gaps.append("observed_filters_not_promoted_to_contract")
     canonical_set = set(capability.canonical_records)
     semantic_discriminator = getattr(capability, "semantic_discriminator", None)
-    if {"CanonicalDecision", "CanonicalPrecedent"}.issubset(canonical_set) and not semantic_discriminator:
+    if {"CanonicalDecision", "CanonicalPrecedent"}.issubset(
+        canonical_set
+    ) and not semantic_discriminator:
         gaps.append("decision_and_precedent_profiles_need_discriminator")
     if smoke.get("status") not in {None, "valid_data"}:
         gaps.append(f"live_status_{smoke.get('status', 'not_recorded')}")
@@ -287,7 +293,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         "| Filtro | Providers |",
         "|---|---:|",
     ]
-    lines.extend(f"| `{name}` | {count} |" for name, count in summary["filter_support_counts"].items())
+    lines.extend(
+        f"| `{name}` | {count} |" for name, count in summary["filter_support_counts"].items()
+    )
     lines.extend(
         [
             "",

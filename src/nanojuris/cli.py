@@ -11,6 +11,11 @@ from urllib.parse import urlparse
 from nanojuris import __version__
 from nanojuris.brazil import list_courts
 from nanojuris.client import NanoJurisClient
+from nanojuris.discovery.browser import BrowserDiscoveryClient
+from nanojuris.discovery.crawler import DiscoveryCrawler
+from nanojuris.discovery.draft import write_sdd_artifacts
+from nanojuris.discovery.http import HttpDiscoveryClient
+from nanojuris.discovery.models import DiscoveryPolicy
 from nanojuris.exporters import (
     RUN_EXPORT_FORMATS,
     research_run_to_export,
@@ -24,11 +29,6 @@ from nanojuris.route_probe import parse_json_payload, parse_key_value_pairs, pro
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore
 from nanojuris.validation import validate_sources, write_validation_artifacts
-from nanojuris.discovery.browser import BrowserDiscoveryClient
-from nanojuris.discovery.crawler import DiscoveryCrawler
-from nanojuris.discovery.draft import write_sdd_artifacts
-from nanojuris.discovery.http import HttpDiscoveryClient
-from nanojuris.discovery.models import DiscoveryPolicy
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -289,8 +289,12 @@ def build_parser() -> argparse.ArgumentParser:
         default=[],
         help="Dominio permitido; pode ser repetido",
     )
-    descobrir.add_argument("--saida", default="", help="Diretorio para salvar evidencias e drafts SDD")
-    descobrir.add_argument("--cache-dir", default="", help="Diretorio de replay/cache por fingerprint")
+    descobrir.add_argument(
+        "--saida", default="", help="Diretorio para salvar evidencias e drafts SDD"
+    )
+    descobrir.add_argument(
+        "--cache-dir", default="", help="Diretorio de replay/cache por fingerprint"
+    )
     descobrir.add_argument("--browser", action="store_true", help="Usar Playwright opcional")
     descobrir.add_argument("--paginas", type=int, default=20)
     descobrir.add_argument("--profundidade", type=int, default=2)
@@ -650,14 +654,16 @@ def main(argv: list[str] | None = None) -> int:
                 timeout_seconds=args.timeout,
                 user_agent=client.config.user_agent,
             )
-            run = (
+            discovery_run = (
                 BrowserDiscoveryClient(policy).discover(args.url)
                 if args.browser
-                else DiscoveryCrawler(HttpDiscoveryClient(policy, cache_dir=args.cache_dir or None)).crawl(args.url)
+                else DiscoveryCrawler(
+                    HttpDiscoveryClient(policy, cache_dir=args.cache_dir or None)
+                ).crawl(args.url)
             )
-            payload = run.to_dict(include_body=False)
+            payload = discovery_run.to_dict(include_body=False)
             if args.saida:
-                payload["artifacts_dir"] = str(write_sdd_artifacts(run, args.saida))
+                payload["artifacts_dir"] = str(write_sdd_artifacts(discovery_run, args.saida))
             print(json.dumps(payload, ensure_ascii=False, indent=2, default=_json_default))
             return 0
 

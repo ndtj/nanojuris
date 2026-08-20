@@ -10,7 +10,17 @@ from urllib.parse import urlparse
 
 from nanojuris.discovery.models import DiscoveryPolicy
 
-_SECRET_WORDS = ("authorization", "cookie", "password", "passwd", "secret", "token", "session", "api_key", "apikey")
+_SECRET_WORDS = (
+    "authorization",
+    "cookie",
+    "password",
+    "passwd",
+    "secret",
+    "token",
+    "session",
+    "api_key",
+    "apikey",
+)
 
 
 def hostname_for(url: str) -> str:
@@ -47,7 +57,9 @@ def is_allowed_url(url: str, policy: DiscoveryPolicy) -> bool:
     if is_private_destination(url):
         return False
     hostname = hostname_for(url)
-    return any(hostname == domain or hostname.endswith(f".{domain}") for domain in policy.allowed_domains)
+    return any(
+        hostname == domain or hostname.endswith(f".{domain}") for domain in policy.allowed_domains
+    )
 
 
 def assert_allowed_url(url: str, policy: DiscoveryPolicy) -> None:
@@ -81,7 +93,10 @@ def redact_mapping(values: Mapping[Any, Any]) -> dict[str, Any]:
 
 
 def redact_headers(headers: Mapping[str, Any]) -> dict[str, str]:
-    return {key: str(value) if not _is_secret_key(key) else "<redacted>" for key, value in headers.items()}
+    return {
+        key: str(value) if not _is_secret_key(key) else "<redacted>"
+        for key, value in headers.items()
+    }
 
 
 def redact_payload(value: Any) -> Any:

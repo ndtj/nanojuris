@@ -6,11 +6,11 @@ import pytest
 
 from nanojuris.client import NanoJurisClient
 from nanojuris.mcp_tools import (
-    export_results_tool,
     collect_jurisprudence_tool,
+    discover_provider_tool,
+    export_results_tool,
     get_decisions_tool,
     get_document_tool,
-    discover_provider_tool,
     list_courts_tool,
     list_sources_tool,
     search_jurisprudence_tool,

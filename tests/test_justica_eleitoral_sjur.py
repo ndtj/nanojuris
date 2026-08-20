@@ -10,7 +10,6 @@ from nanojuris.errors import UnsupportedQueryError
 from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.justica_eleitoral_sjur import JusticaEleitoralSjurProvider
 
-
 ROOT = Path(__file__).parent / "fixtures"
 
 
@@ -49,9 +48,7 @@ def test_catalog_maps_the_four_public_metadata_routes():
             FakeResponse(fixture("sjur_normas.json")),
         ]
     )
-    provider = JusticaEleitoralSjurProvider(
-        NanoJurisConfig(rate_limit_interval=0), session=session
-    )
+    provider = JusticaEleitoralSjurProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
     catalog = provider.get_catalog()
 
@@ -59,7 +56,9 @@ def test_catalog_maps_the_four_public_metadata_routes():
     assert catalog.raw["relatorias"][0]["nome"] == "Ministro Relator"
     assert catalog.raw["eleicoes"] == ["2022", "2024"]
     assert all(call["kwargs"]["json"] == ["TSE"] for call in session.calls)
-    assert session.calls[0]["url"].endswith("/tse/sjur-pesquisa-backend/rest/public/pesquisa/classes")
+    assert session.calls[0]["url"].endswith(
+        "/tse/sjur-pesquisa-backend/rest/public/pesquisa/classes"
+    )
 
 
 def test_catalog_capabilities_are_catalog_only():

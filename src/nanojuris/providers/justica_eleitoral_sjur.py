@@ -35,7 +35,6 @@ from nanojuris.models import (
 )
 from nanojuris.providers.base import JurisprudenceProvider
 
-
 CATALOG_ROUTES = ("classes", "relatorias", "eleicoes", "normas")
 
 

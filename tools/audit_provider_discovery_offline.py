@@ -20,7 +20,6 @@ from urllib.parse import urlparse
 from nanojuris.discovery.extract import extract_route_candidates, suggest_selector_candidates
 from nanojuris.route_probe import analyze_route_response
 
-
 FIXTURE_REF = re.compile(r"tests[\\/]fixtures[\\/]([A-Za-z0-9_.-]+)")
 URL_RE = re.compile(r"https?://[^\s`)>]+")
 SOURCE_MODULE_RE = re.compile(r"nanojuris\.providers\.([a-z0-9_]+)")

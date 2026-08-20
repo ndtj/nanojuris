@@ -40,6 +40,7 @@ from nanojuris.providers.eproc_jurisprudencia_federal import (
     Trf2EprocJurisprudenciaProvider,
     Trf6EprocJurisprudenciaProvider,
 )
+from nanojuris.providers.justica_eleitoral_sjur import JusticaEleitoralSjurProvider
 from nanojuris.providers.stf_informativo import StfInformativoProvider
 from nanojuris.providers.stf_juris import StfJurisProvider
 from nanojuris.providers.stj_dados_abertos_jurisprudencia import StjDadosAbertosProvider
@@ -48,7 +49,6 @@ from nanojuris.providers.stj_scon import StjSconProvider
 from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
 from nanojuris.providers.tce_sp_jurisprudencia import TceSpJurisprudenciaProvider
 from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
-from nanojuris.providers.justica_eleitoral_sjur import JusticaEleitoralSjurProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
 from nanojuris.providers.tjal_cjsg import TjalCjsgProvider
 from nanojuris.providers.tjam_cjsg import TjamCjsgProvider

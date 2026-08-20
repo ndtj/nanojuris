@@ -25,7 +25,9 @@ class DiscoveryCrawler:
         visited: set[str] = set()
         total_bytes = 0
 
-        while queue and len(run.evidences) < policy.max_pages and total_bytes < policy.max_total_bytes:
+        while (
+            queue and len(run.evidences) < policy.max_pages and total_bytes < policy.max_total_bytes
+        ):
             url, depth = queue.popleft()
             if url in visited or depth > policy.max_depth or not is_allowed_url(url, policy):
                 continue

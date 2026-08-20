@@ -49,7 +49,7 @@ class CollectionCheckpoint:
         return asdict(self)
 
     @classmethod
-    def from_path(cls, path: str | Path) -> "CollectionCheckpoint":
+    def from_path(cls, path: str | Path) -> CollectionCheckpoint:
         payload = json.loads(Path(path).read_text(encoding="utf-8"))
         if int(payload.get("schema_version", 0)) != 1:
             raise ValueError("checkpoint de coleta incompatível")

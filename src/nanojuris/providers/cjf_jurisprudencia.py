@@ -10,6 +10,7 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
+
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -26,8 +27,8 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.parsing import HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
-from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 
 SEARCH_PATH = "/trf1/index.xhtml"
 PROCESS_RE = re.compile(r"\b\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}\b")

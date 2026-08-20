@@ -7,7 +7,6 @@ import unicodedata
 from datetime import date, datetime
 from urllib.parse import urldefrag, urljoin
 
-
 _CNJ_DIGITS = re.compile(r"\d{20}")
 _DATE_TOKEN = re.compile(r"\b\d{1,4}[./-]\d{1,2}[./-]\d{2,4}\b")
 _PT_MONTHS = {

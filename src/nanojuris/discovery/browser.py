@@ -11,7 +11,11 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
-from nanojuris.discovery.extract import extract_filter_candidates, extract_route_candidates, suggest_selector_candidates
+from nanojuris.discovery.extract import (
+    extract_filter_candidates,
+    extract_route_candidates,
+    suggest_selector_candidates,
+)
 from nanojuris.discovery.http import _access_status, _extraction_status, _status_from_probe
 from nanojuris.discovery.models import (
     DiscoveryEvidence,
@@ -85,7 +89,11 @@ class BrowserDiscoveryClient:
                     status_code=response.status,
                     content=body,
                     content_type=response_model.content_type,
-                    elapsed_ms=response_model.elapsed_ms,
+                    elapsed_ms=(
+                        int(response_model.elapsed_ms)
+                        if response_model.elapsed_ms is not None
+                        else None
+                    ),
                 )
                 status = _status_from_probe(probe.route_status, response_model)
                 captured.append(
@@ -98,8 +106,12 @@ class BrowserDiscoveryClient:
                         status=status,
                         access_status=_access_status(status),
                         extraction_status=_extraction_status(status, bool(body)),
-                        route_candidates=extract_route_candidates(request.url, body, response_model.content_type),
-                        filter_candidates=extract_filter_candidates(request.url, body, response_model.content_type),
+                        route_candidates=extract_route_candidates(
+                            request.url, body, response_model.content_type
+                        ),
+                        filter_candidates=extract_filter_candidates(
+                            request.url, body, response_model.content_type
+                        ),
                         selector_candidates=suggest_selector_candidates(
                             body, {"decision_text": ("ementa", "decisão", "decisao")}
                         ),
@@ -113,7 +125,9 @@ class BrowserDiscoveryClient:
             page.route("**/*", allow_route)
             page.on("response", observe)
             try:
-                page.goto(url, wait_until="networkidle", timeout=int(self.policy.timeout_seconds * 1000))
+                page.goto(
+                    url, wait_until="networkidle", timeout=int(self.policy.timeout_seconds * 1000)
+                )
             except Exception as exc:
                 captured.append(
                     DiscoveryEvidence(

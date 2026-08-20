@@ -173,7 +173,7 @@ class SelectorMemory:
         if self._owns_connection:
             self.connection.close()
 
-    def __enter__(self) -> "SelectorMemory":
+    def __enter__(self) -> SelectorMemory:
         return self
 
     def __exit__(self, *_: object) -> None:

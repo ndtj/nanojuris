@@ -11,6 +11,11 @@ from urllib.parse import urlparse
 from nanojuris.brazil import CourtBranch, SourceSystem, list_courts
 from nanojuris.catalog import get_provider_catalog_entry
 from nanojuris.client import NanoJurisClient
+from nanojuris.discovery.browser import BrowserDiscoveryClient
+from nanojuris.discovery.crawler import DiscoveryCrawler
+from nanojuris.discovery.draft import write_sdd_artifacts
+from nanojuris.discovery.http import HttpDiscoveryClient
+from nanojuris.discovery.models import DiscoveryPolicy
 from nanojuris.exporters import (
     research_run_to_export,
     search_page_to_markdown,
@@ -23,11 +28,6 @@ from nanojuris.models import JurisprudenceQuery
 from nanojuris.source_contracts import summarize_contracts
 from nanojuris.store import SQLiteStore, StoredRecordKind
 from nanojuris.validation import validate_sources
-from nanojuris.discovery.browser import BrowserDiscoveryClient
-from nanojuris.discovery.crawler import DiscoveryCrawler
-from nanojuris.discovery.draft import write_sdd_artifacts
-from nanojuris.discovery.http import HttpDiscoveryClient
-from nanojuris.discovery.models import DiscoveryPolicy
 
 MAX_MCP_PAGE_SIZE = 100
 

@@ -294,6 +294,7 @@ def _search_summary_csv(
     results: list[JurisprudenceResult] = []
     consumed = 0
     truncated = False
+
     def decoded_lines():
         nonlocal consumed, truncated
         for raw_line in response.iter_lines(decode_unicode=False):

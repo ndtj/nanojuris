@@ -9,6 +9,7 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
+
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,

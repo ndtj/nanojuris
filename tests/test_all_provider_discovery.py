@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from tools.discover_all_providers import _materialize_endpoint, _normalize_filter_name, _provider_todo
+from tools.discover_all_providers import (
+    _materialize_endpoint,
+    _normalize_filter_name,
+    _provider_todo,
+)
 
 
 def test_materialize_endpoint_keeps_method_and_skips_unusable_placeholders():

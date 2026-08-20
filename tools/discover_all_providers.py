@@ -101,11 +101,25 @@ def _candidate_source_urls(root: Path, source_id: str) -> list[str]:
     return urls[:3]
 
 
-def _run_catalog_candidate(source_id: str, urls: list[str], *, max_pages: int, max_depth: int, timeout: float, delay: float, cache_dir: str | None) -> dict[str, Any]:
+def _run_catalog_candidate(
+    source_id: str,
+    urls: list[str],
+    *,
+    max_pages: int,
+    max_depth: int,
+    timeout: float,
+    delay: float,
+    cache_dir: str | None,
+) -> dict[str, Any]:
     """Capture evidence for a documented source that has no runtime adapter."""
 
     if not urls:
-        return {"source": source_id, "implementation_status": "none", "status": "missing_documented_url", "urls": []}
+        return {
+            "source": source_id,
+            "implementation_status": "none",
+            "status": "missing_documented_url",
+            "urls": [],
+        }
     url = urls[0]
     policy = DiscoveryPolicy(
         allowed_domains=(_host(url),),
@@ -158,9 +172,15 @@ def _run_provider(
     capabilities = provider.get_capabilities()
     source_url = capabilities.source_url
     if not source_url:
-        return {"source": provider_name, "status": "missing_source_url", "declared": capabilities.to_dict()}
+        return {
+            "source": provider_name,
+            "status": "missing_source_url",
+            "declared": capabilities.to_dict(),
+        }
     declared_routes = _declared_routes(source_url, capabilities.endpoints)
-    allowed_domains = tuple(sorted({_host(source_url), *(_host(route["url"]) for route in declared_routes)}))
+    allowed_domains = tuple(
+        sorted({_host(source_url), *(_host(route["url"]) for route in declared_routes)})
+    )
     policy = DiscoveryPolicy(
         allowed_domains=allowed_domains,
         max_pages=max_pages,
@@ -189,7 +209,11 @@ def _run_provider(
             delay_seconds=delay,
             respect_robots=True,
         )
-        observations.append(DiscoveryCrawler(HttpDiscoveryClient(seed_policy, cache_dir=cache_dir)).crawl(source_url))
+        observations.append(
+            DiscoveryCrawler(HttpDiscoveryClient(seed_policy, cache_dir=cache_dir)).crawl(
+                source_url
+            )
+        )
         remaining = max(0, max_pages - len(observations[0].evidences))
         for route in _declared_routes(source_url, capabilities.endpoints):
             if route["method"] != "GET" or remaining <= 0:
@@ -209,7 +233,7 @@ def _run_provider(
     for evidence in evidences:
         for candidate in evidence.route_candidates:
             key = (candidate.method, candidate.url)
-            routes.setdefault("%s %s" % key, candidate.to_dict())
+            routes.setdefault(f"{key[0]} {key[1]}", candidate.to_dict())
         for candidate in evidence.filter_candidates:
             filters.setdefault(f"{candidate.source}:{candidate.name}", candidate.to_dict())
     return {
@@ -235,13 +259,23 @@ def _run_provider(
                 if route["method"] == "GET"
                 and not any(item.request.url == route["url"] for item in evidences)
             ],
-            "declared_post_routes": [route for route in declared_routes if route["method"] == "POST"],
+            "declared_post_routes": [
+                route for route in declared_routes if route["method"] == "POST"
+            ],
             "observed_filter_semantics": sorted(
-                {_normalize_filter_name(str(item.get("name", ""))) for item in filters.values() if item.get("name")}
+                {
+                    _normalize_filter_name(str(item.get("name", "")))
+                    for item in filters.values()
+                    if item.get("name")
+                }
             ),
             "declared_filters_not_observed_semantically": sorted(
                 set(capabilities.supported_filters)
-                - {_normalize_filter_name(str(item.get("name", ""))) for item in filters.values() if item.get("name")}
+                - {
+                    _normalize_filter_name(str(item.get("name", "")))
+                    for item in filters.values()
+                    if item.get("name")
+                }
             ),
         },
         "todo": _provider_todo(capabilities, evidences, declared_routes, filters),
@@ -252,7 +286,8 @@ def _run_provider(
             "filter_candidates": len(filters),
             "public_observations": sum(e.access_status.value == "public" for e in evidences),
             "access_controlled_observations": sum(
-                e.access_status.value in {"access_control_required", "login_required"} for e in evidences
+                e.access_status.value in {"access_control_required", "login_required"}
+                for e in evidences
             ),
         },
         "errors": errors,
@@ -264,7 +299,12 @@ def _run_provider(
     }
 
 
-def _provider_todo(capabilities: Any, evidences: list[Any], declared_routes: list[dict[str, str]], filters: dict[str, Any]) -> list[str]:
+def _provider_todo(
+    capabilities: Any,
+    evidences: list[Any],
+    declared_routes: list[dict[str, str]],
+    filters: dict[str, Any],
+) -> list[str]:
     statuses = {evidence.status.value for evidence in evidences}
     todos: list[str] = []
     if not evidences:
@@ -277,7 +317,10 @@ def _provider_todo(capabilities: Any, evidences: list[Any], declared_routes: lis
         todos.append("reproduzir indisponibilidade e criar teste de falha explícito")
     if any(route["method"] == "POST" for route in declared_routes):
         todos.append("confirmar payload, filtros e paginação dos endpoints POST com fixture")
-    if any(route["method"] == "GET" and not any(e.request.url == route["url"] for e in evidences) for route in declared_routes):
+    if any(
+        route["method"] == "GET" and not any(e.request.url == route["url"] for e in evidences)
+        for route in declared_routes
+    ):
         todos.append("capturar e validar GETs declarados ainda não observados")
     if not filters:
         todos.append("capturar fixture de formulário/JSON para confirmar filtros")
@@ -307,7 +350,10 @@ def render_markdown(report: dict[str, Any]) -> str:
     ]
     for provider in report["providers"]:
         metrics = provider.get("metrics", {})
-        statuses = ", ".join(f"{key}:{value}" for key, value in metrics.get("statuses", {}).items()) or "sem resposta"
+        statuses = (
+            ", ".join(f"{key}:{value}" for key, value in metrics.get("statuses", {}).items())
+            or "sem resposta"
+        )
         todo = (provider.get("todo") or ["nenhum TODO automático"])[0]
         lines.append(
             f"| `{provider['source']}` | {metrics.get('observations', 0)} | {statuses} | "
@@ -396,20 +442,28 @@ def sweep(
         "provider_count": len(results),
         "catalog_candidate_count": len(candidates),
         "unknown_sources": unknown,
-        "limits": {"max_pages": max_pages, "max_depth": max_depth, "timeout": timeout, "delay": delay},
+        "limits": {
+            "max_pages": max_pages,
+            "max_depth": max_depth,
+            "timeout": timeout,
+            "delay": delay,
+        },
         "providers": results,
         "catalog_candidates": candidates,
         "summary": {
             "observed": sum(item["status"] == "observed" for item in results),
             "no_observation": sum(item["status"] != "observed" for item in results),
             "access_controlled": sum(
-                item.get("metrics", {}).get("access_controlled_observations", 0) > 0 for item in results
+                item.get("metrics", {}).get("access_controlled_observations", 0) > 0
+                for item in results
             ),
             "declared_routes": sum(len(item.get("declared_routes", [])) for item in results),
             "observed_routes": sum(len(item.get("observed_routes", [])) for item in results),
             "declared_filters": sum(len(item.get("declared_filters", [])) for item in results),
             "observed_filters": sum(len(item.get("observed_filters", [])) for item in results),
-            "catalog_candidates_observed": sum(item.get("status") == "observed" for item in candidates),
+            "catalog_candidates_observed": sum(
+                item.get("status") == "observed" for item in candidates
+            ),
         },
     }
 
@@ -427,7 +481,9 @@ def main() -> int:
     parser.add_argument("--output", default="docs/provider-discovery/all-provider-sweep.json")
     args = parser.parse_args()
     if not args.live:
-        parser.error("a varredura de rede exige --live; use audit_provider_discovery_offline.py para modo local")
+        parser.error(
+            "a varredura de rede exige --live; use audit_provider_discovery_offline.py para modo local"
+        )
     report = sweep(
         sources=set(args.sources) if args.sources else None,
         max_pages=args.max_pages,

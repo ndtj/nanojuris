@@ -7,7 +7,11 @@ import json
 from pathlib import Path
 from typing import Any
 
-from nanojuris.discovery.extract import extract_filter_candidates, extract_route_candidates, suggest_selector_candidates
+from nanojuris.discovery.extract import (
+    extract_filter_candidates,
+    extract_route_candidates,
+    suggest_selector_candidates,
+)
 from nanojuris.discovery.models import (
     DiscoveryEvidence,
     DiscoveryRequest,
@@ -26,7 +30,10 @@ def write_evidence(evidence: DiscoveryEvidence, path: str | Path) -> None:
 
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(evidence.to_dict(include_body=True), ensure_ascii=False, indent=2), encoding="utf-8")
+    target.write_text(
+        json.dumps(evidence.to_dict(include_body=True), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
 
 def load_evidence(path: str | Path) -> DiscoveryEvidence:
@@ -70,9 +77,15 @@ def load_evidence(path: str | Path) -> DiscoveryEvidence:
         extraction_status=ExtractionStatus(
             str(payload.get("extraction_status", ExtractionStatus.PARTIAL.value))
         ),
-        route_candidates=[RouteCandidate(**candidate) for candidate in payload.get("route_candidates", [])],
-        selector_candidates=[SelectorCandidate(**candidate) for candidate in payload.get("selector_candidates", [])],
-        filter_candidates=[FilterCandidate(**candidate) for candidate in payload.get("filter_candidates", [])],
+        route_candidates=[
+            RouteCandidate(**candidate) for candidate in payload.get("route_candidates", [])
+        ],
+        selector_candidates=[
+            SelectorCandidate(**candidate) for candidate in payload.get("selector_candidates", [])
+        ],
+        filter_candidates=[
+            FilterCandidate(**candidate) for candidate in payload.get("filter_candidates", [])
+        ],
         access_signals=dict(payload.get("access_signals") or {}),
         legal_signals=dict(payload.get("legal_signals") or {}),
         limitations=list(payload.get("limitations") or []),
@@ -110,14 +123,20 @@ def replay_analysis(path: str | Path) -> dict[str, Any]:
         "probe": probe.to_dict(),
         "route_candidates": [
             candidate.to_dict()
-            for candidate in extract_route_candidates(request["url"], body, response.get("content_type", ""))
+            for candidate in extract_route_candidates(
+                request["url"], body, response.get("content_type", "")
+            )
         ],
         "selector_candidates": [
             candidate.to_dict()
-            for candidate in suggest_selector_candidates(body, {"decision_text": ("ementa", "decisão", "decisao")})
+            for candidate in suggest_selector_candidates(
+                body, {"decision_text": ("ementa", "decisão", "decisao")}
+            )
         ],
         "filter_candidates": [
             candidate.to_dict()
-            for candidate in extract_filter_candidates(request["url"], body, response.get("content_type", ""))
+            for candidate in extract_filter_candidates(
+                request["url"], body, response.get("content_type", "")
+            )
         ],
     }
