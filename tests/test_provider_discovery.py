@@ -21,8 +21,14 @@ from nanojuris.discovery.models import (
     DiscoveryRun,
     DiscoveryStatus,
 )
-from nanojuris.discovery.policy import assert_allowed_url, redact_headers
-from nanojuris.discovery.replay import replay_analysis
+from nanojuris.discovery.policy import (
+    assert_allowed_url,
+    is_private_destination,
+    redact_headers,
+    redact_payload,
+    redact_value,
+)
+from nanojuris.discovery.replay import load_evidence, read_body, replay_analysis, write_evidence
 from nanojuris.models import AccessStatus, ExtractionStatus
 
 
@@ -174,3 +180,79 @@ def test_discovery_cache_replays_evidence_by_request_fingerprint():
         for child in cache_dir.glob("*"):
             child.unlink()
         cache_dir.rmdir()
+
+
+def test_extract_discovery_contracts_from_json_and_text_evidence():
+    body = b'{"routes": ["/api/search?page=2", "https://example.test/juris/1"], "page": 2}'
+    routes = extract_route_candidates("https://example.test/home", body, "application/json")
+    filters = extract_filter_candidates("https://example.test/home", body, "application/json")
+
+    assert {route.url for route in routes} == {
+        "https://example.test/api/search?page=2",
+        "https://example.test/juris/1",
+    }
+    assert next(candidate for candidate in filters if candidate.name == "page").field_type == "int"
+    assert extract_route_candidates("https://example.test", b"{bad", "application/json") == []
+
+
+def test_extract_discovery_ignores_unsafe_duplicate_and_non_filter_values():
+    html = b"""
+    <a href="#skip">skip</a>
+    <a href="javascript:void(0)">skip</a>
+    <a href="/api/search">one</a>
+    <a href="/api/search">duplicate</a>
+    """
+    routes = extract_route_candidates("https://example.test/home", html, "text/html")
+    filters = extract_filter_candidates(
+        "https://example.test/home",
+        b'{"page": [1, 2], "ignored": "value", "sort": "date"}',
+        "application/json",
+    )
+
+    assert len(routes) == 1
+    assert {candidate.name for candidate in filters} == {"page", "sort"}
+    assert next(candidate for candidate in filters if candidate.name == "page").values == ["1", "2"]
+
+
+def test_policy_redacts_nested_payloads_and_private_destinations():
+    assert is_private_destination("http://127.0.0.1") is True
+    assert is_private_destination("http://localhost.localdomain") is True
+    assert is_private_destination("https://public.example") is False
+    assert redact_value(b"secret") == "<redacted-bytes>"
+    assert redact_value("x" * 4097).endswith("<truncated>")
+    assert redact_payload('{"token":"secret","term":"juris"}') == {
+        "token": "<redacted>",
+        "term": "juris",
+    }
+    assert redact_payload("x" * 513) == "<redacted-text>"
+
+
+def test_replay_round_trip_loads_envelope_and_body():
+    evidence = _evidence(b"<html><p>round trip</p></html>")
+    directory = Path(".tmp") / f"replay-round-trip-{uuid4().hex}"
+    path = directory / "evidence.json"
+    try:
+        write_evidence(evidence, path)
+        loaded = load_evidence(path)
+        assert loaded.response.body == evidence.response.body
+        assert read_body(path) == evidence.response.body
+    finally:
+        if path.exists():
+            path.unlink()
+        if directory.exists():
+            directory.rmdir()
+
+
+def test_replay_rejects_empty_run_artifact():
+    directory = Path(".tmp") / f"replay-empty-{uuid4().hex}"
+    path = directory / "empty.json"
+    try:
+        directory.mkdir(parents=True)
+        path.write_text('{"evidences": []}', encoding="utf-8")
+        with pytest.raises(ValueError, match="evidências"):
+            load_evidence(path)
+    finally:
+        if path.exists():
+            path.unlink()
+        if directory.exists():
+            directory.rmdir()
