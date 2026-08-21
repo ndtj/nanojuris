@@ -541,6 +541,9 @@ class NanoJurisClient:
                 "consulte routing_warnings, source_completeness e errors."
             ),
             "federated": True,
+            # Kept for server-side snapshot consumers. Public adapters should
+            # continue returning only the requested page.
+            "collected_results": results,
             "results": paged_results,
             "errors": errors,
         }
