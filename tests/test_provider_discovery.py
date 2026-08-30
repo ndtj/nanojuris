@@ -182,6 +182,22 @@ def test_discovery_cache_replays_evidence_by_request_fingerprint():
         cache_dir.rmdir()
 
 
+def test_discovery_cache_treats_corrupt_envelopes_as_misses():
+    cache_dir = Path(".tmp") / f"provider-discovery-cache-corrupt-{uuid4().hex}"
+    try:
+        cache = DiscoveryCache(cache_dir)
+        evidence = _evidence()
+        cache_path = cache.path_for(evidence.request)
+        cache_path.write_text("{not-json", encoding="utf-8")
+
+        assert cache.get(evidence.request) is None
+    finally:
+        for child in cache_dir.glob("*"):
+            child.unlink()
+        if cache_dir.exists():
+            cache_dir.rmdir()
+
+
 def test_extract_discovery_contracts_from_json_and_text_evidence():
     body = b'{"routes": ["/api/search?page=2", "https://example.test/juris/1"], "page": 2}'
     routes = extract_route_candidates("https://example.test/home", body, "application/json")

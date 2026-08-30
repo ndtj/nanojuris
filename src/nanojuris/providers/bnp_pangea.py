@@ -42,6 +42,7 @@ class BnpPangeaProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        self._catalog_codes: tuple[list[str], list[str]] | None = None
 
     def get_parameters(self) -> dict[str, Any]:
         data = self._request_json("GET", "/parametros")
@@ -123,6 +124,9 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 "updated_to",
             ],
             limitations=[
+                "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a "
+                "consulta nao os informa, o provider os preenche com o catalogo publico "
+                "completo (todos os orgaos e especies).",
                 "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
                 "Nem todo precedente possui textos de decisoes no endpoint publico.",
             ],
@@ -214,6 +218,15 @@ class BnpPangeaProvider(JurisprudenceProvider):
         )
 
     def _build_filter(self, query: JurisprudenceQuery) -> dict[str, Any]:
+        courts = list(query.courts or [])
+        types = list(query.types or [])
+        if not courts or not types:
+            # The /precedentes endpoint rejects empty 'orgaos'/'tipos' with
+            # HTTP 400; reproduce the old "search everything" behaviour by
+            # backfilling from the public catalog.
+            catalog_courts, catalog_types = self._catalog_filter_codes()
+            courts = courts or catalog_courts
+            types = types or catalog_types
         return {
             "buscaGeral": query.text,
             "todasPalavras": query.all_words,
@@ -227,9 +240,31 @@ class BnpPangeaProvider(JurisprudenceProvider):
             "nr": query.number,
             "pagina": query.page,
             "tamanhoPagina": query.page_size,
-            "orgaos": query.courts,
-            "tipos": query.types,
+            "orgaos": courts,
+            "tipos": types,
         }
+
+    def _catalog_filter_codes(self) -> tuple[list[str], list[str]]:
+        if self._catalog_codes is None:
+            data = self._request_json("GET", "/parametros")
+            if not isinstance(data, dict):
+                raise ParserContractChangedError("BNP parametros response is not an object")
+            courts = [
+                code
+                for option in data.get("orgaos") or []
+                if isinstance(option, dict) and (code := str(option.get("sigla") or ""))
+            ]
+            types = [
+                code
+                for option in data.get("especies") or []
+                if isinstance(option, dict) and (code := str(option.get("sigla") or ""))
+            ]
+            if not courts or not types:
+                raise ParserContractChangedError(
+                    "BNP catalog has no orgaos/especies to build a default search filter"
+                )
+            self._catalog_codes = (courts, types)
+        return self._catalog_codes
 
     def _map_result(
         self,
@@ -298,8 +333,9 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 raise QueryRejectedError(
                     f"BNP rejected request with HTTP {response.status_code}"
                     f"; response={detail!r}; payload={payload!r}; "
-                    "hint=try a longer legal expression, precedent species, court filters, "
-                    "or the dedicated suggestions/catalog endpoints"
+                    "hint=the /precedentes endpoint requires non-empty 'orgaos' and "
+                    "'tipos'; NanoJuris fills them from the public catalog when the "
+                    "query does not, so a 400 here signals a further contract change"
                 )
             raise SourceUnavailableError(
                 f"BNP rejected request with HTTP {response.status_code}; response={detail!r}"

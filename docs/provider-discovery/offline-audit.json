@@ -1,21 +1,57 @@
 {
-  "generated_at": "2026-08-20T07:10:12+00:00",
+  "generated_at": "2026-08-28T04:38:27+00:00",
   "mode": "offline_only",
   "network_access": "not_used",
   "catalog": "docs/registry/provider-catalog.full.json",
   "summary": {
-    "catalog_entries": 54,
+    "catalog_entries": 56,
     "implementation_status": {
       "family": 1,
-      "none": 8,
-      "runtime": 45
+      "none": 9,
+      "runtime": 46
     },
-    "mapped_unimplemented": 8,
+    "mapped_unimplemented": 9,
     "family_entries": 1,
-    "mapped_without_local_fixture": 8,
-    "local_discovery_runs": 3
+    "mapped_without_local_fixture": 9,
+    "local_discovery_runs": 3,
+    "runtime_providers": 46,
+    "runtime_with_versioned_fixture": 43,
+    "runtime_inline_test_only": 1,
+    "runtime_without_fixture_evidence": 2
   },
   "mapped_candidates": [
+    {
+      "source_id": "tjrj_ejuris",
+      "display_name": "TJRJ EJURIS",
+      "implementation_status": "none",
+      "coverage_role": "mapped_candidate",
+      "development_priority": "P1_candidate_contract",
+      "maturity_score": 11,
+      "maturity_grade": "D",
+      "next_actions": [
+        "reproduzir contrato HTTP publico e criar fixture minima",
+        "fechar checklist objetivo do dossie",
+        "rodar validacao live pequena com termo juridico padrao"
+      ],
+      "module": null,
+      "runtime_registered": false,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_ready",
+      "documentation_open_items": 4,
+      "fixture_references": [],
+      "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
+      "blockers": [
+        "no_runtime_module",
+        "no_checked_in_fixture_reference",
+        "no_local_test_reference",
+        "open_documentation_items"
+      ],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
     {
       "source_id": "trf3_jurisprudencia",
       "display_name": "TRF3 JURISPRUDENCIA",
@@ -37,6 +73,8 @@
       "documentation_open_items": 7,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -67,6 +105,8 @@
       "documentation_open_items": 4,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -96,6 +136,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -124,6 +166,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -152,6 +196,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -180,6 +226,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -208,6 +256,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -236,6 +286,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -271,9 +323,17 @@
         "trf6_eproc_aposentadoria.html"
       ],
       "test_references": [
-        "tests/test_eproc_jurisprudencia_federal.py",
-        "tests/test_provider_discovery_audit.py"
+        "tests/test_eproc_jurisprudencia_federal.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_eproc_jurisprudencia_federal.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -281,7 +341,7 @@
         {
           "fixture": "tests/fixtures/tnu_eproc_aposentadoria.html",
           "status": "analyzed",
-          "bytes": 349621,
+          "bytes": 353333,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -298,7 +358,7 @@
           "selectors": 2,
           "route_samples": [
             {
-              "url": "https://eproctnu.cjf.jus.br/eproc/modulos/jurisprudencia/ajuda/doc/Manual_Jurisprud%C3%AAncia.pdf",
+              "url": "https://eproctnu.cjf.jus.br/eproc/modulos/jurisprudencia/ajuda/doc/Manual_Jurisprudência.pdf",
               "method": "GET",
               "source": "link",
               "reason": "HTML link",
@@ -392,7 +452,7 @@
         {
           "fixture": "tests/fixtures/trf2_eproc_aposentadoria.html",
           "status": "analyzed",
-          "bytes": 866647,
+          "bytes": 873894,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -503,7 +563,7 @@
         {
           "fixture": "tests/fixtures/trf6_eproc_aposentadoria.html",
           "status": "analyzed",
-          "bytes": 628237,
+          "bytes": 633065,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -622,10 +682,10 @@
       "implementation_status": "runtime",
       "coverage_role": "precedent_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 74,
+      "maturity_score": 76,
       "maturity_grade": "B",
       "next_actions": [
-        "completar secoes faltantes do dossie",
+        "fechar checklist objetivo do dossie",
         "rodar validacao live pequena com termo juridico padrao"
       ],
       "module": "src/nanojuris/providers/bnp_pangea.py",
@@ -633,19 +693,19 @@
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 0,
-      "fixture_references": [],
+      "documentation_open_items": 3,
+      "fixture_references": [
+        "bnp_precedentes_species.json"
+      ],
       "test_references": [
         "tests/test_bnp_pangea.py",
         "tests/test_bnp_pangea_live.py",
-        "tests/test_cli.py",
-        "tests/test_client_exporters.py",
-        "tests/test_mcp_server.py",
-        "tests/test_mcp_tools.py",
-        "tests/test_store.py"
+        "tests/test_client_exporters.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference"
+        "open_documentation_items"
       ],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -674,10 +734,10 @@
         "cjf_trf1_success.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_cjf_jurisprudencia.py",
-        "tests/test_provider_state_fixtures.py"
+        "tests/test_cjf_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -706,10 +766,10 @@
         "cnj_jurisprudencia_results.html"
       ],
       "test_references": [
-        "tests/fixtures/cnj_jurisprudencia_results.html",
-        "tests/test_cnj_jurisprudencia.py",
-        "tests/test_provider_contracts.py"
+        "tests/test_cnj_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -741,9 +801,17 @@
         "trf6_eproc_aposentadoria.html"
       ],
       "test_references": [
-        "tests/test_eproc_jurisprudencia_federal.py",
-        "tests/test_provider_discovery_audit.py"
+        "tests/test_eproc_jurisprudencia_federal.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_eproc_jurisprudencia_federal.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -751,7 +819,7 @@
         {
           "fixture": "tests/fixtures/tnu_eproc_aposentadoria.html",
           "status": "analyzed",
-          "bytes": 349621,
+          "bytes": 353333,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -768,7 +836,7 @@
           "selectors": 2,
           "route_samples": [
             {
-              "url": "https://eproctnu.cjf.jus.br/eproc/modulos/jurisprudencia/ajuda/doc/Manual_Jurisprud%C3%AAncia.pdf",
+              "url": "https://eproctnu.cjf.jus.br/eproc/modulos/jurisprudencia/ajuda/doc/Manual_Jurisprudência.pdf",
               "method": "GET",
               "source": "link",
               "reason": "HTML link",
@@ -862,7 +930,7 @@
         {
           "fixture": "tests/fixtures/trf2_eproc_aposentadoria.html",
           "status": "analyzed",
-          "bytes": 866647,
+          "bytes": 873894,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -973,7 +1041,7 @@
         {
           "fixture": "tests/fixtures/trf6_eproc_aposentadoria.html",
           "status": "analyzed",
-          "bytes": 628237,
+          "bytes": 633065,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -1104,6 +1172,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -1118,7 +1188,7 @@
       "implementation_status": "runtime",
       "coverage_role": "curated_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 39,
+      "maturity_score": 43,
       "maturity_grade": "D",
       "next_actions": [
         "fechar checklist objetivo do dossie",
@@ -1130,12 +1200,18 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 4,
-      "fixture_references": [],
+      "fixture_references": [
+        "sjur_classes.json",
+        "sjur_eleicoes.json",
+        "sjur_normas.json",
+        "sjur_relatorias.json"
+      ],
       "test_references": [
         "tests/test_justica_eleitoral_sjur.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1161,11 +1237,17 @@
       "documentation_open_items": 3,
       "fixture_references": [],
       "test_references": [
-        "tests/e2e/studio_fixture_app.py",
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_stf_informativo.py",
-        "tests/test_studio.py"
+        "tests/test_stf_informativo.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_stf_informativo.py",
+          "named_payloads": [],
+          "direct_response_literals": false,
+          "in_memory_builder": true
+        }
+      ],
+      "fixture_evidence_kind": "inline_test_only",
       "blockers": [
         "no_checked_in_fixture_reference",
         "open_documentation_items"
@@ -1197,15 +1279,10 @@
         "stf_juris_waf.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/stf_juris_empty.json",
-        "tests/fixtures/stf_juris_infanticidio.json",
-        "tests/fixtures/stf_juris_waf.html",
-        "tests/test_brazil.py",
-        "tests/test_provider_state_fixtures.py",
-        "tests/test_stf_juris.py",
-        "tests/test_validation.py"
+        "tests/test_stf_juris.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -1230,15 +1307,16 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 1,
-      "fixture_references": [],
-      "test_references": [
-        "tests/test_brazil.py",
-        "tests/test_mcp_server.py",
-        "tests/test_stj_dados_abertos_jurisprudencia.py",
-        "tests/test_stj_dados_abertos_live.py"
+      "fixture_references": [
+        "stj_ckan_package_search.json",
+        "stj_ckan_package_show.json"
       ],
+      "test_references": [
+        "tests/test_stj_dados_abertos_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1265,13 +1343,17 @@
         "stj_informativo_infanticidio.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/stj_informativo_infanticidio.html",
-        "tests/test_gold_maturity.py",
-        "tests/test_provider_state_fixtures.py",
-        "tests/test_stj_html_parsers_live.py",
         "tests/test_stj_informativo.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_stj_informativo.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -1304,20 +1386,18 @@
         "stj_scon_real_documentos.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/stj_scon_access_control.html",
-        "tests/fixtures/stj_scon_acordaos_result.html",
-        "tests/fixtures/stj_scon_empty.html",
-        "tests/fixtures/stj_scon_real_documentos.html",
-        "tests/test_brazil.py",
-        "tests/test_mcp_server.py",
-        "tests/test_provider_coverage.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
-        "tests/test_stj_html_parsers_live.py",
-        "tests/test_stj_scon.py",
-        "tests/test_studio.py"
+        "tests/test_stj_scon.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_stj_scon.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -1330,10 +1410,9 @@
       "implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 74,
+      "maturity_score": 79,
       "maturity_grade": "B",
       "next_actions": [
-        "completar secoes faltantes do dossie",
         "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "rodar validacao live pequena com termo juridico padrao"
@@ -1343,16 +1422,55 @@
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 3,
-      "fixture_references": [],
+      "documentation_open_items": 5,
+      "fixture_references": [
+        "stm_jurisprudencia_results.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_gold_maturity.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_stm_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_stm_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
+        "open_documentation_items"
+      ],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tce_pr_viajuris",
+      "display_name": "TCE-PR ViaJuris Dados Abertos",
+      "implementation_status": "runtime",
+      "coverage_role": "administrative_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 77,
+      "maturity_grade": "B",
+      "next_actions": [
+        "fechar checklist objetivo do dossie",
+        "rodar validacao live pequena com termo juridico padrao"
+      ],
+      "module": "src/nanojuris/providers/tce_pr_viajuris.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 3,
+      "fixture_references": [
+        "tce_pr_viajuris_acordaos.csv"
+      ],
+      "test_references": [
+        "tests/test_tce_pr_viajuris.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1364,7 +1482,7 @@
       "implementation_status": "runtime",
       "coverage_role": "administrative_context",
       "development_priority": "P2_maintain",
-      "maturity_score": 56,
+      "maturity_score": 57,
       "maturity_grade": "C",
       "next_actions": [
         "fechar checklist objetivo do dossie",
@@ -1376,15 +1494,17 @@
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 7,
-      "fixture_references": [],
+      "documentation_open_items": 5,
+      "fixture_references": [
+        "tce_sp_boletins.html",
+        "tce_sp_sumulas.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tce_sp_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1414,12 +1534,11 @@
         "tcu_manifest_contract_changed.txt"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_documentation_inventory.py",
         "tests/test_initial_json_providers.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tcu_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -1445,14 +1564,22 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 4,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjsp_cjsg_result.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjac_cjsg.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjac_cjsg.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1477,14 +1604,22 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 8,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjsp_cjsg_result.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjal_cjsg.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjal_cjsg.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1509,14 +1644,22 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 8,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjsp_cjsg_result.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjam_cjsg.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjam_cjsg.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1542,6 +1685,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -1568,19 +1713,19 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 1,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjba_graphql_catalog.json",
+        "tjba_graphql_detail.html",
+        "tjba_graphql_empty.json",
+        "tjba_graphql_success.json"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjba_graphql_catalog.json",
-        "tests/fixtures/tjba_graphql_detail.html",
-        "tests/fixtures/tjba_graphql_empty.json",
-        "tests/fixtures/tjba_graphql_success.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjba_graphql.py",
         "tests/test_tjba_graphql_live.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1605,12 +1750,22 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 7,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjsp_cjsg_result.html"
+      ],
       "test_references": [
         "tests/test_tjce_cjsg.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjce_cjsg.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1638,10 +1793,10 @@
         "tjce_informativos_results.html"
       ],
       "test_references": [
-        "tests/fixtures/tjce_informativos_results.html",
-        "tests/test_provider_contracts.py",
         "tests/test_tjce_informativos.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -1669,9 +1824,10 @@
         "tjce_sjuris_results.json"
       ],
       "test_references": [
-        "tests/fixtures/tjce_sjuris_results.json",
         "tests/test_tjce_sjuris.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -1693,25 +1849,27 @@
       "legacy_contract": true,
       "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjdf_juris_api_contract_changed.json",
+        "tjdf_juris_api_empty.json",
+        "tjdf_juris_api_results.json",
+        "tjdf_juris_detail.html",
+        "tjdf_juris_initial.html",
+        "tjdf_juris_results.html"
+      ],
       "test_references": [
-        "tests/e2e/studio_fixture_app.py",
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjdf_juris_detail.html",
-        "tests/fixtures/tjdf_juris_initial.html",
-        "tests/fixtures/tjdf_juris_results.html",
-        "tests/test_cli.py",
-        "tests/test_gold_maturity.py",
-        "tests/test_health.py",
-        "tests/test_mcp_server.py",
-        "tests/test_provider_coverage.py",
-        "tests/test_source_contracts.py",
-        "tests/test_studio.py",
         "tests/test_tjdf_juris.py"
       ],
-      "blockers": [
-        "no_checked_in_fixture_reference"
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjdf_juris.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
       ],
+      "fixture_evidence_kind": "versioned_and_inline",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1735,6 +1893,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -1767,12 +1927,17 @@
         "tjgo_projudi_empty.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_brazil.py",
-        "tests/test_gold_maturity.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjgo_projudi_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjgo_projudi_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -1800,9 +1965,10 @@
         "tjma_jurisconsult_catalog.json"
       ],
       "test_references": [
-        "tests/fixtures/tjma_jurisconsult_catalog.json",
         "tests/test_tjma_jurisconsult.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -1827,6 +1993,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -1854,14 +2022,22 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 8,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjsp_cjsg_result.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjms_cjsg.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjms_cjsg.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1888,9 +2064,10 @@
         "tjmt_jurisprudencia_results.json"
       ],
       "test_references": [
-        "tests/test_provider_documentation.py",
         "tests/test_tjmt_jurisprudencia_api.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -1901,7 +2078,7 @@
       "implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 87,
+      "maturity_score": 88,
       "maturity_grade": "A",
       "next_actions": [
         "fechar checklist objetivo do dossie",
@@ -1913,16 +2090,15 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 14,
-      "fixture_references": [],
-      "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_gold_maturity.py",
-        "tests/test_initial_json_providers.py",
-        "tests/test_provider_documentation.py",
-        "tests/test_provider_state_fixtures.py"
+      "fixture_references": [
+        "tjpa_jurisprudencia_bff_results.json"
       ],
+      "test_references": [
+        "tests/test_initial_json_providers.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1948,12 +2124,10 @@
       "documentation_open_items": 6,
       "fixture_references": [],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_gold_maturity.py",
-        "tests/test_initial_json_providers.py",
-        "tests/test_provider_documentation.py",
-        "tests/test_provider_state_fixtures.py"
+        "tests/test_initial_json_providers.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_checked_in_fixture_reference",
         "open_documentation_items"
@@ -1982,9 +2156,10 @@
         "tjpe_jurisprudencia_results.json"
       ],
       "test_references": [
-        "tests/fixtures/tjpe_jurisprudencia_results.json",
         "tests/test_tjpe_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -2013,16 +2188,17 @@
         "tjpi_juspi_empty.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjpi_juspi_dano_moral.html",
-        "tests/fixtures/tjpi_juspi_detail.html",
-        "tests/fixtures/tjpi_juspi_empty.html",
-        "tests/test_brazil.py",
-        "tests/test_gold_maturity.py",
-        "tests/test_provider_documentation.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjpi_juspi.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjpi_juspi.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2050,11 +2226,43 @@
         "tjpr_jurisprudencia_results.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjpr_jurisprudencia_results.html",
         "tests/test_tjpr_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "display_name": "TJRJ EJURIS",
+      "implementation_status": "none",
+      "coverage_role": "mapped_candidate",
+      "development_priority": "P1_candidate_contract",
+      "maturity_score": 11,
+      "maturity_grade": "D",
+      "next_actions": [
+        "reproduzir contrato HTTP publico e criar fixture minima",
+        "fechar checklist objetivo do dossie",
+        "rodar validacao live pequena com termo juridico padrao"
+      ],
+      "module": null,
+      "runtime_registered": false,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_ready",
+      "documentation_open_items": 4,
+      "fixture_references": [],
+      "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
+      "blockers": [
+        "no_runtime_module",
+        "no_checked_in_fixture_reference",
+        "no_local_test_reference",
+        "open_documentation_items"
+      ],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2078,10 +2286,10 @@
       "documentation_open_items": 6,
       "fixture_references": [],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_state_eproc_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_checked_in_fixture_reference",
         "open_documentation_items"
@@ -2109,6 +2317,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -2138,10 +2348,10 @@
         "tjro_liame_results.json"
       ],
       "test_references": [
-        "tests/fixtures/tjro_liame_results.json",
-        "tests/test_provider_coverage.py",
         "tests/test_tjro_liame.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -2164,18 +2374,24 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 2,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjrr_juris_detail.html",
+        "tjrr_juris_form.html",
+        "tjrr_juris_result.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjrr_juris_detail.html",
-        "tests/fixtures/tjrr_juris_form.html",
-        "tests/fixtures/tjrr_juris_result.html",
-        "tests/test_provider_documentation.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_tjrr_juris.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjrr_juris.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -2203,12 +2419,11 @@
         "tjrs_solr_results.json"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjrs_solr_results.json",
-        "tests/test_gold_maturity.py",
         "tests/test_initial_json_providers.py",
         "tests/test_tjrs_solr.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -2219,25 +2434,29 @@
       "implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 89,
+      "maturity_score": 85,
       "maturity_grade": "A",
       "next_actions": [
+        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjsc_eproc_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "implementation_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 2,
+      "fixture_references": [
+        "tjsc_eproc_jurisprudencia_result.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_tjsp_eproc_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference"
+        "open_documentation_items"
       ],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -2262,6 +2481,8 @@
       "documentation_open_items": 0,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -2296,18 +2517,7 @@
         "tjsp_cjsg_result.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjsp_cjsg_access_control.html",
-        "tests/fixtures/tjsp_cjsg_document.html",
-        "tests/fixtures/tjsp_cjsg_empty.html",
-        "tests/fixtures/tjsp_cjsg_result.html",
-        "tests/test_brazil.py",
-        "tests/test_cli.py",
         "tests/test_client_exporters.py",
-        "tests/test_mcp_server.py",
-        "tests/test_mcp_tools.py",
-        "tests/test_provider_state_fixtures.py",
-        "tests/test_store.py",
         "tests/test_tjac_cjsg.py",
         "tests/test_tjal_cjsg.py",
         "tests/test_tjam_cjsg.py",
@@ -2316,6 +2526,15 @@
         "tests/test_tjsp_cjsg.py",
         "tests/test_tjsp_cjsg_live.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjsp_cjsg.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2340,22 +2559,28 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 6,
-      "fixture_references": [],
+      "fixture_references": [
+        "tjsc_eproc_jurisprudencia_result.html",
+        "tjsp_eproc_jurisprudencia_result.html",
+        "tnu_eproc_aposentadoria.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
-        "tests/test_brazil.py",
-        "tests/test_cli.py",
         "tests/test_eproc_jurisprudencia_federal.py",
-        "tests/test_mcp_tools.py",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_stj_scon.py",
         "tests/test_tjsp_eproc_jurisprudencia.py",
         "tests/test_trf4_eproc_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjsp_eproc_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -2367,7 +2592,7 @@
       "implementation_status": "runtime",
       "coverage_role": "precedent_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 64,
+      "maturity_score": 66,
       "maturity_grade": "C",
       "next_actions": [
         "fechar checklist objetivo do dossie",
@@ -2378,13 +2603,17 @@
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 8,
-      "fixture_references": [],
+      "documentation_open_items": 6,
+      "fixture_references": [
+        "tjsp_nugepnac_detail.html",
+        "tjsp_nugepnac_list.html"
+      ],
       "test_references": [
         "tests/test_tjsp_nugepnac.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -2411,9 +2640,17 @@
         "tjto_jurisprudencia_results.json"
       ],
       "test_references": [
-        "tests/fixtures/tjto_jurisprudencia_results.json",
         "tests/test_tjto_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjto_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
@@ -2442,10 +2679,10 @@
         "trf6_eproc_aposentadoria.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2458,7 +2695,7 @@
       "implementation_status": "runtime",
       "coverage_role": "curated_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 60,
+      "maturity_score": 62,
       "maturity_grade": "C",
       "next_actions": [
         "fechar checklist objetivo do dossie",
@@ -2469,13 +2706,17 @@
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 7,
-      "fixture_references": [],
+      "documentation_open_items": 5,
+      "fixture_references": [
+        "tre_sp_temas_detail.html",
+        "tre_sp_temas_index.html"
+      ],
       "test_references": [
         "tests/test_tre_sp_temas.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -2505,9 +2746,10 @@
         "trf6_eproc_aposentadoria.html"
       ],
       "test_references": [
-        "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2535,6 +2777,8 @@
       "documentation_open_items": 7,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -2550,8 +2794,8 @@
       "implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 84,
-      "maturity_grade": "B",
+      "maturity_score": 85,
+      "maturity_grade": "A",
       "next_actions": [
         "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
@@ -2562,14 +2806,23 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 6,
-      "fixture_references": [],
+      "fixture_references": [
+        "trf4_eproc_results.html"
+      ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
         "tests/test_client_exporters.py",
         "tests/test_trf4_eproc_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_trf4_eproc_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -2600,14 +2853,10 @@
         "trf5_jurisprudencia_results.html"
       ],
       "test_references": [
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/trf5_jurisprudencia_access_control.html",
-        "tests/fixtures/trf5_jurisprudencia_contract_changed.html",
-        "tests/fixtures/trf5_jurisprudencia_empty.html",
-        "tests/fixtures/trf5_jurisprudencia_results.html",
-        "tests/test_provider_state_fixtures.py",
         "tests/test_trf5_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2638,9 +2887,10 @@
         "trf6_eproc_aposentadoria.html"
       ],
       "test_references": [
-        "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2668,6 +2918,8 @@
       "documentation_open_items": 4,
       "fixture_references": [],
       "test_references": [],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "none",
       "blockers": [
         "no_runtime_module",
         "no_checked_in_fixture_reference",
@@ -2695,17 +2947,16 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 1,
-      "fixture_references": [],
+      "fixture_references": [
+        "tst_jurisprudencia_responsabilidade.json"
+      ],
       "test_references": [
-        "tests/e2e/studio_fixture_app.py",
-        "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
-        "tests/test_gold_maturity.py",
-        "tests/test_health.py",
+        "tests/test_initial_json_providers.py",
         "tests/test_tst_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],

@@ -11,6 +11,7 @@ from urllib.parse import parse_qs, urljoin, urlparse
 import requests
 from bs4 import BeautifulSoup, Tag
 
+from nanojuris.adaptive_selectors import resilient_find_all
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -261,7 +262,13 @@ def parse_stm_jurisprudencia_results(
     soup = BeautifulSoup(html, "html.parser")
     panels = [
         panel
-        for panel in soup.select("div.panel.panel-default")
+        for panel in resilient_find_all(
+            soup,
+            "div.panel.panel-default",
+            name="result_panel",
+            source="stm_jurisprudencia",
+            trace=trace,
+        )
         if panel.select_one('button[title="Exibir Inteiro Teor"], button[data-type]')
         and panel.select_one("dl")
     ]

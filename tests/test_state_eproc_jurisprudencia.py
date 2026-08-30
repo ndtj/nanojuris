@@ -8,7 +8,8 @@ from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.tjrj_eproc_jurisprudencia import TjrjEprocJurisprudenciaProvider
 from nanojuris.providers.tjsc_eproc_jurisprudencia import TjscEprocJurisprudenciaProvider
 
-FIXTURE = Path(__file__).parent / "fixtures" / "tjsp_eproc_jurisprudencia_result.html"
+FIXTURES = Path(__file__).parent / "fixtures"
+TJRJ_FIXTURE = FIXTURES / "tjsp_eproc_jurisprudencia_result.html"
 
 
 class FakeResponse:
@@ -32,7 +33,7 @@ class FakeSession:
 def test_tjrj_eproc_uses_own_endpoint_and_court() -> None:
     session = FakeSession(
         FakeResponse(
-            FIXTURE.read_text(encoding="utf-8"),
+            TJRJ_FIXTURE.read_text(encoding="utf-8"),
             "https://eproc1g.tjrj.jus.br/eproc/externo_controlador.php",
         )
     )
@@ -53,7 +54,7 @@ def test_tjrj_eproc_uses_own_endpoint_and_court() -> None:
 def test_tjsc_eproc_uses_own_endpoint_and_court() -> None:
     session = FakeSession(
         FakeResponse(
-            FIXTURE.read_text(encoding="utf-8"),
+            (FIXTURES / "tjsc_eproc_jurisprudencia_result.html").read_text(encoding="utf-8"),
             "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php",
         )
     )

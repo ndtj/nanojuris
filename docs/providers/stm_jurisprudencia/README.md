@@ -174,9 +174,15 @@ garantia de SLA nem substitui testes opt-in de rede.
 - [x] controle de acesso;
 - [x] parametros `start`/`rows`;
 - [x] parse do total remoto quando presente;
-- [ ] fixture live versionada sem dados pessoais desnecessarios;
+- [x] fixture live versionada sem dados pessoais desnecessarios: `tests/fixtures/stm_jurisprudencia_results.html`;
 - [ ] contrato offline das facetas `fq_*`;
 - [ ] contrato offline dos modais de referencia, notas e indexacao.
+
+## Proximos passos
+
+- [ ] Versionar fixtures das facetas e dos modais auxiliares.
+- [ ] Confirmar a estabilidade dos campos de inteiro teor e referencias.
+- [ ] Repetir a validacao publica quando o portal alterar o layout.
 
 ## Uso pelo MCP
 

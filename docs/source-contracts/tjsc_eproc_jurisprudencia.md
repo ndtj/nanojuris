@@ -108,6 +108,17 @@ download do inteiro teor e classificacao de controles de acesso estao
 disponiveis no runtime. Campos, origens e limites continuam sujeitos ao
 contrato especifico do TJSC.
 
+## Fixtures
+
+- [x] Resultado HTML minimo derivado do card TJSC versionado no teste:
+  `tests/fixtures/tjsc_eproc_jurisprudencia_result.html`.
+- [ ] Formulario completo e paginacao autenticados por fixture especifica.
+- [ ] Resultado vazio, detalhe e resposta de controle de acesso.
+
+O card versionado cobre somente identidade, processo, datas, ementa e link de
+inteiro teor. Ele nao representa uma captura completa do formulario live nem
+autoriza inferir os estados ainda pendentes.
+
 ## Decisao de mapeamento
 
 Promovido de `candidate_needs_har` para provider implementado porque uma

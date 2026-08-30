@@ -228,6 +228,9 @@ Para uso por agentes, a resposta tambem separa roteamento semantico:
 - `searched_sources`: fontes efetivamente consultadas;
 - `skipped_sources`: fontes nao chamadas porque nao se aplicam ao tipo de
   pergunta, com `reason` e `message` explicitos;
+- `source_outcomes`: particao mutuamente exclusiva, com uma entrada por fonte
+  solicitada e `status` igual a `searched`, `skipped` ou `failed`. Use este
+  campo quando a interface precisar apresentar um unico estado por fonte;
 - `routing_summary`: explicacao curta, pronta para agentes, sobre fontes
   consultadas, puladas ou com falha;
 - `errors`: fontes chamadas que falharam por indisponibilidade, captcha,

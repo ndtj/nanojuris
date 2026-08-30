@@ -20,6 +20,7 @@ alteracao do proprio portal.
 | `stj_informativo` | `valid` | 2026-08-16 | 1 | 12 | `local_window` | 4388.93 | A resposta e uma janela parcial do total informado pela fonte. |
 | `stj_scon` | `valid` | 2026-08-16 | - | - | `-` | - | - |
 | `stm_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
+| `tce_pr_viajuris` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tce_sp_jurisprudencia` | `not_checked_in_latest_focused_run` | - | - | - | `-` | - | sem validacao focada nesta rodada |
 | `tcu_jurisprudencia` | `valid` | 2026-08-16 | 1 | 1 | `unknown` | 12803.23 | - |
 | `tjac_cjsg` | `valid` | 2026-08-16 | - | - | `-` | - | - |

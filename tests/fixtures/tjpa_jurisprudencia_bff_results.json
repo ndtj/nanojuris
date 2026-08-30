@@ -1,0 +1,17 @@
+{
+  "message": "ok",
+  "data": {
+    "content": [
+      {
+        "id": 42,
+        "numeroprocesso": "0800000-00.2024.8.14.0001",
+        "ementatextopuro": "Ementa TJPA sanitizada.",
+        "textopuro": "Inteiro teor publico sanitizado.",
+        "datapublicacao": "01/02/2026",
+        "relator": {"nome": "Desembargador de Fixture"}
+      }
+    ],
+    "totalElements": 1,
+    "facets": []
+  }
+}

@@ -26,6 +26,11 @@
 - Detalhe: `GET /jurisprudencia/view/{id}?words={termos}`.
 - Paginacao: pagina baseada em um; a resposta live retornou dez hits por pagina.
 
+Se a aquisição do token receber uma página com marcadores de CAPTCHA/WAF, o
+provider levanta `AccessControlRequiredError`. Uma alteração HTML sem esses
+marcadores continua sendo `ParserContractChangedError`; nenhum desafio é
+resolvido automaticamente.
+
 ## Dados retornados
 
 - Campos esperados:

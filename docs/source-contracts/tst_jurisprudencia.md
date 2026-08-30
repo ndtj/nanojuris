@@ -77,6 +77,12 @@ GET /rest/assuntos
 Os objetos de catalogo devem ser preservados no campo bruto, pois seus codigos
 sao necessarios para montar filtros estaveis.
 
+O provider implementa `get_catalog()` para consultar essas seis rotas,
+normalizando somente itens que tragam identificador e descricao explicitos.
+As classes processuais sao expostas em `ProviderCatalog.species`, os demais
+grupos em `species_groups` e cada envelope original em `ProviderCatalog.raw`.
+Resposta nao-JSON e tratada como mudanca de contrato.
+
 ### Inteiro teor
 
 ```text
@@ -149,6 +155,7 @@ jurisprudencia trabalhista do TST.
 - [x] Rejeicao de busca vazia para evitar varredura acidental.
 - [x] Registro com HTML de ementa e destaque removivel.
 - [x] Documento HTML por `GET /rest/documentos/{id}`.
+- [x] Catalogo de filtros pelas seis rotas REST publicas declaradas.
 - [x] HTTP 401/429 e contrato nao-JSON tratados explicitamente.
 - [ ] Teste live opt-in, com `page_size` pequeno e sem termo vazio.
 
@@ -161,6 +168,27 @@ O MCP deve expor o TST como fonte especializada e informar no resultado:
 3. link oficial para resultado/documento;
 4. diferenca entre resultado vazio, indisponibilidade e controle de acesso;
 5. aviso de que o conteudo pertence a jurisprudencia trabalhista.
+
+## Catalogo de filtros
+
+`get_catalog()` consulta e preserva as respostas JSON das rotas:
+
+```text
+GET /rest/orgaos-judicantes
+GET /rest/ministros
+GET /rest/convocados
+GET /rest/classes-processuais
+GET /rest/indicadores
+GET /rest/assuntos
+```
+
+Os itens com identificador e descricao explicitos sao normalizados em
+`ProviderOption`. As classes processuais tambem aparecem em `species`, por
+compatibilidade com consumidores existentes; todos os grupos ficam
+disponiveis em `species_groups`. Os envelopes originais permanecem em
+`ProviderCatalog.raw` e o `SourceTrace` registra a consulta agregada. Uma
+resposta que nao seja JSON e classificada como mudanca de contrato, nunca como
+catalogo vazio.
 
 ## Criterio de promocao
 

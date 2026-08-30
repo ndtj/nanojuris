@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 import pytest
+import requests
 
 from nanojuris.cli import main
 from nanojuris.errors import (
@@ -87,6 +88,10 @@ def test_check_provider_distinguishes_results_and_empty_success():
         (RateLimitDetectedError("limited"), ProviderHealthStatus.RATE_LIMITED),
         (ParserContractChangedError("changed"), ProviderHealthStatus.SOURCE_CHANGED),
         (SourceUnavailableError("offline"), ProviderHealthStatus.SOURCE_UNAVAILABLE),
+        (
+            requests.exceptions.SSLError("certificate verify failed"),
+            ProviderHealthStatus.SOURCE_UNAVAILABLE,
+        ),
     ],
 )
 def test_check_provider_preserves_operational_failure_category(error, status):
@@ -97,7 +102,12 @@ def test_check_provider_preserves_operational_failure_category(error, status):
 
     assert report.status == status
     assert report.operational is False
-    assert report.error_type == type(error).__name__
+    expected_type = (
+        "SslVerificationError"
+        if isinstance(error, requests.exceptions.SSLError)
+        else type(error).__name__
+    )
+    assert report.error_type == expected_type
 
 
 def test_check_sources_keeps_order_and_summary_for_selected_sources():

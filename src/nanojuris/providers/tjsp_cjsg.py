@@ -12,6 +12,7 @@ from urllib.parse import quote, urljoin
 import requests
 from bs4 import BeautifulSoup
 
+from nanojuris.adaptive_selectors import USE_DEFAULT_MEMORY, resilient_find_all
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
@@ -409,6 +410,7 @@ def parse_cjsg_results(
     court: str = "TJSP",
     id_prefix: str = "tjsp-cjsg",
     source_label: str = "TJSP/CJSG",
+    memory: Any = USE_DEFAULT_MEMORY,
 ) -> SearchPage:
     """Parse a CJSG result page into normalized results."""
 
@@ -421,7 +423,17 @@ def parse_cjsg_results(
         or soup.select_one("#tdResultados")
         or (soup if soup.select("a.downloadEmenta") else None)
     )
-    if result_root is None:
+    # The ementa anchors carry the identifiers; relocate them by structure if
+    # the source renames ``a.downloadEmenta`` (recorded on the trace).
+    anchors = resilient_find_all(
+        result_root or soup,
+        "a.downloadEmenta",
+        name="ementa_anchor",
+        source=source,
+        trace=trace,
+        memory=memory,
+    )
+    if result_root is None and not anchors:
         if "Resultado consulta" in html or "Resultados" in html:
             return SearchPage(
                 source=source,
@@ -438,7 +450,7 @@ def parse_cjsg_results(
     total, start, end = _parse_pagination(soup.get_text(" ", strip=True), soup=soup)
     results: list[JurisprudenceResult] = []
     seen: set[tuple[str, str]] = set()
-    for anchor in result_root.select("a.downloadEmenta"):
+    for anchor in anchors:
         cd_acordao = str(anchor.get("cdacordao") or anchor.get("cdAcordao") or "")
         cd_foro = str(anchor.get("cdforo") or anchor.get("cdForo") or "0")
         key = (cd_acordao, cd_foro)

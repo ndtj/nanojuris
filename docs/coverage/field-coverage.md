@@ -19,6 +19,7 @@ semantica do campo; mede declaracao objetiva no contrato do provider.
 | `stj_informativo` | 1 | 1 | 2 | 1 | 1 | 9 |
 | `stj_scon` | 2 | 2 | 2 | 2 | 1 | 9 |
 | `stm_jurisprudencia` | 1 | 3 | 1 | 2 | 1 | 9 |
+| `tce_pr_viajuris` | 1 | 1 | 0 | 2 | 1 | 6 |
 | `tce_sp_jurisprudencia` | 0 | 0 | 0 | 0 | 0 | 6 |
 | `tcu_jurisprudencia` | 0 | 2 | 0 | 0 | 0 | 5 |
 | `tjac_cjsg` | 1 | 4 | 3 | 1 | 1 | 12 |

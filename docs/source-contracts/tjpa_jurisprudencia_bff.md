@@ -212,6 +212,9 @@ uma garantia de rota documental por id. O contrato informa essa diferenca ao
 Studio, CLI e MCP; `document_url` so deve ser adicionado quando a fonte
 retornar uma URL documental real.
 
+As datas são normalizadas para ISO-8601 e os valores de origem permanecem em
+`raw`. Sem ementa e sem texto integral, a extração é `partial`.
+
 ## Comportamento e riscos
 
 - O contrato e JSON, mas e exposto por um frontend SPA e pode mudar junto com
@@ -280,3 +283,12 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [x] Criar parser JSON offline e mapear resultados para o modelo normalizado.
 - [x] Criar fixture sintética e testes de contrato.
 - [ ] Validar e implementar uma rota publica de detalhe, se o contrato permanecer estavel.
+
+## Evidencia offline versionada
+
+- `tests/fixtures/tjpa_jurisprudencia_bff_results.json` contem um envelope JSON
+  sanitizado e minimo da rota publica de busca.
+- O teste `test_tjpa_versioned_success_fixture_preserves_contract` valida id,
+  relator, data ISO, data bruta e inteiro teor sem depender da rede.
+- A fixture nao e uma copia de dados de usuario; serve somente para proteger o
+  contrato do parser contra mudancas acidentais.

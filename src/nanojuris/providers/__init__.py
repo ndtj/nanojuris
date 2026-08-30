@@ -12,6 +12,7 @@ from nanojuris.providers.eproc_jurisprudencia_federal import (
 from nanojuris.providers.stf_juris import StfJurisProvider
 from nanojuris.providers.stj_scon import StjSconProvider
 from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
+from nanojuris.providers.tce_pr_viajuris import TcePrViaJurisProvider
 from nanojuris.providers.tce_sp_jurisprudencia import TceSpJurisprudenciaProvider
 from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
@@ -47,6 +48,7 @@ __all__ = [
     "StjSconProvider",
     "StmJurisprudenciaProvider",
     "TceSpJurisprudenciaProvider",
+    "TcePrViaJurisProvider",
     "TjacCjsgProvider",
     "TjceCjsgProvider",
     "TjceSjurisProvider",

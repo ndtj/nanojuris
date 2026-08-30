@@ -210,6 +210,9 @@ def test_tjto_parser_supports_process_number_without_uuid_and_partial_summary() 
     assert result.id == "tjto-jurisprudencia-0000001-23.2026.8.27.0001"
     assert result.extraction_status.value == "partial"
     assert result.raw["document_uuid"] is None
+    # The judgment date is captured even when the card carries no EMENTA section.
+    assert result.summary is None
+    assert result.judgment_date == "2026-02-15"
 
 
 def test_tjto_parameter_helpers_cover_order_branches() -> None:

@@ -1,0 +1,594 @@
+{
+  "eproc_jurisprudencia_federal": {
+    "result_card": {
+      "attributes": {
+        "class": "card mb-3 resultadoItem",
+        "id": "resultado611784722886604694722042384549"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "mt-1",
+        "id": "bodyResultados"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "stj_informativo": {
+    "result_item": {
+      "attributes": {
+        "class": "clsInformativoBlocoItem"
+      },
+      "children": [
+        "div",
+        "div",
+        "div",
+        "a",
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "id": "idInformativoBlocoLista"
+      },
+      "parent_name": "div",
+      "parent_text": "Informativo nº 507\nPeríodo: 18 a 31 de outubro de 2012.\nQUINTA TURMA\n\n            Informativo de Jurisprudência n. 507\n          \n\n            DIREITO PENAL. CRIME DE ABORTO. INÍCIO DO TRABALHO DE PARTO.\n            HOMICÍDIO OU INFANTICÍDIO.\n          \n\n\n\n                Iniciado o trabalho de parto, não há crime de aborto, mas sim\n                homicídio ou infanticídio conforme o caso.\n              \n\n                Para configurar o crime de homicídio ou infanticídio, não é\n              ",
+      "path": [
+        "body",
+        "div",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": "Informativo nº 507\nPeríodo: 18 a 31 de outubro de 2012.\nQUINTA TURMA\n\n            Informativo de Jurisprudência n. 507\n          \n\n            DIREITO PENAL. CRIME DE ABORTO. INÍCIO DO TRABALHO DE PARTO.\n            HOMICÍDIO OU INFANTICÍDIO.\n          \n\n\n\n                Iniciado o trabalho de parto, não há crime de aborto, mas sim\n                homicídio ou infanticídio conforme o caso.\n              \n\n                Para configurar o crime de homicídio ou infanticídio, não é\n              "
+    }
+  },
+  "stm_jurisprudencia": {
+    "result_panel": {
+      "attributes": {
+        "class": "panel panel-default"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "container container-fluid"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "tjac_cjsg": {
+    "ementa_anchor": {
+      "attributes": {
+        "cdacordao": "20787558",
+        "cdforo": "0",
+        "class": "esajLinkLogin downloadEmenta",
+        "title": "Visualizar Inteiro Teor"
+      },
+      "children": [],
+      "parent_attributes": {
+        "colspan": "2"
+      },
+      "parent_name": "td",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "td",
+        "div",
+        "table",
+        "tr",
+        "td",
+        "table",
+        "tr",
+        "td",
+        "a"
+      ],
+      "siblings": [
+        "a",
+        "div"
+      ],
+      "tag": "a",
+      "text": "0003938-14.2017.8.26.0323"
+    }
+  },
+  "tjal_cjsg": {
+    "ementa_anchor": {
+      "attributes": {
+        "cdacordao": "20787558",
+        "cdforo": "0",
+        "class": "esajLinkLogin downloadEmenta",
+        "title": "Visualizar Inteiro Teor"
+      },
+      "children": [],
+      "parent_attributes": {
+        "colspan": "2"
+      },
+      "parent_name": "td",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "td",
+        "div",
+        "table",
+        "tr",
+        "td",
+        "table",
+        "tr",
+        "td",
+        "a"
+      ],
+      "siblings": [
+        "a",
+        "div"
+      ],
+      "tag": "a",
+      "text": "0003938-14.2017.8.26.0323"
+    }
+  },
+  "tjam_cjsg": {
+    "ementa_anchor": {
+      "attributes": {
+        "cdacordao": "20787558",
+        "cdforo": "0",
+        "class": "esajLinkLogin downloadEmenta",
+        "title": "Visualizar Inteiro Teor"
+      },
+      "children": [],
+      "parent_attributes": {
+        "colspan": "2"
+      },
+      "parent_name": "td",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "td",
+        "div",
+        "table",
+        "tr",
+        "td",
+        "table",
+        "tr",
+        "td",
+        "a"
+      ],
+      "siblings": [
+        "a",
+        "div"
+      ],
+      "tag": "a",
+      "text": "0003938-14.2017.8.26.0323"
+    }
+  },
+  "tjce_cjsg": {
+    "ementa_anchor": {
+      "attributes": {
+        "cdacordao": "20787558",
+        "cdforo": "0",
+        "class": "esajLinkLogin downloadEmenta",
+        "title": "Visualizar Inteiro Teor"
+      },
+      "children": [],
+      "parent_attributes": {
+        "colspan": "2"
+      },
+      "parent_name": "td",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "td",
+        "div",
+        "table",
+        "tr",
+        "td",
+        "table",
+        "tr",
+        "td",
+        "a"
+      ],
+      "siblings": [
+        "a",
+        "div"
+      ],
+      "tag": "a",
+      "text": "0003938-14.2017.8.26.0323"
+    }
+  },
+  "tjdf_juris": {
+    "acordao_link": {
+      "attributes": {
+        "class": "link-acordao",
+        "id": "id_link_abrir_dados_acordao"
+      },
+      "children": [],
+      "parent_attributes": {
+        "class": "acordao"
+      },
+      "parent_name": "li",
+      "parent_text": "1917641\n\n            1 1917641 460 Relator(a): SANDRA REVES Processo: 07226716720248070000\n            INFANTICIDIO. DOSIMETRIA DA PENA. RECURSO CONHECIDO E DESPROVIDO.",
+      "path": [
+        "body",
+        "div",
+        "ul",
+        "li",
+        "a"
+      ],
+      "siblings": [
+        "div"
+      ],
+      "tag": "a",
+      "text": "1917641"
+    }
+  },
+  "tjgo_projudi_jurisprudencia": {
+    "result_card": {
+      "attributes": {
+        "class": "search-result"
+      },
+      "children": [
+        "h4",
+        "p",
+        "p",
+        "p",
+        "p",
+        "p",
+        "hr",
+        "p",
+        "p"
+      ],
+      "parent_attributes": {
+        "class": "formLocalizar",
+        "id": "formLocalizar"
+      },
+      "parent_name": "fieldset",
+      "parent_text": "1357644 resultados encontrados para o filtro da pesquisa\nTempo de resposta: (94 milissegundos)\n\n\n\nMostrar 10 resultados\nMostrar 20 resultados\nMostrar 50 resultados\n\n\n \n\n\n\t\t\t\t\t\t\t\t\t\t\t5692569-32.2026.8.09.0038\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tBaixar Inteiro teor\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\tCopiar\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\nCrix�s - Vara das Fazendas P�blicas\n\n\nGUSTAVO BOIAGO BRIGATTI DIAS - (JUIZ 1� GRAU)\n\n\nDecis�o\n\n\nPublicado em 07/08/2026 03:10:24\n\n\n\n\t\t\t\t\t\t\t\t\t\t\tPODER JUDICI�RIOTribunal de Justi�a do Estado de Goi�sCom",
+      "path": [
+        "body",
+        "div",
+        "div",
+        "fieldset",
+        "div"
+      ],
+      "siblings": [
+        "legend",
+        "small",
+        "br",
+        "br",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr",
+        "div",
+        "hr"
+      ],
+      "tag": "div",
+      "text": "5692569-32.2026.8.09.0038\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tBaixar Inteiro teor\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\t\t\t\tCopiar\n\n\t\t\t\t\t\t\t\t\t\t\t\t\n\n\n\nCrix�s - Vara das Fazendas P�blicas\n\n\nGUSTAVO BOIAGO BRIGATTI DIAS - (JUIZ 1� GRAU)\n\n\nDecis�o\n\n\nPublicado em 07/08/2026 03:10:24\n\n\n\n\t\t\t\t\t\t\t\t\t\t\tPODER JUDICI�RIOTribunal de Justi�a do Estado de Goi�sComarca de Crix�s - Vara das Fazendas P�blicasAv. das Oliveiras, Esq. Rua 2019, Setor Novo Horizonte, Crix�s-GO, CEP 76510-000 - E-mail: escvarafazendacrixas@tjgo.jus.br. Processo: 569"
+    }
+  },
+  "tjms_cjsg": {
+    "ementa_anchor": {
+      "attributes": {
+        "cdacordao": "20787558",
+        "cdforo": "0",
+        "class": "esajLinkLogin downloadEmenta",
+        "title": "Visualizar Inteiro Teor"
+      },
+      "children": [],
+      "parent_attributes": {
+        "colspan": "2"
+      },
+      "parent_name": "td",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "td",
+        "div",
+        "table",
+        "tr",
+        "td",
+        "table",
+        "tr",
+        "td",
+        "a"
+      ],
+      "siblings": [
+        "a",
+        "div"
+      ],
+      "tag": "a",
+      "text": "0003938-14.2017.8.26.0323"
+    }
+  },
+  "tjpi_juspi": {
+    "result_card": {
+      "attributes": {
+        "class": "callout callout-danger",
+        "data-clipboard-success-content-value": "Jurisprudência copiada para a área de transferência!",
+        "data-controller": "clipboard reveal",
+        "data-reveal-hidden-class": "d-none"
+      },
+      "children": [
+        "div",
+        "h6",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "p-md-4"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div",
+        "div",
+        "div",
+        "form",
+        "div",
+        "div"
+      ],
+      "siblings": [
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div",
+        "div"
+      ],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "tjrj_eproc_jurisprudencia": {
+    "result_card": {
+      "attributes": {
+        "class": "card mb-3 resultadoItem",
+        "id": "resultado611784722886604694722042384549"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "mt-1",
+        "id": "bodyResultados"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "tjsc_eproc_jurisprudencia": {
+    "result_card": {
+      "attributes": {
+        "class": "card mb-3 resultadoItem",
+        "id": "resultado611784722886604694722042384549"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "mt-1",
+        "id": "bodyResultados"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "tjsp_cjsg": {
+    "ementa_anchor": {
+      "attributes": {
+        "cdacordao": "20787558",
+        "cdforo": "0",
+        "class": "esajLinkLogin downloadEmenta",
+        "title": "Visualizar Inteiro Teor"
+      },
+      "children": [],
+      "parent_attributes": {
+        "colspan": "2"
+      },
+      "parent_name": "td",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "td",
+        "div",
+        "table",
+        "tr",
+        "td",
+        "table",
+        "tr",
+        "td",
+        "a"
+      ],
+      "siblings": [
+        "a",
+        "div"
+      ],
+      "tag": "a",
+      "text": "0003938-14.2017.8.26.0323"
+    }
+  },
+  "tjsp_eproc_jurisprudencia": {
+    "result_card": {
+      "attributes": {
+        "class": "card mb-3 resultadoItem",
+        "id": "resultado611784722886604694722042384549"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "mt-1",
+        "id": "bodyResultados"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "trf2_eproc_jurisprudencia": {
+    "result_card": {
+      "attributes": {
+        "class": "card mb-3 resultadoItem",
+        "id": "resultado611784722886604694722042384549"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "mt-1",
+        "id": "bodyResultados"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "trf4_eproc_jurisprudencia": {
+    "result_card": {
+      "attributes": {
+        "class": "card mb-3 resultadoItem",
+        "id": "resultado611784722886604694722042384549"
+      },
+      "children": [
+        "div",
+        "div"
+      ],
+      "parent_attributes": {
+        "class": "mt-1",
+        "id": "bodyResultados"
+      },
+      "parent_name": "div",
+      "parent_text": "",
+      "path": [
+        "body",
+        "div",
+        "div"
+      ],
+      "siblings": [],
+      "tag": "div",
+      "text": ""
+    }
+  },
+  "trf5_jurisprudencia": {
+    "result_row": {
+      "attributes": {
+        "class": "grid"
+      },
+      "children": [
+        "b",
+        "b",
+        "b",
+        "b",
+        "br",
+        "a",
+        "br"
+      ],
+      "parent_attributes": {},
+      "parent_name": "tr",
+      "parent_text": "",
+      "path": [
+        "body",
+        "table",
+        "tr",
+        "td"
+      ],
+      "siblings": [],
+      "tag": "td",
+      "text": "Segunda Turma - JFPE / Acórdãos / 10/03/2025 / 0500001-22.2025.4.05.0001 EMENTA: RESPONSABILIDADE CIVIL. DANO MATERIAL. EMENTA DE FIXTURE."
+    }
+  }
+}

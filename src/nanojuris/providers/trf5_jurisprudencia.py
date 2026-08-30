@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
+from nanojuris.adaptive_selectors import resilient_find_all
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
@@ -263,7 +264,9 @@ def parse_trf5_results(
     """Parse result rows from the public TRF5 HTML response."""
 
     soup = BeautifulSoup(html, "html.parser")
-    rows = soup.select("td.grid")
+    rows = resilient_find_all(
+        soup, "td.grid", name="result_row", source="trf5_jurisprudencia", trace=trace
+    )
     if not rows:
         text = soup.get_text(" ", strip=True).lower()
         if "nenhum" in text or "no resultado" in text:

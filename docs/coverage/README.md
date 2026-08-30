@@ -8,9 +8,9 @@ quais estao maduras para busca unificada e quais ainda exigem aprofundamento.
 
 ## Resumo Atual
 
-- Fontes documentadas: **55**.
-- Providers implementados: **45**.
-- Fontes na busca unificada: **41**.
+- Fontes documentadas: **56**.
+- Providers implementados: **46**.
+- Fontes na busca unificada: **42**.
 - Fontes primarias de jurisprudencia textual: **34**.
 - Fontes com algum suporte a inteiro teor/documento: **27**.
 

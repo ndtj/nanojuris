@@ -285,6 +285,7 @@ def _parse_tjpr_row(
     document_url = _strip_session_id(document_url)
     summary_cell = row.select_one("td.juris-tabela-ementa")
     summary = _normalize_text(summary_cell.get_text(" ", strip=True)) if summary_cell else ""
+    summary = _clean_tjpr_ementa(summary)
     rapporteur: str | None = _label_value(row_text, "Relator:")
     rapporteur = _truncate_at_labels(rapporteur)
     judging_body: str | None = _label_value(row_text, "Órgão Julgador:")
@@ -427,6 +428,39 @@ def _first_match(pattern: re.Pattern[str], text: str) -> str | None:
 
 def _strip_session_id(url: str) -> str:
     return SESSION_ID_PATTERN.sub("", url)
+
+
+_TJPR_HEADER = re.compile(
+    r"^\s*(?:PODER JUDICI[ÁA]RIO\s*)?TRIBUNAL DE JUSTI[ÇC]A DO ESTADO DO PARAN[ÁA].*?"
+    r"(?:AC[ÓO]RD[ÃA]O|E\s*M\s*E\s*N\s*T\s*A|EMENTA)\s*[-:.]?\s*",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _clean_tjpr_ementa(summary: str) -> str:
+    """Drop a leading document-header block from the ementa cell.
+
+    Turma Recursal decisions place the court header, autos and party block in
+    the ementa cell. Keep only the text after the ementa marker; if the cell is
+    only a header, return an empty string so the card falls back to a
+    type/number title instead of an identical header title.
+    """
+
+    if not summary:
+        return summary
+    match = _TJPR_HEADER.match(summary)
+    if match:
+        summary = summary[match.end() :].lstrip(" :.-").rstrip()
+    upper = summary.upper()
+    if upper.startswith(("TRIBUNAL DE JUSTI", "PODER JUDICI")):
+        return ""
+    # A cell that begins mid-sentence (lowercase) is a truncated fragment of the
+    # inteiro teor, not an ementa; drop it so the card falls back to a
+    # type/number title instead of surfacing a dangling clause.
+    first = summary.lstrip("\"'“”‘’ ")[:1]
+    if first and first.islower():
+        return ""
+    return summary
 
 
 def _normalize_text(value: str) -> str:

@@ -16,6 +16,7 @@ from nanojuris.errors import (
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjpr_jurisprudencia import (
     TjprJurisprudenciaProvider,
+    _clean_tjpr_ementa,
     parse_tjpr_results,
 )
 
@@ -91,6 +92,35 @@ def test_parse_tjpr_results_maps_decisions_and_excludes_corte_idh():
     assert pending.access_status.value == "partial"
     assert pending.extraction_status.value == "partial"
     assert pending.raw["content_pending_release"] is True
+
+
+def test_clean_tjpr_ementa_drops_headers_and_mid_sentence_fragments():
+    # A real ementa passes through untouched.
+    assert _clean_tjpr_ementa("APELAÇÃO CÍVEL. DANO MORAL. SENTENÇA MANTIDA.") == (
+        "APELAÇÃO CÍVEL. DANO MORAL. SENTENÇA MANTIDA."
+    )
+    # A header-only cell collapses to empty so the card uses a type/number title.
+    assert (
+        _clean_tjpr_ementa(
+            "TRIBUNAL DE JUSTIÇA DO ESTADO DO PARANÁ 6ª TURMA RECURSAL Recurso: 1 Classe: RI"
+        )
+        == ""
+    )
+    # The court-header prefix is stripped, keeping the ementa after the marker.
+    assert (
+        _clean_tjpr_ementa(
+            "PODER JUDICIÁRIO TRIBUNAL DE JUSTIÇA DO ESTADO DO PARANÁ 1ª Câmara Cível "
+            "EMENTA: RESPONSABILIDADE CIVIL. DANO CONFIGURADO."
+        )
+        == "RESPONSABILIDADE CIVIL. DANO CONFIGURADO."
+    )
+    # A clause that begins mid-sentence is a truncated inteiro-teor fragment.
+    assert (
+        _clean_tjpr_ementa(
+            "decisão monocrática que a ele negou provimento (evento 6). Restou pacificado..."
+        )
+        == ""
+    )
 
 
 def test_parser_accepts_acordao_link_class_from_live_contract():

@@ -18,6 +18,7 @@ from nanojuris.errors import (
     RateLimitDetectedError,
     SourceUnavailableError,
     UnsupportedProviderError,
+    safe_error_message,
 )
 from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.base import JurisprudenceProvider
@@ -192,14 +193,15 @@ def _error_report(
     error: Exception,
 ) -> ProviderHealthReport:
     status = _status_for_error(error)
+    error_type = "SslVerificationError" if _is_ssl_error(error) else type(error).__name__
     return ProviderHealthReport(
         source=source,
         status=status,
         checked_at=checked_at,
         elapsed_ms=_elapsed_ms(started),
         query_text=query_text,
-        error_type=type(error).__name__,
-        message=str(error),
+        error_type=error_type,
+        message=safe_error_message(error),
     )
 
 
@@ -223,9 +225,27 @@ def _status_for_error(error: Exception) -> ProviderHealthStatus:
         return ProviderHealthStatus.SOURCE_CHANGED
     if isinstance(error, (NetworkConfigurationError, SourceUnavailableError)):
         return ProviderHealthStatus.SOURCE_UNAVAILABLE
+    if _is_ssl_error(error):
+        return ProviderHealthStatus.SOURCE_UNAVAILABLE
     if isinstance(error, (NanoJurisError, InternalProviderError)):
         return ProviderHealthStatus.ERROR
     return ProviderHealthStatus.ERROR
+
+
+def _is_ssl_error(error: BaseException) -> bool:
+    """Recognize TLS failures even when the exception message omits ``SSL``."""
+
+    chain: list[BaseException] = []
+    current: BaseException | None = error
+    seen: set[int] = set()
+    while current is not None and id(current) not in seen:
+        chain.append(current)
+        seen.add(id(current))
+        current = current.__cause__ or current.__context__
+    text = " | ".join(str(item).lower() for item in chain)
+    return any("ssl" in type(item).__name__.lower() for item in chain) or (
+        "certificate" in text and ("verify" in text or "certificado" in text)
+    )
 
 
 def _now_iso() -> str:

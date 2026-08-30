@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 import requests
 
@@ -9,56 +11,9 @@ from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjsp_eproc_jurisprudencia import parse_eproc_jurisprudencia_results
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
 
-TRF4_HTML = """
-<html><body>
-  <form id="frmJurisprudenciaPesquisa"></form>
-  <div class="card mb-3 resultadoItem" id="resultado41785517964304066196063791796">
-    <div class="bg-header-resultado">
-      <a class="inteiroTeor"
-        data-link="externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&amp;id_jurisprudencia=41785517964304066196063791796&amp;termosPesquisados=ZGVzZXJjYW8="
-        href="javascript:void(0)">article</a>
-      <a class="consultaProcessual"
-        data-link="http://www.trf4.jus.br/trf4/processos/acompanhamento/resultado_pesquisa.php?selForma=NU&amp;selOrigem=TRF&amp;txtValor=50378983620254040000"
-        href="javascript:void(0)">find_in_page</a>
-    </div>
-    <div id="41785517964304066196063791796">
-      <div class="card-body">
-        <div class="resValueTipoJurisprudencia">Despacho/Decisão da Vice-Presidência</div>
-        <div class="row">
-          <div class="resLabel">PROCESSO</div>
-          <div class="resValue">
-            <a class="numero-processo" href="http://www.trf4.jus.br/trf4/processos/acompanhamento/resultado_pesquisa.php?selForma=NU&amp;selOrigem=TRF&amp;txtValor=50378983620254040000">5037898-36.2025.4.04.0000/TRF4</a>
-            <span>AG - Agravo de Instrumento</span>
-          </div>
-        </div>
-                <div class="row">
-                    <div class="resLabel">UF</div><div class="resValue">RS</div>
-                </div>
-                <div class="row">
-                    <div class="resLabel">ÓRGÃO JULGADOR</div>
-                    <div class="resValue">VICE-PRESIDÊNCIA</div>
-                </div>
-                <div class="row">
-                    <div class="resLabel">DATA DO JULGAMENTO</div>
-                    <div class="resValue">31/07/2026</div>
-                </div>
-                <div class="row">
-                    <div class="resLabel">DATA DA PUBLICAÇÃO</div>
-                    <div class="resValue">31/07/2026</div>
-                </div>
-                <div class="row">
-                    <div class="resLabel">RELATOR</div>
-                    <div class="resValue">GUSTAVO CHIES CIGNACHI</div>
-                </div>
-                <div class="row">
-                    <div class="resLabel">DECISÃO</div>
-                    <div class="resValue limitado">Aplica-se a pena de deserção.</div>
-                </div>
-      </div>
-    </div>
-  </div>
-</body></html>
-"""
+FIXTURES = Path(__file__).parent / "fixtures"
+
+TRF4_HTML = (FIXTURES / "trf4_eproc_results.html").read_text(encoding="utf-8")
 
 
 class FakeResponse:

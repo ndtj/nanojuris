@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 from concurrent.futures import ThreadPoolExecutor, wait
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +18,9 @@ from nanojuris.errors import (
     NanoJurisError,
     UnsupportedProviderError,
     UnsupportedQueryError,
+    safe_error_message,
 )
+from nanojuris.identity import identity_key
 from nanojuris.models import (
     CanonicalDecision,
     CanonicalDocument,
@@ -47,6 +49,7 @@ from nanojuris.providers.stj_dados_abertos_jurisprudencia import StjDadosAbertos
 from nanojuris.providers.stj_informativo import StjInformativoProvider
 from nanojuris.providers.stj_scon import StjSconProvider
 from nanojuris.providers.stm_jurisprudencia import StmJurisprudenciaProvider
+from nanojuris.providers.tce_pr_viajuris import TcePrViaJurisProvider
 from nanojuris.providers.tce_sp_jurisprudencia import TceSpJurisprudenciaProvider
 from nanojuris.providers.tcu_jurisprudencia import TcuJurisprudenciaProvider
 from nanojuris.providers.tjac_cjsg import TjacCjsgProvider
@@ -83,6 +86,7 @@ from nanojuris.routing import (
     JURISPRUDENCE_CATEGORIES,
     _unsupported_refinement_filters,
     build_routing_summary,
+    build_source_outcomes,
     route_unified_sources,
 )
 from nanojuris.source_contracts import (
@@ -150,6 +154,7 @@ class NanoJurisClient:
                 StmJurisprudenciaProvider(self.config),
                 TstJurisprudenciaProvider(self.config),
                 TceSpJurisprudenciaProvider(self.config),
+                TcePrViaJurisProvider(self.config),
                 TjceInformativosProvider(self.config),
                 TjacCjsgProvider(self.config),
                 TjceCjsgProvider(self.config),
@@ -393,11 +398,20 @@ class NanoJurisClient:
 
         def fetch_source(
             source: str,
-        ) -> tuple[list[UnifiedSearchRecord], int, SearchPage, int]:
+        ) -> tuple[
+            list[UnifiedSearchRecord],
+            int,
+            SearchPage,
+            int,
+            int,
+            list[dict[str, str]],
+        ]:
             records: list[UnifiedSearchRecord] = []
             source_page = 1
             pages_fetched = 0
             page_result: SearchPage | None = None
+            invalid_records = 0
+            record_errors: list[dict[str, str]] = []
             target = page * page_size
             source_page_size = min(100, target)
             while len(records) < target:
@@ -411,15 +425,41 @@ class NanoJurisClient:
                     **filters,
                 )
                 pages_fetched += 1
-                if canonical:
-                    page_records: list[UnifiedSearchRecord] = list(
-                        search_page_to_canonical(page_result)
-                    )
-                else:
-                    page_records = list(page_result.results)
-                if not page_records:
+                raw_results = list(page_result.results)
+                page_records: list[UnifiedSearchRecord] = []
+                for record_index, result in enumerate(raw_results):
+                    try:
+                        if canonical:
+                            canonical_records = search_page_to_canonical(
+                                replace(page_result, results=[result])
+                            )
+                            if not canonical_records:
+                                raise ValueError("canonicalization produced no record")
+                            page_records.extend(canonical_records)
+                        elif isinstance(result, JurisprudenceResult):
+                            page_records.append(result)
+                        else:
+                            raise TypeError("provider returned an invalid record")
+                    except Exception:
+                        # Provider payloads can contain personal or legal data.
+                        # Keep diagnostics useful without serializing the result
+                        # or the exception, which may include the raw payload.
+                        invalid_records += 1
+                        record_errors.append(
+                            _invalid_record_error(
+                                source,
+                                page=source_page,
+                                record_index=record_index,
+                            )
+                        )
+                if not raw_results:
                     break
                 records.extend(page_records)
+                # Do not keep requesting pages forever when a provider returns
+                # only malformed items and does not advertise completion. The
+                # source is reported as partial below with its invalid count.
+                if not page_records:
+                    break
                 if page_result.is_complete is True:
                     break
                 if page_result.total >= 0 and len(records) >= page_result.total:
@@ -427,7 +467,14 @@ class NanoJurisClient:
                 source_page += 1
             if page_result is None:
                 raise InternalProviderError(f"provider {source} returned no search page")
-            return records, page_result.total, page_result, pages_fetched
+            return (
+                records,
+                page_result.total,
+                page_result,
+                pages_fetched,
+                invalid_records,
+                record_errors,
+            )
 
         executor = ThreadPoolExecutor(
             max_workers=max(1, min(self.config.unified_max_workers, len(routing.searched)))
@@ -443,18 +490,53 @@ class NanoJurisClient:
                 if not continue_on_error:
                     executor.shutdown(wait=False, cancel_futures=True)
                     raise error
-                errors.append(_source_error(source, error))
+                error_payload = _source_error(source, error)
+                errors.append(error_payload)
+                # Keep the completeness partition total even when the future
+                # never returned a SearchPage.  Omitting this entry would make
+                # a timed-out source indistinguishable from an unobserved one.
+                source_completeness[source] = {
+                    "returned": 0,
+                    "reported_total": None,
+                    "pagination_mode": "timeout",
+                    "complete": False,
+                    "reason": "A fonte excedeu o tempo limite da consulta.",
+                    "pages_fetched": 0,
+                    "invalid_records": 0,
+                    # Keep the source-level envelope self-describing.  The
+                    # same sanitized values are also present in ``errors``;
+                    # consumers that only inspect completeness must not
+                    # mistake a timeout for an unobserved source.
+                    "error_type": error_payload["error_type"],
+                    "error_message": error_payload["message"],
+                }
                 continue
             try:
-                source_results, total, page_result, pages_fetched = future.result()
+                (
+                    source_results,
+                    total,
+                    page_result,
+                    pages_fetched,
+                    invalid_records,
+                    record_errors,
+                ) = future.result()
                 source_totals[source] = total
+                if record_errors:
+                    errors.extend(record_errors)
                 source_completeness[source] = {
                     "returned": len(source_results),
                     "reported_total": total,
                     "pagination_mode": page_result.pagination_mode,
-                    "complete": page_result.is_complete,
-                    "reason": page_result.completeness_reason,
+                    # A complete source page with dropped malformed records is
+                    # still incomplete from the consumer's perspective.
+                    "complete": False if invalid_records else page_result.is_complete,
+                    "reason": (
+                        "A fonte retornou registros invalidos que foram omitidos."
+                        if invalid_records
+                        else page_result.completeness_reason
+                    ),
                     "pages_fetched": pages_fetched,
+                    "invalid_records": invalid_records,
                 }
                 results.extend(source_results)
             except Exception as exc:
@@ -468,7 +550,8 @@ class NanoJurisClient:
                     exc = InternalProviderError(
                         f"provider {source} failed with an unexpected internal error"
                     )
-                errors.append(_source_error(source, exc))
+                error_payload = _source_error(source, exc)
+                errors.append(error_payload)
                 source_completeness[source] = {
                     "returned": 0,
                     "reported_total": None,
@@ -476,6 +559,11 @@ class NanoJurisClient:
                     "complete": False,
                     "reason": "A fonte nao concluiu a consulta.",
                     "pages_fetched": 0,
+                    # ``error_message`` is classified and sanitized by
+                    # ``_source_error``; never copy the provider exception
+                    # directly into this public envelope.
+                    "error_type": error_payload["error_type"],
+                    "error_message": error_payload["message"],
                 }
         executor.shutdown(wait=False, cancel_futures=True)
 
@@ -508,6 +596,11 @@ class NanoJurisClient:
             "sources": selected_sources,
             "searched_sources": routing.searched,
             "skipped_sources": [skip.to_dict() for skip in routing.skipped],
+            "source_outcomes": build_source_outcomes(
+                selected_sources=selected_sources,
+                routed=routing,
+                errors=errors,
+            ),
             "routing_warnings": [warning.to_dict() for warning in routing.warnings],
             "routing_summary": [
                 item.to_dict()
@@ -663,6 +756,7 @@ class NanoJurisClient:
             "sources": payload["sources"],
             "searched_sources": payload["searched_sources"],
             "skipped_sources": payload["skipped_sources"],
+            "source_outcomes": payload["source_outcomes"],
             "courts": courts or [],
             "types": types or [],
             "page": page,
@@ -886,11 +980,34 @@ def _rank_and_deduplicate(
 
 def _record_identity(record: UnifiedSearchRecord) -> str:
     case_number = getattr(record, "case_number", None) or getattr(record, "number", None)
-    if case_number:
-        return f"case:{re.sub(r'[^0-9a-z]', '', str(case_number).lower())}"
-    if isinstance(record, CanonicalPrecedent):
-        return f"precedent:{record.court}:{record.precedent_type}:{record.number or record.id}"
-    return f"source:{record.source}:{record.id}"
+    record_type = (
+        getattr(record, "decision_type", None)
+        or getattr(record, "precedent_type", None)
+        or type(record).__name__
+    )
+    semantic_fields = {
+        name: getattr(record, name, None)
+        for name in (
+            "subject",
+            "question",
+            "thesis",
+            "summary",
+            "rapporteur",
+            "judgment_date",
+            "publication_date",
+            "updated_at",
+            "status",
+            "document_type",
+        )
+    }
+    return identity_key(
+        source=getattr(record, "source", ""),
+        court=getattr(record, "court", ""),
+        identifier=getattr(record, "id", ""),
+        number=case_number,
+        record_type=record_type,
+        semantic_fields=semantic_fields,
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -912,6 +1029,30 @@ def _source_error(source: str, exc: Exception) -> dict[str, str]:
     return payload
 
 
+def _invalid_record_error(
+    source: str,
+    *,
+    page: int,
+    record_index: int,
+) -> dict[str, str]:
+    """Describe a dropped provider item without retaining its payload.
+
+    A malformed provider result can contain a complete legal document or
+    personal data.  The error envelope therefore records only stable location
+    metadata; callers can diagnose the adapter without leaking the raw result
+    or an exception string containing the response body.
+    """
+
+    return {
+        "source": source,
+        "scope": "record",
+        "error_type": "InvalidRecordError",
+        "message": "A fonte retornou um registro invalido; o item foi omitido.",
+        "page": str(page),
+        "record_index": str(record_index),
+    }
+
+
 def _classify_error(exc: Exception) -> _ErrorClassification:
     chain_text = " | ".join(str(item) for item in _exception_chain(exc))
     lowered = chain_text.lower()
@@ -927,7 +1068,15 @@ def _classify_error(exc: Exception) -> _ErrorClassification:
                 "--ignore-env-proxy quando o proxy local estiver invalido."
             ),
         )
-    if "ssl" in lowered and ("certificate" in lowered or "certificado" in lowered):
+    # ``requests.exceptions.SSLError`` often exposes only the message through
+    # ``str(exc)`` (for example ``certificate verify failed``), omitting the
+    # exception class. Inspect the exception chain types as well so a TLS
+    # failure cannot be downgraded to a generic internal error—or an empty
+    # provider result—by the federated collector.
+    ssl_exception = any("ssl" in type(item).__name__.lower() for item in _exception_chain(exc))
+    if ("ssl" in lowered or ssl_exception) and (
+        "certificate" in lowered or "certificado" in lowered or ssl_exception
+    ):
         return _ErrorClassification(
             error_type="SslVerificationError",
             message=(
@@ -941,7 +1090,7 @@ def _classify_error(exc: Exception) -> _ErrorClassification:
         )
     return _ErrorClassification(
         error_type=type(exc).__name__,
-        message=str(exc),
+        message=safe_error_message(exc),
         hint="",
     )
 

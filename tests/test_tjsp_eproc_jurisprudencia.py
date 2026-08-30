@@ -90,6 +90,9 @@ def test_parse_eproc_jurisprudencia_results_maps_fixture():
     assert result.court == "TJSP"
     assert result.type == "sentenca"
     assert result.number == "4002141-42.2025.8.26.0132"
+    # The ementa is the summary, not the "Vistos e relatados..." dispositive.
+    assert result.summary is not None
+    assert result.summary.startswith("DIREITO DO CONSUMIDOR. RESPONSABILIDADE CIVIL")
     assert result.rapporteur == "MARCELO EDUARDO DE SOUZA"
     assert result.updated_at == "22/07/2026"
     assert result.publication_date == "22/07/2026"
@@ -101,19 +104,7 @@ def test_parse_eproc_jurisprudencia_results_maps_fixture():
 
 
 def test_parse_eproc_accepts_tjsc_card_contract_without_process_link_class():
-    html = """
-    <div class="card resultadoItem" id="resultado321786847825565077325146609142">
-      <span>Documento 1 de 2</span>
-      <span>Decisoes Monocraticas do Tribunal de Justica</span>
-      <span>PROCESSO 5070037-16.2026.8.24.0000/TJSC</span>
-      <span>DATA DO JULGAMENTO 16/08/2026</span>
-      <span>DATA DA PUBLICACAO 16/08/2026</span>
-      <span>EMENTA A decisao publica contem a fundamentacao.</span>
-      <a
-        data-link="externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&amp;id_jurisprudencia=321786847825565077325146609142"
-      >article</a>
-    </div>
-    """
+    html = (FIXTURES / "tjsc_eproc_jurisprudencia_result.html").read_text(encoding="utf-8")
     trace = SourceTrace(provider="tjsc_eproc_jurisprudencia", endpoint="/results")
 
     results = parse_eproc_jurisprudencia_results(
@@ -279,6 +270,21 @@ def test_missing_result_cards_are_rejected():
             "<html><body>sem resultados conhecidos</body></html>",
             trace=trace,
             source_url="https://example.test",
+        )
+
+
+def test_result_card_without_stable_id_or_process_is_rejected():
+    trace = SourceTrace(provider="tjsc_eproc_jurisprudencia", endpoint="/search")
+
+    with pytest.raises(ParserContractChangedError, match="stable id"):
+        parse_eproc_jurisprudencia_results(
+            "<div class='resultadoItem'><div class='resValue'>Ementa sem identidade</div></div>",
+            trace=trace,
+            source_url="https://example.test",
+            source="tjsc_eproc_jurisprudencia",
+            court="TJSC",
+            id_prefix="tjsc-eproc-jurisprudencia",
+            source_label="TJSC/eproc jurisprudence",
         )
 
 

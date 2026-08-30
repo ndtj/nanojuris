@@ -22,6 +22,8 @@ from nanojuris.models import (
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
+    ProviderCatalog,
+    ProviderOption,
     SearchPage,
     SourceTrace,
 )
@@ -101,6 +103,57 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
             source=self.name,
             texts=[],
             raw={"message": "TCE-SP catalog provider does not expose linked decision text."},
+        )
+
+    def get_catalog(self) -> ProviderCatalog:
+        """Expose the public TCE-SP bulletin collection as a typed catalog.
+
+        The dynamic search route is protected by reCAPTCHA. The two public
+        bulletin pages are stable, read-only alternatives and already power
+        ``search``; exposing them here makes the available species explicit
+        without pretending that a protected search endpoint is available.
+        """
+
+        trace = SourceTrace(
+            provider=self.name,
+            endpoint="GET /boletim-de-jurisprudencia/{sumulas|publicacoes}",
+            query={"catalog": True},
+            source_url=self.config.tce_sp_url,
+            limitations=[
+                "Catalogo formado pelas colecoes publicas de sumulas e boletins.",
+                "A busca dinamica do TCE-SP permanece protegida por reCAPTCHA.",
+            ],
+        )
+        sumulas_html, sumulas_url = self._request_text("GET", "/boletim-de-jurisprudencia/sumulas")
+        boletins_html, boletins_url = self._request_text(
+            "GET", "/boletim-de-jurisprudencia/publicacoes"
+        )
+        sumulas = parse_tce_sp_sumulas(sumulas_html, source_url=sumulas_url, trace=trace)
+        boletins = parse_tce_sp_boletins(boletins_html, source_url=boletins_url, trace=trace)
+        return ProviderCatalog(
+            source=self.name,
+            courts=[
+                ProviderOption(
+                    code="TCE-SP",
+                    description="Tribunal de Contas do Estado de Sao Paulo",
+                )
+            ],
+            species=[
+                ProviderOption(code="sumula", description="Súmula"),
+                ProviderOption(
+                    code="boletim_jurisprudencia",
+                    description="Boletim de jurisprudência",
+                ),
+            ],
+            species_groups=[
+                {"name": "sumulas", "count": len(sumulas)},
+                {"name": "boletins", "count": len(boletins)},
+            ],
+            source_trace=trace,
+            raw={
+                "sumulas": [item.to_dict() for item in sumulas],
+                "boletins": [item.to_dict() for item in boletins],
+            },
         )
 
     def get_capabilities(self) -> ProviderCapabilities:

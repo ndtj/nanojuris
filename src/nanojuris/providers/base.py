@@ -7,6 +7,7 @@ from collections.abc import Iterator
 from dataclasses import replace
 from typing import Any
 
+from nanojuris.identity import identity_key
 from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
@@ -48,14 +49,36 @@ class JurisprudenceProvider(ABC):
         max_page = self.get_capabilities().max_remote_page
         while max_page is None or page_number <= max_page:
             page = self.search(replace(query, page=page_number))
-            unique_results = [result for result in page.results if result.id not in seen]
+
+            def result_key(result: Any, fallback_source: str) -> str:
+                return identity_key(
+                    source=result.source or fallback_source,
+                    court=result.court,
+                    identifier=result.id,
+                    number=result.number,
+                    record_type=result.type,
+                    semantic_fields={
+                        "summary": result.summary,
+                        "question": result.question,
+                        "thesis": result.thesis,
+                        "judgment_date": result.judgment_date,
+                        "publication_date": result.publication_date,
+                    },
+                )
+
+            result_keys = [result_key(result, page.source) for result in page.results]
+            unique_results = [
+                result
+                for result, key in zip(page.results, result_keys, strict=True)
+                if key not in seen
+            ]
             duplicate_results = len(unique_results) != len(page.results)
             stalled = bool(page.results) and not unique_results
             remaining = None if target == float("inf") else int(target - len(seen))
             target_truncated = remaining is not None and len(unique_results) > remaining
             if target_truncated:
                 unique_results = unique_results[:remaining]
-            seen.update(result.id for result in unique_results)
+            seen.update(result_key(result, page.source) for result in unique_results)
             if duplicate_results or target_truncated:
                 reason_parts = []
                 if duplicate_results:

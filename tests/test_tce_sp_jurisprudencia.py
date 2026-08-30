@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
 from nanojuris.models import JurisprudenceQuery, SourceTrace
@@ -9,28 +11,11 @@ from nanojuris.providers.tce_sp_jurisprudencia import (
     parse_tce_sp_sumulas,
 )
 
-SUMULAS_HTML = """
-<html><body><article>
-  REPERTÓRIO DE SÚMULAS
-  SÚMULA Nº 1 - Não é lícita a concessão de subvenção personalíssima.
-  (Veja histórico e fundamento)
-  <table><tr><td>HISTÓRICO</td><td>Aprovada pela Resolução nº 79/1971</td></tr></table>
-  SÚMULA Nº 2 - É inconstitucional a aplicação de auxílios em culto religioso.
-  (Veja histórico e fundamento)
-  <table><tr><td>FUNDAMENTO</td><td>TC-001142-65</td></tr></table>
-</article></body></html>
-"""
+FIXTURES = Path(__file__).parent / "fixtures"
 
-BOLETINS_HTML = """
-<html><body><article>
-  <a href="/boletim-de-jurisprudencia/publicacoes/boletim-jurisprudencia-edicao-53-marco2026">
-    Novo Boletim de Jurisprudência - Edição N.º 53 - Março/2026
-  </a>
-  <a href="/publicacoes/boletim-jurisprudencia-edicao-52-fevereiro2026">
-    Boletim de Jurisprudência - Edição N.º 52 - Fevereiro/2026
-  </a>
-</article></body></html>
-"""
+SUMULAS_HTML = (FIXTURES / "tce_sp_sumulas.html").read_text(encoding="utf-8")
+
+BOLETINS_HTML = (FIXTURES / "tce_sp_boletins.html").read_text(encoding="utf-8")
 
 
 class FakeResponse:
@@ -112,3 +97,33 @@ def test_tce_sp_canonicalizes_as_precedent():
     assert records[0].source == "tce_sp_jurisprudencia"
     assert records[0].precedent_type == "sumula"
     assert records[0].thesis is not None
+
+
+def test_tce_sp_catalog_exposes_public_collections() -> None:
+    session = FakeSession(
+        [
+            FakeResponse(
+                SUMULAS_HTML,
+                "https://www.tce.sp.gov.br/boletim-de-jurisprudencia/sumulas",
+            ),
+            FakeResponse(
+                BOLETINS_HTML,
+                "https://www.tce.sp.gov.br/boletim-de-jurisprudencia/publicacoes",
+            ),
+        ]
+    )
+    provider = TceSpJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    catalog = provider.get_catalog()
+
+    assert catalog.courts[0].code == "TCE-SP"
+    assert [option.code for option in catalog.species] == [
+        "sumula",
+        "boletim_jurisprudencia",
+    ]
+    assert catalog.species_groups == [
+        {"name": "sumulas", "count": 2},
+        {"name": "boletins", "count": 2},
+    ]
+    assert len(catalog.raw["sumulas"]) == 2
+    assert session.calls[0]["method"] == "GET"

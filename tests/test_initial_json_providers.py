@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+from pathlib import Path
 from typing import Any
 
 import pytest
@@ -27,12 +29,14 @@ from nanojuris.providers.tjpa_jurisprudencia_bff import (
 )
 from nanojuris.providers.tjpb_pje_jurisprudencia import (
     TjpbPjeJurisprudenciaProvider,
+    _clean_tjpb_ementa,
     parse_tjpb_search_response,
 )
 from nanojuris.providers.tjrs_solr import (
     TjrsSolrProvider,
     build_tjrs_search_parameters,
 )
+from nanojuris.providers.tst_jurisprudencia import TstJurisprudenciaProvider
 
 
 class FakeResponse:
@@ -123,6 +127,65 @@ def test_tjpb_parser_and_public_token_flow() -> None:
     assert payload["jurisprudencia"]["nr_processo"] == "0000001-10.2024.8.15.0001"
 
 
+def test_tjpb_ementa_strips_process_and_parties_header() -> None:
+    raw = (
+        "Processo nº: 0803419-27.2014.8.15.2001 Classe: RECURSO INOMINADO (460) "
+        "Assuntos: [Acidente de Trânsito] RECORRENTE: FULANO RECORRIDO: BELTRANO "
+        "EMENTA: RECURSO INOMINADO. ACIDENTE DE TRÂNSITO. DANO MATERIAL COMPROVADO. "
+        "SENTENÇA MANTIDA."
+    )
+    assert _clean_tjpb_ementa(raw) == (
+        "RECURSO INOMINADO. ACIDENTE DE TRÂNSITO. DANO MATERIAL COMPROVADO. SENTENÇA MANTIDA."
+    )
+    # A clean ementa is returned untouched.
+    assert _clean_tjpb_ementa("Dano moral in re ipsa.") == "Dano moral in re ipsa."
+    # A metadata-only header with no ementa is dropped rather than surfaced.
+    assert _clean_tjpb_ementa("Processo nº: 0803419-27.2014.8.15.2001 Classe: RI") is None
+    # A "Poder Judiciário Gab. Des. <relator>" prefix is stripped from the ementa.
+    assert (
+        _clean_tjpb_ementa(
+            "Poder Judiciário Gab. Des. Marcos William de Oliveira   "
+            "APELAÇÃO CÍVEL. RESPONSABILIDADE CIVIL. AÇÃO INDENIZATÓRIA. IMPROVIMENTO."
+        )
+        == "APELAÇÃO CÍVEL. RESPONSABILIDADE CIVIL. AÇÃO INDENIZATÓRIA. IMPROVIMENTO."
+    )
+
+
+def test_tjpb_parser_uses_cleaned_ementa_for_summary() -> None:
+    response_data = {
+        "total": 1,
+        "hits": [
+            {
+                "_id": "HDR1",
+                "_score": 1.0,
+                "dt_ementa": "2026-01-01",
+                "ementa": (
+                    "Processo nº: 0803419-27.2014.8.15.2001 Classe: RECURSO INOMINADO "
+                    "RECORRENTE: FULANO EMENTA: CONSUMIDOR. INSCRIÇÃO INDEVIDA. DANO "
+                    "MORAL IN RE IPSA."
+                ),
+                "numero_processo": "0803419-27.2014.8.15.2001",
+            }
+        ],
+    }
+    session = FakeSession(
+        [
+            FakeResponse(text='<meta name="_token" content="csrf-test">'),
+            FakeResponse(
+                response_data,
+                url="https://pje-jurisprudencia.tjpb.jus.br/api/jurisprudencia/pesquisar",
+            ),
+        ]
+    )
+    provider = TjpbPjeJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
+
+    page = provider.search(JurisprudenceQuery(text="dano moral", page_size=1))
+
+    assert page.results[0].summary == "CONSUMIDOR. INSCRIÇÃO INDEVIDA. DANO MORAL IN RE IPSA."
+
+
 def test_tjpb_detail_is_normalized_as_public_document() -> None:
     html = "<html><body><main><h1>Acórdão</h1><p>Conteúdo público.</p></main></body></html>"
     provider = TjpbPjeJurisprudenciaProvider(
@@ -145,6 +208,19 @@ def test_tjpb_parser_rejects_missing_hits() -> None:
             trace=None,  # type: ignore[arg-type]
             base_url="https://example.test",
         )
+
+
+def test_tjpb_access_challenge_is_not_misreported_as_schema_change() -> None:
+    fixture = (Path(__file__).parent / "fixtures" / "tjpb_access_control.html").read_text(
+        encoding="utf-8"
+    )
+    provider = TjpbPjeJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([FakeResponse(text=fixture)]),
+    )
+
+    with pytest.raises(AccessControlRequiredError, match="challenge"):
+        provider.search(JurisprudenceQuery(text="dano moral"))
 
 
 def test_tjpa_payload_parser_and_catalog() -> None:
@@ -185,7 +261,7 @@ def test_tjpa_payload_parser_and_catalog() -> None:
     assert page.total == 1
     assert page.results[0].id == "tjpa-bff-42"
     assert page.results[0].rapporteur == "Desembargador Exemplo"
-    assert page.results[0].publication_date == "01/02/2026"
+    assert page.results[0].publication_date == "2026-02-01"
     assert page.results[0].raw["full_text"] == "Inteiro teor disponivel."
 
     session = FakeSession(
@@ -209,6 +285,25 @@ def test_tjpa_payload_parser_and_catalog() -> None:
     catalog = provider.get_catalog()
     assert catalog.species[0].code == "A"
     assert catalog.courts[0].description == "Camara Exemplo"
+
+
+def test_tjpa_versioned_success_fixture_preserves_contract() -> None:
+    fixture_path = Path(__file__).parent / "fixtures" / "tjpa_jurisprudencia_bff_results.json"
+    data = json.loads(fixture_path.read_text(encoding="utf-8"))
+
+    page = parse_tjpa_search_response(
+        data,
+        query=JurisprudenceQuery(text="dano moral", page_size=1),
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    result = page.results[0]
+    assert page.total == 1
+    assert result.id == "tjpa-bff-42"
+    assert result.rapporteur == "Desembargador de Fixture"
+    assert result.publication_date == "2026-02-01"
+    assert result.raw["publication_date_raw"] == "01/02/2026"
+    assert result.raw["full_text"] == "Inteiro teor publico sanitizado."
 
 
 @pytest.mark.parametrize(
@@ -270,6 +365,32 @@ def test_tjpa_rejects_incomplete_search_and_catalog_contracts() -> None:
         provider.get_catalog()
 
 
+def test_tjpa_preserves_raw_dates_and_marks_textless_records_partial() -> None:
+    page = parse_tjpa_search_response(
+        {
+            "data": {
+                "content": [
+                    {
+                        "id": "textless",
+                        "datadocumento": "2026-03-04T10:20:00Z",
+                        "datapublicacao": "04/03/2026",
+                    }
+                ],
+                "totalElements": 1,
+            }
+        },
+        query=JurisprudenceQuery(text="teste"),
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    result = page.results[0]
+    assert result.judgment_date is None
+    assert result.publication_date == "2026-03-04"
+    assert result.updated_at == "2026-03-04"
+    assert result.extraction_status.value == "partial"
+    assert result.raw["publication_date_raw"] == "04/03/2026"
+
+
 def test_tjpa_normalization_helpers_keep_public_shapes() -> None:
     assert _date_br("2026-08-11") == "11/08/2026"
     assert _date_br("unknown") == "unknown"
@@ -285,6 +406,36 @@ def test_tjpa_detail_contract_is_explicitly_unimplemented() -> None:
 
     with pytest.raises(NotImplementedError, match="nao validadas"):
         provider.get_decisions("42")
+
+
+def test_tst_catalog_routes_are_normalized_and_raw_payloads_preserved() -> None:
+    catalog_payloads = [
+        [{"id": "1", "descricao": "Orgao julgador"}],
+        {"content": [{"codigo": "2", "nome": "Ministro"}]},
+        [{"value": "3", "label": "Convocado"}],
+        {"data": [{"id": "4", "description": "Classe"}]},
+        [{"id": "5", "name": "Indicador"}],
+        {"results": [{"cod": "6", "descricao": "Assunto"}]},
+    ]
+    session = FakeSession([FakeResponse(payload) for payload in catalog_payloads])
+    provider = TstJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    catalog = provider.get_catalog()
+
+    assert catalog.courts[0].code == "TST"
+    assert [option.code for option in catalog.species] == ["4"]
+    assert len(catalog.species_groups) == 6
+    assert catalog.raw["assuntos"]["results"][0]["cod"] == "6"
+    assert all(call["method"] == "GET" for call in session.calls)
+
+
+def test_tst_catalog_non_json_is_a_contract_failure() -> None:
+    provider = TstJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([FakeResponse(None)])
+    )
+
+    with pytest.raises(ParserContractChangedError, match="catalog"):
+        provider.get_catalog()
 
 
 def test_tjrs_preserves_nested_query_separators_and_parses_solr() -> None:

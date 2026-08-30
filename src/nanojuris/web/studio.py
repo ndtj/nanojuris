@@ -119,6 +119,7 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
         "sources": payload["sources"],
         "searched_sources": payload["searched_sources"],
         "skipped_sources": payload["skipped_sources"],
+        "source_outcomes": payload.get("source_outcomes", []),
         "routing_warnings": payload.get("routing_warnings", []),
         "source_totals": payload.get("source_totals", {}),
         "source_completeness": source_completeness,
@@ -193,7 +194,12 @@ def _source_status(
 
     status: dict[str, dict[str, Any]] = {}
     errors_by_source = {
-        str(item.get("source") or ""): item for item in errors if item.get("source")
+        # A malformed item is quarantined without invalidating the provider's
+        # other records. Keep it visible in ``errors`` but let the source
+        # completeness state classify the provider as partial.
+        str(item.get("source") or ""): item
+        for item in errors
+        if item.get("source") and item.get("scope") != "record"
     }
     for item in routing_summary:
         source = str(item.get("source") or "")

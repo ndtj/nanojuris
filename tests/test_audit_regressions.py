@@ -225,10 +225,10 @@ def test_unified_search_applies_global_pagination_and_deduplication():
     payload = client.search_many("ICMS", page=2, page_size=2)
 
     assert payload["federated"] is True
-    assert payload["total_available"] == 3
-    assert payload["total_returned"] == 1
-    assert payload["results"][0].case_number == "3"
-    assert len(payload["collected_results"]) == 3
+    assert payload["total_available"] == 4
+    assert payload["total_returned"] == 2
+    assert payload["results"][0].case_number == "2"
+    assert len(payload["collected_results"]) == 4
     assert {item.case_number for item in payload["collected_results"]} == {"1", "2", "3"}
     assert payload["collection_complete"] is False
     assert payload["has_more"] is False

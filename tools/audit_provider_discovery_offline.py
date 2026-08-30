@@ -24,6 +24,29 @@ FIXTURE_REF = re.compile(r"tests[\\/]fixtures[\\/]([A-Za-z0-9_.-]+)")
 URL_RE = re.compile(r"https?://[^\s`)>]+")
 SOURCE_MODULE_RE = re.compile(r"nanojuris\.providers\.([a-z0-9_]+)")
 
+# Inline payloads are useful deterministic evidence, but they are not
+# equivalent to a reviewed, replayable fixture file. Keep both evidence types
+# visible in the audit instead of silently treating either one as the other.
+INLINE_ASSIGNMENT_RE = re.compile(
+    r"(?im)^\s*(?P<name>[A-Za-z_]\w*(?:html|json|csv|fixture|payload|body|response))"
+    r"\s*=\s*(?:[rubf]{0,3})?(?:\"\"\"|''')"
+)
+INLINE_RESPONSE_RE = re.compile(
+    r"(?is)FakeResponse\s*\(\s*['\"](?:<html|\{\s*['\"]|\[\s*['\"]|"
+    r"blocked|error|plain text)"
+)
+# A few binary/structured parser tests build a small payload through a helper
+# (for example an in-memory XLSX) instead of assigning a triple-quoted string.
+# Require the helper to be clearly fixture-oriented and to construct bytes, so
+# ordinary test utilities are not reported as source evidence.
+INLINE_BUILDER_RE = re.compile(
+    r"(?ism)^\s*def\s+\w*(?:xlsx|inline)\w*fixture\w*\s*\([^)]*\).*?"
+    r"(?:BytesIO|ZipFile|<html|FakeResponse)"
+)
+FIXTURE_LITERAL_RE = re.compile(
+    r"(?i)(?:tests[\\/]fixtures[\\/])?([A-Za-z0-9_.-]+\.(?:html|json|csv|txt))"
+)
+
 
 def _read(path: Path) -> str:
     try:
@@ -48,15 +71,77 @@ def _fixture_refs(root: Path, source_id: str) -> set[str]:
 def _test_files(root: Path, source_id: str) -> list[str]:
     matches: list[str] = []
     for path in (root / "tests").rglob("*"):
-        if not path.is_file() or path.suffix not in {".py", ".json", ".html", ".txt"}:
+        # Fixture files are evidence inputs, not tests. Counting them here
+        # made a provider appear covered even when no test exercised it.
+        if not path.is_file() or path.suffix != ".py" or not path.name.startswith("test_"):
             continue
         try:
-            content = _read(path)
+            text = _read(path)
         except OSError:
             continue
-        if source_id in content or source_id in path.name:
+        # Prefer provider-specific test modules. Generic inventory/registry
+        # tests mention every source id, but they do not exercise that
+        # provider's parser or transport and would contaminate evidence.
+        test_stem = path.stem.removeprefix("test_")
+        if source_id in test_stem or source_id in path.name:
+            matches.append(path.relative_to(root).as_posix())
+            continue
+        # Shared-family tests (for example state eproc adapters) can exercise
+        # more than one provider without naming every source in the filename.
+        # Count them only when the test imports provider code; generic catalog
+        # inventory tests that merely mention source ids remain excluded.
+        if source_id in text and "nanojuris.providers" in text:
             matches.append(path.relative_to(root).as_posix())
     return sorted(matches)
+
+
+def _test_fixture_refs(root: Path, test_paths: list[str], source_id: str) -> set[str]:
+    """Extract fixture filenames explicitly loaded by provider tests."""
+
+    refs: set[str] = set()
+    for relative in test_paths:
+        text = _read(root / relative)
+        for match in FIXTURE_LITERAL_RE.finditer(text):
+            name = match.group(1)
+            # A shared test module may exercise several adapters with
+            # different response fixtures. Do not attribute a TJSP/TNU
+            # response to TJRJ/TJSC merely because the same parser is reused;
+            # a fixture filename must identify this source unless the test
+            # module itself is provider-specific.
+            provider_specific_test = source_id in Path(relative).stem
+            if not provider_specific_test and source_id not in name:
+                continue
+            if (root / "tests" / "fixtures" / name).is_file():
+                refs.add(name)
+    return refs
+
+
+def _inline_fixture_evidence(
+    root: Path, test_paths: list[str], source_id: str
+) -> list[dict[str, Any]]:
+    """Return conservative evidence for responses embedded directly in tests."""
+
+    evidence: list[dict[str, Any]] = []
+    for relative in test_paths:
+        # Shared-family modules can contain inline responses for another
+        # adapter. Unless the filename is source-specific, avoid attributing
+        # those literals to this provider.
+        if source_id not in Path(relative).stem:
+            continue
+        text = _read(root / relative)
+        names = sorted({match.group("name") for match in INLINE_ASSIGNMENT_RE.finditer(text)})
+        direct_response = bool(INLINE_RESPONSE_RE.search(text))
+        builder = bool(INLINE_BUILDER_RE.search(text))
+        if names or direct_response or builder:
+            evidence.append(
+                {
+                    "test": relative,
+                    "named_payloads": names,
+                    "direct_response_literals": direct_response,
+                    "in_memory_builder": builder,
+                }
+            )
+    return evidence
 
 
 def _runtime_registered(root: Path, source_id: str) -> bool:
@@ -130,6 +215,8 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
         contract_path = root / "docs/source-contracts" / f"{source_id}.md"
         fixture_names = _fixture_refs(root, source_id)
         tests = _test_files(root, source_id)
+        fixture_names.update(_test_fixture_refs(root, tests, source_id))
+        inline_fixture_evidence = _inline_fixture_evidence(root, tests, source_id)
         needs_discovery = implementation_status in {"none", "family"}
         fixture_analysis = (
             _fixture_analysis(root, source_id, fixture_names) if needs_discovery else []
@@ -171,6 +258,16 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
                 "documentation_open_items": documentation.get("open_items", 0),
                 "fixture_references": sorted(fixture_names),
                 "test_references": tests,
+                "inline_fixture_evidence": inline_fixture_evidence,
+                "fixture_evidence_kind": (
+                    "versioned_and_inline"
+                    if fixture_names and inline_fixture_evidence
+                    else "versioned_fixture"
+                    if fixture_names
+                    else "inline_test_only"
+                    if inline_fixture_evidence
+                    else "none"
+                ),
                 "blockers": blockers,
                 "offline_discovery": fixture_analysis,
                 "offline_evidence_status": (
@@ -183,6 +280,9 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
 
     mapped = [item for item in records if item["implementation_status"] == "none"]
     family = [item for item in records if item["implementation_status"] == "family"]
+    runtime = [
+        item for item in records if item["implementation_status"] in {"implemented", "runtime"}
+    ]
     return {
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "mode": "offline_only",
@@ -199,6 +299,16 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
                 item["offline_evidence_status"] == "no_local_fixture" for item in mapped
             ),
             "local_discovery_runs": sum(len(item["offline_discovery"]) for item in records),
+            "runtime_providers": len(runtime),
+            "runtime_with_versioned_fixture": sum(
+                bool(item["fixture_references"]) for item in runtime
+            ),
+            "runtime_inline_test_only": sum(
+                item["fixture_evidence_kind"] == "inline_test_only" for item in runtime
+            ),
+            "runtime_without_fixture_evidence": sum(
+                item["fixture_evidence_kind"] == "none" for item in runtime
+            ),
         },
         "mapped_candidates": sorted(
             mapped,
@@ -238,6 +348,11 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- Entradas de família: **{summary['family_entries']}**.",
         f"- Candidates sem fixture local: **{summary['mapped_without_local_fixture']}**.",
         f"- Análises de fixtures executadas: **{summary['local_discovery_runs']}**.",
+        f"- Providers runtime auditados: **{summary['runtime_providers']}**; "
+        f"com fixture versionada: **{summary['runtime_with_versioned_fixture']}**.",
+        f"- Providers runtime somente com payload inline: "
+        f"**{summary['runtime_inline_test_only']}**; sem evidência de fixture: "
+        f"**{summary['runtime_without_fixture_evidence']}**.",
         "",
         (
             "A ausência de fixture local não é tratada como `empty`: é uma lacuna de "
@@ -263,6 +378,44 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"{'sim' if item['fixture_references'] else 'não'} | "
             f"{'sim' if item['test_references'] else 'não'} | {blockers} | {next_action} |"
         )
+    runtime_inline = [
+        item
+        for item in report["all_entries"]
+        if item["implementation_status"] in {"implemented", "runtime"}
+        and item["fixture_evidence_kind"] == "inline_test_only"
+    ]
+    runtime_without_evidence = [
+        item
+        for item in report["all_entries"]
+        if item["implementation_status"] in {"implemented", "runtime"}
+        and item["fixture_evidence_kind"] == "none"
+    ]
+    lines += [
+        "",
+        "## Evidência dos providers runtime",
+        "",
+        (
+            "A auditoria separa fixture versionada de payload embutido no teste. "
+            "Payload inline não é promovido automaticamente a fixture: ele deve "
+            "ser extraído somente quando o conteúdo já estiver versionado e sanitizado."
+        ),
+        "",
+        "### Somente payload inline",
+        "",
+    ]
+    if runtime_inline:
+        lines.extend(
+            f"- `{item['source_id']}`: "
+            + "; ".join(evidence["test"] for evidence in item["inline_fixture_evidence"])
+            for item in runtime_inline
+        )
+    else:
+        lines.append("- Nenhum provider runtime identificado.")
+    lines += ["", "### Sem fixture nem payload inline", ""]
+    if runtime_without_evidence:
+        lines.extend(f"- `{item['source_id']}`" for item in runtime_without_evidence)
+    else:
+        lines.append("- Nenhum provider runtime identificado.")
     lines += [
         "",
         "## Execução prática sobre evidência local",

@@ -16,6 +16,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `stj_informativo` | CanonicalDecision | informativo, nota_jurisprudencia | html | 9 | nao | sim |
 | `stj_scon` | CanonicalDecision, CanonicalDocument | acordao | html, pdf | 9 | sim | sim |
 | `stm_jurisprudencia` | CanonicalDecision, CanonicalDocument | acordao | html | 9 | sim | sim |
+| `tce_pr_viajuris` | CanonicalDecision | acordao | csv, pdf_link | 6 | nao | sim |
 | `tce_sp_jurisprudencia` | CanonicalPrecedent | sumula, boletim_jurisprudencia | html | 6 | nao | sim |
 | `tcu_jurisprudencia` | CanonicalDecision, CanonicalPrecedent | acordao, jurisprudencia_selecionada, sumula, boletim | csv, text/html | 5 | nao | sim |
 | `tjac_cjsg` | CanonicalDecision, CanonicalDocument | acordao, homologation, decision | html | 12 | sim | sim |
@@ -26,7 +27,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `tjce_cjsg` | CanonicalDecision, CanonicalDocument | acordao, homologation, decision | html | 12 | sim | sim |
 | `tjce_informativos` | CanonicalDecision | informativo_item | html, pdf | 11 | nao | sim |
 | `tjce_sjuris` | CanonicalDecision | acordao, decisao_monocratica, sumula | json, text, pdf | 12 | sim | sim |
-| `tjdf_juris` | CanonicalDecision, CanonicalDocument | acordao, turma_recursal, tema, informativo | html | 10 | sim | sim |
+| `tjdf_juris` | CanonicalDecision, CanonicalDocument | acordao, turma_recursal, tema, informativo | html, json | 10 | sim | sim |
 | `tjes_jurisprudencia` | - | - | - | 0 | nao | nao |
 | `tjgo_projudi_jurisprudencia` | CanonicalDecision | decisao, sentenca, acordao | html | 8 | nao | sim |
 | `tjma_jurisconsult` | ProviderCatalog | acordao, decisao_monocratica, sentenca, sumula | json | 7 | nao | sim |

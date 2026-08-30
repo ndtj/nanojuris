@@ -1151,3 +1151,35 @@
     transition: none;
   }
 }
+
+/* Keep the shell feeling continuously available.  The API request can still
+ * expose progress through the skeleton and source health indicators, but
+ * infrastructure lifecycle language ("carregando", "preparando") is not a
+ * useful user-facing state for an online research workspace. */
+.wb-eyebrow {
+  font-size: 0;
+}
+
+.wb-eyebrow::after {
+  content: "pesquisa federada / online";
+  font: inherit;
+  font-size: var(--wb-font-meta);
+}
+
+.wb-loading-state > strong {
+  font-size: 0;
+}
+
+.wb-loading-state > strong::after {
+  content: "Atualizando resultados...";
+  font-size: 12px;
+}
+
+.wb-source-catalog-state > strong {
+  font-size: 0;
+}
+
+.wb-source-catalog-state > strong::after {
+  content: "Fontes públicas";
+  font-size: 11px;
+}

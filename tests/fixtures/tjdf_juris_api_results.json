@@ -1,0 +1,40 @@
+{
+  "hits": {"value": 2},
+  "agregacoes": {
+    "relator": [{"nome": "MARIA TESTE", "total": 1}],
+    "base": [{"nome": "ACORDAOS", "total": 2}]
+  },
+  "paginacao": {"pagina": 0, "tamanho": 2},
+  "registros": [
+    {
+      "uuid": "11111111-1111-4111-8111-111111111111",
+      "identificador": "TJDF-0001",
+      "dataPublicacao": "2024-09-16T00:00:00Z",
+      "dataJulgamento": "04/09/2024",
+      "ementa": "Ementa publica de teste sobre responsabilidade civil.",
+      "decisao": "CONHECIDO E PROVIDO.",
+      "processo": "0700001-00.2024.8.07.0001",
+      "nomeRelator": "MARIA TESTE",
+      "descricaoOrgaoJulgador": "1a Turma Civel",
+      "base": "ACORDAOS",
+      "possuiInteiroTeor": true,
+      "inteiroTeor": "Texto integral publico de teste.",
+      "marcadores": {"ementa": ["responsabilidade"]},
+      "campoDesconhecido": "preservar"
+    },
+    {
+      "uuid": "22222222-2222-4222-8222-222222222222",
+      "identificador": "TJDF-0002",
+      "dataPublicacao": "2024-09-17",
+      "dataJulgamento": null,
+      "ementa": "Segunda ementa publica de teste.",
+      "decisao": null,
+      "processo": null,
+      "nomeRelator": null,
+      "descricaoOrgaoJulgador": "2a Turma Civel",
+      "base": "ACORDAOS",
+      "possuiInteiroTeor": true,
+      "inteiroTeorHtml": "Inteiro Teor indisponivel."
+    }
+  ]
+}

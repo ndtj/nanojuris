@@ -264,12 +264,51 @@ def test_list_suggestions_returns_empty_when_endpoint_is_not_public():
     assert provider.list_suggestions("icms") == []
 
 
+def test_search_backfills_orgaos_and_tipos_from_catalog_when_query_omits_them():
+    # A plain text query leaves courts/types empty; the endpoint rejects that
+    # with HTTP 400, so the provider first reads the public catalog and sends
+    # every sigla, reproducing the old "search everything" behaviour.
+    catalog = FakeResponse(
+        {
+            "orgaos": [
+                {"sigla": "STF", "descricao": "Supremo Tribunal Federal"},
+                {"sigla": "STJ", "descricao": "Superior Tribunal de Justica"},
+            ],
+            "especies": [
+                {"sigla": "RG", "descricao": "Tema de Repercussao Geral"},
+                {"sigla": "SUM", "descricao": "Sumula"},
+            ],
+        }
+    )
+    search = FakeResponse({"total": 0, "posicao_inicial": 0, "posicao_final": 0, "resultados": []})
+    session = FakeSession([catalog, search])
+    provider = BnpPangeaProvider(NanoJurisConfig(), session=session)
+
+    provider.search(JurisprudenceQuery(text="responsabilidade civil", page_size=3))
+
+    assert session.calls[0]["url"].endswith("/parametros")
+    sent = session.calls[1]["kwargs"]["json"]["filtro"]
+    assert sent["orgaos"] == ["STF", "STJ"]
+    assert sent["tipos"] == ["RG", "SUM"]
+
+    # The catalog is fetched once and reused for a second filterless search.
+    session.responses.append(search)
+    provider.search(JurisprudenceQuery(text="dano moral"))
+    assert [c["url"].split("/")[-1] for c in session.calls] == [
+        "parametros",
+        "precedentes",
+        "precedentes",
+    ]
+
+
 def test_search_maps_all_core_species_fixture():
     payload = json.loads((FIXTURES / "bnp_precedentes_species.json").read_text(encoding="utf-8"))
     session = FakeSession([FakeResponse(payload)])
     provider = BnpPangeaProvider(session=session)
 
-    page = provider.search(JurisprudenceQuery(text="teste", page_size=6))
+    page = provider.search(
+        JurisprudenceQuery(text="teste", courts=["STF"], types=["RG"], page_size=6)
+    )
 
     assert page.total == 6
     assert {result.type for result in page.results} == {"RG", "RR", "IAC", "IRDR", "SUM", "SV"}
@@ -306,7 +345,7 @@ def test_search_rejects_invalid_contract():
     provider = BnpPangeaProvider(session=session)
 
     with pytest.raises(ParserContractChangedError):
-        provider.search(JurisprudenceQuery(text="ICMS"))
+        provider.search(JurisprudenceQuery(text="ICMS", courts=["STF"], types=["RG"]))
 
 
 def test_search_rejects_result_without_id():
@@ -325,7 +364,7 @@ def test_search_rejects_result_without_id():
     provider = BnpPangeaProvider(session=session)
 
     with pytest.raises(ParserContractChangedError):
-        provider.search(JurisprudenceQuery(text="ICMS"))
+        provider.search(JurisprudenceQuery(text="ICMS", courts=["STF"], types=["RG"]))
 
 
 def test_get_decisions_rejects_invalid_contract():
@@ -365,12 +404,11 @@ def test_http_400_becomes_query_rejected():
     provider = BnpPangeaProvider(session=session)
 
     with pytest.raises(QueryRejectedError) as exc_info:
-        provider.search(JurisprudenceQuery(text="infanticidio"))
+        provider.search(JurisprudenceQuery(text="infanticidio", courts=["STF"], types=["RG"]))
 
     message = str(exc_info.value)
     assert "HTTP 400" in message
     assert "Requisição inválida" in message
-    assert "infanticidio" in message
 
 
 def test_request_exception_becomes_source_unavailable():

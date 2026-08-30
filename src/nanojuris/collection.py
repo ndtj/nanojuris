@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import Any
 
 from nanojuris.canonical import search_page_to_canonical
+from nanojuris.errors import safe_error_message
+from nanojuris.identity import identity_key
 from nanojuris.models import (
     CanonicalDecision,
     CanonicalDocument,
@@ -25,6 +27,8 @@ class CollectionFailure:
     page: int
     error_type: str
     message: str
+    record_index: int | None = None
+    record_identity: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -43,6 +47,7 @@ class CollectionCheckpoint:
     records_seen: int = 0
     records_saved: int = 0
     duplicate_records: int = 0
+    invalid_records: int = 0
     last_error: dict[str, Any] | None = None
 
     def to_dict(self) -> dict[str, Any]:
@@ -63,6 +68,7 @@ class CollectionCheckpoint:
             records_seen=int(payload.get("records_seen", 0)),
             records_saved=int(payload.get("records_saved", 0)),
             duplicate_records=int(payload.get("duplicate_records", 0)),
+            invalid_records=int(payload.get("invalid_records", 0)),
             last_error=payload.get("last_error"),
         )
 
@@ -148,6 +154,7 @@ class CollectionRunner:
             next_page = query.page
             seen_ids: set[str] = set()
             pages_fetched = records_seen = records_saved = duplicate_records = 0
+            invalid_records = 0
         else:
             next_page = checkpoint.next_page
             seen_ids = set(checkpoint.seen_ids)
@@ -155,6 +162,7 @@ class CollectionRunner:
             records_seen = checkpoint.records_seen
             records_saved = checkpoint.records_saved
             duplicate_records = checkpoint.duplicate_records
+            invalid_records = checkpoint.invalid_records
 
         records: list[CanonicalRecord] = []
         failures: list[CollectionFailure] = []
@@ -166,7 +174,11 @@ class CollectionRunner:
             try:
                 page = self.provider.search(current_query)
             except Exception as exc:  # provider errors become an auditable manifest
-                failure = CollectionFailure(next_page, type(exc).__name__, str(exc))
+                failure = CollectionFailure(
+                    next_page,
+                    type(exc).__name__,
+                    safe_error_message(exc),
+                )
                 failures.append(failure)
                 self._checkpoint(
                     source=source,
@@ -177,6 +189,7 @@ class CollectionRunner:
                     records_seen=records_seen,
                     records_saved=records_saved,
                     duplicate_records=duplicate_records,
+                    invalid_records=invalid_records,
                     last_error=failure.to_dict(),
                 )
                 stop_reason = "provider_error"
@@ -184,26 +197,14 @@ class CollectionRunner:
 
             pages_this_run += 1
             pages_fetched += 1
-            records_seen += len(page.results)
-            unique_results = []
-            page_identities: set[str] = set()
-            for result in page.results:
-                identity = _result_identity(result)
-                if identity in seen_ids or identity in page_identities:
-                    duplicate_records += 1
-                    continue
-                page_identities.add(identity)
-                unique_results.append(result)
-
-            remaining = self.max_records - len(records)
-            limited_by_record_cap = len(unique_results) > remaining
-            if len(unique_results) > remaining:
-                unique_results = unique_results[:remaining]
-            page_for_canonical = replace(page, results=unique_results)
             try:
-                canonical_records = search_page_to_canonical(page_for_canonical)
+                page_results = list(page.results)
             except Exception as exc:
-                failure = CollectionFailure(next_page, type(exc).__name__, str(exc))
+                failure = CollectionFailure(
+                    next_page,
+                    type(exc).__name__,
+                    safe_error_message(exc),
+                )
                 failures.append(failure)
                 self._checkpoint(
                     source=source,
@@ -214,12 +215,52 @@ class CollectionRunner:
                     records_seen=records_seen,
                     records_saved=records_saved,
                     duplicate_records=duplicate_records,
+                    invalid_records=invalid_records,
                     last_error=failure.to_dict(),
                 )
-                stop_reason = "canonicalization_error"
+                stop_reason = "invalid_page"
                 break
+            records_seen += len(page_results)
+            invalid_records_at_page_start = invalid_records
+            unique_results: list[
+                tuple[int, Any, str, list[CanonicalDecision | CanonicalPrecedent]]
+            ] = []
+            page_identities: set[str] = set()
+            for record_index, result in enumerate(page_results):
+                try:
+                    identity = _result_identity(result)
+                    canonical = search_page_to_canonical(replace(page, results=[result]))
+                    if not canonical:
+                        raise ValueError("canonicalização não produziu registro")
+                except Exception as exc:
+                    invalid_records += 1
+                    failures.append(
+                        CollectionFailure(
+                            next_page,
+                            type(exc).__name__,
+                            safe_error_message(exc),
+                            record_index=record_index,
+                            record_identity=_safe_result_identity(result),
+                        )
+                    )
+                    continue
+                if identity in seen_ids or identity in page_identities:
+                    duplicate_records += 1
+                    continue
+                page_identities.add(identity)
+                unique_results.append((record_index, result, identity, canonical))
 
-            seen_ids.update(_result_identity(result) for result in unique_results)
+            remaining = self.max_records - len(records)
+            limited_by_record_cap = len(unique_results) > remaining
+            if len(unique_results) > remaining:
+                unique_results = unique_results[:remaining]
+            canonical_records: list[CanonicalRecord] = []
+            accepted_results: list[Any] = []
+            for _record_index, result, _identity, canonical in unique_results:
+                canonical_records.extend(canonical)
+                accepted_results.append(result)
+
+            seen_ids.update(_result_identity(result) for result in accepted_results)
             if self.store is not None:
                 self.store.save_many(canonical_records)
             records.extend(canonical_records)
@@ -235,22 +276,35 @@ class CollectionRunner:
                 records_seen=records_seen,
                 records_saved=records_saved,
                 duplicate_records=duplicate_records,
+                invalid_records=invalid_records,
             )
 
-            if not page.results:
+            if not page_results:
                 complete = True
                 stop_reason = "no_results"
                 break
             if limited_by_record_cap:
                 stop_reason = "max_records"
                 break
+            if (
+                page_results
+                and not accepted_results
+                and invalid_records > invalid_records_at_page_start
+            ):
+                complete = False
+                stop_reason = "invalid_records"
+                break
             if page.is_complete is True or (page.total > 0 and len(seen_ids) >= page.total):
                 complete = True
                 stop_reason = page.completeness_reason or "provider_complete"
                 break
-            if page.results and not unique_results:
+            if page_results and not unique_results:
                 complete = False
-                stop_reason = "repeated_page"
+                stop_reason = (
+                    "invalid_records"
+                    if invalid_records > invalid_records_at_page_start
+                    else "repeated_page"
+                )
                 break
             if len(records) >= self.max_records:
                 stop_reason = "max_records"
@@ -271,7 +325,7 @@ class CollectionRunner:
             records_seen=records_seen,
             records_saved=records_saved,
             duplicate_records=duplicate_records,
-            invalid_records=0,
+            invalid_records=invalid_records,
             next_page=next_page,
             complete=complete,
             stop_reason=stop_reason,
@@ -309,6 +363,7 @@ class CollectionRunner:
         records_seen: int,
         records_saved: int,
         duplicate_records: int,
+        invalid_records: int,
         last_error: dict[str, Any] | None = None,
     ) -> None:
         if self.checkpoint_path is None:
@@ -323,17 +378,40 @@ class CollectionRunner:
             records_seen=records_seen,
             records_saved=records_saved,
             duplicate_records=duplicate_records,
+            invalid_records=invalid_records,
             last_error=last_error,
         ).write_atomic(self.checkpoint_path)
 
 
 def _result_identity(result: Any) -> str:
-    source = str(getattr(result, "source", ""))
-    identifier = str(getattr(result, "id", "") or "")
-    if identifier:
-        return f"{source}:{identifier}"
-    number = str(getattr(result, "number", "") or "")
-    return f"{source}:{number}:{getattr(result, 'type', '')}"
+    semantic_fields = {
+        name: getattr(result, name, None)
+        for name in (
+            "question",
+            "thesis",
+            "summary",
+            "rapporteur",
+            "judgment_date",
+            "publication_date",
+            "updated_at",
+            "status",
+        )
+    }
+    return identity_key(
+        source=getattr(result, "source", ""),
+        court=getattr(result, "court", ""),
+        identifier=getattr(result, "id", ""),
+        number=getattr(result, "number", ""),
+        record_type=getattr(result, "type", ""),
+        semantic_fields=semantic_fields,
+    )
+
+
+def _safe_result_identity(result: Any) -> str | None:
+    try:
+        return _result_identity(result)
+    except Exception:
+        return None
 
 
 def _record_to_dict(record: CanonicalRecord) -> dict[str, Any]:

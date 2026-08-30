@@ -101,7 +101,15 @@ class StoreStats:
 
 @dataclass(slots=True)
 class ResearchRun:
-    """A saved search run linked to canonical records."""
+    """A saved search run linked to canonical records.
+
+    ``record_count`` is the number of canonical records submitted by the
+    search operation before the run-link deduplication step.  The distinct
+    records actually linked to this run are exposed as
+    ``persisted_record_count``.  Keeping both values prevents a duplicate
+    input from being mistaken for data loss while preserving the historical
+    meaning of ``record_count``.
+    """
 
     id: str
     source: str
@@ -110,6 +118,9 @@ class ResearchRun:
     record_count: int
     created_at: str
     label: str | None = None
+    # Appended with a default so callers using the historical positional
+    # constructor remain source-compatible.
+    persisted_record_count: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -185,6 +196,7 @@ class SQLiteStore:
                 text TEXT NOT NULL,
                 query_json TEXT NOT NULL,
                 record_count INTEGER NOT NULL,
+                persisted_record_count INTEGER NOT NULL DEFAULT 0,
                 label TEXT,
                 created_at TEXT NOT NULL
             )
@@ -227,6 +239,19 @@ class SQLiteStore:
             """
         )
         self._add_table_column_if_missing("source_sync_manifests", "source_fingerprint TEXT")
+        self._add_table_column_if_missing(
+            "research_runs", "persisted_record_count INTEGER NOT NULL DEFAULT 0"
+        )
+        self.connection.execute(
+            """
+            UPDATE research_runs
+            SET persisted_record_count = (
+                SELECT COUNT(*) FROM research_run_records
+                WHERE research_run_records.run_id = research_runs.id
+            )
+            WHERE persisted_record_count = 0
+            """
+        )
         for column in (
             "subject TEXT",
             "rapporteur TEXT",
@@ -498,28 +523,33 @@ class SQLiteStore:
             text=text,
             query=query,
             record_count=0,
+            persisted_record_count=0,
             created_at=now,
             label=label,
         )
         record_list = list(records)
-        rows = []
+        rows_by_key: dict[str, tuple[str, str, str, str]] = {}
         for record in record_list:
             kind = _record_kind(record)
-            rows.append((run.id, kind, record.id, _canonical_key(record, kind=kind)))
+            canonical_key = _canonical_key(record, kind=kind)
+            rows_by_key[canonical_key] = (run.id, kind, record.id, canonical_key)
+        rows = list(rows_by_key.values())
         record_rows = [_record_to_row(record, now=now) for record in record_list]
         with self.connection:
             self._save_rows(record_rows)
             self.connection.execute(
                 """
                 INSERT INTO research_runs (
-                    id, source, text, query_json, record_count, label, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                    id, source, text, query_json, record_count,
+                    persisted_record_count, label, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     run.id,
                     run.source,
                     run.text,
                     json.dumps(run.query, ensure_ascii=False, sort_keys=True),
+                    len(record_list),
                     len(rows),
                     run.label,
                     run.created_at,
@@ -536,7 +566,8 @@ class SQLiteStore:
                 )
             if sync_manifest is not None:
                 self._save_sync_manifest(sync_manifest, run_id=run.id, synced_at=now)
-        run.record_count = len(rows)
+        run.record_count = len(record_list)
+        run.persisted_record_count = len(rows)
         return run
 
     def get_sync_manifest(
@@ -876,6 +907,7 @@ def _run_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
         "text": str(row["text"]),
         "query": json.loads(str(row["query_json"])),
         "record_count": int(row["record_count"]),
+        "persisted_record_count": int(row["persisted_record_count"]),
         "label": row["label"],
         "created_at": str(row["created_at"]),
     }

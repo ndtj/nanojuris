@@ -54,11 +54,9 @@ from nanojuris.providers.base import JurisprudenceProvider
 class ExampleProvider(JurisprudenceProvider):
     name = "example"
 
-    def search(self, query: JurisprudenceQuery) -> SearchPage:
-        ...
+    def search(self, query: JurisprudenceQuery) -> SearchPage: ...
 
-    def get_decisions(self, precedent_id: str) -> DecisionBundle:
-        ...
+    def get_decisions(self, precedent_id: str) -> DecisionBundle: ...
 ```
 
 Tambem deve declarar `ProviderCapabilities`:

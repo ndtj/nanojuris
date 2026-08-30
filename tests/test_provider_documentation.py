@@ -87,5 +87,29 @@ def test_provider_documentation_audit_report_is_current() -> None:
     assert report_path.read_text(encoding="utf-8") == render(audit())
 
     rows = audit()
-    assert len(rows) == 55
+    assert len(rows) == 56
     assert all(row["parity"] for row in rows)
+
+
+def test_latest_platform_live_summary_has_redacted_route_inventory() -> None:
+    summary_path = (
+        ROOT / "docs" / "validation" / "runs" / "20260828T010539Z-platform-live-summary.json"
+    )
+    template_path = ROOT / "docs" / "validation" / "runs" / "playwright-live-run-template.md"
+
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    routes = summary["route_inventory"]
+    paths = {route["path"] for route in routes}
+
+    assert template_path.is_file()
+    assert {
+        "/auth/session",
+        "/api/v1/sources",
+        "/api/v1/search",
+        "/bff/assistant",
+        "/api/v1/admin/users",
+        "/api/v1/admin/audit",
+    } <= paths
+    assert all("?" not in path and "#" not in path for path in paths)
+    assert all(isinstance(status, int) for route in routes for status in route["statuses_observed"])
+    assert "Nenhum cookie" in template_path.read_text(encoding="utf-8")

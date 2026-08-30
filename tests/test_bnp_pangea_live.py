@@ -37,3 +37,16 @@ def test_live_bnp_search_returns_trace_and_result():
     assert len(page.results) == 1
     assert page.results[0].source_trace is not None
     assert page.source_trace is not None
+
+
+@pytest.mark.live
+def test_live_bnp_search_without_filters_defaults_to_full_catalog():
+    # The /precedentes endpoint rejects empty 'orgaos'/'tipos'; the provider
+    # must backfill them from the public catalog so a plain text search works.
+    page = NanoJurisClient().search("responsabilidade civil", page_size=3)
+
+    assert page.total >= 1
+    assert page.results
+    assert page.source_trace is not None
+    sent = page.source_trace.query["filtro"]
+    assert sent["orgaos"] and sent["tipos"]

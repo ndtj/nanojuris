@@ -23,6 +23,7 @@ from nanojuris.errors import (
     SourceUnavailableError,
     UnsupportedProviderError,
     UnsupportedQueryError,
+    safe_error_message,
 )
 from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.base import JurisprudenceProvider
@@ -328,7 +329,7 @@ def _error_report(
         query_text=query_text,
         requested_page_size=1,
         error_type=type(error).__name__,
-        message=str(error),
+        message=safe_error_message(error),
     )
 
 

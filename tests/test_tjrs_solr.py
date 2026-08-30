@@ -64,6 +64,24 @@ def test_tjrs_parser_keeps_identity_and_separates_dates():
     assert page.is_complete is False
 
 
+def test_tjrs_parser_unwraps_solr_multivalue_fields():
+    """Solr text fields arrive as single-element lists; the canonical summary
+    must not leak the Python list repr (``['...']``)."""
+
+    page = parse_tjrs_search_response(
+        _fixture(),
+        query=JurisprudenceQuery(text="responsabilidade civil", page_size=1),
+        trace=SourceTrace(provider="tjrs_solr", endpoint="/buscas/jurisprudencia/ajax.php"),
+    )
+
+    result = page.results[0]
+    assert result.summary == "Ementa publica de fixture do TJRS."
+    assert not result.summary.startswith("[")
+    assert result.court == "TJRS"
+    assert result.rapporteur == "Relator de Fixture"
+    assert result.type == "Acordao"
+
+
 def test_tjrs_search_trace_contains_http_evidence():
     response = FakeResponse(_fixture())
     provider = TjrsSolrProvider(NanoJurisConfig(rate_limit_interval=0), FakeSession([response]))

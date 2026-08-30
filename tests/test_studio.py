@@ -283,6 +283,32 @@ def test_studio_source_status_distinguishes_ssl_failures():
     assert status["stf_informativo"]["status"] == "ssl_error"
 
 
+def test_studio_source_status_keeps_record_quarantine_as_partial():
+    status = _source_status(
+        [{"source": "mixed", "action": "searched"}],
+        [],
+        source_completeness={
+            "mixed": {
+                "returned": 1,
+                "reported_total": 2,
+                "complete": False,
+                "reason": "A fonte retornou registros invalidos que foram omitidos.",
+            }
+        },
+        errors=[
+            {
+                "source": "mixed",
+                "scope": "record",
+                "error_type": "InvalidRecordError",
+                "message": "A fonte retornou um registro invalido; o item foi omitido.",
+            }
+        ],
+    )
+
+    assert status["mixed"]["status"] == "partial"
+    assert status["mixed"]["count"] == 1
+
+
 def test_studio_validation_request_has_bounded_defaults():
     request = StudioValidationRequest.from_payload({"sources": "tjdf_juris", "timeout": 10})
 
@@ -309,12 +335,12 @@ def test_studio_validate_reuses_shared_validation_contract():
 def test_real_studio_catalog_exposes_maturity_selection_profiles():
     payload = studio_sources_payload(NanoJurisClient())
 
-    assert payload["total"] == 45
-    assert len(payload["default_sources"]) == 41
+    assert payload["total"] == 46
+    assert len(payload["default_sources"]) == 42
     assert payload["default_sources"] == payload["recommended_sources"]
-    assert len(payload["recommended_sources"]) == 41
+    assert len(payload["recommended_sources"]) == 42
     assert payload["tier_counts"] == {
-        "advanced": 16,
+        "advanced": 17,
         "context": 4,
         "restricted": 10,
         "stable": 15,

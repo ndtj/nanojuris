@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import re
 import time
+import unicodedata
 from datetime import datetime
 from typing import Any
 from urllib.parse import urljoin
@@ -249,13 +250,19 @@ def parse_cnj_results(
         if "nenhum" in text.lower() or "sem resultado" in text.lower():
             return _empty_page(query, trace, "A fonte informou resultado vazio.")
         raise ParserContractChangedError("CNJ jurisprudence table not found")
+    required_tokens = _query_tokens(query.text or query.exact_phrase or "")
     rows = []
+    filtered_out = 0
     for row in table.select("tbody tr"):
         cells = row.select("td")
         if len(cells) < 4:
             continue
         link = row.select_one("a[href]")
         if link is None:
+            continue
+        row_text = _fold(row.get_text(" ", strip=True))
+        if required_tokens and not all(token in row_text for token in required_tokens):
+            filtered_out += 1
             continue
         pdf_url = urljoin(base_url.rstrip("/") + "/", str(link["href"]))
         rows.append(
@@ -266,7 +273,12 @@ def parse_cnj_results(
             )
         )
     if not rows:
-        return _empty_page(query, trace, "A tabela do CNJ nao possui linhas na pagina.")
+        reason = (
+            "Nenhum informativo do CNJ contem todos os termos da consulta."
+            if filtered_out
+            else "A tabela do CNJ nao possui linhas na pagina."
+        )
+        return _empty_page(query, trace, reason)
     start_index = (query.page - 1) * query.page_size
     page_results = rows[start_index : start_index + query.page_size]
     start = start_index + 1 if page_results else 0
@@ -337,12 +349,50 @@ def _find_results_table(soup: BeautifulSoup) -> Tag | None:
     return None
 
 
+_STOPWORDS = {
+    "a",
+    "as",
+    "o",
+    "os",
+    "de",
+    "do",
+    "da",
+    "dos",
+    "das",
+    "e",
+    "em",
+    "no",
+    "na",
+    "por",
+    "com",
+    "para",
+    "que",
+}
+
+
+def _fold(value: str) -> str:
+    decomposed = unicodedata.normalize("NFKD", value.casefold())
+    return "".join(ch for ch in decomposed if not unicodedata.combining(ch))
+
+
+def _query_tokens(text: str) -> list[str]:
+    return [tok for tok in re.findall(r"[0-9a-z]+", _fold(text)) if tok not in _STOPWORDS]
+
+
 def _query_params(query: JurisprudenceQuery) -> dict[str, str | int]:
     params: dict[str, str | int] = {"page": query.page}
     if query.number:
         params["numero"] = query.number
-    if query.text or query.exact_phrase:
-        params["argumento"] = query.text or query.exact_phrase
+    raw_text = query.text or query.exact_phrase
+    if raw_text:
+        # The CNJ ``argumento`` filter matches the phrase literally, so a
+        # multi-word query returns nothing. Send the single most selective
+        # token and apply the remaining tokens as a client-side AND filter.
+        tokens = _query_tokens(raw_text)
+        if tokens:
+            params["argumento"] = max(tokens, key=len)
+        else:
+            params["argumento"] = raw_text
     if query.published_from or query.updated_from:
         params["dat_publicacao_inicio"] = query.published_from or query.updated_from
     if query.published_to or query.updated_to:

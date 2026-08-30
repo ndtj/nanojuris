@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup, Tag
 
+from nanojuris.adaptive_selectors import resilient_find_all
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
@@ -272,7 +273,9 @@ def parse_eproc_jurisprudencia_results(
         raise AccessControlRequiredError(f"{source_label} returned access-control HTML")
 
     soup = BeautifulSoup(html, "html.parser")
-    items = soup.select(".resultadoItem")
+    items = resilient_find_all(
+        soup, ".resultadoItem", name="result_card", source=source, trace=trace
+    )
     if not items and _looks_like_search_page(soup):
         return []
     if not items:
@@ -466,6 +469,10 @@ def _parse_result_item(
     if not document_type:
         document_type = _infer_document_type(item.get_text(" ", strip=True))
     document_id = _extract_item_id(item)
+    if not document_id and not process_number:
+        raise ParserContractChangedError(
+            f"{source_label} result missing stable id and process number"
+        )
     process_url = _absolute_url(process_link.get("href") if process_link else None, source_url)
     document_link = item.select_one(
         "a.inteiroTeor, a[data-link*='download_inteiro_teor'], "
@@ -482,7 +489,10 @@ def _parse_result_item(
         court=court,
         type=_normalize_decision_type(document_type),
         number=process_number,
-        summary=labels.get("decisao") or labels.get("ementa") or _extract_marked_text(item),
+        # The ementa is the jurisprudence summary; the "decisao" label carries
+        # only the "Vistos e relatados..." dispositive formula, which is
+        # identical across acordaos and produces useless synthesised titles.
+        summary=labels.get("ementa") or _extract_marked_text(item) or labels.get("decisao"),
         rapporteur=labels.get("magistrado") or labels.get("relator"),
         updated_at=publication_date,
         judgment_date=judgment_date,

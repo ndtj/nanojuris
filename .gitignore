@@ -28,6 +28,7 @@ site/
 .pytest-basetemp-*/
 .coverage
 artifacts/studio/
+.artifacts/
 test-results/
 coverage.xml
 htmlcov/
