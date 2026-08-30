@@ -319,6 +319,9 @@ def test_workbench_provider_filter_routes_selected_source_and_all_restores(
     page.goto(f"{studio_url}/studio")
 
     source_rows = page.locator(".wb-sidebar-sources .wb-source-row")
+    # The source rail is populated asynchronously from /api/sources. Wait for
+    # the first rendered row instead of racing the initial request on CI.
+    expect(source_rows.first).to_be_visible(timeout=10_000)
     assert source_rows.count() >= 2
     assert page.locator(".wb-sidebar-sources input[type=checkbox]").count() == 0
 
