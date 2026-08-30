@@ -206,6 +206,10 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
         html, _ = self._request_text("GET", "/")
         match = TOKEN_RE.search(html)
         if not match:
+            if _looks_like_access_control(html):
+                raise AccessControlRequiredError(
+                    "TJPB public page returned an access-control challenge"
+                )
             raise ParserContractChangedError("TJPB page did not expose the public CSRF token")
         return match.group(1)
 
@@ -326,7 +330,7 @@ def _hit_to_result(
     external_id = _optional_str(item.get("_id"))
     if not external_id:
         raise ParserContractChangedError("TJPB result missing _id")
-    summary = _optional_str(item.get("ementa"))
+    summary = _clean_tjpb_ementa(_optional_str(item.get("ementa")))
     judgment_date = _optional_str(item.get("dt_ementa"))
     return JurisprudenceResult(
         id=f"tjpb-pje-{external_id}",
@@ -388,11 +392,64 @@ def _normalize_text(value: str) -> str:
     return " ".join(value.split())
 
 
+def _looks_like_access_control(value: str) -> bool:
+    """Identify a challenge page without treating it as an empty result."""
+
+    normalized = value.casefold()
+    return any(
+        marker in normalized
+        for marker in (
+            "captcha",
+            "recaptcha",
+            "cloudflare",
+            "cf-chl-",
+            "access denied",
+            "acesso negado",
+            "verifique que voce e um humano",
+        )
+    )
+
+
 def _optional_str(value: object) -> str | None:
     if value is None:
         return None
     text = str(value).strip()
     return text or None
+
+
+_TJPB_HEADER = re.compile(
+    r"^\s*(?:Processo\s*n?[ºo]?\s*:.*?)?(?:EMENTA|E\s*M\s*E\s*N\s*T\s*A)\s*[-:.]?\s*",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _clean_tjpb_ementa(summary: str | None) -> str | None:
+    """Drop a leading process/parties metadata block from the ementa field.
+
+    Some TJPB PJe records prefix the ementa with ``Processo nº: ... Classe: ...
+    Assuntos: ... RECORRENTE: ...``, which produces near-identical synthesised
+    titles. Keep only the text after the ``EMENTA`` marker.
+    """
+
+    if not summary:
+        return summary
+    match = _TJPB_HEADER.match(summary)
+    if match:
+        return summary[match.end() :].lstrip(" :.-").rstrip() or None
+    if re.match(r"^\s*Processo\s*n?[ºo]?\s*:", summary, re.IGNORECASE):
+        return None
+    # "Poder Judiciário Gab. Des. <relator>   EMENTA..." — the gabinete line is
+    # separated from the ementa by a run of whitespace; keep only the ementa.
+    gab = re.match(
+        r"^\s*Poder\s+Judici[áa]rio\b.*?\s{2,}(\S.*)$",
+        summary,
+        re.IGNORECASE | re.DOTALL,
+    )
+    if gab:
+        return gab.group(1).lstrip(" :.-").rstrip() or None
+    if re.match(r"^\s*Poder\s+Judici[áa]rio\b", summary, re.IGNORECASE):
+        return None
+    return summary
 
 
 def _as_int(value: object, *, default: int) -> int:

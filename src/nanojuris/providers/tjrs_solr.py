@@ -25,6 +25,7 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.normalization import normalize_date_value
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
@@ -291,8 +292,8 @@ def _doc_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudence
         summary=summary or None,
         rapporteur=_first(item, "nome_relator", "relator_redator") or None,
         updated_at=_first(item, "data_atualizacao") or None,
-        judgment_date=_first(item, "data_julgamento") or None,
-        publication_date=_first(item, "data_publicacao") or None,
+        judgment_date=normalize_date_value(_first(item, "data_julgamento")) or None,
+        publication_date=normalize_date_value(_first(item, "data_publicacao")) or None,
         access_status=AccessStatus.PUBLIC,
         source_trace=trace,
         raw={
@@ -305,8 +306,20 @@ def _doc_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudence
 
 
 def _first(item: dict[str, Any], *keys: str) -> str:
+    """Return the first non-empty value, unwrapping Solr multi-valued fields.
+
+    The live Solr response returns text fields such as ``ementa_completa`` as a
+    single-element list. ``str([...])`` would leak the Python list repr into the
+    canonical summary, so lists are flattened to their first non-empty member.
+    """
+
     for key in keys:
         value = item.get(key)
+        if isinstance(value, (list, tuple)):
+            value = next(
+                (member for member in value if member is not None and str(member).strip()),
+                None,
+            )
         if value is not None and str(value).strip():
             return str(value).strip()
     return ""

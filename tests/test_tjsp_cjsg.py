@@ -135,6 +135,39 @@ def test_parse_cjsg_results_maps_fixture():
     assert first.raw["full_text_url"].endswith("getArquivo.do?cdAcordao=20787558&cdForo=0")
 
 
+def test_parse_cjsg_results_relocates_rows_when_the_anchor_class_changes():
+    """If e-SAJ renames ``a.downloadEmenta`` the rows are relocated by structure
+    and the recovery is recorded on the trace instead of returning nothing."""
+
+    from nanojuris.adaptive_selectors import SelectorMemory
+
+    memory = SelectorMemory(":memory:", seed=False)
+    parse_cjsg_results(
+        _fixture_html(),
+        query=JurisprudenceQuery(text="homicidio", page_size=2),
+        trace=SourceTrace(provider="tjsp_cjsg", endpoint="/resultadoCompleta.do"),
+        base_url="https://esaj.tjsp.jus.br/cjsg",
+        memory=memory,
+    )
+
+    changed = _fixture_html().replace("downloadEmenta", "baixarEmenta")
+    trace = SourceTrace(provider="tjsp_cjsg", endpoint="/resultadoCompleta.do")
+    page = parse_cjsg_results(
+        changed,
+        query=JurisprudenceQuery(text="homicidio", page_size=2),
+        trace=trace,
+        base_url="https://esaj.tjsp.jus.br/cjsg",
+        memory=memory,
+    )
+
+    assert [result.id for result in page.results] == [
+        "tjsp-cjsg-20787558-0",
+        "tjsp-cjsg-20773976-0",
+    ]
+    assert page.results[0].number == "0003938-14.2017.8.26.0323"
+    assert any("relocated by structural similarity" in note for note in trace.transformations)
+
+
 def test_provider_search_posts_cjsg_payload_and_parses_results():
     session = FakeSession([FakeResponse(_fixture_html())])
     provider = TjspCjsgProvider(session=session)

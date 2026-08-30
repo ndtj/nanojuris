@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import time
+
 import pytest
 import requests
 
@@ -10,7 +12,11 @@ from nanojuris.canonical import (
 )
 from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import SourceUnavailableError, UnsupportedProviderError
+from nanojuris.errors import (
+    AccessControlRequiredError,
+    SourceUnavailableError,
+    UnsupportedProviderError,
+)
 from nanojuris.exporters import (
     decisions_to_csv,
     documents_to_csv,
@@ -110,6 +116,75 @@ class FakeProvider:
         return [text, f"{text} sugestao"]
 
 
+class MixedValiditySearchProvider(FakeProvider):
+    """Provider fixture with one valid and one malformed page item."""
+
+    name = "mixed_validity_search"
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        return SearchPage(
+            source=self.name,
+            total=2,
+            start=1,
+            end=2,
+            page=query.page,
+            page_size=query.page_size,
+            results=[
+                JurisprudenceResult(
+                    id="valid-1",
+                    source=self.name,
+                    court="STF",
+                    type="RG",
+                    number="1",
+                    question="Questao valida",
+                    thesis="Tese valida",
+                ),
+                # A broken adapter must not make the complete page disappear.
+                {"secret_response_body": "sensitive payload"},  # type: ignore[list-item]
+            ],
+            is_complete=True,
+            completeness_reason="fixture complete",
+        )
+
+    def get_capabilities(self):
+        capabilities = super().get_capabilities()
+        return ProviderCapabilities(
+            source=self.name,
+            display_name=capabilities.display_name,
+            source_url=capabilities.source_url,
+            category=capabilities.category,
+            search_modes=capabilities.search_modes,
+            canonical_records=capabilities.canonical_records,
+            supports_cli=capabilities.supports_cli,
+            supports_unified_search=True,
+            supports_mcp=capabilities.supports_mcp,
+            supports_studio=capabilities.supports_studio,
+        )
+
+
+class SlowSearchProvider(FakeProvider):
+    name = "slow_search"
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        time.sleep(0.05)
+        return super().search(query)
+
+    def get_capabilities(self):
+        capabilities = super().get_capabilities()
+        return ProviderCapabilities(
+            source=self.name,
+            display_name=capabilities.display_name,
+            source_url=capabilities.source_url,
+            category=capabilities.category,
+            search_modes=capabilities.search_modes,
+            canonical_records=capabilities.canonical_records,
+            supports_cli=capabilities.supports_cli,
+            supports_unified_search=True,
+            supports_mcp=capabilities.supports_mcp,
+            supports_studio=capabilities.supports_studio,
+        )
+
+
 class FailingProvider:
     name = "failing"
 
@@ -124,6 +199,28 @@ class FailingProvider:
             category="court_jurisprudence",
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
+            supports_unified_search=True,
+            supports_mcp=True,
+            supported_filters=["text"],
+        )
+
+
+class AccessDeniedProvider(FailingProvider):
+    name = "access_denied"
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        del query
+        raise AccessControlRequiredError("fonte exige acesso controlado")
+
+    def get_capabilities(self):
+        capabilities = super().get_capabilities()
+        return ProviderCapabilities(
+            source=self.name,
+            display_name="Fonte com acesso controlado",
+            source_url=capabilities.source_url,
+            category=capabilities.category,
+            search_modes=capabilities.search_modes,
+            canonical_records=capabilities.canonical_records,
             supports_unified_search=True,
             supports_mcp=True,
             supported_filters=["text"],
@@ -248,6 +345,16 @@ def test_client_search_many_unifies_results_and_keeps_source_errors():
             "message": "provider failing failed with an unexpected internal error",
         }
     ]
+    assert payload["source_completeness"]["failing"] == {
+        "returned": 0,
+        "reported_total": None,
+        "pagination_mode": "failed",
+        "complete": False,
+        "reason": "A fonte nao concluiu a consulta.",
+        "pages_fetched": 0,
+        "error_type": "InternalProviderError",
+        "error_message": "provider failing failed with an unexpected internal error",
+    }
     assert payload["routing_summary"] == [
         {
             "source": "fake",
@@ -262,6 +369,150 @@ def test_client_search_many_unifies_results_and_keeps_source_errors():
             "message": "provider failing failed with an unexpected internal error",
         },
     ]
+
+
+@pytest.mark.parametrize("canonical", [True, False])
+def test_client_search_many_quarantines_invalid_records_without_leaking_payload(
+    canonical,
+):
+    client = NanoJurisClient(providers=[MixedValiditySearchProvider()])
+
+    payload = client.search_many(
+        "ICMS",
+        sources=["mixed_validity_search"],
+        canonical=canonical,
+    )
+
+    assert payload["total_returned"] == 1
+    assert payload["results"][0].id == "valid-1"
+    assert payload["source_completeness"]["mixed_validity_search"] == {
+        "returned": 1,
+        "reported_total": 2,
+        "pagination_mode": "unknown",
+        "complete": False,
+        "reason": "A fonte retornou registros invalidos que foram omitidos.",
+        "pages_fetched": 1,
+        "invalid_records": 1,
+    }
+    assert payload["errors"] == [
+        {
+            "source": "mixed_validity_search",
+            "scope": "record",
+            "error_type": "InvalidRecordError",
+            "message": "A fonte retornou um registro invalido; o item foi omitido.",
+            "page": "1",
+            "record_index": "1",
+        }
+    ]
+    assert "sensitive payload" not in repr(payload)
+    outcome = payload["source_outcomes"][0]
+    assert outcome["source"] == "mixed_validity_search"
+    assert outcome["status"] == "searched"
+    assert outcome["reason"] == "source_called"
+    assert payload["collection_complete"] is False
+
+
+def test_client_search_many_stops_when_page_contains_only_invalid_records():
+    class InvalidOnlyProvider(MixedValiditySearchProvider):
+        def search(self, query: JurisprudenceQuery) -> SearchPage:
+            page = super().search(query)
+            page.results = [{"secret_response_body": "sensitive payload"}]  # type: ignore[list-item]
+            page.total = 1
+            page.end = 1
+            page.is_complete = False
+            return page
+
+    provider = InvalidOnlyProvider()
+    client = NanoJurisClient(providers=[provider])
+
+    payload = client.search_many(
+        "ICMS",
+        sources=["mixed_validity_search"],
+    )
+
+    assert payload["total_returned"] == 0
+    assert payload["source_completeness"]["mixed_validity_search"]["invalid_records"] == 1
+    assert payload["source_completeness"]["mixed_validity_search"]["complete"] is False
+    assert payload["source_completeness"]["mixed_validity_search"]["pages_fetched"] == 1
+    assert payload["source_outcomes"][0]["status"] == "searched"
+
+
+def test_client_search_many_reports_timeout_in_source_completeness():
+    client = NanoJurisClient(
+        config=NanoJurisConfig(unified_timeout=0.001, rate_limit_interval=0),
+        providers=[SlowSearchProvider()],
+    )
+
+    payload = client.search_many("ICMS", sources=["slow_search"])
+
+    assert payload["errors"][0]["source"] == "slow_search"
+    assert payload["errors"][0]["error_type"] == "TimeoutError"
+    assert payload["source_completeness"]["slow_search"] == {
+        "returned": 0,
+        "reported_total": None,
+        "pagination_mode": "timeout",
+        "complete": False,
+        "reason": "A fonte excedeu o tempo limite da consulta.",
+        "pages_fetched": 0,
+        "invalid_records": 0,
+        "error_type": "TimeoutError",
+        "error_message": "tempo limite global da busca unificada excedido para slow_search",
+    }
+    assert payload["sources_partial"] == ["slow_search"]
+    assert payload["source_outcomes"][0]["status"] == "failed"
+
+
+def test_client_search_many_exposes_one_mutually_exclusive_outcome_per_source():
+    client = NanoJurisClient(
+        providers=[FakeProvider(), AccessDeniedProvider(), CaseLookupProvider()]
+    )
+
+    payload = client.search_many(
+        "ICMS",
+        sources=["fake", "access_denied", "case_lookup"],
+    )
+
+    outcomes = {item["source"]: item for item in payload["source_outcomes"]}
+    assert set(outcomes) == {"fake", "access_denied", "case_lookup"}
+    assert {item["status"] for item in outcomes.values()} == {
+        "searched",
+        "failed",
+        "skipped",
+    }
+    assert outcomes["fake"]["status"] == "searched"
+    assert outcomes["access_denied"] == {
+        "source": "access_denied",
+        "status": "failed",
+        "reason": "AccessControlRequiredError",
+        "message": "fonte exige acesso controlado",
+    }
+    assert outcomes["case_lookup"]["status"] == "skipped"
+    assert payload["source_completeness"]["access_denied"]["complete"] is False
+    assert payload["total_returned"] == 1
+
+
+def test_client_search_many_does_not_replace_access_controlled_source():
+    """An access failure must remain observable, never become silent fallback data."""
+
+    client = NanoJurisClient(providers=[AccessDeniedProvider(), FakeProvider()])
+
+    payload = client.search_many("ICMS", sources=["access_denied"])
+
+    assert payload["sources"] == ["access_denied"]
+    assert payload["searched_sources"] == ["access_denied"]
+    assert payload["results"] == []
+    assert payload["errors"][0]["error_type"] == "AccessControlRequiredError"
+    assert [item["source"] for item in payload["source_outcomes"]] == ["access_denied"]
+    assert payload["source_outcomes"][0]["status"] == "failed"
+
+
+def test_client_search_many_deduplicates_requested_source_outcomes():
+    client = NanoJurisClient(providers=[FakeProvider()])
+
+    payload = client.search_many("ICMS", sources=["fake", "fake"])
+
+    assert [item["source"] for item in payload["source_outcomes"]] == ["fake"]
+    assert payload["source_outcomes"][0]["status"] == "searched"
 
 
 def test_default_unified_sources_include_all_jurisprudence_categories():

@@ -176,25 +176,62 @@ def _effective_extraction_status(result: JurisprudenceResult) -> ExtractionStatu
     return result.extraction_status
 
 
+_PRECEDENT_TYPE_MARKERS = (
+    "sumula",
+    "súmula",
+    "tema",
+    "repercus",
+    "repetitiv",
+    "enunciado",
+    "precedente",
+    "verbete",
+    "orientacao",
+    "orientação",
+    "paradigma",
+    "incidente de",
+)
+_PRECEDENT_TYPE_CODES = {"rr", "rg", "irdr", "iac", "iuj", "puil", "qo"}
+_DECISION_TYPE_MARKERS = (
+    "decisao",
+    "decisão",
+    "despacho",
+    "sentenca",
+    "sentença",
+    "acordao",
+    "acórdão",
+    "monocrat",
+    "informativo",
+    "jurisprud",
+    "merito",
+    "mérito",
+    "recurso inominado",
+    "apelacao",
+    "apelação",
+    "agravo",
+    "habeas",
+)
+
+
 def _looks_like_decision(result: JurisprudenceResult) -> bool:
-    normalized_type = result.type.strip().lower()
-    decision_markers = {
-        "decisao",
-        "decisão",
-        "despacho",
-        "sentenca",
-        "sentença",
-    }
-    if any(marker in normalized_type for marker in decision_markers):
+    """A jurisprudence result is a decision unless it carries a precedent thesis.
+
+    Qualified precedents (súmulas, temas repetitivos, repercussão geral) expose
+    a ``thesis``/``question`` and a precedent-shaped ``type``; everything else is
+    an individual decision whose ementa must be preserved on ``summary``.
+    """
+
+    normalized_type = (result.type or "").strip().lower()
+    if result.thesis or result.question:
+        return False
+    if normalized_type in _PRECEDENT_TYPE_CODES:
+        return False
+    if any(marker in normalized_type for marker in _PRECEDENT_TYPE_MARKERS):
+        return False
+    if any(marker in normalized_type for marker in _DECISION_TYPE_MARKERS):
         return True
-    return normalized_type in {
-        "acordao",
-        "acórdão",
-        "monocratica",
-        "monocrática",
-        "sentenca",
-        "sentença",
-    }
+    # No explicit signal: a result carrying an ementa or full text is a
+    # decision; an empty, unlabelled record stays a precedent (conservative).
+    return bool(result.summary or result.full_text)
 
 
 def _has_primary_text(result: JurisprudenceResult) -> bool:

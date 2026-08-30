@@ -5,7 +5,8 @@
 - Fonte: Tribunal de Justica do Distrito Federal e dos Territorios.
 - Identificador no NanoJuris: `tjdf_juris`.
 - Superficie: API JSON publica de jurisprudencia.
-- Estado: rota operacional reproduzida em sessao HTTP limpa.
+- Estado: rota operacional reproduzida em sessao HTTP limpa e integrada no
+  adapter `tjdf_juris` em modo opt-in.
 - Autenticacao observada: nenhuma.
 - Login, cookie pessoal, captcha, token privado ou proxy: nao utilizados.
 - Ultima validacao: 2026-08-11.
@@ -394,6 +395,10 @@ As chamadas publicas realizadas em 2026-08-11 confirmaram:
 - paginacao zero-based com `pagina` e `tamanho`;
 - campos de ementa, decisao, processo, relator, classe, marcadores e indicador
   de inteiro teor.
+
+O adapter local pode usar esta superficie com `TjdfJurisProvider(use_api=True)`
+ou `NanoJurisConfig(tjdf_juris_api_enabled=True)`. A conversao publica de
+pagina continua one-based, embora o payload enviado use `pagina` zero-based.
 
 ## Referencias oficiais
 

@@ -143,9 +143,10 @@ retornados.
 | --- | --- |
 | `searched_sources` | Fontes realmente chamadas. |
 | `skipped_sources` | Fontes puladas porque nao se aplicavam a pergunta. |
+| `source_outcomes` | Uma classificacao mutuamente exclusiva por fonte: `searched`, `skipped` ou `failed`. |
 | `routing_summary` | Explicacao pronta para o usuario sobre consultar, pular ou falhar. |
 | `errors` | Fontes chamadas que falharam por erro real, acesso ou contrato. |
-| `source_completeness` | Estado por fonte, incluindo total remoto, quantidade coletada e paginacao. |
+| `source_completeness` | Estado por fonte, incluindo total remoto, quantidade coletada e paginacao; em falhas/timeout, tambem informa `error_type` e `error_message` sanitizados. |
 | `collection_complete` | Indica se todas as fontes chamadas declararam a janela como completa. |
 | `deduplicated_total` | Quantidade apos a deduplicacao e ordenacao federadas. |
 

@@ -55,3 +55,12 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [ ] Criar fixture de `/opcoes`.
 - [ ] Criar teste de classificacao `tokenDesafio`/`imagem`.
 - [ ] Mapear outros TRTs que usam o mesmo backend e separar bloqueio CloudFront de desafio PJe.
+
+## Auditoria de contrato 2026-08-28
+
+- O shell oficial e `GET /juris-backend/api/opcoes` responderam HTTP 200.
+- `GET /juris-backend/api/token` respondeu sem corpo util.
+- Uma chamada publica controlada a `POST /juris-backend/api/documentos`
+  retornou `tokenDesafio` e `imagem`, sem documentos.
+- Portanto, nao ha contrato reproduzivel de resultados para promover como
+  `CanonicalDecision`; nenhuma implementacao foi adicionada nesta rodada.

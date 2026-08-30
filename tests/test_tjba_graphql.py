@@ -90,6 +90,15 @@ def test_search_maps_graphql_decision_and_preserves_facets():
     assert result.publication_date == "2026-08-10"
     assert result.source_updated_at == "2026-08-13"
     assert result.raw["case_class"] == "Apelacao Civel"
+    # The ementa field is the whole document; the summary must be only the
+    # ementa, not the "PODER JUDICIARIO ..." court header + party block.
+    assert result.summary == (
+        "DIREITO CIVIL. RESPONSABILIDADE CIVIL. DANO MORAL CONFIGURADO. SENTENÇA MANTIDA."
+    )
+    # The official document link must be absolute so the reader can open it.
+    assert result.raw["document_url"] == (
+        "https://jurisprudenciaws.tjba.jus.br/inteiroTeor/831bc363-c057-3941-a5d6-79584cb02536"
+    )
     assert page.aggregations["page_count"] == 2
     assert session.calls[0]["kwargs"]["json"]["variables"]["pageNumber"] == 0
 

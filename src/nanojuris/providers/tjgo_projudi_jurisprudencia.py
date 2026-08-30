@@ -10,6 +10,7 @@ from urllib.parse import urljoin
 
 import requests
 
+from nanojuris.adaptive_selectors import resilient_select
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -204,7 +205,13 @@ def parse_tjgo_results(
     if _looks_like_blocked_page(html):
         raise AccessControlRequiredError("TJGO/Projudi returned access-control HTML")
     document = parse_html(html, base_url=base_url)
-    cards = document.select("div.search-result")
+    cards = resilient_select(
+        document,
+        "div.search-result",
+        name="result_card",
+        source="tjgo_projudi_jurisprudencia",
+        trace=trace,
+    )
     total = _parse_total(document)
     if not cards:
         complete, completeness_reason = page_completeness(

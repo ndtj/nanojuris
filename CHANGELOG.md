@@ -4,9 +4,37 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 ## Unreleased
 
+## 0.4.0 - 2026-08-30
+
+- Corrigida a rotulagem canonica: informativos, acordaos-resumo e itens de
+  merito (`tjce_informativos`, `stj_informativo`, `tcu_jurisprudencia`,
+  `tjpb_pje_jurisprudencia`, `tjto_jurisprudencia`) eram mapeados como
+  `CanonicalPrecedent` e perdiam a ementa; agora `_looks_like_decision` usa
+  marcadores explicitos de precedente e de decisao.
+- Corrigido o BNP/Pangea: o endpoint `/precedentes` passou a exigir `orgaos` e
+  `tipos` nao vazios; o provider os preenche a partir do catalogo publico
+  completo quando a consulta nao os informa.
+- Corrigido o `tce_pr_viajuris` para o schema CSV atual da fonte
+  (`DsTipoAto;NrAto;AnoAto;...;DsResumo;NmRelator;DsColegiado;DtSessao;UrlPDF`),
+  mantendo compatibilidade com o schema legado.
+- Corrigido o `cnj_jurisprudencia`: o filtro `argumento` casa a frase
+  literalmente; consultas multi-palavra agora enviam o token mais seletivo e
+  aplicam os demais como filtro AND client-side com dobra de acento.
+- Corrigido o parser e-proc compartilhado (`tjsp_eproc`, `tjrj_eproc`, `trf2`,
+  `trf4`, `tjsc`, `eproc_federal`) para priorizar a ementa sobre a formula
+  dispositiva "Vistos e relatados...", eliminando titulos sinteticos identicos.
+- Corrigido o `tjba_graphql`, o `tjpr_jurisprudencia` e o
+  `tjpb_pje_jurisprudencia` para remover o cabecalho de documento (orgao,
+  partes, gabinete) do inicio da ementa.
+- Adaptive selectors portados do padrao de auto-recuperacao: fingerprint de
+  elemento, `similarity_score` e `SelectorMemory` relocam elementos por
+  estrutura quando os seletores CSS quebram, registrando a transformacao no
+  `SourceTrace` sem burlar controle de acesso.
+- `docs/provider-status.md` ganhou a secao "Limitacoes conhecidas por fonte"
+  com a classificacao de cada fonte que nao retorna resultados limpos.
 - Corrigida a compatibilidade dos utilitarios de QA com Python 3.10 e ampliado
   o gate de lint/format para incluir exemplos e ferramentas.
-- Atualizados os metadados de citacao para a release 0.3.0.
+- Atualizados os metadados de citacao para a release 0.4.0.
 
 - Corrigido o descarte silencioso de filtros de refinamento na busca unificada,
   com avisos de contrato por fonte.

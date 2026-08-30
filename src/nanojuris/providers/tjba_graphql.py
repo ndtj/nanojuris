@@ -126,7 +126,7 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
         if not isinstance(decisions, list):
             raise ParserContractChangedError("TJBA GraphQL response missing decisoes list")
         results = [
-            _decision_to_result(item, trace=trace)
+            _decision_to_result(item, trace=trace, base_url=self.config.tjba_graphql_url)
             for item in decisions[:page_size]
             if isinstance(item, dict)
         ]
@@ -383,7 +383,9 @@ def build_tjba_filter(query: JurisprudenceQuery) -> dict[str, Any]:
     return payload
 
 
-def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> JurisprudenceResult:
+def _decision_to_result(
+    item: dict[str, Any], *, trace: SourceTrace, base_url: str = ""
+) -> JurisprudenceResult:
     external_id = _first_uuid(item, "hash", "id") or _first_string(
         item, "id", "sourceId", "numeroProcesso"
     )
@@ -395,7 +397,7 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
         court="TJBA",
         type=_first_string(item, "tipoDecisao") or "jurisprudencia",
         number=_first_string(item, "numeroProcesso", "codigoProcesso") or None,
-        summary=_first_string(item, "ementa") or None,
+        summary=_ementa_from_blob(_first_string(item, "ementa")) or None,
         full_text=_first_string(item, "conteudo") or None,
         rapporteur=_nested_string(item.get("relator"), "nome"),
         judgment_date=_date_iso(_first_string(item, "dataJulgamento")) or None,
@@ -409,7 +411,11 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
             "judging_body": _nested_string(item.get("orgaoJulgador"), "nome"),
             "document_id": _first_uuid(item, "hash", "id"),
             "document_url": (
-                f"/inteiroTeor/{external_id}" if UUID_PATTERN.fullmatch(external_id) else None
+                urljoin(base_url.rstrip("/") + "/", f"inteiroTeor/{external_id}")
+                if base_url and UUID_PATTERN.fullmatch(external_id)
+                else f"/inteiroTeor/{external_id}"
+                if UUID_PATTERN.fullmatch(external_id)
+                else None
             ),
         },
     )
@@ -501,6 +507,28 @@ def _order_by(value: str) -> str:
     return (
         "dataPublicacao" if normalized in {"text", "relevancia", "publication", "date"} else value
     )
+
+
+_ACORDAO_MARKER = re.compile(
+    r"AC[ÓO]RD[ÃA]O\s*[-:.]?\s*(?:ementa\s*[-:.]?\s*)?(.+)",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _ementa_from_blob(text: str) -> str:
+    """Return the ementa from the TJBA ``ementa`` field.
+
+    That field carries the whole document (court header, parties, lawyers, then
+    the ementa). Everything before the ``ACORDAO`` marker is boilerplate that is
+    identical across decisions and produces useless synthesised titles.
+    """
+
+    clean = " ".join(text.replace("\xa0", " ").split())
+    if not clean:
+        return ""
+    match = _ACORDAO_MARKER.search(clean)
+    body = (match.group(1) if match else clean).lstrip(" :.-").rstrip()
+    return body[:6000]
 
 
 def _first_string(item: dict[str, Any], *keys: str) -> str:

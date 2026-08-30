@@ -1,10 +1,10 @@
 # Auditoria do contrato de busca unificada
 
-Gerado em `2026-08-20T07:45:04+00:00` a partir das declarações runtime e dos artefatos locais de smoke/discovery.
+Gerado em `2026-08-28T04:18:02+00:00` a partir das declarações runtime e dos artefatos locais de smoke/discovery.
 
 ## Resposta executiva
 
-A busca unificada compartilha o envelope de saída, mas não oferece filtros nem perfis de dados equivalentes. Há **41 providers unificados** entre **45 runtime**; **4** ficam fora por contrato/categoria.
+A busca unificada compartilha o envelope de saída, mas não oferece filtros nem perfis de dados equivalentes. Há **42 providers unificados** entre **46 runtime**; **4** ficam fora por contrato/categoria.
 Na fotografia live registrada, **33/44** providers entregaram dados válidos (**75.0%**).
 O discovery aprofundado observou **3169 rotas** e **299 campos de filtro**, com **11** sinais de controle de acesso.
 
@@ -19,10 +19,10 @@ O discovery aprofundado observou **3169 rotas** e **299 campos de filtro**, com 
 
 ## Distribuição do contrato
 
-Perfis: `{"precedent": 4, "decision": 34, "curated": 2, "hybrid_decision_precedent": 1}`
-Paginação: `{"page": 25, "local_window": 9, "offset": 6, "none": 1}`
-Texto integral: `{"not_available": 5, "link_only": 7, "detail_call": 23, "inline_summary": 1, "inline": 4, "inline_result_text": 1}`
-Completude: `{"reported_total_and_page_window": 10, "reported_total_and_source_page_window": 1, "reported_html_page_only": 1, "reported_total_and_offset_window": 4, "observed_window_only": 6, "observed_window_or_source_limit": 1, "reported_window_or_source_page_limit": 5, "itemCount_and_page_window": 1, "observed_edition_window": 1, "spring_page_total_elements": 1, "CountAcordaoDocumento_or_CountDecisaoMonocratica": 1, "x_total_count_and_page_window": 1, "reported_tjpr_window": 1, "reported_form_total_and_page_window": 6, "reported_html_total_and_start_rows_window": 1}`
+Perfis: `{"precedent": 4, "decision": 35, "curated": 2, "hybrid_decision_precedent": 1}`
+Paginação: `{"page": 25, "local_window": 10, "offset": 6, "none": 1}`
+Texto integral: `{"not_available": 5, "link_only": 8, "detail_call": 23, "inline_summary": 1, "inline": 4, "inline_result_text": 1}`
+Completude: `{"reported_total_and_page_window": 10, "reported_total_and_source_page_window": 1, "reported_html_page_only": 1, "reported_total_and_offset_window": 4, "observed_window_only": 6, "complete_local_snapshot_window": 1, "observed_window_or_source_limit": 1, "reported_window_or_source_page_limit": 5, "itemCount_and_page_window": 1, "observed_edition_window": 1, "spring_page_total_elements": 1, "CountAcordaoDocumento_or_CountDecisaoMonocratica": 1, "x_total_count_and_page_window": 1, "reported_tjpr_window": 1, "reported_form_total_and_page_window": 6, "reported_html_total_and_start_rows_window": 1}`
 
 ## Filtros
 
@@ -30,7 +30,7 @@ A contagem indica quantos providers declaram o filtro como nativo. Filtros ausen
 
 | Filtro | Providers |
 |---|---:|
-| `text` | 41 |
+| `text` | 42 |
 | `courts` | 1 |
 | `types` | 18 |
 | `all_words` | 4 |
@@ -40,9 +40,9 @@ A contagem indica quantos providers declaram o filtro como nativo. Filtros ausen
 | `rapporteur` | 5 |
 | `updated_from` | 19 |
 | `updated_to` | 19 |
-| `published_from` | 20 |
-| `published_to` | 20 |
-| `number` | 35 |
+| `published_from` | 21 |
+| `published_to` | 21 |
+| `number` | 36 |
 | `party_name` | 0 |
 | `party_document` | 0 |
 | `lawyer_name` | 0 |
@@ -68,6 +68,7 @@ A contagem indica quantos providers declaram o filtro como nativo. Filtros ausen
 | `stj_informativo` | decision | CanonicalDecision | 2/23 | local_window | observed_window_only | link_only | valid_data | - |
 | `stj_scon` | decision | CanonicalDecision, CanonicalDocument | 2/23 | page | reported_total_and_page_window | detail_call | valid_data | - |
 | `stm_jurisprudencia` | decision | CanonicalDecision, CanonicalDocument | 2/23 | offset | reported_total_and_offset_window | detail_call | valid_data | - |
+| `tce_pr_viajuris` | decision | CanonicalDecision | 4/23 | local_window | complete_local_snapshot_window | link_only | não registrado | - |
 | `tce_sp_jurisprudencia` | precedent | CanonicalPrecedent | 2/23 | local_window | observed_window_only | link_only | valid_data | - |
 | `tcu_jurisprudencia` | hybrid_decision_precedent | CanonicalDecision, CanonicalPrecedent | 2/23 | local_window | observed_window_or_source_limit | inline_summary | valid_data | - |
 | `tjac_cjsg` | decision | CanonicalDecision, CanonicalDocument | 6/23 | page | reported_window_or_source_page_limit | detail_call | valid_data | - |

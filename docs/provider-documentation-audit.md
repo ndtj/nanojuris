@@ -14,10 +14,10 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 
 ## Resumo
 
-- Dossies auditados: **55** (45 implemented, 9 candidates, 1 family).
-- Dossies com secoes estruturais: **53/55**.
-- Canonical/legacy em paridade: **55/55**.
-- Prontidao: `family_spec`=1, `implementation_ready`=10, `needs_deepening`=35, `research_ready`=9.
+- Dossies auditados: **56** (46 implemented, 9 candidates, 1 family).
+- Dossies com secoes estruturais: **56/56**.
+- Canonical/legacy em paridade: **56/56**.
+- Prontidao: `family_spec`=1, `implementation_ready`=9, `needs_deepening`=37, `research_ready`=9.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
@@ -29,7 +29,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 
 | Provider | Ciclo | Prontidao | Nivel | Risco | Secoes faltantes | Pendencias | Fixtures referenciadas |
 | --- | --- | --- | ---: | --- | --- | ---: | ---: |
-| [`bnp_pangea`](providers/bnp_pangea/README.md) | implemented | `needs_deepening` | 4 | medio | data, next_steps | 0 | 0 |
+| [`bnp_pangea`](providers/bnp_pangea/README.md) | implemented | `needs_deepening` | 4 | medio | - | 3 | 0 |
 | [`cjf_jurisprudencia`](providers/cjf_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 2 | 7 |
 | [`cnj_jurisprudencia`](providers/cnj_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 1 |
 | [`eproc_jurisprudencia_federal`](providers/eproc_jurisprudencia_federal/README.md) | family | `family_spec` | - | research | - | 1 | 3 |
@@ -40,8 +40,9 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`stj_dados_abertos_jurisprudencia`](providers/stj_dados_abertos_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 1 | 0 |
 | [`stj_informativo`](providers/stj_informativo/README.md) | implemented | `needs_deepening` | 5 | medio | - | 3 | 4 |
 | [`stj_scon`](providers/stj_scon/README.md) | implemented | `needs_deepening` | 4 | alto | - | 1 | 7 |
-| [`stm_jurisprudencia`](providers/stm_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | next_steps | 3 | 3 |
-| [`tce_sp_jurisprudencia`](providers/tce_sp_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | alto | - | 7 | 3 |
+| [`stm_jurisprudencia`](providers/stm_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 5 | 4 |
+| [`tce_pr_viajuris`](providers/tce_pr_viajuris/README.md) | implemented | `needs_deepening` | 4 | medio | - | 3 | 1 |
+| [`tce_sp_jurisprudencia`](providers/tce_sp_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | alto | - | 5 | 5 |
 | [`tcu_jurisprudencia`](providers/tcu_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 4 | 7 |
 | [`tjac_cjsg`](providers/tjac_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 4 | 3 |
 | [`tjal_cjsg`](providers/tjal_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 8 | 3 |
@@ -58,7 +59,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`tjmg_jurisprudencia`](providers/tjmg_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
 | [`tjms_cjsg`](providers/tjms_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 8 | 3 |
 | [`tjmt_jurisprudencia_api`](providers/tjmt_jurisprudencia_api/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
-| [`tjpa_jurisprudencia_bff`](providers/tjpa_jurisprudencia_bff/README.md) | implemented | `needs_deepening` | 5 | medio | - | 14 | 3 |
+| [`tjpa_jurisprudencia_bff`](providers/tjpa_jurisprudencia_bff/README.md) | implemented | `needs_deepening` | 5 | medio | - | 14 | 4 |
 | [`tjpb_pje_jurisprudencia`](providers/tjpb_pje_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | medio | - | 6 | 3 |
 | [`tjpe_jurisprudencia`](providers/tjpe_jurisprudencia/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
 | [`tjpi_juspi`](providers/tjpi_juspi/README.md) | implemented | `needs_deepening` | 5 | medio | - | 4 | 6 |
@@ -69,17 +70,17 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`tjro_liame`](providers/tjro_liame/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
 | [`tjrr_juris`](providers/tjrr_juris/README.md) | implemented | `needs_deepening` | 5 | medio | - | 2 | 3 |
 | [`tjrs_solr`](providers/tjrs_solr/README.md) | implemented | `implementation_ready` | 5 | medio | - | 0 | 5 |
-| [`tjsc_eproc_jurisprudencia`](providers/tjsc_eproc_jurisprudencia/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 3 |
+| [`tjsc_eproc_jurisprudencia`](providers/tjsc_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 2 | 4 |
 | [`tjse_jurisprudencia`](providers/tjse_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
 | [`tjsp_cjsg`](providers/tjsp_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 2 | 7 |
 | [`tjsp_eproc_jurisprudencia`](providers/tjsp_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 3 |
-| [`tjsp_nugepnac`](providers/tjsp_nugepnac/README.md) | implemented | `needs_deepening` | 4 | medio | - | 8 | 0 |
+| [`tjsp_nugepnac`](providers/tjsp_nugepnac/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 2 |
 | [`tjto_jurisprudencia`](providers/tjto_jurisprudencia/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
 | [`tnu_eproc_jurisprudencia`](providers/tnu_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 1 | 6 |
-| [`tre_sp_temas`](providers/tre_sp_temas/README.md) | implemented | `needs_deepening` | 4 | medio | - | 7 | 0 |
+| [`tre_sp_temas`](providers/tre_sp_temas/README.md) | implemented | `needs_deepening` | 4 | medio | - | 5 | 2 |
 | [`trf2_eproc_jurisprudencia`](providers/trf2_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 1 | 3 |
 | [`trf3_jurisprudencia`](providers/trf3_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 7 | 0 |
-| [`trf4_eproc_jurisprudencia`](providers/trf4_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 6 | 3 |
+| [`trf4_eproc_jurisprudencia`](providers/trf4_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 6 | 4 |
 | [`trf5_jurisprudencia`](providers/trf5_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 2 | 7 |
 | [`trf6_eproc_jurisprudencia`](providers/trf6_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 1 | 3 |
 | [`trt2_pje_jurisprudencia`](providers/trt2_pje_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 4 | 0 |

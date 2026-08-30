@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import tempfile
 from pathlib import Path
 
 from nanojuris.discovery.models import DiscoveryEvidence, DiscoveryRequest
@@ -37,9 +39,26 @@ class DiscoveryCache:
         path = self.path_for(request)
         if not path.exists():
             return None
-        return load_evidence(path)
+        # A process may be interrupted while a cache file is being replaced.
+        # Cache corruption must never turn an optional replay into a discovery
+        # failure: treat it as a miss and let the caller fetch fresh evidence.
+        try:
+            return load_evidence(path)
+        except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
+            return None
 
     def put(self, evidence: DiscoveryEvidence) -> Path:
         path = self.path_for(evidence.request)
-        write_evidence(evidence, path)
+        # Write-and-replace keeps readers from observing a partially written
+        # JSON envelope.  This follows the same safe persistence pattern as
+        # the reference template while retaining NanoJuris' synchronous API.
+        path.parent.mkdir(parents=True, exist_ok=True)
+        fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+        temporary_path = Path(temporary)
+        try:
+            os.close(fd)
+            write_evidence(evidence, temporary_path)
+            os.replace(temporary_path, path)
+        finally:
+            temporary_path.unlink(missing_ok=True)
         return path

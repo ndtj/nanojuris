@@ -24,7 +24,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `family` | 1 |
 | `gold` | 15 |
 | `mapped` | 9 |
-| `silver` | 17 |
+| `silver` | 18 |
 
 ## Como Ler O Gate Prata
 

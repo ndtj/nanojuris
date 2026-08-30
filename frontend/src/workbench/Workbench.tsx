@@ -7,6 +7,7 @@ import "./refined.css";
 
 type ReaderTab = "summary" | "document" | "metadata" | "trace" | "compare";
 type WorkbenchFilters = { sources: string[]; dateFrom: string; dateTo: string; type: string; rapporteur: string };
+type ExportFormat = "json" | "csv" | "xls";
 const EMPTY_FILTERS: WorkbenchFilters = { sources: [], dateFrom: "", dateTo: "", type: "", rapporteur: "" };
 
 function statusLabel(status: string): string { return ({ healthy: "saudável", partial: "parcial", blocked: "acesso limitado", failed: "falha", ssl_error: "erro SSL", skipped: "não consultada", empty: "vazio real", unknown: "não validada" } as Record<string, string>)[status] || status; }
@@ -17,6 +18,8 @@ function displayValue(value: unknown): string { if (value === null || value === 
 function completenessLabel(value: string): string { const normalized = value.toLowerCase(); if (!value || normalized.includes("não inform") || normalized.includes("nao inform")) return "completude não informada"; if (normalized.includes("parcial") || normalized.includes("incomplet")) return "coleta parcial"; if (normalized.includes("complet") || normalized.includes("todas as fontes")) return "coleta completa"; return value.length > 72 ? "completude com limitações" : value; }
 function highlightQuery(value: string, query: string): React.ReactNode { const terms = query.split(/\s+/).map((term) => term.replace(/[^\p{L}\p{N}-]/gu, "")).filter((term) => term.length > 2); if (!terms.length) return value; const pattern = new RegExp(`(${terms.map((term) => term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`, "giu"); return value.split(pattern).map((part, index) => terms.some((term) => part.localeCompare(term, undefined, { sensitivity: "accent" }) === 0) ? <mark key={`${part}-${index}`}>{part}</mark> : part); }
 function citationFor(item: WorkbenchResult): string { return [item.court, item.type, item.caseNumber, item.title, item.judgmentDate !== "Não informado" ? `julgamento em ${item.judgmentDate}` : "", item.officialUrl].filter(Boolean).join(". "); }
+function escapeSpreadsheetXml(value: unknown): string { return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&apos;"); }
+function spreadsheetCell(value: unknown): string { let text = String(value ?? ""); if (/^[=+\-@]/.test(text)) text = `'${text}`; return `<Cell><Data ss:Type="String">${escapeSpreadsheetXml(text)}</Data></Cell>`; }
 
 function WorkbenchResultRow({ item, query, selected, onSelect, onTrace, onCopy, onSave, onCompare }: { item: WorkbenchResult; query: string; selected: boolean; onSelect: () => void; onTrace: () => void; onCopy: () => void; onSave: () => void; onCompare: () => void }) {
   return <article className={`wb-result ${selected ? "is-selected" : ""}`} onClick={onSelect} onKeyDown={(event) => event.key === "Enter" && onSelect()} tabIndex={0}><div className="wb-result-meta"><span className="wb-source-code">{item.court}</span><span>·</span><span>{item.type}</span><span>·</span><span className="wb-id">{item.caseNumber}</span></div><h3>{item.title}</h3><p>{highlightQuery(item.summary, query)}</p><div className="wb-result-footer"><div className="wb-result-facts"><span>{item.rapporteur}</span><span>julg. {displayDate(item.judgmentDate)}</span><span className={`wb-status ${item.documentStatus}`}>{documentStatusLabel(item.documentStatus)}</span></div><div className="wb-result-actions"><button type="button" title="Copiar citação" aria-label="Copiar citação" onClick={(event) => { event.stopPropagation(); onCopy(); }}><Copy size={13} /></button><button type="button" title="Salvar decisão" aria-label="Salvar decisão" onClick={(event) => { event.stopPropagation(); onSave(); }}><Bookmark size={13} /></button><button type="button" title="Comparar decisão" aria-label="Comparar decisão" onClick={(event) => { event.stopPropagation(); onCompare(); }}><GitCompare size={13} /></button><button type="button" title="Ver proveniência" aria-label="Ver proveniência" onClick={(event) => { event.stopPropagation(); onTrace(); }}><Activity size={13} /></button></div></div></article>;
@@ -61,7 +64,36 @@ export default function Workbench() {
   const results = payload?.results || []; const selected = results.find((item) => item.id === selectedId) || results[0]; const compareItems = compareIds.map((id) => results.find((item) => item.id === id)).filter((item): item is WorkbenchResult => Boolean(item)); const availableSources = payload ? payload.sources : sourceCatalog; const sourcesByCategory = availableSources.reduce<Record<string, WorkbenchSource[]>>((all, source) => { (all[source.category] ||= []).push(source); return all; }, {}); const notice = statusNotice(payload);
   async function copyItem(item = selected) { if (!item) return; try { await navigator.clipboard.writeText(citationFor(item)); notify("Citação copiada para a área de transferência."); } catch { notify("Não foi possível acessar a área de transferência."); } }
   function saveItem(item = selected) { if (!item) return; try { localStorage.setItem(`nanojuris.saved.${item.id}`, JSON.stringify(item)); notify("Decisão salva localmente."); } catch { notify("Não foi possível salvar nesta sessão."); } }
-  function exportResults(format: "json" | "csv") { if (!payload) return; const data = format === "json" ? JSON.stringify({ query: payload.query, results: payload.results, sourceStatus: payload.sourceStatus }, null, 2) : ["id,source,title,case_number,judgment_date,document_status", ...payload.results.map((item) => [item.id, item.source, item.title, item.caseNumber, item.judgmentDate, item.documentStatus].map((value) => `"${String(value).split('"').join('""')}"`).join(","))].join("\n"); const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([data], { type: format === "json" ? "application/json" : "text/csv" })); link.download = `nanojuris-${format}.${format}`; link.click(); URL.revokeObjectURL(link.href); notify(`Exportação ${format.toUpperCase()} criada.`); }
+  function exportResults(format: ExportFormat) {
+    if (!payload) return;
+    const headers = ["ID", "Fonte", "Tipo", "Título", "Ementa", "Processo", "Relator", "Órgão", "Data do julgamento", "Data da publicação", "URL oficial"];
+    const rows = payload.results.map((item) => [item.id, item.source, item.type, item.title, item.summary, item.caseNumber, item.rapporteur, item.judgingBody, item.judgmentDate, item.publicationDate, item.officialUrl]);
+    let data: string;
+    let mime: string;
+    let extension: string;
+    if (format === "json") {
+      data = JSON.stringify({ query: payload.query, results: payload.results, sourceStatus: payload.sourceStatus }, null, 2);
+      mime = "application/json";
+      extension = "json";
+    } else if (format === "csv") {
+      const cell = (value: unknown) => { let text = String(value ?? ""); if (/^[=+\-@]/.test(text)) text = `'${text}`; return `"${text.replace(/"/g, '""')}"`; };
+      data = [headers, ...rows].map((row) => row.map(cell).join(",")).join("\n");
+      mime = "text/csv;charset=utf-8";
+      extension = "csv";
+    } else {
+      const xmlRows = [headers, ...rows].map((row) => `<Row>${row.map(spreadsheetCell).join("")}</Row>`).join("");
+      data = `<?xml version="1.0" encoding="UTF-8"?><?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"><Worksheet ss:Name="Resultados"><Table>${xmlRows}</Table></Worksheet></Workbook>`;
+      mime = "application/vnd.ms-excel;charset=utf-8";
+      extension = "xls";
+    }
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([`\ufeff${data}`], { type: mime }));
+    link.download = `nanojuris-resultados.${extension}`;
+    document.body.append(link);
+    link.click();
+    window.setTimeout(() => { URL.revokeObjectURL(link.href); link.remove(); }, 0);
+    notify(`Exportação ${extension.toUpperCase()} criada.`);
+  }
   function handleCompare(item: WorkbenchResult) { setCompareIds((current) => current.length === 0 || current.length === 2 ? [item.id] : current.includes(item.id) ? current : [...current, item.id]); setSelectedId(item.id); setReaderOpen(true); setTab("compare"); }
   async function loadDocument() { if (!selected || selected.documentStatus !== "available") return; setDocumentLoading(true); try { const document = await loadWorkbenchDocument(selected); setPayload((current) => current ? { ...current, results: current.results.map((item) => item.id === document.id ? document : item) } : current); setTab("document"); notify("Inteiro teor carregado da fonte oficial."); } catch (reason) { notify(reason instanceof Error ? reason.message : String(reason)); } finally { setDocumentLoading(false); } }
   React.useEffect(() => { const onKey = (event: KeyboardEvent) => { const target = event.target as HTMLElement; if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") { event.preventDefault(); setPaletteOpen(true); return; } if (event.key === "Escape") { setPaletteOpen(false); setReaderOpen(false); setSidebarOpen(false); return; } if (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return; if (event.key === "/") { event.preventDefault(); document.getElementById("wb-search")?.focus(); } if ((event.key === "j" || event.key === "k") && results.length) { event.preventDefault(); const index = Math.max(0, results.findIndex((item) => item.id === selected?.id) + (event.key === "j" ? 1 : -1)); const next = results[Math.min(results.length - 1, index)]; setSelectedId(next.id); setReaderOpen(true); } if (event.key === "Enter" && selected) setReaderOpen(true); if (event.key.toLowerCase() === "c") void copyItem(); if (event.key.toLowerCase() === "s") saveItem(); if (event.key.toLowerCase() === "e") exportResults("json"); if (event.key.toLowerCase() === "r" && selected) { setReaderOpen(true); setTab("trace"); } }; window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey); }, [results, selected, payload]);

@@ -46,9 +46,9 @@
 
 ## Fixtures
 
-- [ ] Lista IRDR.
+- [x] Lista IRDR: `tests/fixtures/tjsp_nugepnac_list.html`.
 - [ ] Lista IAC.
-- [ ] Detalhe por `codigoNoticia`.
+- [x] Detalhe por `codigoNoticia`: `tests/fixtures/tjsp_nugepnac_detail.html`.
 - [ ] Tema sem tese.
 - [ ] Link relacionado indisponivel.
 

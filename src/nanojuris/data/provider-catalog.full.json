@@ -31,11 +31,8 @@
         "fixture_references": 0,
         "human_doc": "docs/providers/bnp_pangea/README.md",
         "legacy_doc": "docs/source-contracts/bnp_pangea.md",
-        "missing_sections": [
-          "data",
-          "next_steps"
-        ],
-        "open_items": 0,
+        "missing_sections": [],
+        "open_items": 3,
         "readiness": "needs_deepening"
       },
       "error_contract": {
@@ -44,6 +41,7 @@
           "source_unavailable"
         ],
         "limitations": [
+          "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
           "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
           "Nem todo precedente possui textos de decisoes no endpoint publico."
         ],
@@ -100,10 +98,9 @@
         ]
       },
       "known_defects": [
-        "data",
-        "next_steps",
+        "documentacao_com_pendencias_abertas",
         "live:not_checked_in_latest_focused_run",
-        "gap:Expandir a matriz de rejeicoes HTTP 400 por tribunal, especie e combinacao de filtros.",
+        "gap:O endpoint /precedentes passou a exigir 'orgaos' e 'tipos' nao vazios; o provider preenche ambos com o catalogo completo quando ausentes.",
         "gap:Documentar payload completo de filtros e agregacoes.",
         "gap:Cobrir heuristica de sugestoes/catalogo para consultas curtas."
       ],
@@ -131,10 +128,10 @@
       },
       "maturity_score": {
         "blockers": [
-          "dossie com secoes faltantes"
+          "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 8,
+          "documentation": 10,
           "input": 20,
           "output": 19,
           "product": 15,
@@ -142,15 +139,16 @@
         },
         "grade": "B",
         "next_actions": [
-          "completar secoes faltantes do dossie",
+          "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 74
+        "total": 76
       },
       "maturity_tier": "context",
       "mcp": {
         "enabled": true,
         "limitations": [
+          "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
           "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
           "Nem todo precedente possui textos de decisoes no endpoint publico."
         ],
@@ -197,7 +195,7 @@
         "fixture_references": 0,
         "latest_live_status": "not_checked_in_latest_focused_run",
         "quality_flags": [
-          "documentation_incomplete",
+          "open_documentation_items",
           "live_not_recently_checked"
         ]
       },
@@ -263,6 +261,7 @@
             "aggregations"
           ],
           "limitations": [
+            "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
             "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
             "Nem todo precedente possui textos de decisoes no endpoint publico."
           ],
@@ -285,7 +284,7 @@
           "supports_suggestions": true
         },
         "gaps": [
-          "Expandir a matriz de rejeicoes HTTP 400 por tribunal, especie e combinacao de filtros.",
+          "O endpoint /precedentes passou a exigir 'orgaos' e 'tipos' nao vazios; o provider preenche ambos com o catalogo completo quando ausentes.",
           "Documentar payload completo de filtros e agregacoes.",
           "Cobrir heuristica de sugestoes/catalogo para consultas curtas."
         ],
@@ -296,7 +295,7 @@
           "Criar ou atualizar dossie em docs/providers/<provider>/README.md e manter a copia de compatibilidade em docs/source-contracts.",
           "Salvar fixtures publicas para sucesso, vazio e erro esperado.",
           "Adicionar teste de parser e teste de contrato de erro.",
-          "Atacar primeiro: Expandir a matriz de rejeicoes HTTP 400 por tribunal, especie e combinacao de filtros."
+          "Atacar primeiro: O endpoint /precedentes passou a exigir 'orgaos' e 'tipos' nao vazios; o provider preenche ambos com o catalogo completo quando ausentes."
         ],
         "risk_level": "medio",
         "source": "bnp_pangea",
@@ -314,6 +313,7 @@
       "studio": {
         "enabled": true,
         "limitations": [
+          "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
           "Disponibilidade depende da API publica usada pelo frontend Pangea/BNP.",
           "Nem todo precedente possui textos de decisoes no endpoint publico."
         ],
@@ -3257,13 +3257,11 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 3,
+        "fixture_references": 4,
         "human_doc": "docs/providers/stm_jurisprudencia/README.md",
         "legacy_doc": "docs/source-contracts/stm_jurisprudencia.md",
-        "missing_sections": [
-          "next_steps"
-        ],
-        "open_items": 3,
+        "missing_sections": [],
+        "open_items": 5,
         "readiness": "needs_deepening"
       },
       "error_contract": {
@@ -3322,7 +3320,6 @@
         ]
       },
       "known_defects": [
-        "next_steps",
         "documentacao_com_pendencias_abertas",
         "live:not_checked_in_latest_focused_run",
         "gap:Documentar paginacao remota e facetas se forem estaveis.",
@@ -3353,11 +3350,10 @@
       },
       "maturity_score": {
         "blockers": [
-          "dossie com secoes faltantes",
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 8,
+          "documentation": 13,
           "input": 14,
           "output": 25,
           "product": 15,
@@ -3365,12 +3361,11 @@
         },
         "grade": "B",
         "next_actions": [
-          "completar secoes faltantes do dossie",
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 74
+        "total": 79
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -3383,7 +3378,7 @@
         "status": "declared"
       },
       "not_recommended_for": [],
-      "offline_status": "partial",
+      "offline_status": "complete",
       "output_contract": {
         "canonical_records": [
           "CanonicalDecision",
@@ -3417,10 +3412,9 @@
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
-        "fixture_references": 3,
+        "fixture_references": 4,
         "latest_live_status": "not_checked_in_latest_focused_run",
         "quality_flags": [
-          "documentation_incomplete",
           "open_documentation_items",
           "live_not_recently_checked"
         ]
@@ -3549,6 +3543,299 @@
       "category": "administrative_jurisprudence",
       "coverage_role": "administrative_context",
       "development_priority": "P2_maintain",
+      "display_name": "TCE-PR ViaJuris Dados Abertos",
+      "document_contract": {
+        "content_formats": [
+          "csv",
+          "pdf_link"
+        ],
+        "document_types": [
+          "acordao"
+        ],
+        "full_text_access": "link_only",
+        "supports_full_text": false,
+        "trace_expected": true
+      },
+      "documentation": {
+        "canonical_legacy_parity": true,
+        "fixture_references": 1,
+        "human_doc": "docs/providers/tce_pr_viajuris/README.md",
+        "legacy_doc": "docs/source-contracts/tce_pr_viajuris.md",
+        "missing_sections": [],
+        "open_items": 3,
+        "readiness": "needs_deepening"
+      },
+      "error_contract": {
+        "access_statuses": [
+          "public",
+          "source_unavailable"
+        ],
+        "limitations": [
+          "A base e um snapshot anual/semanário e nao substitui a consulta interativa.",
+          "Inteiro teor depende de UrlPDF presente e valido na linha.",
+          "Campos inexistentes permanecem nulos; nao sao inferidos."
+        ],
+        "risk_level": "medio"
+      },
+      "identity": {
+        "category": "administrative_jurisprudence",
+        "display_name": "TCE-PR ViaJuris Dados Abertos",
+        "source_id": "tce_pr_viajuris",
+        "source_url": "https://viajuris.tce.pr.gov.br"
+      },
+      "implementation_status": "runtime",
+      "input_contract": {
+        "pagination_mode": "local_window",
+        "search_modes": [
+          "text",
+          "case_number",
+          "dataset",
+          "catalog",
+          "pagination"
+        ],
+        "supported_filters": [
+          "text",
+          "number",
+          "published_from",
+          "published_to"
+        ],
+        "supports_catalog": true,
+        "supports_suggestions": false,
+        "text_query": true
+      },
+      "interfaces": {
+        "cli": true,
+        "live_tests": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true
+      },
+      "jurimetry": {
+        "dataset_ready": true,
+        "fit": "medio; depende da completude de campos, detalhes e inteiro teor.",
+        "minimum_requirements": [
+          "identificador juridico estavel",
+          "conteudo juridico textual",
+          "data normalizada ou preservada em campo raw",
+          "trace de fonte",
+          "estado de completude da pagina"
+        ]
+      },
+      "known_defects": [
+        "documentacao_com_pendencias_abertas",
+        "live:not_checked_in_latest_focused_run",
+        "gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ],
+      "lifecycle": "implemented",
+      "live_evidence": {
+        "date": null,
+        "evidence": null,
+        "latency": null,
+        "note": "sem validacao focada nesta rodada",
+        "pagination_mode": null,
+        "reported_total": null,
+        "returned": null,
+        "status": "not_checked_in_latest_focused_run"
+      },
+      "live_status": "not_checked_in_latest_focused_run",
+      "live_validation": {
+        "date": null,
+        "evidence": null,
+        "latency": null,
+        "note": "sem validacao focada nesta rodada",
+        "pagination_mode": null,
+        "reported_total": null,
+        "returned": null,
+        "status": "not_checked_in_latest_focused_run"
+      },
+      "maturity_score": {
+        "blockers": [
+          "dossie com pendencias abertas"
+        ],
+        "dimensions": {
+          "documentation": 11,
+          "input": 17,
+          "output": 22,
+          "product": 15,
+          "reliability": 12
+        },
+        "grade": "B",
+        "next_actions": [
+          "fechar checklist objetivo do dossie",
+          "rodar validacao live pequena com termo juridico padrao"
+        ],
+        "total": 77
+      },
+      "maturity_tier": "silver",
+      "mcp": {
+        "enabled": true,
+        "limitations": [
+          "A base e um snapshot anual/semanário e nao substitui a consulta interativa.",
+          "Inteiro teor depende de UrlPDF presente e valido na linha.",
+          "Campos inexistentes permanecem nulos; nao sao inferidos."
+        ],
+        "status": "declared"
+      },
+      "not_recommended_for": [
+        "broad_textual_jurimetry",
+        "full_text_only_research"
+      ],
+      "offline_status": "partial",
+      "output_contract": {
+        "canonical_records": [
+          "CanonicalDecision"
+        ],
+        "content_formats": [
+          "csv",
+          "pdf_link"
+        ],
+        "document_types": [
+          "acordao"
+        ],
+        "extracted_fields": [
+          "registry_id",
+          "case_number",
+          "summary",
+          "judgment_date",
+          "publication_date",
+          "document_url"
+        ],
+        "supports_full_text": false,
+        "trace_expected": true
+      },
+      "pagination_contract": {
+        "declared": true,
+        "max_remote_page": null,
+        "max_remote_page_size": null,
+        "mode": "local_window"
+      },
+      "quality_contract": {
+        "documentation_readiness": "needs_deepening",
+        "fixture_references": 1,
+        "latest_live_status": "not_checked_in_latest_focused_run",
+        "quality_flags": [
+          "open_documentation_items",
+          "live_not_recently_checked"
+        ]
+      },
+      "recommended_for": [
+        "agent_assisted_research"
+      ],
+      "search_contract": {
+        "pagination_mode": "local_window",
+        "search_modes": [
+          "text",
+          "case_number",
+          "dataset",
+          "catalog",
+          "pagination"
+        ],
+        "supported_filters": [
+          "text",
+          "number",
+          "published_from",
+          "published_to"
+        ],
+        "supports_catalog": true,
+        "supports_suggestions": false,
+        "text_query": true
+      },
+      "source_contract": {
+        "category": "administrative_jurisprudence",
+        "contract_label": "campos_canonicos_estaveis",
+        "contract_level": 4,
+        "display_name": "TCE-PR ViaJuris Dados Abertos",
+        "evidence": {
+          "canonical_records": [
+            "CanonicalDecision"
+          ],
+          "completeness_contract": "complete_local_snapshot_window",
+          "document_types": [
+            "acordao"
+          ],
+          "endpoints": [
+            "GET /DadosAbertos/DadosAbertos/DownloadArquivo?nomeArquivo={year}_acordaos_base_de_dados.csv"
+          ],
+          "extracted_fields": [
+            "registry_id",
+            "case_number",
+            "summary",
+            "judgment_date",
+            "publication_date",
+            "document_url"
+          ],
+          "limitations": [
+            "A base e um snapshot anual/semanário e nao substitui a consulta interativa.",
+            "Inteiro teor depende de UrlPDF presente e valido na linha.",
+            "Campos inexistentes permanecem nulos; nao sao inferidos."
+          ],
+          "pagination_mode": "local_window",
+          "responsible_use": [
+            "Baixar somente o ano necessario e respeitar rate limit.",
+            "Preservar hash, tamanho, URL e linha CSV para auditoria.",
+            "Tratar a fonte como jurisprudencia administrativa do TCE-PR."
+          ],
+          "search_modes": [
+            "text",
+            "case_number",
+            "dataset",
+            "catalog",
+            "pagination"
+          ],
+          "supports_catalog": true,
+          "supports_full_text": false,
+          "supports_live_tests": true,
+          "supports_mcp": true,
+          "supports_suggestions": false
+        },
+        "gaps": [
+          "Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+        ],
+        "jurimetry_fit": "medio; depende da completude de campos, detalhes e inteiro teor.",
+        "maturity": "intermediario",
+        "mcp_recommendation": "Pode ser exposta no MCP com diagnosticos e limites preservados.",
+        "next_steps": [
+          "Criar ou atualizar dossie em docs/providers/<provider>/README.md e manter a copia de compatibilidade em docs/source-contracts.",
+          "Salvar fixtures publicas para sucesso, vazio e erro esperado.",
+          "Adicionar teste de parser e teste de contrato de erro.",
+          "Atacar primeiro: Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+        ],
+        "risk_level": "medio",
+        "source": "tce_pr_viajuris",
+        "source_family": "catalogo_administrativo",
+        "strengths": [
+          "Declara capacidades por ProviderCapabilities.",
+          "Categoria operacional: administrative_jurisprudence.",
+          "Possui endpoints/rotas publicas declaradas.",
+          "Declara campos extraidos para auditoria.",
+          "Expoe catalogo ou parametros publicos.",
+          "Possui teste live opcional para verificacao controlada."
+        ]
+      },
+      "source_id": "tce_pr_viajuris",
+      "studio": {
+        "enabled": true,
+        "limitations": [
+          "A base e um snapshot anual/semanário e nao substitui a consulta interativa.",
+          "Inteiro teor depende de UrlPDF presente e valido na linha.",
+          "Campos inexistentes permanecem nulos; nao sao inferidos."
+        ],
+        "status": "declared"
+      }
+    },
+    {
+      "ai_usage": {
+        "preflight": [
+          "list_sources",
+          "source_contracts",
+          "validar fonte quando a coleta exigir dado live"
+        ],
+        "recommendation": "Pode ser exposta no MCP com diagnosticos e limites preservados.",
+        "safe_to_route": true
+      },
+      "category": "administrative_jurisprudence",
+      "coverage_role": "administrative_context",
+      "development_priority": "P2_maintain",
       "display_name": "TCE-SP Jurisprudencia",
       "document_contract": {
         "content_formats": [
@@ -3564,11 +3851,11 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 3,
+        "fixture_references": 5,
         "human_doc": "docs/providers/tce_sp_jurisprudencia/README.md",
         "legacy_doc": "docs/source-contracts/tce_sp_jurisprudencia.md",
         "missing_sections": [],
-        "open_items": 7,
+        "open_items": 5,
         "readiness": "needs_deepening"
       },
       "error_contract": {
@@ -3656,7 +3943,7 @@
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 12,
+          "documentation": 13,
           "input": 16,
           "output": 6,
           "product": 12,
@@ -3668,7 +3955,7 @@
           "rodar validacao live pequena com termo juridico padrao",
           "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
         ],
-        "total": 56
+        "total": 57
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -3714,7 +4001,7 @@
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
-        "fixture_references": 3,
+        "fixture_references": 5,
         "latest_live_status": "not_checked_in_latest_focused_run",
         "quality_flags": [
           "open_documentation_items",
@@ -6767,7 +7054,8 @@
       "display_name": "TJDFT Jurisprudencia/SISTJ",
       "document_contract": {
         "content_formats": [
-          "html"
+          "html",
+          "json"
         ],
         "document_types": [
           "acordao",
@@ -6794,6 +7082,7 @@
           "source_unavailable"
         ],
         "limitations": [
+          "A superficie JSON permanece opt-in ate comparacao live com o fluxo HTML.",
           "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
           "Inteiro teor PJe pode depender de link/documento externo.",
           "Provider nao interpreta merito juridico nem substitui fonte oficial."
@@ -6931,6 +7220,7 @@
       "mcp": {
         "enabled": true,
         "limitations": [
+          "A superficie JSON permanece opt-in ate comparacao live com o fluxo HTML.",
           "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
           "Inteiro teor PJe pode depender de link/documento externo.",
           "Provider nao interpreta merito juridico nem substitui fonte oficial."
@@ -6945,7 +7235,8 @@
           "CanonicalDocument"
         ],
         "content_formats": [
-          "html"
+          "html",
+          "json"
         ],
         "document_types": [
           "acordao",
@@ -7029,6 +7320,7 @@
             "informativo"
           ],
           "endpoints": [
+            "POST https://jurisdf.tjdft.jus.br/api/v1/pesquisa",
             "GET /IndexadorAcordaos-web/sistj?nomeDaPagina=buscaLivre",
             "GET /IndexadorAcordaos-web/sistj?nomeDaPagina=buscaLivre2",
             "GET /IndexadorAcordaos-web/sistj?comando=abrirDadosDoAcordao"
@@ -7046,6 +7338,7 @@
             "document_url"
           ],
           "limitations": [
+            "A superficie JSON permanece opt-in ate comparacao live com o fluxo HTML.",
             "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
             "Inteiro teor PJe pode depender de link/documento externo.",
             "Provider nao interpreta merito juridico nem substitui fonte oficial."
@@ -7098,6 +7391,7 @@
       "studio": {
         "enabled": true,
         "limitations": [
+          "A superficie JSON permanece opt-in ate comparacao live com o fluxo HTML.",
           "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
           "Inteiro teor PJe pode depender de link/documento externo.",
           "Provider nao interpreta merito juridico nem substitui fonte oficial."
@@ -8776,7 +9070,7 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 3,
+        "fixture_references": 4,
         "human_doc": "docs/providers/tjpa_jurisprudencia_bff/README.md",
         "legacy_doc": "docs/source-contracts/tjpa_jurisprudencia_bff.md",
         "missing_sections": [],
@@ -8911,7 +9205,7 @@
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 12,
+          "documentation": 13,
           "input": 19,
           "output": 25,
           "product": 15,
@@ -8922,7 +9216,7 @@
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 87
+        "total": 88
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -8970,7 +9264,7 @@
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
-        "fixture_references": 3,
+        "fixture_references": 4,
         "latest_live_status": "valid",
         "quality_flags": [
           "open_documentation_items"
@@ -12247,12 +12541,12 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 3,
+        "fixture_references": 4,
         "human_doc": "docs/providers/tjsc_eproc_jurisprudencia/README.md",
         "legacy_doc": "docs/source-contracts/tjsc_eproc_jurisprudencia.md",
         "missing_sections": [],
-        "open_items": 0,
-        "readiness": "implementation_ready"
+        "open_items": 2,
+        "readiness": "needs_deepening"
       },
       "error_contract": {
         "access_statuses": [
@@ -12316,6 +12610,7 @@
         ]
       },
       "known_defects": [
+        "documentacao_com_pendencias_abertas",
         "gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
         "gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
         "gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
@@ -12379,9 +12674,11 @@
         "url": null
       },
       "maturity_score": {
-        "blockers": [],
+        "blockers": [
+          "dossie com pendencias abertas"
+        ],
         "dimensions": {
-          "documentation": 19,
+          "documentation": 15,
           "input": 16,
           "output": 25,
           "product": 15,
@@ -12389,9 +12686,10 @@
         },
         "grade": "A",
         "next_actions": [
+          "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 89
+        "total": 85
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -12446,10 +12744,12 @@
         "mode": "page"
       },
       "quality_contract": {
-        "documentation_readiness": "implementation_ready",
-        "fixture_references": 3,
+        "documentation_readiness": "needs_deepening",
+        "fixture_references": 4,
         "latest_live_status": "valid",
-        "quality_flags": []
+        "quality_flags": [
+          "open_documentation_items"
+        ]
       },
       "recommended_for": [
         "agent_assisted_research",
@@ -13480,11 +13780,11 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 0,
+        "fixture_references": 2,
         "human_doc": "docs/providers/tjsp_nugepnac/README.md",
         "legacy_doc": "docs/source-contracts/tjsp_nugepnac.md",
         "missing_sections": [],
-        "open_items": 8,
+        "open_items": 6,
         "readiness": "needs_deepening"
       },
       "error_contract": {
@@ -13573,7 +13873,7 @@
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 9,
+          "documentation": 11,
           "input": 16,
           "output": 15,
           "product": 12,
@@ -13584,7 +13884,7 @@
           "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 64
+        "total": 66
       },
       "maturity_tier": "context",
       "mcp": {
@@ -13599,7 +13899,7 @@
         "broad_textual_jurimetry",
         "full_text_only_research"
       ],
-      "offline_status": "missing",
+      "offline_status": "partial",
       "output_contract": {
         "canonical_records": [
           "CanonicalPrecedent"
@@ -13636,7 +13936,7 @@
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
-        "fixture_references": 0,
+        "fixture_references": 2,
         "latest_live_status": "not_checked_in_latest_focused_run",
         "quality_flags": [
           "open_documentation_items",
@@ -14491,11 +14791,11 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 0,
+        "fixture_references": 2,
         "human_doc": "docs/providers/tre_sp_temas/README.md",
         "legacy_doc": "docs/source-contracts/tre_sp_temas.md",
         "missing_sections": [],
-        "open_items": 7,
+        "open_items": 5,
         "readiness": "needs_deepening"
       },
       "error_contract": {
@@ -14581,7 +14881,7 @@
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 9,
+          "documentation": 11,
           "input": 16,
           "output": 11,
           "product": 12,
@@ -14592,7 +14892,7 @@
           "fechar checklist objetivo do dossie",
           "rodar validacao live pequena com termo juridico padrao"
         ],
-        "total": 60
+        "total": 62
       },
       "maturity_tier": "context",
       "mcp": {
@@ -14607,7 +14907,7 @@
         "broad_textual_jurimetry",
         "full_text_only_research"
       ],
-      "offline_status": "missing",
+      "offline_status": "partial",
       "output_contract": {
         "canonical_records": [
           "CanonicalPrecedent"
@@ -14636,7 +14936,7 @@
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
-        "fixture_references": 0,
+        "fixture_references": 2,
         "latest_live_status": "not_checked_in_latest_focused_run",
         "quality_flags": [
           "open_documentation_items",
@@ -15294,7 +15594,7 @@
       },
       "documentation": {
         "canonical_legacy_parity": true,
-        "fixture_references": 3,
+        "fixture_references": 4,
         "human_doc": "docs/providers/trf4_eproc_jurisprudencia/README.md",
         "legacy_doc": "docs/source-contracts/trf4_eproc_jurisprudencia.md",
         "missing_sections": [],
@@ -15425,18 +15725,18 @@
           "dossie com pendencias abertas"
         ],
         "dimensions": {
-          "documentation": 12,
+          "documentation": 13,
           "input": 14,
           "output": 25,
           "product": 15,
           "reliability": 18
         },
-        "grade": "B",
+        "grade": "A",
         "next_actions": [
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 84
+        "total": 85
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -15488,7 +15788,7 @@
       },
       "quality_contract": {
         "documentation_readiness": "needs_deepening",
-        "fixture_references": 3,
+        "fixture_references": 4,
         "latest_live_status": "valid",
         "quality_flags": [
           "open_documentation_items"
@@ -16878,7 +17178,7 @@
   },
   "summary": {
     "by_coverage_role": {
-      "administrative_context": 2,
+      "administrative_context": 3,
       "curated_context": 4,
       "dataset_pipeline": 1,
       "implementation_family": 1,
@@ -16891,7 +17191,7 @@
       "access_controlled": 2,
       "access_controlled_or_inconclusive": 1,
       "blocked": 1,
-      "not_checked_in_latest_focused_run": 21,
+      "not_checked_in_latest_focused_run": 22,
       "source_pagination_not_validated": 1,
       "source_unavailable": 1,
       "tls_verification_failed": 1,
@@ -16902,7 +17202,7 @@
     "by_lifecycle": {
       "candidate": 9,
       "family": 1,
-      "implemented": 45
+      "implemented": 46
     },
     "by_maturity_tier": {
       "blocked": 3,
@@ -16911,19 +17211,19 @@
       "family": 1,
       "gold": 15,
       "mapped": 9,
-      "silver": 17
+      "silver": 18
     },
-    "implemented_sources": 45,
+    "implemented_sources": 46,
     "primary_textual_sources": 34,
     "score": {
-      "average": 78.5,
+      "average": 78.7,
       "needs_attention": [
-        "stm_jurisprudencia",
         "tjce_cjsg",
         "tjgo_projudi_jurisprudencia",
         "cjf_jurisprudencia",
         "stf_juris",
         "tjam_cjsg",
+        "stm_jurisprudencia",
         "tjsp_cjsg",
         "tjac_cjsg",
         "tjal_cjsg",
@@ -16938,7 +17238,7 @@
       ]
     },
     "sources_with_full_text": 27,
-    "total_sources": 55,
-    "unified_search_sources": 41
+    "total_sources": 56,
+    "unified_search_sources": 42
   }
 }

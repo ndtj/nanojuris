@@ -306,13 +306,18 @@ class HtmlNode:
             parent = getattr(self.element, "parent", None)
         return self.document._wrap(parent) if parent is not None and _is_node(parent) else None
 
-    def find_parent(self, tag: str | None = None) -> HtmlNode | None:
-        """Return the closest ancestor matching an optional tag name."""
+    def find_parent(self, tag: str | Iterable[str] | None = None) -> HtmlNode | None:
+        """Return the closest ancestor matching an optional tag name (or names)."""
 
         current = self.parent
-        expected = tag.casefold() if tag else None
+        if tag is None:
+            expected: set[str] | None = None
+        elif isinstance(tag, str):
+            expected = {tag.casefold()}
+        else:
+            expected = {item.casefold() for item in tag}
         while current is not None:
-            if expected is None or current.tag.casefold() == expected:
+            if expected is None or current.tag.casefold() in expected:
                 return current
             current = current.parent
         return None

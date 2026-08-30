@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
+from nanojuris.adaptive_selectors import resilient_find_all
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
@@ -294,7 +295,9 @@ def parse_tjpi_results(
         raise AccessControlRequiredError("TJPI/JusPI returned captcha or access-control HTML")
     soup = BeautifulSoup(html, "html.parser")
     total, start, end = _parse_total(soup)
-    cards = soup.select("div.callout")
+    cards = resilient_find_all(
+        soup, "div.callout", name="result_card", source="tjpi_juspi", trace=trace
+    )
     if not cards:
         complete, completeness_reason = page_completeness(
             reported_total=total,

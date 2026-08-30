@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 import requests
 
@@ -12,38 +14,9 @@ from nanojuris.providers.stm_jurisprudencia import (
     parse_stm_total_documents,
 )
 
-STM_HTML = """
-<html><body>
-<div class="container container-fluid">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-            <button title="Exibir Inteiro Teor"
-                onclick="tracker.functions.openInteiroTeor('https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&amp;uuid=b2b2e8fe7d596c2d8c05de8a290f9ce46881030e41ccf5df17ef3453facfe031')">
-                Inteiro Teor
-            </button>
-            <button data-type="referencia_legislativa"
-                data-uuid="f10664ac8095465d5e59d4088b2d3d56"
-                data-processo="7000527-63.2025.7.00.0000">
-                Referência Legislativa
-            </button>
-      7000527-63.2025.7.00.0000
-    </div>
-    <div class="panel-body">
-      f10664ac8095465d5e59d4088b2d3d56
-            7000527-63.2025.7.00.0000 EMBARGOS INFRINGENTES E DE NULIDADE
-            EMBARGOS INFRINGENTES E DE NULIDADE N.º 7000527-63.2025.7.00.0000
-      <dl class="dl-horizontal">
-        <dt>Relator(a):</dt><dd>CELSO LUIZ NAZARETH</dd>
-        <dt>Revisor(a):</dt><dd>JOSÉ BARROSO FILHO</dd>
-        <dt>Assuntos:</dt><dd>DIREITO PENAL MILITAR, DESERÇÃO.</dd>
-      </dl>
-      Data de Autuação: 05/08/2025 Data de Julgamento: 18/06/2026 Data de Publicação: 25/06/2026
-      <blockquote>EMENTA: DIREITO PENAL MILITAR. DESERÇÃO. ACOLHIMENTO DOS EMBARGOS.</blockquote>
-    </div>
-  </div>
-</div>
-</body></html>
-"""
+FIXTURES = Path(__file__).parent / "fixtures"
+
+STM_HTML = (FIXTURES / "stm_jurisprudencia_results.html").read_text(encoding="utf-8")
 
 
 class FakeResponse:

@@ -178,6 +178,7 @@ JavaScript e precisa de fixture de replay completo antes de ser ativada.
 - [x] busca com payload POST e numero CNJ;
 - [x] inteiro teor por `id_jurisprudencia`;
 - [x] detecao de bloqueio sem bypass;
+- [x] fixture sanitizada de card de resultado: `tests/fixtures/trf4_eproc_results.html`;
 - [ ] fixture real sanitizada com total remoto e `selTamanhoPagina`;
 - [ ] fixture de pagina vazia;
 - [ ] fixture de replay da rota `ajax_paginar_resultado`;

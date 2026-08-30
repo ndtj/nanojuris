@@ -19,6 +19,11 @@
 - Paginacao: catalogos estaticos, a depender da pagina oficial.
 - Busca dinamica: nao automatizada quando exigir reCAPTCHA.
 
+O método `get_catalog()` usa as rotas públicas de súmulas e publicações como
+alternativa segura à busca dinâmica. Ele retorna as espécies disponíveis,
+quantidade de itens por coleção e mantém os registros completos em `raw`;
+nenhum desafio de acesso é automatizado.
+
 ## Dados retornados
 
 - Campos extraidos:
@@ -40,8 +45,8 @@
 
 ## Fixtures
 
-- [ ] Lista de sumulas.
-- [ ] Lista de publicacoes.
+- [x] Lista de sumulas: `tests/fixtures/tce_sp_sumulas.html`.
+- [x] Lista de publicacoes: `tests/fixtures/tce_sp_boletins.html`.
 - [ ] Indice alfabetico.
 - [ ] Pagina com estrutura alterada.
 

@@ -67,7 +67,9 @@ def test_sjuris_parser_preserves_inline_full_text_and_pdf_metadata() -> None:
     assert result.id == "tjce-sjuris-02486960420248060001_33695153"
     assert result.judgment_date == "2026-02-11"
     assert result.publication_date is None
-    assert result.summary == "Ementa pública de fixture."
+    # Search-highlight markup (<em>/<strong>), HTML entities and non-breaking
+    # spaces from SJURIS must not reach the canonical summary.
+    assert result.summary == "Ementa pública de fixture com realce."
     assert result.full_text == "Inteiro teor público de fixture."
     assert result.raw["pdf_status"] == "inline_base64"
     assert result.raw["pdf_response_bytes"] == 16

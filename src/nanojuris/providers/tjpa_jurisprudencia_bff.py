@@ -9,6 +9,7 @@ from urllib.parse import urljoin
 
 import requests
 
+from nanojuris.canonical import normalize_date
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -318,6 +319,11 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
     full_text = _first_string(item, "textopuro", "textooriginal", "full_text", "conteudo")
     judgment_date = _first_string(item, "datajulgamento", "data_julgamento")
     publication_date = _first_string(item, "datapublicacao", "data_publicacao")
+    normalized_judgment_date = normalize_date(judgment_date)
+    normalized_publication_date = normalize_date(publication_date)
+    extraction_status = (
+        ExtractionStatus.COMPLETE if summary or full_text else ExtractionStatus.PARTIAL
+    )
     return JurisprudenceResult(
         id=f"tjpa-bff-{external_id}",
         source="tjpa_jurisprudencia_bff",
@@ -327,15 +333,19 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
         summary=summary,
         full_text=full_text or None,
         rapporteur=_nested_name(item.get("relator")),
-        judgment_date=judgment_date,
-        publication_date=publication_date,
-        updated_at=publication_date or judgment_date or _first_string(item, "datadocumento"),
+        judgment_date=normalized_judgment_date,
+        publication_date=normalized_publication_date,
+        updated_at=normalized_publication_date
+        or normalized_judgment_date
+        or normalize_date(_first_string(item, "datadocumento")),
         source_trace=trace,
         access_status=AccessStatus.PUBLIC,
-        extraction_status=ExtractionStatus.COMPLETE,
+        extraction_status=extraction_status,
         raw={
             **item,
             "full_text": full_text,
+            "judgment_date_raw": judgment_date,
+            "publication_date_raw": publication_date,
             "orgao_julgador": _first_string(item, "orgaojulgadorcolegiado", "orgaojulgador"),
             "case_class": _first_string(item, "classe"),
             "subject": _first_string(item, "indexacao"),

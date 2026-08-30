@@ -242,6 +242,7 @@ def test_sqlite_store_saves_and_lists_research_runs():
 
     assert run.id.startswith("run-")
     assert run.record_count == 1
+    assert run.persisted_record_count == 1
     assert stored_run is not None
     assert stored_run["label"] == "Carteira criminal"
     assert stored_run["query"] == {"page": 1, "page_size": 10}
@@ -276,6 +277,7 @@ def test_sqlite_store_research_run_records_follow_canonical_deduplication():
     records = store.get_research_run_records(run.id)
 
     assert run.record_count == 2
+    assert run.persisted_record_count == 1
     assert [record["id"] for record in records] == ["dec-duplicate"]
 
 

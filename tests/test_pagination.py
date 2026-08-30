@@ -138,3 +138,73 @@ def test_provider_iter_pages_stops_on_a_repeated_source_page() -> None:
     assert pages[1].results == []
     assert pages[1].is_complete is False
     assert "repetiu" in (pages[1].completeness_reason or "")
+
+
+def test_provider_iter_pages_deduplicates_missing_ids_without_collapsing_distinct_numbers() -> None:
+    from nanojuris.models import (
+        JurisprudenceQuery,
+        JurisprudenceResult,
+        ProviderCapabilities,
+        SearchPage,
+    )
+    from nanojuris.providers.base import JurisprudenceProvider
+
+    class ProviderWithUnreliableIds:
+        def search(self, query):
+            if query.page == 1:
+                results = [
+                    JurisprudenceResult(
+                        id="",
+                        source="fake",
+                        court="TJXX",
+                        type="acordao",
+                        number="100/2025",
+                    ),
+                    JurisprudenceResult(
+                        id="",
+                        source="fake",
+                        court="TJXX",
+                        type="acordao",
+                        number="101/2025",
+                    ),
+                ]
+            else:
+                results = [
+                    JurisprudenceResult(
+                        id="",
+                        source="fake",
+                        court="TJXX",
+                        type="acordao",
+                        number="100/2025",
+                    ),
+                ]
+            return SearchPage(
+                source="fake",
+                total=100,
+                start=1,
+                end=len(results),
+                page=query.page,
+                page_size=2,
+                results=results,
+                pagination_mode="page",
+                is_complete=False,
+            )
+
+        def get_capabilities(self):
+            return ProviderCapabilities(
+                source="fake",
+                display_name="Fake",
+                source_url="https://example.test",
+                category="jurisprudence",
+                pagination_mode="page",
+            )
+
+    pages = list(
+        JurisprudenceProvider.iter_pages(
+            ProviderWithUnreliableIds(), JurisprudenceQuery(text="term", page_size=2)
+        )
+    )
+
+    assert [result.number for result in pages[0].results] == ["100/2025", "101/2025"]
+    assert pages[1].results == []
+    assert "repetiu" in (pages[1].completeness_reason or "")

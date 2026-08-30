@@ -70,6 +70,9 @@ O resultado e normalizado como `JurisprudenceResult` e depois
 
 - Sucesso: XLSX minimo gerado em `tests/test_stf_informativo.py`.
 - Erro: header alterado e payload nao-XLSX.
+- Decisao de rastreabilidade: o XLSX permanece um builder inline, pois o
+  conteudo atual e um contrato sintetico versionado e nao uma resposta oficial
+  arquivada; nao foi promovido a fixture live por inferencia.
 
 ## MCP e Agentes
 

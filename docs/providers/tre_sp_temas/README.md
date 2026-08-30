@@ -36,8 +36,8 @@
 
 ## Fixtures
 
-- [ ] Indice de temas.
-- [ ] Pagina de tema.
+- [x] Indice de temas: `tests/fixtures/tre_sp_temas_index.html`.
+- [x] Pagina de tema: `tests/fixtures/tre_sp_temas_detail.html`.
 - [ ] Tema sem decisoes.
 - [ ] Link externo indisponivel.
 

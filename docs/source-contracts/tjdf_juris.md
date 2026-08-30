@@ -4,10 +4,13 @@
 
 - Fonte oficial: jurisprudencia publica TJDFT/SISTJ.
 - Categoria: `court_jurisprudence`.
-- Familia tecnica: `html_jurisprudencia_tribunal`.
+- Familia tecnica: `html_jurisprudencia_tribunal` e API JSON oficial.
 - Uso preferencial: demonstracoes, estudos jurimetricos iniciais e validacao de
   fluxo MCP.
 - Nivel atual esperado: 5.
+- A API JSON fica disponivel no mesmo adapter por `use_api=True` ou
+  `NanoJurisConfig(tjdf_juris_api_enabled=True)`; o fluxo HTML legado continua
+  sendo o padrao ate uma comparacao live controlada.
 
 ## Contrato conhecido
 
@@ -94,11 +97,11 @@ TJDFT](https://github.com/ndtj/nanojuris/blob/main/docs/providers/tjdf_juris/api
 ## Lacunas a aprofundar
 
 - Completar dossie de parametros de detalhe e ordenacao.
-- Integrar a superficie JSON `/api/v1/pesquisa` sem remover o fluxo HTML legado.
+- [x] Integrar a superficie JSON `/api/v1/pesquisa` sem remover o fluxo HTML legado.
 - Confirmar rota de detalhe ou inteiro teor associada a `uuid`/`identificador`.
 - Definir se `inteiroTeor` e texto completo ou trecho condicionado por
   `possuiInteiroTeor`.
-- Criar fixtures adicionais para pagina vazia e variacao de pagina de detalhe.
+- [x] Criar fixtures sanitizadas de resultado, pagina vazia e schema alterado.
 - Documentar campos que variam por classe, orgao julgador e tipo decisorio.
 
 ## MCP e agentes
@@ -125,9 +128,9 @@ acervo inteiro.
 
 ## Proximos passos
 
-1. salvar fixture pequena da resposta JSON, mantendo um registro completo;
-2. implementar parser JSON paralelo ao parser HTML existente;
-3. validar pagina vazia, filtros de data e `termosAcessorios`;
+1. [x] salvar fixture pequena da resposta JSON, mantendo registros completos;
+2. [x] implementar parser JSON paralelo ao parser HTML existente;
+3. [x] validar pagina vazia, filtros de data e `termosAcessorios` offline;
 4. localizar detalhe publico por `uuid` ou `identificador`;
 5. comparar cobertura e campos com o fluxo HTML antes de tornar a API a rota
    preferencial.

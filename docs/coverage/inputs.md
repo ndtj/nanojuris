@@ -19,6 +19,7 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `stj_informativo` | sim | text, number | `local_window` | nao | nao |
 | `stj_scon` | sim | text, number | `page` | nao | nao |
 | `stm_jurisprudencia` | sim | text, number | `offset` | nao | nao |
+| `tce_pr_viajuris` | sim | text, number, published_from, published_to | `local_window` | sim | nao |
 | `tce_sp_jurisprudencia` | sim | text, types | `local_window` | sim | nao |
 | `tcu_jurisprudencia` | sim | text, number | `local_window` | sim | nao |
 | `tjac_cjsg` | sim | text, number, exact_phrase, updated_from, updated_to, types, order_by | `page` | nao | nao |

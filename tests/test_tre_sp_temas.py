@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from nanojuris.config import NanoJurisConfig
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tre_sp_temas import (
@@ -13,22 +15,11 @@ THEME_PATH = (
     "temas-selecionados/tre-sp-aije-temas-selecionados-2022"
 )
 
-INDEX_HTML = f"""
-<html><body>
-    <a href="{THEME_PATH}">
-    Ação de Investigação Judicial Eleitoral - AIJE
-  </a>
-</body></html>
-"""
+FIXTURES = Path(__file__).parent / "fixtures"
 
-DETAIL_HTML = """
-<html><head><title>Ação de Investigação Judicial Eleitoral - AIJE</title></head>
-<body><main>
-  <h1>Ação de Investigação Judicial Eleitoral - AIJE</h1>
-  <p>Coletânea temática de jurisprudência com ementas selecionadas sobre abuso de poder.</p>
-  <a href="https://www.tre-sp.jus.br/jurisprudencia/decisao/123">Acórdão TRE-SP 123</a>
-</main></body></html>
-"""
+INDEX_HTML = (FIXTURES / "tre_sp_temas_index.html").read_text(encoding="utf-8")
+
+DETAIL_HTML = (FIXTURES / "tre_sp_temas_detail.html").read_text(encoding="utf-8")
 
 
 class FakeResponse:

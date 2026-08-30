@@ -52,8 +52,8 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         "risk_level": "medio",
         "gaps": [
             (
-                "Expandir a matriz de rejeicoes HTTP 400 por tribunal, especie e "
-                "combinacao de filtros."
+                "O endpoint /precedentes passou a exigir 'orgaos' e 'tipos' nao vazios; "
+                "o provider preenche ambos com o catalogo completo quando ausentes."
             ),
             "Documentar payload completo de filtros e agregacoes.",
             "Cobrir heuristica de sugestoes/catalogo para consultas curtas.",
@@ -332,6 +332,7 @@ FAMILY_DEFAULTS = {
     "tjam_cjsg": "html_esaj_cjsg",
     "tjms_cjsg": "html_esaj_cjsg",
     "tce_sp_jurisprudencia": "catalogo_administrativo",
+    "tce_pr_viajuris": "catalogo_administrativo",
     "tjsp_nugepnac": "catalogo_precedentes",
     "tre_sp_temas": "catalogo_tematico_eleitoral",
 }

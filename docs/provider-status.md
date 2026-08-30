@@ -83,6 +83,27 @@ stj_scon
 Os exemplos acima são categorias de maturidade, não um monitoramento em tempo
 real. A execução atual deve ser verificada no ambiente do usuário.
 
+## Limitações conhecidas por fonte (verificação live 2026-08-30)
+
+Sweep pelo pipeline da plataforma (`search_many(canonical=True)`, termo
+`responsabilidade civil`). Das 46 fontes federadas, 27 retornaram resultados
+canônicos limpos. As demais se classificam assim — **nenhuma é bug em aberto do
+parser**:
+
+| Fonte | Situação | Natureza |
+| --- | --- | --- |
+| `bnp_pangea` | **corrigido** — `/precedentes` passou a exigir `orgaos` e `tipos`; o provider os preenche com o catálogo completo | contrato da fonte |
+| `tce_pr_viajuris` | **corrigido** — o CSV anual mudou de schema (`DsTipoAto;NrAto;AnoAto;…`) | contrato da fonte |
+| `cnj_jurisprudencia` | **corrigido** — o filtro `argumento` casa a frase literalmente; consultas multi-palavra agora enviam o token mais seletivo e filtram o restante client-side (com dobra de acento) | contrato da fonte |
+| `tjsp_cjsg`, `stj_scon`, `cjf_jurisprudencia`, `tjma_jurisconsult` | `access_control_required` — captcha / WAF / Cloudflare | controle de acesso (nunca contornado); fora do conjunto padrão |
+| `tre_sp_temas` | HTTP 403 na rota de temas | controle de acesso |
+| `stf_juris`, `stf_informativo` | `source_unavailable` — verificação SSL falha nesta rede | ambiente local; revalidar de rede limpa |
+| `tjpe_jurisprudencia`, `tjce_cjsg` | `source_unavailable` — conexão recusada/reset | rede transitória |
+| `tjac_cjsg` | e-SAJ do TJAC devolve `totalResultadoAba-A=0` e `emptySession.jsp` (HTTP 404) para toda consulta; os 3 provedores CJSG irmãos (`tjms`, `tjal`, `tjam`) funcionam com o mesmo código | indisponibilidade no servidor do TJAC; o provider degrada para resultado vazio limpo |
+| `stj_dados_abertos_jurisprudencia` | `UnsupportedQueryError` — a fonte não oferece busca online; requer `sync` de um recurso e busca no índice local | por design |
+| `justica_eleitoral_sjur` | `UnsupportedQueryError` — só catálogo promovido; busca decisória aguarda contrato reproduzível | por design |
+| `tjsp_nugepnac`, `tce_sp_jurisprudencia` | retornam vazio sem `SourceTrace` de rota real | endpoint provavelmente descontinuado; revalidar |
+
 ## Critério para produção
 
 Antes de incorporar uma fonte em uma coleta importante:

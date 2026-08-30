@@ -33,9 +33,14 @@ class NanoJurisConfig:
     tst_jurisprudencia_url: str = "https://jurisprudencia.tst.jus.br"
     tst_jurisprudencia_api_url: str = "https://jurisprudencia-backend2.tst.jus.br"
     tce_sp_url: str = "https://www.tce.sp.gov.br"
+    tce_pr_viajuris_url: str = "https://viajuris.tce.pr.gov.br"
     tre_sp_url: str = "https://www.tre-sp.jus.br"
     tjsp_url: str = "https://www.tjsp.jus.br"
     tjdf_juris_url: str = "https://pesquisajuris.tjdft.jus.br"
+    # The structured API belongs to the same TJDFT provider. Keep it opt-in
+    # until the JSON surface is compared with the established HTML contract.
+    tjdf_juris_api_url: str = "https://jurisdf.tjdft.jus.br"
+    tjdf_juris_api_enabled: bool = False
     tnu_eproc_jurisprudencia_url: str = "https://eproctnu.cjf.jus.br/eproc"
     trf2_eproc_jurisprudencia_url: str = "https://eproc.trf2.jus.br/eproc"
     trf4_eproc_jurisprudencia_url: str = "https://jurisprudencia.trf4.jus.br/eproc2trf4"

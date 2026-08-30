@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 
 import requests
 
+from nanojuris.adaptive_selectors import resilient_select
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -197,7 +198,13 @@ def parse_stj_informativo_results(
     if _looks_like_access_control(html):
         raise AccessControlRequiredError("STJ Informativo returned access-control HTML")
     document = parse_html(html)
-    items = document.select(".clsInformativoBlocoItem")
+    items = resilient_select(
+        document,
+        ".clsInformativoBlocoItem",
+        name="result_item",
+        source="stj_informativo",
+        trace=trace,
+    )
     if not items:
         text = document.get_text(" ", strip=True).lower()
         if "nenhum item encontrado" in text or "notas encontradas: 0" in text:

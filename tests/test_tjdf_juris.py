@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -14,10 +15,14 @@ from nanojuris.errors import (
 )
 from nanojuris.models import CanonicalDecision, JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjdf_juris import (
+    TJDF_JURIS_API_ENDPOINT,
     TjdfJurisProvider,
+    _build_api_payload,
     _build_initial_params,
     _build_results_params,
+    parse_tjdf_api_response,
     parse_tjdf_detail,
+    parse_tjdf_list_results,
     parse_tjdf_result_ids,
     parse_tjdf_total,
 )
@@ -30,6 +35,15 @@ class FakeResponse:
         self.text = text
         self.status_code = status_code
         self.encoding = None
+
+
+class JsonFakeResponse(FakeResponse):
+    def __init__(self, payload, status_code: int = 200):
+        super().__init__(json.dumps(payload), status_code=status_code)
+        self.headers = {"Content-Type": "application/json"}
+
+    def json(self):
+        return json.loads(self.text)
 
 
 class FakeSession:
@@ -102,6 +116,97 @@ def test_search_maps_tjdf_jurisprudence_result():
     assert session.calls[0]["kwargs"]["params"]["nomeDaPagina"] == "buscaLivre"
     assert session.calls[1]["kwargs"]["params"]["nomeDaPagina"] == "buscaLivre2"
     assert session.calls[2]["kwargs"]["params"]["numeroDoDocumento"] == "1917641"
+
+
+def test_search_api_maps_zero_based_page_and_canonical_fields():
+    payload = json.loads(load_fixture("tjdf_juris_api_results.json"))
+    session = FakeSession([JsonFakeResponse(payload)])
+    provider = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session, use_api=True
+    )
+
+    page = provider.search(
+        JurisprudenceQuery(
+            text="responsabilidade civil",
+            page=2,
+            page_size=2,
+            number="0700001-00.2024.8.07.0001",
+            rapporteur="MARIA TESTE",
+        )
+    )
+
+    assert page.page == 2
+    assert page.page_size == 2
+    assert page.total == 2
+    assert page.start == 3
+    assert page.end == 4
+    assert page.aggregations["base"][0]["nome"] == "ACORDAOS"
+    result = page.results[0]
+    assert result.id == "tjdf-api-11111111-1111-4111-8111-111111111111"
+    assert result.number == "0700001-00.2024.8.07.0001"
+    assert result.judgment_date == "2024-09-04"
+    assert result.publication_date == "2024-09-16"
+    assert result.updated_at == "2024-09-16"
+    assert result.full_text == "Texto integral publico de teste."
+    assert result.raw["campoDesconhecido"] == "preservar"
+    assert result.source_trace is not None
+    assert result.source_trace.endpoint == TJDF_JURIS_API_ENDPOINT
+    assert result.source_trace.transformations == ["pagina_api_zero_based_convertida"]
+
+    request = session.calls[0]
+    assert request["method"] == "POST"
+    assert request["url"].endswith("/api/v1/pesquisa")
+    assert request["kwargs"]["json"]["pagina"] == 1
+    assert request["kwargs"]["json"]["tamanho"] == 2
+    assert request["kwargs"]["json"]["termosAcessorios"] == [
+        {"campo": "processo", "valor": "0700001-00.2024.8.07.0001"},
+        {"campo": "nomeRelator", "valor": "MARIA TESTE"},
+    ]
+    assert page.results[1].full_text is None
+
+
+def test_build_tjdf_api_payload_maps_documented_date_fields():
+    payload = _build_api_payload(
+        JurisprudenceQuery(
+            text="dano moral",
+            updated_from="2024-01-01",
+            updated_to="2024-01-31",
+            published_from="2024-02-01",
+            published_to="2024-02-29",
+            source_origin="PJe",
+        )
+    )
+
+    assert payload["pagina"] == 0
+    assert payload["termosAcessorios"] == [
+        {"campo": "origem", "valor": "PJe"},
+        {"campo": "dataJulgamento", "valor": "2024-01-01"},
+        {"campo": "dataJulgamento", "valor": "2024-01-31"},
+        {"campo": "dataPublicacao", "valor": "2024-02-01"},
+        {"campo": "dataPublicacao", "valor": "2024-02-29"},
+    ]
+
+
+def test_parse_tjdf_api_empty_page_is_not_a_contract_failure():
+    payload = json.loads(load_fixture("tjdf_juris_api_empty.json"))
+    trace = SourceTrace(provider="tjdf_juris", endpoint=TJDF_JURIS_API_ENDPOINT)
+
+    page = parse_tjdf_api_response(payload, trace=trace, page=1, page_size=2)
+
+    assert page.total == 0
+    assert page.results == []
+    assert page.start == 0
+    assert page.end == 0
+    assert page.is_complete is True
+    assert page.completeness_reason
+
+
+def test_parse_tjdf_api_rejects_missing_required_envelope_fields():
+    payload = json.loads(load_fixture("tjdf_juris_api_contract_changed.json"))
+    trace = SourceTrace(provider="tjdf_juris", endpoint=TJDF_JURIS_API_ENDPOINT)
+
+    with pytest.raises(ParserContractChangedError, match="hits or registros"):
+        parse_tjdf_api_response(payload, trace=trace, page=1, page_size=2)
 
 
 def test_search_sends_tjdf_summary_filter():
@@ -224,6 +329,65 @@ def test_search_without_fetch_details_avoids_detail_requests():
     assert len(session.calls) == 2
 
 
+def test_list_results_extract_ementa_from_row_blob():
+    """The live list row concatenates identifiers, rapporteur and the CNJ number
+    before the ementa; the canonical summary must contain only the ementa."""
+
+    html = (
+        "<ul><li>"
+        '<span id="id_link_abrir_dados_acordao_0">2162430</span>'
+        " 1 2162430 460 Relator(a): EVANDRO NEIVA DE AMORIM"
+        " Processo: 07180024920268070016"
+        " DIREITO TRIBUTARIO E RESPONSABILIDADE CIVIL. EXECUCAO FISCAL. NULIDADE."
+        "</li></ul>"
+    )
+    trace = SourceTrace(provider="tjdf_juris", endpoint="/consultaBaseAcordaos")
+
+    results = parse_tjdf_list_results(
+        html, trace=trace, base_url="https://pesquisajuris.tjdft.jus.br"
+    )
+
+    assert len(results) == 1
+    result = results[0]
+    assert result.summary is not None
+    assert result.summary.startswith("DIREITO TRIBUTARIO E RESPONSABILIDADE CIVIL")
+    assert "Relator(a)" not in result.summary
+    assert "2162430" not in result.summary
+    assert result.rapporteur == "EVANDRO NEIVA DE AMORIM"
+    assert result.number == "2162430"
+    assert result.raw["registry_number"] == "2162430"
+    assert result.raw["process_number"] == "07180024920268070016"
+    assert result.raw["document_url"].startswith(
+        "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?"
+    )
+    assert "numeroDoDocumento=2162430" in result.raw["document_url"]
+    assert result.id == "tjdf-acordao-2162430"
+
+
+def test_list_results_relocate_rows_when_the_id_selector_breaks():
+    """If SISTJ renames the acordao link id, the rows are relocated by structure
+    and the recovery is recorded on the trace instead of returning nothing."""
+
+    from nanojuris.adaptive_selectors import SelectorMemory
+
+    memory = SelectorMemory(":memory:", seed=False)
+    trace = SourceTrace(provider="tjdf_juris", endpoint="/IndexadorAcordaos-web/sistj")
+
+    # Prime the fingerprint from a page where the selector still works.
+    parse_tjdf_list_results(load_fixture("tjdf_juris_results.html"), trace=trace, memory=memory)
+
+    changed = load_fixture("tjdf_juris_results.html").replace(
+        "id_link_abrir_dados_acordao", "lnkAbrirAcordao"
+    )
+    recovery_trace = SourceTrace(provider="tjdf_juris", endpoint="/IndexadorAcordaos-web/sistj")
+    results = parse_tjdf_list_results(changed, trace=recovery_trace, memory=memory)
+
+    assert [result.raw["registry_number"] for result in results] == ["1917641", "1907747"]
+    assert any(
+        "relocated by structural similarity" in note for note in recovery_trace.transformations
+    )
+
+
 def test_get_document_rejects_detail_without_acordao_fields():
     provider = TjdfJurisProvider(
         NanoJurisConfig(rate_limit_interval=0),
@@ -278,3 +442,5 @@ def test_capabilities_include_promoted_filters():
 
     assert capabilities.source == "tjdf_juris"
     assert "summary" in capabilities.search_modes
+    assert "json" in capabilities.content_formats
+    assert "POST https://jurisdf.tjdft.jus.br/api/v1/pesquisa" in capabilities.endpoints

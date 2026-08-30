@@ -64,9 +64,10 @@ def trace() -> SourceTrace:
 
 
 def test_parse_cnj_results_maps_curated_rows_and_pdf_links():
+    # No query text: every curated row on the page is returned.
     page = parse_cnj_results(
         load_fixture("cnj_jurisprudencia_results.html"),
-        query=JurisprudenceQuery(text="cartorios", page_size=5),
+        query=JurisprudenceQuery(page_size=5),
         trace=trace(),
         base_url="https://atos.cnj.jus.br",
     )
@@ -81,6 +82,37 @@ def test_parse_cnj_results_maps_curated_rows_and_pdf_links():
         page.results[0].raw["document_url"] == "https://atos.cnj.jus.br/files/original-demo-9.pdf"
     )
     assert page.results[0].raw["curated_source"] is True
+
+
+def test_parse_cnj_results_applies_multi_word_and_filter_with_accent_folding():
+    # The CNJ ``argumento`` filter matches the phrase literally, so multi-word
+    # queries are narrowed client-side: every token must appear in the row,
+    # accents ignored ("cartorios" matches "Cartórios").
+    page = parse_cnj_results(
+        load_fixture("cnj_jurisprudencia_results.html"),
+        query=JurisprudenceQuery(text="cartorios concurso publico", page_size=5),
+        trace=trace(),
+        base_url="https://atos.cnj.jus.br",
+    )
+
+    assert page.total == 1
+    assert page.results[0].number == "9"
+
+    empty = parse_cnj_results(
+        load_fixture("cnj_jurisprudencia_results.html"),
+        query=JurisprudenceQuery(text="cartorios proteção de dados", page_size=5),
+        trace=trace(),
+        base_url="https://atos.cnj.jus.br",
+    )
+    assert empty.total == 0
+    assert "todos os termos" in (empty.completeness_reason or "")
+
+
+def test_cnj_query_params_send_the_most_selective_single_token():
+    from nanojuris.providers.cnj_jurisprudencia import _query_params
+
+    params = _query_params(JurisprudenceQuery(text="responsabilidade civil do estado"))
+    assert params["argumento"] == "responsabilidade"
 
 
 def test_provider_sends_documented_filters_and_page():

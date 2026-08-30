@@ -1,6 +1,6 @@
 # Ledger de fechamento de TODOs dos providers
 
-Gerado em `2026-08-20T07:14:00+00:00`; discovery `2026-08-20T06:35:41+00:00`.
+Gerado em `2026-08-28T01:28:11+00:00`; discovery `2026-08-20T06:35:41+00:00`.
 
 Itens: **109**; runtime: **93**; candidates: **16**.
 Estados: `{"implemented_with_local_evidence": 66, "blocked_external": 27, "candidate_pending_adapter": 16}`.

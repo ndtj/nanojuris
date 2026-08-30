@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
 from nanojuris.models import JurisprudenceQuery, SourceTrace
@@ -9,34 +11,11 @@ from nanojuris.providers.tjsp_nugepnac import (
     parse_nugepnac_list,
 )
 
-LIST_HTML = """
-<html><body>
-  <a href="/NugepNac/Irdr/DetalheTema?codigoNoticia=50879&amp;pagina=1">
-    Tema 001 - IRDR - Cobranca - Diferenca - FGC (TRANSITO EM JULGADO)
-  </a>
-</body></html>
-"""
+FIXTURES = Path(__file__).parent / "fixtures"
 
-DETAIL_HTML = """
-<html><body>
-  <article>
-    <article>Tema 001 - IRDR - Cobranca - Diferenca - FGC (TRANSITO EM JULGADO)</article>
-    <p>Processo Paradigma: IRDR nº 2059683-75.2016.8.26.0000</p>
-    <p>Assunto : DIREITO DO CONSUMIDOR - Contratos de Consumo - Bancarios</p>
-    <p>Órgão Julgador : Turma Especial - Privado 2</p>
-    <p>Relator(a): Desembargador RICARDO PESSOA DE MELLO BELLI</p>
-    <p>Data de Admissão: 08/06/2016</p>
-    <p>Data de Julgamento do Mérito: 28/03/2017</p>
-    <p>Data de Publicação do Acórdão de Mérito : 14/09/2017</p>
-    <p>Suspensão: CESSADA - TRANSITO EM JULGADO EM 05/04/2024</p>
-    <p>Questão submetida a julgamento: Discussao sobre limite maximo da garantia.</p>
-    <p>Tese firmada: Incidente de resolucao de demandas repetitivas. Inadmissibilidade.</p>
-    <a href="https://esaj.tjsp.jus.br/cjsg/getArquivo.do?cdAcordao=9531760&amp;cdForo=0">
-      Acórdão de Admissibilidade
-    </a>
-  </article>
-</body></html>
-"""
+LIST_HTML = (FIXTURES / "tjsp_nugepnac_list.html").read_text(encoding="utf-8")
+
+DETAIL_HTML = (FIXTURES / "tjsp_nugepnac_detail.html").read_text(encoding="utf-8")
 
 
 class FakeResponse:

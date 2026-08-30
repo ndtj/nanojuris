@@ -12,6 +12,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
+from nanojuris.adaptive_selectors import resilient_find_all
 from nanojuris.canonical import normalize_date
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
@@ -308,7 +309,13 @@ def parse_tjto_search_response(
     """Parse one public TJTO HTML window without discarding the card HTML."""
 
     soup = BeautifulSoup(content, "html.parser")
-    cards = soup.select("div.container.align-self-center.panel.panel-default")
+    cards = resilient_find_all(
+        soup,
+        "div.container.align-self-center.panel.panel-default",
+        name="result_card",
+        source="tjto_jurisprudencia",
+        trace=trace,
+    )
     total = _parse_total(soup.get_text(" ", strip=True))
     if not cards and total:
         raise ParserContractChangedError("TJTO result total exists but result cards were not found")
@@ -390,8 +397,10 @@ def _extract_labeled_fields(text: str) -> dict[str, str]:
         "subject": r"Assunto\(s\)\s+(.*?)\s+Competência",
         "competence": r"Competência\s+(.*?)\s+(?:Relator|Juiz)\s+",
         "rapporteur": r"(?:Relator|Juiz)\s+(.*?)\s+Data Autuação",
-        "filing_date": r"Data Autuação\s+(.*?)\s+Data Julgamento",
-        "judgment_date": r"Data Julgamento\s+(.*?)\s+EMENTA(?:\.|:)",
+        "filing_date": r"Data Autuação\s+(\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4})",
+        # The judgment date must not depend on an EMENTA token following it: some
+        # cards carry the date but no published ementa.
+        "judgment_date": r"Data Julgamento\s+(\d{1,2}[/.\-]\d{1,2}[/.\-]\d{2,4})",
         "summary": r"EMENTA(?:\.|:)\s+(.*?)(?:\s+Referências?|$)",
     }
     return {

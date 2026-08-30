@@ -77,6 +77,80 @@ class RoutingSummaryItem:
         }
 
 
+def build_source_outcomes(
+    *,
+    selected_sources: list[str],
+    routed: RoutedSources,
+    errors: list[dict[str, str]],
+) -> list[dict[str, str]]:
+    """Return one auditable outcome for every requested source.
+
+    ``searched_sources`` intentionally retains its historical meaning (sources
+    that were called), so a failed call can appear there together with
+    ``errors``.  Consumers that need a mutually exclusive partition should use
+    this additive envelope instead.  A source is classified as failed before
+    searched, and skipped before the defensive unresolved fallback.
+    """
+
+    unique_sources = list(dict.fromkeys(selected_sources))
+    errors_by_source: dict[str, dict[str, str]] = {}
+    for error_item in errors:
+        # Invalid individual records are non-fatal diagnostics.  The provider
+        # was still called and must remain classified as searched; a source
+        # level exception is what makes the mutually exclusive outcome failed.
+        if error_item.get("scope") == "record":
+            continue
+        source = error_item.get("source", "")
+        if source and source not in errors_by_source:
+            errors_by_source[source] = error_item
+    skipped_by_source = {item.source: item for item in routed.skipped}
+    searched = set(routed.searched)
+    warnings_by_source: dict[str, list[dict[str, str]]] = {}
+    for warning in routed.warnings:
+        warnings_by_source.setdefault(warning.source, []).append(warning.to_dict())
+
+    outcomes: list[dict[str, str]] = []
+    for source in unique_sources:
+        error = errors_by_source.get(source)
+        if error is not None:
+            outcome = {
+                "source": source,
+                "status": "failed",
+                "reason": error.get("error_type", "provider_error"),
+                "message": error.get("message", "A fonte falhou durante a consulta."),
+            }
+            if error.get("hint"):
+                outcome["hint"] = error["hint"]
+        elif source in skipped_by_source:
+            skip = skipped_by_source[source]
+            outcome = {
+                "source": source,
+                "status": "skipped",
+                "reason": skip.reason,
+                "message": skip.message,
+            }
+        elif source in searched:
+            outcome = {
+                "source": source,
+                "status": "searched",
+                "reason": "source_called",
+                "message": "A fonte foi chamada e seu resultado está refletido na completude.",
+            }
+            if warnings_by_source.get(source):
+                outcome["warning_count"] = str(len(warnings_by_source[source]))
+        else:
+            # This should be unreachable, but never silently turn an omitted
+            # source into an empty result if a future router path is added.
+            outcome = {
+                "source": source,
+                "status": "failed",
+                "reason": "source_not_classified",
+                "message": "A fonte solicitada não recebeu uma classificação observável.",
+            }
+        outcomes.append(outcome)
+    return outcomes
+
+
 def route_unified_sources(
     *,
     selected_sources: list[str],
@@ -142,7 +216,7 @@ def build_routing_summary(
     """Build a concise explanation of routing decisions."""
 
     summary: list[RoutingSummaryItem] = []
-    failed_sources = {error["source"] for error in errors}
+    failed_sources = {error["source"] for error in errors if error.get("scope") != "record"}
     for source in routed.searched:
         capability = capabilities.get(source)
         if source in failed_sources:

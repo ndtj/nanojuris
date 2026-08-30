@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import html as html_module
 import json
+import re
 import time
 from datetime import date
 from typing import Any
@@ -306,7 +308,7 @@ def _item_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudenc
     if source_id is None:
         raise ParserContractChangedError("TJCE/SJURIS item missing stable id")
     full_text = _string_value(item.get("conteudo"))
-    summary = _string_value(item.get("ementa"))
+    summary = _clean_snippet(item.get("ementa"))
     pdf_value = _string_value(item.get("pdfAutenticadoBase64"))
     pdf_metadata: dict[str, Any] = {}
     if pdf_value:
@@ -411,10 +413,28 @@ def _first_value(item: dict[str, Any], *keys: str) -> Any:
     return None
 
 
+_HTML_TAG = re.compile(r"<[^>]+>")
+
+
 def _string_value(value: Any) -> str:
     if value is None:
         return ""
     return str(value).strip()
+
+
+def _clean_snippet(value: Any) -> str:
+    """Drop search-highlight markup and non-breaking spaces from a text field.
+
+    SJURIS returns the ementa with ``<em>`` highlight tags around matched terms
+    and ``\xa0`` separators; those must not reach the canonical summary.
+    """
+
+    text = _string_value(value)
+    if not text:
+        return ""
+    text = html_module.unescape(text)
+    text = _HTML_TAG.sub("", text)
+    return " ".join(text.replace("\xa0", " ").split())
 
 
 def _as_int(value: Any, *, default: int) -> int:

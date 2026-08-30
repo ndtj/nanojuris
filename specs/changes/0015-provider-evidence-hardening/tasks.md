@@ -1,0 +1,5 @@
+- [x] **T01** Revisar dossiês, contratos, módulos, testes e fixtures dos quatro providers.
+- [x] **T02** Rejeitar cards eproc sem identidade estável.
+- [x] **T03** Adicionar regressão determinística para o parser compartilhado.
+- [x] **T04** Registrar auditoria de evidência e lacunas sem rede.
+- [x] **T05** Rodar testes focados e validar SDD.

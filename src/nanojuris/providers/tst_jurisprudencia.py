@@ -27,6 +27,8 @@ from nanojuris.models import (
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
+    ProviderCatalog,
+    ProviderOption,
     SearchPage,
     SourceTrace,
 )
@@ -127,6 +129,64 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             source_trace=trace,
             raw_metadata={"external_id": external_id},
             parser="tst_jurisprudencia.get_document",
+        )
+
+    def get_catalog(self) -> ProviderCatalog:
+        """Retrieve the public filter catalogs exposed by the TST API.
+
+        The frontend publishes these endpoints as independent JSON resources.
+        Keep their raw envelopes intact and normalize only options that expose
+        an explicit code/name, so a catalog schema change cannot silently
+        become a fabricated filter.
+        """
+
+        routes = (
+            "orgaos-judicantes",
+            "ministros",
+            "convocados",
+            "classes-processuais",
+            "indicadores",
+            "assuntos",
+        )
+        catalogs: dict[str, Any] = {}
+        options_by_group: dict[str, list[ProviderOption]] = {}
+        for route in routes:
+            endpoint = f"/rest/{route}"
+            response = self._request("GET", endpoint)
+            try:
+                payload = response.json()
+            except ValueError as exc:
+                raise ParserContractChangedError(
+                    f"TST catalog {route} returned non-JSON content"
+                ) from exc
+            catalogs[route] = payload
+            options_by_group[route] = _catalog_options(payload, group=route)
+
+        trace = SourceTrace(
+            provider=self.name,
+            endpoint=(
+                "GET /rest/{orgaos-judicantes|ministros|convocados|"
+                "classes-processuais|indicadores|assuntos}"
+            ),
+            query={"routes": list(routes)},
+            source_url=self.api_url,
+            limitations=[
+                "Catalogos publicos de filtros; os codigos devem ser reutilizados "
+                "exatamente como retornados.",
+                "O provider preserva cada envelope bruto para auditoria e mudancas de schema.",
+            ],
+            **self._last_http_metadata,
+        )
+        return ProviderCatalog(
+            source=self.name,
+            courts=[ProviderOption(code="TST", description="Tribunal Superior do Trabalho")],
+            species=options_by_group["classes-processuais"],
+            species_groups=[
+                {"name": group, "options": [option.to_dict() for option in options]}
+                for group, options in options_by_group.items()
+            ],
+            source_trace=trace,
+            raw=catalogs,
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -534,6 +594,45 @@ def _parse_aggregations(value: Any) -> dict[str, list[dict[str, Any]]]:
     if isinstance(value, list):
         return {"items": [item for item in value if isinstance(item, dict)]}
     return {}
+
+
+def _catalog_options(value: Any, *, group: str) -> list[ProviderOption]:
+    """Normalize common TST catalog envelopes without guessing identifiers."""
+
+    if isinstance(value, dict):
+        for key in ("content", "items", "registros", "data", "results"):
+            nested = value.get(key)
+            if isinstance(nested, list):
+                value = nested
+                break
+    if not isinstance(value, list):
+        return []
+    options: list[ProviderOption] = []
+    seen: set[str] = set()
+    for item in value:
+        if isinstance(item, dict):
+            code = _optional_str(
+                item.get("id") or item.get("codigo") or item.get("cod") or item.get("value")
+            )
+            description = _optional_str(
+                item.get("descricao")
+                or item.get("description")
+                or item.get("nome")
+                or item.get("name")
+                or item.get("label")
+            )
+        elif isinstance(item, str):
+            code = item.strip() or None
+            description = code
+        else:
+            continue
+        if not code or not description or code in seen:
+            continue
+        seen.add(code)
+        options.append(
+            ProviderOption(code=code, description=description, metadata={"group": group})
+        )
+    return options
 
 
 def _clean_html(value: str) -> str:

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T07:14:00+00:00",
+  "generated_at": "2026-08-28T01:28:11+00:00",
   "discovery_generated_at": "2026-08-20T06:35:41+00:00",
   "discovery_mode": "live_bounded",
   "summary": {
@@ -63,6 +63,7 @@
         "src/nanojuris/providers/stf_informativo.py",
         "docs/providers/stf_informativo/README.md",
         "docs/source-contracts/stf_informativo.md",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_stf_informativo.py",
         "tests/test_studio.py",
         "tests/fixtures/provider_contracts.json",
@@ -79,6 +80,7 @@
         "src/nanojuris/providers/stf_informativo.py",
         "docs/providers/stf_informativo/README.md",
         "docs/source-contracts/stf_informativo.md",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_stf_informativo.py",
         "tests/test_studio.py",
         "tests/fixtures/provider_contracts.json",
@@ -95,6 +97,7 @@
         "src/nanojuris/providers/stf_informativo.py",
         "docs/providers/stf_informativo/README.md",
         "docs/source-contracts/stf_informativo.md",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_stf_informativo.py",
         "tests/test_studio.py",
         "tests/fixtures/provider_contracts.json",
@@ -391,6 +394,7 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_stm_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/stm_jurisprudencia_results.html",
         "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
       ],
       "next_action": "revalidar somente após alteração autorizada da política pública/robots"
@@ -408,6 +412,7 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_stm_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/stm_jurisprudencia_results.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -845,6 +850,7 @@
         "docs/source-contracts/tjpa_jurisprudencia_bff.md",
         "tests/test_gold_maturity.py",
         "tests/test_initial_json_providers.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/fixtures/provider_contracts.json",
@@ -863,6 +869,7 @@
         "docs/source-contracts/tjpa_jurisprudencia_bff.md",
         "tests/test_gold_maturity.py",
         "tests/test_initial_json_providers.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/fixtures/provider_contracts.json",
@@ -1226,6 +1233,7 @@
         "tests/test_client_exporters.py",
         "tests/test_mcp_server.py",
         "tests/test_mcp_tools.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_store.py",
         "tests/test_tjac_cjsg.py",
@@ -1270,6 +1278,7 @@
         "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_results.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
         "docs/provider-discovery/all-provider-sweep.json#access_controlled"
       ],
@@ -1301,6 +1310,7 @@
         "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_results.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
         "POST implementation + provider test + fixture"
       ],
@@ -1315,7 +1325,10 @@
         "src/nanojuris/providers/tjsp_nugepnac.py",
         "docs/providers/tjsp_nugepnac/README.md",
         "docs/source-contracts/tjsp_nugepnac.md",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_tjsp_nugepnac.py",
+        "tests/fixtures/tjsp_nugepnac_detail.html",
+        "tests/fixtures/tjsp_nugepnac_list.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -1447,6 +1460,8 @@
         "docs/providers/tre_sp_temas/README.md",
         "docs/source-contracts/tre_sp_temas.md",
         "tests/test_tre_sp_temas.py",
+        "tests/fixtures/tre_sp_temas_detail.html",
+        "tests/fixtures/tre_sp_temas_index.html",
         "docs/provider-discovery/all-provider-sweep.json#access_controlled"
       ],
       "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
@@ -1461,6 +1476,8 @@
         "docs/providers/tre_sp_temas/README.md",
         "docs/source-contracts/tre_sp_temas.md",
         "tests/test_tre_sp_temas.py",
+        "tests/fixtures/tre_sp_temas_detail.html",
+        "tests/fixtures/tre_sp_temas_index.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -1513,6 +1530,7 @@
         "tests/test_client_exporters.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/trf4_eproc_results.html",
         "docs/provider-discovery/all-provider-sweep.json#access_controlled"
       ],
       "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
@@ -1529,6 +1547,7 @@
         "tests/test_client_exporters.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/trf4_eproc_results.html",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -1545,6 +1564,7 @@
         "tests/test_client_exporters.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/trf4_eproc_results.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
