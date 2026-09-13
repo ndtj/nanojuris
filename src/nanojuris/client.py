@@ -765,6 +765,14 @@ class NanoJurisClient:
             capabilities=capabilities,
             text=text,
             opt_in_sources=frozenset(self.config.unified_opt_in_sources),
+            # The explicit legacy mode is the compatibility escape hatch for
+            # providers that predate the unified-search contract.  It is
+            # intentionally limited to an explicit ``sources`` list so the
+            # default federation never expands from the 53 unified sources to
+            # every adapter in the catalog.  Adaptive/selected/all modes keep
+            # the conservative contract and continue to skip non-unified
+            # providers with an auditable reason.
+            allow_non_unified=mode == "legacy" and sources is not None,
             filters={
                 "courts": courts,
                 "types": types,

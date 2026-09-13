@@ -158,6 +158,7 @@ def route_unified_sources(
     text: str,
     filters: dict[str, Any],
     opt_in_sources: set[str] | frozenset[str] = frozenset(),
+    allow_non_unified: bool = False,
 ) -> RoutedSources:
     """Return sources that fit a unified jurisprudence query.
 
@@ -183,6 +184,7 @@ def route_unified_sources(
             has_identifier=has_identifier,
             identifier_filters=identifier_filters,
             opt_in_allowed=source in opt_in_sources,
+            allow_non_unified=allow_non_unified,
         )
         if skip is None:
             if filters.get("fetch_details") and capability.filter_status("fetch_details") in {
@@ -283,9 +285,12 @@ def _skip_reason(
     has_identifier: bool,
     identifier_filters: set[str],
     opt_in_allowed: bool = False,
+    allow_non_unified: bool = False,
 ) -> SourceSkip | None:
-    if not capability.supports_unified_search and not (
-        capability.opt_in_unified_search and opt_in_allowed
+    if (
+        not allow_non_unified
+        and not capability.supports_unified_search
+        and not (capability.opt_in_unified_search and opt_in_allowed)
     ):
         return SourceSkip(
             source=capability.source,

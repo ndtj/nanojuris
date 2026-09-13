@@ -110,6 +110,44 @@ class RankingFixtureProvider:
         )
 
 
+class LegacyOnlyFixtureProvider:
+    """Provider kept outside the unified contract for compatibility tests."""
+
+    name = "legacy_only_fixture"
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        return SearchPage(
+            source=self.name,
+            total=1,
+            start=0,
+            end=1,
+            page=query.page,
+            page_size=query.page_size,
+            results=[
+                JurisprudenceResult(
+                    id="legacy-result",
+                    source=self.name,
+                    court="TJSP",
+                    type="decision",
+                    summary="Responsabilidade civil em contrato administrativo.",
+                )
+            ],
+            is_complete=True,
+            total_known=True,
+        )
+
+    def get_capabilities(self) -> ProviderCapabilities:
+        return ProviderCapabilities(
+            source=self.name,
+            display_name="Fixture legado",
+            source_url="https://example.test/legacy",
+            category="jurisprudence",
+            search_modes=["text"],
+            supported_filters=["text"],
+            supports_unified_search=False,
+        )
+
+
 def test_search_many_opt_in_ranking_orders_records_and_exposes_reasons() -> None:
     payload = NanoJurisClient(providers=[RankingFixtureProvider()]).search_many(
         "responsabilidade civil administrativa",
@@ -143,6 +181,19 @@ def test_search_many_keeps_legacy_payload_without_opt_in_ranking() -> None:
 
     assert "ranking_version" not in payload
     assert payload["results"][0].id == "relevant"
+
+
+def test_search_many_legacy_mode_calls_explicit_non_unified_provider() -> None:
+    payload = NanoJurisClient(providers=[LegacyOnlyFixtureProvider()]).search_many(
+        "responsabilidade civil",
+        sources=["legacy_only_fixture"],
+        mode="legacy",
+    )
+
+    assert payload["searched_sources"] == ["legacy_only_fixture"]
+    assert payload["skipped_sources"] == []
+    assert payload["results"][0].id == "legacy-result"
+    assert payload["source_outcomes"][0]["status"] == "searched"
 
 
 def test_search_many_rejects_unknown_ranking_version() -> None:
