@@ -131,6 +131,7 @@ def test_search_many_opt_in_ranking_orders_records_and_exposes_reasons() -> None
     assert metadata["match_reasons"]
     assert metadata["native_rank"] == 1
     assert irrelevant["native_rank"] == 2
+    assert payload["ranking"]["ranking_fixture:relevant"] == metadata
     assert payload["query_intent"]["analyzer_version"] == "legal-intent-v1"
 
 

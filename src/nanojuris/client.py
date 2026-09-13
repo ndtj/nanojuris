@@ -1145,8 +1145,8 @@ class NanoJurisClient:
             ranker = LegalLiveRanker()
             ranked = ranker.diversify_near_ties(ranker.rank(intent, results))
             results = [item.record for item in ranked]
-            ranking_metadata = {
-                _record_identity(item.record): {
+            for item in ranked:
+                metadata = {
                     "relevance_score": item.relevance_score,
                     "matched_terms": list(item.matched_terms),
                     "matched_concepts": list(item.matched_concepts),
@@ -1157,8 +1157,17 @@ class NanoJurisClient:
                     "deduplication_group": item.deduplication_group,
                     "duplicate_sources": list(item.duplicate_sources),
                 }
-                for item in ranked
-            }
+                # Keep the canonical identity as the public, reproducible
+                # ranking key.  The browser projects records to a compact
+                # ``source:id`` identity, so expose a non-authoritative alias
+                # as well; without it the server ranked correctly but the UI
+                # could not find the sidecar and rendered no evidence chips.
+                canonical_key = _record_identity(item.record)
+                ranking_metadata[canonical_key] = metadata
+                source = str(getattr(item.record, "source", "") or "").strip()
+                identifier = str(getattr(item.record, "id", "") or "").strip()
+                if source and identifier:
+                    ranking_metadata.setdefault(f"{source}:{identifier}", metadata)
             query_intent = intent.to_dict()
         if search_plan is not None and len(results) > search_plan.global_candidate_budget:
             results = results[: search_plan.global_candidate_budget]
