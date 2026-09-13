@@ -1,6 +1,6 @@
 {
   "schema_version": "provider-capability-ledger-v1",
-  "generated_at": "2026-09-13T20:26:03+00:00",
+  "generated_at": "2026-09-13T21:42:33+00:00",
   "mode": "offline_reconciliation",
   "operational_policy": {
     "live_cache_ttl_seconds": 600.0,
@@ -25,7 +25,7 @@
   "inputs": {
     "catalog": {
       "path": "docs/registry/provider-catalog.full.json",
-      "sha256": "9a7261c445b0eb6714f8308383e308751e8150c15712fcbdf9890c3dd5cd5ec4",
+      "sha256": "2f040f12c3e211877f7116c27b4123d8c7437aba22180c88fc6c80501cbb3711",
       "record_count": 85,
       "generated_at": "2026-09-13"
     },
@@ -37,13 +37,13 @@
     },
     "documents": {
       "path": "docs/coverage/document-capability-inventory.json",
-      "sha256": "b72f8e416dc299fa0493fbb46080ccaa26e9426b1f905a7683c68ff770e87b5c",
+      "sha256": "064ea473769b2dbe60e8abb11c89ba794048ed31bf94ea46037f1f48163ff516",
       "record_count": 85,
       "generated_at": null
     },
     "quality": {
       "path": "docs/quality/provider-quality.json",
-      "sha256": "2ab119dc47d7332a589f4075de563aea93f42ed998ff537626395c2ac4e20833",
+      "sha256": "f9318b8cfd68d36e199bb1b61ef0b685eed8c9fd1115a540e89468fbb39e2c34",
       "record_count": 85,
       "generated_at": "2026-09-13"
     },
@@ -13647,6 +13647,7 @@
           "case_class",
           "case_number",
           "decision_type",
+          "fetch_details",
           "full_text",
           "judging_body",
           "judgment_date",
@@ -13662,6 +13663,7 @@
           "case_class": "canonical",
           "case_number": "canonical",
           "decision_type": "canonical",
+          "fetch_details": "raw_preserved",
           "full_text": "canonical",
           "judging_body": "canonical",
           "judgment_date": "canonical",
