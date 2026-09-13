@@ -82,14 +82,17 @@ def main() -> int:
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=not args.headed)
         try:
-            desktop = browser.new_context(viewport={"width": 1440, "height": 1000})
+            context_options = {"ignore_https_errors": _is_local_url(args.url)}
+            desktop = browser.new_context(
+                viewport={"width": 1440, "height": 1000}, **context_options
+            )
             try:
                 for case in CASES:
                     report["cases"].append(_run_case(desktop, args.url, case, args))
             finally:
                 desktop.close()
 
-            mobile = browser.new_context(viewport={"width": 390, "height": 844})
+            mobile = browser.new_context(viewport={"width": 390, "height": 844}, **context_options)
             try:
                 report["mobile_case"] = _run_case(
                     mobile,
@@ -111,6 +114,12 @@ def main() -> int:
     print(json.dumps(report, ensure_ascii=False, indent=2))
     print(f"Artefato: {output}")
     return 0
+
+
+def _is_local_url(url: str) -> bool:
+    """Allow the local self-signed HTTPS certificate in headed/local QA."""
+
+    return bool(re.match(r"^https?://(?:localhost|127\.0\.0\.1)(?::\d+)?(?:/|$)", url))
 
 
 def _run_case(
@@ -137,31 +146,36 @@ def _run_case(
     }
     try:
         page.goto(base_url, wait_until="domcontentloaded", timeout=args.timeout)
-        page.locator(".source-card").first.wait_for(state="visible", timeout=args.timeout)
-        page.locator("[data-preset='clear']").click()
+        page.locator(".source-row-filter[data-source]").first.wait_for(
+            state="visible", timeout=args.timeout
+        )
         available = set(
-            page.locator("input[data-source]").evaluate_all(
+            page.locator(".source-row-filter[data-source]").evaluate_all(
                 "items => items.map(item => item.dataset.source)"
             )
         )
         selected = [source for source in case["sources"] if source in available]
         missing = [source for source in case["sources"] if source not in available]
-        for source in selected:
-            page.locator(f"input[data-source='{source}']").check()
-
-        page.locator("#limit").select_option("5")
+        # The production UI intentionally exposes one explicit source selector;
+        # use the first requested source for a bounded, reproducible case.
+        chosen = selected[0] if selected else next(iter(sorted(available)), "")
+        if not chosen:
+            raise RuntimeError("nenhuma fonte publica foi carregada")
+        page.locator("#search-mode").select_option("selected")
+        page.locator("#source").select_option(chosen)
+        page.locator("#page-size").select_option("5")
         page.locator("#query").fill(case["query"])
         with page.expect_response(
-            lambda response: response.url.endswith("/api/search"),
+            lambda response: response.url.endswith("/api/v1/search"),
             timeout=args.timeout,
         ) as response_info:
             page.locator("#search-form button[type='submit']").click()
         response = response_info.value
         payload = response.json()
-        page.wait_for_function(
-            "document.querySelector('#search-form button[type=submit]').disabled === false",
-            timeout=args.timeout,
-        )
+        # The API response is the synchronization point.  A short render
+        # settle avoids coupling QA to transient button-state animations while
+        # still ensuring cards/reader are present before the screenshot.
+        page.wait_for_timeout(500)
 
         slug = f"live-{case['id']}-{screenshot_suffix}"
         screenshot = args.artifacts_dir / f"{slug}.png"
@@ -170,7 +184,7 @@ def _run_case(
             {
                 "http_status": response.status,
                 "available_sources": sorted(available),
-                "sources_selected": selected,
+                "sources_selected": [chosen],
                 "sources_missing": missing,
                 "payload": _payload_summary(payload),
                 "rendered": _rendered_summary(page),
@@ -208,22 +222,22 @@ def _payload_summary(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def _rendered_summary(page: Any) -> dict[str, Any]:
-    metric_script = (
-        "items => items.map(item => ({"
-        "label: item.querySelector('span')?.textContent?.trim(),"
-        "value: item.querySelector('strong')?.textContent?.trim()"
-        "}))"
-    )
+    text_script = "items => items.map(item => item.textContent?.trim()).filter(Boolean)"
     return {
         "result_cards": page.locator(".result").count(),
-        "metrics": page.locator(".metric").evaluate_all(metric_script),
-        "status_chips": page.locator(".status-chip").all_inner_texts(),
-        "completeness_banner": page.locator(".completeness-banner").inner_text()
-        if page.locator(".completeness-banner").count()
+        "nonempty_titles": page.locator(".result h2").evaluate_all(text_script),
+        "nonempty_excerpts": page.locator(".result > p").evaluate_all(text_script),
+        "ranking_score_chips": page.locator(".ranking-score").count(),
+        "ranking_native_chips": page.locator(".ranking-native").count(),
+        "query_state": page.locator("#query-state").inner_text(),
+        "notice": page.locator("#notice").inner_text()
+        if page.locator("#notice").count() and not page.locator("#notice").get_attribute("hidden")
         else None,
-        "diagnostics": page.locator(".diagnostics").inner_text()
-        if page.locator(".diagnostics").count()
+        "reader_source": page.locator("#reader .reader-source").inner_text()
+        if page.locator("#reader .reader-source").count()
         else None,
+        "reader_full_text": page.locator("#reader .reader-full-text").count(),
+        "reader_official_link": page.locator("#reader .reader-source-link").count(),
         "horizontal_overflow": page.evaluate(
             "document.documentElement.scrollWidth > document.documentElement.clientWidth"
         ),
