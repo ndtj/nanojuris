@@ -138,6 +138,8 @@ def test_tjdf_capabilities_advertise_native_full_text_fetch():
     assert capabilities.full_text_access == "detail_call"
     assert "fetch_details" in capabilities.supported_filters
     assert capabilities.filter_semantics["fetch_details"] == "native"
+    assert "source_origins" in capabilities.supported_filters
+    assert "source_origins" not in capabilities.unsupported_filters
 
 
 def test_search_api_maps_zero_based_page_and_canonical_fields():

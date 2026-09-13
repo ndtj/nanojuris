@@ -312,7 +312,6 @@ class TjdfJurisProvider(JurisprudenceProvider):
                 "police_document",
                 "precatory_number",
                 "cda",
-                "source_origins",
             ],
             filter_semantics={
                 "text": "native",
