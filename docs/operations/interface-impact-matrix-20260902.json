@@ -1,0 +1,2070 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-13T00:15:11+00:00",
+  "source_catalog": "C:/Users/admin/Desktop/Nanojuris/repos/nanojuris/docs/registry/provider-catalog.full.json",
+  "no_rollout_mutation": true,
+  "items": [
+    {
+      "source_id": "bnp_pangea",
+      "display_name": "Banco Nacional de Precedentes/Pangea",
+      "lifecycle": "implemented",
+      "category": "qualified_precedents",
+      "maturity_tier": "context",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/bnp_pangea.md",
+      "canonical_doc": "docs/providers/bnp_pangea/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "display_name": "CJF Jurisprudencia TRF1",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/cjf_jurisprudencia.md",
+      "canonical_doc": "docs/providers/cjf_jurisprudencia/README.md",
+      "fixture_references": 8,
+      "safe_to_route": false,
+      "live_status": "access_control_required"
+    },
+    {
+      "source_id": "cnj_jurisprudencia",
+      "display_name": "CNJ Informativos de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/cnj_jurisprudencia.md",
+      "canonical_doc": "docs/providers/cnj_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "eproc_jurisprudencia_federal",
+      "display_name": "eproc federal jurisprudência (família opt-in)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/eproc_jurisprudencia_federal.md",
+      "canonical_doc": "docs/providers/eproc_jurisprudencia_federal/README.md",
+      "fixture_references": 3,
+      "safe_to_route": false,
+      "live_status": "not_checked_in_latest_focused_run"
+    },
+    {
+      "source_id": "falcao_jt",
+      "display_name": "Falcao JT (diagnostico opt-in)",
+      "lifecycle": "candidate",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": false,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": false,
+        "exports": false
+      },
+      "missing_or_not_exposed": [
+        "sdk",
+        "studio",
+        "unified_search",
+        "store",
+        "exports"
+      ],
+      "legacy_doc": "docs/source-contracts/falcao_jt.md",
+      "canonical_doc": "docs/providers/falcao_jt/README.md",
+      "fixture_references": 2,
+      "safe_to_route": false,
+      "live_status": "access_control_required"
+    },
+    {
+      "source_id": "justica_eleitoral_sjur",
+      "display_name": "SJUR - Justica Eleitoral",
+      "lifecycle": "implemented",
+      "category": "electoral_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/justica_eleitoral_sjur.md",
+      "canonical_doc": "docs/providers/justica_eleitoral_sjur/README.md",
+      "fixture_references": 4,
+      "safe_to_route": false,
+      "live_status": "source_unavailable"
+    },
+    {
+      "source_id": "stf_informativo",
+      "display_name": "STF Informativo",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/stf_informativo.md",
+      "canonical_doc": "docs/providers/stf_informativo/README.md",
+      "fixture_references": 4,
+      "safe_to_route": false,
+      "live_status": "source_unavailable"
+    },
+    {
+      "source_id": "stf_juris",
+      "display_name": "STF Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/stf_juris.md",
+      "canonical_doc": "docs/providers/stf_juris/README.md",
+      "fixture_references": 6,
+      "safe_to_route": false,
+      "live_status": "blocked_transport"
+    },
+    {
+      "source_id": "stj_dados_abertos_jurisprudencia",
+      "display_name": "STJ Dados Abertos de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence_dataset",
+      "maturity_tier": "context",
+      "rollout_mode": "not_exposed",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio",
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/stj_dados_abertos_jurisprudencia.md",
+      "canonical_doc": "docs/providers/stj_dados_abertos_jurisprudencia/README.md",
+      "fixture_references": 5,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "stj_informativo",
+      "display_name": "STJ Informativo",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/stj_informativo.md",
+      "canonical_doc": "docs/providers/stj_informativo/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "stj_scon",
+      "display_name": "STJ SCON Acordaos",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/stj_scon.md",
+      "canonical_doc": "docs/providers/stj_scon/README.md",
+      "fixture_references": 7,
+      "safe_to_route": false,
+      "live_status": "access_control_required"
+    },
+    {
+      "source_id": "stm_jurisprudencia",
+      "display_name": "STM Jurisprudencia JMU",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/stm_jurisprudencia.md",
+      "canonical_doc": "docs/providers/stm_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tce_pr_viajuris",
+      "display_name": "TCE-PR ViaJuris Dados Abertos",
+      "lifecycle": "implemented",
+      "category": "administrative_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tce_pr_viajuris.md",
+      "canonical_doc": "docs/providers/tce_pr_viajuris/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tce_sp_jurisprudencia",
+      "display_name": "TCE-SP Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "administrative_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tce_sp_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tce_sp_jurisprudencia/README.md",
+      "fixture_references": 6,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tcu_jurisprudencia",
+      "display_name": "TCU Jurisprudencia e Dados Abertos",
+      "lifecycle": "implemented",
+      "category": "administrative_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tcu_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tcu_jurisprudencia/README.md",
+      "fixture_references": 8,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjac_banco_sentencas",
+      "display_name": "TJAC Banco de Sentencas (CJPG curado)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjac_banco_sentencas.md",
+      "canonical_doc": "docs/providers/tjac_banco_sentencas/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjac_cjsg",
+      "display_name": "TJAC Consulta de Jurisprudencia/CJSG",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjac_cjsg.md",
+      "canonical_doc": "docs/providers/tjac_cjsg/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjac_ementario_jurisprudencia",
+      "display_name": "TJAC Ementario de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjac_ementario_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjac_ementario_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjal_cjsg",
+      "display_name": "TJAL Consulta de Jurisprudencia/CJSG",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjal_cjsg.md",
+      "canonical_doc": "docs/providers/tjal_cjsg/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjal_esmal_banco_sentencas",
+      "display_name": "TJAL ESMAL Banco de Sentencas (CJPG curado)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjal_esmal_banco_sentencas.md",
+      "canonical_doc": "docs/providers/tjal_esmal_banco_sentencas/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjal_turma_recursal_ementario",
+      "display_name": "TJAL Ementario das Turmas Recursais",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjal_turma_recursal_ementario.md",
+      "canonical_doc": "docs/providers/tjal_turma_recursal_ementario/README.md",
+      "fixture_references": 7,
+      "safe_to_route": false,
+      "live_status": "public_textual_recursal"
+    },
+    {
+      "source_id": "tjam_cjsg",
+      "display_name": "TJAM Consulta de Jurisprudencia/CJSG",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjam_cjsg.md",
+      "canonical_doc": "docs/providers/tjam_cjsg/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjap_banco_sentencas",
+      "display_name": "TJAP Banco de Sentenças (CJPG)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjap_banco_sentencas.md",
+      "canonical_doc": "docs/providers/tjap_banco_sentencas/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "display_name": "TJAP Tucujuris",
+      "lifecycle": "candidate",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": false,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": false,
+        "exports": false
+      },
+      "missing_or_not_exposed": [
+        "sdk",
+        "studio",
+        "unified_search",
+        "store",
+        "exports"
+      ],
+      "legacy_doc": "docs/source-contracts/tjap_tucujuris.md",
+      "canonical_doc": "docs/providers/tjap_tucujuris/README.md",
+      "fixture_references": 2,
+      "safe_to_route": false,
+      "live_status": "access_controlled"
+    },
+    {
+      "source_id": "tjba_graphql",
+      "display_name": "TJBA Jurisprudencia GraphQL",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjba_graphql.md",
+      "canonical_doc": "docs/providers/tjba_graphql/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjce_cjsg",
+      "display_name": "TJCE Consulta de Jurisprudencia/CJSG",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjce_cjsg.md",
+      "canonical_doc": "docs/providers/tjce_cjsg/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjce_informativos",
+      "display_name": "TJCE Informativos de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjce_informativos.md",
+      "canonical_doc": "docs/providers/tjce_informativos/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjce_sjuris",
+      "display_name": "TJCE SJURIS",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjce_sjuris.md",
+      "canonical_doc": "docs/providers/tjce_sjuris/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjdf_juris",
+      "display_name": "TJDFT Jurisprudencia/SISTJ",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjdf_juris.md",
+      "canonical_doc": "docs/providers/tjdf_juris/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjes_cjpg",
+      "display_name": "TJES CJPG Jurisprudencia (1o grau)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjes_cjpg.md",
+      "canonical_doc": "docs/providers/tjes_cjpg/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "display_name": "TJES Jurisprudencia/CJSG (2o grau)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjes_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjes_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "display_name": "TJES Jurisprudencia/Turma Recursal",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjes_turma_recursal.md",
+      "canonical_doc": "docs/providers/tjes_turma_recursal/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "display_name": "TJGO PROJUDI Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjgo_projudi_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjgo_projudi_jurisprudencia/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjma_informativos",
+      "display_name": "TJMA Informativos de Jurisprudência",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjma_informativos.md",
+      "canonical_doc": "docs/providers/tjma_informativos/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "display_name": "TJMA JurisConsult",
+      "lifecycle": "implemented",
+      "category": "court_catalog",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjma_jurisconsult.md",
+      "canonical_doc": "docs/providers/tjma_jurisconsult/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "access_controlled"
+    },
+    {
+      "source_id": "tjmg_dspace_jurisprudencia",
+      "display_name": "TJMG Biblioteca Digital — Jurisprudência (CJSG)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio"
+      ],
+      "legacy_doc": "docs/source-contracts/tjmg_dspace_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjmg_dspace_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjmg_ejef_boletim_jurisprudencia",
+      "display_name": "TJMG/EJEF Boletim de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjmg_ejef_boletim_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjmg_ejef_boletim_jurisprudencia/README.md",
+      "fixture_references": 6,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "display_name": "TJMG Jurisprudência API (CJSG)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio"
+      ],
+      "legacy_doc": "docs/source-contracts/tjmg_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjmg_jurisprudencia/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjmmg_jurisprudencia_api",
+      "display_name": "TJMMG Jurisprudência",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio",
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjmmg_jurisprudencia_api.md",
+      "canonical_doc": "docs/providers/tjmmg_jurisprudencia_api/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjmrs_jurisprudencia",
+      "display_name": "TJMRS Jurisprudência (processo exato)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjmrs_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjmrs_jurisprudencia/README.md",
+      "fixture_references": 2,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjms_cjpg",
+      "display_name": "TJMS CJPG Jurisprudencia (1o grau)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjms_cjpg.md",
+      "canonical_doc": "docs/providers/tjms_cjpg/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjms_cjsg",
+      "display_name": "TJMS Consulta de Jurisprudencia/CJSG",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjms_cjsg.md",
+      "canonical_doc": "docs/providers/tjms_cjsg/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "display_name": "TJMSP Jurisprudência (diagnóstico opt-in)",
+      "lifecycle": "candidate",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": false,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": false,
+        "exports": false
+      },
+      "missing_or_not_exposed": [
+        "sdk",
+        "studio",
+        "unified_search",
+        "store",
+        "exports"
+      ],
+      "legacy_doc": "docs/source-contracts/tjmsp_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjmsp_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "access_control_required"
+    },
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "display_name": "TJMT Jurisprudencia API",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjmt_jurisprudencia_api.md",
+      "canonical_doc": "docs/providers/tjmt_jurisprudencia_api/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjpa_jurisprudencia_bff",
+      "display_name": "TJPA Jurisprudencia BFF",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjpa_jurisprudencia_bff.md",
+      "canonical_doc": "docs/providers/tjpa_jurisprudencia_bff/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjpb_pje_jurisprudencia",
+      "display_name": "TJPB PJe Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjpb_pje_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjpb_pje_jurisprudencia/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "display_name": "TJPE Consulta de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjpe_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjpe_jurisprudencia/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "display_name": "TJPI JusPI Jurisprudencias",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjpi_juspi.md",
+      "canonical_doc": "docs/providers/tjpi_juspi/README.md",
+      "fixture_references": 6,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "display_name": "TJPR Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjpr_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjpr_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjrj_banco_sentencas",
+      "display_name": "TJRJ Banco de Sentencas selecionadas (CJPG curado)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjrj_banco_sentencas.md",
+      "canonical_doc": "docs/providers/tjrj_banco_sentencas/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "partial"
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "display_name": "TJRJ EJURIS Jurisprudência (CJSG)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjrj_ejuris.md",
+      "canonical_doc": "docs/providers/tjrj_ejuris/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjrj_eproc_jurisprudencia",
+      "display_name": "TJRJ eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjrj_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjrj_eproc_jurisprudencia/README.md",
+      "fixture_references": 6,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "display_name": "TJRN Jurisprudencia textual (portal unificado)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjrn_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjrn_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "display_name": "TJRO Jurisprudencia textual",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": false,
+        "mcp": false,
+        "studio": false,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "cli",
+        "mcp",
+        "studio"
+      ],
+      "legacy_doc": "docs/source-contracts/tjro_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjro_jurisprudencia/README.md",
+      "fixture_references": 7,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjro_liame",
+      "display_name": "TJRO LIAME Precedentes Qualificados",
+      "lifecycle": "implemented",
+      "category": "court_precedents",
+      "maturity_tier": "context",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjro_liame.md",
+      "canonical_doc": "docs/providers/tjro_liame/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjrr_juris",
+      "display_name": "TJRR Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjrr_juris.md",
+      "canonical_doc": "docs/providers/tjrr_juris/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjrs_solr",
+      "display_name": "TJRS Jurisprudencia AJAX/SOLR",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjrs_solr.md",
+      "canonical_doc": "docs/providers/tjrs_solr/README.md",
+      "fixture_references": 5,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjsc_eproc_jurisprudencia",
+      "display_name": "TJSC eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjsc_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjsc_eproc_jurisprudencia/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjse_boletim_jurisprudencia",
+      "display_name": "TJSE Boletim Jurídico (CJSG)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio"
+      ],
+      "legacy_doc": "docs/source-contracts/tjse_boletim_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjse_boletim_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "display_name": "TJSE Jurisprudência Judicial",
+      "lifecycle": "candidate",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": false,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": false,
+        "exports": false
+      },
+      "missing_or_not_exposed": [
+        "sdk",
+        "studio",
+        "unified_search",
+        "store",
+        "exports"
+      ],
+      "legacy_doc": "docs/source-contracts/tjse_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjse_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "blocked_access_control_no_reproducible_result"
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "display_name": "TJSP CJPG Jurisprudencia (1o grau)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjsp_cjpg.md",
+      "canonical_doc": "docs/providers/tjsp_cjpg/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "display_name": "TJSP Consulta de Jurisprudencia/CJSG",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjsp_cjsg.md",
+      "canonical_doc": "docs/providers/tjsp_cjsg/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjsp_eproc_jurisprudencia",
+      "display_name": "TJSP eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjsp_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjsp_eproc_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tjsp_nugepnac",
+      "display_name": "TJSP NugepNac Precedentes",
+      "lifecycle": "implemented",
+      "category": "court_precedents",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tjsp_nugepnac.md",
+      "canonical_doc": "docs/providers/tjsp_nugepnac/README.md",
+      "fixture_references": 5,
+      "safe_to_route": false,
+      "live_status": "reachable_empty_data"
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "display_name": "TJTO Jurisprudencia 4.0",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tjto_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tjto_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tnu_eproc_jurisprudencia",
+      "display_name": "TNU eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tnu_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tnu_eproc_jurisprudencia/README.md",
+      "fixture_references": 6,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tre_sjur_first_degree",
+      "display_name": "SJUR/TRE jurisprudencia de primeiro grau (família opt-in)",
+      "lifecycle": "implemented",
+      "category": "electoral_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tre_sjur_first_degree.md",
+      "canonical_doc": "docs/providers/tre_sjur_first_degree/README.md",
+      "fixture_references": 1,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tre_sjur_jurisprudencia",
+      "display_name": "SJUR/TRE jurisprudencia textual (família opt-in)",
+      "lifecycle": "implemented",
+      "category": "electoral_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tre_sjur_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tre_sjur_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "partial"
+    },
+    {
+      "source_id": "tre_sp_temas",
+      "display_name": "TRE-SP Temas Selecionados",
+      "lifecycle": "implemented",
+      "category": "electoral_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "blocked",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tre_sp_temas.md",
+      "canonical_doc": "docs/providers/tre_sp_temas/README.md",
+      "fixture_references": 2,
+      "safe_to_route": false,
+      "live_status": "source_unavailable"
+    },
+    {
+      "source_id": "trf2_eproc_jurisprudencia",
+      "display_name": "TRF2 eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/trf2_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trf2_eproc_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trf3_jurisprudencia",
+      "display_name": "TRF3 Jurisprudência (processo exato)",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/trf3_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trf3_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": false,
+      "live_status": "transport_error"
+    },
+    {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "display_name": "TRF4 eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/trf4_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trf4_eproc_jurisprudencia/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trf5_jurisprudencia",
+      "display_name": "TRF5 Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/trf5_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trf5_jurisprudencia/README.md",
+      "fixture_references": 7,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trf6_eproc_jurisprudencia",
+      "display_name": "TRF6 eproc Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/trf6_eproc_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trf6_eproc_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trt15_jurisprudencia",
+      "display_name": "TRT15 Jurisprudência",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "not_exposed",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/trt15_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt15_jurisprudencia/README.md",
+      "fixture_references": 6,
+      "safe_to_route": false,
+      "live_status": "not_checked_in_latest_focused_run"
+    },
+    {
+      "source_id": "trt2_basis_jurisprudencia",
+      "display_name": "TRT2 BASIS — Boletins de Jurisprudência",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio",
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/trt2_basis_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt2_basis_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "partial"
+    },
+    {
+      "source_id": "trt2_ementario_jurisprudencia",
+      "display_name": "TRT2 Ementario de Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/trt2_ementario_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt2_ementario_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "display_name": "TRT2 PJe jurisprudencia (diagnostico opt-in)",
+      "lifecycle": "candidate",
+      "category": "court_jurisprudence",
+      "maturity_tier": "blocked",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": false,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": false,
+        "store": false,
+        "exports": false
+      },
+      "missing_or_not_exposed": [
+        "sdk",
+        "studio",
+        "unified_search",
+        "store",
+        "exports"
+      ],
+      "legacy_doc": "docs/source-contracts/trt2_pje_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt2_pje_jurisprudencia/README.md",
+      "fixture_references": 4,
+      "safe_to_route": false,
+      "live_status": "access_control_required"
+    },
+    {
+      "source_id": "trt3_ementario_jurisprudencia",
+      "display_name": "TRT3 Ementario de Jurisprudencia (volume curado)",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/trt3_ementario_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt3_ementario_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trt4_sumulas_jurisprudencia",
+      "display_name": "TRT4 Súmulas e precedentes (coleção curada)",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/trt4_sumulas_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt4_sumulas_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "valid_curated_context"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "display_name": "TRT6 Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": false,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "studio"
+      ],
+      "legacy_doc": "docs/source-contracts/trt6_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt6_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trt8_pje_jurisprudencia",
+      "display_name": "TRT8 PJe Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "silver",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/trt8_pje_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt8_pje_jurisprudencia/README.md",
+      "fixture_references": 6,
+      "safe_to_route": true,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "trt9_nugepnac_jurisprudencia",
+      "display_name": "TRT9 NUGEP/NUGEPNAC (compilacao curada)",
+      "lifecycle": "implemented",
+      "category": "curated_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/trt9_nugepnac_jurisprudencia.md",
+      "canonical_doc": "docs/providers/trt9_nugepnac_jurisprudencia/README.md",
+      "fixture_references": 0,
+      "safe_to_route": false,
+      "live_status": "valid_curated_context"
+    },
+    {
+      "source_id": "tse_sjur_jurisprudencia",
+      "display_name": "TSE SJUR jurisprudencia textual (janela unica opt-in)",
+      "lifecycle": "implemented",
+      "category": "electoral_jurisprudence",
+      "maturity_tier": "context",
+      "rollout_mode": "opt_in",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": false,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [
+        "unified_search"
+      ],
+      "legacy_doc": "docs/source-contracts/tse_sjur_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tse_sjur_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": false,
+      "live_status": "valid"
+    },
+    {
+      "source_id": "tst_jurisprudencia",
+      "display_name": "TST Jurisprudencia",
+      "lifecycle": "implemented",
+      "category": "court_jurisprudence",
+      "maturity_tier": "gold",
+      "rollout_mode": "enabled",
+      "impact": {
+        "sdk": true,
+        "cli": true,
+        "mcp": true,
+        "studio": true,
+        "unified_search": true,
+        "store": true,
+        "exports": true
+      },
+      "missing_or_not_exposed": [],
+      "legacy_doc": "docs/source-contracts/tst_jurisprudencia.md",
+      "canonical_doc": "docs/providers/tst_jurisprudencia/README.md",
+      "fixture_references": 3,
+      "safe_to_route": true,
+      "live_status": "valid"
+    }
+  ],
+  "summary": {
+    "providers": 85,
+    "runtime": 80,
+    "enabled": 53,
+    "opt_in": 23,
+    "blocked": 7,
+    "unified_search": 53
+  }
+}

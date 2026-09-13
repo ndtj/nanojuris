@@ -1,7 +1,7 @@
 # Spec — promoção segura de candidate adapters
 
 ID: `0009-candidate-adapter-promotion`
-Status: `in_progress`
+Status: `verified`
 Owner: `NanoJuris engineering`
 Data: `2026-08-20`
 

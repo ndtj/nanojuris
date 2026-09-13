@@ -49,6 +49,18 @@ local no CSV de consulta online; nao deve baixar documentos em lote.
 
 ## Proximos passos
 
-- [ ] Adicionar fixtures de snapshot vazio e de schema sem identificador.
-- [ ] Confirmar variacoes anuais de colunas e codificacao.
-- [ ] Validar o contrato de links PDF sem ampliar o escopo para download.
+- [x] Cobrir snapshot vazio e schema sem identificador pelo contrato
+  compartilhado; o fixture de sucesso permanece sanitizado.
+- [x] Confirmar variações anuais de colunas e codificação no parser (UTF-8 BOM,
+  CP1252 e Latin-1; IDs legados e `NrAto/AnoAto`).
+- [x] Validar links PDF: somente hosts oficiais são aceitos e o download não
+  é ampliado para esta superfície.
+
+Fixtures adicionais: `tests/fixtures/tce_pr_viajuris_empty.csv` e
+`tests/fixtures/tce_pr_viajuris_invalid.csv`.
+
+## Fechamento técnico
+
+- Busca local no snapshot anual está apta à federação como jurisprudência
+  administrativa do TCE-PR, sem declarar inteiro teor quando há apenas link.
+- Estados HTTP, schema inválido e arquivo vazio continuam explícitos.

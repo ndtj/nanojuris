@@ -1,0 +1,73 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T16:59:43.580693+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 2,
+  "manifest_sources": [
+    "tjes_cjpg",
+    "tjsp_cjpg"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjes_cjpg",
+    "tjsp_cjpg"
+  ],
+  "source_completeness": {
+    "tjes_cjpg": {
+      "returned": 1,
+      "reported_total": 975879,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjsp_cjpg": {
+      "returned": 1,
+      "reported_total": 3838928,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "tjes_cjpg": 975879,
+    "tjsp_cjpg": 3838928
+  },
+  "source_total_known": {
+    "tjes_cjpg": true,
+    "tjsp_cjpg": true
+  },
+  "source_access_status": {
+    "tjes_cjpg": "public",
+    "tjsp_cjpg": "public"
+  },
+  "source_extraction_status": {
+    "tjes_cjpg": "complete",
+    "tjsp_cjpg": "complete"
+  },
+  "errors": [],
+  "summary": {
+    "sources_requested": 2,
+    "sources_searched": 2,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 1,
+    "deduplicated_total": 2,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

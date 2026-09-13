@@ -74,6 +74,18 @@ def test_build_filter_matches_public_frontend_defaults():
     assert payload["ordenadoPor"] == "dataPublicacao"
 
 
+def test_build_filter_translates_canonical_word_filters():
+    payload = build_tjba_filter(
+        JurisprudenceQuery(
+            all_words="dano moral",
+            any_words="consumidor contrato",
+            without_words="prescricao",
+        )
+    )
+
+    assert payload["assunto"] == "dano AND moral AND (consumidor OR contrato) AND NOT prescricao"
+
+
 def test_search_maps_graphql_decision_and_preserves_facets():
     session = FakeSession([FakeResponse(fixture("tjba_graphql_success.json"))])
     provider = TjbaGraphqlProvider(session=session)
@@ -99,6 +111,14 @@ def test_search_maps_graphql_decision_and_preserves_facets():
     assert result.raw["document_url"] == (
         "https://jurisprudenciaws.tjba.jus.br/inteiroTeor/831bc363-c057-3941-a5d6-79584cb02536"
     )
+    assert result.degree == "second"
+    assert result.instance == "second"
+    assert result.branch == "state"
+    assert result.authority == "TJBA"
+    assert result.collection == "CJSG"
+    assert result.document_type == "acordao"
+    assert page.total_known is True
+    assert page.access_status.value == "public"
     assert page.aggregations["page_count"] == 2
     assert session.calls[0]["kwargs"]["json"]["variables"]["pageNumber"] == 0
 
@@ -164,6 +184,8 @@ def test_provider_rejects_invalid_queries_and_identifiers():
 
     with pytest.raises(QueryRejectedError):
         provider.search(JurisprudenceQuery())
+    with pytest.raises(QueryRejectedError, match="segundo grau"):
+        provider.search(JurisprudenceQuery(text="dano moral", degree="first"))
     with pytest.raises(ParserContractChangedError, match="id deve usar"):
         provider.get_decisions("tjba-graphql-invalid")
 
@@ -194,3 +216,13 @@ def test_provider_rejects_graphql_errors_and_non_json():
     )
     with pytest.raises(ParserContractChangedError, match="not JSON"):
         provider._request_json({"query": "query"})
+
+
+def test_search_rejects_item_outside_second_degree_contract():
+    payload = json.loads(fixture("tjba_graphql_success.json"))
+    payload["data"]["filter"]["decisoes"][0]["instancia"] = "PRIMEIRO_GRAU"
+    response = FakeResponse(json.dumps(payload, ensure_ascii=False))
+    provider = TjbaGraphqlProvider(session=FakeSession([response]))
+
+    with pytest.raises(ParserContractChangedError, match="segundo grau"):
+        provider.search(JurisprudenceQuery(text="dano moral"))

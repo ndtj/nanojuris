@@ -1,0 +1,39 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tre_mg_sjur_first_degree",
+  "source_id": "tre_sjur_first_degree",
+  "authority": "TRE-MG",
+  "branch": "electoral",
+  "degree": "first",
+  "instance": "first",
+  "collection": "SJUR",
+  "surface": "first_degree_filter",
+  "checked_at": "2026-09-13",
+  "generated_at": "2026-09-13T15:30:00Z",
+  "request": {
+    "text": "direito",
+    "document_type": "sentenca",
+    "page_size": 1,
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "http_status": 200,
+    "returned": 1,
+    "reported_total": 1,
+    "total_known": false,
+    "source_id": "tre_mg_sjur_first_degree-3473126",
+    "decision_type": "sentenca",
+    "degree": "first",
+    "summary_characters": 0,
+    "response_bytes": 5744760,
+    "content_sha256": "ab937d691007ac14c9c834772f7440ae47b04fc3adf9db2ea70d0b58709ba082"
+  },
+  "classification": "success_with_results",
+  "promotion": "maintain_opt_in_until_pagination_and_document_gates",
+  "safety": {
+    "bypass_used": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  }
+}

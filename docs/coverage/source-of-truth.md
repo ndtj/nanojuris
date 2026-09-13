@@ -18,6 +18,11 @@ providers.json
                          |
                          +--> coverage/*.md
                          +--> interfaces de produto
+                         |
+                         +--> surface-state-registry-20260902.json
+                                estado por tribunal/grau/colecao
+                         +--> technical-promotion-manifest-20260905.json
+                                gates tecnicos e rollout local/federado
 ```
 
 ## Artefato Certo Para Cada Pergunta
@@ -28,6 +33,8 @@ providers.json
 | O provider esta registrado no runtime? | `NanoJurisClient().list_sources()` | Nao confundir dossie com implementacao. |
 | Quais capacidades o runtime declara? | `ProviderCapabilities` e `source_contracts` | Inclui busca, documentos, interfaces e limites declarados. |
 | Qual e o estado operacional consolidado? | `docs/registry/provider-catalog.full.json` | Arquivo gerado; nao editar manualmente. |
+| Qual e o estado por superficie CJPG/CJSG? | `docs/coverage/surface-state-registry-20260902.json` | Junta matriz e catalogo; separa contrato, live, federacao e legalidade. |
+| Quais fontes podem entrar no rollout federado local? | `docs/operations/technical-promotion-manifest-20260905.json` | Resultado gerado dos gates técnicos e da decisão do operador; não autoriza deploy ou redistribuição. |
 | O que foi observado em uma chamada real? | `docs/validation/runs/*.json` | Evidencia datada, nao garantia permanente. |
 | Quais estados offline sao cobertos? | `tests/fixtures/provider_contracts.json` | Manifesto de sucesso, vazio e indisponibilidade por provider. |
 | Como interpretar a fonte? | `docs/providers/<source_id>/README.md` | Dossie canonico para humanos. |
@@ -64,6 +71,8 @@ apresentado como cobertura nacional completa.
 5. Mantenha `tests/fixtures/provider_contracts.json` sincronizado com os
    providers que possuem evidencias de estado offline.
 6. Nunca edite manualmente `provider-catalog.full.json` ou as tabelas geradas.
+7. Regenere `python tools/build_surface_state_registry.py` após alterar a matriz
+   ou o catálogo; não edite o registro de superfícies manualmente.
 
 O plano de maturidade em [maturity-waves.md](maturity-waves.md) e uma diretriz
 manual. Ele orienta prioridades, mas nao substitui os estados calculados pelo

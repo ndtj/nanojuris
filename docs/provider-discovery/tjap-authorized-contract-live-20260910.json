@@ -1,0 +1,56 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "audit_mode": "bounded_public_contract_discovery",
+  "provider": "tjap_tucujuris",
+  "authority": "TJAP",
+  "surface": "CJSG",
+  "official_entry": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+  "official_api": "https://tucujuris.tjap.jus.br/api/publico/consultar-jurisprudencia",
+  "observed_frontend_contract": {
+    "method": "POST",
+    "content_type": "application/json",
+    "captcha_field": "captcha",
+    "page_field": "offset",
+    "result_field": "dados",
+    "detail_endpoint": "/publico/consultar-detalhe-jurisprudencia",
+    "document_endpoint": "/publico/exportar-jurisprudencia",
+    "filter_fields": [
+      "orgao",
+      "numeroCNJ",
+      "ementa",
+      "numeroAcordao",
+      "numeroAno",
+      "palavrasExatas",
+      "relator",
+      "secretaria",
+      "classe",
+      "votacao",
+      "origem",
+      "tipo_jurisprudencia"
+    ]
+  },
+  "bounded_probe": {
+    "request": "POST /api/publico/consultar-jurisprudencia",
+    "query_shape": {"ementa": "divorcio", "orgao": "0"},
+    "http_status": 200,
+    "response_status": "ERRO",
+    "classification": "access_control_required",
+    "message": "A verificacao de seguranca falhou",
+    "authoritative_empty": false
+  },
+  "implementation": {
+    "authorized_method": "search_authorized",
+    "token_source": "caller_supplied_human_turnstile_pass",
+    "token_persisted": false,
+    "token_redacted_from_trace": true,
+    "federation": "disabled",
+    "lifecycle": "candidate"
+  },
+  "safety": {
+    "credentials_used": false,
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

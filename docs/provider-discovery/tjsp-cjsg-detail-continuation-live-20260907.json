@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "source": "tjsp_cjsg",
+  "surface": "cjsg",
+  "authority": "TJSP",
+  "bounded": true,
+  "upstream_reference": {
+    "repository": "https://github.com/jtrecenti/juscraper",
+    "technique": "public browser User-Agent and e-SAJ casChecked continuation"
+  },
+  "results": [
+    {
+      "source_id": "tjsp_cjsg",
+      "surface": "cjsg",
+      "endpoint": "POST /resultadoCompleta.do + GET /trocaDePagina.do",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "record_count_observed": 1,
+      "reported_total": 2741747,
+      "pagination_mode": "page",
+      "classification": "reachable_valid_data",
+      "query": {"text": "responsabilidade civil", "page": 1, "page_size": 1},
+      "search_form": "GET /consultaSimples.do returned the official public form; the bounded POST/GET flow returned one result"
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "surface": "public_full_text",
+      "endpoint": "GET https://esaj.tjsp.jus.br/cjsg/getArquivo.do?cdAcordao=14138012&cdForo=0&casChecked=true",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/pdf;charset=UTF-8",
+      "response_bytes": 442374,
+      "content_sha256": "70cb0601b7f6b8ca7a9aed29d2174a68a7d610f3a2f548a944014e9660f8bea0",
+      "text_characters": 7984,
+      "extraction_status": "complete",
+      "classification": "public_full_text",
+      "continuation": "casChecked=true is the source's anonymous-flow continuation flag"
+    }
+  ],
+  "decision": "search_validated_and_known_id_detail_enabled",
+  "limitations": [
+    "The source form exposes reCAPTCHA fields, but this bounded public flow returned data without generating or submitting a token.",
+    "The detail route is usable only when cdAcordao and cdForo are already known.",
+    "This evidence does not establish searchable or federated coverage."
+  ],
+  "federation": "not_enabled",
+  "credentials_or_bypass": false
+}

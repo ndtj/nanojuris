@@ -18,14 +18,9 @@ from tools.audit_provider_discovery_offline import _fixture_refs, _test_files, _
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "docs" / "registry" / "provider-catalog.full.json"
 
-# These providers are intentionally tracked as an evidence debt.  They have a
-# parser/registration test, but no reviewed payload has been checked in yet.
-# Keeping the list explicit makes new evidence debt fail loudly in review.
-KNOWN_EVIDENCE_DEBT = {
-    "stf_informativo",  # the XLSX is built in-memory by its parser tests
-    "tjpb_pje_jurisprudencia",
-    "tjrj_eproc_jurisprudencia",
-}
+# Keep any runtime provider without a reviewed, replayable fixture explicit.
+# An empty set is intentional only while the audit confirms complete evidence.
+KNOWN_EVIDENCE_DEBT: set[str] = set()
 
 SECRET_MARKERS = re.compile(
     # Header-shaped markers are intentionally anchored: JavaScript bundles
@@ -59,9 +54,9 @@ def test_runtime_fixture_evidence_debt_is_explicit() -> None:
     evidence_debt = {source for source in runtime if not _evidence_for(source)}
     assert evidence_debt == KNOWN_EVIDENCE_DEBT
 
-    # A provider with only a synthetic inline payload is still debt, rather
-    # than being accidentally counted as a reviewed, replayable fixture.
-    assert not _evidence_for("stf_informativo")
+    # STF keeps the XLSX builder for structural tests, but now also has a
+    # replayable, versioned normalized fixture.
+    assert _evidence_for("stf_informativo") == {"stf_informativo_rows.json"}
 
 
 def test_every_referenced_fixture_exists_and_is_nonempty() -> None:
@@ -132,7 +127,7 @@ def test_unified_court_contracts_declare_minimum_data_quality() -> None:
 def test_full_text_capability_contract_matches_the_declared_access_mode() -> None:
     """Avoid advertising detail/full text routes that the adapter cannot expose."""
 
-    detail_modes = {"detail_call", "inline", "inline_result_text"}
+    detail_modes = {"detail_call", "document_link", "inline", "inline_result_text"}
     gaps: dict[str, list[str]] = {}
     for capability in NanoJurisClient().list_sources():
         fields = set(capability.extracted_fields)

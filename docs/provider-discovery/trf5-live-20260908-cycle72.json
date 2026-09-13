@@ -1,0 +1,79 @@
+{
+  "schema_version": "trf5-live-v1",
+  "generated_at": "2026-09-08T06:47:18.620488+00:00",
+  "observed_at": "2026-09-08T06:47:18.620488+00:00",
+  "mode": "live_bounded",
+  "source": "trf5_jurisprudencia",
+  "source_id": "trf5_jurisprudencia",
+  "surface": "search",
+  "classification": "valid",
+  "status": "valid",
+  "access_status": "public",
+  "retrieval_status": "ok",
+  "extraction_status": "complete",
+  "query": {
+    "text": "dano moral",
+    "page_size": 1
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "record_count_observed": 1,
+  "reported_total": null,
+  "pagination_mode": "page",
+  "http_status": 200,
+  "content_type": "text/html",
+  "response_bytes": 11414,
+  "sha256": "effa411f073c386384b38f40a84250b3b2aa536d2ea3f8edb2d4820017a0a3c2",
+  "content_sha256": "effa411f073c386384b38f40a84250b3b2aa536d2ea3f8edb2d4820017a0a3c2",
+  "full_text_status": "document_available",
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "page": 1,
+      "page_size": 1,
+      "returned": 1,
+      "total_known": null,
+      "ids": [
+        "trf5-jurisprudencia-25751"
+      ],
+      "case_numbers": [
+        "0500731-14.2013.4.05.8501"
+      ],
+      "has_summary": true
+    },
+    "detail": {
+      "status": "valid",
+      "byte_size": 11414,
+      "content_type": "text/html",
+      "sha256": "effa411f073c386384b38f40a84250b3b2aa536d2ea3f8edb2d4820017a0a3c2",
+      "has_text": true
+    },
+    "page_2": {
+      "http_status": 200,
+      "page": 2,
+      "page_size": 1,
+      "returned": 1,
+      "total_known": null,
+      "ids": [
+        "trf5-jurisprudencia-25829"
+      ],
+      "case_numbers": [
+        "0500724-22.2013.4.05.8501"
+      ],
+      "has_summary": true
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "detail_valid": true,
+    "errors": 0
+  }
+}

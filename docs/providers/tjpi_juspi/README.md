@@ -64,8 +64,10 @@
   `tests/fixtures/tjpi_juspi_empty.html`.
 - [x] detalhe/inteiro teor:
   `tests/fixtures/tjpi_juspi_detail.html`.
-- [ ] `q=idpj` com resultado ou vazio documentado.
-- [ ] pagina 2 especifica.
+- [x] `q=<numero CNJ>` com resultado confirmado em chamada live; consultas
+  CNJ inexistentes retornam pagina vazia sem erro de transporte.
+- [x] pagina 2 especifica: a rota `page=2` retornou janela distinta e o parser
+  preserva faixa um-based consistente mesmo limitando `page_size`.
 
 ## MCP e agentes
 
@@ -87,8 +89,21 @@
 - [x] Identificar paginacao basica.
 - [x] Validar detalhe/inteiro teor publico.
 - [x] Implementar `tjpi_juspi.py`.
-- [ ] Adicionar teste live opt-in.
-- [ ] Catalogar valores de filtros com parser de formulario.
+- [x] Adicionar teste live opt-in para duas páginas, número CNJ e vazio
+  explícito (`tests/test_tjpi_live.py`).
+- [x] Catalogar valores de filtros aceitos pelo formulário no contrato do
+  provider (`tipo`, `relator`, `orgao`, `data_min`, `data_max`); valores são
+  encaminhados sem inferência.
+
+## Revalidação live 2026-09-05
+
+- `GET /jurisprudences/search?q=dano moral` e `page=2` responderam HTTP 200,
+  com texto jurídico, totais positivos e IDs não sobrepostos.
+- `GET /jurisprudences/search?q=<numero CNJ>` retornou o registro correspondente;
+  um CNJ impossível retornou HTTP 200 sem resultados, classificado como vazio
+  não-autoritativo quando o portal omite a faixa de total.
+- O parser agora expõe `total_known=True` quando a página publica total
+  positivo e nunca devolve faixa impossível (`start > end`).
 
 ## Inteiro teor e contrato de bytes
 
@@ -96,3 +111,12 @@
 por fixture. O provider preserva a resposta original em `raw_bytes`, extrai o
 conteudo juridico para `text` e registra SHA-256, tamanho, content-type e
 status de extração. A fonte nao foi anunciada como PDF.
+## Contrato CJSG fechado - 2026-09-06
+
+- A busca pública é restringida ao filtro oficial `tipo=Acórdão` quando o
+  chamador não informa tipo; súmulas e escopos de primeiro grau são rejeitados.
+- Cada registro aceito é normalizado com `authority=TJPI`, `branch=state`,
+  `degree=second`, `instance=second`, `collection=CJSG` e URL pública de
+  inteiro teor, preservando o HTML e a proveniência.
+- A rota `GET /jurisprudences/search` foi validada bounded com resultado de
+  acórdão e paginação; o detalhe público continua sob demanda.

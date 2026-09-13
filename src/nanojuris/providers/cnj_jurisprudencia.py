@@ -4,16 +4,16 @@ from __future__ import annotations
 
 import hashlib
 import re
-import time
 import unicodedata
 from datetime import datetime
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup, Tag
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -25,7 +25,6 @@ from nanojuris.models import (
     CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
-    ExtractionTrace,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -34,6 +33,13 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import (
+    SharedHttpClient,
+    TransportPolicy,
+    TransportRequest,
+    TransportResponse,
+    TransportStatus,
+)
 
 
 class CnjJurisprudenciaProvider(JurisprudenceProvider):
@@ -48,7 +54,30 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
+        host = urlparse(self.config.cnj_jurisprudencia_url).hostname or ""
+        self._transport_policy = TransportPolicy(
+            allowed_hosts=(host, "atos.cnj.jus.br"),
+            timeout_seconds=self.config.timeout,
+            max_bytes=16_000_000,
+            # Preserve the catalog provider's bounded one-shot semantics: a
+            # challenge/rate limit must be surfaced, not retried into a
+            # second request that could be mistaken for a fresh result.
+            max_retries=0,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._transport = SharedHttpClient(self._transport_policy, session=self.session)
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(host, "atos.cnj.jus.br"),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/jurisprudencia"
@@ -65,13 +94,19 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
                 "A ementa/resumo e editorial; o PDF oficial permanece como fonte primaria.",
                 "O PDF nao e baixado durante a busca.",
             ],
+            **self._last_http_metadata,
         )
-        return parse_cnj_results(
+        page = parse_cnj_results(
             html,
             query=query,
             trace=trace,
             base_url=self.config.cnj_jurisprudencia_url,
         )
+        for result in page.results:
+            document_url = result.document_url or result.raw.get("document_url")
+            if isinstance(document_url, str) and document_url:
+                self._document_urls[result.id] = document_url
+        return page
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         return DecisionBundle(
@@ -85,40 +120,26 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def get_document(self, document_id: str) -> CanonicalDocument:
-        if not document_id.startswith(("http://", "https://")):
-            raise ValueError("CNJ document_id must be the official PDF URL from raw.document_url")
-        content, final_url, content_type = self._request_bytes(document_id)
-        digest = hashlib.sha256(content).hexdigest()
-        trace = SourceTrace(
-            provider=self.name,
-            endpoint="GET /files/<official-pdf>",
-            source_url=final_url,
-            content_type=content_type,
-            content_sha256=digest,
-            response_bytes=len(content),
-            limitations=["Documento baixado sob demanda da URL oficial do CNJ."],
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
         )
-        return CanonicalDocument(
+        if not document_url:
+            raise ValueError(
+                "CNJ document_id must be an observed official HTTPS PDF URL or a result id"
+            )
+        reference = DocumentReference(
             id=document_id,
             source=self.name,
-            document_type="informativo_jurisprudencia",
-            content_type=content_type,
-            url=final_url,
-            sha256=digest,
-            byte_size=len(content),
-            retrieved_at=trace.retrieved_at,
-            access_status=AccessStatus.PUBLIC,
-            source_trace=trace,
-            extraction_trace=ExtractionTrace(
-                parser="cnj_jurisprudencia.pdf_bytes",
-                parser_version="1",
-                status=ExtractionStatus.COMPLETE,
-                access_status=AccessStatus.PUBLIC,
-                content_sha256=digest,
-                content_bytes=len(content),
-                metadata={"content_type": content_type},
-            ),
-            raw_metadata={"content_type": content_type, "bytes_available": True},
+            url=document_url,
+            expected_content_types=("application/pdf",),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title=f"CNJ Informativo de Jurisprudência {document_id.rsplit('/', 1)[-1]}",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -142,9 +163,9 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
                 "GET /jurisprudencia",
                 "GET /files/<official-pdf>",
             ],
-            # The official PDF is preserved, but its text is not parsed into
-            # CanonicalDocument.text by this provider.
-            supports_full_text=False,
+            # The official PDF is fetched explicitly and parsed by the shared
+            # bounded document pipeline; search still returns only summaries.
+            supports_full_text=True,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -154,7 +175,7 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_html_page_only",
-            full_text_access="link_only",
+            full_text_access="document_link",
             supported_filters=[
                 "text",
                 "number",
@@ -162,6 +183,49 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
                 "published_to",
                 "page",
             ],
+            filter_semantics={
+                "text": "translated",
+                "exact_phrase": "translated",
+                "number": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "updated_from": "translated",
+                "updated_to": "translated",
+                "page": "native",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "rapporteur",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "types",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                    )
+                },
+            },
             limitations=[
                 "O filtro textual usa o parametro publico argumento.",
                 "O PDF e retornado como documento binario sob demanda; a busca nao extrai PDF.",
@@ -177,19 +241,17 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
 
     def _request_text(self, path: str, **kwargs: Any) -> tuple[str, str]:
         response = self._request("GET", path, **kwargs)
-        response.encoding = response.encoding or response.apparent_encoding or "utf-8"
-        return response.text, str(getattr(response, "url", "") or "")
+        return response.text, response.final_url or response.url
 
     def _request_bytes(self, url: str) -> tuple[bytes, str, str]:
         response = self._request("GET", url)
-        content = bytes(getattr(response, "content", b""))
-        content_type = str(response.headers.get("content-type", "application/octet-stream"))
+        content = response.body
+        content_type = str(response.content_type or "application/octet-stream")
         if not content.startswith(b"%PDF") and "application/pdf" not in content_type.lower():
             raise ParserContractChangedError("CNJ document URL did not return a PDF payload")
-        return content, str(getattr(response, "url", url) or url), content_type
+        return content, response.final_url or response.url or url, content_type
 
-    def _request(self, method: str, url_or_path: str, **kwargs: Any) -> Any:
-        self._respect_rate_limit()
+    def _request(self, method: str, url_or_path: str, **kwargs: Any) -> TransportResponse:
         url = (
             url_or_path
             if url_or_path.startswith("http")
@@ -201,19 +263,37 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
             "Accept": "text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        params = kwargs.pop("params", {}) or {}
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-                **kwargs,
+            response = self._transport.request(
+                TransportRequest(
+                    source=self.name,
+                    operation="search" if method.upper() == "GET" else "request",
+                    method=method,
+                    url=url,
+                    params=params,
+                    data=kwargs.pop("data", None),
+                    json_body=kwargs.pop("json", None),
+                    headers=headers,
+                )
             )
-        except requests.RequestException as exc:
+        except SourceUnavailableError as exc:
             raise SourceUnavailableError(f"CNJ request failed: {exc}") from exc
-        status = int(getattr(response, "status_code", 0) or 0)
-        text = str(getattr(response, "text", "") or "")
+        status = int(response.status_code or 0)
+        text = response.text
+        self._last_http_metadata = {
+            "http_status": status,
+            "final_url": response.final_url or url,
+            "content_type": response.content_type,
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok"
+            if response.status is TransportStatus.COMPLETE and status < 400
+            else response.status.value,
+        }
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(f"CNJ request failed: {response.status.value}")
         if status in {401, 403} or _looks_like_access_control(text):
             raise AccessControlRequiredError(f"CNJ returned access-control response: HTTP {status}")
         if status == 429:
@@ -222,16 +302,7 @@ class CnjJurisprudenciaProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"CNJ returned HTTP {status}")
         if status >= 400:
             raise SourceUnavailableError(f"CNJ returned HTTP {status}")
-        self._last_request = time.monotonic()
         return response
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
 
 
 def parse_cnj_results(

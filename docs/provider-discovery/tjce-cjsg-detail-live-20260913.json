@@ -1,0 +1,39 @@
+{
+  "schema_version": "provider-document-evidence-v1",
+  "provider": "tjce_cjsg",
+  "source_id": "tjce_cjsg",
+  "authority": "TJCE",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG",
+  "surface": "document",
+  "checked_at": "2026-09-13",
+  "generated_at": "2026-09-13T15:46:46Z",
+  "request": {
+    "precedent_id": "tjce-cjsg-3845056-0",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "application/pdf;charset=UTF-8",
+    "response_bytes": 530551,
+    "content_sha256": "8fd323a90c588cd37d733dbfd66c50126d1f3ec6ec084eb753c4a8027adba93a",
+    "access_status": "public",
+    "extraction_status": "complete",
+    "detected_content_type": "application/pdf",
+    "text_characters": 73244,
+    "page_count": 33,
+    "extraction_method": "provider_text_extracted",
+    "pdf_status": "valid",
+    "mime_status": "matched"
+  },
+  "classification": "success_with_document",
+  "promotion": "search_and_document_enabled",
+  "safety": {
+    "bypass_used": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  }
+}

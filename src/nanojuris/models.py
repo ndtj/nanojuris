@@ -8,6 +8,15 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
+_FILTER_SUPPORT_VALUES = {
+    "native",
+    "translated",
+    "local_postfilter",
+    "validated_scope",
+    "unsupported",
+    "unverified",
+}
+
 
 def utc_now_iso() -> str:
     """Return a stable UTC timestamp for source traces."""
@@ -60,6 +69,10 @@ class ProviderCapabilities:
     supports_live_tests: bool = False
     supports_cli: bool = False
     supports_unified_search: bool = False
+    # A provider may be technically ready but intentionally withheld from the
+    # default federation until an explicit rollout/legal decision is supplied
+    # in ``NanoJurisConfig.unified_opt_in_sources``.
+    opt_in_unified_search: bool = False
     supports_mcp: bool = False
     supports_studio: bool = False
     pagination_mode: str = "unknown"
@@ -71,6 +84,24 @@ class ProviderCapabilities:
     unsupported_filters: list[str] = field(default_factory=list)
     limitations: list[str] = field(default_factory=list)
     responsible_use: list[str] = field(default_factory=list)
+    # Explicit v2 semantics for filters.  The legacy lists above remain the
+    # source-compatible surface; this map is additive and accepts the values
+    # native, translated, local_postfilter, unsupported and unverified.
+    filter_semantics: dict[str, str] = field(default_factory=dict)
+    ordering_modes: list[str] = field(default_factory=list)
+    detail_modes: list[str] = field(default_factory=list)
+
+    def filter_status(self, name: str) -> str:
+        """Return the v2 support status for a filter without false certainty."""
+
+        explicit = self.filter_semantics.get(name)
+        if explicit in _FILTER_SUPPORT_VALUES:
+            return explicit
+        if name in self.supported_filters:
+            return "native"
+        if name in self.unsupported_filters:
+            return "unsupported"
+        return "unverified"
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -138,6 +169,11 @@ class CanonicalDocument:
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw_metadata: dict[str, Any] = field(default_factory=dict)
+    # Structural/document quality facts are additive and remain optional for
+    # HTML and text responses. OCR confidence is populated only by an
+    # explicitly configured OCR adapter with a measured value.
+    page_count: int | None = None
+    ocr_confidence: float | None = None
 
     def to_dict(self, *, include_raw_bytes: bool = False) -> dict[str, Any]:
         payload = asdict(self)
@@ -178,6 +214,19 @@ class CanonicalDecision:
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
+    # Semantic dimensions are optional and additive. Providers must only
+    # populate them when the source exposes an auditable value; otherwise the
+    # original value remains in ``raw`` and the field stays ``None``. Appending
+    # these fields preserves historical positional construction.
+    degree: str | None = None
+    instance: str | None = None
+    branch: str | None = None
+    legal_area: str | None = None
+    authority: str | None = None
+    collection: str | None = None
+    document_type: str | None = None
+    source_origin: str | None = None
+    field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -207,6 +256,15 @@ class CanonicalPrecedent:
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
+    degree: str | None = None
+    instance: str | None = None
+    branch: str | None = None
+    legal_area: str | None = None
+    authority: str | None = None
+    collection: str | None = None
+    document_type: str | None = None
+    source_origin: str | None = None
+    field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -255,6 +313,31 @@ class JurisprudenceQuery:
     types: list[str] = field(default_factory=list)
     page: int = 1
     page_size: int = 10
+    # Canonical refinement filters. They are optional to preserve the v1
+    # constructor and are translated only when a provider declares support.
+    case_class: str = ""
+    judging_body: str = ""
+    degree: str = ""
+    instance: str = ""
+    branch: str = ""
+    legal_area: str = ""
+    authority: str = ""
+    collection: str = ""
+    document_type: str = ""
+    decision_type: str = ""
+    judgment_date_from: str = ""
+    judgment_date_to: str = ""
+    # Official SJUR/TRE refinements.  They remain optional so providers that
+    # do not advertise the corresponding contract reject them explicitly
+    # instead of silently dropping a federated filter.
+    election_year: str = ""
+    observations: str = ""
+    tags: str = ""
+    municipality: str = ""
+    publication_source: str = ""
+    publication_number: str = ""
+    publication_volume: str = ""
+    uf: str = ""
 
     def __post_init__(self) -> None:
         if self.page < 1:
@@ -266,12 +349,15 @@ class JurisprudenceQuery:
             "updated_to",
             "published_from",
             "published_to",
+            "judgment_date_from",
+            "judgment_date_to",
         ):
             value = getattr(self, field_name)
             if value and not _is_supported_query_date(value):
                 raise ValueError(f"{field_name} deve usar YYYY-MM-DD ou DD/MM/YYYY")
         _validate_date_range(self.updated_from, self.updated_to, "updated")
         _validate_date_range(self.published_from, self.published_to, "published")
+        _validate_date_range(self.judgment_date_from, self.judgment_date_to, "judgment_date")
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -331,6 +417,19 @@ class JurisprudenceResult:
     highlights: dict[str, str] = field(default_factory=dict)
     source_trace: SourceTrace | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
+    # Appended fields preserve positional construction of the v1 result.
+    case_class: str | None = None
+    judging_body: str | None = None
+    degree: str | None = None
+    instance: str | None = None
+    branch: str | None = None
+    legal_area: str | None = None
+    authority: str | None = None
+    collection: str | None = None
+    document_type: str | None = None
+    source_origin: str | None = None
+    document_url: str | None = None
+    field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -352,6 +451,32 @@ class SearchPage:
     pagination_mode: str = "unknown"
     is_complete: bool | None = None
     completeness_reason: str | None = None
+    # Optional v2 metadata.  Appended fields keep historical positional
+    # constructors valid while allowing cursor-based sources to be explicit.
+    cursor: str | None = None
+    ordering: str | None = None
+    filters_applied: dict[str, str] = field(default_factory=dict)
+    # ``None`` means the provider did not prove whether the remote total is
+    # authoritative. This prevents legacy ``0`` from being treated as an
+    # explicit empty result by federation.
+    total_known: bool | None = None
+    access_status: AccessStatus | None = None
+    extraction_status: ExtractionStatus | None = None
+    access_reason: str | None = None
+
+    @property
+    def effective_total(self) -> int | None:
+        """Return the remote count only when the provider marked it known."""
+
+        return self.total if self.total_known is True else None
+
+    @property
+    def is_explicit_empty(self) -> bool:
+        """Whether this page is proven to be an empty result, not a failure."""
+
+        return not self.results and (
+            self.is_complete is True or (self.total_known is True and self.total == 0)
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

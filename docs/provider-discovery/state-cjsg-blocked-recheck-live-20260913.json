@@ -1,0 +1,29 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-13T06:30:00-03:00",
+  "scope": "bounded official-source recheck; no credentials or challenge tokens",
+  "results": [
+    {
+      "source_id": "tjap_tucujuris",
+      "surface": "cjsg",
+      "classification": "access_controlled",
+      "http_status": null,
+      "record_count_observed": null,
+      "error_type": "AccessControlRequiredError",
+      "error_summary": "TJAP/Tucujuris exige validacao server-side de Cloudflare Turnstile"
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "surface": "cjsg",
+      "classification": "access_controlled",
+      "http_status": null,
+      "record_count_observed": null,
+      "error_type": "AccessControlRequiredError",
+      "error_summary": "TJMA JurisConsult exige captcha na busca de resultados"
+    }
+  ],
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "decision": "Preservar ambos como access_controlled; nenhuma tentativa de contornar o desafio foi feita."
+}

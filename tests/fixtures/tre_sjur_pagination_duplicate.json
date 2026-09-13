@@ -1,0 +1,17 @@
+{
+  "mensagem": null,
+  "totalRegistros": 10,
+  "content": [
+    {
+      "codigoDecisao": 617075,
+      "siglaTribunalJE": "TRE-SP",
+      "descricaoTipoDecisao": "Acordao",
+      "descricaoClasse": "Recurso Eleitoral",
+      "numeroProcesso": "060000000",
+      "dataDecisao": "01/01/2024",
+      "textoEmenta": "Ementa sanitizada",
+      "textoDecisao": "Decisao sanitizada",
+      "temInteiroTeorPDF": "true"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "trt2_pje_jurisprudencia",
+  "source_id": "trt2_pje_jurisprudencia",
+  "authority": "TRT2",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "surface": "search",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "classification": "access_control_required",
+  "http_status": 200,
+  "record_count_observed": 0,
+  "reported_total": 40245100,
+  "pagination_mode": "offset_unverified",
+  "filter_catalog": {
+    "status": "public_metadata_only",
+    "hits": 40245100,
+    "aggregation_fields": [
+      "assunto",
+      "anoProcesso",
+      "tipoDocumento",
+      "instancia",
+      "orgaoJulgador",
+      "orgaoJulgadorColegiado",
+      "meioTramitacao",
+      "magistrado",
+      "classeJudicial"
+    ],
+    "documents_returned": 0
+  },
+  "document_search": {
+    "endpoint": "POST /juris-backend/api/documentos",
+    "challenge_fields": ["tokenDesafio", "imagem", "audio"],
+    "documents_returned": 0
+  },
+  "decision": "keep_candidate_opt_in_until_authorized_non_challenge_result_contract",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "cookies_or_tokens_used": false,
+    "request_frequency_seconds_or_more": 2,
+    "raw_response_persisted": false
+  }
+}

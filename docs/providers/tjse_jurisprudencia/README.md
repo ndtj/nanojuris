@@ -1,5 +1,20 @@
 # TJSE - Pesquisa de Jurisprudencia Judicial
 
+## Authorized human-token path (2026-09-11)
+
+The adapter exposes `search_authorized(query, turnstile_token=...)` for a token
+obtained legitimately through the official UI. The token is accepted only for
+one bounded request; it is never solved, stored, replayed, or included in
+`raw`/`SourceTrace`. Accepted records require a stable identifier and are
+stamped with `degree=second`, `instance=second`, `branch=state`, and
+`collection=CJSG`.
+The session cache also exposes `get_decisions()` for an observed authorized
+record; it never fabricates an independent detail route.
+
+This path has not been validated with an authorized live result yet, so TJSE
+remains outside the default federation. Without a token, the normal search
+continues to report access control rather than an empty result.
+
 Status atual: `blocked_or_inconclusive` para busca decisoria automatizada.
 
 ## Identidade Da Fonte
@@ -93,3 +108,40 @@ Nenhum schema decisorio foi validado porque a protecao respondeu Captcha invalid
 
 O POST JSF e ViewState foram observados, mas payload, pagina, total, detalhe e
 inteiro teor nao foram reproduzidos sem desafio.
+
+## Capacidade documental
+
+`full_text_access=access_blocked`: a fonte pode oferecer documentos, mas a
+unica rota observada esta atras do Turnstile. Isso e diferente de
+`not_offered_by_source` e nao autoriza substituir o texto por ementa.
+
+## Adapter de diagnostico
+
+O modulo `nanojuris.providers.tjse_jurisprudencia` executa a descoberta GET,
+valida o escopo de segundo grau e levanta `AccessControlRequiredError` quando
+detecta Turnstile. Ele nao submete tokens nem anuncia a fonte na federacao.
+
+Evidencia live bounded: [tjse-jurisprudencia-live-20260906.json](../../docs/provider-discovery/tjse-jurisprudencia-live-20260906.json).
+
+## Superfície pública alternativa
+
+O TJSE também publica o **Boletim Jurídico de Ementas** no Diário da Justiça:
+`https://diario.tjse.jus.br/revista/internet/pesquisar.wsp`. Essa superfície
+permite localizar edições e seções de câmaras, seção especializada e tribunal
+pleno sem o Turnstile da pesquisa judicial. O adapter independente
+`tjse_boletim_jurisprudencia` extrai as ementas e os links públicos de acórdão,
+com escopo explícito `degree=second`/`instance=second`.
+
+Essa publicação é uma coleção de ementas (não o voto integral) e o total entre
+edições é desconhecido. Por isso ela permanece opt-in para federação até que o
+gate de completude entre edições seja fechado; a pesquisa judicial protegida
+continua diagnosticamente bloqueada.
+### Metadados pÃºblicos do formulÃ¡rio (2026-09-10)
+
+O GET oficial continua respondendo HTTP 200 e entrega o vocabulÃ¡rio de filtros
+JSF (classes, relatores, Ã³rgÃ£os, tipo documental, competÃªncia e perÃ­odo) antes
+da submissÃ£o. O adapter expÃµe esse vocabulÃ¡rio via `get_catalog` e
+`get_filter_catalog`, mas preserva `challenge_required_for_search=true`: os
+metadados nÃ£o sÃ£o resultados e nÃ£o alteram o bloqueio Turnstile.
+
+EvidÃªncia: `docs/provider-discovery/tjse-public-form-metadata-live-20260910.json`.

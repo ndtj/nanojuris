@@ -1,0 +1,43 @@
+{
+  "schema_version": "tre-sjur-pagination-parameter-recheck-v1",
+  "observed_at": "2026-09-12T21:25:00+00:00",
+  "response_bodies_persisted": false,
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "tribunal": "TRE-SP",
+  "request": {
+    "method": "POST",
+    "url": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+    "query_scope": "TRE-SP/second/acordao",
+    "text": "direito"
+  },
+  "results": [
+    {
+      "pagina": 0,
+      "tamanho": 1,
+      "http_status": 200,
+      "reported_total": 7057,
+      "returned": 1000,
+      "first_ids": ["666306", "676333", "662131", "660689", "662307"],
+      "last_ids": ["3552714", "609512", "607284", "607777", "605306"],
+      "id_sequence_sha256": "5515a1c83370e2fae5683f39d2b85345c5677a6813eae1c8651762d52ec8632a"
+    },
+    {
+      "pagina": 1,
+      "tamanho": 1,
+      "http_status": 200,
+      "reported_total": 7057,
+      "returned": 1000,
+      "first_ids": ["666306", "676333", "662131", "660689", "662307"],
+      "last_ids": ["3552714", "609512", "607284", "607777", "605306"],
+      "id_sequence_sha256": "5515a1c83370e2fae5683f39d2b85345c5677a6813eae1c8651762d52ec8632a"
+    }
+  ],
+  "pagination_classification": "remote_page_ignored_duplicate_window",
+  "decision": "keep_page_gt_1_rejected_and_total_unknown",
+  "limitations": [
+    "A fonte devolveu 1.000 registros apesar de tamanho=1.",
+    "As sequencias de identificadores das paginas 0 e 1 foram identicas.",
+    "Nenhum corpo ou inteiro teor foi persistido."
+  ]
+}

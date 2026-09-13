@@ -1,0 +1,62 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrj_ejuris",
+  "source_id": "tjrj_ejuris",
+  "surface": "cjsg",
+  "authority": "TJRJ",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG",
+  "observed_at": "2026-09-10",
+  "method": "GET form + POST form + POST JSON XHR through SharedHttpClient",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 1,
+    "pages": [1, 2],
+    "timeout_seconds": 30
+  },
+  "pages": [
+    {
+      "page": 1,
+      "classification": "success_with_results",
+      "http_status": 200,
+      "returned": 1,
+      "reported_total": 46191,
+      "total_known": true,
+      "is_complete": false,
+      "result_id": "tjrj-ejuris-5992732",
+      "decision_type": "decisao_monocratica",
+      "elapsed_ms": 5359.7
+    },
+    {
+      "page": 2,
+      "classification": "success_with_results",
+      "http_status": 200,
+      "returned": 1,
+      "reported_total": 46191,
+      "total_known": true,
+      "is_complete": false,
+      "result_id": "tjrj-ejuris-5992721",
+      "decision_type": "decisao_monocratica",
+      "elapsed_ms": 5438.88
+    }
+  ],
+  "pagination": {
+    "status": "validated_distinct_remote_pages",
+    "ids_overlap": false,
+    "reported_total_consistent": true
+  },
+  "classification": "success_with_results_pagination_validated",
+  "federation_status": "enabled",
+  "raw_body_persisted": false,
+  "limitations": [
+    "A sonda confirmou duas páginas distintas em uma mesma sessão; não prova disponibilidade contínua.",
+    "O tempo observado excedeu o timeout padrão de 8 segundos; a chamada usou timeout bounded de 30 segundos.",
+    "Corpos de resposta e campos pessoais não foram persistidos."
+  ],
+  "decision": "keep_federation_enabled_and_monitor_latency"
+}

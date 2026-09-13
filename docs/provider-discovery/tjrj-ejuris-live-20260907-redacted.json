@@ -1,0 +1,37 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrj_ejuris",
+  "authority": "TJRJ",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG",
+  "checked_at": "2026-09-07",
+  "method": "bounded public GET form, POST form, POST JSON XHR",
+  "request": {
+    "text": "dano moral",
+    "page": 1,
+    "page_size": 1,
+    "timeout_seconds": 15,
+    "rate_limit_interval_seconds": 0.3
+  },
+  "outcome": "success_with_results",
+  "http_status": 200,
+  "returned": 1,
+  "total": 51699,
+  "total_known": true,
+  "result_ids": ["tjrj-ejuris-5988225"],
+  "result_degrees": ["second"],
+  "trace_safety": {
+    "hidden_form_fields_persisted": false,
+    "viewstate_persisted": false,
+    "eventvalidation_persisted": false,
+    "captcha_response_persisted": false,
+    "cookies_or_headers_persisted": false
+  },
+  "limitations": [
+    "A evidência não persiste corpo, cookie, token, cabeçalho ou estado ASP.NET.",
+    "O resultado confirma a superfície pública EJURIS de segundo grau, não uma superfície CJPG.",
+    "O widget de CAPTCHA não foi submetido nem contornado."
+  ]
+}

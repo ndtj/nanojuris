@@ -1,0 +1,91 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "provider": "trt3_ementario_jurisprudencia",
+  "authority": "TRT3",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "TRT3_EMENTARIO",
+  "checked_at": "2026-09-09",
+  "observed_at": "2026-09-10",
+  "status": "valid",
+  "surface": "search",
+  "record_count_observed": 9,
+  "reported_total": 9,
+  "http_status": 200,
+  "content_type": "application/pdf",
+  "response_bytes": 300347,
+  "content_sha256": "1bbb0a4813a28588888f6492cb9281f077712450310a63dd07682291815340b2",
+  "pagination_mode": "local_pdf_window",
+  "official_entry_point": "https://as1.trt3.jus.br/bd-trt3/handle/11103/3797",
+  "official_entry_point_observation": {
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "text/html;charset=utf-8",
+    "response_bytes": 52363,
+    "sha256": "8923ffd8cdd9e66d29ae6ead14ac810c960d12b186c4e9e31a8e7c9bed364c97",
+    "semantic_scope": "colecao oficial de Ementario de Jurisprudencia do TRT3"
+  },
+  "live_surface": {
+    "url": "https://as1.trt3.jus.br/bd-trt3/bitstream/handle/11103/23582/Ement%C3%A1rio%20de%20Jurisprud%C3%AAncia%20n.%2012%20-%20dezembro%202016.pdf?sequence=1&isAllowed=y",
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 300347,
+    "sha256": "1bbb0a4813a28588888f6492cb9281f077712450310a63dd07682291815340b2",
+    "pages": 35,
+    "extraction": {
+      "engine": "pypdf",
+      "pages_sampled": 3,
+      "characters_extracted": 8956,
+      "textual_marker": "PJe/Físico; ANO II; N. 12; dezembro de 2016"
+    }
+  },
+  "classification": "valid",
+  "collection_classification": "curated_context",
+  "live_status": "valid_static_volume",
+  "contract_status": "candidate_static_ementario_only",
+  "federation_status": "disabled",
+  "adapter_replay": {
+    "checked_at": "2026-09-10",
+    "query": {
+      "text": "responsabilidade",
+      "page": 1,
+      "page_size": 3
+    },
+    "status": "success_with_results",
+    "result_count": 3,
+    "volume_total": 9,
+    "http_status": 200,
+    "response_bytes": 300347,
+    "sha256": "1bbb0a4813a28588888f6492cb9281f077712450310a63dd07682291815340b2",
+    "document_replay": {
+      "content_type": "application/pdf",
+      "byte_size": 300347,
+      "page_count": 35,
+      "extraction_status": "complete"
+    },
+    "bounded_public_request": true,
+    "credentials_used": false,
+    "captcha_bypass": false,
+    "access_control_bypass": false
+  },
+  "document_capability": "pdf_text_ementas",
+  "limitations": [
+    "A rota observada é um volume editorial estático, não uma busca geral parametrizada.",
+    "O volume não demonstra paginação remota, total pesquisável ou filtros por consulta.",
+    "Não deve ser contado como cobertura geral TRT3 até existir contrato de busca reproduzível.",
+    "O PDF contém ementas; inteiro teor dos votos não foi demonstrado nesta prova."
+  ],
+  "next_action": "manter em descoberta; avaliar provider contextual independente somente se houver necessidade de consulta de volumes, sem promover para busca geral",
+  "evidence_ids": [
+    "trt3-ementario-entry-20260909",
+    "trt3-ementario-volume-12-pdf-20260909"
+  ],
+  "safety": {
+    "bounded_public_request": true,
+    "captcha_bypass": false,
+    "access_control_bypass": false,
+    "credentials_used": false
+  }
+}

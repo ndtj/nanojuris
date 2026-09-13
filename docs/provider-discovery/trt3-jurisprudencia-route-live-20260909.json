@@ -1,0 +1,54 @@
+{
+  "provider": "trt3_jurisprudencia",
+  "authority": "TRT3",
+  "branch": "labor",
+  "degree": "second",
+  "collection": "JURISPRUDENCIA",
+  "source": "https://portal.trt3.jus.br/internet/jurisprudencia/acordaos-na-integra",
+  "discovery": {
+    "official_portal_status": 200,
+    "official_portal_content_type": "text/html;charset=utf-8",
+    "official_portal_bytes": 162962,
+    "official_portal_sha256": "31a21298738b93f296380a0db4316f9b8d506ee04c435bef2332ec7b50f07f49",
+    "linked_search": "https://juris.trt3.jus.br/juris/consultaBaseCompleta.htm",
+    "linked_process_search": "https://juris.trt3.jus.br/juris/consultaAcordaoPeloNumero.htm",
+    "portal_evidence": "The official page labels the surface Acórdãos na íntegra and links to textual and process-number search."
+  },
+  "bounded_attempt": {
+    "method": "GET",
+    "attempted_at": "2026-09-09",
+    "user_agent": "NanoJuris-research/1.0",
+    "credentials": false,
+    "bypass": false,
+    "requests": [
+      {
+        "url": "https://juris.trt3.jus.br/juris/consultaBaseCompleta.htm",
+        "http_status": 403,
+        "content_type": "text/html",
+        "bytes": 919,
+        "sha256": "9f0e6aa8fdf2662af08f3eba6f13159c0c5c9711917c976c3386319b5e2d9d96",
+        "classification": "access_blocked",
+        "body_signature": "CloudFront request blocked"
+      },
+      {
+        "url": "https://juris.trt3.jus.br/juris/consultaAcordaoPeloNumero.htm",
+        "http_status": 403,
+        "content_type": "text/html",
+        "bytes": 919,
+        "sha256": "7f31e490b70de27c1160cc125f342a772484ab68f97f8676843e3808a8748928",
+        "classification": "access_blocked",
+        "body_signature": "CloudFront request blocked"
+      }
+    ]
+  },
+  "classification": {
+    "source_status": "access_blocked",
+    "contract_status": "discovery_only",
+    "live_status": "access_blocked",
+    "federation_status": "disabled",
+    "runtime": false,
+    "results": null,
+    "reason": "The official portal confirms a second-degree textual jurisprudence surface, but both linked public query routes reject the bounded request with HTTP 403. No CAPTCHA, WAF or CloudFront control was bypassed."
+  },
+  "next_action": "Recheck only after an official public route or an authorized user-assisted flow is available; do not classify as empty and do not implement an adapter against the blocked response."
+}

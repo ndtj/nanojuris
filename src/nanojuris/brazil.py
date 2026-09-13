@@ -294,6 +294,7 @@ _STATE_COURTS = [
         "state",
         state="ES",
         official_url="https://www.tjes.jus.br/",
+        providers=("tjes_cjpg", "tjes_jurisprudencia", "tjes_turma_recursal"),
     ),
     CourtInfo(
         "TJGO",
@@ -399,6 +400,11 @@ _STATE_COURTS = [
         "state",
         state="RN",
         official_url="https://www.tjrn.jus.br/",
+        source_system="portal_proprio",
+        # The generic TJRN textual jurisprudence surface is an explicit
+        # authority binding even though its degree-specific CJPG/CJSG
+        # contracts remain unproven in the coverage matrix.
+        providers=("tjrn_jurisprudencia",),
     ),
     CourtInfo(
         "TJRO",
@@ -407,6 +413,11 @@ _STATE_COURTS = [
         "state",
         state="RO",
         official_url="https://www.tjro.jus.br/",
+        source_system="portal_proprio",
+        # Keep the general textual endpoint and LIAME precedent collection
+        # attached to TJRO.  The degree matrix still decides whether either
+        # surface counts as CJPG/CJSG coverage.
+        providers=("tjro_jurisprudencia", "tjro_liame"),
     ),
     CourtInfo(
         "TJRR",
@@ -463,6 +474,81 @@ _STATE_COURTS = [
     ),
 ]
 
+_ELECTORAL_STATES = (
+    ("AC", "Acre"),
+    ("AL", "Alagoas"),
+    ("AP", "Amapá"),
+    ("AM", "Amazonas"),
+    ("BA", "Bahia"),
+    ("CE", "Ceará"),
+    ("DF", "Distrito Federal"),
+    ("ES", "Espírito Santo"),
+    ("GO", "Goiás"),
+    ("MA", "Maranhão"),
+    ("MT", "Mato Grosso"),
+    ("MS", "Mato Grosso do Sul"),
+    ("MG", "Minas Gerais"),
+    ("PA", "Pará"),
+    ("PB", "Paraíba"),
+    ("PR", "Paraná"),
+    ("PE", "Pernambuco"),
+    ("PI", "Piauí"),
+    ("RJ", "Rio de Janeiro"),
+    ("RN", "Rio Grande do Norte"),
+    ("RS", "Rio Grande do Sul"),
+    ("RO", "Rondônia"),
+    ("RR", "Roraima"),
+    ("SC", "Santa Catarina"),
+    ("SP", "São Paulo"),
+    ("SE", "Sergipe"),
+    ("TO", "Tocantins"),
+)
+
+_ELECTORAL_COURTS = [
+    CourtInfo(
+        f"TRE{state}",
+        f"Tribunal Regional Eleitoral de {name}",
+        "electoral",
+        "regional",
+        state=state,
+        official_url=f"https://www.tre-{state.lower()}.jus.br/",
+        source_system="portal_proprio",
+        provider_status="implemented" if state == "SP" else "planned",
+        providers=("tre_sp_temas",) if state == "SP" else (),
+    )
+    for state, name in _ELECTORAL_STATES
+]
+
+_MILITARY_COURTS = [
+    CourtInfo(
+        "TJMMG",
+        "Tribunal de Justiça Militar de Minas Gerais",
+        "military",
+        "state",
+        state="MG",
+        official_url="https://www.tjmmg.jus.br/",
+        source_system="portal_proprio",
+    ),
+    CourtInfo(
+        "TJMSP",
+        "Tribunal de Justiça Militar de São Paulo",
+        "military",
+        "state",
+        state="SP",
+        official_url="https://www.tjmsp.jus.br/",
+        source_system="portal_proprio",
+    ),
+    CourtInfo(
+        "TJMRS",
+        "Tribunal de Justiça Militar do Rio Grande do Sul",
+        "military",
+        "state",
+        state="RS",
+        official_url="https://www.tjmrs.jus.br/",
+        source_system="portal_proprio",
+    ),
+]
+
 _LABOR_COURTS = [
     CourtInfo(
         f"TRT{index}",
@@ -476,7 +562,14 @@ _LABOR_COURTS = [
 
 COURTS: tuple[CourtInfo, ...] = tuple(
     sorted(
-        [*_CORE_COURTS, *_FEDERAL_COURTS, *_STATE_COURTS, *_LABOR_COURTS],
+        [
+            *_CORE_COURTS,
+            *_FEDERAL_COURTS,
+            *_STATE_COURTS,
+            *_ELECTORAL_COURTS,
+            *_MILITARY_COURTS,
+            *_LABOR_COURTS,
+        ],
         key=lambda court: court.code,
     )
 )

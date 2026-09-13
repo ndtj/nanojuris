@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-09-06T09:35:39.981132+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "bnp_pangea",
+      "justica_eleitoral_sjur",
+      "stf_informativo",
+      "tjce_informativos",
+      "tjma_jurisconsult",
+      "tjpr_jurisprudencia",
+      "tjro_liame",
+      "tjrs_solr"
+    ]
+  },
+  "sources": [
+    {
+      "source": "bnp_pangea",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 431,
+        "source": "bnp_pangea"
+      },
+      "result": {
+        "id": "stj-rr-181",
+        "case_number": 181,
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://pangeabnp.pdpj.jus.br/api/v1/precedentes",
+        "access_status": null,
+        "extraction_status": "complete",
+        "raw_keys": [
+          "highlight",
+          "historico",
+          "id",
+          "nr",
+          "orgao",
+          "processosParadigma",
+          "questao",
+          "situacao",
+          "suspensoes",
+          "tese",
+          "tipo",
+          "ultimaAtualizacao"
+        ]
+      },
+      "public_url": {
+        "status": "http_error",
+        "http_status": 405,
+        "final_url": "https://pangeabnp.pdpj.jus.br/api/v1/precedentes",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes": 153,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": 405
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "justica_eleitoral_sjur",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "UnsupportedQueryError",
+      "error": "SJUR/TSE possui somente catalogo promovido; a busca decisoria aguarda contrato de resultados reproduzivel"
+    },
+    {
+      "source": "stf_informativo",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "SourceUnavailableError",
+      "error": "STF Informativo XLSX SSL verification failed in this environment."
+    },
+    {
+      "source": "tjce_informativos",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 10,
+        "source": "tjce_informativos"
+      },
+      "result": {
+        "id": "tjce-informativo-282a18ad95ef13d9e5e0",
+        "case_number": "0154007-41.2019.8.06.0001",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://www.tjce.jus.br/informativo-jurisprudencia/jurisprudencia/858579/",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_number",
+          "case_url",
+          "curated_source",
+          "document_url",
+          "edition_date",
+          "edition_number",
+          "judging_body",
+          "judgment_date",
+          "judgment_date_raw",
+          "law_branch",
+          "rapporteur",
+          "subject",
+          "summary"
+        ]
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www.tjce.jus.br/informativo-jurisprudencia/jurisprudencia/858579/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes": 190879,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjma_jurisconsult",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "AccessControlRequiredError",
+      "error": "TJMA JurisConsult exige captcha na busca de resultados; o NanoJuris disponibiliza somente o catalogo publico."
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1253000,
+        "source": "tjpr_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpr-2100000004227352",
+        "case_number": "0020132-47.2016.8.16.0018",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://portal.tjpr.jus.br/jurisprudencia/j/2100000004227352/Decisão monocrática-0020132-47.2016.8.16.0018",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "authority",
+          "branch",
+          "case_number",
+          "collection",
+          "content_pending_release",
+          "decision_type",
+          "degree",
+          "document_type",
+          "document_url",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "judgment_date_raw",
+          "rapporteur",
+          "row_text",
+          "secret_of_justice",
+          "secret_or_pending_content",
+          "source_record_id",
+          "source_row_index"
+        ]
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://portal.tjpr.jus.br/jurisprudencia/j/2100000004227352/Decis%C3%A3o%20monocr%C3%A1tica-0020132-47.2016.8.16.0018",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 51731,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjro_liame",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1,
+        "source": "tjro_liame"
+      },
+      "result": {
+        "id": "tjro-liame-TJRO-incidente_demanda_repetitiva-1",
+        "case_number": "1",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://liame.tjro.jus.br/api/pesquisa/precedentes/",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "especie",
+          "registro",
+          "sigla"
+        ]
+      },
+      "public_url": {
+        "status": "http_error",
+        "http_status": 405,
+        "final_url": "https://liame.tjro.jus.br/api/pesquisa/precedentes/",
+        "content_type": "",
+        "response_bytes": 0,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": 405
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjrs_solr",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1046378,
+        "source": "tjrs_solr"
+      },
+      "result": {
+        "id": "tjrs-solr-5435376",
+        "case_number": "290081744",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_version_",
+          "ano_julgamento",
+          "authority",
+          "branch",
+          "cat",
+          "cod_classe_cnj",
+          "cod_ementa",
+          "cod_org_julg",
+          "cod_recurso",
+          "cod_relator",
+          "cod_tipo_documento",
+          "cod_tribunal",
+          "collection",
+          "data_julgamento",
+          "degree",
+          "document_reference",
+          "document_type",
+          "document_url",
+          "documento_tiff",
+          "dthr_criacao",
+          "dthr_ult_alter_jprud",
+          "dthr_ult_alter_themis",
+          "ementa",
+          "ementa_completa",
+          "ementa_completa_aspas",
+          "ementa_referencia",
+          "ementa_referencia_aspas",
+          "ementa_text",
+          "ind_segredo_justica",
+          "instance",
+          "nome_classe_cnj",
+          "nome_relator",
+          "nome_tribunal",
+          "numero_processo",
+          "orgao_julgador",
+          "origem",
+          "relator_redator",
+          "secao",
+          "tipo_documento",
+          "tipo_processo"
+        ]
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 8,
+    "search_returned": 5,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 0,
+    "public_url_reachable": 2,
+    "public_url_document_like": 1,
+    "document_probe_failures": 2,
+    "partial": 2,
+    "errors": 3
+  }
+}

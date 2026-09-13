@@ -51,10 +51,12 @@ def result_to_canonical_decision(
         case_number=str(result.number) if result.number is not None else None,
         registry_number=_optional_str(raw.get("nu_registro") or raw.get("registry_number")),
         decision_type=result.type or None,
-        case_class=_optional_str(raw.get("classe") or raw.get("case_class")),
+        case_class=_optional_str(result.case_class or raw.get("classe") or raw.get("case_class")),
         subject=_optional_str(raw.get("assunto") or raw.get("subject")),
         rapporteur=result.rapporteur,
-        judging_body=_optional_str(raw.get("orgao_julgador") or raw.get("judging_body")),
+        judging_body=_optional_str(
+            result.judging_body or raw.get("orgao_julgador") or raw.get("judging_body")
+        ),
         origin_county=_optional_str(raw.get("comarca") or raw.get("origin_county")),
         judgment_date=normalize_date(judgment_raw),
         publication_date=normalize_date(publication_raw),
@@ -67,7 +69,24 @@ def result_to_canonical_decision(
         extraction_status=extraction_status,
         summary=result.summary,
         full_text=result.full_text or _optional_str(raw.get("full_text")),
-        document_url=_optional_str(raw.get("full_text_url") or raw.get("document_url")),
+        document_url=_optional_str(
+            result.document_url or raw.get("full_text_url") or raw.get("document_url")
+        ),
+        degree=_optional_str(result.degree or raw.get("degree") or raw.get("grau")),
+        instance=_optional_str(result.instance or raw.get("instance") or raw.get("instancia")),
+        branch=_optional_str(result.branch or raw.get("branch") or raw.get("ramo")),
+        legal_area=_optional_str(
+            result.legal_area or raw.get("legal_area") or raw.get("area_juridica")
+        ),
+        authority=_optional_str(result.authority or raw.get("authority") or raw.get("autoridade")),
+        collection=_optional_str(result.collection or raw.get("collection") or raw.get("colecao")),
+        document_type=_optional_str(
+            result.document_type or raw.get("document_type") or raw.get("tipo_documento")
+        ),
+        source_origin=_optional_str(
+            result.source_origin or raw.get("source_origin") or raw.get("origem")
+        ),
+        field_provenance=_field_provenance(result),
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
         raw=raw,
@@ -105,6 +124,21 @@ def result_to_canonical_precedent(
         retrieved_at=retrieved_at,
         access_status=_effective_access_status(result),
         extraction_status=_effective_extraction_status(result),
+        degree=_optional_str(result.degree or raw.get("degree") or raw.get("grau")),
+        instance=_optional_str(result.instance or raw.get("instance") or raw.get("instancia")),
+        branch=_optional_str(result.branch or raw.get("branch") or raw.get("ramo")),
+        legal_area=_optional_str(
+            result.legal_area or raw.get("legal_area") or raw.get("area_juridica")
+        ),
+        authority=_optional_str(result.authority or raw.get("authority") or raw.get("autoridade")),
+        collection=_optional_str(result.collection or raw.get("collection") or raw.get("colecao")),
+        document_type=_optional_str(
+            result.document_type or raw.get("document_type") or raw.get("tipo_documento")
+        ),
+        source_origin=_optional_str(
+            result.source_origin or raw.get("source_origin") or raw.get("origem")
+        ),
+        field_provenance=_field_provenance(result),
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
         raw=raw,
@@ -158,8 +192,53 @@ def _build_trace(result: JurisprudenceResult, *, parser_version: str) -> Extract
         status=status,
         access_status=_effective_access_status(result),
         transformations=transformations,
-        metadata={"result_id": result.id, "result_type": result.type},
+        metadata={
+            "result_id": result.id,
+            "result_type": result.type,
+            "field_provenance": _field_provenance(result),
+        },
     )
+
+
+def _field_provenance(result: JurisprudenceResult) -> dict[str, dict[str, object]]:
+    """Describe where populated canonical fields came from without copying values."""
+
+    raw = result.raw or {}
+    retrieved_at = result.retrieved_at or (
+        result.source_trace.retrieved_at if result.source_trace is not None else None
+    )
+    aliases = {
+        "case_class": ("classe", "case_class"),
+        "judging_body": ("orgao_julgador", "judging_body"),
+        "degree": ("degree", "grau"),
+        "instance": ("instance", "instancia"),
+        "branch": ("branch", "ramo"),
+        "legal_area": ("legal_area", "area_juridica"),
+        "authority": ("authority", "autoridade"),
+        "collection": ("collection", "colecao"),
+        "document_type": ("document_type", "tipo_documento"),
+        "source_origin": ("source_origin", "origem"),
+        "judgment_date": ("data_julgamento", "judgment_date"),
+        "publication_date": ("data_publicacao", "publication_date"),
+        "source_updated_at": ("source_updated_at",),
+        "document_url": ("full_text_url", "document_url"),
+    }
+    provenance: dict[str, dict[str, object]] = {}
+    for field_name, raw_names in aliases.items():
+        value = getattr(result, field_name, None)
+        if value is not None and str(value).strip():
+            path = f"result.{field_name}"
+        else:
+            raw_name = next((name for name in raw_names if raw.get(name) is not None), None)
+            if raw_name is None:
+                continue
+            path = f"raw.{raw_name}"
+        provenance[field_name] = {
+            "source": result.source,
+            "path": path,
+            "retrieved_at": retrieved_at,
+        }
+    return provenance
 
 
 def _effective_access_status(result: JurisprudenceResult) -> AccessStatus:

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07T09:15:00Z",
+  "provider": "tjrs_solr",
+  "source_url": "https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php",
+  "method": "POST",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "request": {
+    "action": "consultas_solr_ajax",
+    "metodo": "retorna_tiff",
+    "codigo_documento": "5228633"
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "application/json envelope with base64 TIFF",
+    "decoded_content_type": "image/tiff",
+    "decoded_bytes": 241092,
+    "magic": "II*\\x00",
+    "sha256": "e53fb50afeff6e9ba1ef8c618e9ad605a0735fa420c2d48220ea5ee30a507194"
+  },
+  "classification": {
+    "access_status": "public",
+    "document_status": "available",
+    "extraction_status": "unsupported_format_without_ocr",
+    "full_text_contract": "original_tiff_preserved"
+  },
+  "limitations": [
+    "The source returns an image TIFF, not searchable text.",
+    "OCR is not silently applied; a separately governed OCR pipeline is required for text extraction."
+  ],
+  "conclusion": "TJRS now has a reproducible public document retrieval contract and no longer reports the official TIFF route as unavailable."
+}

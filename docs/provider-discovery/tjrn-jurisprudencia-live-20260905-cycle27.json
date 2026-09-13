@@ -1,0 +1,25 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrn_jurisprudencia",
+  "checked_at": "2026-09-05",
+  "mode": "bounded_public_live_check",
+  "query_sha256": "e83f53f4448c523cd8b03103c71d5d55af77ddc2261de75ce11e43360aeb10fd",
+  "http_status": 200,
+  "endpoint": "POST /api/pesquisar",
+  "source_url": "https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+  "returned": 1,
+  "reported_total": 53792,
+  "total_known": true,
+  "complete": false,
+  "access_status": "public",
+  "extraction_status": "complete",
+  "response_bytes": 701118,
+  "elapsed_ms": 932.37,
+  "content_sha256": "60614c38669fa0a14711e911abb6ac25226b4c693a266edd8d4648fd70ba8a2c",
+  "promotion_decision": "candidate_opt_in",
+  "notes": [
+    "Resposta publica real reproduzivel; a janela foi deliberadamente limitada a uma pagina.",
+    "Contrato de reuso/licenca e aprovacao de release continuam gates humanos.",
+    "Nenhum corpo bruto ou dado pessoal foi persistido neste artefato."
+  ]
+}

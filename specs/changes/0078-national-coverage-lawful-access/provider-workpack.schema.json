@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NanoJuris ProviderWorkpack",
+  "type": "object",
+  "required": ["source_id", "surface_ids", "capabilities", "tasks", "gates"],
+  "properties": {
+    "source_id": {"type": "string"},
+    "surface_ids": {"type": "array", "items": {"type": "string"}},
+    "capabilities": {"type": "array", "items": {"type": "object"}},
+    "tasks": {"type": "array", "items": {"type": "string"}},
+    "gates": {"type": "object"},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "promotion_decision": {"type": "string"}
+  }
+}

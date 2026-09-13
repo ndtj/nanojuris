@@ -1,5 +1,7 @@
 # Verification
 
+Status: `verified`
+
 ## Evidência inicial
 
 - Discovery profundo: 44/44 runtime, 9/9 candidates, 3.169 rotas observadas e 299 filtros observados.
@@ -34,4 +36,7 @@ python tools/validate_sdd.py
 
 ## Rastreabilidade
 
-O ciclo permanece `in_progress` enquanto o ledger não atribuir estado justificável a todos os TODOs e os providers não tiverem evidência proporcional ao contrato.
+O ledger atual atribui estado justificável a todos os itens (evidência local,
+bloqueio externo ou candidato pendente). O ciclo está tecnicamente verificado;
+os candidatos e bloqueios continuam estados terminais explícitos e só serão
+reabertos quando houver nova evidência reproduzível.

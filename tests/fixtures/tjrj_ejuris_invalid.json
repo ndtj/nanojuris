@@ -1,0 +1,8 @@
+{
+  "d": {
+    "TotalDocs": 1,
+    "DocumentosConsulta": [
+      {"CodDoc": "missing-cnj", "Texto": "registro sem identificador CNJ"}
+    ]
+  }
+}

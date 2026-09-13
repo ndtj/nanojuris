@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-13T03:14:44Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "tjsp_cjsg",
+  "surface": "cjsg",
+  "endpoint": "POST https://esaj.tjsp.jus.br/cjsg/resultadoCompleta.do",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "query": {
+    "text": "infanticidio",
+    "types": ["acordao"],
+    "page": 1,
+    "page_size": 1
+  },
+  "http_status": 200,
+  "final_url": "https://esaj.tjsp.jus.br/cjsg/trocaDePagina.do?tipoDeDecisao=A&pagina=1",
+  "content_type": "text/html;charset=UTF-8",
+  "response_bytes": 264739,
+  "elapsed_ms": 172.21,
+  "retrieval_status": "ok",
+  "content_sha256": "85c06b0eac7c820433edd0079f8f5acd58e6ff3782acfe602cfb37f9fc84513b",
+  "record_count_observed": 1,
+  "reported_total": 870,
+  "pagination_mode": "page",
+  "classification": "valid",
+  "access_status": "public",
+  "extraction_status": "complete",
+  "note": "Bounded live search returned a canonical appellate record with source trace; no response body was persisted.",
+  "promotion_decision": "runtime_unchanged",
+  "limitations": [
+    "The check validates one bounded query window, not the entire corpus.",
+    "No CAPTCHA, WAF, login, proxy, cookie, token or bypass was used."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "generated_at": null,
+  "policy": {
+    "max_parallel_providers": 3,
+    "max_live_calls_per_provider": 2,
+    "default_timeout_seconds": 8,
+    "max_wave_seconds": 12,
+    "retry_on": ["connect_timeout", "502", "503", "504"],
+    "never_retry_on": ["401", "403", "409", "429", "captcha", "turnstile", "waf", "login_required"]
+  },
+  "batches": [
+    {"id": "B0-reconcile", "priority": 0, "providers": ["catalog_runtime_divergences"], "exit": "surface register reconciled"},
+    {"id": "B1-state-cjsg", "priority": 1, "providers": ["tjba_graphql", "tjdf_juris", "tjmt_jurisprudencia_api"], "exit": "degree second + two pages + fixture"},
+    {"id": "B2-state-cjsg", "priority": 2, "providers": ["tjpa_jurisprudencia_bff", "tjpb_pje_jurisprudencia", "tjrn_jurisprudencia"], "exit": "degree second + filters + fixture"},
+    {"id": "B3-portals", "priority": 3, "providers": ["tjgo_projudi_jurisprudencia", "tjpi_juspi", "tjpr_jurisprudencia"], "exit": "stable pagination and identity"},
+    {"id": "B4-portals", "priority": 4, "providers": ["tjrr_juris", "tjrs_solr", "tjto_jurisprudencia"], "exit": "source semantics and no false empty"},
+    {"id": "B5-eproc", "priority": 5, "providers": ["tjrj_eproc_jurisprudencia", "tjsc_eproc_jurisprudencia", "tjro_jurisprudencia"], "exit": "second-degree textual contract"},
+    {"id": "B6-first-degree", "priority": 6, "providers": ["official_cjpg_routes"], "exit": "each route classified or blocked"},
+    {"id": "B7-federal", "priority": 7, "providers": ["tnu_eproc_jurisprudencia", "trf2_eproc_jurisprudencia", "trf6_eproc_jurisprudencia"], "exit": "detail/document contract"},
+    {"id": "B8-family", "priority": 8, "providers": ["trt_tst", "tse_tre_sjur", "stm_jurisprudencia"], "exit": "family boundaries explicit"}
+  ],
+  "stop_conditions": ["external_block_only", "human_decision_only", "same_protection_repeated", "credentials_required"]
+}

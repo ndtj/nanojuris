@@ -70,10 +70,10 @@ mudança SDD `0025-tjes-public-json-adapter`.
 
 ## Promocao Futura
 
-Capturar uma busca publica com filtros de justica, sistema, periodo e termo;
-registrar a resposta de resultados e abrir um item real. Criar tambem um
-provider documental separado para os ementarios PDF, sem misturar esse acervo
-curado com a busca geral de acordaos.
+Completar fixtures sanitizadas de busca, vazio, erro, paginação e cada core;
+confirmar filtros, limite, ordenação e reuso. Criar também um provider
+documental separado para os ementários PDF, sem misturar esse acervo curado
+com a busca geral de acórdãos.
 
 ## Validação live 2026-08-16
 
@@ -90,20 +90,44 @@ curado com a busca geral de acordaos.
 - Nenhuma credencial, CAPTCHA ou rota privada foi usada; nenhuma alteração em
   produção foi feita.
 
+## Validação live bounded 2026-09-01
+
+`GET /consulta-jurisprudencia/api/search?core=pje2g&q=<termo>&page=1&per_page=1`
+respondeu HTTP 200 e JSON com um registro, total declarado 200.397 e campos de
+identidade e ementa/acórdão. O corpo foi analisado em memória e não foi
+persistido. Metadados e hash estão em
+[`juscraper-live-smoke-20260901.json`](../../provider-discovery/juscraper-live-smoke-20260901.json).
+
+Esta evidência atualiza a disponibilidade da superfície para candidata live;
+não promove adapter nem autoriza coleta em escala. Fixtures, equivalência,
+limites e revisão de reuso continuam gates do SDD `0025`.
+
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
+
+### Fallback de conteudo HTML - 0050
+
+Quando `ementa` ou `acordao` vierem vazios, o parser usa respectivamente
+`ementa_html` ou `acordao_html`, remove apenas o markup para os campos
+canonicos e conserva o HTML original em `raw`. Os marcadores
+`summary_source`/`full_text_source` permitem auditar a origem. Campos planos
+presentes sempre vencem o fallback; o contrato continua restrito ao core
+`pje2g`/CJSG.
 
 ## Fontes Oficiais
 
 - [Consulta de jurisprudencia do TJES](https://sistemas.tjes.jus.br/portaltj/Pesquisa.aspx)
 - [Busca legada TJES](https://aplicativos.tjes.jus.br/sistemaspublicos/consulta_jurisprudencia/cons_jurisp.cfm)
 - [Ementario trimestral oficial do TJES](https://www.tjes.jus.br/wp-content/uploads/Ementario_Trimestral_TJES_JAS_2024.pdf)
+
 ## Contrato E Filtros Pendentes
 
 Os filtros documentados para a superficie legada sao justica/sistema, periodo e termo; a pagina indexada tambem sugere consulta por numero e resultado detalhado. Nomes de campos, metodo, paginacao, ordenacao e valores nao foram reproduzidos. O portal atual ASP.NET e a superficie ColdFusion legada devem ser tratados como contratos separados.
 
 ## MCP
 
-O MCP deve manter a busca interativa fora do roteamento enquanto o portal atual estiver em timeout e a rota legada em 404. Pode oferecer futuramente o ementario PDF como fonte curada separada, com data, edicao e URL oficial.
+O MCP deve manter a busca interativa fora da federação automática enquanto os
+gates do SDD não forem concluídos. Pode oferecer futuramente o ementário PDF
+como fonte curada separada, com data, edição e URL oficial.
 
 ## Auditoria de contrato 2026-08-28
 
@@ -112,3 +136,21 @@ O MCP deve manter a busca interativa fora do roteamento enquanto o portal atual 
 - Resultados indexados e ementarios oficiais comprovam conteudo publico, mas
   nao comprovam metodo, filtros, paginacao ou contrato de resposta reproduzivel.
 - Nenhum adapter foi promovido; a fonte permanece candidata documental.
+
+## Contrato NanoJuris promovido — 0049
+
+O adapter `tjes_jurisprudencia` usa exclusivamente o core `pje2g` da rota
+`GET /consulta-jurisprudencia/api/search`, com os parâmetros `core`, `q`,
+`page` e `per_page`. Ele representa CJSG/segundo grau e não reutiliza o core
+`pje1g` do provider `tjes_cjpg`.
+
+Campos canônicos mapeados: `id`/`id_bin`, `nr_processo`, `ementa`, `acordao`,
+`magistrado`, `orgao_julgador`, `classe_judicial`, `assunto_principal` e
+`dt_juntada`. O payload integral é preservado em `raw` e cada chamada emite
+`SourceTrace` com URL final, status, content-type, hash, bytes e latência.
+
+Fixtures sanitizadas: `tests/fixtures/tjes_cjsg_success.json`,
+`tjes_cjsg_empty.json`, `tjes_cjsg_invalid.json` e
+`tjes_cjsg_schema_drift.json`. A busca está habilitada na federação padrão para
+o recorte CJSG; erros HTTP, timeout e mudança de schema são diagnósticos
+explícitos e nunca lista vazia.

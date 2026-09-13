@@ -1,0 +1,10 @@
+{
+  "status": 200,
+  "body": {
+    "took": 7,
+    "hits": {
+      "total": {"value": 1, "relation": "eq"},
+      "hits": ["not-a-hit-object"]
+    }
+  }
+}

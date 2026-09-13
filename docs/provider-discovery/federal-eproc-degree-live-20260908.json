@@ -1,0 +1,101 @@
+{
+  "schema_version": "federal-eproc-degree-live-v1",
+  "generated_at": "2026-09-08T20:38:00+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "page_size": 2
+  },
+  "bypass": false,
+  "providers": [
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 1085515,
+      "content_sha256": "2e252abfc77713c2458f86cae0b5dd3d19df24863a80261e6223eb59a2364532",
+      "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "query_origin": ["1"],
+      "record_count": 2,
+      "total_after_postfilter": 78079,
+      "total_known": false,
+      "records": [
+        {
+          "source_id": "trf2-eproc-jurisprudencia-21787912823627697229862470536",
+          "case_number": "5012828-37.2026.4.02.0000",
+          "authority": "TRF2",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA",
+          "document_type": "monocratica",
+          "source_origin": "RJ",
+          "summary_present": true,
+          "official_document_url": true
+        },
+        {
+          "source_id": "trf2-eproc-jurisprudencia-21787938688257194639014811597",
+          "case_number": "5012557-28.2026.4.02.0000",
+          "authority": "TRF2",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA",
+          "document_type": "monocratica",
+          "source_origin": "RJ",
+          "summary_present": true,
+          "official_document_url": true
+        }
+      ]
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 765834,
+      "content_sha256": "cc894a9cbc79365db6764853403a000a5349d03493844190b3991f79ffc82613",
+      "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "query_origin": ["1"],
+      "record_count": 2,
+      "total_after_postfilter": 15842,
+      "total_known": false,
+      "records": [
+        {
+          "source_id": "trf6-eproc-jurisprudencia-381788873646164063876999872275",
+          "case_number": "1000232-74.2018.4.01.3823",
+          "authority": "TRF6",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA",
+          "document_type": "monocratica",
+          "source_origin": "MG",
+          "summary_present": true,
+          "official_document_url": true
+        },
+        {
+          "source_id": "trf6-eproc-jurisprudencia-381788873646164063877001959726",
+          "case_number": "0002049-75.2013.4.01.3821",
+          "authority": "TRF6",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA",
+          "document_type": "monocratica",
+          "source_origin": "MG",
+          "summary_present": true,
+          "official_document_url": true
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Bodies and full response contents were not persisted.",
+    "Totals after local degree post-filter are not authoritative.",
+    "No access control was bypassed."
+  ]
+}

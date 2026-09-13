@@ -1,0 +1,31 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "tjap_tucujuris",
+  "authority": "TJAP",
+  "audit_mode": "bounded_public_metadata",
+  "credentials_used": false,
+  "bypass_used": false,
+  "checks": [
+    {
+      "endpoint": "GET /api/publico/carregar-filtros-combo-jurisprudencia",
+      "http_status": 200,
+      "response_status": "OK",
+      "classification": "public_metadata",
+      "fields": {"relatores": 107, "classes": 113, "origens": 14, "secretarias": 38}
+    },
+    {
+      "endpoint": "GET /api/publico/buscar-data-banco-dados-jurisprudencia",
+      "http_status": 200,
+      "response_status": "OK",
+      "classification": "public_metadata",
+      "value_shape": "source-reported update timestamp"
+    }
+  ],
+  "decision": "Catalog metadata is exposed by the adapter but does not count as a jurisprudence result or promotion evidence.",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

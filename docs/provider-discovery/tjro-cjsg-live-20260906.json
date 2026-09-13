@@ -1,0 +1,31 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-06",
+  "audit_mode": "bounded_public_cjsg_recheck",
+  "credentials_used": false,
+  "source": "tjro_jurisprudencia",
+  "source_id": "tjro_jurisprudencia",
+  "status": "valid",
+  "surface": "cjsg",
+  "scope": "cjsg",
+  "endpoint": "POST https://juris-back.tjro.jus.br/search/varios_parametros/",
+  "query_shape": {
+    "query": "responsabilidade",
+    "fields.grau_jurisdicao": [2],
+    "page_size": 3
+  },
+  "http_status": 200,
+  "record_count_observed": 3,
+  "reported_total": 354105,
+  "degree_values": ["second"],
+  "instance_values": ["second"],
+  "collection_values": ["JURISPRUDENCIA"],
+  "textual_fields": ["summary"],
+  "overlap": false,
+  "contract_decision": "explicit_cjsg_binding",
+  "notes": [
+    "A rota nativa é JURISPRUDENCIA, mas o filtro oficial fields.grau_jurisdicao=[2] retornou exclusivamente registros PJESG/degree=second.",
+    "O adapter traduz degree/instance e a coleção canônica CJSG para o filtro remoto, mantendo validação local da identidade.",
+    "O teste foi bounded, público e sem contorno de CAPTCHA, WAF, login ou limite de frequência."
+  ]
+}

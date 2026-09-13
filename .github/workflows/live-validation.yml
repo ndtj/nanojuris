@@ -1,6 +1,9 @@
 name: Live provider validation
 
 on:
+  schedule:
+    # Bounded public checks once a week; no credentials or production writes.
+    - cron: "17 4 * * 1"
   workflow_dispatch:
     inputs:
       sources:
@@ -40,9 +43,9 @@ jobs:
         id: validation
         continue-on-error: true
         env:
-          SOURCES: ${{ inputs.sources }}
-          QUERY_TEXT: ${{ inputs.text }}
-          TIMEOUT_SECONDS: ${{ inputs.timeout }}
+          SOURCES: ${{ inputs.sources || 'tjdf_juris,tst_jurisprudencia' }}
+          QUERY_TEXT: ${{ inputs.text || 'responsabilidade civil' }}
+          TIMEOUT_SECONDS: ${{ inputs.timeout || '60' }}
         run: |
           mkdir -p reports
           set +e
@@ -62,3 +65,35 @@ jobs:
       - name: Mark workflow as failed when validation did not pass
         if: steps.validation.outcome == 'failure'
         run: exit 1
+
+  federated-bounded:
+    name: Weekly federated bounded smoke
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package
+        run: python -m pip install --upgrade pip && python -m pip install .
+
+      - name: Run manifest-enabled smoke
+        run: |
+          mkdir -p reports
+          python tools/run_federated_promotion_smoke.py \
+            --output reports/federated-promotion-live.json \
+            --text "responsabilidade civil" \
+            --page-size 1
+
+      - name: Upload federated report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: federated-promotion-live-report
+          path: reports/federated-promotion-live.json

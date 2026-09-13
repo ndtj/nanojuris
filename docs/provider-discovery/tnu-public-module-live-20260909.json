@@ -1,0 +1,85 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "provider": "tnu_eproc_jurisprudencia",
+  "authority": "TNU",
+  "branch": "federal",
+  "degree": "superior",
+  "instance": "superior",
+  "collection": "EPROC",
+  "checked_at": "2026-09-09",
+  "official_entry_point": "https://eproctnu-jur.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
+  "source": {
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "text/html; charset=iso-8859-1",
+    "semantic_scope": "modulo publico de pesquisa de jurisprudencia da TNU"
+  },
+  "search": {
+    "method": "POST",
+    "endpoint": "https://eproctnu-jur.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+    "query": "aposentadoria",
+    "page": 1,
+    "page_size": 10,
+    "http_status": 200,
+    "content_type": "text/html; charset=iso-8859-1",
+    "response_bytes": 384455,
+    "sha256": "f95ba5ca78baf4c1dfdaec8a610ea40deee25cfc7b1832de6c1f85a5e08b32b2",
+    "reported_total": 11228,
+    "returned": 3,
+    "pagination_mode": "page",
+    "filters": {
+      "text": "native",
+      "number": "native",
+      "source_origin": "translated",
+      "degree": "local_postfilter",
+      "instance": "local_postfilter"
+    }
+  },
+  "sample_records": [
+    {
+      "number": "1094058-89.2023.4.01.3400",
+      "source_id": "771786993513847664850135395543",
+      "degree": "second",
+      "instance": "second"
+    },
+    {
+      "number": "5011507-39.2023.4.03.6306",
+      "source_id": "771786993513847664850145945549",
+      "degree": "second",
+      "instance": "second"
+    },
+    {
+      "number": "5000154-67.2023.4.04.7213",
+      "source_id": "771786974209213381552096015384",
+      "degree": "second",
+      "instance": "second"
+    }
+  ],
+  "document": {
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "text/html",
+    "response_bytes": 137621,
+    "sha256": "384e3b74c1f3ccccebbea9de12db904cd4d685dbf49108a9f49ceff0a35c077c",
+    "extraction_status": "complete",
+    "access_status": "public",
+    "marker": "CONSELHO DA JUSTIÇA FEDERAL; Turma Nacional de Uniformização"
+  },
+  "classification": "public_textual_search",
+  "live_status": "valid",
+  "contract_status": "valid",
+  "federation_status": "enabled",
+  "document_capability": "full_text_html",
+  "evidence_ids": [
+    "tnu-public-search-20260909",
+    "tnu-public-document-20260909",
+    "docs/provider-discovery/tnu-federated-live-20260909.json"
+  ],
+  "safety": {
+    "bounded_public_request": true,
+    "captcha_bypass": false,
+    "access_control_bypass": false,
+    "credentials_used": false,
+    "legacy_sso_host_replaced": true
+  }
+}

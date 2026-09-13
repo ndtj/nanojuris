@@ -1,0 +1,64 @@
+{
+  "schema_version": "candidate-public-alternative-recheck-v1",
+  "observed_at": "2026-09-12T21:48:33Z",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "body_persisted": false,
+  "headers": ["Accept", "Referer", "Origin", "User-Agent"],
+  "results": [
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "route": "GET https://jurisprudencia-client.tjmsp.jus.br/",
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 396,
+      "content_sha256": "f76801cef630edd3a066941ac7f4a79b47fcdc7dd0309c618655df789e48210d",
+      "classification": "access_control_required"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "route": "GET https://api-jurisprudencia.tjmsp.jus.br/v1/tema/retornaRegistrosAtivos",
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 431,
+      "content_sha256": "22558c70f03ad9a71efaa2b12f3592e1a588345fa88c656bdce80179d232e50d",
+      "classification": "access_control_required"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "route": "GET https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "http_status": 200,
+      "content_type": "text/html",
+      "response_bytes": 1261,
+      "content_sha256": "df11888fbf58bc59d88484171899d5a0b22e24ea6fb1b7d15d298e9e933ce75c",
+      "classification": "shell_without_decision_contract"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "route": "GET https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 345424,
+      "content_sha256": "4a491fa22b5b60216788cb576d1efeb12db376595e8c552ce2aa23bca3f44761",
+      "classification": "form_shell_challenge_pending"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "route": "GET https://pje.trt2.jus.br/juris-backend/api/opcoes",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 368,
+      "content_sha256": "cce78c63932226f92d352faccfdfca2a838ac49ad8df2a4400bb7d15c63f459d",
+      "classification": "metadata_only"
+    },
+    {
+      "source_id": "falcao_jt",
+      "route": "GET https://jurisprudencia.jt.jus.br/",
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 919,
+      "content_sha256": "f18b8667dac78a70dae45d95ebef8fb8a5153956a43dfc691b0214453b0860bc",
+      "classification": "access_control_required"
+    }
+  ]
+}

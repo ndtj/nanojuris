@@ -1,0 +1,23 @@
+{
+  "schema_version": "operator-promotion-approval-v1",
+  "decision": "operator accepted public-source operation without an additional internal legal gate",
+  "operator_accepts_all_technically_ready": true,
+  "approved_sources": [
+    "tjba_graphql",
+    "tjdf_juris",
+    "tjes_cjpg",
+    "tjes_jurisprudencia",
+    "tjrn_jurisprudencia",
+    "tjpr_jurisprudencia",
+    "tjro_jurisprudencia",
+    "tjrs_solr",
+    "tjsp_cjpg",
+    "tjes_turma_recursal",
+    "tjgo_projudi_jurisprudencia",
+    "tjmt_jurisprudencia_api",
+    "tjpi_juspi",
+    "tjto_jurisprudencia"
+  ],
+  "scope": "local development and federated runtime; no deployment or redistribution authorization",
+  "recorded_at": "2026-09-05"
+}

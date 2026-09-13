@@ -16,7 +16,10 @@
 - Metodos: `GET` para formulario e resultado simples por numero.
 - Paginacao: reproduzida em sessao publica com `POST /resultadoCompleta.do`
   seguido de `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>`.
-- Busca textual completa: pendente.
+- No fluxo textual CJSG, o POST e um ack de submissao; os registros sao lidos
+  nos GETs de `trocaDePagina.do` na mesma sessao.
+- Busca textual completa: validada em janela pública bounded; estabilidade
+  permanente depende da fonte.
 
 ## Dados retornados
 - Campos observados:
@@ -33,13 +36,16 @@
 ## Comportamento observado
 - Formulario: HTTP 200, CJSG publico.
 - Resultado por numero: HTTP 200 com conteudo juridico objetivo.
-- Controle de acesso/captcha: nao observado no probe inicial.
+- Controle de acesso/captcha: observado no detalhe em rechecagem de 2026-09-05;
+  a busca continua pública.
 - Risco: alto por HTML e-SAJ e possivel controle de acesso dinamico.
 
 ## Decisao
-- Promover TJAC/CJSG como fonte forte para endurecer a familia e-SAJ.
-- Criar fixture publica representativa antes de ampliar fetcher live.
-- Nao usar rotas de captcha ou controle de acesso para bypass.
+- Promover TJAC/CJSG para busca textual federada com a limitação de detalhe
+  explicitamente registrada.
+- Fixtures sanitizadas e parser compartilhado são suficientes para o contrato
+  local; nenhum corpo live é persistido.
+- Não usar rotas de captcha ou controle de acesso para bypass.
 
 ## MCP e agentes
 - Quando usar: demonstracoes de CJSG/e-SAJ com fonte estadual que respondeu em sessao limpa.
@@ -47,10 +53,33 @@
 - Mensagem segura para o usuario: "A busca usa jurisprudencia publica do TJAC/CJSG e retorna apenas conteudo disponivel sem validacao humana."
 
 ## Proximos passos
-- [ ] Criar fixture de resultado simples por numero.
-- [ ] Testar busca por termo em `consultaCompleta`.
-- [ ] Validar inteiro teor.
-- [ ] Reusar diagnosticos de `tjsp_cjsg`.
+- [x] Fixture de resultado simples e estados de erro são cobertos pelos
+  cenários compartilhados de `provider_contracts.json` e pelos testes do
+  adapter.
+- [x] Busca por termo em `consultaCompleta` foi reproduzida pelo fluxo
+  `resultadoCompleta.do`/`trocaDePagina.do`.
+- Inteiro teor permanece condicionado a `getArquivo.do`: a checagem atual
+  identificou CAPTCHA/controle de acesso, sem tentativa de bypass.
+- Diagnósticos de `tjsp_cjsg` são reutilizados pela família e-SAJ.
+
+## Validacao live de capacidade - 2026-09-05 (ciclo 51)
+
+- Busca pública `responsabilidade civil`, página 1, dois itens: HTTP 200,
+  identidade e resumo presentes, total observado `18.299`.
+- O detalhe do primeiro registro respondeu com `AccessControlRequiredError`
+  (`has_uuid_captcha_field`, `has_recaptcha_widget` e rota de controle).
+- A busca é elegível para federação textual; o inteiro teor continua
+  explicitamente condicionado ao acesso público da fonte.
+
+Evidência estruturada (sem corpos):
+`docs/provider-discovery/cjsg-live-20260905-cycle51.json`.
+
+### Fechamento do contrato local
+
+- `[x]` identidade TJAC/CJSG, resumo, datas e identificador estável;
+- `[x]` paginação e sessão pública reproduzidas;
+- `[x]` estados de vazio, erro e controle de acesso tipados;
+- `[x]` limites, trace e decisão de federação textual registrados.
 
 ## Validacao live de capacidade - 2026-08-16
 
@@ -63,3 +92,9 @@
   nao e tratada como documento carregado.
 
 Evidencia estruturada: `docs/validation/runs/20260816T082800Z-cjsg-capacity-20260816.json`.
+
+### Alinhamento Juscraper (2026-09-01, ciclo 12)
+
+O POST de `resultadoCompleta.do` estabelece a sessao; os resultados sao
+obtidos por GET de `trocaDePagina.do` para a pagina 1 e a pagina solicitada,
+na mesma sessao. Bloqueios permanecem estados explicitos, sem bypass.

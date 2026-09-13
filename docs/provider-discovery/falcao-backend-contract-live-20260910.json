@@ -1,0 +1,60 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "falcao_jt",
+  "authority": "JUSTICA_TRABALHO_NACIONAL",
+  "surface": "national_labor_jurisprudence",
+  "official_frontend": "https://jurisprudencia.jt.jus.br/jurisprudencia-nacional/",
+  "frontend_config": {
+    "api_base": "https://jurisprudencia.jt.jus.br/jurisprudencia-nacional-backend/api",
+    "authentication_authority": "https://sso.cloud.pje.jus.br/auth/realms/pje",
+    "authentication_mode": "redirect"
+  },
+  "probes": [
+    {
+      "method": "GET",
+      "path": "/",
+      "http_status": 401,
+      "classification": "authentication_required"
+    },
+    {
+      "method": "GET",
+      "path": "/swagger-ui/index.html",
+      "http_status": 401,
+      "classification": "authentication_required"
+    },
+    {
+      "method": "GET",
+      "path": "/v3/api-docs",
+      "http_status": 401,
+      "classification": "authentication_required"
+    },
+    {
+      "method": "GET",
+      "path": "/documentos",
+      "http_status": 401,
+      "classification": "authentication_required"
+    }
+  ],
+  "result_contract": {
+    "status": "not_replayable_without_authorized_login",
+    "json_observed": false,
+    "search_endpoint_observed": false,
+    "document_endpoint_observed": false
+  },
+  "decision": {
+    "lifecycle": "candidate",
+    "runtime_status": "diagnostic_only",
+    "federation_status": "disabled",
+    "reason": "The official frontend advertises an OIDC-protected backend; no anonymous result route or export contract was observed."
+  },
+  "safety": {
+    "credentials_used": false,
+    "cookies_or_tokens_used": false,
+    "bypass_used": false,
+    "proxy_used": false,
+    "request_frequency_seconds_or_more": 2,
+    "raw_body_persisted": false
+  },
+  "next_action": "Request an official public export/API or an explicitly authorized integration contract; do not automate login or reuse personal sessions."
+}

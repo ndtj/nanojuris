@@ -26,6 +26,7 @@ from nanojuris.exporters import (
     to_csv,
     to_jsonl,
 )
+from nanojuris.exporters.runs import research_run_to_export
 from nanojuris.models import (
     AccessStatus,
     CanonicalDecision,
@@ -108,12 +109,43 @@ class FakeProvider:
             canonical_records=["CanonicalPrecedent"],
             supports_cli=True,
             supports_unified_search=True,
+            supported_filters=["text", "number"],
             supports_mcp=True,
             supports_studio=True,
         )
 
     def list_suggestions(self, text):
         return [text, f"{text} sugestao"]
+
+
+class FilterTraceProvider(FakeProvider):
+    name = "filter_trace"
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        page = super().search(query)
+        page.source = self.name
+        page.filters_applied = {
+            "case_class": "remote",
+            "degree": "local_postfilter",
+        }
+        page.total_known = True
+        page.is_complete = True
+        return page
+
+    def get_capabilities(self):
+        capabilities = super().get_capabilities()
+        return ProviderCapabilities(
+            source=self.name,
+            display_name=capabilities.display_name,
+            source_url=capabilities.source_url,
+            category=capabilities.category,
+            search_modes=capabilities.search_modes,
+            canonical_records=capabilities.canonical_records,
+            supports_cli=capabilities.supports_cli,
+            supports_unified_search=True,
+            supports_mcp=capabilities.supports_mcp,
+            supports_studio=capabilities.supports_studio,
+        )
 
 
 class MixedValiditySearchProvider(FakeProvider):
@@ -371,6 +403,22 @@ def test_client_search_many_unifies_results_and_keeps_source_errors():
     ]
 
 
+def test_client_search_many_preserves_filter_application_per_source():
+    provider = FilterTraceProvider()
+    payload = NanoJurisClient(providers=[provider]).search_many(
+        "homicidio",
+        sources=[provider.name],
+        case_class="Apelacao",
+        degree="second",
+    )
+
+    assert payload["source_filters_applied"][provider.name] == {
+        "case_class": "remote",
+        "degree": "local_postfilter",
+        "text": "unverified",
+    }
+
+
 @pytest.mark.parametrize("canonical", [True, False])
 def test_client_search_many_quarantines_invalid_records_without_leaking_payload(
     canonical,
@@ -387,7 +435,7 @@ def test_client_search_many_quarantines_invalid_records_without_leaking_payload(
     assert payload["results"][0].id == "valid-1"
     assert payload["source_completeness"]["mixed_validity_search"] == {
         "returned": 1,
-        "reported_total": 2,
+        "reported_total": None,
         "pagination_mode": "unknown",
         "complete": False,
         "reason": "A fonte retornou registros invalidos que foram omitidos.",
@@ -748,10 +796,12 @@ def test_exporters_render_results():
 
     assert '"id": "fake-1"' in jsonl
     assert '"precedent_type": "RG"' in canonical_jsonl
+    assert '"legal_identity"' in canonical_jsonl
     assert "# Resultados NanoJuris" in markdown
     assert "### Tese" in markdown
     assert "record_kind,id,source,court" in csv_output
     assert "precedent,fake-1,fake,STF" in csv_output
+    assert "legal_identity_key" in csv_output
 
 
 def test_markdown_renders_all_optional_sections():
@@ -828,6 +878,8 @@ def test_type_specific_csv_exporters_render_canonical_records():
     assert "prec-1" in precedent_csv
     assert "document_type" in document_csv
     assert "acordao" in document_csv
+    assert "page_count" in document_csv
+    assert "ocr_confidence" in document_csv
 
 
 def test_model_to_dict_methods():
@@ -988,3 +1040,26 @@ def test_search_page_to_canonical_splits_decisions_and_precedents():
     assert isinstance(canonical[0], CanonicalDecision)
     assert isinstance(canonical[1], CanonicalDecision)
     assert isinstance(canonical[2], CanonicalPrecedent)
+
+
+def test_research_run_markdown_export_includes_collection_manifest():
+    run = {
+        "id": "run-collection",
+        "label": "Auditoria civil",
+        "source": "tjsp_cjsg",
+        "text": "responsabilidade civil",
+        "created_at": "2026-09-01T18:00:00+00:00",
+        "manifest": {
+            "schema_version": "nanojuris-collection-manifest-v1",
+            "complete": False,
+            "stop_reason": "max_pages",
+            "started_at": "2026-09-01T18:00:00+00:00",
+            "finished_at": "2026-09-01T18:00:01+00:00",
+        },
+    }
+
+    markdown = research_run_to_export(run, [], "markdown")
+
+    assert "Completude: `False`" in markdown
+    assert "Parada: `max_pages`" in markdown
+    assert "nanojuris-collection-manifest-v1" in markdown

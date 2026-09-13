@@ -1,0 +1,64 @@
+{
+  "schema_version": "nanojuris-operational-decisions-v1",
+  "decision_date": "2026-09-09",
+  "owner": "NanoJuris maintainer",
+  "scope": {
+    "mode": "core_and_conditional",
+    "conditional_surfaces": ["TCE", "TJM", "curated", "specialized"],
+    "default_rollout_requires_eight_gates": true,
+    "curated_default": "opt_in_contextual"
+  },
+  "promotion": {
+    "technical_approval": "local_manifest_and_federation_only",
+    "release_deploy_production": "blocked",
+    "human_legal_approval": "not_simulated"
+  },
+  "operational_policy": {
+    "live_cache_ttl_seconds": 600,
+    "telemetry_retention_days": 30,
+    "min_provider_request_interval_seconds": 2,
+    "same_host_parallelism": 1,
+    "max_bounded_pages": 3,
+    "respect_retry_after": true,
+    "persist_searchable_corpus": false,
+    "persist_raw_full_text": false,
+    "credentials_cookies_tokens": false
+  },
+  "ranking_gates": {
+    "ndcg_at_10_relative_improvement": 0.25,
+    "irrelevant_at_5_relative_reduction": 0.5,
+    "irrelevant_at_5_max": 0.1,
+    "explicit_filter_precision": 1.0,
+    "exact_identifier_first": true,
+    "ranking_p95_ms_max": 150
+  },
+  "benchmark_review": {
+    "queries": 8,
+    "top_k": 10,
+    "judgments_required": 80,
+    "prelabels_are_human_approval": false,
+    "status": "pending_maintainer_validation",
+    "prelabels_artifact": "docs/benchmarks/live-ranking-prelabels-20260909.json",
+    "review_matrix": "docs/benchmarks/live-ranking-review-matrix-20260909.md"
+  },
+  "external_actions": {
+    "send_automatically": false,
+    "package": "docs/coverage/external-action-requests-20260907.md",
+    "human_tasks_remain_open": true
+  },
+  "sdds": [
+    "0077-live-intelligent-federated-search",
+    "0089-national-coverage-execution-handoff",
+    "0091-national-coverage-gold-handoff",
+    "0092-national-coverage-execution-blueprint",
+    "0098-national-jurisprudence-gold-coverage",
+    "0099-national-route-discovery-wave-1"
+  ],
+  "deployment": {
+    "commit": false,
+    "push": false,
+    "release": false,
+    "deploy": false,
+    "production_change": false
+  }
+}

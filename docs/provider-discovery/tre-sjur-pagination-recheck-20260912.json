@@ -1,0 +1,71 @@
+{
+  "schema_version": "tre-sjur-pagination-recheck-v1",
+  "observed_at": "2026-09-12T17:34:30.290674+00:00",
+  "response_bodies_persisted": false,
+  "max_remote_bytes": 16000000,
+  "tribunal": "TRE-SP",
+  "results": [
+    {
+      "tribunal": "TRE-SP",
+      "page": 0,
+      "request_method": "POST",
+      "url": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 5470717,
+      "response_sha256": "2ed5e9b46fb2880b1614ec3168aff4fdac3619f8bbb127873a460db62b8aed21",
+      "elapsed_ms": 4144.98,
+      "classification": "success_with_results",
+      "reported_total": 2119,
+      "returned": 1000,
+      "first_ids": [
+        "670175",
+        "628468",
+        "616127",
+        "627116",
+        "628315"
+      ],
+      "last_ids": [
+        "3493973",
+        "649708",
+        "646617",
+        "3392688",
+        "3467863"
+      ]
+    },
+    {
+      "tribunal": "TRE-SP",
+      "page": 1,
+      "request_method": "POST",
+      "url": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 5470717,
+      "response_sha256": "2ed5e9b46fb2880b1614ec3168aff4fdac3619f8bbb127873a460db62b8aed21",
+      "elapsed_ms": 2869.97,
+      "classification": "success_with_results",
+      "reported_total": 2119,
+      "returned": 1000,
+      "first_ids": [
+        "670175",
+        "628468",
+        "616127",
+        "627116",
+        "628315"
+      ],
+      "last_ids": [
+        "3493973",
+        "649708",
+        "646617",
+        "3392688",
+        "3467863"
+      ]
+    }
+  ],
+  "pagination_classification": "remote_page_ignored_duplicate_window",
+  "decision": "keep_page_gt_1_rejected_and_total_unknown"
+}

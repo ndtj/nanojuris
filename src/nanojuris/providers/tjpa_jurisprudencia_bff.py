@@ -3,22 +3,24 @@
 from __future__ import annotations
 
 import hashlib
-import time
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit
 
 import requests
 
 from nanojuris.canonical import normalize_date
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
     JurisprudenceQuery,
@@ -31,6 +33,8 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 
 class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
@@ -45,14 +49,28 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlsplit(self.config.tjpa_jurisprudencia_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_http_metadata: dict[str, Any] = {}
+        self._inline_documents: dict[str, tuple[str, str, SourceTrace]] = {}
 
     @property
     def base_url(self) -> str:
         return self.config.tjpa_jurisprudencia_url.rstrip("/")
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
+        _validate_degree_scope(query)
         endpoint = "/bff/api/decisoes/buscar"
         page_size = _page_size(query.page_size)
         payload = build_tjpa_search_payload(query)
@@ -75,12 +93,59 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
             ],
             **self._last_http_metadata,
         )
-        return parse_tjpa_search_response(data, query=query, trace=trace)
+        page = parse_tjpa_search_response(data, query=query, trace=trace)
+        for result in page.results:
+            if result.full_text:
+                self._inline_documents[result.id] = (result.full_text, result.full_text, trace)
+                self._inline_documents[result.id.removeprefix("tjpa-bff-")] = (
+                    result.full_text,
+                    result.full_text,
+                    trace,
+                )
+        return page
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Return the full text embedded in a public BFF search result."""
+
+        entry = self._inline_documents.get(document_id)
+        if entry is None:
+            raise KeyError("TJPA inline document is available only after search")
+        content, text, trace = entry
+        return build_canonical_document(
+            document_id=document_id,
+            source=self.name,
+            document_type="inteiro_teor",
+            content=content.encode("utf-8"),
+            content_type="text/plain",
+            url=trace.source_url,
+            title="TJPA jurisprudência — documento inline",
+            source_trace=trace,
+            access_status=AccessStatus.PUBLIC,
+            raw_metadata={"inline": True, "document_id": document_id},
+            parser=f"{self.name}.inline_document",
+            parser_version="1",
+            text_override=text,
+        )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
-        raise NotImplementedError(
-            "TJPA possui rotas de detalhe observadas, mas ainda nao validadas para um contrato "
-            "estavel; use os campos completos retornados pela busca."
+        try:
+            document = self.get_document(precedent_id)
+        except KeyError as exc:
+            raise SourceUnavailableError(
+                "TJPA inline document is available only after an observed search"
+            ) from exc
+        return DecisionBundle(
+            precedent_id=precedent_id,
+            source=self.name,
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/plain",
+                }
+            ],
+            source_trace=document.source_trace,
+            raw=document.raw_metadata,
+            raw_bytes=document.raw_bytes,
         )
 
     def get_catalog(self) -> ProviderCatalog:
@@ -179,6 +244,46 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "subject",
                 "rapporteur",
             ],
+            filter_semantics={
+                "text": "translated",
+                "exact_phrase": "translated",
+                "all_words": "translated",
+                "types": "translated",
+                "source_origins": "translated",
+                "source_origin": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                # The BFF payload observed in the public frontend exposes no
+                # separate class/rapporteur/number fields; do not advertise
+                # filters that the backend would silently ignore.
+                "case_class": "unsupported",
+                "rapporteur": "unsupported",
+                "number": "unsupported",
+                "judging_body": "unsupported",
+                "lawyer_name": "unsupported",
+                "courts": "unsupported",
+                "decision_type": "translated",
+                "document_type": "translated",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "collection": "validated_scope",
+                "branch": "validated_scope",
+                "authority": "validated_scope",
+                "fetch_details": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+            },
             limitations=[
                 "Limite tecnico de resultados e informado pelo backend.",
                 "Detalhes por id/processo/documento ainda nao estao validados.",
@@ -194,42 +299,56 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
     def _request_json(
         self, method: str, endpoint: str, **kwargs: Any
     ) -> tuple[dict[str, Any], str]:
-        self._respect_rate_limit()
         url = urljoin(self.base_url + "/", endpoint.lstrip("/"))
+        request = TransportRequest(
+            source=self.name,
+            operation="bff_request",
+            method=method,
+            url=url,
+            params=kwargs.pop("params", {}),
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": self.config.user_agent,
+                **kwargs.pop("headers", {}),
+            },
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport arguments: {', '.join(sorted(kwargs))}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers={
-                    "Accept": "application/json",
-                    "Content-Type": "application/json",
-                    "User-Agent": self.config.user_agent,
-                },
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
-            )
+            response = self.transport.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJPA jurisprudence request failed: {exc}") from exc
-        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
-        headers = getattr(response, "headers", {}) or {}
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                "TJPA jurisprudence transport failed: "
+                f"{response.error_type or response.status.value}"
+            )
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError("TJPA jurisprudence transport returned no HTTP status")
+        content = response.body
         self._last_http_metadata = {
-            "http_status": response.status_code,
-            "final_url": getattr(response, "url", url),
-            "content_type": headers.get("Content-Type"),
+            "http_status": status_code,
+            "final_url": str(response.final_url or url),
+            "content_type": response.content_type,
             "content_sha256": hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
-            "retrieval_status": "ok" if response.status_code < 400 else "error",
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok" if status_code < 400 else "error",
         }
-        if response.status_code == 429:
+        if status_code == 429:
             raise RateLimitDetectedError("TJPA jurisprudence returned HTTP 429")
-        if response.status_code in {401, 403}:
+        if status_code in {401, 403, 407, 451}:
             raise AccessControlRequiredError("TJPA jurisprudence requires access validation")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJPA jurisprudence returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TJPA jurisprudence returned HTTP {status_code}")
+        if status_code >= 400:
             raise SourceUnavailableError(
-                f"TJPA jurisprudence rejected request with HTTP {response.status_code}"
+                f"TJPA jurisprudence rejected request with HTTP {status_code}"
             )
         try:
             data = response.json()
@@ -237,16 +356,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
             raise ParserContractChangedError("TJPA jurisprudence response is not JSON") from exc
         if not isinstance(data, dict):
             raise ParserContractChangedError("TJPA jurisprudence JSON root is not an object")
-        return data, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return data, str(response.final_url or url)
 
 
 def build_tjpa_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
@@ -286,6 +396,7 @@ def parse_tjpa_search_response(
         for item in content[:page_size]
         if isinstance(item, dict)
     ]
+    total_field_present = "totalElements" in envelope
     total = _as_int(envelope.get("totalElements"), default=len(results))
     page = max(query.page, 1)
     start = ((page - 1) * page_size) + 1 if results else 0
@@ -308,7 +419,51 @@ def parse_tjpa_search_response(
         pagination_mode="page",
         is_complete=complete,
         completeness_reason=completeness_reason,
+        # ``totalElements`` is authoritative only when the backend actually
+        # sends the field.  Omitting this flag used to turn a known empty
+        # response into an ambiguous ``total=0`` and prevented federation from
+        # making a safe pagination decision.
+        total_known=total_field_present,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=(ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY),
+        filters_applied=_tjpa_filters_applied(query),
     )
+
+
+def _tjpa_filters_applied(query: JurisprudenceQuery) -> dict[str, str]:
+    """Describe filters translated into the TJPA BFF payload."""
+
+    applied: dict[str, str] = {}
+    for name, value in (
+        ("text", query.text or query.exact_phrase),
+        ("exact_phrase", query.exact_phrase),
+        ("all_words", query.all_words),
+        ("types", query.types),
+        ("source_origins", query.source_origins or query.source_origin),
+        ("published_from", query.published_from),
+        ("published_to", query.published_to),
+    ):
+        if value:
+            applied[name] = "translated"
+    for name, value in (
+        ("case_class", query.case_class),
+        ("rapporteur", query.rapporteur),
+        ("number", query.number),
+        ("judging_body", query.judging_body),
+        ("lawyer_name", query.lawyer_name),
+    ):
+        if value:
+            applied[name] = "unsupported"
+    for name, value in (
+        ("degree", query.degree),
+        ("instance", query.instance),
+        ("branch", query.branch),
+        ("authority", query.authority),
+        ("collection", query.collection),
+    ):
+        if value:
+            applied[name] = "validated_scope"
+    return applied
 
 
 def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> JurisprudenceResult:
@@ -324,11 +479,13 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
     extraction_status = (
         ExtractionStatus.COMPLETE if summary or full_text else ExtractionStatus.PARTIAL
     )
+    decision_type = _first_string(item, "tipo", "especie") or "jurisprudencia"
+    _validate_decision_type(decision_type)
     return JurisprudenceResult(
         id=f"tjpa-bff-{external_id}",
         source="tjpa_jurisprudencia_bff",
         court="TJPA",
-        type=_first_string(item, "tipo", "especie") or "jurisprudencia",
+        type=decision_type,
         number=_first_string(item, "numeroprocesso"),
         summary=summary,
         full_text=full_text or None,
@@ -349,8 +506,54 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
             "orgao_julgador": _first_string(item, "orgaojulgadorcolegiado", "orgaojulgador"),
             "case_class": _first_string(item, "classe"),
             "subject": _first_string(item, "indexacao"),
+            "degree": "second",
+            "instance": "second",
+            "branch": "state",
+            "authority": "TJPA",
+            "collection": "CJSG",
+            "document_type": _document_type(decision_type),
         },
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJPA",
+        collection="CJSG",
+        document_type=_document_type(decision_type),
+        source_origin="TJPA",
     )
+
+
+def _validate_degree_scope(query: JurisprudenceQuery) -> None:
+    """Reject first-degree or unrelated collection filters for the TJPA portal."""
+
+    accepted = {"second", "segundo", "segundo grau", "2", "2º"}
+    degree = query.degree.strip().casefold()
+    instance = query.instance.strip().casefold()
+    collection = query.collection.strip().casefold()
+    if degree and degree not in accepted:
+        raise QueryRejectedError("TJPA jurisprudencia e exclusiva para segundo grau")
+    if instance and instance not in accepted:
+        raise QueryRejectedError("TJPA jurisprudencia e exclusiva para instancia de segundo grau")
+    if collection and collection not in {"cjsg", "jurisprudencia"}:
+        raise QueryRejectedError("TJPA nao suporta a colecao solicitada")
+    branch = query.branch.strip().casefold()
+    if branch and branch not in {"state", "estadual"}:
+        raise QueryRejectedError("TJPA jurisprudencia pertence ao ramo estadual")
+    authority = query.authority.strip().casefold()
+    if authority and authority not in {"tjpa", "tribunal de justica do para"}:
+        raise QueryRejectedError("TJPA nao suporta a autoridade solicitada")
+
+
+def _validate_decision_type(value: str) -> None:
+    normalized = value.casefold()
+    if "sentenc" in normalized or "primeiro grau" in normalized:
+        raise ParserContractChangedError(
+            f"TJPA retornou item fora do contrato de segundo grau: {value!r}"
+        )
+
+
+def _document_type(value: str) -> str:
+    return "decisao_monocratica" if "monocrat" in value.casefold() else "acordao"
 
 
 def _date_br(value: str) -> str:

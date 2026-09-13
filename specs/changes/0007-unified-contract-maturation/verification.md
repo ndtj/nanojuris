@@ -30,4 +30,7 @@ python tools/validate_sdd.py
 
 ## Rastreabilidade
 
-Os requisitos estão ligados ao design, às tarefas e a `traceability.md`. A fase permanece `in_progress` enquanto houver providers sem classificação de filtro, completude, texto integral ou evidência suficiente.
+Os requisitos estão ligados ao design, às tarefas e a `traceability.md`. O
+contrato comum está encerrado para as superfícies executáveis. Filtros,
+completude, texto integral e identidade sem evidência suficiente permanecem
+explicitamente `unverified`, `unsupported` ou bloqueados.

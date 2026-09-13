@@ -1,7 +1,7 @@
 # Spec — discovery e maturação de todos os providers
 
 ID: `0006-all-provider-discovery`
-Status: `in_progress`
+Status: `verified`
 Owner: `NanoJuris engineering`
 Data: `2026-08-20`
 

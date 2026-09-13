@@ -1,0 +1,23 @@
+{
+  "d": {
+    "TotalDocs": 1,
+    "NumPagina": 1,
+    "NumRegPorPag": 10,
+    "DocumentosConsulta": [
+      {
+        "CodDoc": 12345,
+        "NumProcCnj": "0001234-56.2026.8.19.0001",
+        "NumAntigo": "2026.001.00001",
+        "Classe": "APELAÇÃO CÍVEL",
+        "DescrRecurso": "APELAÇÃO",
+        "DescrTipDoc": "Acórdão",
+        "NomeOrgJulg": "1ª Câmara Cível",
+        "NomeMagRel": "Des. Relator Exemplo",
+        "DtHrMov": "/Date(1735689600000)/",
+        "DtHrPubl": "/Date(1735776000000)/",
+        "Texto": "<b>APELAÇÃO CÍVEL.</b> Texto integral público.",
+        "ArqGed": "ABC123"
+      }
+    ]
+  }
+}

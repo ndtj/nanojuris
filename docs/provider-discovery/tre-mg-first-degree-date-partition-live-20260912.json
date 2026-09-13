@@ -1,0 +1,29 @@
+{
+  "provider": "tre_mg_sjur_first_degree",
+  "authority": "TRE-MG",
+  "collection": "SJUR",
+  "degree": "first",
+  "checked_at": "2026-09-12",
+  "endpoint": "POST /tre-mg/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "method": "public bounded request via NanoJuris search_partitioned",
+  "request": {
+    "text": "sentenca",
+    "document_type": "sentenca",
+    "judgment_date_from": "2022-01-01",
+    "judgment_date_to": "2024-12-31",
+    "partitions": 36
+  },
+  "http_status": 200,
+  "total": 3,
+  "returned": 3,
+  "total_known": true,
+  "complete": true,
+  "pagination_mode": "date_partition",
+  "body_persisted": false,
+  "classification": "bounded_date_partition_complete",
+  "limitations": [
+    "A evidencia cobre somente TRE-MG, o intervalo indicado e o termo informado.",
+    "A coleta particionada e opt-in e nao habilita a familia de primeiro grau na federacao padrão.",
+    "Nenhum CAPTCHA, WAF, token, cookie, proxy ou mecanismo de bypass foi usado."
+  ]
+}

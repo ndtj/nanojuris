@@ -1,0 +1,41 @@
+{
+  "schema_version": "provider-live-probe-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJBA",
+  "surface": "CJPG",
+  "candidate": "Banco de Sentenças dos Juizados Especiais / Projudi",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "routes": [
+    {
+      "url": "https://www.tjba.jus.br/unicorp/index.php/publicacoes/banco-de-sentencas",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "historical_landing_page",
+      "result": "Current Unicorp page contains no searchable decision corpus or public document index."
+    },
+    {
+      "url": "https://projudi.tjba.jus.br/projudi/interno.jsp?endereco=%2Fprojudi%2Fbuscas%2FConclusoesRealizadas%3Finstancia%3D1",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "access_controlled",
+      "result": "The official wrapper loads, but the embedded Projudi route returns a session-expired page."
+    },
+    {
+      "url": "https://projudi.tjba.jus.br/projudi/buscas/ConclusoesRealizadas?instancia=1",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "access_controlled",
+      "result": "Direct route also returns the official session-expired page; no first-degree judgment payload is exposed."
+    },
+    {
+      "url": "https://projudi.tjba.jus.br/projudi/PaginaPrincipal.jsp",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "process_login_surface",
+      "result": "Public landing page exposes login and process consultation forms, not a jurisprudence result API."
+    }
+  ],
+  "decision": "Do not count TJBA CJPG or implement a scraper from this historical link. A current public, text-searchable first-degree jurisprudence contract was not reproduced.",
+  "safety": "Only ordinary HTTPS GET requests were used. No credentials, CAPTCHA solving, session replay, or access-control circumvention was attempted."
+}

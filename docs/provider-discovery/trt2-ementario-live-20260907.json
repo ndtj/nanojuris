@@ -1,0 +1,69 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-07",
+  "provider": "trt2_ementario_jurisprudencia",
+  "source": "trt2_ementario_jurisprudencia",
+  "source_id": "trt2_ementario_jurisprudencia",
+  "authority": "TRT2",
+  "surface": "official_static_appellate_ementario",
+  "credentials_used": false,
+  "challenge_handling": "none",
+  "attempts": [
+    {
+      "url": "https://trt2.jus.br/geral/tribunal2/Ementario/Tribunal_Pleno.html",
+      "method": "GET",
+      "status": 200,
+      "response_bytes": 228243,
+      "classification": "success_index_observed",
+      "notes": "HTML oficial com links de topicos." 
+    },
+    {
+      "url": "https://trt2.jus.br/geral/tribunal2/Ementario/Tribunal_Pleno/ACAO_Conexao.html",
+      "method": "GET",
+      "status": 200,
+      "response_bytes": 3029,
+      "classification": "success_topic_observed",
+      "document_link_observed": "https://www.trt2.jus.br/geral/tribunal2/Ementario/Tribunal_Pleno/Acordaos/Ac_123_09.pdf"
+    },
+    {
+      "url": "https://trt2.jus.br/geral/tribunal2/Ementario/Tribunal_Pleno.html",
+      "method": "GET",
+      "status": 403,
+      "response_bytes": 919,
+      "classification": "access_controlled_cloudfront",
+      "notes": "Tentativa posterior bounded; nao foi repetida nem convertida em vazio."
+    }
+  ],
+  "semantic_validation": {
+    "authority": "TRT2",
+    "branch": "labor",
+    "degree": "second",
+    "instance": "second",
+    "collection": "TRT2_EMENTARIO",
+    "document_type": "acordao_ementa"
+  },
+  "results": [
+    {
+      "source_id": "trt2_ementario_jurisprudencia",
+      "surface": "jurisprudencia",
+      "classification": "partial",
+      "status": "partial",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "response_bytes": 3029,
+      "content_type": "text/html",
+      "pagination_mode": "local_window",
+      "note": "Indice e topico retornaram ementa; tentativa posterior recebeu CloudFront 403."
+    }
+  ],
+  "decision": "runtime_opt_in",
+  "federation": "disabled_until_stable_revalidation",
+  "safety": {
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  }
+}

@@ -1,19 +1,24 @@
 # Tarefas — Implantação inicial OCI
 
-Status: `proposed`
+Status: `deferred_external`
 
-- [ ] T1 — aprovar constituição dos dois repositórios
-- [ ] T2 — criar compartments e políticas IAM mínimas
-- [ ] T3 — criar VCN, subnets, NSGs e DNS
-- [ ] T4 — criar storage persistente e bucket privado de backup
-- [ ] T5 — criar imagem de execução e health/readiness checks
-- [ ] T6 — criar Load Balancer e TLS
-- [ ] T7 — configurar secrets e identidades sem chaves no Git
-- [ ] T8 — configurar build, registry e deploy
-- [ ] T9 — configurar logs, métricas, alertas e auditoria
-- [ ] T10 — executar plan, staging, smoke test e rollback
-- [ ] T11 — testar backup e restauração
-- [ ] T12 — aprovar produção e registrar evidência
+- [x] T1 — [deferred_with_review] constituição dos repositórios requer decisão
+  e acesso do tenancy; não faz parte do ciclo local.
+- [x] T2 — [deferred_with_review] compartments/IAM dependem do tenancy OCI.
+- [x] T3 — [deferred_with_review] VCN/DNS dependem da infraestrutura OCI.
+- [x] T4 — [deferred_with_review] storage/bucket dependem do tenancy OCI.
+- [x] T5 — [deferred_with_review] imagem e health checks aguardam pipeline OCI.
+- [x] T6 — [deferred_with_review] Load Balancer/TLS aguardam infraestrutura.
+- [x] T7 — [deferred_with_review] secrets/IAM exigem configuração externa.
+- [x] T8 — [deferred_with_review] build/registry/deploy não autorizados neste ciclo.
+- [x] T9 — [deferred_with_review] observabilidade OCI aguardando deploy.
+- [x] T10 — [out_of_scope] plan, staging, smoke e rollback de produção não
+  foram autorizados.
+- [x] T11 — [deferred_with_review] backup/restauração dependem do storage OCI.
+- [x] T12 — [out_of_scope] aprovação de produção não foi autorizada.
+
+As disposições acima encerram a execução local sem alegar que o deploy ocorreu.
+Retomada: autorização explícita de Onda 6, credenciais OCI e tenancy disponível.
 
 ## Rastreabilidade de execucao
 

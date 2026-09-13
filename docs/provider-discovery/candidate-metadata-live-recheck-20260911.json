@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-11",
+  "scope": "bounded_official_metadata_only",
+  "policy": {
+    "requests_per_source": 1,
+    "no_challenge_solving": true,
+    "no_cookie_or_token_persistence": true,
+    "search_results_not_inferred_from_metadata": true
+  },
+  "results": [
+    {
+      "source_id": "tjap_tucujuris",
+      "operation": "get_filter_catalog",
+      "classification": "metadata_public_search_still_challenge_gated",
+      "http_status": 200,
+      "returned_keys": [
+        "status",
+        "source",
+        "source_url",
+        "counts",
+        "filters",
+        "source_trace"
+      ],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "operation": "get_filter_catalog",
+      "classification": "metadata_public_search_still_challenge_gated",
+      "http_status": 200,
+      "returned_keys": [
+        "status",
+        "source",
+        "filters",
+        "counts",
+        "challenge_required_for_search",
+        "source_trace"
+      ],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "operation": "get_filter_catalog",
+      "classification": "metadata_public_search_still_challenge_gated",
+      "http_status": 200,
+      "returned_keys": ["hits", "documents", "name", "aggregations"],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "operation": "get_filter_catalog",
+      "classification": "metadata_public_search_still_recaptcha_gated",
+      "http_status": 200,
+      "returned_keys": [
+        "status",
+        "hits",
+        "document_count",
+        "fields",
+        "search_results_observed",
+        "recaptcha_required_for_documents",
+        "response_bytes"
+      ],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "falcao_jt",
+      "operation": "get_catalog",
+      "classification": "access_control_required",
+      "http_status": 403,
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "trt2_basis_jurisprudencia",
+      "operation": "bounded_search",
+      "classification": "unconfirmed_empty_then_timeout",
+      "http_status": 200,
+      "returned": 0,
+      "total_known": false,
+      "search_contract_proven": false,
+      "federation_status": "opt_in_curated_only"
+    }
+  ]
+}

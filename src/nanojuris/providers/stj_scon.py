@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import re
-import time
 import unicodedata
 from typing import Any
-from urllib.parse import unquote, urljoin
+from urllib.parse import unquote, urljoin, urlparse
 
 import requests
 
@@ -31,6 +30,13 @@ from nanojuris.models import (
 )
 from nanojuris.parsing import HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import (
+    TransportPolicy,
+    TransportRequest,
+    TransportResponse,
+    TransportStatus,
+)
 
 
 class StjSconProvider(JurisprudenceProvider):
@@ -45,8 +51,20 @@ class StjSconProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
+        host = urlparse(self.config.stj_scon_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=16_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/SCON/pesquisar.jsp"
@@ -72,11 +90,24 @@ class StjSconProvider(JurisprudenceProvider):
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
+        try:
+            document = self.get_document(precedent_id)
+        except (ValueError, SourceUnavailableError) as exc:
+            raise SourceUnavailableError(
+                "STJ/SCON decision detail requires a public registry number observed from search"
+            ) from exc
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
-            texts=[],
-            raw={"message": "stj_scon does not expose linked precedent decisions yet"},
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "application/pdf",
+                }
+            ],
+            source_trace=document.source_trace,
+            raw=document.raw_metadata,
+            raw_bytes=document.raw_bytes,
         )
 
     def get_document(self, document_id: str) -> CanonicalDocument:
@@ -106,18 +137,18 @@ class StjSconProvider(JurisprudenceProvider):
             params=params,
             accept="application/pdf, text/html, */*",
         )
-        content = bytes(getattr(response, "content", b""))
+        content = bytes(response.body)
         if not content:
             raise ParserContractChangedError("STJ/SCON document response is empty")
-        headers = getattr(response, "headers", {}) or {}
-        final_url = str(getattr(response, "url", None) or url)
+        headers = response.headers
+        final_url = str(response.final_url or url)
         trace = SourceTrace(
             provider=self.name,
             endpoint=endpoint,
             query=params,
             source_url=final_url,
             final_url=final_url,
-            http_status=int(getattr(response, "status_code", 200) or 200),
+            http_status=int(response.status_code or 200),
             content_type=headers.get("Content-Type"),
             limitations=[
                 "Documento publico carregado sob demanda pela rota oficial SCON.",
@@ -182,13 +213,86 @@ class StjSconProvider(JurisprudenceProvider):
             completeness_contract="reported_total_and_page_window",
             full_text_access="detail_call",
             supports_cli=True,
-            supports_unified_search=True,
+            supports_unified_search=False,
+            opt_in_unified_search=True,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
             supported_filters=["text", "number"],
+            unsupported_filters=[
+                "courts",
+                "types",
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "rapporteur",
+                "updated_from",
+                "updated_to",
+                "published_from",
+                "published_to",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "degree",
+                "instance",
+                "legal_area",
+                "collection",
+                "document_type",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origin",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "courts": "unsupported",
+                "types": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "exact_phrase": "unsupported",
+                "rapporteur": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+                "published_from": "unsupported",
+                "published_to": "unsupported",
+                "fetch_details": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "degree": "unsupported",
+                "instance": "unsupported",
+                "branch": "validated_scope",
+                "legal_area": "unsupported",
+                "authority": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+            },
+            ordering_modes=["relevance", "publication"],
+            detail_modes=["full_text"],
             limitations=[
                 "Busca principal mapeada por HAR publico como GET /SCON/pesquisar.jsp.",
                 (
@@ -246,7 +350,6 @@ class StjSconProvider(JurisprudenceProvider):
             accept="text/html, */*",
             **kwargs,
         )
-        response.encoding = response.encoding or "utf-8"
         return response.text
 
     def _request_response(
@@ -257,36 +360,47 @@ class StjSconProvider(JurisprudenceProvider):
         url: str | None = None,
         accept: str,
         **kwargs: Any,
-    ) -> requests.Response:
-        self._respect_rate_limit()
+    ) -> TransportResponse:
         request_url = url or urljoin(self.config.stj_scon_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {"Accept": accept, "User-Agent": self.config.user_agent}
+        request = TransportRequest(
+            source=self.name,
+            operation=f"{method.lower()}_{path.strip('/').replace('/', '_')}",
+            method=method,
+            url=request_url,
+            params=kwargs.get("params") or {},
+            data=kwargs.get("data"),
+            headers=headers,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
         try:
-            response = self.session.request(
-                method,
-                request_url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-                **kwargs,
-            )
+            response = self.transport.request(request)
+        except SourceUnavailableError as exc:
+            raise SourceUnavailableError(f"STJ/SCON request failed: {exc}") from exc
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"STJ/SCON request failed: {exc}") from exc
 
-        response.encoding = response.encoding or "utf-8"
         text = response.text
-        content = bytes(getattr(response, "content", b"") or b"")
-        if not content:
-            content = text.encode(response.encoding or "utf-8", errors="replace")
-        headers = getattr(response, "headers", {}) or {}
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", request_url) or request_url),
+            "final_url": str(response.final_url or request_url),
             "content_type": headers.get("Content-Type") or headers.get("content-type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
-            "response_bytes": len(content),
-            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "retrieval_status": (
+                "ok"
+                if response.status_code is not None and 200 <= response.status_code < 300
+                else "http_error"
+            ),
         }
+        if response.status is not TransportStatus.COMPLETE:
+            if response.status is TransportStatus.TLS_ERROR:
+                raise SourceUnavailableError("STJ/SCON TLS negotiation failed")
+            raise SourceUnavailableError(
+                f"STJ/SCON transport failed: {response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("STJ/SCON transport returned no HTTP status")
         if response.status_code in {401, 403} and _looks_like_access_control(text):
             raise AccessControlRequiredError("STJ/SCON requires access-control validation")
         if response.status_code == 429:
@@ -300,15 +414,6 @@ class StjSconProvider(JurisprudenceProvider):
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("STJ/SCON requires captcha or access control")
         return response
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def parse_stj_scon_results(

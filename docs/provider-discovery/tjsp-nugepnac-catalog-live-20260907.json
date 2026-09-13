@@ -1,0 +1,29 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjsp_nugepnac",
+  "source_id": "tjsp_nugepnac",
+  "surface": "catalog_search",
+  "observed_at": "2026-09-07",
+  "source": "tjsp_nugepnac",
+  "source_url": "https://www.tjsp.jus.br/NugepNac/Irdr",
+  "method": "GET",
+  "http_status": 200,
+  "classification": "valid",
+  "access_status": "public",
+  "record_count_observed": 218,
+  "detail_probe": {
+    "url": "https://www.tjsp.jus.br/NugepNac/Irdr/DetalheTema?codigoNoticia=50879&pagina=1",
+    "http_status": 200,
+    "article_found": true,
+    "source_id": "tjsp-nugepnac-irdr-50879",
+    "precedent_type": "irdr",
+    "question_present": true,
+    "thesis_present": true,
+    "related_link_count": 4
+  },
+  "limitations": [
+    "This evidence covers the public IRDR/IAC catalog and detail contract, not the complete TJSP decision corpus.",
+    "Related e-SAJ decision links may require a separate access validation and are not treated as full text when extraction fails.",
+    "No CAPTCHA, token, cookie replay, TLS downgrade, proxy rotation or rate-limit bypass was used."
+  ]
+}

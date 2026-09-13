@@ -1,0 +1,73 @@
+{
+  "schema_version": "tre-sjur-pagination-probe-v1",
+  "observed_at": "2026-09-11",
+  "official_frontend": "https://jurisprudencia-tres.tse.jus.br/",
+  "query": "divórcio",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "requests": [
+    {
+      "tribunal": "TRE-AC",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ac/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "pages": [
+        {
+          "page": 1,
+          "http_status": 200,
+          "content_type": "application/json",
+          "response_bytes": 22497,
+          "sha256": "f9a4f5ae78a755d0e6272640cf78265e386d42f5f8fc1f4b575d0945e4c7e295",
+          "reported_total": 2,
+          "returned": 2,
+          "ids": ["3330927", "3324926"]
+        },
+        {
+          "page": 2,
+          "http_status": 200,
+          "content_type": "application/json",
+          "response_bytes": 22497,
+          "sha256": "f9a4f5ae78a755d0e6272640cf78265e386d42f5f8fc1f4b575d0945e4c7e295",
+          "reported_total": 2,
+          "returned": 2,
+          "ids": ["3330927", "3324926"]
+        }
+      ],
+      "classification": "remote_page_ignored_duplicate_window"
+    },
+    {
+      "tribunal": "TRE-MG",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-mg/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "pages": [
+        {
+          "page": 1,
+          "http_status": 200,
+          "content_type": "application/json",
+          "response_bytes": 229927,
+          "sha256": "1cc98e0464737c178faca9df5ea32e751a07af2ee4f6704c570f7f69da41e61d",
+          "reported_total": 14,
+          "returned": 14,
+          "ids": ["1530305", "1762002", "3390554", "3188750", "1540084", "3551956", "1777144", "3519512", "3489246", "3492739", "3492740", "1767095", "3439342", "3476248"]
+        },
+        {
+          "page": 2,
+          "http_status": 200,
+          "content_type": "application/json",
+          "response_bytes": 229927,
+          "sha256": "1cc98e0464737c178faca9df5ea32e751a07af2ee4f6704c570f7f69da41e61d",
+          "reported_total": 14,
+          "returned": 14,
+          "ids": ["1530305", "1762002", "3390554", "3188750", "1540084", "3551956", "1777144", "3519512", "3489246", "3492739", "3492740", "1767095", "3439342", "3476248"]
+        }
+      ],
+      "classification": "remote_page_ignored_duplicate_window"
+    }
+  ],
+  "decision": "keep_tre_ac_and_tre_mg_opt_in; page 2 is not an independent remote window and total completeness remains unproven",
+  "safety": {
+    "requests_per_route": 2,
+    "spacing_seconds": 2,
+    "cookies_replayed": false,
+    "tokens_used": false,
+    "captcha_or_waf_bypassed": false
+  }
+}

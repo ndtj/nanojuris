@@ -1,0 +1,95 @@
+{
+  "schema_version": "tjrr-live-v1",
+  "generated_at": "2026-09-13T05:07:25.405932+00:00",
+  "mode": "live_bounded",
+  "source": "tjrr_juris",
+  "source_id": "tjrr_juris",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": null,
+  "record_count_observed": 10,
+  "reported_total": 14238,
+  "pagination_mode": "page",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "page": 1,
+      "page_size": 10,
+      "returned": 10,
+      "total": 14238,
+      "total_known": true,
+      "ids": [
+        "tjrr-juris-131605",
+        "tjrr-juris-131593",
+        "tjrr-juris-131595",
+        "tjrr-juris-131598",
+        "tjrr-juris-131573",
+        "tjrr-juris-131574",
+        "tjrr-juris-131592",
+        "tjrr-juris-131591",
+        "tjrr-juris-131586",
+        "tjrr-juris-131585"
+      ],
+      "case_numbers": [
+        "0811722-78.2025.8.23.0010",
+        "0806804-31.2025.8.23.0010",
+        "0835251-63.2024.8.23.0010",
+        "0840679-89.2025.8.23.0010",
+        "0830487-68.2023.8.23.0010",
+        "0811356-88.2015.8.23.0010",
+        "0802446-23.2025.8.23.0010",
+        "0855061-24.2024.8.23.0010",
+        "0803950-30.2026.8.23.0010",
+        "0858896-83.2025.8.23.0010"
+      ],
+      "has_summary": true
+    },
+    "detail": {
+      "status": "valid",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "byte_size": 147866,
+      "sha256": "12bb3cf80f7c105f30e6448450df59f26cfa59fae526b8afc4c046f24bda799b",
+      "has_text": true,
+      "access_status": "public",
+      "extraction_status": "complete"
+    },
+    "page_2": {
+      "http_status": 200,
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 10,
+      "total_known": false,
+      "ids": [
+        "tjrr-juris-131556",
+        "tjrr-juris-131554"
+      ],
+      "case_numbers": [
+        "0828306-07.2017.8.23.0010",
+        "0803672-05.2021.8.23.0010"
+      ],
+      "has_summary": true
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "page_2_status": "valid",
+    "detail_status": "valid",
+    "errors": 0
+  }
+}

@@ -17,6 +17,8 @@ class StudioSearchRequest:
     page: int = 1
     page_size: int = 10
     canonical: bool = True
+    mode: str = "adaptive"
+    ranking_version: str = "legal-live-v1"
 
     @classmethod
     def from_payload(cls, payload: dict[str, Any]) -> StudioSearchRequest:
@@ -25,6 +27,12 @@ class StudioSearchRequest:
             filters = {}
         if not isinstance(filters, dict):
             raise ValueError("filters must be an object")
+        mode = str(payload.get("mode") or "adaptive").strip().casefold()
+        if mode not in {"adaptive", "selected", "all", "legacy"}:
+            raise ValueError("mode must be adaptive, selected, all or legacy")
+        ranking_version = str(payload.get("ranking_version") or "legal-live-v1").strip()
+        if ranking_version not in {"legacy", "legal-live-v1"}:
+            raise ValueError("ranking_version must be legacy or legal-live-v1")
         return cls(
             query=str(payload.get("query") or payload.get("text") or ""),
             sources=_string_list(payload.get("sources")),
@@ -33,6 +41,8 @@ class StudioSearchRequest:
             page=max(1, int(payload.get("page") or 1)),
             page_size=max(1, min(50, int(payload.get("page_size") or payload.get("limit") or 10))),
             canonical=bool(payload.get("canonical", True)),
+            mode=mode,
+            ranking_version=ranking_version,
         )
 
     def search_kwargs(self) -> dict[str, Any]:

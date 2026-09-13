@@ -144,6 +144,9 @@ Filtros atualmente suportados pelo provider: `text`, `exact_phrase`,
 Mapeamentos de tipo: `acordao -> 1`, `monocratica -> 2`, `despacho -> 4`,
 `sentenca -> 5` e `sumula -> 3` quando a fonte aceitar o valor. Mapeamentos de
 origem: `colegio_recursal -> 3`, `primeiro_grau -> 4`, `segundo_grau -> 5`.
+Para o TRF4, a origem oficial `1` representa o próprio TRF4 e é usada quando
+o contrato exige `degree=second`; o resultado ainda passa por validação local
+de grau e instância para impedir mistura com TRU4, Turmas Recursais ou Varas.
 Os valores oficiais devem prevalecer sobre aliases textuais.
 
 ## Estados, limites e erros
@@ -179,12 +182,16 @@ JavaScript e precisa de fixture de replay completo antes de ser ativada.
 - [x] inteiro teor por `id_jurisprudencia`;
 - [x] detecao de bloqueio sem bypass;
 - [x] fixture sanitizada de card de resultado: `tests/fixtures/trf4_eproc_results.html`;
-- [ ] fixture real sanitizada com total remoto e `selTamanhoPagina`;
-- [ ] fixture de pagina vazia;
-- [ ] fixture de replay da rota `ajax_paginar_resultado`;
-- [ ] fixture de filtros classe/relator/orgao/assunto;
-- [ ] parser de total remoto no provider;
-- [ ] catalogos oficiais de classes, relatores e orgaos.
+- [x] fixture sanitizada com total remoto e `selTamanhoPagina`:
+  `tests/fixtures/trf4_eproc_pagination.html`;
+- [x] fixture de pagina vazia: `tests/fixtures/trf4_eproc_empty.html`;
+- [x] fixture de layout/schema drift: `tests/fixtures/trf4_eproc_schema_drift.html`;
+- [x] fixture de filtros de texto e numero no contrato efetivamente enviado;
+  filtros avançados observados ficam explicitamente fora da query comum;
+- [x] parser de total remoto compartilhado pelo fluxo eproc; quando ausente,
+  o total permanece a janela observada e `total_known` não é afirmado;
+- [x] catalogos oficiais avançados mantidos como superfície observada, sem
+  fingir suporte federado até haver contrato tipado.
 
 ## Uso pelo MCP
 
@@ -197,13 +204,31 @@ na fonte, mas ainda nao foram convertidos no contrato unificado do provider.
 
 ## Proximos passos
 
-1. versionar fixture sanitizada com total remoto e tamanhos oficiais;
-2. fechar fixture de pagina vazia e replay da rota AJAX de paginacao;
-3. separar filtros observados de filtros efetivamente enviados pelo provider;
-4. promover catalogos de classes, relatores e orgaos somente com contrato
+1. manter replay AJAX condicionado a uma sessão pública completa; a busca
+   federada usa apenas páginas reproduzíveis;
+2. separar filtros observados de filtros efetivamente enviados pelo provider;
+3. promover catálogos de classes, relatores e órgãos somente com contrato
    reproduzido e teste offline.
+
+## Evidencia live 2026-09-05 (ciclo 61)
+
+Busca limitada em sessão HTTP limpa com duas páginas e `page_size=2` retornou
+cards públicos e ids sem sobreposição; o segundo passo de paginação foi
+serializado conforme o formulário eproc. O detalhe foi solicitado para uma
+amostra, sem persistir corpo de rede. O envelope redigido está em
+`docs/provider-discovery/trf4-live-20260905-cycle61.json`.
 
 ## Referencias oficiais
 
 - [Pesquisa de Jurisprudencia TRF4](https://www.trf4.jus.br/trf4/controlador.php?acao=pagina_visualizar&id_pagina=3938)
 - [Formulario publico eproc/TRF4](https://eproc-jur.trf4.jus.br/eproc2trf4/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar)
+
+## Evidencia live de segundo grau (2026-09-08)
+
+Uma chamada bounded com sessão HTTP limpa, termo `responsabilidade civil`,
+`selOrigem[]=1` e página de dois registros respondeu HTTP 200. Os dois registros
+foram normalizados como `authority=TRF4`, `branch=federal`, `degree=second`,
+`instance=second` e `collection=JURISPRUDENCIA`, com ementa e URL oficial de
+inteiro teor. O total foi mantido como desconhecido após o filtro local de grau.
+O envelope redigido está em
+`docs/provider-discovery/trf4-second-degree-live-20260908.json`.

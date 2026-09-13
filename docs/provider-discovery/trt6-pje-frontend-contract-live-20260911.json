@@ -1,0 +1,57 @@
+{
+  "schema_version": "provider-frontend-contract-live-v1",
+  "provider": "trt6_jurisprudencia",
+  "observed_at": "2026-09-11T00:00:00Z",
+  "source_url": "https://pje.trt6.jus.br/jurisprudencia/",
+  "official_assets": [
+    {
+      "url": "https://pje.trt6.jus.br/jurisprudencia/main-es2015.de858d2d7dc13154acce.js",
+      "http_status": 200,
+      "sha256": "36CC56F48E860E9061169B23FC416EFC4562B2B172C684AFC370F65232398A6E"
+    },
+    {
+      "url": "https://pje.trt6.jus.br/jurisprudencia/runtime-es2015.00a1d898fe9540cdfc2a.js",
+      "http_status": 200,
+      "sha256": "D0FF1D3E8120171D970DF7433A027D3B02CE58C596567322EABDED154276F2AD"
+    }
+  ],
+  "observed_contract": {
+    "options": "GET /juris-backend/api/opcoes",
+    "filters": "POST /juris-backend/api/filtros",
+    "documents": "POST /juris-backend/api/documentos",
+    "captcha_option": "1",
+    "token_field": "token",
+    "pagination_fields": ["paginationSize", "paginationPosition"],
+    "filter_fields": [
+      "andField",
+      "orField",
+      "notField",
+      "andFieldEmenta",
+      "andFieldDispositivo",
+      "dataPublicacaoStart",
+      "dataPublicacaoEnd",
+      "DataDistribuicaoStart",
+      "DataDistribuicaoEnd",
+      "assunto",
+      "classeJudicial",
+      "magistrado",
+      "orgaoJulgador",
+      "orgaoJulgadorColegiado",
+      "tipoDocumento"
+    ],
+    "recaptcha_action": "pesquisajurisprudencia"
+  },
+  "classification": {
+    "catalog": "public",
+    "document_search_without_user_token": "access_control_required",
+    "authorized_user_token_path": "implemented_non_federated",
+    "federation": "disabled",
+    "bypass_attempted": false,
+    "credentials_persisted": false
+  },
+  "limitations": [
+    "A chamada autorizada exige token reCAPTCHA fornecido por interação humana.",
+    "A evidência não declara disponibilidade contínua nem autorização de federação.",
+    "Token, cookie e sessão humana não são armazenados pelo provider."
+  ]
+}

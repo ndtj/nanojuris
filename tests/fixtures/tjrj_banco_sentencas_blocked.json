@@ -1,0 +1,6 @@
+{
+  "http_status": 503,
+  "classification": "source_unavailable",
+  "url": "https://www4.tjrj.jus.br/AtosOficiais/bancodesentencas/observed.doc",
+  "must_not_be_authoritative_empty": true
+}

@@ -11,6 +11,9 @@ python tools/validate_sdd.py
 
 ## Resultados
 
+Atualização de 2026-09-02: a suíte completa registrou 1096 testes aprovados e
+12 ignorados; Ruff, mypy, compilação e `validate_sdd.py` também passaram.
+
 | Execução | Comando | Resultado |
 | --- | --- | --- |
 | local | matriz de comparação e inventário | concluído |

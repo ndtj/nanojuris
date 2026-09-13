@@ -1,0 +1,8 @@
+{
+  "_embedded": {
+    "searchResult": {
+      "page": {"number": 0, "size": 5, "totalPages": 0, "totalElements": 0},
+      "_embedded": {"objects": []}
+    }
+  }
+}

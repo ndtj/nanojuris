@@ -1,0 +1,24 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrn_jurisprudencia",
+  "checked_at": "2026-09-07",
+  "mode": "bounded_public_live_check",
+  "endpoint": "POST /api/pesquisar",
+  "source_url": "https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+  "queries": [
+    {"text": "sentença", "pages": [1, 2]},
+    {"text": "vara", "pages": [1, 2]},
+    {"text": "juizado", "pages": [1, 2]},
+    {"text": "dano moral", "pages": [1, 2]}
+  ],
+  "http_statuses": [403],
+  "response_bytes": 399,
+  "classification": "blocked_access",
+  "access_status": "access_controlled",
+  "extraction_status": "not_attempted",
+  "decision": "A rota publica respondeu HTTP 403 para todas as consultas bounded; nenhum resultado foi interpretado como vazio e a superficie CJPG permanece sem contrato comprovado.",
+  "limitations": [
+    "A tentativa usou somente POST HTTPS comum, sem credenciais, replay de cookies, proxy, geracao de token ou contorno de WAF.",
+    "A evidencia valida o bloqueio atual, mas nao prova indisponibilidade permanente da fonte."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "fixture_notice": "synthetic normalized replay payload; not a tribunal record",
+  "rows": [
+    {
+      "Informativo": "1223",
+      "Classe Processo": "ADI",
+      "N\u00famero Processo": "9999",
+      "Incidente Julgamento": "",
+      "UF": "DF",
+      "Observa\u00e7\u00e3o": "fixture",
+      "Data Julgamento": "2026-01-02",
+      "Relator": "Relator de Fixture",
+      "Redator Ac\u00f3rd\u00e3o": "",
+      "\u00d3rg\u00e3o Julgador": "Plenario de Fixture",
+      "Tipo Julgamento": "Virtual",
+      "Situa\u00e7\u00e3o Julgamento": "Conclu\u00eddo",
+      "T\u00edtulo": "Tese constitucional de fixture",
+      "Tese Julgado": "A tese sintetica deve ser preservada no replay.",
+      "Resumo": "Resumo de jurisprudencia sintetica para teste.",
+      "Not\u00edcia": "Noticia de fixture",
+      "Ramo Direito": "Direito Constitucional",
+      "Mat\u00e9ria": "Controle abstrato",
+      "Repercuss\u00e3o Geral": "N\u00e3o",
+      "Tema RG": "",
+      "Legisla\u00e7\u00e3o": "CF/1988",
+      "ODS ONU 2030": "16",
+      "Covid-19": "N\u00e3o",
+      "Not\u00edcia completa": "Noticia completa de fixture"
+    }
+  ]
+}

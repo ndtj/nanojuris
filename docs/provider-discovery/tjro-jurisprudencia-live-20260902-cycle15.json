@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-02T04:10:53Z",
+  "audit_mode": "bounded_public_provider_filter_and_pagination_validation",
+  "source_id": "tjro_jurisprudencia",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "jurisprudencia",
+      "endpoint": "POST /search/varios_parametros/",
+      "http_status": 200,
+      "content_type": "application/json",
+      "query": "responsabilidade",
+      "request_size": 100,
+      "response_bytes": 2983456,
+      "content_sha256": "ace691bfefe3881689890e4567945af450c7a89e5ca3ab81896018ced7b03a7d",
+      "reported_total": 675950,
+      "record_count_observed": 100,
+      "pagination_mode": "offset",
+      "classification": "reachable_valid_data",
+      "pagination_probe_size_101": {
+        "http_status": 200,
+        "response_bytes": 2997248,
+        "content_sha256": "93513af99a9674d1895c3bbbd802960fd54a1a4018029b8631a3897027df56c7",
+        "reported_total": 675950,
+        "record_count_observed": 101,
+        "conclusion": "remote_accepts_at_least_101; local_contract_remains_capped_at_100"
+      },
+      "filter_probes": [
+        {
+          "filter": "dtjulgamento_inicio + dtjulgamento_fim",
+          "values": ["2026-01-01", "2026-12-31"],
+          "http_status": 200,
+          "response_bytes": 80219,
+          "content_sha256": "4e63e4e61c306f06ee210fdcf48c9b991f53e4bce3d9b9aa96e34b8714eadeb5",
+          "reported_total": 49328,
+          "record_count_observed": 1,
+          "sample_judgment_date": "2026-06-10",
+          "classification": "filter_reproduced"
+        },
+        {
+          "filter": "ds_nome",
+          "values": "public_rapporteur_name_redacted",
+          "http_status": 200,
+          "response_bytes": 75521,
+          "content_sha256": "64069a42a090ae35b72735de9147c055e4b5f2a23b82137500b5c3446c901f39",
+          "reported_total": 126418,
+          "record_count_observed": 1,
+          "sample_id": "7183382-PJESG",
+          "classification": "filter_reproduced_without_persisting_name"
+        },
+        {
+          "filter": "grau_jurisdicao + date_range",
+          "values": {"grau_jurisdicao": [1], "dates": ["2026-01-01", "2026-12-31"]},
+          "http_status": 200,
+          "response_bytes": 75607,
+          "content_sha256": "2974086994a37bc1632d5f0b3e2c5c904f5e1e549329f36125087ce283c4e63b",
+          "reported_total": 21624,
+          "record_count_observed": 1,
+          "sample_degree": 1,
+          "sample_judgment_date": "2026-06-10",
+          "classification": "transport_filter_reproduced_not_exposed_by_query_model"
+        }
+      ]
+    }
+  ],
+  "promotion": "candidate_opt_in_only",
+  "promotion_blockers": [
+    "Remote maximum size is not established; 101 was accepted and local cap 100 is retained for bounded payloads.",
+    "The query model has no degree field; grau_jurisdicao remains transport-only until the national degree contract is approved.",
+    "The types vocabulary and facet canonical model remain pending.",
+    "Global quality/release gates 0031/0034 remain proposed."
+  ]
+}

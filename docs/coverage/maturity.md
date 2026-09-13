@@ -18,13 +18,10 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 
 | Nivel | Quantidade |
 | --- | ---: |
-| `blocked` | 3 |
-| `bronze` | 1 |
-| `context` | 9 |
-| `family` | 1 |
-| `gold` | 15 |
-| `mapped` | 9 |
-| `silver` | 18 |
+| `blocked` | 11 |
+| `context` | 24 |
+| `gold` | 14 |
+| `silver` | 36 |
 
 ## Como Ler O Gate Prata
 

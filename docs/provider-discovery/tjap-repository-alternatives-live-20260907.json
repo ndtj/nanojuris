@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "authority": "TJAP",
+  "surface": "CJSG alternate official repositories",
+  "credentials_used": false,
+  "routes": [
+    {
+      "url": "https://www.tjap.jus.br/portal/consultas/sumulas.html",
+      "method": "GET",
+      "status": 200,
+      "classification": "public_summaries_only",
+      "finding": "The official portal exposes TJAP and Turma Recursal súmulas, not a searchable general collection of second-degree decisions."
+    },
+    {
+      "url": "https://old.tjap.jus.br/portal/consultas/busca-no-portal.html",
+      "method": "GET",
+      "status": 200,
+      "classification": "institutional_content_search",
+      "finding": "The legacy portal search links to Tucujuris jurisprudence but does not expose a decision result or document contract."
+    },
+    {
+      "url": "https://tucujuris.tjap.jus.br/dje/consulta",
+      "method": "GET",
+      "status": 403,
+      "classification": "access_controlled",
+      "finding": "The official Diário da Justiça entry is not publicly retrievable from this bounded request; no retry or bypass was attempted."
+    }
+  ],
+  "decision": "These official repositories do not provide a reproducible public general CJSG search without the Tucujuris security boundary. Súmulas remain a separate specialized source and must not be promoted as general CJSG.",
+  "safety": {
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  }
+}

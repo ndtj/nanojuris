@@ -1,0 +1,61 @@
+{
+  "schema_version": "tjdf-api-live-recheck-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJDFT",
+  "provider": "tjdf_juris",
+  "endpoint": "https://jurisdf.tjdft.jus.br/api/v1/pesquisa",
+  "method": "POST",
+  "source": "official JurisDF application API",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "requests": [
+    {
+      "query": "responsabilidade civil",
+      "termosAcessorios": [{"campo": "base", "valor": "acordaos"}],
+      "pagina": 0,
+      "tamanho": 2,
+      "http_status": 200,
+      "elapsed_ms": 322,
+      "total": 118113,
+      "returned": 2,
+      "records": [
+        {"base": "acordaos", "subbase": "acordaos-tr", "orgao_julgador": "SEGUNDA TURMA RECURSAL", "case_number": "0712310-97.2025.8.07.0018", "judgment_date": "2026-08-19T03:00:00.000Z", "publication_date": "2026-09-06T06:06:17.000Z", "full_text_flag": false},
+        {"base": "acordaos", "subbase": "acordaos", "orgao_julgador": "5ª TURMA CÍVEL", "case_number": "0709642-71.2025.8.07.0013", "judgment_date": "2026-09-03T03:00:00.000Z", "publication_date": "2026-09-05T16:33:36.000Z", "full_text_flag": false}
+      ]
+    },
+    {
+      "query": "responsabilidade civil",
+      "termosAcessorios": [{"campo": "base", "valor": "acordaos"}],
+      "pagina": 1,
+      "tamanho": 2,
+      "http_status": 200,
+      "elapsed_ms": 254,
+      "total": 118113,
+      "returned": 2,
+      "records": [
+        {"base": "acordaos", "subbase": "acordaos", "orgao_julgador": "2ª TURMA CÍVEL", "case_number": "0705587-82.2026.8.07.0000", "judgment_date": "2026-08-19T03:00:00.000Z", "publication_date": "2026-09-04T15:41:26.000Z", "full_text_flag": false},
+        {"base": "acordaos", "subbase": "acordaos", "orgao_julgador": "3ª TURMA CÍVEL", "case_number": "0700113-47.2024.8.07.0018", "judgment_date": "2026-08-13T03:00:00.000Z", "publication_date": "2026-09-04T15:06:24.000Z", "full_text_flag": false}
+      ]
+    },
+    {
+      "query": "responsabilidade civil",
+      "termosAcessorios": [{"campo": "base", "valor": "acordaos-tr"}],
+      "pagina": 0,
+      "tamanho": 2,
+      "http_status": 200,
+      "elapsed_ms": 145,
+      "total": 0,
+      "returned": 0,
+      "interpretation": "authoritative empty for this bounded query; not an access error"
+    }
+  ],
+  "contract_observations": {
+    "envelope": ["hits.value", "agregacoes", "paginacao", "registros"],
+    "second_degree_markers": ["base=acordaos", "base=acordaos-tr", "órgão julgador de turma/câmara"],
+    "pagination": "zero-based API page converted to one-based NanoJuris page",
+    "available_filter_families": ["text", "class", "rapporteur", "judging_body", "judgment_date", "publication_date", "source_origin"],
+    "full_text": "record may expose inteiroTeor/inteiroTeorHtml when requested; bounded search above did not request it",
+    "limitation": "base filter behavior must be validated before using it as a strict collection selector"
+  },
+  "decision": "Official public API is reproducible and supports a second-degree jurisprudence corpus. Keep TJDFT in its existing validated state; do not use this route to infer first-degree coverage or to alter TJAP/TJMA blocked states."
+}

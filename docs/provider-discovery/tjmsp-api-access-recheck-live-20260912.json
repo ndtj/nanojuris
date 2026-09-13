@@ -1,0 +1,24 @@
+{
+  "provider": "tjmsp_jurisprudencia",
+  "authority": "TJMSP",
+  "observed_at": "2026-09-12",
+  "endpoint": "GET https://api-jurisprudencia.tjmsp.jus.br/v1/tema/retornaRegistrosAtivos",
+  "request": {
+    "credentials": false,
+    "cookies": false,
+    "tokens": false,
+    "proxy": false,
+    "challenge_bypass": false,
+    "timeout_seconds": 8,
+    "accept": "application/json"
+  },
+  "response": {
+    "http_status": 403,
+    "content_type": "text/html",
+    "response_bytes": 431,
+    "prefix_sha256": "a1d98d867aa03413ac09be5c7576c85cc007f6239c241213dca2f1ec7e32c51f",
+    "classification": "access_control_required"
+  },
+  "decision": "Keep the provider diagnostic and opt-in only. Do not classify the endpoint as empty and do not retry the protected route.",
+  "next_external_action": "TJMSP must provide an allowlisted public API, export, or documented access contract before adapter completion."
+}

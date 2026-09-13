@@ -1,0 +1,40 @@
+{
+  "schema_version": "tre-sjur-pagination-probe-v1",
+  "observed_at": "2026-09-09T08:54:54.791891+00:00",
+  "tribunal": "TRE-SP",
+  "url": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "query": "divórcio",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "results": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "content_type": "application/json",
+      "bytes": 91325,
+      "sha256": "f60e8db43bf6b0c8c925180d14be093e62b91c3bcb9655ef845abffeef837564",
+      "elapsed_ms": 743.02,
+      "reported_total": 10,
+      "returned": 10,
+      "ids": ["1150998", "1167710", "663578", "2957269", "3332088", "1165281", "3245910", "1163370", "1174150", "1156494"],
+      "text_records": 10,
+      "classification": "success_with_text"
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "content_type": "application/json",
+      "bytes": 91325,
+      "sha256": "830e38e43358c022525387078cd165b34a75b9399ac9a013b17dbaba07e506b1",
+      "elapsed_ms": 571.74,
+      "reported_total": 10,
+      "returned": 10,
+      "ids": ["1150998", "1167710", "663578", "3332088", "2957269", "1165281", "1156494", "1174150", "3245910", "1163370"],
+      "text_records": 10,
+      "classification": "success_with_text"
+    }
+  ],
+  "pagination_classification": "remote_page_ignored_duplicate_window",
+  "decision": "keep_tre_sp_candidate; do_not_claim_second_page_or_complete_total"
+}

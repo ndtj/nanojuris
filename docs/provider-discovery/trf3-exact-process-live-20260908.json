@@ -1,0 +1,21 @@
+{
+  "schema_version": "provider-discovery-live-v1",
+  "observed_at": "2026-09-08T07:19:45Z",
+  "provider": "trf3_jurisprudencia",
+  "surface": "exact_process_appellate_document",
+  "official_url": "https://web.trf3.jus.br/acordaos/Acordao/PesquisarDocumento",
+  "method": "GET",
+  "query_shape": "exact CNJ process, degree=second, instance=second, branch=federal",
+  "bounded": true,
+  "timeout_seconds": 20,
+  "credentials_used": false,
+  "bypass_used": false,
+  "raw_content_persisted": false,
+  "classification": "transport_error",
+  "access_status": "source_unavailable",
+  "error_type": "SourceUnavailableError",
+  "error": "HTTPSConnectionPool(host='web.trf3.jus.br', port=443): Read timed out. (read timeout=20.0)",
+  "elapsed_ms": 20676.71,
+  "decision": "keep_opt_in_pending_live",
+  "next_action": "Do not classify as empty; retry only in a later low-frequency window or after an official availability change."
+}

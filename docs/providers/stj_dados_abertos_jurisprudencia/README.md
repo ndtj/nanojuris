@@ -52,7 +52,8 @@ nomes, tamanhos, datas e URLs de download como parte do contrato.
 
 ## Operacoes Runtime
 
-O adapter oferece somente metadados e planejamento, sem baixar recursos:
+O adapter oferece metadados, planejamento e sincronizacao local explicita; a
+consulta nunca baixa recursos automaticamente:
 
 ```python
 from nanojuris import NanoJurisClient
@@ -180,11 +181,14 @@ with SQLiteStore("stj.db") as store:
     )
 ```
 
-Nesta fase, `sync_resource` aceita apenas JSON e CSV, valida que a URL
+Nesta fase, `sync_resource` aceita JSON, CSV e ZIP contendo cargas JSON/CSV, valida que a URL
 pertence ao dominio oficial, baixa em streaming dentro de `max_bytes`, calcula
 SHA-256 sobre os bytes originais, preserva cada linha em `raw`, deduplica por
-`id` e grava uma `ResearchRun` com os vinculos aos `CanonicalDecision`. ZIP,
-recursos sem `id` e limites excedidos nao sao tratados como sucesso parcial.
+`id` e grava uma `ResearchRun` com os vinculos aos `CanonicalDecision`.
+Recursos sem `id` e limites excedidos nao sao tratados como sucesso parcial.
+Arquivos ZIP nunca sao extraidos em disco: cada membro e validado contra
+traversal, criptografia, razao de compressao, quantidade de membros e tamanho
+total descomprimido; somente membros `.json` e `.csv` sao parseados.
 
 O MCP oferece a mesma operacao por `sync_source_resource`, usando `store_id`
 em vez de caminho de arquivo. O store fica restrito a `NANOJURIS_STORE_ROOT`.
@@ -198,13 +202,38 @@ foi feita.
 Depois da sincronizacao, a busca textual deve usar um indice local explicitamente
 informado ao usuario; este provider continua fora da busca remota unificada.
 
+### Pareamento de inteiro teor
+
+O dataset `integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica`
+publica, para cada data, um JSON de metadados (`SeqDocumento`) e um ZIP com
+arquivos de texto cujo nome usa o mesmo identificador. O adapter oferece uma
+operacao explicita para unir os dois recursos:
+
+```python
+with SQLiteStore("stj.db") as store:
+    sync = client.sync_source_integral_pair(
+        source="stj_dados_abertos_jurisprudencia",
+        dataset_id="integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica",
+        metadata_resource_id="<metadados-resource-id>",
+        text_resource_id="<textos-zip-resource-id>",
+        store=store,
+        max_bytes=50_000_000,
+    )
+```
+
+O pareamento preserva o HTML original em `raw`, gera texto pesquisavel a partir
+de `<br>`, marca o registro como `degree=superior`/`authority=STJ` e informa
+metadados sem texto e textos sem metadados no resultado. A operacao continua
+local e explicita; nao habilita busca remota nem baixa recursos automaticamente.
+O MCP expoe a mesma operacao como `sync_source_integral_pair`.
+
 ## Estados de resposta
 
 - catalogo CKAN HTTP 200 com `success=true`: fonte disponivel;
 - dataset sem recursos: erro de contrato ou dataset incompleto, nao busca vazia;
 - recurso HTTP 200: arquivo disponivel para ingestao;
 - timeout, 429, 5xx ou falha de download: `source_unavailable` com trace;
-- JSON invalido, CSV com schema inesperado ou ZIP corrompido:
+- JSON invalido, CSV com schema inesperado, membro ZIP inseguro ou ZIP corrompido:
   `parser_contract_changed`;
 - ausencia de um campo opcional: registro valido, campo nulo e `raw` preservado.
 
@@ -224,16 +253,38 @@ indice local sincronizado. A resposta deve informar a data do manifesto, o
 dataset, o recurso e a natureza de espelho ou integra. O agente nao deve
 apresentar essa base como cobertura integral da jurisprudencia do STJ.
 
+## Revalidacao do inteiro teor — 2026-09-07
+
+O dataset oficial de integras respondeu HTTP 200 para um JSON de metadados de
+62.233 bytes e um ZIP de textos de 192.816 bytes. O pareamento por
+`SeqDocumento` produziu 106 registros de inteiro teor a partir de 108 metadados;
+dois metadados ficaram sem texto e nenhum texto ficou sem metadado. Os hashes e
+IDs dos recursos estao em
+`docs/provider-discovery/stj-integral-pair-live-20260907.json`.
+O caminho completo pelo adapter, com banco temporario e limite de 2 MB por
+recurso, foi validado em
+`docs/provider-discovery/stj-integral-pair-adapter-live-20260907.json`.
+
 ## Fixtures e promocao
+
+- Fixtures especificas versionadas:
+  - `tests/fixtures/stj_ckan_package_search.json`;
+  - `tests/fixtures/stj_ckan_package_show.json`;
+  - `tests/fixtures/stj_ckan_package_empty.json`;
+  - `tests/fixtures/stj_ckan_package_resource_removed.json`;
+  - `tests/fixtures/stj_ckan_schema_changed.csv`.
+- Testes de contrato e ingestao: `tests/test_stj_dados_abertos_jurisprudencia.py`.
 
 - [x] fixture de `package_search` reduzida a metadados essenciais;
 - [x] fixture de `package_show` com dois recursos sanitizados;
 - [x] parser de CSV com `;`, acentos e campos longos;
 - [x] parser de JSON que preserve campos desconhecidos;
 - [x] teste de deduplicacao por `id` entre carga historica e delta;
-- [x] teste de streaming e limite de bytes sem baixar o ZIP historico em CI;
+- [x] teste de streaming e limite de bytes com ZIP historico mantido bounded em CI;
+- [x] parser ZIP seguro para membros JSON/CSV, traversal, criptografia e
+  razao de compressao;
 - [x] manifesto incremental e skip por checksum/fingerprint da fonte;
-- [ ] fixture de dataset vazio, recurso removido e schema alterado;
+- [x] fixture de dataset vazio, recurso removido e schema alterado;
 - [x] adapter de catalogo sem promover busca unificada;
 - [x] adapter de ingestao local antes de promover busca unificada.
 
@@ -258,6 +309,14 @@ Validacao realizada em 2026-08-14:
 - a segunda chamada ao mesmo recurso retornou `skipped=true` usando
   fingerprint de metadados, sem persistir uma nova carga;
 - a licenca retornada pelo catalogo foi `cc-by`.
+
+Rechecagem bounded em 2026-09-06: `package_search` retornou HTTP 200 e 11
+datasets. Evidência: `docs/provider-discovery/stj-open-data-catalog-live-20260906.json`.
+
+`package_show` confirmou um recurso ZIP oficial de 68.235.713 bytes; a política
+bounded o rejeita antes do download padrão de 50 MB e o parser ZIP seguro fica
+disponível para sincronizações explicitamente limitadas. Evidência:
+`docs/provider-discovery/stj-open-data-zip-contract-live-20260906.json`.
 
 ## Fontes oficiais
 

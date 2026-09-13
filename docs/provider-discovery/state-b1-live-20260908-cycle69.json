@@ -1,0 +1,417 @@
+{
+  "schema_version": "state-b1-live-v1",
+  "generated_at": "2026-09-08T05:54:52+00:00",
+  "mode": "bounded_public_http",
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "page_size": 1
+  },
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjba_graphql",
+      "surface": "cjsg",
+      "pages": [
+        {
+          "classification": "reachable_valid_data",
+          "page": 1,
+          "returned": 1,
+          "reported_total": 1970960,
+          "total_known": true,
+          "ids": [
+            "tjba-graphql-8e8421bb-d541-3283-ab19-967128912860"
+          ],
+          "identities": [
+            {
+              "id": "tjba-graphql-8e8421bb-d541-3283-ab19-967128912860",
+              "authority": "TJBA",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/graphql",
+            "http_status": 200,
+            "final_url": "https://jurisprudenciaws.tjba.jus.br/graphql",
+            "content_type": "application/json;charset=UTF-8",
+            "response_bytes": 56297,
+            "content_sha256": "f6f5d9749d8005ab55941b7f43f59348431868c133b78b23df00ea5104adf68f"
+          }
+        },
+        {
+          "classification": "reachable_valid_data",
+          "page": 2,
+          "returned": 1,
+          "reported_total": 1970960,
+          "total_known": true,
+          "ids": [
+            "tjba-graphql-1a08c9cc-5e04-3e5d-8634-f0c36f451e12"
+          ],
+          "identities": [
+            {
+              "id": "tjba-graphql-1a08c9cc-5e04-3e5d-8634-f0c36f451e12",
+              "authority": "TJBA",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/graphql",
+            "http_status": 200,
+            "final_url": "https://jurisprudenciaws.tjba.jus.br/graphql",
+            "content_type": "application/json;charset=UTF-8",
+            "response_bytes": 46468,
+            "content_sha256": "8e90277802ce10c9610155a7cf22d831aea9cf55f18e6e87f886829335b7196b"
+          }
+        }
+      ],
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjdf_juris",
+      "surface": "cjsg",
+      "pages": [
+        {
+          "classification": "reachable_valid_data",
+          "page": 1,
+          "returned": 1,
+          "reported_total": null,
+          "total_known": null,
+          "ids": [
+            "tjdf-acordao-2168103"
+          ],
+          "identities": [
+            {
+              "id": "tjdf-acordao-2168103",
+              "authority": "TJDFT",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/IndexadorAcordaos-web/sistj",
+            "http_status": 200,
+            "final_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?visaoId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&nomeDaPagina=buscaLivre2&buscaPorQuery=1&baseSelecionada=BASE_ACORDAO_TODAS&ramoJuridico=&baseDados=%5BBASE_ACORDAOS%2C+TURMAS_RECURSAIS%2C+BASE_ACORDAO_PJE%2C+BASE_HISTORICA%5D&argumentoDePesquisa=responsabilidade+civil&desembargador=&indexacao=&tipoDeNumero=&tipoDeRelator=&camposSelecionados=%5BESPELHO%5D&numero=&tipoDeData=&dataFim=&dataInicio=&ementa=&orgaoJulgador=&legislacao=&numeroDaPaginaAtual=1&quantidadeDeRegistros=1&totalHits=132992",
+            "content_type": "text/html;charset=ISO-8859-1",
+            "response_bytes": 176362,
+            "content_sha256": "dce6074b00d134483488b777e70637cf397d40130ac37a7f6f103c277c72fb17"
+          }
+        },
+        {
+          "classification": "reachable_valid_data",
+          "page": 2,
+          "returned": 1,
+          "reported_total": null,
+          "total_known": null,
+          "ids": [
+            "tjdf-acordao-2167179"
+          ],
+          "identities": [
+            {
+              "id": "tjdf-acordao-2167179",
+              "authority": "TJDFT",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/IndexadorAcordaos-web/sistj",
+            "http_status": 200,
+            "final_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?visaoId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&nomeDaPagina=buscaLivre2&buscaPorQuery=1&baseSelecionada=BASE_ACORDAO_TODAS&ramoJuridico=&baseDados=%5BBASE_ACORDAOS%2C+TURMAS_RECURSAIS%2C+BASE_ACORDAO_PJE%2C+BASE_HISTORICA%5D&argumentoDePesquisa=responsabilidade+civil&desembargador=&indexacao=&tipoDeNumero=&tipoDeRelator=&camposSelecionados=%5BESPELHO%5D&numero=&tipoDeData=&dataFim=&dataInicio=&ementa=&orgaoJulgador=&legislacao=&numeroDaPaginaAtual=2&quantidadeDeRegistros=1&totalHits=132992",
+            "content_type": "text/html;charset=ISO-8859-1",
+            "response_bytes": 172152,
+            "content_sha256": "2aba84e6034d31947d8945ee1a9567f52e581d06ad3a98ce7d22c6897dddd01a"
+          }
+        }
+      ],
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "surface": "cjsg",
+      "pages": [
+        {
+          "classification": "reachable_valid_data",
+          "page": 1,
+          "returned": 1,
+          "reported_total": 74055,
+          "total_known": true,
+          "ids": [
+            "tjmt-jurisprudencia-396562850"
+          ],
+          "identities": [
+            {
+              "id": "tjmt-jurisprudencia-396562850",
+              "authority": "TJMT",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "GET /api/consulta/Acordao",
+            "http_status": 200,
+            "final_url": "https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/Acordao?filtro.isBasica=false&filtro.indicePagina=1&filtro.quantidadePagina=1&filtro.termoDeBusca=responsabilidade+civil&filtro.periodoDataDe=&filtro.periodoDataAte=&filtro.tipoBusca=1&filtro.relator=&filtro.julgamento=&filtro.orgaoJulgador=&filtro.colegiado=&filtro.ordenacao.ordenarPor=DataDecrescente&filtro.ordenacao.ordenarDataPor=Julgamento&filtro.thesaurus=false",
+            "content_type": "application/json; charset=utf-8",
+            "response_bytes": 200100,
+            "content_sha256": "c57eb9728c71840cd030ab1b5fb9f0191a11f7df5af771b90454d11efc5ec6ea"
+          }
+        },
+        {
+          "classification": "reachable_valid_data",
+          "page": 2,
+          "returned": 1,
+          "reported_total": 74055,
+          "total_known": true,
+          "ids": [
+            "tjmt-jurisprudencia-395730366"
+          ],
+          "identities": [
+            {
+              "id": "tjmt-jurisprudencia-395730366",
+              "authority": "TJMT",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "GET /api/consulta/Acordao",
+            "http_status": 200,
+            "final_url": "https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/Acordao?filtro.isBasica=false&filtro.indicePagina=2&filtro.quantidadePagina=1&filtro.termoDeBusca=responsabilidade+civil&filtro.periodoDataDe=&filtro.periodoDataAte=&filtro.tipoBusca=1&filtro.relator=&filtro.julgamento=&filtro.orgaoJulgador=&filtro.colegiado=&filtro.ordenacao.ordenarPor=DataDecrescente&filtro.ordenacao.ordenarDataPor=Julgamento&filtro.thesaurus=false",
+            "content_type": "application/json; charset=utf-8",
+            "response_bytes": 83414,
+            "content_sha256": "cc5088f06caea0842354ce7815eeb75d90541cc4962dbfb1b97353f536366e9c"
+          }
+        }
+      ],
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjpa_jurisprudencia_bff",
+      "surface": "cjsg",
+      "pages": [
+        {
+          "classification": "reachable_valid_data",
+          "page": 1,
+          "returned": 1,
+          "reported_total": 10000,
+          "total_known": true,
+          "ids": [
+            "tjpa-bff-34658551"
+          ],
+          "identities": [
+            {
+              "id": "tjpa-bff-34658551",
+              "authority": "TJPA",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/bff/api/decisoes/buscar",
+            "http_status": 200,
+            "final_url": "https://jurisprudencia.tjpa.jus.br/bff/api/decisoes/buscar",
+            "content_type": "application/json",
+            "response_bytes": 92614,
+            "content_sha256": "a8104f24a64ddb19c041838af707eb2371d8d4fa8c12fa46d95d52fedb9c7585"
+          }
+        },
+        {
+          "classification": "reachable_valid_data",
+          "page": 2,
+          "returned": 1,
+          "reported_total": 10000,
+          "total_known": true,
+          "ids": [
+            "tjpa-bff-35743034"
+          ],
+          "identities": [
+            {
+              "id": "tjpa-bff-35743034",
+              "authority": "TJPA",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/bff/api/decisoes/buscar",
+            "http_status": 200,
+            "final_url": "https://jurisprudencia.tjpa.jus.br/bff/api/decisoes/buscar",
+            "content_type": "application/json",
+            "response_bytes": 105090,
+            "content_sha256": "74aaef5428eccbaf0520139336ad6539737442204fed9adbc49fbe975464c0fc"
+          }
+        }
+      ],
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjpb_pje_jurisprudencia",
+      "surface": "cjsg",
+      "pages": [
+        {
+          "classification": "reachable_valid_data",
+          "page": 1,
+          "returned": 1,
+          "reported_total": 26092,
+          "total_known": true,
+          "ids": [
+            "tjpb-pje-AZnfz33Z7L7jnJoK6dB8"
+          ],
+          "identities": [
+            {
+              "id": "tjpb-pje-AZnfz33Z7L7jnJoK6dB8",
+              "authority": "TJPB",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/api/jurisprudencia/pesquisar",
+            "http_status": 200,
+            "final_url": "https://pje-jurisprudencia.tjpb.jus.br/api/jurisprudencia/pesquisar",
+            "content_type": "application/json",
+            "response_bytes": 7644,
+            "content_sha256": "c66dc47e31927231ede3d6eb3c441fd3ed08ffc4355859b299a64ed4e4de316f"
+          }
+        },
+        {
+          "classification": "reachable_valid_data",
+          "page": 2,
+          "returned": 1,
+          "reported_total": 26092,
+          "total_known": true,
+          "ids": [
+            "tjpb-pje-AXdlnltOU2n4Vco4Ys-8"
+          ],
+          "identities": [
+            {
+              "id": "tjpb-pje-AXdlnltOU2n4Vco4Ys-8",
+              "authority": "TJPB",
+              "degree": "second",
+              "instance": "second",
+              "collection": "CJSG",
+              "document_type": "acordao"
+            }
+          ],
+          "trace": {
+            "endpoint": "/api/jurisprudencia/pesquisar",
+            "http_status": 200,
+            "final_url": "https://pje-jurisprudencia.tjpb.jus.br/api/jurisprudencia/pesquisar",
+            "content_type": "application/json",
+            "response_bytes": 7965,
+            "content_sha256": "baaf82e7f1c5fb6b894cf59eda9be5455caee3aade6cd6f5a592fe2aaf13f63f"
+          }
+        }
+      ],
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "surface": "cjsg",
+      "pages": [
+        {
+          "classification": "reachable_valid_data",
+          "page": 1,
+          "returned": 1,
+          "reported_total": null,
+          "total_known": false,
+          "ids": [
+            "tjrn-jurisprudencia-wjCYbaABYGx659SBZNwK"
+          ],
+          "identities": [
+            {
+              "id": "tjrn-jurisprudencia-wjCYbaABYGx659SBZNwK",
+              "authority": "TJRN",
+              "degree": "second",
+              "instance": "second",
+              "collection": "JURISPRUDENCIA",
+              "document_type": "decisao"
+            }
+          ],
+          "trace": {
+            "endpoint": "POST /api/pesquisar",
+            "http_status": 200,
+            "final_url": "https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+            "content_type": "application/json; charset=utf-8",
+            "response_bytes": 701118,
+            "content_sha256": "21b0740c28be9dc96ed7cc7e7c451818b3f5331eab5d3afdce9c6b9f0e0ae5ac"
+          }
+        },
+        {
+          "classification": "reachable_valid_data",
+          "page": 2,
+          "returned": 1,
+          "reported_total": null,
+          "total_known": false,
+          "ids": [
+            "tjrn-jurisprudencia-PC5taKABYGx659SBkVSI"
+          ],
+          "identities": [
+            {
+              "id": "tjrn-jurisprudencia-PC5taKABYGx659SBkVSI",
+              "authority": "TJRN",
+              "degree": "second",
+              "instance": "second",
+              "collection": "JURISPRUDENCIA",
+              "document_type": "decisao"
+            }
+          ],
+          "trace": {
+            "endpoint": "POST /api/pesquisar",
+            "http_status": 200,
+            "final_url": "https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+            "content_type": "application/json; charset=utf-8",
+            "response_bytes": 1079977,
+            "content_sha256": "0f5d896e265826db80706bedf4874f6014908886d8e9f3b74515f3a5be6d96c1"
+          }
+        }
+      ],
+      "pagination": {
+        "disjoint": true
+      }
+    }
+  ],
+  "summary": {
+    "sources": 6,
+    "search_valid": 6,
+    "second_pages_valid": 6,
+    "pagination_disjoint": 6,
+    "blocked_or_failed": 0
+  },
+  "limitations": [
+    "A amostra e bounded e nao prova estabilidade permanente.",
+    "Somente metadados, identidades e hashes foram persistidos; corpos nao foram gravados.",
+    "Detalhes e documentos nao foram requisitados nesta rechecagem."
+  ]
+}

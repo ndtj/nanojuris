@@ -1,0 +1,60 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T18:56:47.740826+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 1,
+  "manifest_sources": [
+    "tjac_ementario_jurisprudencia"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjac_ementario_jurisprudencia"
+  ],
+  "source_completeness": {
+    "tjac_ementario_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "local_pdf_window",
+      "complete": false,
+      "reason": "volume oficial estatico; o TJAC nao publica total pesquisavel entre volumes e a janela nao representa o acervo integral",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "tjac_ementario_jurisprudencia": null
+  },
+  "source_total_known": {
+    "tjac_ementario_jurisprudencia": false
+  },
+  "source_access_status": {
+    "tjac_ementario_jurisprudencia": "public"
+  },
+  "source_extraction_status": {
+    "tjac_ementario_jurisprudencia": "complete"
+  },
+  "errors": [],
+  "summary": {
+    "sources_requested": 1,
+    "sources_searched": 1,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 0,
+    "deduplicated_total": 0,
+    "collection_complete": false,
+    "unknown_total_sources": [
+      "tjac_ementario_jurisprudencia"
+    ]
+  }
+}

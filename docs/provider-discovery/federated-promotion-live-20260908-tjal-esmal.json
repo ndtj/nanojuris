@@ -1,0 +1,60 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T21:06:22.116683+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 1,
+  "manifest_sources": [
+    "tjal_esmal_banco_sentencas"
+  ],
+  "default_capability_sources": 51,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjal_esmal_banco_sentencas"
+  ],
+  "source_completeness": {
+    "tjal_esmal_banco_sentencas": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "remote_page",
+      "complete": false,
+      "reason": "A ESMAL publica uma colecao curada de sentencas selecionadas e nao informa total autoritativo do acervo.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "tjal_esmal_banco_sentencas": null
+  },
+  "source_total_known": {
+    "tjal_esmal_banco_sentencas": false
+  },
+  "source_access_status": {
+    "tjal_esmal_banco_sentencas": "public"
+  },
+  "source_extraction_status": {
+    "tjal_esmal_banco_sentencas": "complete"
+  },
+  "errors": [],
+  "summary": {
+    "sources_requested": 1,
+    "sources_searched": 1,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 1,
+    "deduplicated_total": 1,
+    "collection_complete": false,
+    "unknown_total_sources": [
+      "tjal_esmal_banco_sentencas"
+    ]
+  }
+}

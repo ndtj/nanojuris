@@ -1,0 +1,65 @@
+{
+  "schema_version": "tjro-liame-live-v1",
+  "generated_at": "2026-09-05T20:47:57.029139+00:00",
+  "mode": "live_bounded",
+  "source": "tjro_liame",
+  "source_id": "tjro_liame",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": "application/json",
+  "record_count_observed": 1,
+  "reported_total": 1,
+  "pagination_mode": "page",
+  "query": {
+    "text": "responsabilidade",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 0,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 6656,
+      "page": 1,
+      "page_size": 2,
+      "returned": 1,
+      "total": 1,
+      "total_known": true,
+      "ids": [
+        "tjro-liame-TJRO-incidente_demanda_repetitiva-1"
+      ],
+      "has_question_or_thesis": true,
+      "access_status": "public",
+      "extraction_status": "complete"
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 571,
+      "page": 2,
+      "page_size": 2,
+      "returned": 0,
+      "total": 1,
+      "total_known": true,
+      "ids": [],
+      "has_question_or_thesis": true,
+      "access_status": "public",
+      "extraction_status": "complete"
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "total_known": true,
+    "errors": 0
+  }
+}

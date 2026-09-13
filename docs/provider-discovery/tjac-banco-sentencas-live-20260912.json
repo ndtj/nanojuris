@@ -1,0 +1,66 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjac_banco_sentencas",
+  "source_id": "tjac_banco_sentencas",
+  "surface": "cjpg",
+  "authority": "TJAC",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "observed_at": "2026-09-12T00:00:00-03:00",
+  "checked_at": "2026-09-12T00:00:00-03:00",
+  "classification": "reachable_valid_data",
+  "status": "valid",
+  "access_status": "public",
+  "extraction_status": "partial_curated_index",
+  "endpoint": "GET https://www.tjac.jus.br/coger/banco-de-sentencas/",
+  "bounded_query": {
+    "text": null,
+    "degree": "first",
+    "instance": "first",
+    "authority": "TJAC",
+    "page": 1,
+    "page_size": 2
+  },
+  "http_status": 200,
+  "final_url": "https://www.tjac.jus.br/coger/banco-de-sentencas/",
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 124442,
+  "content_sha256": "ffecc4f702ec1aac20ff09fc1f3f351f852042ef3115760696a012694532a611",
+  "link_count_observed": 55,
+  "record_count_observed": 2,
+  "all_records_first_degree": true,
+  "reported_total": null,
+  "total_state": "unknown",
+  "pagination_mode": "local_html_window",
+  "document_probe": {
+    "url": "https://www.tjac.jus.br/wp-content/uploads/2015/05/Banco_de_Banco_de_Sentencas_Dr_Alex_Ferreira_Oivane_0701071-98.2014.8.01.0002.pdf",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 186838,
+    "content_sha256": "cab96cce03f70f91819542d149884c7915728140c739ed18527217f8cc8823b0",
+    "valid_pdf_signature": true
+  },
+  "evidence_limits": [
+    "A página é uma coleção editorial de sentenças selecionadas.",
+    "A fonte não declara total autoritativo nem busca geral do CJPG.",
+    "O corpo HTML e o PDF não são persistidos no repositório."
+  ],
+  "promotion": {
+    "runtime": true,
+    "degree_contract": "valid_first_curated",
+    "fixtures": "complete",
+    "live_status": "valid",
+    "quality_gate": "passed_for_curated_surface",
+    "promotion_decision": "automatic_technical_approval_opt_in",
+    "federation_status": "opt_in_only",
+    "default_federation": false
+  },
+  "trace": {
+    "provider": "tjac_banco_sentencas",
+    "endpoint": "GET /coger/banco-de-sentencas/",
+    "retrieval_status": "ok",
+    "document_retrieval_status": "ok"
+  }
+}

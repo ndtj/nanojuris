@@ -1,0 +1,74 @@
+{
+  "schema_version": "tjsp-eproc-live-v1",
+  "generated_at": "2026-09-05T20:25:34.092724+00:00",
+  "mode": "live_bounded",
+  "source": "tjsp_eproc_jurisprudencia",
+  "source_id": "tjsp_eproc_jurisprudencia",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": "text/html; charset=iso-8859-1",
+  "record_count_observed": 2,
+  "reported_total": 297135,
+  "pagination_mode": "page",
+  "provider": "tjsp_eproc_jurisprudencia",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 2286127,
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 297135,
+      "total_known": null,
+      "ids": [
+        "tjsp-eproc-jurisprudencia-611788528510036629843653870070",
+        "tjsp-eproc-jurisprudencia-611788528510036629843648607422"
+      ],
+      "has_summary": true,
+      "source_origins": []
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 2283928,
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 297135,
+      "total_known": null,
+      "ids": [
+        "tjsp-eproc-jurisprudencia-611788528510036629843648607422",
+        "tjsp-eproc-jurisprudencia-611788540264730944223106637527"
+      ],
+      "has_summary": true,
+      "source_origins": []
+    },
+    "pagination": {
+      "status": "overlap",
+      "disjoint_ids": false
+    },
+    "detail": {
+      "status": "error",
+      "error_type": "AccessControlRequiredError",
+      "message": "TJSP/eproc jurisprudence returned access-control HTML"
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": false,
+    "detail_valid": false,
+    "detail_access_controlled": true,
+    "errors": 0
+  }
+}

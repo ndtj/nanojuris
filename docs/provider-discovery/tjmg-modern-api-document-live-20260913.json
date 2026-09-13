@@ -1,0 +1,41 @@
+{
+  "schema_version": "provider-live-document-evidence-v1",
+  "observed_at": "2026-09-13T14:28:11Z",
+  "provider": "tjmg_jurisprudencia",
+  "source_id": "tjmg_jurisprudencia",
+  "authority": "TJMG",
+  "surface": "CJSG",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "search": {
+    "method": "POST",
+    "path": "/jurisprudencias/filter?size=1&page=0&sort=relevancia,DESC",
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 2046,
+    "content_sha256": "c9802b8a9f8fda0591a96f0fb5371307a0ff8007dd76efbf39f9059f181c4664",
+    "elapsed_ms": 395.75,
+    "access_status": "public",
+    "record_count_observed": 1,
+    "reported_total": 1000,
+    "total_known": true,
+    "degree_contract": "second",
+    "textual_summary_present": true
+  },
+  "detail": {
+    "method": "POST",
+    "path": "/jurisprudencias/document",
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 8584,
+    "content_sha256": "4ca59375e99480ee4251779502f9e28d7f6e472e01a0bacfa3de26b4843a473f",
+    "text_characters": 4431,
+    "access_status": "public",
+    "extraction_status": "complete",
+    "document_id_observed": true,
+    "document_url_observed": true
+  },
+  "classification": "success_with_results_and_document",
+  "decision": "TJMG modern API returned a public second-degree result and a non-empty full-text document in a bounded two-request session.",
+  "raw_body_persisted": false
+}

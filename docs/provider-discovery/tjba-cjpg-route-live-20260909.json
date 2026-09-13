@@ -1,0 +1,29 @@
+{
+  "schema_version": "first-degree-route-live-v1",
+  "observed_at": "2026-09-09T06:20:16Z",
+  "authority": "TJBA",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "mode": "bounded_public_get",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "endpoint": "http://www2.tjba.jus.br/jurisprudencianet/index.wsp",
+  "method": "GET",
+  "http_status": 503,
+  "final_url": "http://www2.tjba.jus.br/jurisprudencianet/index.wsp",
+  "content_type": "text/html; charset=iso-8859-1",
+  "response_bytes": 299,
+  "content_sha256": "5764fed31b533e202f88d735a531f70a4ee3f66bb856afa4277872a758e6b578",
+  "classification": "source_unavailable",
+  "jurisprudence_text_observed": false,
+  "contract_status": "not_reproducible",
+  "federation_status": "not_enabled",
+  "limitations": [
+    "A rota foi encontrada como link público no portal oficial do TJBA.",
+    "A resposta 503 não comprova vazio, contrato de primeiro grau ou disponibilidade do acervo.",
+    "Nenhum POST, sessão autenticada, token, CAPTCHA ou controle de acesso foi contornado."
+  ],
+  "next_action": "Não implementar nem promover; reavaliar somente após a fonte oficial voltar a responder ou publicar rota alternativa."
+}

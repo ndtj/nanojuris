@@ -1,0 +1,28 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrn_jurisprudencia",
+  "checked_at": "2026-09-07T03:05:40Z",
+  "mode": "bounded_public_live_check",
+  "endpoint": "POST /api/pesquisar",
+  "source_url": "https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+  "query": {
+    "text": "responsabilidade",
+    "degree": "first",
+    "page": 1,
+    "page_size": 1
+  },
+  "http_status": 200,
+  "returned": 0,
+  "reported_total": 73913,
+  "total_known": false,
+  "access_status": "public",
+  "extraction_status": "empty_unconfirmed",
+  "content_sha256": "3004ec3b79ed3d7ec309ae3acfd1c060159835d993d1a875a7bd06de875e847b",
+  "response_bytes": 1091034,
+  "classification": "empty_unconfirmed_first_degree",
+  "decision": "Não promover CJPG: o endpoint retornou corpus unificado e o filtro de primeiro grau não produziu registros nesta janela; total não é autoritativo após pós-filtro local.",
+  "limitations": [
+    "Nenhum bloqueio foi contornado.",
+    "A ausência de registros não é tratada como vazio autoritativo nem como cobertura CJPG."
+  ]
+}

@@ -4,6 +4,15 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 ## Unreleased
 
+## 0.6.0 - 2026-09-13
+
+- Reunidos os adaptadores e contratos de providers desenvolvidos no ciclo de
+  descoberta, totalizando 80 fontes no runtime padrão.
+- Preservados filtros, links de inteiro teor, rastreabilidade de fonte e o
+  ranking determinístico `legal-live-v1` da série 0.5.
+- Providers diagnósticos e instâncias eleitorais por UF continuam opt-in e não
+  entram na federação automática sem evidência própria.
+
 ## 0.5.0 - 2026-09-13
 
 - Adicionado o ranking determinístico `legal-live-v1`, com análise de intenção,

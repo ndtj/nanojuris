@@ -1,0 +1,316 @@
+{
+  "generated_at": "2026-09-06T09:28:30.475093+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "tjpa_jurisprudencia_bff",
+      "tjpb_pje_jurisprudencia",
+      "tjpe_jurisprudencia",
+      "tjpi_juspi",
+      "tjrj_eproc_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjpa_jurisprudencia_bff",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 10000,
+        "source": "tjpa_jurisprudencia_bff"
+      },
+      "result": {
+        "id": "tjpa-bff-34658551",
+        "case_number": "0854890-29.2018.8.14.0301",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 12025,
+        "document_url": "https://jurisprudencia.tjpa.jus.br/bff/api/decisoes/buscar",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "area",
+          "assuntos",
+          "authority",
+          "binario",
+          "branch",
+          "case_class",
+          "classe",
+          "collection",
+          "competencia",
+          "datadocumento",
+          "datajulgamento",
+          "datapublicacao",
+          "degree",
+          "document_type",
+          "ementatextopuro",
+          "ementatextopuroHighlight",
+          "especie",
+          "full_text",
+          "hashstorage",
+          "id",
+          "idassunto",
+          "idclasse",
+          "indexacao",
+          "instance",
+          "judgment_date_raw",
+          "lido",
+          "matchNaEmenta",
+          "numeroMatchs",
+          "numeroprocesso",
+          "orgao_julgador",
+          "orgaojulgador",
+          "orgaojulgadorcolegiado",
+          "origem",
+          "pessoas",
+          "publication_date_raw",
+          "scoreRelevancia",
+          "sentidodecisao",
+          "sistemaorigem",
+          "subject",
+          "temas",
+          "textoementa",
+          "textooriginal",
+          "textopuro",
+          "textopuroHighlight",
+          "tipo",
+          "usuarioindex"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjpa-bff-34658551",
+        "full_text_length": 12025
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjpb_pje_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 41640,
+        "source": "tjpb_pje_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpb-pje-AZMTKDqyFEqusZRGJwT2",
+        "case_number": "0863057-73.2023.8.15.2001",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://pje-jurisprudencia.tjpb.jus.br/jurisprudencia/view/AZMTKDqyFEqusZRGJwT2",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_id",
+          "_score",
+          "authority",
+          "branch",
+          "collection",
+          "degree",
+          "document_type",
+          "document_url",
+          "dt_ementa",
+          "ementa",
+          "external_id",
+          "full_text_url",
+          "instance",
+          "numero_processo"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjpb-pje-document-AZMTKDqyFEqusZRGJwT2",
+        "full_text_length": 710,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://pje-jurisprudencia.tjpb.jus.br/jurisprudencia/view/AZMTKDqyFEqusZRGJwT2",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes": 6134,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjpe_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 5,
+        "source": "tjpe_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpe-juris-570908200144186220188170001",
+        "case_number": "Apelação Criminal 570908-2 0014418-62.2018.8.17.0001",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 6694,
+        "document_url": "https://www.tjpe.jus.br/consultajurisprudenciaweb/xhtml/consulta/consulta.xhtml",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "acordao",
+          "assunto",
+          "classe",
+          "data_julgamento",
+          "data_publicacao",
+          "document_url",
+          "ementa",
+          "meio_tramitacao",
+          "orgao_julgador",
+          "processo",
+          "relator",
+          "source_key"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjpe-juris-570908200144186220188170001",
+        "full_text_length": 6694
+      },
+      "public_url": {
+        "status": "error",
+        "error_type": "ReadTimeout",
+        "error": "HTTPSConnectionPool(host='www.tjpe.jus.br', port=443): Read timed out. (read timeout=8.0)"
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": "ReadTimeout"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjpi_juspi",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 43887,
+        "source": "tjpi_juspi"
+      },
+      "result": {
+        "id": "tjpi-juspi-35941362",
+        "case_number": "0801851-84.2022.8.18.0069",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.tjpi.jus.br/jurisprudences/35941362/public",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "authority",
+          "branch",
+          "case_class",
+          "classe",
+          "collection",
+          "data_publicacao",
+          "degree",
+          "document_type",
+          "document_url",
+          "full_text_url",
+          "instance",
+          "judging_body",
+          "orgao_julgador",
+          "public_id",
+          "publication_date",
+          "source_decision_type",
+          "subject"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjpi-juspi-35941362",
+        "full_text_length": 2948,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.tjpi.jus.br/jurisprudences/35941362/public",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes": 8600,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjrj_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 17890,
+        "source": "tjrj_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "tjrj-eproc-jurisprudencia-191785336679117570546122024996",
+        "case_number": "0815384-98.2024.8.19.0203",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproc2g-ws.tjrj.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=08153849820248190203",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjrj-eproc-jurisprudencia-document-191785336679117570546122024996",
+        "full_text_length": 8961,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproc2g-ws.tjrj.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=08153849820248190203",
+        "content_type": "text/html; charset=iso-8859-1",
+        "response_bytes": 38612,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 5,
+    "full_text_in_search": 2,
+    "provider_document_loaded": 5,
+    "public_url_reachable": 3,
+    "public_url_document_like": 0,
+    "document_probe_failures": 1,
+    "partial": 1,
+    "errors": 0
+  }
+}

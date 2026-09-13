@@ -1,0 +1,15 @@
+{
+  "hits": 1,
+  "token": "response-token-must-not-persist",
+  "documents": [
+    {
+      "id": "doc-42",
+      "numeroProcesso": "0000001-42.2026.5.06.0001",
+      "tipoDocumento": "Acórdão",
+      "ementa": "Ementa sanitizada",
+      "dataPublicacao": "2026-01-02",
+      "orgaoJulgador": "Primeira Turma",
+      "token": "document-token-must-not-persist"
+    }
+  ]
+}

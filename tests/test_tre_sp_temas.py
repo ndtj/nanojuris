@@ -39,6 +39,17 @@ class FakeResponse:
         self.apparent_encoding = "utf-8"
         self.headers = {"content-type": content_type}
         self.content = content if content is not None else text.encode("utf-8")
+        self.raw = None
+
+    def iter_content(self, chunk_size=65536):
+        yield self.content
+
+    def close(self):
+        return None
+
+    @property
+    def is_redirect(self):
+        return False
 
 
 class FakeSession:
@@ -132,3 +143,45 @@ def test_provider_search_preserves_official_pdf_theme_link():
         .raw["document_links"][0]["url"]
         .endswith("tre-sp-aije-temas-selecionados-2022")
     )
+
+
+def test_provider_fetches_observed_theme_document_through_shared_pipeline():
+    session = FakeSession(
+        [
+            FakeResponse(
+                INDEX_HTML,
+                "https://www.tre-sp.jus.br/jurisprudencia/temas-selecionados-1",
+            ),
+            FakeResponse(
+                DETAIL_HTML,
+                "https://www.tre-sp.jus.br/jurisprudencia/arquivos-da-secao-de-"
+                "jurisprudencia-sp/temas-selecionados/tre-sp-aije-temas-selecionados-2022",
+            ),
+            FakeResponse(
+                "",
+                "https://www.tre-sp.jus.br/jurisprudencia/decisao/123",
+                content_type="application/pdf",
+                content=b"%PDF-1.7 official decision",
+            ),
+        ]
+    )
+    provider = TreSpTemasProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(JurisprudenceQuery(text="abuso", page_size=1))
+    document = provider.get_document(page.results[0].id)
+
+    assert document.content_type == "application/pdf"
+    assert document.raw_bytes.startswith(b"%PDF")
+    assert document.access_status.value == "public"
+    assert session.calls[-1]["url"].endswith("/jurisprudencia/decisao/123")
+
+
+def test_provider_rejects_untrusted_theme_document_url():
+    provider = TreSpTemasProvider(NanoJurisConfig(rate_limit_interval=0), session=FakeSession([]))
+
+    try:
+        provider.get_document("https://evil.example/document.pdf")
+    except ValueError as exc:
+        assert "official host allowlist" in str(exc)
+    else:
+        raise AssertionError("untrusted document URL must be rejected")

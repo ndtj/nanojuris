@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import re
-import time
 from datetime import datetime
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -31,6 +30,12 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import (
+    SharedHttpClient,
+    TransportPolicy,
+    TransportRequest,
+    TransportStatus,
+)
 
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
 
@@ -47,7 +52,17 @@ class TjceInformativosProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.config.tjce_informativos_url).hostname or ""
+        self._transport_policy = TransportPolicy(
+            allowed_hosts=(host,),
+            timeout_seconds=self.config.timeout,
+            max_bytes=8_000_000,
+            max_retries=0,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._transport = SharedHttpClient(self._transport_policy, session=self.session)
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/informativo-jurisprudencia/"
@@ -96,6 +111,7 @@ class TjceInformativosProvider(JurisprudenceProvider):
             content_formats=["html", "pdf"],
             canonical_records=["CanonicalDecision"],
             extracted_fields=[
+                "id",
                 "edition_number",
                 "edition_date",
                 "case_number",
@@ -112,7 +128,8 @@ class TjceInformativosProvider(JurisprudenceProvider):
             endpoints=["GET /informativo-jurisprudencia/"],
             supports_full_text=False,
             supports_cli=True,
-            supports_unified_search=True,
+            supports_unified_search=False,
+            opt_in_unified_search=True,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=True,
@@ -129,6 +146,50 @@ class TjceInformativosProvider(JurisprudenceProvider):
                 "published_to",
                 "page",
             ],
+            filter_semantics={
+                "text": "translated",
+                "exact_phrase": "translated",
+                "number": "translated",
+                "types": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "updated_from": "translated",
+                "updated_to": "translated",
+                "page": "native",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "rapporteur",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                        "order_by",
+                    )
+                },
+            },
             limitations=[
                 "A busca textual e a busca de edicao dependem do formulario WordPress publico.",
                 "A pagina mistura ultima edicao e edicoes anteriores; a edicao e "
@@ -143,24 +204,30 @@ class TjceInformativosProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(self.config.tjce_informativos_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
         try:
-            response = self.session.get(
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-                **kwargs,
+            response = self._transport.request(
+                TransportRequest(
+                    source=self.name,
+                    operation="search",
+                    method="GET",
+                    url=url,
+                    params=kwargs.pop("params", {}) or {},
+                    headers=headers,
+                )
             )
-        except requests.RequestException as exc:
+        except SourceUnavailableError as exc:
             raise SourceUnavailableError(f"TJCE Informativos request failed: {exc}") from exc
-        status = int(getattr(response, "status_code", 0) or 0)
-        text = str(getattr(response, "text", "") or "")
+        status = int(response.status_code or 0)
+        text = response.text
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                f"TJCE Informativos request failed: {response.status.value}"
+            )
         if status in {401, 403} or _looks_like_access_control(text):
             raise AccessControlRequiredError("TJCE Informativos returned access-control response")
         if status == 429:
@@ -169,17 +236,7 @@ class TjceInformativosProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"TJCE Informativos returned HTTP {status}")
         if status >= 400:
             raise SourceUnavailableError(f"TJCE Informativos returned HTTP {status}")
-        response.encoding = response.encoding or response.apparent_encoding or "utf-8"
-        self._last_request = time.monotonic()
-        return response.text, str(getattr(response, "url", "") or url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
+        return text, response.final_url or response.url or url
 
 
 def parse_tjce_informativos(

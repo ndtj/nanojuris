@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T23:32:02.045154Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "stf_juris",
+  "surface": "jurisprudencia",
+  "endpoint": "POST https://jurisprudencia.stf.jus.br/api/search/search",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "stf_juris",
+      "surface": "jurisprudencia",
+      "endpoint": "POST https://jurisprudencia.stf.jus.br/api/search/search",
+      "query_shape": {"text": "infanticidio", "page": 1, "page_size": 1},
+      "http_status": null,
+      "content_type": null,
+      "response_bytes": 0,
+      "content_sha256": null,
+      "record_count_observed": 0,
+      "reported_total": null,
+      "classification": "blocked_transport",
+      "error_type": "SourceUnavailableError"
+    }
+  ],
+  "attempts": [
+    {
+      "verify_ssl": true,
+      "http_status": null,
+      "response_bytes": 0,
+      "classification": "blocked_transport",
+      "error_type": "SSLError"
+    }
+  ],
+  "elapsed_ms": 234,
+  "promotion_decision": "runtime_unchanged",
+  "promotion_blockers": [
+    "A tentativa publica nao completou TLS; nao ha resposta JSON para revalidar o contrato nesta rodada.",
+    "A falha de transporte nao prova indisponibilidade permanente nem autoriza desabilitar verificacao TLS no provider."
+  ],
+  "limitations": [
+    "Uma unica chamada POST publica, sem credenciais e sem retry em escala.",
+    "Nenhum corpo, cookie, token ou payload completo foi persistido.",
+    "Nenhum WAF, CAPTCHA, rate limit ou controle de acesso foi contornado."
+  ]
+}

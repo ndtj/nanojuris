@@ -1,0 +1,296 @@
+{
+  "schema_version": "tre-sjur-date-partition-uf-sweep-v1",
+  "provider": "tre_sjur_jurisprudencia",
+  "collection": "SJUR",
+  "branch": "electoral",
+  "degree": "second",
+  "checked_at": "2026-09-13",
+  "classification": "bounded_date_partition_complete",
+  "observed_at": "2026-09-13T04:52:55.605536+00:00",
+  "request": {
+    "text": "direito",
+    "document_type": "acordao",
+    "degree": "second",
+    "judgment_date_from": "2025-01-01",
+    "judgment_date_to": "2025-01-31",
+    "partitions": "monthly"
+  },
+  "checked": 27,
+  "complete": 27,
+  "response_bodies_persisted": false,
+  "body_persisted": false,
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "results": [
+    {
+      "authority": "TRE-AC",
+      "http_status": 200,
+      "total": 9,
+      "returned": 9,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 447.09
+    },
+    {
+      "authority": "TRE-AL",
+      "http_status": 200,
+      "total": 32,
+      "returned": 32,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 583.91
+    },
+    {
+      "authority": "TRE-AP",
+      "http_status": 200,
+      "total": 3,
+      "returned": 3,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 463.71
+    },
+    {
+      "authority": "TRE-AM",
+      "http_status": 200,
+      "total": 15,
+      "returned": 15,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 606.02
+    },
+    {
+      "authority": "TRE-BA",
+      "http_status": 200,
+      "total": 33,
+      "returned": 33,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 427.34
+    },
+    {
+      "authority": "TRE-CE",
+      "http_status": 200,
+      "total": 59,
+      "returned": 59,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 825.11
+    },
+    {
+      "authority": "TRE-DF",
+      "http_status": 200,
+      "total": 8,
+      "returned": 8,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 709.71
+    },
+    {
+      "authority": "TRE-ES",
+      "http_status": 200,
+      "total": 43,
+      "returned": 43,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 807.91
+    },
+    {
+      "authority": "TRE-GO",
+      "http_status": 200,
+      "total": 5,
+      "returned": 5,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 563.27
+    },
+    {
+      "authority": "TRE-MA",
+      "http_status": 200,
+      "total": 19,
+      "returned": 19,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 704.79
+    },
+    {
+      "authority": "TRE-MG",
+      "http_status": 200,
+      "total": 40,
+      "returned": 40,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 731.11
+    },
+    {
+      "authority": "TRE-MS",
+      "http_status": 200,
+      "total": 6,
+      "returned": 6,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 503.16
+    },
+    {
+      "authority": "TRE-MT",
+      "http_status": 200,
+      "total": 14,
+      "returned": 14,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 570.36
+    },
+    {
+      "authority": "TRE-PA",
+      "http_status": 200,
+      "total": 15,
+      "returned": 15,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 580.07
+    },
+    {
+      "authority": "TRE-PB",
+      "http_status": 200,
+      "total": 13,
+      "returned": 13,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 626.14
+    },
+    {
+      "authority": "TRE-PE",
+      "http_status": 200,
+      "total": 59,
+      "returned": 59,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 858.62
+    },
+    {
+      "authority": "TRE-PI",
+      "http_status": 200,
+      "total": 53,
+      "returned": 53,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 795.63
+    },
+    {
+      "authority": "TRE-PR",
+      "http_status": 200,
+      "total": 68,
+      "returned": 68,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 816.24
+    },
+    {
+      "authority": "TRE-RJ",
+      "http_status": 200,
+      "total": 22,
+      "returned": 22,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 696.62
+    },
+    {
+      "authority": "TRE-RN",
+      "http_status": 200,
+      "total": 11,
+      "returned": 11,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 581.77
+    },
+    {
+      "authority": "TRE-RO",
+      "http_status": 200,
+      "total": 17,
+      "returned": 17,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 577.6
+    },
+    {
+      "authority": "TRE-RR",
+      "http_status": 200,
+      "total": 6,
+      "returned": 6,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 641.72
+    },
+    {
+      "authority": "TRE-RS",
+      "http_status": 200,
+      "total": 64,
+      "returned": 64,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 909.94
+    },
+    {
+      "authority": "TRE-SC",
+      "http_status": 200,
+      "total": 4,
+      "returned": 4,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 592.39
+    },
+    {
+      "authority": "TRE-SE",
+      "http_status": 200,
+      "total": 17,
+      "returned": 17,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 622.63
+    },
+    {
+      "authority": "TRE-SP",
+      "http_status": 200,
+      "total": 15,
+      "returned": 15,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 619.55
+    },
+    {
+      "authority": "TRE-TO",
+      "http_status": 200,
+      "total": 15,
+      "returned": 15,
+      "total_known": true,
+      "complete": true,
+      "status": "complete",
+      "elapsed_ms": 569.93
+    }
+  ]
+}

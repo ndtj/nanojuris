@@ -44,12 +44,12 @@ normativa para novas fontes.
 
 ## Status atual
 
-O snapshot atual contém 54 dossiês:
+O snapshot atual contém 67 dossiês:
 
 | Status | Quantidade | Interpretação |
 | --- | ---: | --- |
-| Implementados | 37 | Adapter registrado e disponível no pacote |
-| Candidatos | 16 | Fonte mapeada, ainda sem adapter runtime |
+| Implementados | 62 | Adapter registrado e disponível no pacote |
+| Candidatos | 4 | Fonte mapeada, ainda sem adapter runtime |
 | Família | 1 | Especificação compartilhada para futuros adapters |
 
 O [auditório documental](../provider-documentation-audit.md) mostra a

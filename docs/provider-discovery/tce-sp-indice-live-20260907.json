@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "provider": "tce_sp_jurisprudencia",
+  "source_url": "https://www.tce.sp.gov.br/boletim-de-jurisprudencia/indice-alfabetico-remissivo",
+  "method": "GET",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 880526,
+  "content_sha256": "3efecaae799520ef62684caebc8e25cf45f98dc8115e1258da0bb7c1a7a0c0a4",
+  "bounded": true,
+  "returned_topics": 16,
+  "parser": "parse_tce_sp_indice",
+  "classification": "valid_public_index",
+  "limitations": [
+    "The index links topics to official bulletin editions and is not the protected dynamic search.",
+    "No CAPTCHA, WAF, login or access-control bypass was attempted."
+  ]
+}

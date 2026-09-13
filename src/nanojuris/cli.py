@@ -48,6 +48,19 @@ def build_parser() -> argparse.ArgumentParser:
     buscar.add_argument("--numero", default="", help="Numero de processo ou precedente")
     buscar.add_argument("--publicacao-de", default="", help="Data inicial de publicacao")
     buscar.add_argument("--publicacao-ate", default="", help="Data final de publicacao")
+    buscar.add_argument("--julgamento-de", default="", help="Data inicial do julgamento")
+    buscar.add_argument("--julgamento-ate", default="", help="Data final do julgamento")
+    buscar.add_argument("--classe", default="", help="Classe processual")
+    buscar.add_argument("--orgao-julgador", default="", help="Órgão julgador")
+    buscar.add_argument("--grau", default="", help="Grau de jurisdição")
+    buscar.add_argument("--instancia", default="", help="Instância")
+    buscar.add_argument("--ramo", default="", help="Ramo da Justiça")
+    buscar.add_argument("--area-juridica", default="", help="Área jurídica")
+    buscar.add_argument("--autoridade", default="", help="Autoridade")
+    buscar.add_argument("--colecao", default="", help="Coleção")
+    buscar.add_argument("--tipo-documento", default="", help="Tipo documental")
+    buscar.add_argument("--origem", default="", help="Origem/publicação")
+    buscar.add_argument("--tipo-decisao", default="", help="Tipo de decisão")
     buscar.add_argument("--parte", default="", help="Nome da parte, quando suportado pela fonte")
     buscar.add_argument("--documento-parte", default="", help="Documento da parte")
     buscar.add_argument("--advogado", default="", help="Nome do advogado")
@@ -92,6 +105,44 @@ def build_parser() -> argparse.ArgumentParser:
     buscar_unificada.add_argument("--orgaos", default="", help="Siglas separadas por virgula")
     buscar_unificada.add_argument("--tipos", default="", help="Tipos separados por virgula")
     buscar_unificada.add_argument("--numero", default="", help="Numero de processo ou precedente")
+    buscar_unificada.add_argument("--parte", default="", help="Nome da parte")
+    buscar_unificada.add_argument("--documento-parte", default="", help="Documento da parte")
+    buscar_unificada.add_argument("--advogado", default="", help="Nome do advogado")
+    buscar_unificada.add_argument("--oab", default="", help="Numero de OAB")
+    buscar_unificada.add_argument("--precatoria", default="", help="Numero da carta precatoria")
+    buscar_unificada.add_argument(
+        "--documento-delegacia", default="", help="Documento de delegacia"
+    )
+    buscar_unificada.add_argument("--cda", default="", help="Numero de CDA")
+    buscar_unificada.add_argument("--origens", default="", help="Origens separadas por virgula")
+    buscar_unificada.add_argument("--frase-exata", default="", help="Frase exata")
+    buscar_unificada.add_argument("--todas-palavras", default="", help="Todas as palavras")
+    buscar_unificada.add_argument("--qualquer-palavra", default="", help="Qualquer palavra")
+    buscar_unificada.add_argument("--sem-palavras", default="", help="Palavras a excluir")
+    buscar_unificada.add_argument("--atualizacao-de", default="")
+    buscar_unificada.add_argument("--atualizacao-ate", default="")
+    buscar_unificada.add_argument("--publicacao-de", default="")
+    buscar_unificada.add_argument("--publicacao-ate", default="")
+    buscar_unificada.add_argument("--julgamento-de", default="")
+    buscar_unificada.add_argument("--julgamento-ate", default="")
+    buscar_unificada.add_argument("--classe", default="")
+    buscar_unificada.add_argument("--orgao-julgador", default="")
+    buscar_unificada.add_argument("--grau", default="")
+    buscar_unificada.add_argument("--instancia", default="")
+    buscar_unificada.add_argument("--ramo", default="")
+    buscar_unificada.add_argument("--area-juridica", default="")
+    buscar_unificada.add_argument("--autoridade", default="")
+    buscar_unificada.add_argument("--colecao", default="")
+    buscar_unificada.add_argument("--tipo-documento", default="")
+    buscar_unificada.add_argument("--origem", default="")
+    buscar_unificada.add_argument("--tipo-decisao", default="")
+    buscar_unificada.add_argument(
+        "--detalhar", action="store_true", help="Buscar detalhes quando a fonte suportar"
+    )
+    buscar_unificada.add_argument(
+        "--incluir-cancelados", action="store_true", help="Incluir registros cancelados"
+    )
+    buscar_unificada.add_argument("--ordenar", default="Text", help="Campo de ordenacao da fonte")
     buscar_unificada.add_argument("--pagina", type=int, default=1)
     buscar_unificada.add_argument("--limite", type=int, default=10)
     buscar_unificada.add_argument(
@@ -107,7 +158,39 @@ def build_parser() -> argparse.ArgumentParser:
     )
     coletar.add_argument("texto", nargs="?", default="", help="Texto de busca")
     coletar.add_argument("--fonte", default="bnp_pangea", help="Provider de origem")
+    coletar.add_argument("--publicacao-de", default="")
+    coletar.add_argument("--publicacao-ate", default="")
+    coletar.add_argument("--julgamento-de", default="")
+    coletar.add_argument("--julgamento-ate", default="")
+    coletar.add_argument("--classe", default="")
+    coletar.add_argument("--orgao-julgador", default="")
+    coletar.add_argument("--grau", default="")
+    coletar.add_argument("--instancia", default="")
+    coletar.add_argument("--ramo", default="")
+    coletar.add_argument("--area-juridica", default="")
+    coletar.add_argument("--autoridade", default="")
+    coletar.add_argument("--colecao", default="")
+    coletar.add_argument("--tipo-documento", default="")
+    coletar.add_argument("--origem", default="")
+    coletar.add_argument("--tipo-decisao", default="")
     coletar.add_argument("--numero", default="", help="Número de processo ou precedente")
+    coletar.add_argument("--parte", default="", help="Nome da parte")
+    coletar.add_argument("--documento-parte", default="", help="Documento da parte")
+    coletar.add_argument("--advogado", default="", help="Nome do advogado")
+    coletar.add_argument("--oab", default="", help="Numero de OAB")
+    coletar.add_argument("--precatoria", default="", help="Numero da carta precatoria")
+    coletar.add_argument("--documento-delegacia", default="", help="Documento de delegacia")
+    coletar.add_argument("--cda", default="", help="Numero de CDA")
+    coletar.add_argument("--origens", default="", help="Origens separadas por virgula")
+    coletar.add_argument("--frase-exata", default="", help="Frase exata")
+    coletar.add_argument("--todas-palavras", default="", help="Todas as palavras")
+    coletar.add_argument("--qualquer-palavra", default="", help="Qualquer palavra")
+    coletar.add_argument("--sem-palavras", default="", help="Palavras a excluir")
+    coletar.add_argument("--atualizacao-de", default="")
+    coletar.add_argument("--atualizacao-ate", default="")
+    coletar.add_argument("--incluir-cancelados", action="store_true")
+    coletar.add_argument("--ordenar", default="Text")
+    coletar.add_argument("--detalhar", action="store_true")
     coletar.add_argument("--pagina", type=int, default=1)
     coletar.add_argument("--limite", type=int, default=100)
     coletar.add_argument("--max-paginas", type=int, default=100)
@@ -317,9 +400,22 @@ def build_parser() -> argparse.ArgumentParser:
     store_query.add_argument("--relator", default="")
     store_query.add_argument("--tipo-decisao", default="")
     store_query.add_argument("--tipo-precedente", default="")
+    store_query.add_argument("--classe", default="", help="Classe processual canônica")
+    store_query.add_argument("--orgao-julgador", default="", help="Órgão julgador")
+    store_query.add_argument("--grau", default="", help="Grau de jurisdição")
+    store_query.add_argument("--instancia", default="", help="Instância")
+    store_query.add_argument("--ramo", default="", help="Ramo da Justiça")
+    store_query.add_argument("--area-juridica", default="", help="Área jurídica")
+    store_query.add_argument("--autoridade", default="", help="Autoridade")
+    store_query.add_argument("--colecao", default="", help="Coleção de origem")
+    store_query.add_argument("--tipo-documento", default="", help="Tipo documental")
+    store_query.add_argument("--origem", default="", help="Origem/publicação")
+    store_query.add_argument("--acesso", default="", help="Status de acesso")
     store_query.add_argument("--canonical-key", default="")
     store_query.add_argument("--publicacao-de", default="")
     store_query.add_argument("--publicacao-ate", default="")
+    store_query.add_argument("--julgamento-de", default="", help="Data inicial do julgamento")
+    store_query.add_argument("--julgamento-ate", default="", help="Data final do julgamento")
     store_query.add_argument("--limite", type=int, default=100)
     store_query.add_argument(
         "--compacto",
@@ -391,8 +487,6 @@ def main(argv: list[str] | None = None) -> int:
                     store=args.store,
                     label=args.label or None,
                     number=args.numero,
-                    published_from=args.publicacao_de,
-                    published_to=args.publicacao_ate,
                     party_name=args.parte,
                     party_document=args.documento_parte,
                     lawyer_name=args.advogado,
@@ -400,6 +494,21 @@ def main(argv: list[str] | None = None) -> int:
                     precatory_number=args.precatoria,
                     police_document=args.documento_delegacia,
                     cda=args.cda,
+                    published_from=args.publicacao_de,
+                    published_to=args.publicacao_ate,
+                    judgment_date_from=args.julgamento_de,
+                    judgment_date_to=args.julgamento_ate,
+                    case_class=args.classe,
+                    judging_body=args.orgao_julgador,
+                    degree=args.grau,
+                    instance=args.instancia,
+                    branch=args.ramo,
+                    legal_area=args.area_juridica,
+                    authority=args.autoridade,
+                    collection=args.colecao,
+                    document_type=args.tipo_documento,
+                    source_origin=args.origem,
+                    decision_type=args.tipo_decisao,
                     fetch_details=args.detalhar,
                 )
                 print(
@@ -426,6 +535,19 @@ def main(argv: list[str] | None = None) -> int:
                 number=args.numero,
                 published_from=args.publicacao_de,
                 published_to=args.publicacao_ate,
+                judgment_date_from=args.julgamento_de,
+                judgment_date_to=args.julgamento_ate,
+                case_class=args.classe,
+                judging_body=args.orgao_julgador,
+                degree=args.grau,
+                instance=args.instancia,
+                branch=args.ramo,
+                legal_area=args.area_juridica,
+                authority=args.autoridade,
+                collection=args.colecao,
+                document_type=args.tipo_documento,
+                source_origin=args.origem,
+                decision_type=args.tipo_decisao,
                 party_name=args.parte,
                 party_document=args.documento_parte,
                 lawyer_name=args.advogado,
@@ -449,6 +571,38 @@ def main(argv: list[str] | None = None) -> int:
                     courts=courts,
                     types=types,
                     number=args.numero,
+                    party_name=args.parte,
+                    party_document=args.documento_parte,
+                    lawyer_name=args.advogado,
+                    oab=args.oab,
+                    precatory_number=args.precatoria,
+                    police_document=args.documento_delegacia,
+                    cda=args.cda,
+                    source_origins=_split_csv(args.origens),
+                    exact_phrase=args.frase_exata,
+                    all_words=args.todas_palavras,
+                    any_words=args.qualquer_palavra,
+                    without_words=args.sem_palavras,
+                    updated_from=args.atualizacao_de,
+                    updated_to=args.atualizacao_ate,
+                    published_from=args.publicacao_de,
+                    published_to=args.publicacao_ate,
+                    judgment_date_from=args.julgamento_de,
+                    judgment_date_to=args.julgamento_ate,
+                    case_class=args.classe,
+                    judging_body=args.orgao_julgador,
+                    degree=args.grau,
+                    instance=args.instancia,
+                    branch=args.ramo,
+                    legal_area=args.area_juridica,
+                    authority=args.autoridade,
+                    collection=args.colecao,
+                    document_type=args.tipo_documento,
+                    source_origin=args.origem,
+                    decision_type=args.tipo_decisao,
+                    include_cancelled=args.incluir_cancelados,
+                    order_by=args.ordenar,
+                    fetch_details=args.detalhar,
                     page=args.pagina,
                     page_size=args.limite,
                     store=args.store,
@@ -468,6 +622,35 @@ def main(argv: list[str] | None = None) -> int:
                 courts=courts,
                 types=types,
                 number=args.numero,
+                party_name=args.parte,
+                party_document=args.documento_parte,
+                lawyer_name=args.advogado,
+                oab=args.oab,
+                precatory_number=args.precatoria,
+                police_document=args.documento_delegacia,
+                cda=args.cda,
+                source_origins=_split_csv(args.origens),
+                exact_phrase=args.frase_exata,
+                all_words=args.todas_palavras,
+                any_words=args.qualquer_palavra,
+                without_words=args.sem_palavras,
+                updated_from=args.atualizacao_de,
+                updated_to=args.atualizacao_ate,
+                published_from=args.publicacao_de,
+                published_to=args.publicacao_ate,
+                judgment_date_from=args.julgamento_de,
+                judgment_date_to=args.julgamento_ate,
+                case_class=args.classe,
+                judging_body=args.orgao_julgador,
+                degree=args.grau,
+                instance=args.instancia,
+                branch=args.ramo,
+                legal_area=args.area_juridica,
+                authority=args.autoridade,
+                collection=args.colecao,
+                document_type=args.tipo_documento,
+                source_origin=args.origem,
+                decision_type=args.tipo_decisao,
                 page=args.pagina,
                 page_size=args.limite,
             )
@@ -482,6 +665,38 @@ def main(argv: list[str] | None = None) -> int:
                 page=args.pagina,
                 page_size=args.limite,
                 number=args.numero,
+                party_name=args.parte,
+                party_document=args.documento_parte,
+                lawyer_name=args.advogado,
+                oab=args.oab,
+                precatory_number=args.precatoria,
+                police_document=args.documento_delegacia,
+                cda=args.cda,
+                source_origins=_split_csv(args.origens),
+                all_words=args.todas_palavras,
+                any_words=args.qualquer_palavra,
+                without_words=args.sem_palavras,
+                exact_phrase=args.frase_exata,
+                updated_from=args.atualizacao_de,
+                updated_to=args.atualizacao_ate,
+                include_cancelled=args.incluir_cancelados,
+                order_by=args.ordenar,
+                fetch_details=args.detalhar,
+                published_from=args.publicacao_de,
+                published_to=args.publicacao_ate,
+                judgment_date_from=args.julgamento_de,
+                judgment_date_to=args.julgamento_ate,
+                case_class=args.classe,
+                judging_body=args.orgao_julgador,
+                degree=args.grau,
+                instance=args.instancia,
+                branch=args.ramo,
+                legal_area=args.area_juridica,
+                authority=args.autoridade,
+                collection=args.colecao,
+                document_type=args.tipo_documento,
+                source_origin=args.origem,
+                decision_type=args.tipo_decisao,
             )
             if args.store:
                 with SQLiteStore(args.store) as store_backend:
@@ -682,9 +897,22 @@ def main(argv: list[str] | None = None) -> int:
                         rapporteur=args.relator or None,
                         decision_type=args.tipo_decisao or None,
                         precedent_type=args.tipo_precedente or None,
+                        case_class=args.classe or None,
+                        judging_body=args.orgao_julgador or None,
+                        degree=args.grau or None,
+                        instance=args.instancia or None,
+                        branch=args.ramo or None,
+                        legal_area=args.area_juridica or None,
+                        authority=args.autoridade or None,
+                        collection=args.colecao or None,
+                        document_type=args.tipo_documento or None,
+                        source_origin=args.origem or None,
+                        access_status=args.acesso or None,
                         canonical_key=args.canonical_key or None,
                         publication_date_from=args.publicacao_de or None,
                         publication_date_to=args.publicacao_ate or None,
+                        judgment_date_from=args.julgamento_de or None,
+                        judgment_date_to=args.julgamento_ate or None,
                         limit=args.limite,
                     )
                     if args.compacto:

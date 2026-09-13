@@ -1,0 +1,30 @@
+{
+  "provider": "tjro_jurisprudencia",
+  "captured_at": "2026-09-02",
+  "network_access": "public_bounded",
+  "credentials_used": false,
+  "captcha_or_waf_bypassed": false,
+  "endpoint": "https://juris-back.tjro.jus.br/search/varios_parametros/",
+  "method": "POST",
+  "request_contract": {
+    "from": 0,
+    "size": 1,
+    "fields": {"query": "responsabilidade"},
+    "sort": [{"_score": "desc"}, {"dtjulgamento": "desc"}]
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 93148,
+    "content_sha256": "92be2fa33ad1f1373e68664fcaaf2d8fbf627e90db8141ecb97a8b715fd13040",
+    "elapsed_ms": 1674.95,
+    "total": 676011,
+    "returned": 1,
+    "first_hit_id_present": true,
+    "first_hit_degree": 1,
+    "first_hit_source_system": "PJEPG",
+    "first_hit_type_present": true
+  },
+  "body_persisted": false,
+  "interpretation": "Contrato de listagem JSON e offset continua reproduzivel; detalhe e limite remoto de size permanecem pendentes."
+}

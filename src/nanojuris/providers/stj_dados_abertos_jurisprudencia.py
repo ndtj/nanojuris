@@ -8,9 +8,12 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import html
 import io
 import json
+import re
 import time
+import zipfile
 from dataclasses import asdict, dataclass
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -49,6 +52,7 @@ DEFAULT_QUERY = "jurisprudencia"
 MAX_ROWS = 100
 MAX_PLAN_RESOURCES = 100
 DEFAULT_MAX_SYNC_BYTES = 50_000_000
+MAX_ARCHIVE_MEMBERS = 1_000
 
 
 @dataclass(slots=True)
@@ -69,6 +73,26 @@ class StjSyncResult:
     source_hash: str | None = None
     source_fingerprint: str | None = None
     skipped: bool = False
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(slots=True)
+class StjIntegralPairSyncResult:
+    """Audit summary for a metadata plus integral-text resource pair."""
+
+    source: str
+    dataset_id: str
+    metadata_resource_id: str
+    text_resource_id: str
+    metadata_records: int
+    text_records: int
+    records_saved: int
+    unmatched_metadata: int
+    unmatched_text: int
+    content_sha256: str
+    run_id: str
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -251,10 +275,10 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
         if resource is None:
             raise QueryRejectedError("resource_id nao pertence ao dataset informado")
         resource_format = str(resource.get("format") or "").upper()
-        if resource_format not in {"JSON", "CSV"}:
+        if resource_format not in {"JSON", "CSV", "ZIP"}:
             raise UnsupportedQueryError(
-                "A sincronizacao inicial aceita somente recursos JSON ou CSV; "
-                "ZIP permanece bloqueado"
+                "A sincronizacao aceita recursos JSON, CSV ou ZIP contendo "
+                "cargas JSON/CSV; outros formatos permanecem bloqueados"
             )
         resource_url = _require_official_resource_url(str(resource.get("url") or ""), self.base_url)
         source_hash = _text_value(resource, "hash") or None
@@ -296,13 +320,15 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
             content=content,
             limitations=[
                 f"Recurso limitado a {max_bytes} bytes.",
-                "Somente JSON e CSV sao aceitos nesta fase; ZIP nao e baixado.",
+                "ZIP e aceito somente com membros JSON/CSV, limite de membros e "
+                "tamanho total extraido controlados.",
             ],
         )
         trace.content_sha256 = content_sha256
         trace.response_bytes = len(content)
         trace.transformations = ["download_stream", "parse_rows", "deduplicate_by_id"]
-        rows = _parse_resource(content, resource_format)
+        rows = _parse_resource(content, resource_format, max_bytes=max_bytes)
+        _validate_resource_schema(rows)
         unique_rows, duplicate_records, invalid_records = _deduplicate_rows(rows)
         records = [
             _row_to_decision(
@@ -361,13 +387,145 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
             source_fingerprint=source_fingerprint,
         )
 
+    def sync_integral_pair(
+        self,
+        dataset_id: str,
+        metadata_resource_id: str,
+        text_resource_id: str,
+        *,
+        store: SQLiteStore,
+        max_bytes: int = DEFAULT_MAX_SYNC_BYTES,
+        label: str | None = None,
+    ) -> StjIntegralPairSyncResult:
+        """Join one official STJ metadata JSON resource to its text ZIP.
+
+        The STJ publishes daily integral decisions as two resources: a JSON
+        metadata file keyed by ``SeqDocumento`` and a ZIP whose UTF-8/HTML
+        text filenames use that same identifier.  They are intentionally
+        synchronized together so a metadata-only resource can never be
+        mistaken for full text, and an unmatched text member is reported
+        instead of silently becoming a record.
+        """
+
+        if max_bytes <= 0:
+            raise QueryRejectedError("max_bytes deve ser maior que zero")
+        description = self.describe_dataset(dataset_id)
+        resources = {item.get("id"): item for item in description["resources"]}
+        metadata = resources.get(metadata_resource_id)
+        text_resource = resources.get(text_resource_id)
+        if metadata is None or text_resource is None:
+            raise QueryRejectedError("os dois resource_id devem pertencer ao dataset informado")
+        if str(metadata.get("format") or "").upper() != "JSON":
+            raise QueryRejectedError("metadata_resource_id deve apontar para um JSON")
+        if str(text_resource.get("format") or "").upper() != "ZIP":
+            raise QueryRejectedError("text_resource_id deve apontar para um ZIP")
+        metadata_url = _require_official_resource_url(str(metadata.get("url") or ""), self.base_url)
+        text_url = _require_official_resource_url(
+            str(text_resource.get("url") or ""), self.base_url
+        )
+        metadata_content, metadata_response = self._download_resource(
+            metadata_url, max_bytes=max_bytes
+        )
+        text_content, text_response = self._download_resource(text_url, max_bytes=max_bytes)
+        metadata_rows = _parse_resource(metadata_content, "JSON", max_bytes=max_bytes)
+        normalized_rows: list[dict[str, Any]] = []
+        for row in metadata_rows:
+            item = dict(row)
+            identifier = _text_value(item, "id", "SeqDocumento", "seqDocumento")
+            if identifier:
+                item["id"] = identifier
+            normalized_rows.append(item)
+        _validate_resource_schema(normalized_rows)
+        text_rows = _parse_text_archive(text_content, max_bytes=max_bytes)
+        metadata_by_id = {
+            _text_value(row, "id"): row for row in normalized_rows if _text_value(row, "id")
+        }
+        merged: list[dict[str, Any]] = []
+        for identifier, row in metadata_by_id.items():
+            text = text_rows.get(identifier)
+            if text is None:
+                continue
+            item = dict(row)
+            item["decisao_html"] = text
+            item["decisao"] = _html_to_text(text)
+            item["integral_text_resource_id"] = text_resource_id
+            merged.append(item)
+        if not merged:
+            raise ParserContractChangedError(
+                "STJ metadata e ZIP de inteiro teor nao possuem identificadores correspondentes"
+            )
+        combined_hash = hashlib.sha256(metadata_content + text_content).hexdigest()
+        trace = self._trace(
+            "GET metadata+integral-text resources",
+            query={
+                "dataset_id": dataset_id,
+                "metadata_resource_id": metadata_resource_id,
+                "text_resource_id": text_resource_id,
+            },
+            response=metadata_response,
+            content=metadata_content + text_content,
+            limitations=[
+                f"Cada recurso limitado a {max_bytes} bytes.",
+                "O inteiro teor e associado por SeqDocumento e preservado em texto "
+                "normalizado e raw HTML.",
+            ],
+        )
+        trace.final_url = f"{metadata_response.url} | {text_response.url}"
+        trace.transformations = [
+            "json_metadata",
+            "bounded_zip_text",
+            "join_by_seq_documento",
+            "html_to_text",
+        ]
+        records = []
+        for row in merged:
+            decision = _row_to_decision(
+                row,
+                dataset_id=dataset_id,
+                resource_id=metadata_resource_id,
+                trace=trace,
+                content_sha256=combined_hash,
+                content_bytes=len(metadata_content) + len(text_content),
+            )
+            decision.degree = "superior"
+            decision.instance = "superior"
+            decision.branch = "superior"
+            decision.authority = "STJ"
+            decision.collection = "JURISPRUDENCIA"
+            records.append(decision)
+        run = store.save_research_run(
+            source=self.name,
+            text=f"dataset:{dataset_id} metadata:{metadata_resource_id} text:{text_resource_id}",
+            query={
+                "dataset_id": dataset_id,
+                "metadata_resource_id": metadata_resource_id,
+                "text_resource_id": text_resource_id,
+                "content_sha256": combined_hash,
+            },
+            records=records,
+            label=label or f"STJ integral pair {dataset_id}/{metadata_resource_id}",
+        )
+        return StjIntegralPairSyncResult(
+            source=self.name,
+            dataset_id=dataset_id,
+            metadata_resource_id=metadata_resource_id,
+            text_resource_id=text_resource_id,
+            metadata_records=len(metadata_rows),
+            text_records=len(text_rows),
+            records_saved=len(records),
+            unmatched_metadata=max(0, len(metadata_by_id) - len(records)),
+            unmatched_text=len(set(text_rows) - set(metadata_by_id)),
+            content_sha256=combined_hash,
+            run_id=run.id,
+        )
+
     def get_capabilities(self) -> ProviderCapabilities:
         return ProviderCapabilities(
             source=self.name,
             display_name="STJ Dados Abertos de Jurisprudencia",
             source_url=self.base_url,
             category="court_jurisprudence_dataset",
-            search_modes=["dataset", "catalog", "sync_plan", "local_sync"],
+            search_modes=["dataset", "catalog", "sync_plan", "local_sync", "integral_pair_sync"],
             document_types=["acordao_espelho", "integra_decisao", "acordao_dje"],
             content_formats=["json", "csv", "zip"],
             canonical_records=["ProviderCatalog", "CanonicalDecision", "ResearchRun"],
@@ -389,14 +547,39 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "source_hash",
                 "run_id",
                 "skipped",
+                "integral_text_resource_id",
+                "document_url",
+                "case_number",
+                "summary",
+                "full_text",
+                "judgment_date",
+                "publication_date",
+                "source_updated_at",
+                "document_type",
+                "degree",
+                "instance",
+                "branch",
+                "authority",
+                "collection",
+                "source_trace",
             ],
             access_statuses=[AccessStatus.PUBLIC, AccessStatus.SOURCE_UNAVAILABLE],
             endpoints=[
                 "GET /api/3/action/package_search",
                 "GET /api/3/action/package_show",
                 "GET /resource/{resource_id} (explicit local sync)",
+                "GET /resource/{metadata_resource_id} + "
+                "/resource/{text_resource_id} (integral pair)",
             ],
-            supports_full_text=False,
+            # The daily STJ integral dataset publishes metadata JSON and a
+            # matching text ZIP.  Full text is available only through the
+            # explicit pair-sync operation, never through remote unified
+            # search or an assumed single-resource download.
+            supports_full_text=True,
+            # The capability contract uses ``detail_call`` for any lazy
+            # document retrieval. The metadata/text pair is the source-level
+            # implementation detail of that call.
+            full_text_access="detail_call",
             supports_catalog=True,
             supports_live_tests=True,
             supports_cli=True,
@@ -410,15 +593,62 @@ class StjDadosAbertosProvider(JurisprudenceProvider):
                 "rows",
                 "dataset_id",
                 "resource_id",
+                "metadata_resource_id",
+                "text_resource_id",
                 "format",
                 "max_bytes",
                 "force",
             ],
+            filter_semantics={
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "text",
+                        "courts",
+                        "types",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "exact_phrase",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "number",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "document_type",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                    )
+                },
+            },
             limitations=[
                 "Nao oferece busca jurisprudencial online neste adapter.",
                 "Recursos podem ser grandes e nao sao baixados automaticamente.",
                 "Espelhos de acordaos nao equivalem a cobertura integral do STJ.",
-                "A sincronizacao local aceita JSON/CSV; ZIP permanece bloqueado.",
+                "O inteiro teor exige o pareamento explicito de JSON de metadados "
+                "com ZIP de textos.",
+                "A sincronizacao local aceita JSON/CSV e ZIP seguro contendo "
+                "cargas JSON/CSV; outros formatos permanecem bloqueados.",
             ],
             responsible_use=[
                 "Preferir sincronizacao incremental e respeitar o tamanho publicado.",
@@ -640,7 +870,12 @@ def _resource_fingerprint(resource: dict[str, Any], *, source_hash: str | None) 
     return f"metadata:{hashlib.sha256(encoded).hexdigest()}"
 
 
-def _parse_resource(content: bytes, resource_format: str) -> list[dict[str, Any]]:
+def _parse_resource(
+    content: bytes,
+    resource_format: str,
+    *,
+    max_bytes: int = DEFAULT_MAX_SYNC_BYTES,
+) -> list[dict[str, Any]]:
     if resource_format == "JSON":
         try:
             payload = json.loads(content.decode("utf-8-sig"))
@@ -660,6 +895,8 @@ def _parse_resource(content: bytes, resource_format: str) -> list[dict[str, Any]
         else:
             raise ParserContractChangedError("STJ JSON resource must contain records")
         return [row for row in rows if isinstance(row, dict)]
+    if resource_format == "ZIP":
+        return _parse_zip_resource(content, max_bytes=max_bytes)
     try:
         text = content.decode("utf-8-sig")
     except UnicodeDecodeError:
@@ -675,12 +912,150 @@ def _parse_resource(content: bytes, resource_format: str) -> list[dict[str, Any]
         raise ParserContractChangedError("STJ CSV resource is invalid") from exc
 
 
+def _validate_resource_schema(rows: list[dict[str, Any]]) -> None:
+    """Reject a non-empty resource that no longer exposes its stable id.
+
+    Individual malformed rows are still counted as invalid by the existing
+    deduplication gate.  A payload with no ``id`` field anywhere, however,
+    indicates a source-level schema change and must not be accepted as a
+    successful empty synchronization.
+    """
+
+    if rows and not any(_text_value(row, "id") for row in rows):
+        raise ParserContractChangedError("STJ resource schema missing id")
+
+
+def _parse_zip_resource(content: bytes, *, max_bytes: int) -> list[dict[str, Any]]:
+    """Parse a bounded STJ archive without allowing unsafe extraction.
+
+    CKAN publishes historical loads as ZIP files.  The archive itself is
+    downloaded under the normal response limit; each member is then checked
+    for path traversal, encryption, expansion size and an allowed JSON/CSV
+    suffix before parsing.  We never extract to disk and reject archives that
+    contain no structured data instead of silently returning an empty list.
+    """
+
+    try:
+        archive = zipfile.ZipFile(io.BytesIO(content))
+    except (zipfile.BadZipFile, OSError) as exc:
+        raise ParserContractChangedError("STJ ZIP resource is invalid") from exc
+
+    rows: list[dict[str, Any]] = []
+    extracted_bytes = 0
+    members = archive.infolist()
+    if len(members) > MAX_ARCHIVE_MEMBERS:
+        raise ParserContractChangedError("STJ ZIP resource has too many members")
+    try:
+        for info in members:
+            name = info.filename
+            if info.is_dir():
+                continue
+            if info.flag_bits & 0x1:
+                raise ParserContractChangedError("STJ ZIP resource contains encrypted data")
+            normalized = name.replace("\\", "/")
+            if normalized.startswith("/") or any(part == ".." for part in normalized.split("/")):
+                raise ParserContractChangedError("STJ ZIP resource contains unsafe path")
+            suffix = normalized.rsplit("/", 1)[-1].lower()
+            if suffix.endswith(".json"):
+                member_format = "JSON"
+            elif suffix.endswith(".csv"):
+                member_format = "CSV"
+            else:
+                # Archives may include licensing/readme files.  They are not
+                # data and are ignored, while an archive with only such files
+                # is rejected below.
+                continue
+            extracted_bytes += int(info.file_size)
+            if extracted_bytes > max_bytes:
+                raise ParserContractChangedError(
+                    "STJ ZIP resource exceeds max_bytes after extraction"
+                )
+            compressed = max(1, int(info.compress_size))
+            if info.file_size > compressed * 1_000:
+                raise ParserContractChangedError("STJ ZIP resource has an unsafe compression ratio")
+            try:
+                member_content = archive.read(info)
+            except (OSError, RuntimeError, zipfile.BadZipFile) as exc:
+                raise ParserContractChangedError("STJ ZIP member could not be read") from exc
+            rows.extend(_parse_resource(member_content, member_format, max_bytes=max_bytes))
+    finally:
+        archive.close()
+    if not rows:
+        raise ParserContractChangedError("STJ ZIP resource has no JSON/CSV records")
+    return rows
+
+
+def _parse_text_archive(content: bytes, *, max_bytes: int) -> dict[str, str]:
+    """Read the STJ integral-text ZIP into ``SeqDocumento -> HTML text``."""
+
+    try:
+        archive = zipfile.ZipFile(io.BytesIO(content))
+    except (zipfile.BadZipFile, OSError) as exc:
+        raise ParserContractChangedError("STJ integral ZIP resource is invalid") from exc
+    texts: dict[str, str] = {}
+    extracted_bytes = 0
+    members = archive.infolist()
+    if len(members) > MAX_ARCHIVE_MEMBERS:
+        raise ParserContractChangedError("STJ integral ZIP resource has too many members")
+    try:
+        for info in members:
+            if info.is_dir():
+                continue
+            if info.flag_bits & 0x1:
+                raise ParserContractChangedError(
+                    "STJ integral ZIP resource contains encrypted data"
+                )
+            normalized = info.filename.replace("\\", "/")
+            if normalized.startswith("/") or any(part == ".." for part in normalized.split("/")):
+                raise ParserContractChangedError("STJ integral ZIP resource contains unsafe path")
+            if not normalized.lower().endswith((".txt", ".html", ".htm")):
+                continue
+            extracted_bytes += int(info.file_size)
+            if extracted_bytes > max_bytes:
+                raise QueryRejectedError("STJ integral ZIP excede max_bytes apos extracao")
+            compressed = max(1, int(info.compress_size))
+            if info.file_size > compressed * 1_000:
+                raise ParserContractChangedError("STJ integral ZIP has unsafe compression ratio")
+            try:
+                raw = archive.read(info)
+            except (OSError, RuntimeError, zipfile.BadZipFile) as exc:
+                raise ParserContractChangedError(
+                    "STJ integral ZIP member could not be read"
+                ) from exc
+            identifier = normalized.rsplit("/", 1)[-1].rsplit(".", 1)[0].strip()
+            if not identifier:
+                continue
+            try:
+                text = raw.decode("utf-8-sig")
+            except UnicodeDecodeError:
+                text = raw.decode("latin-1")
+            texts[identifier] = text
+    finally:
+        archive.close()
+    if not texts:
+        raise ParserContractChangedError("STJ integral ZIP has no text members")
+    return texts
+
+
+def _html_to_text(value: str) -> str:
+    """Convert source HTML fragments to deterministic searchable plain text."""
+
+    text = re.sub(r"<\s*br\s*/?\s*>", "\n", value, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = html.unescape(text)
+    text = re.sub(r"[ \t\f\r]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
 def _deduplicate_rows(rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int, int]:
     unique: dict[str, dict[str, Any]] = {}
     invalid = 0
     duplicates = 0
     for row in rows:
-        identifier = _text_value(row, "id")
+        identifier = _text_value(row, "id", "SeqDocumento", "seqDocumento")
+        if identifier and not _text_value(row, "id"):
+            row["id"] = identifier
         if not identifier:
             invalid += 1
             continue
@@ -710,12 +1085,12 @@ def _row_to_decision(
         id=f"stj-dados-{canonical_id}",
         source="stj_dados_abertos_jurisprudencia",
         court="STJ",
-        case_number=_text_value(row, "numeroProcesso") or None,
+        case_number=_text_value(row, "numeroProcesso", "processo") or None,
         registry_number=_text_value(row, "numeroRegistro") or None,
-        decision_type=_text_value(row, "tipoDeDecisao") or "acordao_espelho",
+        decision_type=_text_value(row, "tipoDeDecisao", "tipoDocumento") or "acordao_espelho",
         case_class=_text_value(row, "descricaoClasse", "siglaClasse") or None,
         subject=_text_value(row, "tema", "termosAuxiliares") or None,
-        rapporteur=_text_value(row, "ministroRelator") or None,
+        rapporteur=_text_value(row, "ministroRelator", "NM_MINISTRO") or None,
         judging_body=_text_value(row, "nomeOrgaoJulgador") or None,
         judgment_date=normalize_date(_text_value(row, "dataDecisao")),
         publication_date=normalize_date(_text_value(row, "dataPublicacao")),
@@ -727,6 +1102,7 @@ def _row_to_decision(
         extraction_status=extraction_status,
         summary=summary,
         full_text=full_text,
+        document_type=_text_value(row, "tipoDocumento") or "acordao_espelho",
         source_trace=trace,
         extraction_trace=ExtractionTrace(
             parser="stj_dados_abertos_jurisprudencia.sync_resource",

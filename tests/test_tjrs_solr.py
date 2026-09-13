@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import json
 from pathlib import Path
@@ -118,3 +119,50 @@ def test_tjrs_classifies_rate_limit():
 
     with pytest.raises(RateLimitDetectedError):
         provider.search(JurisprudenceQuery(text="termo"))
+
+
+def test_tjrs_capability_declares_parser_identity():
+    capability = TjrsSolrProvider(NanoJurisConfig(rate_limit_interval=0)).get_capabilities()
+    assert "id" in capability.extracted_fields
+
+
+def test_tjrs_public_detail_decodes_and_preserves_tiff_bytes():
+    tiff = b"II*\x00" + b"fixture-tiff"
+    response = FakeResponse({"documento": base64.b64encode(tiff).decode("ascii")})
+    provider = TjrsSolrProvider(NanoJurisConfig(rate_limit_interval=0), FakeSession([response]))
+
+    document = provider.get_document("tjrs-solr-5228633")
+
+    assert document.id == "tjrs-solr-5228633"
+    assert document.content_type == "image/tiff"
+    assert document.document_type == "inteiro_teor_tiff"
+    assert document.raw_bytes == tiff
+    assert document.extraction_status.value == "unsupported_format"
+    assert document.source_trace is not None
+    assert document.source_trace.query["codigo_documento"] == "5228633"
+
+
+def test_tjrs_public_detail_rejects_non_tiff_payload():
+    response = FakeResponse({"documento": base64.b64encode(b"not-tiff").decode("ascii")})
+    provider = TjrsSolrProvider(NanoJurisConfig(rate_limit_interval=0), FakeSession([response]))
+
+    with pytest.raises(ParserContractChangedError, match="not a TIFF"):
+        provider.get_document("5228633")
+
+
+def test_tjrs_tiff_ocr_is_explicit_and_bounded():
+    tiff = b"II*\x00" + b"fixture-tiff"
+    response = FakeResponse({"documento": base64.b64encode(tiff).decode("ascii")})
+    provider = TjrsSolrProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        FakeSession([response]),
+        ocr_allowed=True,
+        ocr_max_pages=1,
+        ocr_timeout_seconds=5,
+    )
+
+    document = provider.get_document("5228633")
+
+    assert document.raw_bytes == tiff
+    assert document.extraction_trace is not None
+    assert document.extraction_status.value in {"unsupported_format", "failed", "partial"}

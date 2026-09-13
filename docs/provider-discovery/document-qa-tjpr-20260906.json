@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-09-06T09:48:13.254202+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "tjpr_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjpr_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1253000,
+        "source": "tjpr_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpr-2100000004227352",
+        "case_number": "0020132-47.2016.8.16.0018",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://portal.tjpr.jus.br/jurisprudencia/j/2100000004227352/Decisão monocrática-0020132-47.2016.8.16.0018",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "authority",
+          "branch",
+          "case_number",
+          "collection",
+          "content_pending_release",
+          "decision_type",
+          "degree",
+          "document_type",
+          "document_url",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "judgment_date_raw",
+          "rapporteur",
+          "row_text",
+          "secret_of_justice",
+          "secret_or_pending_content",
+          "source_record_id",
+          "source_row_index"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjpr-2100000004227352",
+        "full_text_length": 14242,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://portal.tjpr.jus.br/jurisprudencia/j/2100000004227352/Decis%C3%A3o%20monocr%C3%A1tica-0020132-47.2016.8.16.0018",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 51731,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 1,
+    "search_returned": 1,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 1,
+    "public_url_reachable": 1,
+    "public_url_document_like": 1,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 0
+  }
+}

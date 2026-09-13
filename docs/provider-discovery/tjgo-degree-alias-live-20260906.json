@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06",
+  "provider": "tjgo_projudi_jurisprudencia",
+  "source": "https://projudi.tjgo.jus.br/ConsultaJurisprudencia",
+  "method": "bounded POST, page_size=1, public query 'responsabilidade civil', degree=second, instance=second",
+  "http_status": 200,
+  "retrieval_status": "ok",
+  "access_status": "public",
+  "extraction_status": "complete",
+  "total": 14032,
+  "rows": 1,
+  "sample": {
+    "id": "tjgo-projudi-5259964-59.2026.8.09.0051",
+    "authority": "TJGO",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG",
+    "has_text": true
+  },
+  "document_fetch": {
+    "id_arquivo": "549973404",
+    "status": "parser_contract_changed",
+    "classification": "public route returned no .conteudoTexto block without an access token",
+    "bypass_attempted": false
+  },
+  "limitations": [
+    "A chamada confirma o mapeamento de aliases canônicos para Id_Instancia=15; não é prova de cobertura nacional.",
+    "A rota separada de download por Id_Arquivo foi exercitada, mas permanece não promovida enquanto a resposta pública sem token não contiver o contrato textual esperado."
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "tre-sjur-large-window-live-v1",
+  "observed_at": "2026-09-12T16:05:10.010971+00:00",
+  "max_remote_bytes": 16000000,
+  "response_bodies_persisted": false,
+  "results": [
+    {
+      "tribunal": "TRE-GO",
+      "attempted_at": "2026-09-12T16:04:58.679619+00:00",
+      "query": {
+        "text": "direito",
+        "document_type": "acordao",
+        "page": 1,
+        "page_size": 1
+      },
+      "body_persisted": false,
+      "classification": "success_with_results",
+      "result_count": 1,
+      "total": 1,
+      "total_known": false,
+      "is_complete": false,
+      "response_bytes": 5444253,
+      "elapsed_ms": 7671.67,
+      "filters_applied": {
+        "degree": "remote+local:second",
+        "document_type": "remote"
+      }
+    },
+    {
+      "tribunal": "TRE-PB",
+      "attempted_at": "2026-09-12T16:05:06.390636+00:00",
+      "query": {
+        "text": "direito",
+        "document_type": "acordao",
+        "page": 1,
+        "page_size": 1
+      },
+      "body_persisted": false,
+      "classification": "success_with_results",
+      "result_count": 1,
+      "total": 1,
+      "total_known": false,
+      "is_complete": false,
+      "response_bytes": 4188662,
+      "elapsed_ms": 3590.72,
+      "filters_applied": {
+        "degree": "remote+local:second",
+        "document_type": "remote"
+      }
+    }
+  ]
+}

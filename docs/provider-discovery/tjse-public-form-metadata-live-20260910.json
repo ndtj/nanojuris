@@ -1,0 +1,39 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "tjse_jurisprudencia",
+  "authority": "TJSE",
+  "surface": "CJSG",
+  "audit_mode": "bounded_public_metadata",
+  "credentials_used": false,
+  "bypass_used": false,
+  "endpoint": "GET /Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+  "http_status": 200,
+  "classification": "public_form_metadata",
+  "observed_fields": [
+    "itTermos",
+    "nrProc",
+    "nrUnico",
+    "sorTipoDocumento",
+    "sorCompetencia",
+    "somRelator_input",
+    "somOrgaoJulgador_input",
+    "somClassesProcessuais_input",
+    "dtInicial_input",
+    "dtFinal_input",
+    "turnstile-hidden"
+  ],
+  "challenge_boundary": "Turnstile required for submit",
+  "search_results_observed": false,
+  "adapter": {
+    "metadata_methods": ["get_catalog", "get_filter_catalog"],
+    "federation": "disabled",
+    "lifecycle": "candidate"
+  },
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "tokens_persisted": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

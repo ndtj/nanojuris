@@ -110,3 +110,39 @@ def test_declared_unsupported_filter_is_not_reported_as_unpromoted():
     row = report["providers"][0]
     assert "observed_filters_not_promoted_to_contract" not in row["gaps"]
     assert row["filter_classification"]["types"] == "unsupported"
+
+
+def test_missing_filter_is_unverified_not_unsupported() -> None:
+    audit = _load_audit_module()
+    capability = ProviderCapabilities(
+        source="unknown-filter",
+        display_name="Unknown filter",
+        source_url="https://example.test/unknown-filter",
+        category="court_jurisprudence",
+        canonical_records=["CanonicalDecision"],
+        supports_unified_search=True,
+        supported_filters=["text"],
+    )
+
+    row = audit.build_report([capability])["providers"][0]
+    assert row["filter_classification"]["case_class"] == "unverified"
+    assert "case_class" in row["missing_common_filters"]
+    assert "case_class" not in row["explicitly_unsupported_filters"]
+
+
+def test_explicit_filter_semantics_override_legacy_native_fallback() -> None:
+    audit = _load_audit_module()
+    capability = ProviderCapabilities(
+        source="eproc",
+        display_name="eproc",
+        source_url="https://example.test/eproc",
+        category="court_jurisprudence",
+        canonical_records=["CanonicalDecision"],
+        supports_unified_search=True,
+        supported_filters=["text", "degree"],
+        filter_semantics={"degree": "local_postfilter", "instance": "translated"},
+    )
+
+    row = audit.build_report([capability])["providers"][0]
+    assert row["filter_classification"]["degree"] == "local_postfilter"
+    assert row["filter_classification"]["instance"] == "translated"

@@ -1,0 +1,194 @@
+{
+  "schema_version": "live-ranking-smoke-v1",
+  "generated_at": "2026-09-07T19:31:10.276391+00:00",
+  "mode": "live_bounded",
+  "source": "cnj_jurisprudencia",
+  "limits": {
+    "pages_per_query": 1,
+    "page_size": 5,
+    "bodies_persisted": false
+  },
+  "queries": 6,
+  "observations": [
+    {
+      "query_fingerprint": "3b3218d094c5cb5fbf556675d4a4d3f1a9da35dfa4a884546ef36f1d27930c5a",
+      "searched_sources": [
+        "cnj_jurisprudencia"
+      ],
+      "source_outcomes": {
+        "cnj_jurisprudencia": {
+          "status": "success_with_results",
+          "total_state": "unknown",
+          "pages": 1,
+          "candidate_count": 1,
+          "latency_ms": 441.6371999977855
+        }
+      },
+      "source_completeness": {
+        "cnj_jurisprudencia": {
+          "returned": 1,
+          "reported_total": null,
+          "pagination_mode": "page",
+          "complete": null,
+          "reason": "A fonte atingiu o limite federado de 1 paginas.",
+          "pages_fetched": 1,
+          "invalid_records": 0
+        }
+      },
+      "errors": [],
+      "total_returned": 1,
+      "ranking_complete": false,
+      "collection_complete": false
+    },
+    {
+      "query_fingerprint": "438e22ed015c9b2711ef32cd722c2ae98739c09b7980bf712d1064987cc282bc",
+      "searched_sources": [
+        "cnj_jurisprudencia"
+      ],
+      "source_outcomes": {
+        "cnj_jurisprudencia": {
+          "status": "authoritative_empty",
+          "total_state": "unknown",
+          "pages": 1,
+          "candidate_count": 0,
+          "latency_ms": 305.56439999782015
+        }
+      },
+      "source_completeness": {
+        "cnj_jurisprudencia": {
+          "returned": 0,
+          "reported_total": null,
+          "pagination_mode": "page",
+          "complete": true,
+          "reason": "Nenhum informativo do CNJ contem todos os termos da consulta.",
+          "pages_fetched": 1,
+          "invalid_records": 0
+        }
+      },
+      "errors": [],
+      "total_returned": 0,
+      "ranking_complete": true,
+      "collection_complete": true
+    },
+    {
+      "query_fingerprint": "88d52432ecaf72cea7c7f9ff1b31a4ba025a9381678eb95e36f553832d8a5536",
+      "searched_sources": [
+        "cnj_jurisprudencia"
+      ],
+      "source_outcomes": {
+        "cnj_jurisprudencia": {
+          "status": "authoritative_empty",
+          "total_state": "unknown",
+          "pages": 1,
+          "candidate_count": 0,
+          "latency_ms": 382.10560000152327
+        }
+      },
+      "source_completeness": {
+        "cnj_jurisprudencia": {
+          "returned": 0,
+          "reported_total": null,
+          "pagination_mode": "page",
+          "complete": true,
+          "reason": "Nenhum informativo do CNJ contem todos os termos da consulta.",
+          "pages_fetched": 1,
+          "invalid_records": 0
+        }
+      },
+      "errors": [],
+      "total_returned": 0,
+      "ranking_complete": true,
+      "collection_complete": true
+    },
+    {
+      "query_fingerprint": "b8fc64937cd3925a00a3a128dc310a891180d9d64848511b45724f4e66dacdcb",
+      "searched_sources": [
+        "cnj_jurisprudencia"
+      ],
+      "source_outcomes": {
+        "cnj_jurisprudencia": {
+          "status": "authoritative_empty",
+          "total_state": "unknown",
+          "pages": 1,
+          "candidate_count": 0,
+          "latency_ms": 348.40540000004694
+        }
+      },
+      "source_completeness": {
+        "cnj_jurisprudencia": {
+          "returned": 0,
+          "reported_total": null,
+          "pagination_mode": "page",
+          "complete": true,
+          "reason": "Nenhum informativo do CNJ contem todos os termos da consulta.",
+          "pages_fetched": 1,
+          "invalid_records": 0
+        }
+      },
+      "errors": [],
+      "total_returned": 0,
+      "ranking_complete": true,
+      "collection_complete": true
+    },
+    {
+      "query_fingerprint": "245402aa24e6e17a70cc00a45e6b619da62066f16b3ba4889ed1364aeae8b484",
+      "searched_sources": [
+        "cnj_jurisprudencia"
+      ],
+      "source_outcomes": {
+        "cnj_jurisprudencia": {
+          "status": "authoritative_empty",
+          "total_state": "unknown",
+          "pages": 1,
+          "candidate_count": 0,
+          "latency_ms": 374.15050000709016
+        }
+      },
+      "source_completeness": {
+        "cnj_jurisprudencia": {
+          "returned": 0,
+          "reported_total": null,
+          "pagination_mode": "page",
+          "complete": true,
+          "reason": "A tabela do CNJ nao possui linhas na pagina.",
+          "pages_fetched": 1,
+          "invalid_records": 0
+        }
+      },
+      "errors": [],
+      "total_returned": 0,
+      "ranking_complete": true,
+      "collection_complete": true
+    },
+    {
+      "query_fingerprint": "3e2ff5db2fe6d6404ebecbcb1d1b2ddf70b57f3ce7c0308b0235b4a1adf68516",
+      "searched_sources": [
+        "cnj_jurisprudencia"
+      ],
+      "source_outcomes": {
+        "cnj_jurisprudencia": {
+          "status": "authoritative_empty",
+          "total_state": "unknown",
+          "pages": 1,
+          "candidate_count": 0,
+          "latency_ms": 370.7170999987284
+        }
+      },
+      "source_completeness": {
+        "cnj_jurisprudencia": {
+          "returned": 0,
+          "reported_total": null,
+          "pagination_mode": "page",
+          "complete": true,
+          "reason": "A tabela do CNJ nao possui linhas na pagina.",
+          "pages_fetched": 1,
+          "invalid_records": 0
+        }
+      },
+      "errors": [],
+      "total_returned": 0,
+      "ranking_complete": true,
+      "collection_complete": true
+    }
+  ]
+}

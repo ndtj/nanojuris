@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
-import time
 import unicodedata
 from typing import Any
 from urllib.parse import parse_qs, urljoin, urlparse
@@ -33,6 +33,12 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import (
+    SharedHttpClient,
+    TransportPolicy,
+    TransportRequest,
+    TransportStatus,
+)
 
 PROCESS_NUMBER_RE = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
 UUID_RE = re.compile(r"[a-f0-9]{32,64}", re.IGNORECASE)
@@ -50,7 +56,21 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        self._last_http_metadata: dict[str, Any] = {}
+        self._last_response_content = b""
+        host = urlparse(self.config.stm_jurisprudencia_url).hostname or ""
+        self._transport_policy = TransportPolicy(
+            allowed_hosts=(host, "eproc2g.stm.jus.br"),
+            timeout_seconds=self.config.timeout,
+            max_bytes=16_000_000,
+            # The public portal has explicit anti-automation responses; do
+            # not repeat a challenge or a rate-limit response automatically.
+            max_retries=0,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._transport = SharedHttpClient(self._transport_policy, session=self.session)
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/consulta.php"
@@ -67,6 +87,7 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
                 "diretamente para a paginacao remota observada.",
                 "O provider nao tenta contornar captcha, login ou controle de acesso.",
             ],
+            **self._last_http_metadata,
         )
         results = parse_stm_jurisprudencia_results(html, trace=trace, source_url=source_url)
         offset = max(query.page - 1, 0) * query.page_size
@@ -103,6 +124,7 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
             query={"uuid": document_id},
             source_url=source_url,
             limitations=["Inteiro teor publico do STM/eproc vinculado ao resultado JMU."],
+            **self._last_http_metadata,
         )
         return DecisionBundle(
             precedent_id=precedent_id,
@@ -137,8 +159,13 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
                 parser_version="1",
                 status=ExtractionStatus.COMPLETE,
                 access_status=AccessStatus.PUBLIC,
+                content_sha256=hashlib.sha256(self._last_response_content).hexdigest(),
+                content_bytes=len(self._last_response_content),
             ),
-            raw_metadata={"uuid": uuid},
+            raw_metadata={"uuid": uuid, **self._last_http_metadata},
+            raw_bytes=self._last_response_content,
+            sha256=hashlib.sha256(self._last_response_content).hexdigest(),
+            byte_size=len(self._last_response_content),
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -184,6 +211,48 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
             pagination_mode="offset",
             completeness_contract="reported_total_and_offset_window",
             supported_filters=["text", "number"],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "exact_phrase",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "lawyer_name",
+                        "legal_area",
+                        "oab",
+                        "party_document",
+                        "party_name",
+                        "police_document",
+                        "precatory_number",
+                        "cda",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "courts",
+                        "types",
+                        "document_type",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                    )
+                },
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+            },
             limitations=[
                 "Busca publica descoberta em 2026-08-03 no portal JMU do STM.",
                 "O provider envia start/rows e preserva o total exibido pela pagina publica.",
@@ -197,7 +266,6 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path_or_url: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = (
             path_or_url
             if path_or_url.startswith("http://") or path_or_url.startswith("https://")
@@ -211,41 +279,51 @@ class StmJurisprudenciaProvider(JurisprudenceProvider):
             "User-Agent": self.config.user_agent,
         }
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
+            response = self._transport.request(
+                TransportRequest(
+                    source=self.name,
+                    operation="search" if path_or_url.endswith("consulta.php") else "document",
+                    method=method,
+                    url=url,
+                    params=kwargs.pop("params", {}) or {},
+                    data=kwargs.pop("data", None),
+                    json_body=kwargs.pop("json", None),
+                    headers=headers,
+                )
             )
-        except requests.RequestException as exc:
+        except SourceUnavailableError as exc:
             raise SourceUnavailableError(f"STM jurisprudence request failed: {exc}") from exc
-
-        response.encoding = response.encoding or "utf-8"
+        self._last_response_content = response.body
         text = response.text
-        if response.status_code == 429:
-            raise RateLimitDetectedError("STM jurisprudence returned HTTP 429")
-        if response.status_code in {401, 403}:
-            raise AccessControlRequiredError("STM jurisprudence requires access validation")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"STM jurisprudence returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        status_code = int(response.status_code or 0)
+        self._last_http_metadata = {
+            "http_status": status_code,
+            "final_url": response.final_url or url,
+            "content_type": response.content_type,
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok"
+            if response.status is TransportStatus.COMPLETE and 200 <= status_code < 300
+            else response.status.value,
+        }
+        if response.status is not TransportStatus.COMPLETE:
             raise SourceUnavailableError(
-                f"STM jurisprudence rejected request with HTTP {response.status_code}"
+                f"STM jurisprudence request failed: {response.status.value}"
+            )
+        if status_code == 429:
+            raise RateLimitDetectedError("STM jurisprudence returned HTTP 429")
+        if status_code in {401, 403}:
+            raise AccessControlRequiredError("STM jurisprudence requires access validation")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"STM jurisprudence returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(
+                f"STM jurisprudence rejected request with HTTP {status_code}"
             )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("STM jurisprudence returned access-control HTML")
-        return text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return text, response.final_url or response.url or url
 
 
 def parse_stm_jurisprudencia_results(

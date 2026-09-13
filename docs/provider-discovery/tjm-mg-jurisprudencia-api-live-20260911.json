@@ -1,0 +1,43 @@
+{
+  "schema_version": "provider-discovery-live-v1",
+  "provider": "tjmmg_jurisprudencia_api",
+  "source_id": "tjmmg_jurisprudencia_api",
+  "authority": "TJMMG",
+  "observed_at": "2026-09-11",
+  "bounded": true,
+  "query_shape": "exact_process_number",
+  "surface": "cjsg",
+  "query": "0000264-35.2019.9.13.0000",
+  "endpoint": "POST /jurisprudencia-api/api/jurisprudencia/search",
+  "http_status": 200,
+  "access_status": "public",
+  "response_bytes": 71800,
+  "content_sha256": "766328f826370c5b759f4951fdc072de4a7a078617a919bcdc6660b6da609a24",
+  "collection_count": 1,
+  "record_count_observed": 1,
+  "reported_total": 1,
+  "pagination_mode": "none",
+  "extraction_status": "complete",
+  "full_text_status": "available",
+  "result": {
+    "source_id": "4882",
+    "authority": "TJMMG",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG",
+    "full_text_present": true,
+    "document_url_present": true,
+    "extraction_status": "complete",
+    "full_text_status": "available",
+    "total_known": true,
+    "complete": true
+  },
+  "credentials_used": false,
+  "captcha_or_token_used": false,
+  "raw_content_persisted": false,
+  "classification": "bounded_result_schema_stable",
+  "limitations": [
+    "A consulta usa número exato; buscas amplas continuam rejeitadas ou podem exceder o limite.",
+    "A fonte não expõe paginação server-side; o resultado foi uma collection completa bounded."
+  ]
+}

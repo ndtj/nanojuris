@@ -1,0 +1,154 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-09T00:00:00-03:00",
+  "mode": "bounded_public_http",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "credentials_used": false,
+  "bypass_used": false,
+  "results": [
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "surface": "search",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 1000,
+      "pagination_mode": "page",
+      "degree": "second",
+      "instance": "second",
+      "authority": "TJMG",
+      "collection": "CJSG",
+      "document_probe": {
+        "status": "complete",
+        "document_id": "1000000169693000000903",
+        "content_type": "application/json",
+        "chars": 4599,
+        "sha256": "f1bc9c369551940bd781fb367f7b04e51e0d193004e1e2bfc1300c1e4709281f",
+        "access_status": "public"
+      }
+    },
+    {
+      "source_id": "tjmg_ejef_boletim_jurisprudencia",
+      "surface": "search",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 2,
+      "pagination_mode": "offset",
+      "degree": "second",
+      "instance": "second",
+      "authority": "TJMG",
+      "collection": "CJSG_EJEF_BOLETIM",
+      "document_probe": {
+        "status": "complete",
+        "document_id": "tjmg-ejef-boletim-afcf0158-5164-413e-81be-e9a0fc811989",
+        "content_type": "application/pdf",
+        "chars": 22543,
+        "sha256": "c49ac080efdffcfe6a192a410993d4510d373f523978e9ec7b4e031cecfec793",
+        "access_status": "public"
+      }
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "surface": "search",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 45674,
+      "pagination_mode": "page",
+      "degree": "second",
+      "instance": "second",
+      "authority": "TJRJ",
+      "collection": "CJSG",
+      "document_probe": {
+        "status": "complete",
+        "document_id": "tjrj-ejuris-5988225",
+        "content_type": "text/plain",
+        "chars": 4390,
+        "sha256": "97b84b04982fc448168c17fde0a03b149355e636be1fda0bfb6fd0486616529e",
+        "access_status": "public"
+      }
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "surface": "search",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 53930,
+      "pagination_mode": "page",
+      "degree": "second",
+      "instance": "second",
+      "authority": "TJRN",
+      "collection": "JURISPRUDENCIA",
+      "document_probe": {
+        "status": "complete",
+        "document_id": "tjrn-jurisprudencia-NTotgqABYGx659SBe3pX",
+        "content_type": "text/plain",
+        "chars": 25219,
+        "sha256": "e822c15f6273045de322ea9d00bc2b97ccb37cba8ca91cfb6954f80e2b345957",
+        "access_status": "public",
+        "note": "Inteiro teor inline; sem rota de detalhe independente."
+      }
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "search",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 1908815,
+      "pagination_mode": "offset",
+      "degree": "second",
+      "instance": "second",
+      "authority": "TJRO",
+      "collection": "JURISPRUDENCIA",
+      "document_probe": {
+        "status": "complete",
+        "document_id": "tjro-jurisprudencia-27276954-PJESG",
+        "content_type": "application/pdf",
+        "chars": 11949,
+        "sha256": "1b64ecaacfd1b2919f929570ed66ab67af76cbeeadf43074aea354967d16596c",
+        "access_status": "public"
+      }
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "surface": "search",
+      "classification": "success_with_results",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 137636,
+      "pagination_mode": "page",
+      "degree": "second",
+      "instance": "second",
+      "authority": "TJTO",
+      "collection": "CJSG",
+      "document_probe": {
+        "status": "complete",
+        "document_id": "tjto-jurisprudencia-babd056794098393c00a78d45e3b9477",
+        "content_type": "text/html",
+        "chars": 39615,
+        "sha256": "8364a535c4631daf54b446784d8279c36977202c385f719c88d73fd0594730b8",
+        "access_status": "public",
+        "note": "Inteiro teor exposto como CanonicalDocument."
+      }
+    }
+  ],
+  "summary": {
+    "sources": 6,
+    "search_valid": 6,
+    "document_probes_complete": 6,
+    "blocked_or_failed": 0
+  },
+  "limitations": [
+    "A amostra e bounded e nao prova disponibilidade permanente.",
+    "A consulta usou baixa frequencia e nao persistiu corpos de resposta.",
+    "O artefato comprova uma busca e um documento por provider; nao declara cobertura integral do acervo.",
+    "A evidencia tecnica nao substitui revisao humana de termos, retencao ou licenca."
+  ]
+}

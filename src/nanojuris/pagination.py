@@ -28,3 +28,29 @@ def page_completeness(
     if covered_end >= reported_total:
         return True, "A janela retornada alcanca o total informado pela fonte."
     return False, "A resposta e uma janela parcial do total informado pela fonte."
+
+
+def authoritative_total_reached(
+    *,
+    reported_total: int | None,
+    total_known: bool | None,
+    returned: int,
+    accumulated: int,
+) -> bool:
+    """Return whether a trusted remote total authorizes stopping pagination.
+
+    A few legacy endpoints use ``0`` as a sentinel even when they return rows.
+    Treating that value as an authoritative empty result would silently truncate
+    a collection. Zero is authoritative only when the current page and the
+    accumulated result set are both empty. Negative or unknown totals never
+    authorize a stop.
+    """
+
+    if total_known is not True or reported_total is None or reported_total < 0:
+        return False
+    if reported_total == 0:
+        return returned == 0 and accumulated == 0
+    return accumulated >= reported_total
+
+
+__all__ = ["authoritative_total_reached", "page_completeness"]

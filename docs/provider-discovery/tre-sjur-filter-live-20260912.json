@@ -1,0 +1,35 @@
+{
+  "schema_version": "tre-sjur-filter-live-v1",
+  "retrieved_at": "2026-09-12T15:53:38.456145+00:00",
+  "provider": "TRE-SP",
+  "endpoint_class": "POST /tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "query_shape": {
+    "text": "direito",
+    "document_type": "acordao",
+    "judgment_date_from": "2024-01-01",
+    "judgment_date_to": "2024-01-02",
+    "case_class": "RC",
+    "page": 1,
+    "page_size": 1
+  },
+  "body_persisted": false,
+  "classification": "authoritative_empty",
+  "result_count": 0,
+  "total_known": true,
+  "is_complete": true,
+  "access_status": "public",
+  "response_bytes": 61,
+  "elapsed_ms": 542.92,
+  "filters_applied": {
+    "degree": "remote:second",
+    "case_class": "remote",
+    "judgment_date_from": "remote",
+    "judgment_date_to": "remote",
+    "document_type": "remote"
+  },
+  "limitations": [
+    "A rota publica /simples foi reproduzida sem token ou bypass.",
+    "A fonte ignorou pagina e tamanho; a resposta e uma janela unica sem paginacao remota.",
+    "temInteiroTeorPDF indica disponibilidade, mas URL de documento e validada somente para identificadores observados na busca."
+  ]
+}

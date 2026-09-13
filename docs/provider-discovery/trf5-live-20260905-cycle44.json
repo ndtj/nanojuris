@@ -1,0 +1,62 @@
+{
+  "schema_version": "trf5-live-v1",
+  "generated_at": "2026-09-05T18:52:18.856964+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "dano moral",
+    "page_size": 1
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "provider": "trf5_jurisprudencia",
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "page": 1,
+      "page_size": 1,
+      "returned": 1,
+      "total_known": null,
+      "ids": [
+        "trf5-jurisprudencia-25751"
+      ],
+      "case_numbers": [
+        "0500731-14.2013.4.05.8501"
+      ],
+      "has_summary": true
+    },
+    "detail": {
+      "status": "valid",
+      "byte_size": 11414,
+      "content_type": "text/html",
+      "sha256": "61e5784fe049b1643a0db43b35e8259a8e0fd8706a8dbdb98517f92a4503b2ea",
+      "has_text": true
+    },
+    "page_2": {
+      "http_status": 200,
+      "page": 2,
+      "page_size": 1,
+      "returned": 1,
+      "total_known": null,
+      "ids": [
+        "trf5-jurisprudencia-25829"
+      ],
+      "case_numbers": [
+        "0500724-22.2013.4.05.8501"
+      ],
+      "has_summary": true
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "detail_valid": true,
+    "errors": 0
+  }
+}

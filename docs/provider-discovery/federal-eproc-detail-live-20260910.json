@@ -1,0 +1,120 @@
+{
+  "schema_version": "eproc-detail-live-v1",
+  "generated_at": "2026-09-10T21:07:11-03:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "aposentadoria",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "tribunals": 3,
+    "documents_per_tribunal": 1,
+    "request_interval_seconds": 2.1,
+    "bodies_persisted": false
+  },
+  "providers": [
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total": 11228,
+        "total_known": true,
+        "identity": {
+          "authority": "TNU",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA"
+        },
+        "id_jurisprudencia": "771786993513847664850135395543",
+        "case_number": "1094058-89.2023.4.01.3400",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "http_status": 200,
+        "content_type": "text/html",
+        "byte_size": 137621,
+        "has_text": true,
+        "access_status": "public",
+        "extraction_status": "complete",
+        "sha256": "c0ee2b93ac3a04331a599e866f035ef49e57a115483ccd824567bf716c74c40e",
+        "bodies_persisted": false
+      }
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total": 228086,
+        "total_known": true,
+        "identity": {
+          "authority": "TRF2",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA"
+        },
+        "id_jurisprudencia": "501787860726878989490823231735",
+        "case_number": "5003658-92.2025.4.02.5006",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "http_status": 200,
+        "content_type": "text/html",
+        "byte_size": 222164,
+        "has_text": true,
+        "access_status": "public",
+        "extraction_status": "complete",
+        "sha256": "d4a4e597111cb66a43982a8739d2b392eb47d2e6b17a0bced62cc24a7084ff9a",
+        "bodies_persisted": false
+      }
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total": 69677,
+        "total_known": true,
+        "identity": {
+          "authority": "TRF6",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA"
+        },
+        "id_jurisprudencia": "381789053239266495645858644989",
+        "case_number": "6005060-09.2026.4.06.3823",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "http_status": 200,
+        "content_type": "text/html",
+        "byte_size": 47798,
+        "has_text": true,
+        "access_status": "public",
+        "extraction_status": "complete",
+        "sha256": "ae7c331e105167a057f37190bfa7761751b37aba5ef738d2ad4004b3a1eb0990",
+        "bodies_persisted": false
+      }
+    }
+  ],
+  "summary": {
+    "search_valid": 3,
+    "detail_valid": 3,
+    "detail_errors": 0,
+    "classification": "success_with_results_and_detail"
+  },
+  "limitations": [
+    "A sonda prova uma janela pública bounded e não disponibilidade histórica ou SLA.",
+    "A rota retornou HTML; o parser e a validação MIME permanecem por instalação.",
+    "Não foram usados cookies, tokens, CAPTCHA, proxies ou contorno de controles.",
+    "A evidência não autoriza a família agregada na federação padrão."
+  ]
+}

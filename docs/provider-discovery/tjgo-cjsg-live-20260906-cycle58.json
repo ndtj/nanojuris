@@ -1,0 +1,62 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjgo_projudi_jurisprudencia",
+  "source": "tjgo_projudi_jurisprudencia",
+  "authority": "TJGO",
+  "surface": "cjsg",
+  "collection": "CJSG",
+  "degree": "second",
+  "instance": "second",
+  "observed_at": "2026-09-06T01:34:17.2210699Z",
+  "mode": "bounded_public_live_check",
+  "credentials_used": false,
+  "endpoint": "POST /ConsultaJurisprudencia",
+  "query_shape": {
+    "Texto": "responsabilidade civil",
+    "Id_Instancia": "15",
+    "page_size": 2,
+    "pages": [1, 2]
+  },
+  "pages": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "reported_total": 14032,
+      "record_count_observed": 2,
+      "ids": [
+        "tjgo-projudi-5259964-59.2026.8.09.0051",
+        "tjgo-projudi-6037039-70.2025.8.09.0051"
+      ],
+      "types": ["decisao", "decisao"],
+      "degree_values": ["second", "second"],
+      "instance_values": ["second", "second"],
+      "collection_values": ["CJSG", "CJSG"],
+      "judging_body_markers": ["Câmara Cível", "Câmara Cível"]
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "reported_total": 14032,
+      "record_count_observed": 2,
+      "ids": [
+        "tjgo-projudi-5608773-38.2025.8.09.0149",
+        "tjgo-projudi-5715223-94.2025.8.09.0087"
+      ],
+      "types": ["decisao", "decisao"],
+      "degree_values": ["second", "second"],
+      "instance_values": ["second", "second"],
+      "collection_values": ["CJSG", "CJSG"],
+      "judging_body_markers": ["Câmara Cível", "Câmara Cível"]
+    }
+  ],
+  "unique_ids": 4,
+  "overlap": false,
+  "classification": "reachable_valid_data",
+  "raw_content_persisted": false,
+  "promotion_decision": "technical_candidate_for_federation",
+  "notes": [
+    "Id_Instancia=15 is the public PROJUDI second-degree selection.",
+    "Cards without appellate identity are excluded rather than attributed to CJSG.",
+    "No credentials, CAPTCHA bypass or body persistence was used."
+  ]
+}

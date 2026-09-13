@@ -1,7 +1,7 @@
 # Spec — descoberta TJRJ eJURIS
 
 ID: `0010-tjrj-ejuris-discovery`
-Status: `in_progress`
+Status: `verified`
 Owner: `NanoJuris engineering`
 Data: `2026-08-20`
 

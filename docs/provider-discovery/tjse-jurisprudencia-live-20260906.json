@@ -1,0 +1,45 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-06",
+  "audit_mode": "bounded_public_form_discovery",
+  "credentials_used": false,
+  "source": "tjse_jurisprudencia",
+  "source_id": "tjse_jurisprudencia",
+  "status": "access_control_required",
+  "surface": "cjsg",
+  "scope": "second_degree",
+  "endpoint": "GET https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+  "query_shape": {
+    "text": "responsabilidade civil",
+    "document_type": "AC",
+    "competence": "SG",
+    "page_size": 10
+  },
+  "http_status": 200,
+  "form_observed": true,
+  "filters_observed": [
+    "text",
+    "case_number",
+    "cnj_number",
+    "document_type",
+    "degree",
+    "rapporteur",
+    "judging_body",
+    "case_class",
+    "judgment_date_range",
+    "search_scope_ementa_or_vote"
+  ],
+  "challenge": {
+    "provider": "cloudflare_turnstile",
+    "detected": true,
+    "token_used": false,
+    "result_request_sent": false
+  },
+  "classification": "blocked_access_control_no_reproducible_result",
+  "body_persisted": false,
+  "limitations": [
+    "A resposta de resultados exige token Turnstile emitido por interação legítima.",
+    "Não houve decisão, paginação ou inteiro teor reproduzível nesta sessão.",
+    "Não contornar CAPTCHA, WAF ou controles de frequência."
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": "provider-surface-live-v1",
+  "observed_at": "2026-09-08",
+  "authority": "TJSC",
+  "branch": "state",
+  "degree_requested": ["first", "second"],
+  "collection": "CJPG",
+  "provider": "tjsc_eproc_jurisprudencia",
+  "source": {
+    "official_endpoint": "https://eprocwebcon.tjsc.jus.br/consulta1g",
+    "method": "bounded public search",
+    "query_text": "responsabilidade",
+    "page_size": 1
+  },
+  "network_access": "public_bounded",
+  "credentials_used": false,
+  "response_bodies_persisted": false,
+  "observations": [
+    {
+      "degree_requested": "first",
+      "http_status": 200,
+      "candidate_count": 1,
+      "total": 886012,
+      "source_id": "4870937",
+      "native_label": "Acórdãos do Conselho da Magistratura",
+      "explicit_degree": null,
+      "classification": "degree_unproven"
+    },
+    {
+      "degree_requested": "second",
+      "http_status": 200,
+      "candidate_count": 1,
+      "total": 886012,
+      "source_id": "4870937",
+      "native_label": "Acórdãos do Conselho da Magistratura",
+      "explicit_degree": null,
+      "classification": "degree_unproven"
+    }
+  ],
+  "response_consistency": {
+    "same_source_id_for_both_requests": true,
+    "degree_field_present": false,
+    "instance_field_present": false,
+    "branch_field_present": false,
+    "collection_field_present": false,
+    "contract_status": "invalid_for_cjpg_promotion"
+  },
+  "promotion_decision": "not_promoted",
+  "reason": "HTTP 200 and a result are insufficient: the live card does not prove first-degree identity, and both requested degrees returned the same unqualified record.",
+  "next_action": "Locate an official TJSC route or response field that explicitly identifies first-degree jurisprudence before creating a CJPG binding."
+}

@@ -1,7 +1,7 @@
 # Spec — fechamento profissional de contratos de providers
 
 ID: `0008-provider-contract-closure`
-Status: `in_progress`
+Status: `verified`
 Owner: `NanoJuris engineering`
 Data: `2026-08-20`
 

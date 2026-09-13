@@ -1,0 +1,41 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-05",
+  "audit_mode": "bounded_public_live_check",
+  "frequency": "one request",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "surface": "jurisprudencia",
+      "endpoint": "POST https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+      "query_shape": {
+        "jurisprudencia.ementa": "responsabilidade",
+        "page": 1,
+        "page_size": 1,
+        "usuario": "empty_public_context"
+      },
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_bytes": 910724,
+      "content_sha256": "d2154e196962398a0cd02ce10249217dae1260e8a579a3627ac6ff4df908d9e8",
+      "record_count_observed": 1,
+      "reported_total": 73895,
+      "pagination_mode": "page",
+      "identity_field_present": true,
+      "summary_field_present": true,
+      "full_text_field_present": true,
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "classification": "reachable_valid_data",
+      "elapsed_ms": 1244.96
+    }
+  ],
+  "promotion_decision": "candidate_opt_in",
+  "promotion_blockers": [
+    "A evidência é uma chamada pontual e limitada a uma página; não confirma estabilidade, filtros ou paginação completa.",
+    "A revisão de reuso, licença, retenção e redistribuição continua pendente.",
+    "O provider permanece fora da federação padrão; nenhuma coleta em escala foi autorizada."
+  ]
+}

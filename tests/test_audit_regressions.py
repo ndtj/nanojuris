@@ -4,7 +4,7 @@ import pytest
 
 from nanojuris.canonical import result_to_canonical_decision
 from nanojuris.client import NanoJurisClient
-from nanojuris.errors import InvalidQueryError
+from nanojuris.errors import InvalidQueryError, UnsupportedQueryError
 from nanojuris.extraction import _status_to_access_status
 from nanojuris.models import (
     AccessStatus,
@@ -78,7 +78,50 @@ def test_unified_router_warns_when_refinement_filters_are_not_declared():
     assert routed.searched == ["fixture"]
     assert routed.skipped == []
     assert {warning.reason for warning in routed.warnings} == {"filter_not_supported"}
-    assert {warning.source for warning in routed.warnings} == {"fixture"}
+
+
+def test_single_source_search_rejects_undeclared_identifier_before_provider_call():
+    class SpyProvider:
+        name = "spy"
+        called = False
+
+        def search(self, _query: JurisprudenceQuery) -> SearchPage:
+            self.called = True
+            raise AssertionError("provider must not receive an unsupported identifier")
+
+        def get_capabilities(self) -> ProviderCapabilities:
+            return ProviderCapabilities(
+                source=self.name,
+                display_name="Spy",
+                source_url="https://example.test",
+                category="jurisprudence",
+                supports_unified_search=True,
+                supported_filters=["text"],
+            )
+
+    provider = SpyProvider()
+    client = NanoJurisClient(providers=[provider])
+    with pytest.raises(UnsupportedQueryError, match="number"):
+        client.search("", source="spy", number="0000000-00.0000.0.00.0000")
+    assert provider.called is False
+
+
+def test_unified_router_treats_empty_filter_declaration_as_unsupported_identifier():
+    capability = ProviderCapabilities(
+        source="fixture",
+        display_name="Fixture",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        supports_unified_search=True,
+    )
+    routed = route_unified_sources(
+        selected_sources=["fixture"],
+        capabilities={"fixture": capability},
+        text="",
+        filters={"number": "0000000-00.0000.0.00.0000"},
+    )
+    assert routed.searched == []
+    assert routed.skipped[0].reason == "identifier_filter_not_supported"
 
 
 def test_unified_router_warns_for_courts_and_types_without_contract():
@@ -138,6 +181,42 @@ def test_unified_search_marks_collection_incomplete_for_filter_warnings():
     assert payload["collection_complete"] is False
 
 
+def test_single_source_search_exposes_missing_filter_disposition():
+    class Provider:
+        name = "filter_boundary"
+
+        def search(self, query: JurisprudenceQuery) -> SearchPage:
+            return SearchPage(
+                source=self.name,
+                total=0,
+                start=0,
+                end=0,
+                page=query.page,
+                page_size=query.page_size,
+                results=[],
+                is_complete=True,
+                total_known=True,
+            )
+
+        def get_capabilities(self) -> ProviderCapabilities:
+            return ProviderCapabilities(
+                source=self.name,
+                display_name="Filter boundary",
+                source_url="https://example.test",
+                category="jurisprudence",
+                supported_filters=["text"],
+                filter_semantics={"text": "native", "published_from": "unsupported"},
+            )
+
+    page = NanoJurisClient(providers=[Provider()]).search(
+        "responsabilidade", source="filter_boundary", published_from="2026-01-01"
+    )
+    assert page.filters_applied == {
+        "published_from": "unsupported",
+        "text": "native",
+    }
+
+
 class _FederatedProvider:
     def __init__(self, name: str, numbers: list[str]):
         self.name = name
@@ -178,6 +257,100 @@ class _FederatedProvider:
             supports_mcp=True,
             supports_studio=True,
         )
+
+
+class _FilterCaptureProvider:
+    name = "tre_filter_capture"
+
+    def __init__(self) -> None:
+        self.query: JurisprudenceQuery | None = None
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        self.query = query
+        return SearchPage(
+            source=self.name,
+            total=0,
+            start=0,
+            end=0,
+            page=query.page,
+            page_size=query.page_size,
+            results=[],
+            is_complete=True,
+            total_known=True,
+        )
+
+    def get_capabilities(self) -> ProviderCapabilities:
+        tre_filters = [
+            "text",
+            "election_year",
+            "observations",
+            "tags",
+            "municipality",
+            "publication_source",
+            "publication_number",
+            "publication_volume",
+            "uf",
+        ]
+        return ProviderCapabilities(
+            source=self.name,
+            display_name=self.name,
+            source_url="https://example.test",
+            category="court_jurisprudence",
+            supports_unified_search=True,
+            supported_filters=tre_filters,
+            filter_semantics={name: "native" for name in tre_filters},
+        )
+
+
+def test_client_forwards_tre_structured_filters_and_portuguese_aliases() -> None:
+    provider = _FilterCaptureProvider()
+    page = NanoJurisClient(providers=[provider]).search(
+        "eleicao",
+        source=provider.name,
+        ano_eleicao="2022",
+        observacoes="urna",
+        etiquetas="propaganda",
+        municipio="Sao Paulo",
+        fonte_publicacao="DJE",
+        numero_publicacao="12",
+        volume_publicacao="3",
+        uf="SP",
+    )
+
+    assert page.is_explicit_empty
+    assert provider.query is not None
+    assert provider.query.election_year == "2022"
+    assert provider.query.observations == "urna"
+    assert provider.query.tags == "propaganda"
+    assert provider.query.municipality == "Sao Paulo"
+    assert provider.query.publication_source == "DJE"
+    assert provider.query.publication_number == "12"
+    assert provider.query.publication_volume == "3"
+    assert provider.query.uf == "SP"
+    assert set(page.filters_applied) >= {
+        "election_year",
+        "observations",
+        "tags",
+        "municipality",
+        "publication_source",
+        "publication_number",
+        "publication_volume",
+        "uf",
+    }
+
+
+def test_adaptive_plan_canonicalizes_tre_filter_aliases() -> None:
+    provider = _FilterCaptureProvider()
+    payload = NanoJurisClient(providers=[provider]).search_many(
+        "eleicao",
+        sources=[provider.name],
+        mode="selected",
+        ano_eleicao="2022",
+    )
+
+    plan = payload["search_plan"]["provider_plans"][provider.name]
+    assert plan["provider_query"]["election_year"] == "2022"
+    assert "ano_eleicao" not in plan["provider_query"]
 
 
 class _PagedProvider(_FederatedProvider):

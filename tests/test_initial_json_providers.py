@@ -11,10 +11,11 @@ from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
-from nanojuris.models import JurisprudenceQuery
+from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tcu_jurisprudencia import (
     TcuJurisprudenciaProvider,
     parse_tcu_manifest,
@@ -52,6 +53,10 @@ class FakeResponse:
         self.text = text
         self.status_code = status_code
         self.url = url
+        self.content = (
+            json.dumps(data, ensure_ascii=False).encode("utf-8") if data is not None else b""
+        )
+        self.headers = {"Content-Type": "application/json"} if data is not None else {}
 
     def json(self) -> Any:
         if self._data is None:
@@ -88,18 +93,11 @@ class FakeSession:
 
 
 def test_tjpb_parser_and_public_token_flow() -> None:
-    response_data = {
-        "total": 48_534,
-        "hits": [
-            {
-                "_id": "ABC123",
-                "_score": 1.0,
-                "dt_ementa": "2026-01-01",
-                "ementa": "Dano moral e responsabilidade civil.",
-                "numero_processo": "0000001-10.2024.8.15.0001",
-            }
-        ],
-    }
+    response_data = json.loads(
+        (Path(__file__).parent / "fixtures" / "tjpb_pje_jurisprudencia_success.json").read_text(
+            encoding="utf-8"
+        )
+    )
     session = FakeSession(
         [
             FakeResponse(text='<meta name="_token" content="csrf-test">'),
@@ -117,14 +115,73 @@ def test_tjpb_parser_and_public_token_flow() -> None:
         JurisprudenceQuery(text="dano moral", number="0000001-10.2024.8.15.0001", page_size=1)
     )
 
-    assert page.total == 48_534
-    assert page.results[0].id == "tjpb-pje-ABC123"
+    assert page.total == 1
+    assert page.total_known is True
+    assert page.access_status.value == "public"
+    assert page.extraction_status.value == "complete"
+    assert page.results[0].id == "tjpb-pje-fixture-tjpb-abc123"
     assert page.results[0].judgment_date == "2026-01-01"
-    assert page.results[0].raw["document_url"].endswith("/jurisprudencia/view/ABC123")
+    assert page.results[0].degree == "second"
+    assert page.results[0].instance == "second"
+    assert page.results[0].branch == "state"
+    assert page.results[0].authority == "TJPB"
+    assert page.results[0].collection == "CJSG"
+    assert page.results[0].document_type == "acordao"
+    assert page.results[0].raw["document_url"].endswith("/jurisprudencia/view/fixture-tjpb-abc123")
     assert session.calls[0]["method"] == "GET"
     payload = session.calls[1]["kwargs"]["json"]
     assert payload["_token"] == "csrf-test"
-    assert payload["jurisprudencia"]["nr_processo"] == "0000001-10.2024.8.15.0001"
+    assert payload["jurisprudencia"]["nr_rocesso"] == "0000001-10.2024.8.15.0001"
+    assert payload["jurisprudencia"]["id_origem"] == "8,2"
+    assert payload["jurisprudencia"]["teor"] == ""
+    assert "nr_processo" not in payload["jurisprudencia"]
+    assert session.calls[1]["kwargs"]["headers"]["X-Requested-With"] == "XMLHttpRequest"
+
+
+def test_tjpb_maps_canonical_class_rapporteur_and_judgment_dates() -> None:
+    response_data = {
+        "total": 0,
+        "hits": [],
+    }
+    session = FakeSession(
+        [
+            FakeResponse(text='<meta name="_token" content="csrf-test">'),
+            FakeResponse(response_data, url="https://example.test/api"),
+        ]
+    )
+    provider = TjpbPjeJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
+    provider.search(
+        JurisprudenceQuery(
+            text="tributario",
+            case_class="Apelacao Civel",
+            rapporteur="Desembargador Exemplo",
+            judgment_date_from="2025-01-01",
+            judgment_date_to="2025-12-31",
+        )
+    )
+    payload = session.calls[1]["kwargs"]["json"]["jurisprudencia"]
+    assert payload["id_classe_judicial"] == "Apelacao Civel"
+    assert payload["id_relator"] == "Desembargador Exemplo"
+    assert payload["dt_inicio"] == "2025-01-01"
+    assert payload["dt_fim"] == "2025-12-31"
+
+
+def test_tjpb_rejects_first_degree_scope() -> None:
+    provider = TjpbPjeJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([])
+    )
+    with pytest.raises(QueryRejectedError, match="only second-degree"):
+        provider.search(JurisprudenceQuery(text="teste", types=("sentenca",)))
+
+
+def test_tjpb_rejects_first_degree_canonical_filter() -> None:
+    provider = TjpbPjeJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([])
+    )
+    with pytest.raises(QueryRejectedError, match="only second-degree"):
+        provider.search(JurisprudenceQuery(text="teste", degree="first"))
 
 
 def test_tjpb_ementa_strips_process_and_parties_header() -> None:
@@ -184,6 +241,101 @@ def test_tjpb_parser_uses_cleaned_ementa_for_summary() -> None:
     page = provider.search(JurisprudenceQuery(text="dano moral", page_size=1))
 
     assert page.results[0].summary == "CONSUMIDOR. INSCRIÇÃO INDEVIDA. DANO MORAL IN RE IPSA."
+
+
+def test_tjpb_does_not_reject_appellate_ementa_that_mentions_sentence() -> None:
+    response_data = {
+        "total": 1,
+        "hits": [
+            {
+                "_id": "APELACAO1",
+                "dt_ementa": "2026-01-01",
+                "ementa": "APELACAO CIVEL. SENTENCA MANTIDA. RESPONSABILIDADE CIVIL.",
+                "classe": "APELACAO CIVEL",
+            }
+        ],
+    }
+    page = parse_tjpb_search_response(
+        response_data,
+        query=JurisprudenceQuery(text="responsabilidade civil"),
+        trace=SourceTrace(provider="tjpb_pje_jurisprudencia", endpoint="POST /api"),
+        base_url="https://example.test",
+    )
+
+    assert len(page.results) == 1
+    assert page.results[0].degree == "second"
+
+
+def test_tjpb_parser_reports_translated_filter_plan() -> None:
+    page = parse_tjpb_search_response(
+        {
+            "total": 1,
+            "hits": [{"_id": "APELACAO-FILTRO", "ementa": "APELACAO CIVEL"}],
+        },
+        query=JurisprudenceQuery(
+            text="responsabilidade",
+            number="0000000-00.2026.8.15.0001",
+            case_class="APELACAO",
+            judging_body="CAMARA-1",
+            source_origin="2",
+            degree="second",
+            instance="2",
+            published_from="2026-01-01",
+            judgment_date_to="2026-12-31",
+        ),
+        trace=SourceTrace(provider="tjpb_pje_jurisprudencia", endpoint="POST /api"),
+        base_url="https://example.test",
+    )
+
+    assert page.filters_applied["text"] == "translated"
+    assert page.filters_applied["case_class"] == "translated"
+    assert page.filters_applied["source_origin"] == "translated"
+    assert page.filters_applied["degree"] == "validated_scope"
+    assert page.filters_applied["judgment_date_to"] == "translated"
+
+
+def test_tjpb_rejects_structured_first_degree_marker() -> None:
+    response_data = {
+        "total": 1,
+        "hits": [
+            {
+                "_id": "SENTENCA1",
+                "dt_ementa": "2026-01-01",
+                "ementa": "DECISAO",
+                "grau": "primeiro grau",
+            }
+        ],
+    }
+    with pytest.raises(ParserContractChangedError, match="first-degree"):
+        parse_tjpb_search_response(
+            response_data,
+            query=JurisprudenceQuery(text="teste"),
+            trace=SourceTrace(provider="tjpb_pje_jurisprudencia", endpoint="POST /api"),
+            base_url="https://example.test",
+        )
+
+
+def test_tjpb_does_not_treat_process_class_as_degree_marker() -> None:
+    response_data = {
+        "total": 1,
+        "hits": [
+            {
+                "_id": "APELACAO2",
+                "dt_ementa": "2026-01-01",
+                "ementa": "SENTENCA MANTIDA. RESPONSABILIDADE CIVIL.",
+                "classe": "Sentenca",
+            }
+        ],
+    }
+    page = parse_tjpb_search_response(
+        response_data,
+        query=JurisprudenceQuery(text="responsabilidade civil"),
+        trace=SourceTrace(provider="tjpb_pje_jurisprudencia", endpoint="POST /api"),
+        base_url="https://example.test",
+    )
+
+    assert len(page.results) == 1
+    assert page.results[0].degree == "second"
 
 
 def test_tjpb_detail_is_normalized_as_public_document() -> None:
@@ -299,11 +451,46 @@ def test_tjpa_versioned_success_fixture_preserves_contract() -> None:
 
     result = page.results[0]
     assert page.total == 1
+    assert page.total_known is True
+    assert page.access_status.value == "public"
+    assert page.extraction_status.value == "complete"
     assert result.id == "tjpa-bff-42"
     assert result.rapporteur == "Desembargador de Fixture"
     assert result.publication_date == "2026-02-01"
     assert result.raw["publication_date_raw"] == "01/02/2026"
     assert result.raw["full_text"] == "Inteiro teor publico sanitizado."
+
+
+def test_tjpa_parser_exposes_bff_filter_plan_and_scope_validation() -> None:
+    fixture_path = Path(__file__).parent / "fixtures" / "tjpa_jurisprudencia_bff_results.json"
+    data = json.loads(fixture_path.read_text(encoding="utf-8"))
+    query = JurisprudenceQuery(
+        text="dano moral",
+        case_class="APELACAO",
+        rapporteur="Desembargador",
+        source_origin="TJPA",
+        degree="second",
+        instance="2",
+        branch="state",
+        authority="TJPA",
+        collection="CJSG",
+        published_from="2026-01-01",
+    )
+
+    page = parse_tjpa_search_response(
+        data,
+        query=query,
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    assert page.filters_applied["text"] == "translated"
+    assert page.filters_applied["case_class"] == "unsupported"
+    assert page.filters_applied["degree"] == "validated_scope"
+    assert page.filters_applied["published_from"] == "translated"
+
+    provider = TjpaJurisprudenciaBffProvider(NanoJurisConfig(rate_limit_interval=0))
+    with pytest.raises(QueryRejectedError, match="ramo estadual"):
+        provider.search(JurisprudenceQuery(text="teste", branch="federal"))
 
 
 @pytest.mark.parametrize(
@@ -391,6 +578,27 @@ def test_tjpa_preserves_raw_dates_and_marks_textless_records_partial() -> None:
     assert result.raw["publication_date_raw"] == "04/03/2026"
 
 
+def test_tjpa_missing_total_is_explicitly_unknown() -> None:
+    page = parse_tjpa_search_response(
+        {
+            "data": {
+                "content": [
+                    {
+                        "id": "without-total",
+                        "ementatextopuro": "Ementa publica.",
+                    }
+                ]
+            }
+        },
+        query=JurisprudenceQuery(text="teste", page_size=1),
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    assert page.total == 1
+    assert page.total_known is False
+    assert page.is_complete is None
+
+
 def test_tjpa_normalization_helpers_keep_public_shapes() -> None:
     assert _date_br("2026-08-11") == "11/08/2026"
     assert _date_br("unknown") == "unknown"
@@ -404,7 +612,7 @@ def test_tjpa_normalization_helpers_keep_public_shapes() -> None:
 def test_tjpa_detail_contract_is_explicitly_unimplemented() -> None:
     provider = TjpaJurisprudenciaBffProvider(NanoJurisConfig(rate_limit_interval=0))
 
-    with pytest.raises(NotImplementedError, match="nao validadas"):
+    with pytest.raises(SourceUnavailableError, match="observed search"):
         provider.get_decisions("42")
 
 

@@ -1,0 +1,33 @@
+{
+  "schema_version": "falcao-live-recheck-v1",
+  "provider": "falcao_jt",
+  "observed_at": "2026-09-08",
+  "method": "GET",
+  "bounded": true,
+  "bypass_used": false,
+  "requests": [
+    {
+      "url": "https://jurisprudencia.jt.jus.br/",
+      "final_url": "https://jurisprudencia.jt.jus.br/",
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 919,
+      "body_sha256": "d2becb3994ec0261ba8095a29bc8501628b91fb6af7dc6752efd09eda0156d8a",
+      "classification": "access_blocked",
+      "markers": ["cloudfront_block_page"]
+    },
+    {
+      "url": "https://www.trt9.jus.br/portal/pagina.xhtml?pagina=FALCAO&secao=168",
+      "final_url": "https://www.trt9.jus.br/portal/pagina.xhtml?pagina=FALCAO&secao=168",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 370713,
+      "body_sha256": "4950fb1db83f156cc99a6f2158e51ececdc07aacfa47322b78991c678f35e05b",
+      "classification": "official_scope_only",
+      "markers": ["official_falcao_reference"]
+    }
+  ],
+  "decision": "blocked_external",
+  "next_action": "request_public_api_export_or_allowlist_from_the_authority; do_not_bypass_cloudfront",
+  "raw_body_persisted": false
+}

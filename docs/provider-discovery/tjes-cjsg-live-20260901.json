@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01",
+  "audit_mode": "bounded_public_http_contract_check",
+  "frequency": "one request",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjes_jurisprudencia",
+      "surface": "cjsg",
+      "core": "pje2g",
+      "endpoint": "GET https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search",
+      "query_shape": {
+        "core": "pje2g",
+        "q": "responsabilidade",
+        "page": 1,
+        "per_page": 1
+      },
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 103293,
+      "content_sha256": "9dd9fd826bdcdddc777d490e0e7dfd4173b585f3ff2c0c427f51da84b4dbfe40",
+      "record_count_observed": 1,
+      "reported_total": 68421,
+      "fields_observed": [
+        "id",
+        "id_bin",
+        "nr_processo",
+        "ementa",
+        "ementa_html",
+        "acordao",
+        "acordao_html",
+        "magistrado",
+        "orgao_julgador",
+        "classe_judicial",
+        "assunto_principal",
+        "dt_juntada"
+      ],
+      "classification": "reachable_valid_data"
+    }
+  ],
+  "promotion_decision": "implemented_opt_in_only",
+  "limitations": [
+    "A verificacao foi limitada a uma chamada publica e uma janela de um item.",
+    "O corpo da resposta nao foi persistido; somente metadados e hash foram registrados.",
+    "A evidencia de acesso nao substitui revisao juridica de reuso ou coleta em escala."
+  ]
+}

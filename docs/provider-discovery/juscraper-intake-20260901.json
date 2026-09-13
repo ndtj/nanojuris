@@ -1,0 +1,396 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-09-01T00:00:00+00:00",
+  "audit_mode": "static_source_only",
+  "live_availability_claim": false,
+  "upstream": {
+    "repository": "https://github.com/jtrecenti/juscraper",
+    "commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+    "commit_timestamp": "2026-08-10T15:06:55-03:00",
+    "version": "0.3.0",
+    "license_declared": "MIT",
+    "license_file_sha256": "268966cc8228411db2775fbacf3d91b1a15bcdd99a713892e905b3a541b83c59"
+  },
+  "observed_scope": {
+    "description": "Raspador de tribunais e outros sistemas relacionados ao poder judiciário.",
+    "brazilian_court_packages": 25,
+    "brazilian_source_ids": [
+      "tjac",
+      "tjal",
+      "tjam",
+      "tjap",
+      "tjba",
+      "tjce",
+      "tjdft",
+      "tjes",
+      "tjgo",
+      "tjmg",
+      "tjms",
+      "tjmt",
+      "tjpa",
+      "tjpb",
+      "tjpe",
+      "tjpi",
+      "tjpr",
+      "tjrj",
+      "tjrn",
+      "tjro",
+      "tjrr",
+      "tjrs",
+      "tjsc",
+      "tjsp",
+      "tjto"
+    ],
+    "trf_packages": 4,
+    "trf_source_ids": [
+      "trf1",
+      "trf3",
+      "trf5",
+      "trf6"
+    ],
+    "aggregator_packages": [
+      "comunica_cnj",
+      "datajud",
+      "jusbr",
+      "pdpj"
+    ],
+    "court_packages": [
+      {
+        "source_id": "tjac",
+        "client_class": "TJACScraper",
+        "declared_methods": [],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjal",
+        "client_class": "TJALScraper",
+        "declared_methods": [],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjam",
+        "client_class": "TJAMScraper",
+        "declared_methods": [],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjap",
+        "client_class": "TJAPScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjba",
+        "client_class": "TJBAScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjce",
+        "client_class": "TJCEScraper",
+        "declared_methods": [],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjdft",
+        "client_class": "TJDFTScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjes",
+        "client_class": "TJESScraper",
+        "declared_methods": [
+          "cjpg",
+          "cjpg_download",
+          "cjpg_parse",
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjgo",
+        "client_class": "TJGOScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjmg",
+        "client_class": "TJMGScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjms",
+        "client_class": "TJMSScraper",
+        "declared_methods": [],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjmt",
+        "client_class": "TJMTScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjpa",
+        "client_class": "TJPAScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjpb",
+        "client_class": "TJPBScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjpe",
+        "client_class": "TJPEScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjpi",
+        "client_class": "TJPIScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjpr",
+        "client_class": "TJPRScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjrj",
+        "client_class": "TJRJScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjrn",
+        "client_class": "TJRNScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjro",
+        "client_class": "TJROScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjrr",
+        "client_class": "TJRRScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjrs",
+        "client_class": "TJRSScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjsc",
+        "client_class": "TJSCScraper",
+        "declared_methods": [
+          "cjsg",
+          "cjsg_download",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjsp",
+        "client_class": "TJSPScraper",
+        "declared_methods": [
+          "cjpg",
+          "cjpg_download",
+          "cjpg_parse",
+          "cjsg",
+          "cjsg_download",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      },
+      {
+        "source_id": "tjto",
+        "client_class": "TJTOScraper",
+        "declared_methods": [
+          "cjpg",
+          "cjpg_download",
+          "cjpg_parse",
+          "cjsg",
+          "cjsg_download",
+          "cjsg_ementa",
+          "cjsg_parse",
+          "cpopg",
+          "cposg"
+        ],
+        "classification": "candidate"
+      }
+    ],
+    "shared_surfaces": [
+      "cjsg",
+      "cjpg",
+      "tjto.cjsg_ementa"
+    ],
+    "process_surfaces": [
+      "cpopg",
+      "cposg"
+    ]
+  },
+  "nanojuris_surface_decisions": {
+    "cjsg": {
+      "count": 25,
+      "classification": "candidate",
+      "decision": "cross_reference_each_source_contract_and_fixture"
+    },
+    "cjpg": {
+      "source_ids": [
+        "tjes",
+        "tjsp",
+        "tjto"
+      ],
+      "count": 3,
+      "classification": "candidate",
+      "decision": "keep_first_instance_separate_from_cjsg"
+    },
+    "tjto_cjsg_ementa": {
+      "count": 1,
+      "classification": "candidate",
+      "decision": "lazy_detail_only_after_base_identity_gate"
+    },
+    "cpopg_cposg": {
+      "classification": "out_of_scope",
+      "decision": "do_not_register_as_textual_jurisprudence"
+    },
+    "aggregators": {
+      "source_ids": [
+        "comunica_cnj",
+        "datajud",
+        "jusbr",
+        "pdpj"
+      ],
+      "classification": "out_of_scope_or_separate_domain",
+      "decision": "do_not_promote_to_nanojuris_jurisprudence_runtime"
+    }
+  },
+  "nanojuris_action": {
+    "runtime_change": "none",
+    "copied_upstream_code": false,
+    "required_before_adapter": [
+      "official source contract with method, payload, filters and pagination",
+      "sanitized success, empty, error and schema-drift fixtures",
+      "canonical output and legal identity mapping",
+      "bounded live evidence from the official court surface",
+      "license and terms review"
+    ],
+    "next_step": "use the 25 TJ packages as candidates for differential review; promote only a source with independent NanoJuris evidence"
+  }
+}

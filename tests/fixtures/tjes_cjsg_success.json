@@ -1,0 +1,37 @@
+{
+  "core_used": "pje2g",
+  "page": 1,
+  "per_page": 2,
+  "total": 3,
+  "total_pages": 2,
+  "docs": [
+    {
+      "id": 81000001,
+      "id_bin": 82000001,
+      "nr_processo": "0000001-00.2024.8.08.0001",
+      "ementa": "Ementa sanitizada de acórdão sobre responsabilidade civil.",
+      "ementa_html": "<p>Ementa sanitizada de acórdão sobre responsabilidade civil.</p>",
+      "acordao": "Acórdão sanitizado com inteiro teor público.",
+      "acordao_html": "<p>Acórdão sanitizado com inteiro teor público.</p>",
+      "magistrado": "RELATOR DE FIXTURE",
+      "orgao_julgador": "PRIMEIRA CAMARA DE FIXTURE",
+      "classe_judicial": "APELAÇÃO CÍVEL",
+      "classe_judicial_sigla": "AC",
+      "assunto_principal": "Responsabilidade civil",
+      "lista_assunto": ["Responsabilidade civil"],
+      "jurisdicao": "Cível",
+      "competencia": "CIVEL",
+      "dt_juntada": "2024-03-10T00:00:00"
+    },
+    {
+      "id": "81000002",
+      "nr_processo": "0000002-00.2024.8.08.0002",
+      "ementa": "Ementa sanitizada de decisão monocrática.",
+      "acordao": "",
+      "magistrado": "OUTRO RELATOR DE FIXTURE",
+      "orgao_julgador": "SEGUNDA CAMARA DE FIXTURE",
+      "tipo_decisao": "decisao_monocratica",
+      "dt_juntada": "10/03/2024"
+    }
+  ]
+}

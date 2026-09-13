@@ -1,5 +1,20 @@
 # `tjsc_eproc_jurisprudencia`
 
+## Rechecagem de primeiro grau (2026-09-07)
+
+Embora a rota contenha `consulta1g`, uma consulta bounded com
+`degree=first`/`instance=first` retornou registros sem identidade de primeiro
+grau; o parser rejeitou a resposta por misturar o grau solicitado. A mesma
+rota com `degree=second` retornou registro explicitamente identificado como
+TJSC/segundo grau. A tentativa de baixar o inteiro teor desse registro
+retornou HTML de controle de acesso, sem credenciais ou replay de sessão.
+
+Evidência: `docs/provider-discovery/tjsc-first-degree-eproc-boundary-live-20260907.json`.
+
+Conclusão: este binding permanece CJSG/segundo grau. Não contar a rota como
+CJPG até existir uma superfície oficial que identifique primeiro grau e cujo
+detalhe público seja reproduzível.
+
 ## Identidade
 
 - Tribunal: Tribunal de Justica de Santa Catarina.
@@ -8,8 +23,10 @@
 - Entrada institucional: `https://www.tjsc.jus.br/web/tjsc/pesquisa-jurisprudencia`.
 - Superficie de pesquisa observada:
   `https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`.
-- Status do mapeamento: `candidate_ready`.
-- Status no NanoJuris: implementado para busca e inteiro teor publico.
+- Status do mapeamento: `live_validated` para busca; detalhe condicionado por
+  controle de acesso da fonte.
+- Status no NanoJuris: implementado para busca pública; inteiro teor é tentado
+  sob demanda e pode retornar `access_control_required`.
 
 O TJSC informa a pesquisa no modulo de jurisprudencia do eproc. O contrato
 deve ser tratado como uma instancia propria da familia eproc, porque os labels,
@@ -62,10 +79,10 @@ Cada card publica um link com o identificador tecnico
 GET /consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>&termosPesquisados=<base64>
 ```
 
-O detalhe validado retornou HTTP 200, `text/html`, aproximadamente 121 KB e
-`Content-Disposition: inline; filename=jurisprudencia.html`. O resultado
-tambem publica links oficiais para consulta processual no eproc2g. O parser
-deve manter separados o card resumido, o inteiro teor e a consulta processual.
+O detalhe foi observado historicamente como HTTP 200 `text/html`, mas na
+revalidação do ciclo 54 a fonte retornou uma página de controle de acesso. O
+parser mantém separados o card resumido, o inteiro teor e a consulta
+processual e nunca tenta contornar esse controle.
 
 ## Campos canonicos
 
@@ -110,30 +127,35 @@ contrato especifico do TJSC.
 
 ## Fixtures
 
-- [x] Resultado HTML minimo derivado do card TJSC versionado no teste:
+- [x] Resultado HTML mínimo derivado do card TJSC versionado no teste:
   `tests/fixtures/tjsc_eproc_jurisprudencia_result.html`.
-- [ ] Formulario completo e paginacao autenticados por fixture especifica.
-- [ ] Resultado vazio, detalhe e resposta de controle de acesso.
+- [x] Formulário e paginação reduzidos, sem credenciais, em
+  `tests/fixtures/tjsc_eproc_jurisprudencia_form.html`.
+- [x] Resultado vazio em `tests/fixtures/tjsc_eproc_jurisprudencia_empty.html`.
+- [x] Controle de acesso em
+  `tests/fixtures/tjsc_eproc_jurisprudencia_access_control.html`; detalhe
+  público permanece condicionado pela fonte.
 
-O card versionado cobre somente identidade, processo, datas, ementa e link de
-inteiro teor. Ele nao representa uma captura completa do formulario live nem
-autoriza inferir os estados ainda pendentes.
+Os fixtures são reduzidos e sanitizados; não contêm cookies, tokens ou corpos
+de decisões reais. O estado de acesso do detalhe é sempre propagado ao
+consumidor.
 
 ## Decisao de mapeamento
 
-Promovido de `candidate_needs_har` para provider implementado porque uma
-chamada HTTP limpa retornou conteudo decisorio real, campos canonicos,
-paginacao e inteiro teor publico. O contrato ainda nao deve ser usado para
-coleta em escala sem:
+Promovido de `candidate_needs_har` para provider implementado porque chamadas
+HTTP limpas retornaram conteúdo decisório real, campos canônicos e paginação.
+O detalhe público continua sujeito a controle da fonte e o contrato não tenta
+contorná-lo.
 
-1. fixture HTML de formulario e sucesso;
+O contrato deve ser usado com:
+
+1. fixture HTML de formulário e sucesso;
 2. fixture de resultado vazio;
-3. fixture de inteiro teor;
-4. fixture de protecao/erro;
-5. parser offline resiliente a labels e IDs dinamicos;
-6. teste offline de paginacao e filtros de processo/data; a paginacao live foi
+3. fixture de proteção/erro;
+4. parser offline resiliente a labels e IDs dinâmicos;
+5. teste offline de paginação e filtros de processo/data; a paginação live foi
    validada na Wave 2;
-7. teste live opt-in com intervalo conservador.
+6. teste live opt-in com intervalo conservador.
 
 ## MCP e uso responsavel
 
@@ -161,6 +183,18 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
   registrada como instabilidade histórica, não como resultado vazio.
 
 Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.
+
+## Evidência live ciclo 54 — 2026-09-05
+
+- Páginas 1 e 2 com `responsabilidade civil`: HTTP 200 HTML, 2 registros por
+  página, total remoto 785.591 e IDs sem sobreposição.
+- A tentativa de detalhe do primeiro ID recebeu HTML de controle de acesso;
+  foi classificada como `access_control_required`, sem mascaramento como vazio.
+- Correção aplicada: IDs TJSC com 7 dígitos agora são aceitos pelo extrator
+  específico do provider (o parser TJSP continua exigindo seu contrato próprio).
+- Artefato redigido: `docs/provider-discovery/tjsc-eproc-live-20260905-cycle54.json`.
+- Busca textual e paginação estão aptas à federação; inteiro teor permanece
+  condicional e é reportado no trace.
 
 ## Referencias oficiais
 

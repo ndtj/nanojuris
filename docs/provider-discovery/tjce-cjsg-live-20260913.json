@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-13T04:40:07Z",
+  "provider": "tjce_cjsg",
+  "source_id": "tjce_cjsg",
+  "authority": "TJCE",
+  "surface": "CJSG",
+  "source": "https://esaj.tjce.jus.br/cjsg",
+  "credentials_used": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "page": 1,
+    "page_size": 1,
+    "fetch_details": false
+  },
+  "classification": "success_with_results",
+  "record_count_observed": 1,
+  "reported_total": 107097,
+  "total_known": true,
+  "http_status": 200,
+  "content_type": "text/html;charset=UTF-8",
+  "content_sha256": "c21f5407527adf7f001a461b42edc89beaf30d54c9ee59f7226c775cd1cd259c",
+  "response_bytes": 511072,
+  "pagination_mode": "page",
+  "access_status": "public",
+  "degree_contract": "second",
+  "canonical_assertions": {
+    "authority": "TJCE",
+    "branch": "state",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG",
+    "textual_summary_present": true
+  },
+  "quality_notes": [
+    "A amostra retornou registro textual de segundo grau e o total declarado pela fonte.",
+    "A pertinencia semantica do termo deve ser medida no benchmark; a sonda nao e um julgamento de relevancia."
+  ],
+  "safety": {
+    "captcha_solved": false,
+    "tokens_used": false,
+    "cookies_replayed": false,
+    "rate_limit_bypass": false,
+    "tls_verification_disabled": false,
+    "raw_body_persisted": false
+  },
+  "decision": "TJCE/CJSG permanece executavel e publicamente acessivel nesta sonda bounded; a compatibilidade de cifra foi limitada ao host oficial do TJCE."
+}

@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 import unicodedata
 from collections import Counter
 from datetime import datetime, timezone
@@ -18,10 +19,16 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urljoin, urlparse
 
-from nanojuris.client import NanoJurisClient
-from nanojuris.discovery.crawler import DiscoveryCrawler
-from nanojuris.discovery.http import HttpDiscoveryClient
-from nanojuris.discovery.models import DiscoveryPolicy, DiscoveryRun
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE_ROOT = str(ROOT / "src")
+if SOURCE_ROOT in sys.path:
+    sys.path.remove(SOURCE_ROOT)
+sys.path.insert(0, SOURCE_ROOT)
+
+from nanojuris.client import NanoJurisClient  # noqa: E402
+from nanojuris.discovery.crawler import DiscoveryCrawler  # noqa: E402
+from nanojuris.discovery.http import HttpDiscoveryClient  # noqa: E402
+from nanojuris.discovery.models import DiscoveryPolicy, DiscoveryRun  # noqa: E402
 
 _ENDPOINT = re.compile(r"^(?P<method>GET|POST|PUT|DELETE|HEAD|PATCH)\s+(?P<route>.+)$", re.I)
 _PLACEHOLDER = re.compile(r"<[^>]+>|\{[^}]+\}")
@@ -228,8 +235,8 @@ def _run_provider(
 
     evidences = [evidence for run in observations for evidence in run.evidences]
     statuses = Counter(evidence.status.value for evidence in evidences)
-    routes = {}
-    filters = {}
+    routes: dict[str, dict[str, Any]] = {}
+    filters: dict[str, dict[str, Any]] = {}
     for evidence in evidences:
         for candidate in evidence.route_candidates:
             key = (candidate.method, candidate.url)

@@ -24,6 +24,11 @@ FIXTURE_REF = re.compile(r"tests[\\/]fixtures[\\/]([A-Za-z0-9_.-]+)")
 URL_RE = re.compile(r"https?://[^\s`)>]+")
 SOURCE_MODULE_RE = re.compile(r"nanojuris\.providers\.([a-z0-9_]+)")
 
+# Runtime dispatchers still need the same local route/selector audit as a
+# catalogued family.  Their lifecycle is ``implemented`` because the family
+# object is executable, but the concrete child contracts remain separate.
+RUNTIME_FAMILY_DISPATCHERS = {"eproc_jurisprudencia_federal"}
+
 # Inline payloads are useful deterministic evidence, but they are not
 # equivalent to a reviewed, replayable fixture file. Keep both evidence types
 # visible in the audit instead of silently treating either one as the other.
@@ -217,14 +222,23 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
         tests = _test_files(root, source_id)
         fixture_names.update(_test_fixture_refs(root, tests, source_id))
         inline_fixture_evidence = _inline_fixture_evidence(root, tests, source_id)
-        needs_discovery = implementation_status in {"none", "family"}
+        needs_discovery = (
+            implementation_status in {"none", "family"} or source_id in RUNTIME_FAMILY_DISPATCHERS
+        )
         fixture_analysis = (
             _fixture_analysis(root, source_id, fixture_names) if needs_discovery else []
         )
         documentation = entry.get("documentation") or {}
         maturity = entry.get("maturity_score") or {}
+        local_implementation_status = (
+            "runtime"
+            if implementation_status in {"implemented", "runtime"}
+            else "diagnostic_adapter"
+            if module_path.is_file() and _runtime_registered(root, source_id)
+            else "missing_adapter"
+        )
         blockers: list[str] = []
-        if implementation_status == "none" and not module_path.is_file():
+        if local_implementation_status == "missing_adapter":
             blockers.append("no_runtime_module")
         if implementation_status == "family" and not module_path.is_file():
             blockers.append("family_requires_concrete_member")
@@ -243,6 +257,7 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
                 "source_id": source_id,
                 "display_name": entry.get("display_name", source_id),
                 "implementation_status": implementation_status,
+                "local_implementation_status": local_implementation_status,
                 "coverage_role": entry.get("coverage_role"),
                 "development_priority": entry.get("development_priority"),
                 "maturity_score": maturity.get("total"),
@@ -278,7 +293,15 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
             }
         )
 
-    mapped = [item for item in records if item["implementation_status"] == "none"]
+    mapped = [
+        item
+        for item in records
+        if item["implementation_status"] == "none"
+        and item["local_implementation_status"] == "missing_adapter"
+    ]
+    diagnostic = [
+        item for item in records if item["local_implementation_status"] == "diagnostic_adapter"
+    ]
     family = [item for item in records if item["implementation_status"] == "family"]
     runtime = [
         item for item in records if item["implementation_status"] in {"implemented", "runtime"}
@@ -294,6 +317,7 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
                 sorted(Counter(item["implementation_status"] for item in records).items())
             ),
             "mapped_unimplemented": len(mapped),
+            "diagnostic_adapters": len(diagnostic),
             "family_entries": len(family),
             "mapped_without_local_fixture": sum(
                 item["offline_evidence_status"] == "no_local_fixture" for item in mapped
@@ -312,6 +336,14 @@ def audit(root: Path, catalog_path: Path) -> dict[str, Any]:
         },
         "mapped_candidates": sorted(
             mapped,
+            key=lambda item: (
+                item["maturity_score"] is None,
+                item["maturity_score"] or 0,
+                item["source_id"],
+            ),
+        ),
+        "diagnostic_candidates": sorted(
+            diagnostic,
             key=lambda item: (
                 item["maturity_score"] is None,
                 item["maturity_score"] or 0,
@@ -344,7 +376,8 @@ def render_markdown(report: dict[str, Any]) -> str:
         "## Resultado executivo",
         "",
         f"- Entradas no catálogo: **{summary['catalog_entries']}**.",
-        f"- Candidates sem provider runtime: **{summary['mapped_unimplemented']}**.",
+        f"- Candidates sem adapter local: **{summary['mapped_unimplemented']}**.",
+        f"- Adapters diagnósticos opt-in (sem promoção): **{summary['diagnostic_adapters']}**.",
         f"- Entradas de família: **{summary['family_entries']}**.",
         f"- Candidates sem fixture local: **{summary['mapped_without_local_fixture']}**.",
         f"- Análises de fixtures executadas: **{summary['local_discovery_runs']}**.",
@@ -360,7 +393,7 @@ def render_markdown(report: dict[str, Any]) -> str:
             "revalidados contra a internet."
         ),
         "",
-        "## Candidates mapeados, ainda não implementados",
+        "## Candidates mapeados com promoção pendente",
         "",
         (
             "| Provider | Score | Dossiê | Contrato | Fixture local | Teste local | "
@@ -378,6 +411,18 @@ def render_markdown(report: dict[str, Any]) -> str:
             f"{'sim' if item['fixture_references'] else 'não'} | "
             f"{'sim' if item['test_references'] else 'não'} | {blockers} | {next_action} |"
         )
+    lines += [
+        "",
+        "## Adapters diagnosticos opt-in",
+        "",
+        "Estes modulos possuem testes e fixtures locais, mas permanecem fora do "
+        "runtime padrao ate que acesso e contrato live sejam comprovados.",
+    ]
+    lines.extend(
+        f"- `{item['source_id']}`: lifecycle catalogado como candidato; "
+        f"fixtures={len(item['fixture_references'])}, testes={len(item['test_references'])}."
+        for item in report["diagnostic_candidates"]
+    )
     runtime_inline = [
         item
         for item in report["all_entries"]
@@ -422,8 +467,9 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         (
             "A camada de discovery foi executada sobre referências de fixture encontradas "
-            "nos dossiers. A família eproc possui evidências locais; os nove candidates "
-            "mapeados não possuem fixture referenciada no repositório."
+            "nos dossiers. Adapters diagnósticos podem ter fixtures e testes, mas "
+            "continuam fora da federação enquanto o contrato live ou o acesso público "
+            "não forem comprovados."
         ),
         "",
     ]

@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "authority": "TJSC",
+  "surface": "CJPG",
+  "url": "https://eproc1g.tjsc.jus.br/eproc/consulta1g/",
+  "method": "GET",
+  "credentials_used": false,
+  "bounded": true,
+  "status": 200,
+  "response_title": "Tribunal de Justiça de Santa Catarina - Bloqueio temporário do portal institucional",
+  "classification": "temporary_portal_block",
+  "observed": {
+    "query_form_present": false,
+    "jurisprudence_records": 0,
+    "first_degree_contract_proven": false,
+    "response_body_persisted": false
+  },
+  "decision": "Do not classify as empty and do not promote as CJPG. The official first-degree eproc route returned a temporary institutional block page without a public query form. Recheck only through ordinary navigation after the source restores access.",
+  "safety": {
+    "captcha_solved": false,
+    "turnstile_bypassed": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  }
+}

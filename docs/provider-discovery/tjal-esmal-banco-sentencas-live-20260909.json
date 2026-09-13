@@ -1,0 +1,44 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-09",
+  "provider": "tjal_esmal_banco_sentencas",
+  "source_id": "tjal_esmal_banco_sentencas",
+  "authority": "TJAL",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "surface": "cjpg",
+  "classification": "success_with_results",
+  "access_status": "public",
+  "extraction_status": "complete",
+  "http_status": 200,
+  "credentials_used": false,
+  "bypass_used": false,
+  "query": {
+    "text": "responsabilidade",
+    "page": 1,
+    "page_size": 3
+  },
+  "search": {
+    "endpoint": "GET /indexS.php?pag=ler",
+    "candidate_count": 2,
+    "total_state": "unknown",
+    "degree_identity_observed": true,
+    "document_link_host": "intranetlegado.tjal.jus.br",
+    "document_format": "application/pdf"
+  },
+  "pagination": {
+    "mode": "remote_page",
+    "page_size": 3,
+    "total_known": false,
+    "is_complete": false,
+    "reason": "A colecao curada nao publica total autoritativo."
+  },
+  "promotion": {
+    "federation_status": "enabled",
+    "scope": "curated_first_degree_sentence_collection",
+    "exhaustive_cjpg_claim": false
+  },
+  "response_bodies_persisted": false
+}

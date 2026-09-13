@@ -1,0 +1,43 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJAM",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-13",
+  "source": {
+    "official_entry_point": "https://www.tjam.jus.br/index.php/jurisprudencia",
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "http_status": 200,
+    "content_type": "text/html; charset=ISO-8859-1",
+    "title": "Jurisprudência - TJAM",
+    "official_jurisprudence_route": "https://consultasaj.tjam.jus.br/esaj/portal.do?servico=780000",
+    "official_jurisprudence_route_scope": "Consulta de jurisprudências do TJ, Turmas Recursais, Juizados Especiais e Conselho da Magistratura; a própria página identifica a consulta como de Segundo Grau e acesso à íntegra do acórdão.",
+    "first_degree_routes_referenced": [
+      "https://consultasaj.tjam.jus.br/cpopg/open.do",
+      "https://projudi.tjam.jus.br/projudi/processo/consultaPublicaNova.do?actionType=iniciar"
+    ],
+    "decision_records_observed": 0,
+    "first_degree_jurisprudence_corpus_observed": false,
+    "pagination_contract_observed": false
+  },
+  "classification": {
+    "status": "discovery_only",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "A página oficial direciona a jurisprudência textual para o serviço e-SAJ identificado como Segundo Grau; as rotas de primeiro grau são apenas consultas processuais, sem corpus decisório CJPG reproduzível."
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "manter TJAM CJPG como lacuna até publicação de rota oficial de jurisprudência de primeiro grau ou exportação equivalente"
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": "tre-sjur-live-v2",
+  "observed_at": "2026-09-10",
+  "provider": "tre_sp_sjur_jurisprudencia",
+  "source_id": "tre_sjur_jurisprudencia",
+  "authority": "TRE-SP",
+  "surface": "SJUR",
+  "record_count_observed": 3,
+  "reported_total": 10,
+  "http_status": 200,
+  "content_type": "application/json",
+  "content_sha256": "830e38e43358c022525387078cd165b34a75b9399ac9a013b17dbaba07e506b1",
+  "response_bytes": 91325,
+  "latency_ms": 1152.58,
+  "official_frontend": "https://jurisprudencia-tres.tse.jus.br/",
+  "search": {
+    "method": "POST",
+    "path": "/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+    "query": "divórcio",
+    "page": 1,
+    "page_size": 3,
+    "http_status": 200,
+    "response_bytes": 91325,
+    "content_type": "application/json",
+    "content_sha256": "830e38e43358c022525387078cd165b34a75b9399ac9a013b17dbaba07e506b1",
+    "elapsed_ms": 1152.58,
+    "reported_total": 10,
+    "returned_after_local_bound": 3,
+    "ids": [
+      "1150998",
+      "1167710",
+      "663578"
+    ],
+    "decision_types": [
+      "decisao monocrática",
+      "decisao monocrática",
+      "acórdão"
+    ],
+    "degrees": [
+      "second",
+      "second",
+      "second"
+    ],
+    "full_text_lengths": [
+      3047,
+      10359,
+      0
+    ],
+    "document_url_present": [
+      false,
+      false,
+      true
+    ]
+  },
+  "document": {
+    "source_id": "663578",
+    "method": "GET",
+    "path": "/sjur-servicos/rest/download/pdf/663578",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 36783,
+    "content_sha256": "b9e077f40c8d0471525be918834c35f8d028d21fa0c8344944aa9ea6a7c8fca8",
+    "page_count": 7,
+    "extraction_status": "complete",
+    "access_status": "public",
+    "raw_body_persisted": false
+  },
+  "credentials_used": false,
+  "bypass_used": false,
+  "classification": "success_with_results_and_document",
+  "pagination_status": "unresolved_remote_window",
+  "federation_status": "not_enabled",
+  "limitations": [
+    "A página 2 foi observada anteriormente como janela duplicada; o adapter mantém page=1 e total_known=false.",
+    "O limite local de page_size não prova paginação remota nem total exaustivo.",
+    "Somente um identificador observado foi usado para a sonda de documento; não houve tentativa de contornar bloqueios.",
+    "A evidência não persiste corpos de resposta ou PDF bruto."
+  ]
+}

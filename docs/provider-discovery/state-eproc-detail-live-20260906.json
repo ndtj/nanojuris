@@ -1,0 +1,99 @@
+{
+  "schema_version": "state-eproc-detail-live-v1",
+  "generated_at": "2026-09-06T04:59:53.419603+00:00",
+  "mode": "bounded_public_http",
+  "query": {
+    "text": "responsabilidade civil",
+    "all_words": "",
+    "any_words": "",
+    "without_words": "",
+    "exact_phrase": "",
+    "updated_from": "",
+    "updated_to": "",
+    "published_from": "",
+    "published_to": "",
+    "include_cancelled": false,
+    "order_by": "Text",
+    "number": "",
+    "rapporteur": "",
+    "party_name": "",
+    "party_document": "",
+    "lawyer_name": "",
+    "oab": "",
+    "precatory_number": "",
+    "police_document": "",
+    "cda": "",
+    "source_origin": "",
+    "source_origins": [],
+    "fetch_details": false,
+    "courts": [],
+    "types": [],
+    "page": 1,
+    "page_size": 1,
+    "case_class": "",
+    "judging_body": "",
+    "degree": "second",
+    "instance": "",
+    "branch": "",
+    "legal_area": "",
+    "authority": "",
+    "collection": "",
+    "document_type": "",
+    "decision_type": "",
+    "judgment_date_from": "",
+    "judgment_date_to": ""
+  },
+  "limits": {
+    "providers": 2,
+    "documents_per_provider": 1,
+    "bodies_persisted": false
+  },
+  "providers": [
+    {
+      "provider": "tjrj_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": false,
+        "degree_values": [
+          "second"
+        ],
+        "id": "tjrj-eproc-jurisprudencia-191785336679117570546122024996"
+      },
+      "detail": {
+        "status": "valid",
+        "http_status": 200,
+        "content_type": "text/html",
+        "byte_size": 207168,
+        "text_sha256": "b29e486ffd5ce625f167eaba972a2a113ef9ab6b8e774111c7867b006ae934ad",
+        "has_text": true
+      }
+    },
+    {
+      "provider": "tjsc_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": false,
+        "degree_values": [
+          "second"
+        ],
+        "id": "tjsc-eproc-jurisprudencia-321788610358758333589883632476"
+      },
+      "detail": {
+        "status": "valid",
+        "http_status": 200,
+        "content_type": "text/html",
+        "byte_size": 79561,
+        "text_sha256": "271dd5354f1140f0ea71ccd3566bef4720323abe532efa8134a671b876b1b711",
+        "has_text": true
+      }
+    }
+  ],
+  "summary": {
+    "search_valid": 2,
+    "detail_valid": 2,
+    "detail_empty": 0,
+    "detail_errors": 0
+  }
+}

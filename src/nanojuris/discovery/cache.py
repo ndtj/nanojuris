@@ -6,7 +6,9 @@ import hashlib
 import json
 import os
 import tempfile
+import time
 from pathlib import Path
+from typing import Any
 
 from nanojuris.discovery.models import DiscoveryEvidence, DiscoveryRequest
 from nanojuris.discovery.policy import redact_mapping, redact_payload
@@ -58,7 +60,89 @@ class DiscoveryCache:
         try:
             os.close(fd)
             write_evidence(evidence, temporary_path)
+            with temporary_path.open("r+b") as stream:
+                stream.flush()
+                os.fsync(stream.fileno())
             os.replace(temporary_path, path)
         finally:
             temporary_path.unlink(missing_ok=True)
         return path
+
+    def cleanup(
+        self,
+        *,
+        max_age_seconds: float | None = None,
+        max_bytes: int | None = None,
+        now: float | None = None,
+    ) -> dict[str, Any]:
+        """Remove expired/old cache entries within this cache directory only.
+
+        Cleanup is opt-in and bounded to direct ``*.json`` files created by
+        this cache.  Entries are removed oldest-first when the byte budget is
+        exceeded.  The return value is an audit summary; filesystem races are
+        reported instead of aborting the rest of the cleanup.
+        """
+
+        if max_age_seconds is not None and max_age_seconds < 0:
+            raise ValueError("max_age_seconds deve ser não negativo")
+        if max_bytes is not None and max_bytes < 0:
+            raise ValueError("max_bytes deve ser não negativo")
+        current_time = time.time() if now is None else now
+        root = self.directory.resolve()
+        entries: list[tuple[Path, float, int]] = []
+        errors: list[str] = []
+        for path in self.directory.glob("*.json"):
+            try:
+                if path.is_symlink() or path.resolve().parent != root:
+                    continue
+                stat = path.stat()
+                entries.append((path, stat.st_mtime, stat.st_size))
+            except OSError as exc:
+                errors.append(f"{path.name}: {type(exc).__name__}")
+
+        entries.sort(key=lambda item: (item[1], item[0].name))
+        selected: list[tuple[Path, float, int]] = []
+        if max_age_seconds is not None:
+            cutoff = current_time - max_age_seconds
+            selected.extend(item for item in entries if item[1] < cutoff)
+        selected_paths = {item[0] for item in selected}
+        remaining = [item for item in entries if item[0] not in selected_paths]
+        if max_bytes is not None:
+            total = sum(item[2] for item in remaining)
+            for item in remaining:
+                if total <= max_bytes:
+                    break
+                selected.append(item)
+                selected_paths.add(item[0])
+                total -= item[2]
+
+        deleted_files = 0
+        deleted_bytes = 0
+        for path, _mtime, size in selected:
+            try:
+                path.unlink()
+            except FileNotFoundError:
+                continue
+            except OSError as exc:
+                errors.append(f"{path.name}: {type(exc).__name__}")
+                continue
+            deleted_files += 1
+            deleted_bytes += size
+
+        remaining_files = 0
+        remaining_bytes = 0
+        for path in self.directory.glob("*.json"):
+            try:
+                if path.is_symlink() or path.resolve().parent != root:
+                    continue
+                remaining_files += 1
+                remaining_bytes += path.stat().st_size
+            except OSError as exc:
+                errors.append(f"{path.name}: {type(exc).__name__}")
+        return {
+            "deleted_files": deleted_files,
+            "deleted_bytes": deleted_bytes,
+            "remaining_files": remaining_files,
+            "remaining_bytes": remaining_bytes,
+            "errors": errors,
+        }

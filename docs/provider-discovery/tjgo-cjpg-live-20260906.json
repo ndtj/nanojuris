@@ -1,0 +1,65 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-06",
+  "audit_mode": "bounded_public_cjpg_recheck",
+  "credentials_used": false,
+  "source": "tjgo_projudi_jurisprudencia",
+  "source_id": "tjgo_projudi_jurisprudencia",
+  "authority": "TJGO",
+  "branch": "state",
+  "surface": "cjpg",
+  "scope": "cjpg",
+  "degree": "first",
+  "instance": "first",
+  "endpoint": "POST /ConsultaJurisprudencia",
+  "query_shape": {
+    "Texto": "responsabilidade",
+    "Id_Instancia": "16",
+    "Id_Area": "0",
+    "Id_ServentiaSubTipo": "0",
+    "PosicaoPaginaAtual": ["0", "1"],
+    "page_size": 3,
+    "g-recaptcha-response": ""
+  },
+  "status": "valid",
+  "http_status": 200,
+  "reported_total": 21,
+  "pages": [
+    {
+      "page": 1,
+      "response_bytes": 81267,
+      "content_sha256": "002773fa7664c9ae7d1db90213f5c1d125846351a561dc2b0f97cd1eb63c9c34",
+      "returned": 2,
+      "all_accepted_records_first_degree": true,
+      "unit_markers": ["vara", "comarca"],
+      "summary_present": 2
+    },
+    {
+      "page": 2,
+      "response_bytes": 78998,
+      "content_sha256": "793a7c4cce31a28c439a00c1d75f81768030c154cb4a7d61786a9b9547c65823",
+      "returned": 3,
+      "all_accepted_records_first_degree": true,
+      "unit_markers": ["vara", "UPJ"],
+      "summary_present": 3
+    }
+  ],
+  "overlap": false,
+  "identity_checks": {
+    "degree_values": ["first"],
+    "instance_values": ["first"],
+    "collection_values": ["CJPG"],
+    "source_origin_values": ["16"],
+    "document_types": ["decisao"],
+    "case_number_present": true,
+    "judging_body_present": true,
+    "judgment_or_publication_date_present": true,
+    "textual_content_present": true
+  },
+  "promotion_decision": "technical_candidate_first_degree",
+  "limitations": [
+    "A fonte retornou 21 no total e duas janelas bounded; cartões sem marcador de unidade de primeiro grau são rejeitados.",
+    "O inteiro teor é texto embutido no cartão; a rota Id_Arquivo permanece separada e pode exigir token da fonte.",
+    "Nenhum CAPTCHA, token, WAF, login ou limite foi contornado."
+  ]
+}

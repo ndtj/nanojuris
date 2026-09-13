@@ -1,0 +1,32 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "source": "tce_sp_jurisprudencia",
+  "observed_at": "2026-09-06T09:04:53-03:00",
+  "surface": "document",
+  "classification": "valid",
+  "http_status": 200,
+  "access_status": "public",
+  "record_count_observed": 1,
+  "reported_total": 1,
+  "response_bytes": 55419,
+  "extraction_status": "complete",
+  "operation": "search_then_get_document",
+  "search": {
+    "types": ["boletim"],
+    "page_size": 1,
+    "result_id": "tce-sp-boletim-56",
+    "document_url": "https://www.tce.sp.gov.br/boletim-de-jurisprudencia/publicacoes/boletim-jurisprudencia-edicao-56-junho2026"
+  },
+  "document": {
+    "http_status": 200,
+    "content_type": "text/html",
+    "bytes": 55419,
+    "extraction_status": "complete",
+    "text_characters": 3575,
+    "access_status": "public"
+  },
+  "limitations": [
+    "A busca dinâmica do TCE-SP permanece protegida por reCAPTCHA.",
+    "A evidência cobre boletim público, não acordãos judiciais do TCE-SP."
+  ]
+}

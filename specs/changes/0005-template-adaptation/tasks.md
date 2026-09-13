@@ -8,4 +8,5 @@
 - [x] T6 Integrar runner ao SQLiteStore e ao cliente.
 - [x] T7 Migrar dois providers HTML com fixtures equivalentes.
 - [x] T8 Expor coleta no CLI/MCP e documentar operação longa.
-- [ ] T9 Rodar suíte integrada, cobertura e validações SDD.
+- [x] T9 Rodar suíte integrada, cobertura e validações SDD (gates locais
+  executados em 2026-09-02; suíte NanoJuris: 1096 passed, 12 skipped).

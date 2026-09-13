@@ -1,0 +1,40 @@
+{
+  "source_id": "tjrn_jurisprudencia",
+  "observed_at": "2026-09-02",
+  "audit_mode": "bounded_public_pagination_recheck",
+  "frequency": "two sequential requests",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "page": 1,
+      "classification": "reachable_valid_data",
+      "http_status": 200,
+      "response_bytes": 769612,
+      "content_sha256": "5c6965e1e524e62224cab6123568063f7a228f1a83fddf9dca1c1a9de140fe8e",
+      "record_count_observed": 10,
+      "reported_total": 53366,
+      "start": 1,
+      "end": 10,
+      "is_complete": false
+    },
+    {
+      "page": 2,
+      "classification": "reachable_valid_data",
+      "http_status": 200,
+      "response_bytes": 645716,
+      "content_sha256": "477d3cdbb7d1a5ef835feac551ec63ad392b494747fd28076e84791dad87c4b9",
+      "record_count_observed": 10,
+      "reported_total": 53366,
+      "start": 11,
+      "end": 20,
+      "is_complete": false
+    }
+  ],
+  "promotion_decision": "candidate_only",
+  "promotion_blockers": [
+    "A rechecagem confirma apenas a janela page=1/page=2; não prova ordenação global, filtros completos ou estabilidade.",
+    "Revisão de reuso/redistribuição e aprovação humana continuam pendentes.",
+    "O provider permanece fora da federação padrão e nenhuma coleta em escala foi autorizada."
+  ]
+}

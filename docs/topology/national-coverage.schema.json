@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.org/schemas/national-coverage.json",
+  "title": "NanoJuris national jurisprudence coverage projection",
+  "type": "object",
+  "required": ["schema_version", "epoch", "claims", "gaps", "history", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string", "const": "national-jurisprudence-coverage-v1"},
+    "epoch": {"$ref": "#/$defs/epoch"},
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/claim"},
+      "uniqueItems": true
+    },
+    "gaps": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/gap"},
+      "uniqueItems": true
+    },
+    "history": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/epoch"},
+      "uniqueItems": true
+    },
+    "summary": {"type": "object"}
+  },
+  "$defs": {
+    "epoch": {
+      "type": "object",
+      "required": ["epoch_id", "topology_version", "cutoff_date"],
+      "additionalProperties": false,
+      "properties": {
+        "epoch_id": {"type": "string", "minLength": 1},
+        "topology_version": {"type": "string", "minLength": 1},
+        "cutoff_date": {"type": "string", "format": "date"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "required": [
+        "epoch_id", "dimension", "numerator", "denominator", "measured_at",
+        "notes", "ratio"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "epoch_id": {"type": "string", "minLength": 1},
+        "dimension": {
+          "enum": ["collection", "authority", "branch", "surface", "provider"]
+        },
+        "numerator": {"type": "integer", "minimum": 0},
+        "denominator": {"type": "integer", "minimum": 1},
+        "measured_at": {"type": "string", "format": "date"},
+        "notes": {"type": "string"},
+        "ratio": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "gap": {
+      "type": "object",
+      "required": ["collection_id", "authority_id", "branch", "status", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "collection_id": {"type": "string", "minLength": 1},
+        "authority_id": {"type": "string", "minLength": 1},
+        "branch": {"type": "string", "minLength": 1},
+        "status": {
+          "enum": ["unknown", "gap", "candidate", "blocked", "retired"]
+        },
+        "reason": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

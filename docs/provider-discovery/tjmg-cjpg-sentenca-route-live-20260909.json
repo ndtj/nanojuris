@@ -1,0 +1,53 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJMG",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-09",
+  "source": {
+    "official_entry_point": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "http_status": 200,
+    "final_url": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+    "content_type": "text/html",
+    "response_bytes": 232084,
+    "response_sha256": "baaf3e99fd10b96e662d277f753f718edf0b317e3be4e6f645e84f78df26e161",
+    "title": "TJMG - Pesquisa por Jurisprudência",
+    "captcha_marker_present": true,
+    "forms": [
+      {
+        "action": "/jurisprudencia/pesquisaNumeroSentenca.do",
+        "method": "GET",
+        "purpose": "numero_de_sentenca"
+      },
+      {
+        "action": "pesquisaPalavraSentenca.do",
+        "method": "GET",
+        "purpose": "palavra_chave"
+      }
+    ],
+    "decision_records_observed": 0,
+    "document_download_routes_observed": 0,
+    "pagination_contract_observed": false
+  },
+  "classification": {
+    "status": "candidate_access_controlled",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "a página oficial confirma uma interface de busca de sentenças por número e palavra, mas a resposta contém marcador de CAPTCHA e não expõe resultados, paginação ou documento sem submeter a busca controlada"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "manter CJPG TJMG como candidato bloqueado; somente reavaliar com acesso público legítimo ou rota oficial alternativa"
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjam_cjsg",
+  "source_id": "tjam_cjsg",
+  "authority": "TJAM",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG",
+  "surface": "cjsg",
+  "checked_at": "2026-09-13",
+  "generated_at": "2026-09-13T15:00:06Z",
+  "http_status": 200,
+  "record_count_observed": 1,
+  "reported_total": 749,
+  "pagination_mode": "page",
+  "content_type": "text/html;charset=UTF-8",
+  "content_sha256": "d1d8234d4b06a8ba32500afdceddcbf5e0e1f315f958902e9aa51c1b587963c4",
+  "response_bytes": 94621,
+  "request": {
+    "text": "divorcio",
+    "page_size": 1,
+    "degree": "second",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "http_status": 200,
+    "returned": 1,
+    "reported_total": 749,
+    "first_id": "tjam-cjsg-3362925-0",
+    "result_summary_characters": 1077,
+    "source_trace": {
+      "provider": "tjam_cjsg",
+      "endpoint": "/trocaDePagina.do",
+      "source_url": "https://consultasaj.tjam.jus.br/cjsg/trocaDePagina.do?tipoDeDecisao=A&pagina=1",
+      "http_status": 200,
+      "final_url": "https://consultasaj.tjam.jus.br/cjsg/trocaDePagina.do?tipoDeDecisao=A&pagina=1",
+      "content_type": "text/html;charset=UTF-8",
+      "content_sha256": "d1d8234d4b06a8ba32500afdceddcbf5e0e1f315f958902e9aa51c1b587963c4",
+      "response_bytes": 94621,
+      "retrieval_status": "ok",
+      "limitations": [
+        "Fonte HTML publica TJAM/CJSG sujeita a mudancas de layout.",
+        "A paginacao usa a sessao publica e a rota trocaDePagina.do da fonte.",
+        "O provider nao tenta contornar captcha, login ou controles de acesso."
+      ]
+    }
+  },
+  "classification": "success_with_results",
+  "contract_status": "valid",
+  "promotion": "maintain_current",
+  "safety": {
+    "bypass_used": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  }
+}

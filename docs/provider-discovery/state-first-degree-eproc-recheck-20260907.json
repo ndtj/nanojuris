@@ -1,0 +1,63 @@
+{
+  "schema_version": "state-first-degree-eproc-recheck-v1",
+  "observed_at": "2026-09-07T08:35:58Z",
+  "scope": "bounded_public_first_degree_contract_recheck",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "query": {
+    "text": "dano moral",
+    "page": 1,
+    "page_size": 2,
+    "requested_degrees": ["first", "second"]
+  },
+  "results": [
+    {
+      "authority": "TJRJ",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "url": "https://eproc1g.tjrj.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "http_status": 200,
+      "second_degree": {
+        "classification": "valid_second_degree",
+        "records_observed": 2,
+        "document_types": ["acordao"],
+        "judging_bodies": ["7ª Câmara de Direito Privado"],
+        "sample_case_numbers": [
+          "0821016-57.2023.8.19.0004",
+          "0803695-31.2023.8.19.0029"
+        ],
+        "source_origin_payload": ["1"]
+      },
+      "first_degree": {
+        "classification": "contract_rejected_source_returned_second_degree",
+        "error": "ParserContractChangedError: results outside requested degree=first",
+        "decision": "Do not promote TJRJ/eproc to CJPG. The public route is currently an appellate corpus despite the eproc1g host name."
+      }
+    },
+    {
+      "authority": "TJSC",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "url": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "http_status": 200,
+      "second_degree": {
+        "classification": "valid_second_degree",
+        "records_observed": 2,
+        "document_types": [
+          "decisoes monocraticas do tribunal de justica",
+          "decisoes monocraticas das turmas recursais"
+        ],
+        "judging_bodies": ["5ª Câmara de Direito Público", "6ª Câmara de Direito Comercial"],
+        "sample_case_numbers": [
+          "5002744-85.2021.8.24.0135",
+          "5010909-82.2025.8.24.0135"
+        ],
+        "source_origin_payload": ["1"]
+      },
+      "first_degree": {
+        "classification": "contract_rejected_source_returned_second_degree",
+        "error": "ParserContractChangedError: results outside requested degree=first",
+        "decision": "Do not promote TJSC/eproc to CJPG. The public route currently returns appellate or recursal labels, not first-degree sentences."
+      }
+    }
+  ],
+  "conclusion": "Neither eproc route provides a reproducible public first-degree jurisprudence contract in this bounded check. Both remain valid CJSG surfaces and explicit CJPG gaps; no error was converted to an empty result."
+}

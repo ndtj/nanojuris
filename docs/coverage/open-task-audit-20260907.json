@@ -1,0 +1,1071 @@
+{
+  "schema_version": "open-task-audit-v1",
+  "generated_at": "2026-09-07",
+  "open_tasks": 106,
+  "by_classification": {
+    "external_source": 78,
+    "human_review": 28
+  },
+  "tasks": [
+    {
+      "package": "0069-state-appellate-national-coverage",
+      "task_id": "T07",
+      "description": "[blocked-external: TJAP/TJMA exigem CAPTCHA/Turnstile ou rota oficial alternativa; rechecagens 2026-09-07 registradas em docs/provider-discovery/legitimate-blocked-techniques-20260907.json e docs/provider-discovery/tjma-public-route-inventory-live-20260907.json]",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0069-state-appellate-national-coverage/tasks.md",
+      "line": 20
+    },
+    {
+      "package": "0077-live-intelligent-federated-search",
+      "task_id": "T62",
+      "description": "medir/calibrar development, validar holdout e performance p95.",
+      "classification": "human_review",
+      "next_action": "Add independent relevance labels, calibrate on development, and evaluate holdout.",
+      "rationale": "Code must not fabricate legal relevance judgments.",
+      "path": "specs/changes/0077-live-intelligent-federated-search/tasks.md",
+      "line": 98
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T012",
+      "description": "close TJRJ/TJSC CJPG and priority CJSG gaps.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 24
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T013",
+      "description": "prove Falcao by labor-court authority.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 25
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T015",
+      "description": "implement the remaining state CJPG family surfaces.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 30
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T016",
+      "description": "close federal, superior, and military surfaces.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 31
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T017",
+      "description": "prove every provider filter differentially.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 32
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T019",
+      "description": "locate and validate detail and document routes live.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 34
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T021",
+      "description": "complete per-surface success, empty, error, blocked, and drift fixtures.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 40
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T022",
+      "description": "complete semantic validation of degree, authority, identity, dates,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0078-national-coverage-lawful-access/tasks.md",
+      "line": 41
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T003",
+      "description": "prove degree, class, filters, and pagination per court.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0081-state-first-degree-expansion/tasks.md",
+      "line": 5
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T004",
+      "description": "implement fixtures and canonical parsers.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0081-state-first-degree-expansion/tasks.md",
+      "line": 6
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T005",
+      "description": "validate documents and temporal ranges.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0081-state-first-degree-expansion/tasks.md",
+      "line": 7
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T006",
+      "description": "promote only surfaces passing all eight gates.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0081-state-first-degree-expansion/tasks.md",
+      "line": 8
+    },
+    {
+      "package": "0083-federal-superior-military-closure",
+      "task_id": "T004",
+      "description": "validate detail, document, and temporal-range routes live.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0083-federal-superior-military-closure/tasks.md",
+      "line": 7
+    },
+    {
+      "package": "0084-fulltext-and-field-completeness",
+      "task_id": "T002",
+      "description": "prove filters and pagination differentially with provider evidence.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0084-fulltext-and-field-completeness/tasks.md",
+      "line": 4
+    },
+    {
+      "package": "0084-fulltext-and-field-completeness",
+      "task_id": "T004",
+      "description": "locate and validate detail, download, and full-text routes live.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0084-fulltext-and-field-completeness/tasks.md",
+      "line": 7
+    },
+    {
+      "package": "0084-fulltext-and-field-completeness",
+      "task_id": "T005",
+      "description": "run the complete live MIME, PDF, OCR, hash, and linkage QA matrix.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0084-fulltext-and-field-completeness/tasks.md",
+      "line": 8
+    },
+    {
+      "package": "0086-trt2-basis-jurisprudencia",
+      "task_id": "T009",
+      "description": "Confirmar retenção e uso operacional com responsável humano.",
+      "classification": "human_review",
+      "next_action": "Add independent relevance labels, calibrate on development, and evaluate holdout.",
+      "rationale": "Code must not fabricate legal relevance judgments.",
+      "path": "specs/changes/0086-trt2-basis-jurisprudencia/tasks.md",
+      "line": 12
+    },
+    {
+      "package": "0087-trf3-jurisprudencia-exact-process",
+      "task_id": "T008",
+      "description": "[E] Revalidar a rota com chamada live bounded que retorne registro parseado. As rechecagens de 2026-09-09 e 2026-09-10 expiraram sem bytes; evidências em `docs/provider-discovery/trf3-jurisprudencia-live-20260909.json` e `docs/provider-discovery/trf3-jurisprudencia-live-20260910.json`. Manter opt-in e não classificar como vazio até mudança oficial de disponibilidade.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0087-trf3-jurisprudencia-exact-process/tasks.md",
+      "line": 10
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T007",
+      "description": "[E]** descobrir a rota pública oficial por tribunal.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 21
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T008",
+      "description": "[E]** provar `degree=first`, coleção e escopo textual.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 22
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T009",
+      "description": "[E]** validar filtros, paginação e ordenação.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 23
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T010",
+      "description": "[E]** implementar parser e fixtures sanitizadas.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 24
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T011",
+      "description": "[E]** validar detalhe, PDF/HTML, MIME, hash e extração.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 25
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T021",
+      "description": "[E]** fechar TRF, STJ, STF, STM e CJF com detalhe documental.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 74
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T025",
+      "description": "[E]** validar datas de julgamento, publicação, atualização e",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 90
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T026",
+      "description": "[E]** validar links de detalhe e documentos bounded.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "Adapters and catalog declarations are not evidence of a live route.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 92
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T036",
+      "description": "[H]** obter decisão de licença, retenção e responsável por fonte.",
+      "classification": "human_review",
+      "next_action": "Add independent relevance labels, calibrate on development, and evaluate holdout.",
+      "rationale": "Code must not fabricate legal relevance judgments.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 108
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T037",
+      "description": "[H]** aprovar rótulos humanos de relevância para o benchmark.",
+      "classification": "human_review",
+      "next_action": "Add independent relevance labels, calibrate on development, and evaluate holdout.",
+      "rationale": "Code must not fabricate legal relevance judgments.",
+      "path": "specs/changes/0089-national-coverage-execution-handoff/tasks.md",
+      "line": 109
+    },
+    {
+      "package": "0090-tjrj-banco-sentencas",
+      "task_id": "T008",
+      "description": "decidir promoção de coleção curada após revisão humana.",
+      "classification": "human_review",
+      "next_action": "Add independent relevance labels, calibrate on development, and evaluate holdout.",
+      "rationale": "Code must not fabricate legal relevance judgments.",
+      "path": "specs/changes/0090-tjrj-banco-sentencas/tasks.md",
+      "line": 14
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T012",
+      "description": "[E]** descobrir e classificar uma rota CJPG oficial por tribunal;",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 35
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T013",
+      "description": "[E]** provar `degree=first`, coleção e escopo textual da CJPG.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 37
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T022",
+      "description": "[E]** fechar TRF, STJ, STF, STM e CJF com contratos documentais.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 76
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T025",
+      "description": "[E]** criar fixture real sanitizada de sucesso e segunda página.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 87
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T026",
+      "description": "[E]** criar fixture de vazio autoritativo sem confundir com bloqueio.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 88
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T028",
+      "description": "[E]** validar datas de julgamento, publicação, atualização e",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 91
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T029",
+      "description": "[E]** validar detalhe e documento por host allowlist, redirect,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 93
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T033",
+      "description": "[E]** comparar rota, payload, seletores, paginação e filtros com a",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 102
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T035",
+      "description": "[E]** usar apenas HTTP público documentado, fluxo normal de browser,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 105
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T037",
+      "description": "[H]** solicitar allowlist, API, export ou esclarecimento ao tribunal",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 113
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T045",
+      "description": "[H]** aprovar rótulos de relevância e holdout do benchmark.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 136
+    },
+    {
+      "package": "0091-national-coverage-gold-handoff",
+      "task_id": "T047",
+      "description": "[H]** aprovar licença, retenção, responsável e promoção padrão.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+      "line": 139
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T011",
+      "description": "[E]** confirmar fonte oficial e rota pública por superfície CJPG.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 25
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T012",
+      "description": "[E]** confirmar fonte oficial e rota pública por superfície CJSG.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 26
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T013",
+      "description": "[E]** fechar TRF/STJ/STF/STM/CJF com contratos documentais.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 27
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T014",
+      "description": "[E]** fechar TRT/TST e TSE/TRE/SJUR sem misturar coleções.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 28
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T016",
+      "description": "[E]** executar chamadas bounded e classificar bloqueios.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 30
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T018",
+      "description": "[E]** registrar fixture sanitizada de sucesso e segunda página.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 35
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T019",
+      "description": "[E]** registrar vazio autoritativo e vazio não confirmado separados.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 36
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T021",
+      "description": "[E]** validar detalhe, PDF/HTML, MIME, hash e limites.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 38
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T027",
+      "description": "[H]** aprovar rótulos de benchmark e holdout.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 47
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T029",
+      "description": "[H]** aprovar licença, retenção, frequência e responsável.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 52
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T030",
+      "description": "[H]** autorizar promoção padrão, release ou mudança externa.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0092-national-coverage-execution-blueprint/tasks.md",
+      "line": 53
+    },
+    {
+      "package": "0093-trt15-jurisprudencia-surface",
+      "task_id": "T006",
+      "description": "[E]** obter API/export/fluxo público autorizado que retorne",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0093-trt15-jurisprudencia-surface/tasks.md",
+      "line": 8
+    },
+    {
+      "package": "0095-tjal-turma-recursal-ementario",
+      "task_id": "T008",
+      "description": "[H]** decidir promocao padrao apos revisao de qualidade e operacao.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0095-tjal-turma-recursal-ementario/tasks.md",
+      "line": 10
+    },
+    {
+      "package": "0095-tjal-turma-recursal-ementario",
+      "task_id": "T009",
+      "description": "[H]** decidir politica de atualizacao dos volumes por responsavel humano.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0095-tjal-turma-recursal-ementario/tasks.md",
+      "line": 11
+    },
+    {
+      "package": "0096-tjal-esmal-banco-sentencas",
+      "task_id": "T010",
+      "description": "[H]** aprovar retenção e política de atualização dos PDFs.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0096-tjal-esmal-banco-sentencas/tasks.md",
+      "line": 14
+    },
+    {
+      "package": "0097-tjmg-ejef-boletim-jurisprudencia",
+      "task_id": "T010",
+      "description": "[H] confirmar politica humana de retencao/atualizacao da colecao.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0097-tjmg-ejef-boletim-jurisprudencia/tasks.md",
+      "line": 12
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T006",
+      "description": "[E]** Confirmar fonte oficial, coleção e grau por superfície.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 19
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T007",
+      "description": "[E]** Testar uma rota pública bounded por lote de até três fontes.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 20
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T008",
+      "description": "[E]** Procurar API, exportação, RSS/sitemap/dataset e portal oficial",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 21
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T009",
+      "description": "[E]** Classificar bloqueio, desafio passivo/obrigatório, timeout,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 23
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T010",
+      "description": "[H]** Registrar autorização formal, allowlist, termos e retenção",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 25
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T021",
+      "description": "[E]** Obter segunda página quando a fonte suportar.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 45
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T022",
+      "description": "[E]** Validar PDF/HTML, MIME, hash, tamanho, codificação e extração.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 46
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T037",
+      "description": "[E]** Fechar CJPG/primeiro grau em lotes prioritários.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 73
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T038",
+      "description": "[E]** Fechar CJSG/segundo grau nos 27 TJs ou registrar bloqueio.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 74
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T039",
+      "description": "[E]** Fechar TRF/STJ/STF/STM/CJF/TNU por coleção.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 75
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T040",
+      "description": "[E]** Fechar TRT/TST e TSE/TRE/SJUR por coleção.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 76
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T041",
+      "description": "[E]** Avaliar TCEs e fontes especializadas textuais.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 77
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T042",
+      "description": "[H]** Aprovar owners, termos, licença, retenção e frequência.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 78
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T046",
+      "description": "[H]** Aprovar promoção padrão, release ou mudança externa.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 86
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T047",
+      "description": "[E]** Inventariar e fechar `CJPG` dos 27 TJs: TJAC, TJAL, TJAM,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 102
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T048",
+      "description": "[E]** Inventariar e fechar `CJSG` dos mesmos 27 TJs, com contrato",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 105
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T049",
+      "description": "[E]** Avaliar as fontes alternativas já registradas (PJe, eproc,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 107
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T050",
+      "description": "[E]** Fechar TRF1–TRF6 e CJF, separando jurisprudência textual de",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 112
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T051",
+      "description": "[E]** Fechar STF, STJ, STM, TNU, TST, TSE, CSJT e CNJ com coleção,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 114
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T052",
+      "description": "[E]** Descobrir e validar fontes oficiais de segundo grau para",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 116
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T054",
+      "description": "[E]** Inventariar os três TJMs (TJMSP, TJMMG e TJMRS) e STM,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 129
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T055",
+      "description": "[E/H]** Decidir o escopo condicional e, se aprovado, inventariar",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 131
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T056",
+      "description": "[E]** Para cada linha `discovery_pending`, localizar primeiro o",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 137
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T057",
+      "description": "[E]** Executar chamadas live bounded em lotes de até três fontes,",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 141
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T058",
+      "description": "[E]** Implementar contrato, adapter independente, fixtures de",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 144
+    },
+    {
+      "package": "0098-national-jurisprudence-gold-coverage",
+      "task_id": "T059",
+      "description": "[E/H]** Executar smoke federado opt-in e promover somente fontes que",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0098-national-jurisprudence-gold-coverage/tasks.md",
+      "line": 147
+    },
+    {
+      "package": "0099-national-route-discovery-wave-1",
+      "task_id": "T012",
+      "description": "[H]** Registrar decisão humana somente se a fonte exigir licença,",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0099-national-route-discovery-wave-1/tasks.md",
+      "line": 26
+    },
+    {
+      "package": "0101-tjmrs-jurisprudencia",
+      "task_id": "T009",
+      "description": "[E] Reavaliar somente se o tribunal publicar busca geral/paginação",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0101-tjmrs-jurisprudencia/tasks.md",
+      "line": 11
+    },
+    {
+      "package": "0102-trt2-pje-diagnostic",
+      "task_id": "T007",
+      "description": "[E] Obter rota oficial sem desafio ou fluxo autorizado que retorne",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0102-trt2-pje-diagnostic/tasks.md",
+      "line": 9
+    },
+    {
+      "package": "0103-falcao-jt-diagnostic",
+      "task_id": "T006",
+      "description": "[E] Obter API/exportação/allowlist oficial reproduzível; dependência externa.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0103-falcao-jt-diagnostic/tasks.md",
+      "line": 8
+    },
+    {
+      "package": "0106-trt6-jurisprudencia-diagnostic",
+      "task_id": "T007",
+      "description": "**[E]** Obter da fonte oficial uma API/exportação pública sem desafio.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0106-trt6-jurisprudencia-diagnostic/tasks.md",
+      "line": 10
+    },
+    {
+      "package": "0106-trt6-jurisprudencia-diagnostic",
+      "task_id": "T008",
+      "description": "**[E]** Validar resultados, paginação, filtros e inteiro teor após acesso autorizado.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0106-trt6-jurisprudencia-diagnostic/tasks.md",
+      "line": 11
+    },
+    {
+      "package": "0106-trt6-jurisprudencia-diagnostic",
+      "task_id": "T009",
+      "description": "**[H]** Reavaliar promoção federada somente após os gates restantes.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0106-trt6-jurisprudencia-diagnostic/tasks.md",
+      "line": 12
+    },
+    {
+      "package": "0107-tre-sjur-family",
+      "task_id": "T007",
+      "description": "[E] Validar paginação remota individual por UF.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0107-tre-sjur-family/tasks.md",
+      "line": 9
+    },
+    {
+      "package": "0107-tre-sjur-family",
+      "task_id": "T008",
+      "description": "[E] Validar detalhe/PDF válido individual por UF.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0107-tre-sjur-family/tasks.md",
+      "line": 10
+    },
+    {
+      "package": "0107-tre-sjur-family",
+      "task_id": "T009",
+      "description": "[H] Submeter promoção técnica após os gates pendentes.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0107-tre-sjur-family/tasks.md",
+      "line": 11
+    },
+    {
+      "package": "0108-federal-eproc-family-dispatcher",
+      "task_id": "T010",
+      "description": "[H] Aprovar promoção individual de cada superfície após os oito gates.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0108-federal-eproc-family-dispatcher/tasks.md",
+      "line": 14
+    },
+    {
+      "package": "0109-trt3-ementario-jurisprudencia",
+      "task_id": "T007",
+      "description": "[E] obter contrato oficial de busca geral do TRT3, se publicado;",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0109-trt3-ementario-jurisprudencia/tasks.md",
+      "line": 12
+    },
+    {
+      "package": "0109-trt3-ementario-jurisprudencia",
+      "task_id": "T008",
+      "description": "[H] decidir retencao/promocao da colecao curada.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0109-trt3-ementario-jurisprudencia/tasks.md",
+      "line": 13
+    },
+    {
+      "package": "0110-trt9-nugepnac-jurisprudencia",
+      "task_id": "T007",
+      "description": "[E] obter contrato de busca geral TRT9, se publicado;",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0110-trt9-nugepnac-jurisprudencia/tasks.md",
+      "line": 9
+    },
+    {
+      "package": "0110-trt9-nugepnac-jurisprudencia",
+      "task_id": "T008",
+      "description": "[H] decidir retenção/promoção da coleção curada.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0110-trt9-nugepnac-jurisprudencia/tasks.md",
+      "line": 10
+    },
+    {
+      "package": "0111-trt4-sumulas-jurisprudencia",
+      "task_id": "T008",
+      "description": "[E] obter contrato público de busca geral TRT4, se publicado;",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0111-trt4-sumulas-jurisprudencia/tasks.md",
+      "line": 10
+    },
+    {
+      "package": "0111-trt4-sumulas-jurisprudencia",
+      "task_id": "T009",
+      "description": "[H] decidir retenção/promoção da coleção curada.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0111-trt4-sumulas-jurisprudencia/tasks.md",
+      "line": 11
+    },
+    {
+      "package": "0112-tre-sjur-first-degree",
+      "task_id": "T006",
+      "description": "[E]** validar paginação remota por UF na fonte oficial.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0112-tre-sjur-first-degree/tasks.md",
+      "line": 11
+    },
+    {
+      "package": "0112-tre-sjur-first-degree",
+      "task_id": "T007",
+      "description": "[E]** validar detalhe/PDF e retenção permitida por UF.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0112-tre-sjur-first-degree/tasks.md",
+      "line": 12
+    },
+    {
+      "package": "0112-tre-sjur-first-degree",
+      "task_id": "T008",
+      "description": "[H]** revisar promoção técnica/legal antes de qualquer federação.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0112-tre-sjur-first-degree/tasks.md",
+      "line": 13
+    },
+    {
+      "package": "0113-tjmg-modern-api-filter-contract",
+      "task_id": "T006",
+      "description": "[E] revalidate the official API after upstream schema changes.",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0113-tjmg-modern-api-filter-contract/tasks.md",
+      "line": 8
+    }
+  ]
+}

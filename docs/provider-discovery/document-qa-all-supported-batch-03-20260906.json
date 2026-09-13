@@ -1,0 +1,311 @@
+{
+  "generated_at": "2026-09-06T09:28:00.793568+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "tjes_jurisprudencia",
+      "tjes_turma_recursal",
+      "tjgo_projudi_jurisprudencia",
+      "tjms_cjsg",
+      "tjmt_jurisprudencia_api"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjes_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 69456,
+        "source": "tjes_jurisprudencia"
+      },
+      "result": {
+        "id": "tjes-cjsg-4092678",
+        "case_number": "0029899-12.2014.8.08.0048",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 25315,
+        "document_url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_version_",
+          "acordao",
+          "acordao_html",
+          "assunto_principal",
+          "cargo_julgador",
+          "case_class",
+          "cd_assunto_principal",
+          "cd_classe_judicial",
+          "classe_judicial",
+          "classe_judicial_sigla",
+          "competencia",
+          "core",
+          "dt_juntada",
+          "ementa",
+          "ementa_html",
+          "full_text",
+          "full_text_source",
+          "id",
+          "id_assunto_principal",
+          "id_bin",
+          "id_cargo_julgador",
+          "id_classe_judicial",
+          "id_jurisdicao",
+          "id_localizacao",
+          "judging_body",
+          "judgment_date",
+          "jurisdicao",
+          "lista_assunto",
+          "localizacao",
+          "magistrado",
+          "nr_processo",
+          "orgao_julgador",
+          "source_id",
+          "subject",
+          "summary_source"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjes-cjsg-4092678",
+        "full_text_length": 25315
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjes_turma_recursal",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 23596,
+        "source": "tjes_turma_recursal"
+      },
+      "result": {
+        "id": "tjes-turma-recursal-c1a9fce8-150a-45fa-8a54-074f91f95186",
+        "case_number": "110196920198080347",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 8445,
+        "document_url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_version_",
+          "case_class",
+          "classe_processo",
+          "codigo_recurso",
+          "cont_ementa",
+          "core",
+          "data_julgamento",
+          "full_text",
+          "id",
+          "judging_body",
+          "judgment_date",
+          "nome_juiz",
+          "num_processo",
+          "orgao_julgador",
+          "source_id",
+          "summary_source",
+          "tipo_arquivo"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjes-turma-recursal-c1a9fce8-150a-45fa-8a54-074f91f95186",
+        "full_text_length": 8445
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjgo_projudi_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 23791,
+        "source": "tjgo_projudi_jurisprudencia"
+      },
+      "result": {
+        "id": "tjgo-projudi-5259964-59.2026.8.09.0051",
+        "case_number": "5259964-59.2026.8.09.0051",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 5140,
+        "document_url": "https://projudi.tjgo.jus.br/ConsultaJurisprudencia?Id_Arquivo=558324213",
+        "access_status": null,
+        "extraction_status": "complete",
+        "raw_keys": [
+          "authority",
+          "branch",
+          "case_number",
+          "collection",
+          "data_publicacao",
+          "decision_type",
+          "degree",
+          "document_type",
+          "document_url",
+          "file_id",
+          "full_text",
+          "full_text_url",
+          "instance",
+          "judging_body",
+          "magistrate",
+          "orgao_julgador",
+          "publication_date",
+          "rapporteur",
+          "source_origin"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjgo-projudi-5259964-59.2026.8.09.0051",
+        "full_text_length": 5140
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://projudi.tjgo.jus.br/ConsultaJurisprudencia?Id_Arquivo=558324213",
+        "content_type": "text/html;charset=iso-8859-1",
+        "response_bytes": 39999,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjms_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 270751,
+        "source": "tjms_cjsg"
+      },
+      "result": {
+        "id": "tjms-cjsg-1949907-0",
+        "case_number": "1407698-91.2025.8.12.0000",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://esaj.tjms.jus.br/cjsg/getArquivo.do?cdAcordao=1949907&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "empty_document",
+        "document_id": "tjms-cjsg-1949907-0",
+        "full_text_length": 0,
+        "content_type": "application/pdf",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://esaj.tjms.jus.br/cjsg/getArquivo.do?cdAcordao=1949907&cdForo=0",
+        "content_type": "application/pdf;charset=UTF-8",
+        "response_bytes": 475946,
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "empty_document"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjmt_jurisprudencia_api",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 125719,
+        "source": "tjmt_jurisprudencia_api"
+      },
+      "result": {
+        "id": "tjmt-jurisprudencia-396666364",
+        "case_number": "1002559-26.2025.8.11.0010",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 7504,
+        "document_url": "https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/Acordao?filtro.isBasica=false&filtro.indicePagina=1&filtro.quantidadePagina=1&filtro.termoDeBusca=responsabilidade&filtro.periodoDataDe=&filtro.periodoDataAte=&filtro.tipoBusca=1&filtro.relator=&filtro.julgamento=&filtro.orgaoJulgador=&filtro.colegiado=&filtro.ordenacao.ordenarPor=DataDecrescente&filtro.ordenacao.ordenarDataPor=Julgamento&filtro.thesaurus=false",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "Conteudo",
+          "Documento",
+          "Id",
+          "NumFound",
+          "Observacao",
+          "Processo",
+          "StatusBoletim",
+          "Tipo",
+          "authority",
+          "branch",
+          "case_class",
+          "collection",
+          "degree",
+          "document_content_type",
+          "document_html",
+          "document_type",
+          "full_text_status",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "publication_date",
+          "subject"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjmt-jurisprudencia-396666364",
+        "full_text_length": 7504
+      },
+      "public_url": {
+        "status": "http_error",
+        "http_status": 401,
+        "final_url": "https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/Acordao?filtro.isBasica=false&filtro.indicePagina=1&filtro.quantidadePagina=1&filtro.termoDeBusca=responsabilidade&filtro.periodoDataDe=&filtro.periodoDataAte=&filtro.tipoBusca=1&filtro.relator=&filtro.julgamento=&filtro.orgaoJulgador=&filtro.colegiado=&filtro.ordenacao.ordenarPor=DataDecrescente&filtro.ordenacao.ordenarDataPor=Julgamento&filtro.thesaurus=false",
+        "content_type": "application/json; charset=utf-8",
+        "response_bytes": 96,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": 401
+        }
+      ],
+      "status": "partial"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 5,
+    "full_text_in_search": 4,
+    "provider_document_loaded": 4,
+    "public_url_reachable": 2,
+    "public_url_document_like": 1,
+    "document_probe_failures": 2,
+    "partial": 2,
+    "errors": 0
+  }
+}

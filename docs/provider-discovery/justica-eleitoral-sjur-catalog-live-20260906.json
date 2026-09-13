@@ -1,0 +1,26 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "justica_eleitoral_sjur",
+  "source_id": "justica_eleitoral_sjur",
+  "surface": "catalog",
+  "checked_at": "2026-09-06",
+  "source": "justica_eleitoral_sjur",
+  "source_url": "https://sjur-pesquisa-api.tse.jus.br/tse/sjur-pesquisa-backend/rest/public/pesquisa",
+  "classification": "valid",
+  "http_status": 200,
+  "access_status": "public",
+  "record_count_observed": 459,
+  "reported_total": null,
+  "response_bytes": null,
+  "extraction_status": "complete",
+  "routes": {
+    "classes": {"count": 137, "payload": ["TSE"]},
+    "relatorias": {"count": 231, "payload": ["TSE"]},
+    "eleicoes": {"count": 21, "payload": ["TSE"]},
+    "normas": {"count": 70, "payload": ["TSE"]}
+  },
+  "limitations": [
+    "Evidence covers public metadata catalogs only; it does not prove decision search or full text.",
+    "Decision search remains outside federation while the official route returns anti-robot control in a clean session."
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "package": "0092-national-coverage-execution-blueprint",
+  "mode": "plan_only",
+  "status": "proposed",
+  "allowed": ["read_repo", "inspect_public_sources", "bounded_live_calls", "write_sdd", "write_fixtures", "run_tests", "regenerate_generated_inventories"],
+  "forbidden": ["captcha_solver", "captcha_ocr", "turnstile_bypass", "waf_bypass", "stealth", "fingerprint_spoofing", "ip_rotation_for_evasion", "token_replay", "tls_downgrade", "private_endpoint_fuzzing", "credential_storage", "git_commit", "git_push", "tag", "release", "terraform_apply", "oci_change", "deploy"],
+  "required_reading": ["AGENTS.md", "specs/constitution.md", "specs/README.md", "specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md", "specs/changes/0092-national-coverage-execution-blueprint/provider-workpack-template.md"],
+  "promotion": {"automatic_technical_only": true, "legal_approval_still_human": true, "production_rollout_disabled": true},
+  "completion": {"requires": ["all local tasks closed", "external blockers recorded", "human decisions listed", "full verification run"], "must_not_claim": ["national complete", "27/27", "all providers functional"]}
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "provider-discovery-live-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJBA",
+  "surface": "CJPG",
+  "route": "https://projudi.tjba.jus.br/projudi/buscas/ConclusoesRealizadas?instancia=1",
+  "entrypoint": "https://www.tjba.jus.br/juizadosespeciais/saj/",
+  "scope": "bounded_public_read_only",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "session_bootstrap": [
+    "GET /projudi/",
+    "GET /projudi/interno.jsp?endereco=/projudi/buscas/ConclusoesRealizadas?instancia=1"
+  ],
+  "probes": [
+    {
+      "name": "search_form",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html;charset=iso-8859-1",
+      "response_bytes_observed": 119961,
+      "response_sha256": "9ff4265950cd8b7486122a14e59db51d1cb6f65e91c922da061ec26e21f21ac3",
+      "classification": "public_first_degree_sentence_search_form"
+    },
+    {
+      "name": "missing_captcha",
+      "method": "POST",
+      "http_status": 200,
+      "content_type": "text/html;charset=iso-8859-1",
+      "response_bytes_observed": 120239,
+      "response_sha256": "3e1a304601707472d30df8ae65c46b6565dd714cae58edc2ffe30070225092e5",
+      "classification": "captcha_required",
+      "observed_error": "Caracteres da imagem inválidos.",
+      "decision": "Do not submit or automate a search without an authorized human-provided CAPTCHA value."
+    }
+  ],
+  "observed_contract": {
+    "first_degree": true,
+    "surface_label": "BANCO DE SENTENÇAS",
+    "search_method": "POST",
+    "fields": [
+      "numeroProcesso",
+      "codVara",
+      "loginJuiz",
+      "codNatureza",
+      "seqCategoriaClasse",
+      "seqCategoriaAssunto",
+      "dataInicio",
+      "dataFim",
+      "captcha"
+    ],
+    "unit_scope": "Juizados Especiais / first-instance judicial units",
+    "full_text": "unknown_until_authorized_search",
+    "pagination": "not_observed"
+  },
+  "decision": "blocked_access",
+  "promotion_decision": "do_not_implement",
+  "next_action": "Recheck only if TJBA publishes an official API/export without CAPTCHA or provides an authorized integration contract. Do not attempt OCR, token solving, replay, or challenge bypass."
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "tjrj-ejuris-origin-options-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJRJ",
+  "provider": "tjrj_ejuris",
+  "surface": "CJSG",
+  "method": "bounded public GET of the official ASP.NET form",
+  "url": "https://www3.tjrj.jus.br/EJURIS/ConsultarJurisprudencia.aspx",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "http_status": 200,
+  "content_type": "text/html; charset=utf-8",
+  "observed_origin_options": [
+    {"value": "1", "label": "Tribunal de Justica do Rio de Janeiro 2a Instancia"},
+    {"value": "2", "label": "Tribunal de Alcada Civel"},
+    {"value": "3", "label": "Tribunal de Alcada Criminal"},
+    {"value": "4", "label": "Turma Recursal"},
+    {"value": "5", "label": "Conselho da Magistratura"}
+  ],
+  "classification": "official_second_degree_scope_confirmed",
+  "decision": "The public EJURIS form exposes appellate and related second-instance origins only. No first-degree origin was exposed in this bounded form inspection; value 1 is therefore retained as the validated CJSG scope. This evidence does not establish a TJRJ CJPG route.",
+  "safety": {
+    "captcha_submitted": false,
+    "turnstile_bypassed": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false,
+    "response_body_persisted": false
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-11",
+  "scope": "bounded_public_candidate_recheck",
+  "credentials_used": false,
+  "challenge_handling": "none",
+  "query": {
+    "text": "divorcio",
+    "page": 1,
+    "page_size": 1
+  },
+  "results": [
+    {
+      "provider": "falcao_jt",
+      "classification": "access_control_required",
+      "exception": "AccessControlRequiredError",
+      "detail": "A rota oficial retornou HTTP 403; nenhum resultado foi tratado como vazio."
+    },
+    {
+      "provider": "tjmsp_jurisprudencia",
+      "classification": "access_control_required",
+      "exception": "AccessControlRequiredError",
+      "detail": "A entrada oficial retornou HTTP 403 antes de um contrato de resultados."
+    },
+    {
+      "provider": "trt6_jurisprudencia",
+      "classification": "access_control_required",
+      "exception": "AccessControlRequiredError",
+      "detail": "A rota oficial exige reCAPTCHA gerado por interação humana; nenhum desafio foi resolvido."
+    }
+  ],
+  "safety": {
+    "captcha_solved": false,
+    "tokens_used": false,
+    "cookies_replayed": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  },
+  "decision": "Os três candidatos permanecem opt-in/fora da federação padrão até existir rota oficial pública reproduzível ou busca autorizada por interação humana."
+}

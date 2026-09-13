@@ -1,0 +1,49 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrj_banco_sentencas",
+  "source_id": "tjrj_banco_sentencas",
+  "authority": "TJRJ",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "TJRJ_BANCO_SENTENCAS",
+  "surface": "cjpg",
+  "classification": "partial",
+  "access_status": "public",
+  "extraction_status": "partial",
+  "http_status": 200,
+  "content_type": "application/pdf",
+  "response_bytes": 2490134,
+  "pagination_mode": "local_window",
+  "observed_at": "2026-09-08",
+  "retrieved_at": "2026-09-08",
+  "attempts": [
+    {
+      "kind": "official_index",
+      "method": "GET",
+      "url": "https://portaltj.tjrj.jus.br/documents/10136/18187/banco-sentencas.pdf",
+      "status": "success_with_results",
+      "http_status": 200,
+      "response_bytes": 2490134,
+      "content_type": "application/pdf",
+      "page_count": 259,
+      "content_sha256": "redacted-in-public-evidence",
+      "observed": "official PDF contains selected-sentence topics, CNJ numbers and document annotations"
+    },
+    {
+      "kind": "first_document",
+      "method": "GET",
+      "url": "https://www4.tjrj.jus.br/AtosOficiais/bancodesentencas/DireitoAdministrativo/0111728-92.2010.8.19.0001.doc",
+      "status": "source_unavailable",
+      "http_status": 503,
+      "observed": "bounded request returned service unavailable; no retry loop or bypass"
+    }
+  ],
+  "promotion_decision": "opt_in_only",
+  "limitations": [
+    "curated selected-sentence index, not complete CJPG",
+    "remote total unknown",
+    "document host availability is intermittent"
+  ],
+  "forbidden_techniques_used": []
+}

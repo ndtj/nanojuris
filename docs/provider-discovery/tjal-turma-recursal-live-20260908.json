@@ -1,0 +1,70 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjal_turma_recursal_ementario",
+  "source_id": "tjal_turma_recursal_ementario",
+  "surface": "turmas_recursais",
+  "authority": "TJAL",
+  "branch": "state",
+  "degree": "recursal",
+  "instance": "turma_recursal",
+  "collection": "TJAL_TURMAS_RECURSAIS",
+  "observed_at": "2026-09-08T11:00:00-03:00",
+  "checked_at": "2026-09-08T11:00:00-03:00",
+  "classification": "public_textual_recursal",
+  "status": "valid_partial_volume",
+  "access_status": "public",
+  "extraction_status": "complete_for_text_volumes",
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "recursal",
+    "instance": "turma_recursal",
+    "branch": "state",
+    "authority": "TJAL",
+    "collection": "TJAL_TURMAS_RECURSAIS",
+    "page": 1,
+    "page_size": 10
+  },
+  "index_endpoint": "GET https://aceco.tjal.jus.br/?pag=juizados_jurisprudencias",
+  "selected_endpoint": "GET https://aceco.tjal.jus.br/juizados/relatorios/Ementas-3.pdf",
+  "selected_content_sha256": "3e1754d1b598ca03018b963bfa29902fa6f1e0e3c13f13443c40601ef443b1f6",
+  "selected_latency_ms": 2052.84,
+  "index_http_status": 200,
+  "volumes": [
+    {"name": "Ementas-1.pdf", "http_status": 200, "content_type": "application/pdf", "response_bytes": 2583895, "pages": 44, "text_extractable": true},
+    {"name": "Ementas-2.pdf", "http_status": 200, "content_type": "application/pdf", "response_bytes": 3153747, "pages": 55, "text_extractable": true},
+    {"name": "Ementas-3.pdf", "http_status": 200, "content_type": "application/pdf", "response_bytes": 2063147, "pages": 620, "text_extractable": true},
+    {"name": "Ementas-4.pdf", "http_status": 200, "content_type": "application/pdf", "response_bytes": 3208819, "pages": 109, "text_extractable": false}
+  ],
+  "record_count_observed": 29,
+  "reported_total": null,
+  "total_state": "unknown",
+  "pagination_mode": "local_pdf_window",
+  "is_complete": false,
+  "evidence_limits": [
+    "A publicação é uma coleção editorial histórica e não declara total autoritativo.",
+    "O conteúdo é ementa; não há voto integral individual comprovado.",
+    "O volume image-only não é submetido a OCR automático.",
+    "A ausência de um termo na janela não prova ausência no acervo nacional."
+  ],
+  "promotion": {
+    "runtime": true,
+    "degree_contract": "valid_recursal",
+    "fixtures": "complete",
+    "live_status": "valid_partial_volume",
+    "quality_gate": "passed_for_bounded_recursal_window",
+    "promotion_decision": "automatic_technical_approval_opt_in",
+    "federation_status": "enabled_opt_in",
+    "default_federation": false
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "raw_body_persisted": false,
+    "requests_bounded": true
+  },
+  "limitations": [
+    "A fonte é Turmas Recursais, não CJPG/CJSG.",
+    "Filtros de classe, órgão, relator e datas não foram comprovados como remotos.",
+    "A extração depende de texto disponível no PDF."
+  ]
+}

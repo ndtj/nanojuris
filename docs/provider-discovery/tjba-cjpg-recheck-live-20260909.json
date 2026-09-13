@@ -1,0 +1,60 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": "tjba_graphql",
+  "authority": "TJBA",
+  "branch": "state",
+  "checked_at": "2026-09-09",
+  "source": {
+    "endpoint": "https://jurisprudenciaws.tjba.jus.br/graphql",
+    "method": "POST",
+    "credentials_used": false,
+    "bounded": true,
+    "query_contract": "filter"
+  },
+  "catalog": {
+    "http_status": 200,
+    "class_count": 263,
+    "class_second_degree_true": 236,
+    "class_second_degree_false": 27,
+    "org_count": 38,
+    "org_instances": {
+      "SEGUNDO_GRAU": 25,
+      "TURMA_RECURSAL": 13
+    },
+    "response_sha256": "ed0482eb6903718d64326f62d1c52c0eb4837f0e9344997fdaf572c9487c5846"
+  },
+  "probes": [
+    {
+      "description": "segundoGrau=false sem classe específica",
+      "http_status": 200,
+      "item_count": 1239077,
+      "returned": 3,
+      "observed_instances": ["SEGUNDO_GRAU"],
+      "observed_types": ["ACORDAO"],
+      "response_sha256": "aac957c2c3c29f94dfff41b37789b1c6897890e29c77a5949419e305eb74b1b4"
+    },
+    {
+      "description": "segundoGrau=false com classe catalogada como primeiro grau",
+      "class_id": "2",
+      "class_label": "PROCESSO CÍVEL E DO TRABALHO",
+      "http_status": 200,
+      "item_count": 142,
+      "returned": 3,
+      "observed_instances": ["TURMA_RECURSAL"],
+      "observed_types": ["ACORDAO"],
+      "response_sha256": "817c6d34af3025ae880627b81cbe00ea7fc798d71d45c6de07467c3651f47482"
+    }
+  ],
+  "classification": {
+    "status": "recursal_only_not_cjpg",
+    "contract_status": "no_first_degree_contract",
+    "promotion": "not_promoted",
+    "reason": "o flag negativo não separa CJPG; a amostra catalogada como não segundo grau retorna Turma Recursal, que é coleção recursal distinta"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "response_bodies_persisted": false
+  },
+  "next_action": "manter TJBA/CJPG em descoberta até existir rota oficial explícita de primeiro grau"
+}

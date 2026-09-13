@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07T08:42:00Z",
+  "provider": "tjdf_juris",
+  "surface": "JURISDF public JSON API",
+  "source_url": "https://jurisdf.tjdft.jus.br/api/v1/pesquisa",
+  "method": "POST",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "request": {
+    "query": "dano moral",
+    "pagina": 0,
+    "tamanho": 2,
+    "sinonimos": true,
+    "espelho": true,
+    "inteiroTeor": true,
+    "retornaInteiroTeor": true,
+    "retornaTotalizacao": true
+  },
+  "response": {
+    "http_status": 200,
+    "records": 2,
+    "reported_total": 228997,
+    "bases": ["acordaos"],
+    "pagination": {"pagina": 0, "tamanho": 2},
+    "first_record": {
+      "base": "acordaos",
+      "judging_body": "SEGUNDA TURMA RECURSAL",
+      "judgment_date_present": true,
+      "publication_date_present": true,
+      "summary_present": true,
+      "full_text_present": true,
+      "process_number_present": true
+    }
+  },
+  "classification": {
+    "access_status": "public",
+    "live_status": "valid",
+    "degree": "second",
+    "collection": "CJSG",
+    "quality": "textual_records_with_summary_and_full_text_when_available"
+  },
+  "limitations": [
+    "The API does not publish a configurable ordering contract.",
+    "Full text is record-specific; the availability flag is not treated as proof by itself.",
+    "The legacy HTML route remains available as an explicit compatibility mode."
+  ],
+  "conclusion": "The official public JSON route is reproducible without credentials or bypass and is suitable for the existing TJDFT adapter; it does not change the external blocked status of TJAP or TJMA."
+}

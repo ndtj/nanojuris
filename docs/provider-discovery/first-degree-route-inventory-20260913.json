@@ -1,0 +1,3859 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-13T15:06:10+00:00",
+  "scope": "state_court_first_degree_route_discovery",
+  "network_access": "bounded_one_homepage_plus_limited_public_scripts_per_tj",
+  "credentials_used": false,
+  "response_bodies_persisted": false,
+  "marker_policy": "candidate markers only; no route is a CJPG contract without independent validation",
+  "limits": {
+    "courts": 27,
+    "max_scripts_per_court": 4,
+    "max_candidate_probes_per_court": 0,
+    "max_body_bytes": 2000000
+  },
+  "results": [
+    {
+      "authority": "TJAC",
+      "branch": "state",
+      "state": "AC",
+      "official_url": "https://www.tjac.jus.br/",
+      "homepage": {
+        "url": "https://www.tjac.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjac.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 35675,
+        "truncated": false,
+        "response_sha256": "988f39bcf4ae1d666a71eb5a4c95260f34396a166ff869b99f586f06757241d9",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://esaj.tjac.jus.br/cjsg/resultadoCompleta.do",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://esaj.tjac.jus.br/cpo/pg/open.do",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º grau"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "https://www.tjac.jus.br/transparencia/relatorios-e-estatisticas/ementario-jurisprudencial/",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Ementário",
+            "Jurisprud",
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://paineisanalytics.cnj.jus.br/single/?appid=f3bb4296-6c88-4c1f-b3bb-8a51e4268a58&sheet=03bb002c-6256-4b1d-9c93-a421f1bf8833&theme=horizon&lang=pt-BR&opt=ctxmenu,currsel",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Sentenç"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://esaj.tjac.jus.br/esaj/portal.do?servico=780000",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "JURISPRUD"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr/",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://esaj.tjac.jus.br/cjsg/consultaCompleta.do",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjac.jus.br/portal-da-transparencia/relatorios-e-estatisticas/ementario-jurisprudencial/",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Ementário",
+            "Jurisprud",
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjac.jus.br/transparencia/relatorios-e-estatisticas/ementario-jurisprudencial/",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "ementario",
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr/",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjac.jus.br/portal-da-transparencia/relatorios-e-estatisticas/ementario-jurisprudencial/",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "ementario",
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjac.jus.br/wp-content/uploads/2024/07/banner-sentenca-e-decisoes.png",
+          "source_url": "https://www.tjac.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjac.jus.br/wp-content/themes/tjac/assets/js/modernizr.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjac.jus.br/wp-content/themes/tjac/assets/js/modernizr.js",
+          "content_type": "application/javascript, text/javascript",
+          "response_bytes_observed": 14808,
+          "truncated": false,
+          "response_sha256": "d6ec4a22c8fe0e83a99b47c0e0eb4d7d3e64a9edf1af8987179b44c5467e99e6",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.google.com/recaptcha/api.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.google.com/recaptcha/api.js",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 607,
+          "truncated": false,
+          "response_sha256": "c8a2ef36991cea67db04fda74fc9f3f20aa2de551c013f029a9a28ae8e7ca46c",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?positionBar=left&positionPlayer=left&positionPlayerMobile=left&offsetTopBar=40%25&offsetX=60&offsetY=60&size=280&backgroundColorBar=%23a01128&zIndexBar=2147483647&renderTimeout=0&lang=ptBR",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?positionBar=left&positionPlayer=left&positionPlayerMobile=left&offsetTopBar=40%25&offsetX=60&offsetY=60&size=280&backgroundColorBar=%23a01128&zIndexBar=2147483647&renderTimeout=0&lang=ptBR",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 47642,
+          "truncated": false,
+          "response_sha256": "b587bd34eb78fac48ae72ed14e1ab5026d5f683df226f14a90fd68a57a96ed02",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjac.jus.br/wp-includes/js/jquery/jquery.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjac.jus.br/wp-includes/js/jquery/jquery.min.js",
+          "content_type": "application/javascript, text/javascript",
+          "response_bytes_observed": 87553,
+          "truncated": false,
+          "response_sha256": "cb6f2d32c49d1c2b25e9ffc9aaafa3f83075346c01bcd4ae6eb187392a4292cf",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJAL",
+      "branch": "state",
+      "state": "AL",
+      "official_url": "https://www.tjal.jus.br/",
+      "homepage": {
+        "url": "https://www.tjal.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjal.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 1730,
+        "truncated": false,
+        "response_sha256": "59742b9c8bcbb820fd267a4d6f9824e7230f25f759d5cce963e793be62c0a5cc",
+        "classification": "reachable"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 47642,
+          "truncated": false,
+          "response_sha256": "b587bd34eb78fac48ae72ed14e1ab5026d5f683df226f14a90fd68a57a96ed02",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjal.jus.br/assets/index-CjM3i2-t.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjal.jus.br/assets/index-CjM3i2-t.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 1167044,
+          "truncated": false,
+          "response_sha256": "c4a3a99ec21e21d171c83c20856a50c43c89c8346886c948819282cee82992a2",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
+          "content_type": "application/javascript; charset=utf-8",
+          "response_bytes_observed": 23731,
+          "truncated": false,
+          "response_sha256": "ecaaacd7d70f1e012be4ceef0d2f8261571abc3b0e890d3992238ea837bf5808",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJAM",
+      "branch": "state",
+      "state": "AM",
+      "official_url": "https://www.tjam.jus.br/",
+      "homepage": {
+        "url": "https://www.tjam.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjam.jus.br/",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes_observed": 46959,
+        "truncated": false,
+        "response_sha256": "4d2c253c80b22836d12c2721ee83a34f94db0ae0f6d056d8179608e0df4917b2",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjam.jus.br/index.php/jurisprudencia",
+          "source_url": "https://www.tjam.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://consultasaj.tjam.jus.br/esaj/portal.do?servico=789900",
+          "source_url": "https://www.tjam.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://sistemas.tjam.jus.br/certidaounica",
+          "source_url": "https://www.tjam.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://projudi-consulta.tjam.jus.br/publica/",
+          "source_url": "https://www.tjam.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://consultasaj.tjam.jus.br/cpopg/open.do",
+          "source_url": "https://www.tjam.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "https://projudi.tjam.jus.br/projudi/processo/consultaPublicaNova.do?actionType=iniciar",
+          "source_url": "https://www.tjam.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "process_surface"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=UA-7392252-4",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.googletagmanager.com/gtag/js?id=UA-7392252-4",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 135223,
+          "truncated": false,
+          "response_sha256": "e1177735426d1bcfdd74b6cf6ffc70fcc87dcf23ea38479414db33856e388d27",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjam.jus.br/media/jui/js/jquery.min.js?4f7454b84368a3503d91f1ce8039b9d9",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjam.jus.br/media/jui/js/jquery.min.js?4f7454b84368a3503d91f1ce8039b9d9",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 30362,
+          "truncated": false,
+          "response_sha256": "b5b932a8ac58703d4ab786c9425eeed33ffc59c2d316aab16546afe275b7e052",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjam.jus.br/media/jui/js/jquery-noconflict.js?4f7454b84368a3503d91f1ce8039b9d9",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjam.jus.br/media/jui/js/jquery-noconflict.js?4f7454b84368a3503d91f1ce8039b9d9",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 21,
+          "truncated": false,
+          "response_sha256": "5b6cf4e6eda02f7c90b60b3c32413c0851915f8f80a268a913b92929085132a6",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjam.jus.br/media/jui/js/jquery-migrate.min.js?4f7454b84368a3503d91f1ce8039b9d9",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjam.jus.br/media/jui/js/jquery-migrate.min.js?4f7454b84368a3503d91f1ce8039b9d9",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 6546,
+          "truncated": false,
+          "response_sha256": "4e1d9ef88f642b4d78a19262cf8919609c39e512f3fbf3b979114f1ed51ae74a",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJAP",
+      "branch": "state",
+      "state": "AP",
+      "official_url": "https://www.tjap.jus.br/",
+      "homepage": {
+        "url": "https://www.tjap.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjap.jus.br/portal/",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes_observed": 36110,
+        "truncated": false,
+        "response_sha256": "05112739b3cfba3dd9f2b895bf71955d7416ceead19d5df1f60b371a86105d4d",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://bancosentencas.tjap.jus.br/",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://sig.tjap.jus.br/sgpe_grid_sessao_audiencia/sgpe_grid_sessao_audiencia.php",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://bancosentencas.tjap.jus.br/",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "source_url": "https://www.tjap.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjap.jus.br/portal/media/system/js/core.min.js?a3d8f8",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjap.jus.br/portal/media/system/js/core.min.js?a3d8f8",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 3236,
+          "truncated": false,
+          "response_sha256": "57c201bc5cb342f9cebe4455bb2a458b9ebcb0dc01633d2eafc4e767c15f6386",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjap.jus.br/portal/media/vendor/jquery/js/jquery.min.js?3.7.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjap.jus.br/portal/media/vendor/jquery/js/jquery.min.js?3.7.1",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 30342,
+          "truncated": false,
+          "response_sha256": "f65c18347a2101c87dd91438064aac946892b68a2e6c5a6a902830632541cca6",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjap.jus.br/portal/media/vendor/jquery/js/jquery-noconflict.min.js?3.7.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjap.jus.br/portal/media/vendor/jquery/js/jquery-noconflict.min.js?3.7.1",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 50,
+          "truncated": false,
+          "response_sha256": "2d7c4e300c542872d9ebc1226b7bff9d134a62221b76e230a326ebb8ea00b404",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjap.jus.br/portal/media/astroid/js/jquery.easing.min.js?40bb8d",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjap.jus.br/portal/media/astroid/js/jquery.easing.min.js?40bb8d",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 817,
+          "truncated": false,
+          "response_sha256": "17368cc18bda01725115cb1ea484fe4059f425c73ec69fdbc3708fb4a597d1a3",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJBA",
+      "branch": "state",
+      "state": "BA",
+      "official_url": "https://www.tjba.jus.br/",
+      "homepage": {
+        "url": "https://www.tjba.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjba.jus.br/portal/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 31777,
+        "truncated": false,
+        "response_sha256": "301ad76a0d9149a68526bbf287e258d8853c28ec6b2ded92703a838ce9c7e25f",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://jurisprudencia.tjba.jus.br",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://pje.tjba.jus.br/pje/login.seam",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "1º GRAU"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "http://www2.tjba.jus.br/jurisprudencianet/index.wsp",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://tjba.jus.br/primeirograu/",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Primeiro Grau",
+            "primeirograu"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/certidoes-do-primeiro-grau/",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "1º Grau",
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/comissao-permanente-de-jurisprudencia-revista-documentacao-e-biblioteca/",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.tjba.jus.br",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www2.tjba.jus.br/jurisprudencianet/index.wsp",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://tjba.jus.br/primeirograu/",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "primeirograu"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/certidoes-do-primeiro-grau/",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/comissao-permanente-de-jurisprudencia-revista-documentacao-e-biblioteca/",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/wp-content/uploads/2026/03/comissao-jurisprudencia.png",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/wp-content/uploads/2026/03/comissao-jurisprudencia-263x300.png",
+          "source_url": "https://www.tjba.jus.br/portal/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjba.jus.br/portal/wp-content/plugins/plugin-rybena3D-wp-v2.3/js/rybena.js?positionBar=left&positionPlayer=left&zIndexBar=2147483647&ver=2.3",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjba.jus.br/portal/wp-content/plugins/plugin-rybena3D-wp-v2.3/js/rybena.js?positionBar=left&positionPlayer=left&zIndexBar=2147483647&ver=2.3",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 51990,
+          "truncated": false,
+          "response_sha256": "1c2bd109a203089db1a43d8c77fc14267ba849e7a3f08fc0a33faa6fa887fb78",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjba.jus.br/portal/wp-includes/js/jquery/jquery.min.js?ver=3.7.1",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 30368,
+          "truncated": false,
+          "response_sha256": "2403e1a1abbaa8f911da32a55052a95352a23250d3caf33cfd9246e4084fcac2",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjba.jus.br/portal/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 4872,
+          "truncated": false,
+          "response_sha256": "f7af83a6886e5aec604335c32e5d221e193395400ccbfc73260e397d6644521c",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjba.jus.br/portal/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjba.jus.br/portal/wp-includes/js/dist/hooks.min.js?ver=7496969728ca0f95732d",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 1829,
+          "truncated": false,
+          "response_sha256": "d24db3d9c420a0895a16e3f735056c344511387f84cd0d43df019adbfaf904c5",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJCE",
+      "branch": "state",
+      "state": "CE",
+      "official_url": "https://www.tjce.jus.br/",
+      "homepage": {
+        "url": "https://www.tjce.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjce.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 44231,
+        "truncated": false,
+        "response_sha256": "9ab642556ecd4e1fefda0656e19bc986071951772a13149a304ec4d0898fe643",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjce.jus.br/",
+          "source_url": "https://www.tjce.jus.br/",
+          "kind": "link",
+          "markers": [
+            "JURISPRUD"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjce.jus.br/informativo-jurisprudencia/",
+          "source_url": "https://www.tjce.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjce.jus.br/informativo-jurisprudencia/",
+          "source_url": "https://www.tjce.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjce.jus.br/wp-content/plugins/jquery-manager/assets/js/jquery-3.5.1.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjce.jus.br/wp-content/plugins/jquery-manager/assets/js/jquery-3.5.1.min.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 30910,
+          "truncated": false,
+          "response_sha256": "7d757e510b1f0c4d44fd98cc0121da8ca4f44793f8583debdef300fb1dbd3715",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjce.jus.br/wp-content/plugins/jquery-manager/assets/js/jquery-migrate-3.3.0.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjce.jus.br/wp-content/plugins/jquery-manager/assets/js/jquery-migrate-3.3.0.min.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 4025,
+          "truncated": false,
+          "response_sha256": "54e212ef0e68d1063afe95f0eb8c636e4599fcb40532752842c57fbaff8c1a18",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjce.jus.br/wp-content/plugins/cookie-law-info/legacy/public/js/cookie-law-info-public.js?ver=3.5.4",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjce.jus.br/wp-content/plugins/cookie-law-info/legacy/public/js/cookie-law-info-public.js?ver=3.5.4",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 7473,
+          "truncated": false,
+          "response_sha256": "9031e10b05abbd217b873ea59e400440b13ee72b98b5b30db0fa0d5938ff6058",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjce.jus.br/wp-content/plugins/labluz/public/js/public.js?ver=1.0.0",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjce.jus.br/wp-content/plugins/labluz/public/js/public.js?ver=1.0.0",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 486,
+          "truncated": false,
+          "response_sha256": "7242dcbc817a3e1b6bd246c5ae99d3dfa907911ee0a2d13b7b055fc939ebe1a3",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJDFT",
+      "branch": "state",
+      "state": "DF",
+      "official_url": "https://www.tjdft.jus.br/",
+      "homepage": {
+        "url": "https://www.tjdft.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjdft.jus.br/",
+        "content_type": "text/html;charset=utf-8",
+        "response_bytes_observed": 26196,
+        "truncated": false,
+        "response_sha256": "b548bafdc448233799f1228b88f432c5721bf62fda78a9e03645b14597abf28c",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjdft.jus.br/consultas/ementario-disciplinar",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Ementário",
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/jurisprudencia",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/precatorios/legislacao-e-jurisprudencia",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/jurisprudencia-e-precedentes",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/ementario-disciplinar",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/jurisprudencia",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/precatorios/legislacao-e-jurisprudencia",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/consultas/jurisprudencia-e-precedentes",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/++theme++tema-tjdft/img/tjdft-icons.svg?hash=809f8d509162de2ef7407ef88f694569d59c022256025b132cc09d994593cc45#jurisprudencia",
+          "source_url": "https://www.tjdft.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?positionBar=right&positionPlayer=right&renderTimeout=300",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?positionBar=right&positionPlayer=right&renderTimeout=300",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 47642,
+          "truncated": false,
+          "response_sha256": "b587bd34eb78fac48ae72ed14e1ab5026d5f683df226f14a90fd68a57a96ed02",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/++webresource++6aa4c841-faf5-51e8-8109-90bd97e7aa07/++plone++static/plone-fullscreen/fullscreen.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjdft.jus.br/++webresource++6aa4c841-faf5-51e8-8109-90bd97e7aa07/++plone++static/plone-fullscreen/fullscreen.js",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 281,
+          "truncated": false,
+          "response_sha256": "491af2acdade9055ad89f9bc6187d87816b9725e8f9c8e87b56f57ce2e19a073",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/++webresource++ca2f3519-c9b5-5814-9c8f-5d832fbcce27/++plone++static/bundle-plone/bundle.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjdft.jus.br/++webresource++ca2f3519-c9b5-5814-9c8f-5d832fbcce27/++plone++static/bundle-plone/bundle.min.js",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 161211,
+          "truncated": false,
+          "response_sha256": "3d6912c24d9a35b46e2957feb2cf40dd81870998f1d4e22cdfc8222b64c7dc72",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjdft.jus.br/++webresource++a9c618bf-578c-51a9-adc9-e8d7fa61b5d7/++theme++tema-tjdft/js/tjdft-script.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjdft.jus.br/++webresource++a9c618bf-578c-51a9-adc9-e8d7fa61b5d7/++theme++tema-tjdft/js/tjdft-script.min.js",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 2432,
+          "truncated": false,
+          "response_sha256": "eb63eec6ebe04adf37146f88fc41dd4a2ac76d4ea59b29f87e9b5f6780944dbe",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJES",
+      "branch": "state",
+      "state": "ES",
+      "official_url": "https://www.tjes.jus.br/",
+      "homepage": {
+        "url": "https://www.tjes.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjes.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 30795,
+        "truncated": false,
+        "response_sha256": "b83383a46fffd55b398b8a20df17942864cc5abcefeecd36f960b43791e4c0a4",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjes.jus.br/institucional/nucleos/comissao-prevencao-assedio/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º e 2º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjes.jus.br/institucional/nucleos/comite-gestor-orcamentario-e-de-gestao-e-implementacao-da-politica-nacional-de-atencao-prioritaria-ao-primeiro-grau-de-jurisdicao/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Primeiro Grau",
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjes.jus.br/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjes.jus.br/pje/1o-grau/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://pje.tjes.jus.br/pje/login.seam#new_tab",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "https://pje.tjes.jus.br/pje/Processo/ConsultaDocumento/listView.seam#new_tab",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "https://pje.tjes.jus.br/pje/ConsultaPublica/listView.seam#new_tab",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://pje.tjes.jus.br/pje/Push/loginPush.seam#new_tab",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjes.jus.br/publicacoes/revista-jurisprudencia-ementario/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Ementário",
+            "Jurisprud",
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjes.jus.br/publicacoes/revista-jurisprudencia-ementario",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud",
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjes.jus.br/institucional/nucleos/comite-gestor-orcamentario-e-de-gestao-e-implementacao-da-politica-nacional-de-atencao-prioritaria-ao-primeiro-grau-de-jurisdicao/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjes.jus.br/publicacoes/revista-jurisprudencia-ementario/",
+          "source_url": "https://www.tjes.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud",
+            "ementario"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=UA-136220659-1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.googletagmanager.com/gtag/js?id=UA-136220659-1",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 135109,
+          "truncated": false,
+          "response_sha256": "d2df44f24189a6316a9ef0f40762308fc04f9ad80a490ca9eda787d7ce1a4728",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 47642,
+          "truncated": false,
+          "response_sha256": "b587bd34eb78fac48ae72ed14e1ab5026d5f683df226f14a90fd68a57a96ed02",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjes.jus.br/wp-content/cache/wpfc-minified/1mwk8bln/8b8bw.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjes.jus.br/wp-content/cache/wpfc-minified/1mwk8bln/8b8bw.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 48896,
+          "truncated": false,
+          "response_sha256": "d6d8864c2b9138435fd98a3f0b601c8ace7c7fdf2b3103ba0095922f81e35c62",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjes.jus.br/wp-content/cache/wpfc-minified/d6r0d5je/8b8bw.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjes.jus.br/wp-content/cache/wpfc-minified/d6r0d5je/8b8bw.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 7997,
+          "truncated": false,
+          "response_sha256": "30fe5ed97e834685b89ffefa55b3f734d7ce8e5718d0b4c009391be1efd9b5a5",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJGO",
+      "branch": "state",
+      "state": "GO",
+      "official_url": "https://www.tjgo.jus.br/",
+      "homepage": {
+        "url": "https://www.tjgo.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 403,
+        "final_url": "https://www.tjgo.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 1864,
+        "truncated": false,
+        "response_sha256": "1d70f7b1c5ae99c7f269e2373abab52008b624c87c8565036c1cb7ac1ffabfb9",
+        "classification": "access_controlled"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJMA",
+      "branch": "state",
+      "state": "MA",
+      "official_url": "https://www.tjma.jus.br/",
+      "homepage": {
+        "url": "https://www.tjma.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjma.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 30238,
+        "truncated": false,
+        "response_sha256": "8d06f354db085ca6f0f258d416ee9f622219418e4fa3808f9d48a573047f6c3c",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjma.jus.br/",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "PRIMEIRO GRAU"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/comarcas",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/juizados-especiais",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/turmas-recursais",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/polos-judiciais",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/relatorios-correicao",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/projetosespeciais/cgj",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/prestacaocontas",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://termojuris.tjma.jus.br/statistic-data",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/atos/cgj/geral/0/2971/pnao/suspensao-de-expediente-1-grau",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://pje.tjma.jus.br/pje/Processo/ConsultaDocumento/listView.seam",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "https://www.tjma.jus.br/servicos/cgj/plantoes-primeiro-grau",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau",
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/comarcas/nome-comarca/13556",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/#/sg-jurisprudence-form",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/midia/tj/noticia/523110/tjma-empossa-34-novos-juizes-e-juizas-e-somara-375-magistrados-em-atuacao-no-primeiro-grau",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/#service-4",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/comarcas",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/juizados-especiais",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/turmas-recursais",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/polos-judiciais",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/relatorios-correicao",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/prestacaocontas",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/servicos/cgj/plantoes-primeiro-grau",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/primeiro-grau/cgj/comarcas/nome-comarca/13556",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/#/sg-jurisprudence-form",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjma.jus.br/midia/tj/noticia/523110/tjma-empossa-34-novos-juizes-e-juizas-e-somara-375-magistrados-em-atuacao-no-primeiro-grau",
+          "source_url": "https://www.tjma.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "primeiro-grau"
+          ],
+          "scope": "contextual_or_unknown"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-P4EFB4JFYS",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.googletagmanager.com/gtag/js?id=G-P4EFB4JFYS",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 175345,
+          "truncated": false,
+          "response_sha256": "610e3fd4f9be4b3419a5a456c6d0858fb0406bca7ca7657177d5d7fd0d5a0529",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cdn.lightwidget.com/widgets/lightwidget.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.lightwidget.com/widgets/lightwidget.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 432,
+          "truncated": false,
+          "response_sha256": "45d2b8c303ee4bbb4ced45327db3f5cfbeffc0969843dba22bac0b6130c8204c",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjma.jus.br/js/jquery-3.2.0.js?v=1789311994",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjma.jus.br/js/jquery-3.2.0.js?v=1789311994",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 78923,
+          "truncated": false,
+          "response_sha256": "697cf35e6b04b1c05180b6e2e8726f4d3db87f61068f43f56b19702a2f8d3a9c",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjma.jus.br/js/popper.min.js?v=1789311994",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjma.jus.br/js/popper.min.js?v=1789311994",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 6907,
+          "truncated": false,
+          "response_sha256": "3a230da24b0f49e8010e1fd7309f01aabe5b3ff97b8ab83f44579a76f1a93b09",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJMG",
+      "branch": "state",
+      "state": "MG",
+      "official_url": "https://www.tjmg.jus.br/",
+      "homepage": {
+        "url": "https://www.tjmg.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 51591,
+        "truncated": false,
+        "response_sha256": "49589eb3c8ab04bd35d3fb701b3c565b5088b6ed8cf39924e462bdd6a7b635d1",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjmg.jus.br:443/portal-tjmg/jurisprudencia/",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjmg.jus.br:443/portal-tjmg/jurisprudencia/precedentes-qualificados-e-acoes-coletivas/",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjmg.jus.br:443/portal-tjmg/#test5",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjmg.jus.br:443/portal-tjmg/#tab-sentencas",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://consulta-jurisprudencia.tjmg.jus.br",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/ajuda.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud",
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www5.tjmg.jus.br/jurisprudencia/decisaoTurmaRecursal.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www5.tjmg.jus.br/jurisprudencia/decisaoVice.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www5.tjmg.jus.br/jurisprudencia/decisao.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjmg.jus.br/portal-tjmg/jurisprudencia/precedentes-qualificados-e-acoes-coletivas/",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www.tjmg.jus.br/portal-tjmg/jurisprudencia/consulta-de-jurisprudencia/lista-de-sumulas.htm",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/arquivos/sumulas/Enunciados_Sumula_Camara_Criminal.pdf",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/arquivos/sumulas/Enunciados_Sumula_Grupo_Camaras_Criminais.pdf",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://portal.stf.jus.br/jurisprudenciaRepercussao/pesquisarProcesso.asp",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://consulta-jurisprudencia.tjmg.jus.br",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/ajuda.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud",
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www5.tjmg.jus.br/jurisprudencia/decisaoTurmaRecursal.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www5.tjmg.jus.br/jurisprudencia/decisaoVice.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www5.tjmg.jus.br/jurisprudencia/decisao.do",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjmg.jus.br/portal-tjmg/jurisprudencia/precedentes-qualificados-e-acoes-coletivas/",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://www.tjmg.jus.br/portal-tjmg/jurisprudencia/consulta-de-jurisprudencia/lista-de-sumulas.htm",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/arquivos/sumulas/Enunciados_Sumula_Camara_Criminal.pdf",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/arquivos/sumulas/Enunciados_Sumula_Grupo_Camaras_Criminais.pdf",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://portal.stf.jus.br/jurisprudenciaRepercussao/pesquisarProcesso.asp",
+          "source_url": "https://www.tjmg.jus.br:443/portal-tjmg/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjmg.jus.br:443/lumis/portal/client/script/LumisPortal.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjmg.jus.br:443/lumis/portal/client/script/LumisPortal.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 5001,
+          "truncated": false,
+          "response_sha256": "1619c5720de44d8d241264071299258ba807fc893f69d2f49ea89811da959b73",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjmg.jus.br:443/lumis-theme/br/jus/tjmg/portal/theme/portal/tjmg/portal/js/modernizr-2.8.3.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjmg.jus.br:443/lumis-theme/br/jus/tjmg/portal/theme/portal/tjmg/portal/js/modernizr-2.8.3.min.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 6306,
+          "truncated": false,
+          "response_sha256": "9e835611472f0d9c8088e63cd95910d39e031ad72069003910716bfcc3f08406",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjmg.jus.br:443/lumis/doui/client/script/LumisDoui.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjmg.jus.br:443/lumis/doui/client/script/LumisDoui.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 1146,
+          "truncated": false,
+          "response_sha256": "3d1102d1d1dcce301eac8bbf5eb4929eef67ff22f587c1472a7f72261dae1ea0",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjmg.jus.br:443/lumis/doui/client/script/LumisDouiErrorSummary.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjmg.jus.br:443/lumis/doui/client/script/LumisDouiErrorSummary.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 255,
+          "truncated": false,
+          "response_sha256": "f1ffb9850eebc4313db8ef846f425ae36ddbab531d9b413b4d27b15c02c5c992",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJMS",
+      "branch": "state",
+      "state": "MS",
+      "official_url": "https://www.tjms.jus.br/",
+      "homepage": {
+        "url": "https://www.tjms.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjms.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 175028,
+        "truncated": false,
+        "response_sha256": "88a8d0b01a045a4f461495ab862bfb9432cdfd64e805172a4b813f11eda82966",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjms.jus.br/jurisprudencia/enunciados",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr/",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://adjus.tjms.jus.br/sev/acesso-sala",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjms.jus.br/projetos/peticao10sentenca10",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjms.jus.br/comiteprimeirograu",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Primeiro Grau /comiteprimeirograu"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://esaj.tjms.jus.br/cjsg/consultaCompleta.do",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr/",
+          "source_url": "https://www.tjms.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjms.jus.br/lib/iconify/iconify.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjms.jus.br/lib/iconify/iconify.min.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 32502,
+          "truncated": false,
+          "response_sha256": "6bd2daaa2136f89819a85e363c22c62d78a36a0053a168b64a19f4d9f9519622",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjms.jus.br/lib/iconify/iconify2.2.1.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjms.jus.br/lib/iconify/iconify2.2.1.min.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 28408,
+          "truncated": false,
+          "response_sha256": "ccb969acfb2cfa4b919b045fd0f9a1c465e45d98201512d2835070d0d9641256",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-N8MCK7TZKJ",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.googletagmanager.com/gtag/js?id=G-N8MCK7TZKJ",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 158220,
+          "truncated": false,
+          "response_sha256": "f9dda4d054bd45c10b25df0f933b49c8c19279cc24f377d3c4458952ffe717f0",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjms.jus.br/lib/jquery/jquery-3.5.1.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjms.jus.br/lib/jquery/jquery-3.5.1.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 287630,
+          "truncated": false,
+          "response_sha256": "416a3b2c3bf16d64f6b5b6d0f7b079df2267614dd6847fc2f3271b4409233c37",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJMT",
+      "branch": "state",
+      "state": "MT",
+      "official_url": "https://www.tjmt.jus.br/",
+      "homepage": {
+        "url": "https://www.tjmt.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjmt.jus.br/",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes_observed": 7160,
+        "truncated": false,
+        "response_sha256": "d4208751054d860495d86eff10c9eb76cbdb6eba25022827da91a73edbbdbc71",
+        "classification": "reachable"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://hellsgate.tjmt.jus.br/design-system/footer/latest/footer-element.bundle.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://hellsgate.tjmt.jus.br/design-system/footer/latest/footer-element.bundle.js",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 286452,
+          "truncated": false,
+          "response_sha256": "d4edb3135011a37c0b5dd351bff07730856cf1280ea92c3680ef7998b4290a0d",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?lang=ptBR",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?lang=ptBR",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 47642,
+          "truncated": false,
+          "response_sha256": "b587bd34eb78fac48ae72ed14e1ab5026d5f683df226f14a90fd68a57a96ed02",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-PX9L9V1TCQ",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.googletagmanager.com/gtag/js?id=G-PX9L9V1TCQ",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 177287,
+          "truncated": false,
+          "response_sha256": "6828e19a89dd683e7d154e120c696b09019dc6299b23b835e48f7e6495d38444",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjmt.jus.br/polyfills-PZSJNBYU.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjmt.jus.br/polyfills-PZSJNBYU.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 494,
+          "truncated": false,
+          "response_sha256": "e3efc3a331e8ee7214783ae7d5cf4ab7812b74ecebac2b3e1f5a9d205300fcb0",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJPA",
+      "branch": "state",
+      "state": "PA",
+      "official_url": "https://www.tjpa.jus.br/",
+      "homepage": {
+        "url": "https://www.tjpa.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjpa.jus.br/PortalExterno/",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes_observed": 153333,
+        "truncated": false,
+        "response_sha256": "6fb9b9d4d3b760506cc8c31e566a3f1755b6d6e95559a464c26635e0e07748f4",
+        "classification": "reachable"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjpa.jus.br/PortalExterno/resources/js/lib/polyfill.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpa.jus.br/PortalExterno/resources/js/lib/polyfill.min.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 99298,
+          "truncated": false,
+          "response_sha256": "f519c4ad7abc29d35dbd9ef8ef57bf9a7264c211f016f47b38f27031d0f813d7",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjpa.jus.br/PortalExterno/resources/jquery-3.3.1/jquery.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpa.jus.br/PortalExterno/resources/jquery-3.3.1/jquery.min.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 86929,
+          "truncated": false,
+          "response_sha256": "4fe68fa216176e6d1f4580e924bafecc9f519984ecc06b1a840a08b0d88c95de",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjpa.jus.br/PortalExterno/resources/lib/popper.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpa.jus.br/PortalExterno/resources/lib/popper.min.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 20342,
+          "truncated": false,
+          "response_sha256": "895007a0cd0e769c9d4c3763d2b3cdd09dc3c19c1036929061df323a4fe101ba",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjpa.jus.br/PortalExterno/resources/bootstrap-4.1.1/js/bootstrap.bundle.min.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpa.jus.br/PortalExterno/resources/bootstrap-4.1.1/js/bootstrap.bundle.min.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 70688,
+          "truncated": false,
+          "response_sha256": "06147e458cd63785f841d0c92047baebedaf5cb50654f6e92e6bb9b34112a356",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJPB",
+      "branch": "state",
+      "state": "PB",
+      "official_url": "https://www.tjpb.jus.br/",
+      "homepage": {
+        "url": "https://www.tjpb.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 403,
+        "final_url": "https://www.tjpb.jus.br/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 3214,
+        "truncated": false,
+        "response_sha256": "dcc07f1a1992d908c07aa9cb5bfe50c58e83d514270f279704234c5d4ed5c73f",
+        "classification": "access_controlled"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJPE",
+      "branch": "state",
+      "state": "PE",
+      "official_url": "https://www.tjpe.jus.br/",
+      "homepage": {
+        "url": "https://www.tjpe.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjpe.jus.br/",
+        "content_type": "text/html",
+        "response_bytes_observed": 117,
+        "truncated": false,
+        "response_sha256": "a4867d7554cd33a8157cd51e7f1c4c392f6f53e7e89a29bb887cd6dc634a661d",
+        "classification": "reachable"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJPI",
+      "branch": "state",
+      "state": "PI",
+      "official_url": "https://www.tjpi.jus.br/",
+      "homepage": {
+        "url": "https://www.tjpi.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjpi.jus.br/",
+        "content_type": "text/html",
+        "response_bytes_observed": 74,
+        "truncated": false,
+        "response_sha256": "7e96e69c879a337b0b79953a4cba9666981b6c2d899d786fb8346abebdf275a6",
+        "classification": "reachable"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJPR",
+      "branch": "state",
+      "state": "PR",
+      "official_url": "https://www.tjpr.jus.br/",
+      "homepage": {
+        "url": "https://www.tjpr.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjpr.jus.br/",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes_observed": 58136,
+        "truncated": false,
+        "response_sha256": "49f082ef13bf9bcbe30dc03671e530391200ae366cbdccd6da890e3924008c60",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://publico.bi.tjpr.jus.br/extensions/comarcas-e-magistrados/comarcas-e-magistrados.html",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/consulta-1-grau-civel",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/consulta-1grau-criminal",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/consulta-1-grau-vep",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/despachos-e-decisoes-interlocutorias-do-1-grau",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/sentenca-digital",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/jurisprudencia",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://portal.tjpr.jus.br/jurisprudencia",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/jurisprudencia-administrativa",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/publicacoes-jurisprudenciais",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/certidao-de-1-grau",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "1º GRAU"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/sentenca-digital",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/jurisprudencia",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://portal.tjpr.jus.br/jurisprudencia",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/jurisprudencia-administrativa",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/publicacoes-jurisprudenciais",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do",
+          "source_url": "https://www.tjpr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjpr.jus.br/combo?browserId=other&minifierType=js&languageId=pt_BR&t=1789145390394-v=2.6&/o/frontend-js-jquery-web/jquery/jquery.min.js&/o/frontend-js-jquery-web/jquery/init.js&/o/frontend-js-jquery-web/jquery/ajax.js&/o/frontend-js-jquery-web/jquery/bootstrap.bundle.min.js&/o/frontend-js-jquery-web/jquery/collapsible_search.js&/o/frontend-js-jquery-web/jquery/fm.js&/o/frontend-js-jquery-web/jquery/form.js&/o/frontend-js-jquery-web/jquery/popper.min.js&/o/frontend-js-jquery-web/jquery/side_navigation.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpr.jus.br/combo?browserId=other&minifierType=js&languageId=pt_BR&t=1789145390394-v=2.6&/o/frontend-js-jquery-web/jquery/jquery.min.js&/o/frontend-js-jquery-web/jquery/init.js&/o/frontend-js-jquery-web/jquery/ajax.js&/o/frontend-js-jquery-web/jquery/bootstrap.bundle.min.js&/o/frontend-js-jquery-web/jquery/collapsible_search.js&/o/frontend-js-jquery-web/jquery/fm.js&/o/frontend-js-jquery-web/jquery/form.js&/o/frontend-js-jquery-web/jquery/popper.min.js&/o/frontend-js-jquery-web/jquery/side_navigation.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 78760,
+          "truncated": false,
+          "response_sha256": "52c95369d85158ed55dac2648c0417b8648fb75d0df4da03ef30cc8d97eceeab",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/o/frontend-js-loader-modules-extender/loader.js?v=2.6&&mac=9WaMmhziBCkScHZwrrVcOR7VZF4=&browserId=other&languageId=pt_BR&minifierType=js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpr.jus.br/o/frontend-js-loader-modules-extender/loader.js?v=2.6&&mac=9WaMmhziBCkScHZwrrVcOR7VZF4=&browserId=other&languageId=pt_BR&minifierType=js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 6550,
+          "truncated": false,
+          "response_sha256": "9c8919453e82a35078b8f427c5cfa56460c6b6de6abf0045e3da08fc4b3fd95d",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjpr.jus.br/combo?browserId=other&minifierType=js&languageId=pt_BR&t=1789145106769-v=2.6&/o/frontend-js-aui-web/aui/aui/aui-min.js&/o/frontend-js-aui-web/liferay/modules.js&/o/frontend-js-aui-web/liferay/aui_sandbox.js&/o/frontend-js-aui-web/aui/attribute-base/attribute-base-min.js&/o/frontend-js-aui-web/aui/attribute-complex/attribute-complex-min.js&/o/frontend-js-aui-web/aui/attribute-core/attribute-core-min.js&/o/frontend-js-aui-web/aui/attribute-observable/attribute-observable-min.js&/o/frontend-js-aui-web/aui/attribute-extras/attribute-extras-min.js&/o/frontend-js-aui-web/aui/event-custom-base/event-custom-base-min.js&/o/frontend-js-aui-web/aui/event-custom-complex/event-custom-complex-min.js&/o/frontend-js-aui-web/aui/oop/oop-min.js&/o/frontend-js-aui-web/aui/aui-base-lang/aui-base-lang-min.js&/o/frontend-js-aui-web/liferay/dependency.js&/o/frontend-js-aui-web/liferay/util.js&/o/oauth2-provider-web/js/liferay.js&/o/frontend-js-web/liferay/dom_task_runner.js&/o/frontend-js-web/liferay/events.js&/o/frontend-js-web/liferay/lazy_load.js&/o/frontend-js-web/liferay/liferay.js&/o/frontend-js-web/liferay/global.bundle.js&/o/frontend-js-web/liferay/portlet.js&/o/frontend-js-web/liferay/workflow.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjpr.jus.br/combo?browserId=other&minifierType=js&languageId=pt_BR&t=1789145106769-v=2.6&/o/frontend-js-aui-web/aui/aui/aui-min.js&/o/frontend-js-aui-web/liferay/modules.js&/o/frontend-js-aui-web/liferay/aui_sandbox.js&/o/frontend-js-aui-web/aui/attribute-base/attribute-base-min.js&/o/frontend-js-aui-web/aui/attribute-complex/attribute-complex-min.js&/o/frontend-js-aui-web/aui/attribute-core/attribute-core-min.js&/o/frontend-js-aui-web/aui/attribute-observable/attribute-observable-min.js&/o/frontend-js-aui-web/aui/attribute-extras/attribute-extras-min.js&/o/frontend-js-aui-web/aui/event-custom-base/event-custom-base-min.js&/o/frontend-js-aui-web/aui/event-custom-complex/event-custom-complex-min.js&/o/frontend-js-aui-web/aui/oop/oop-min.js&/o/frontend-js-aui-web/aui/aui-base-lang/aui-base-lang-min.js&/o/frontend-js-aui-web/liferay/dependency.js&/o/frontend-js-aui-web/liferay/util.js&/o/oauth2-provider-web/js/liferay.js&/o/frontend-js-web/liferay/dom_task_runner.js&/o/frontend-js-web/liferay/events.js&/o/frontend-js-web/liferay/lazy_load.js&/o/frontend-js-web/liferay/liferay.js&/o/frontend-js-web/liferay/global.bundle.js&/o/frontend-js-web/liferay/portlet.js&/o/frontend-js-web/liferay/workflow.js",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 110359,
+          "truncated": false,
+          "response_sha256": "a78ca53cdf5f89308bd2a01f699756fbf47d8283ec5af05e3f112a55272b072b",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.googletagmanager.com/gtag/js?id=G-3436Q8QMWW",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.googletagmanager.com/gtag/js?id=G-3436Q8QMWW",
+          "content_type": "application/javascript; charset=UTF-8",
+          "response_bytes_observed": 178855,
+          "truncated": false,
+          "response_sha256": "8a4aeffd353ad8d37d21e1b0dc3d3d9ef68e68c650d32a890f1ff2c3dacc4ab5",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "state": "RJ",
+      "official_url": "https://www.tjrj.jus.br/",
+      "homepage": {
+        "url": "https://www.tjrj.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": null,
+        "classification": "transport_error",
+        "error_type": "SSLError"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJRN",
+      "branch": "state",
+      "state": "RN",
+      "official_url": "https://www.tjrn.jus.br/",
+      "homepage": {
+        "url": "https://www.tjrn.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 403,
+        "final_url": "https://www.tjrn.jus.br/",
+        "content_type": "text/html",
+        "response_bytes_observed": 373,
+        "truncated": false,
+        "response_sha256": "945dc8d37ae993381d8c8cab8085b57b47daf4904d81e4fe93b0536cdaa5272b",
+        "classification": "access_controlled"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "state": "RO",
+      "official_url": "https://www.tjro.jus.br/",
+      "homepage": {
+        "url": "https://www.tjro.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjro.jus.br/",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes_observed": 11593,
+        "truncated": false,
+        "response_sha256": "a6e7c0d814b8f96a282e44f83634fbd456cba5a69357513f56142be0fb0de0c8",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr",
+          "source_url": "https://www.tjro.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr",
+          "source_url": "https://www.tjro.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjro.jus.br/ruxitagentjs_ICA7NVfgqrux_10343260715123811.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjro.jus.br/ruxitagentjs_ICA7NVfgqrux_10343260715123811.js",
+          "content_type": "text/html",
+          "response_bytes_observed": 2568,
+          "truncated": false,
+          "response_sha256": "143feb2bb5ee505a02de2201a4b211bc07eff756a0dce1cbd91c3a57973f8ab4",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?positionPlayer=right&positionBar=right",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cdn.rybena.com.br/dom/master/latest/rybena.js?positionPlayer=right&positionBar=right",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 47642,
+          "truncated": false,
+          "response_sha256": "b587bd34eb78fac48ae72ed14e1ab5026d5f683df226f14a90fd68a57a96ed02",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjro.jus.br/media/vendor/jquery/js/jquery.min.js?3.7.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjro.jus.br/media/vendor/jquery/js/jquery.min.js?3.7.1",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 30342,
+          "truncated": false,
+          "response_sha256": "4aea241fc67bb63f3f918e2d0ba1cc76b44db6a23f7aa96359b4278318b9c180",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjro.jus.br/media/vendor/jquery/js/jquery-noconflict.min.js?3.7.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjro.jus.br/media/vendor/jquery/js/jquery-noconflict.min.js?3.7.1",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 50,
+          "truncated": false,
+          "response_sha256": "7afc25600373fb84b34a1483309727d88fd68522a6e2c6b8da8abe1d2113d3ce",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJRR",
+      "branch": "state",
+      "state": "RR",
+      "official_url": "https://www.tjrr.jus.br/",
+      "homepage": {
+        "url": "https://www.tjrr.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjrr.jus.br/",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes_observed": 82685,
+        "truncated": false,
+        "response_sha256": "6f86d181c64caa4e84f0827136d69d541b7dc313aaed40e424a66fca7814e56b",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "http://jurisprudencia.tjrr.jus.br",
+          "source_url": "https://www.tjrr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.tjrr.jus.br",
+          "source_url": "https://www.tjrr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr/",
+          "source_url": "https://www.tjrr.jus.br/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "http://jurisprudencia.tjrr.jus.br",
+          "source_url": "https://www.tjrr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.tjrr.jus.br",
+          "source_url": "https://www.tjrr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.corteidh.or.cr/",
+          "source_url": "https://www.tjrr.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjrr.jus.br/media/jui/js/jquery.min.js?0243512c2abc784042eeafe8fce078f3",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrr.jus.br/media/jui/js/jquery.min.js?0243512c2abc784042eeafe8fce078f3",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 97646,
+          "truncated": false,
+          "response_sha256": "05d31c760df3e6f0c64e3da1cd299e5f73df51c974c6528a60d0685859bbc1ba",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjrr.jus.br/media/jui/js/jquery-noconflict.js?0243512c2abc784042eeafe8fce078f3",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrr.jus.br/media/jui/js/jquery-noconflict.js?0243512c2abc784042eeafe8fce078f3",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 21,
+          "truncated": false,
+          "response_sha256": "5b6cf4e6eda02f7c90b60b3c32413c0851915f8f80a268a913b92929085132a6",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjrr.jus.br/media/jui/js/jquery-migrate.min.js?0243512c2abc784042eeafe8fce078f3",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrr.jus.br/media/jui/js/jquery-migrate.min.js?0243512c2abc784042eeafe8fce078f3",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 10056,
+          "truncated": false,
+          "response_sha256": "48eb8b500ae6a38617b5738d2b3faec481922a7782246e31d2755c034a45cd5d",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjrr.jus.br/media/system/js/caption.js?0243512c2abc784042eeafe8fce078f3",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrr.jus.br/media/system/js/caption.js?0243512c2abc784042eeafe8fce078f3",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 491,
+          "truncated": false,
+          "response_sha256": "20f7c83ab9dfdc1e88f4c3fafc0712492200ab738fb30660526bad9dcb7282dc",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJRS",
+      "branch": "state",
+      "state": "RS",
+      "official_url": "https://www.tjrs.jus.br/",
+      "homepage": {
+        "url": "https://www.tjrs.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjrs.jus.br/novo/",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes_observed": 127719,
+        "truncated": false,
+        "response_sha256": "dac6f2a5e355ecb8dafb23ac1eed7c3601147daabb91543eb7b31aa5b352c73f",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjrs.jus.br/novo/institucional/1o-grau/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/institucional/concursos-e-processos-seletivos/boletins-de-nomeacao-dos-cargos-da-justica-do-1o-grau/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/comunicacao/acoes-e-programas-institucionais/peticao-10-sentenca-10/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/processos-e-servicos/servicos-processuais/formulario-para-devolucao-de-autos-de-1o-grau-capital/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "process_surface"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/buscas-solr/?aba=jurisprudencia&q=&conteudo_busca=ementa_completa",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/sumulas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/jurisprudencia-administrativa/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/busca/?site=sentencas&client=wp_index&proxystylsheet=wp_index&filter=0&get_fields=*&ie=UTF-8&oe=UTF-8&output=xml_no_dtd&aba=se&wc=200&wc_mc=1&ud=1&lr=lang_pt&tipoProcesso=z&sort=date%3AD%3AS%3Ad1&hash_busca=bbcd7b61c9&_wp_http_referer=%2Fnovo%2Fwp-cron.php%3Fdoing_wp_cron%3D1568144679.2980380058288574218750&q=",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/boletim-eletronico-de-ementas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/boletim-da-assesp-jur/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/banco-de-acoes-coletivas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/jurisprudencia-de-outros-tribunais/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/publicacoes-administrativas-do-tjrs/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/diario-da-justica-eletronico/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/diario-oficial/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/busca-de-legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/leis-em-geral/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/projetos-de-lei/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/legislacao-especifica-do-poder-judiciario-estadual/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/justica-estadual/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/legislacao-regimento-de-custas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/juiz-de-direito-diretor-de-foro/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/clipping-de-legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/revista-dos-tribunais-online/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/plataforma-forum-de-conhecimento-juridico/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/revistas-juridicas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/outros-sites-juridicos/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/publicacoes-academicas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/nat-tec/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/biblioteca-do-tjrs/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/bibliotecas-de-tribunais-superiores/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/bibliotecas-de-tribunais-estaduais/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/outras-bibliotecas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/revista-de-jurisprudencia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/revista-justica-e-historia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/revista-dos-juizados-especiais/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/enunciados-sobre-decisoes-do-orgao-especial-nos-conflitos-de-competencia-suscitados-pelas-camaras-do-tribunal-de-justica/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/servicos-administrativos/apoio-jurisdicional/manuais-e-orientacoes-de-1o-grau/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/#jurisprudencia-red",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/#sentencas-red",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/#jurisprudencia",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/#sentencas",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Sentenç",
+            "sentenc"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/mapa-do-site?item=Publicações e Jurisprudência",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/noticia/evento-debate-25-anos-do-estatuto-da-cidade-a-evolucao-da-jurisprudencia-e-os-desafios-do-direito-a-moradia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/comunicacao/fale-conosco/horarios-de-atendimento-as-partes/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º grau e 2º grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "http://www.tjrs.jus.br/servicos/diario_justica/dj_principal.php?tp=7&ed=8222&pag=1",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "http://www.tjrs.jus.br/servicos/diario_justica/dj_principal.php?tp=6&ed=8222&pag=1",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "link",
+          "markers": [
+            "1º Grau"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/comunicacao/acoes-e-programas-institucionais/peticao-10-sentenca-10/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/buscas-solr/?aba=jurisprudencia&q=&conteudo_busca=ementa_completa",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/sumulas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/jurisprudencia-administrativa/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/busca/?site=sentencas&client=wp_index&proxystylsheet=wp_index&filter=0&get_fields=*&ie=UTF-8&oe=UTF-8&output=xml_no_dtd&aba=se&wc=200&wc_mc=1&ud=1&lr=lang_pt&tipoProcesso=z&sort=date%3AD%3AS%3Ad1&hash_busca=bbcd7b61c9&_wp_http_referer=%2Fnovo%2Fwp-cron.php%3Fdoing_wp_cron%3D1568144679.2980380058288574218750&q=",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "sentenc"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/boletim-eletronico-de-ementas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/boletim-da-assesp-jur/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/banco-de-acoes-coletivas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/jurisprudencia-de-outros-tribunais/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/publicacoes-administrativas-do-tjrs/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/diario-da-justica-eletronico/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/diario-oficial/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/busca-de-legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/leis-em-geral/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/projetos-de-lei/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/legislacao-especifica-do-poder-judiciario-estadual/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/justica-estadual/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/legislacao-regimento-de-custas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/juiz-de-direito-diretor-de-foro/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/legislacao/clipping-de-legislacao/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/revista-dos-tribunais-online/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/plataforma-forum-de-conhecimento-juridico/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/revistas-juridicas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/outros-sites-juridicos/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/publicacoes-academicas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/pesquisa-de-doutrina/nat-tec/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/biblioteca-do-tjrs/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/bibliotecas-de-tribunais-superiores/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/bibliotecas-de-tribunais-estaduais/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/bibliotecas/outras-bibliotecas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/revista-de-jurisprudencia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/revista-justica-e-historia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/revistas/revista-dos-juizados-especiais/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/enunciados-sobre-decisoes-do-orgao-especial-nos-conflitos-de-competencia-suscitados-pelas-camaras-do-tribunal-de-justica/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.gov.br/sistemas/banco_sentencas/search.php",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "sentenc"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/buscas-solr/?aba=jurisprudencia&conteudo_busca=ementa_completa",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "contextual_or_unknown"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/noticia/evento-debate-25-anos-do-estatuto-da-cidade-a-evolucao-da-jurisprudencia-e-os-desafios-do-direito-a-moradia/",
+          "source_url": "https://www.tjrs.jus.br/novo/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjrs.jus.br/novo/wp-content/themes/tjrs/assets/js/src/aumenta-fonte.js",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrs.jus.br/novo/wp-content/themes/tjrs/assets/js/src/aumenta-fonte.js",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 2524,
+          "truncated": false,
+          "response_sha256": "b762ac8a93325627621506178fed38306bfec019e7e12dbdf8f51ceda1f54625",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/wp-includes/js/jquery/jquery.js?ver=3.7.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrs.jus.br/novo/wp-includes/js/jquery/jquery.js?ver=3.7.1",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 285334,
+          "truncated": false,
+          "response_sha256": "1e7f83052e1e3442c4397ced9555033cd1d3f08444d85960683bcf91c8433cdb",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/wp-includes/js/jquery/jquery-migrate.js?ver=3.4.1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrs.jus.br/novo/wp-includes/js/jquery/jquery-migrate.js?ver=3.4.1",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 31978,
+          "truncated": false,
+          "response_sha256": "09f417c2e643b736c19e96b99e166681af1002e9b192b84e4e85b0794e764f7f",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjrs.jus.br/novo/wp-content/plugins/cookie-law-info/legacy/public/js/cookie-law-info-public.js?ver=3.5.5",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjrs.jus.br/novo/wp-content/plugins/cookie-law-info/legacy/public/js/cookie-law-info-public.js?ver=3.5.5",
+          "content_type": "application/javascript",
+          "response_bytes_observed": 34121,
+          "truncated": false,
+          "response_sha256": "1cca76e2f306a984900272ec7c00eff0d4523d961ebf90065b9654ae4d33b955",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJSC",
+      "branch": "state",
+      "state": "SC",
+      "official_url": "https://www.tjsc.jus.br/",
+      "homepage": {
+        "url": "https://www.tjsc.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": null,
+        "classification": "transport_error",
+        "error_type": "ConnectTimeout"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJSE",
+      "branch": "state",
+      "state": "SE",
+      "official_url": "https://www.tjse.jus.br/",
+      "homepage": {
+        "url": "https://www.tjse.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjse.jus.br/",
+        "content_type": "text/html; charset=ISO-8859-1",
+        "response_bytes_observed": 202,
+        "truncated": false,
+        "response_sha256": "f636b28ea0659a58430fed5c00c4d8b36a291575eaf5a45a3b6813a5fa835436",
+        "classification": "reachable"
+      },
+      "candidate_routes": [],
+      "candidate_probes": [],
+      "script_probes": [],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJSP",
+      "branch": "state",
+      "state": "SP",
+      "official_url": "https://www.tjsp.jus.br/",
+      "homepage": {
+        "url": "https://www.tjsp.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjsp.jus.br/",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes_observed": 24214,
+        "truncated": false,
+        "response_sha256": "7676c8f457b832c16e0458e40a1ac4d7fa02476b2e167a9e9ba4f66895ad2f62",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://www.tjsp.jus.br/Jurisprudencia",
+          "source_url": "https://www.tjsp.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud",
+            "Sentenç"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjsp.jus.br/Biblioteca/RevistaJurisprudencia/Revistas",
+          "source_url": "https://www.tjsp.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjsp.jus.br/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjsp.jus.br/bundles/modernizr?v=inCVuEFe6J4Q07A0AcRsbJic_UE5MwpRMNGcOtk94TE1",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 5292,
+          "truncated": false,
+          "response_sha256": "4cc5140e11c99fafd15ffaeebd727d6d3407cf683e178017d30f459b6233cdf1",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://cse.google.com/cse.js?cx=018342755804011670793:gl88cvzz6-8",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://cse.google.com/cse.js?cx=018342755804011670793:gl88cvzz6-8",
+          "content_type": "text/javascript; charset=ISO-8859-1",
+          "response_bytes_observed": 3485,
+          "truncated": false,
+          "response_sha256": "1351f987a42230a9a2f7ec30990e34688d9efeef85ac0ff6dcb56510b8059b77",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjsp.jus.br/bundles/jquery?v=7zGzG1zPdQSovf3Pzt2XjAK2RG7C9BUaoadO7Z4WK8Y1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjsp.jus.br/bundles/jquery?v=7zGzG1zPdQSovf3Pzt2XjAK2RG7C9BUaoadO7Z4WK8Y1",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 39835,
+          "truncated": false,
+          "response_sha256": "6fe53b972643718ee9b92368686bf4595195a95a03c824ca0a4c886fa0ef58f1",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjsp.jus.br/bundles/jqueryval?v=3ZZIaZcC3ZfHwQRIwLMPO9-hhcqvYXz4Xem0HE2WBZs1",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjsp.jus.br/bundles/jqueryval?v=3ZZIaZcC3ZfHwQRIwLMPO9-hhcqvYXz4Xem0HE2WBZs1",
+          "content_type": "text/javascript; charset=utf-8",
+          "response_bytes_observed": 10810,
+          "truncated": false,
+          "response_sha256": "cf0bfbb899b3fe22a5666079c11d3e495729508196996cbef6450d9855ed4468",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    },
+    {
+      "authority": "TJTO",
+      "branch": "state",
+      "state": "TO",
+      "official_url": "https://www.tjto.jus.br/",
+      "homepage": {
+        "url": "https://www.tjto.jus.br/",
+        "request_method": "GET",
+        "credentials_used": false,
+        "status": 200,
+        "final_url": "https://www.tjto.jus.br/",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes_observed": 24466,
+        "truncated": false,
+        "response_sha256": "3b47e0d0703b3f2ce5ad6a203a3227b247ad7e8056fae8231ebaf41af2b2b37c",
+        "classification": "reachable"
+      },
+      "candidate_routes": [
+        {
+          "url": "https://jurisprudencia.tjto.jus.br/",
+          "source_url": "https://www.tjto.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjto.jus.br/institucional/gestao-documental-e-memoria/comissoes/comissao-de-jurisprudencia-documentacao-e-memoria-cojud",
+          "source_url": "https://www.tjto.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://www.tjto.jus.br/informacoes/atas-comissoes/comissao-de-jurisprudencia-documentacao-e-memoria",
+          "source_url": "https://www.tjto.jus.br/",
+          "kind": "link",
+          "markers": [
+            "Jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        },
+        {
+          "url": "https://jurisprudencia.tjto.jus.br/",
+          "source_url": "https://www.tjto.jus.br/",
+          "kind": "inline_url",
+          "markers": [
+            "jurisprud"
+          ],
+          "scope": "jurisprudence_candidate"
+        }
+      ],
+      "candidate_probes": [],
+      "script_probes": [
+        {
+          "url": "https://www.tjto.jus.br/media/vendor/jquery/js/jquery.min.js?3.6.0",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjto.jus.br/media/vendor/jquery/js/jquery.min.js?3.6.0",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 30875,
+          "truncated": false,
+          "response_sha256": "f4a93cf3834c5f3bbbab2ba619425fb1415050a847f5bc12cd6b0bab5e68074e",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjto.jus.br/media/legacy/js/jquery-noconflict.min.js?04499b98c0305b16b373dff09fe79d1290976288",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjto.jus.br/media/legacy/js/jquery-noconflict.min.js?04499b98c0305b16b373dff09fe79d1290976288",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 46,
+          "truncated": false,
+          "response_sha256": "8685ee936b592b0ae3d1108487f64d8bf5119b84bb9cea50251c3652f9a20139",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjto.jus.br/media/system/js/core.min.js?3b2c7481f479d57ca6a59403341a2e378a288779",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjto.jus.br/media/system/js/core.min.js?3b2c7481f479d57ca6a59403341a2e378a288779",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 3158,
+          "truncated": false,
+          "response_sha256": "883fc0467bf1a5a4e9a9626c5ea038e3d862fabcf8cba95e6b559d3f2cfe831b",
+          "classification": "reachable"
+        },
+        {
+          "url": "https://www.tjto.jus.br/media/vendor/webcomponentsjs/js/webcomponents-bundle.min.js?2.6.0",
+          "request_method": "GET",
+          "credentials_used": false,
+          "status": 200,
+          "final_url": "https://www.tjto.jus.br/media/vendor/webcomponentsjs/js/webcomponents-bundle.min.js?2.6.0",
+          "content_type": "text/javascript",
+          "response_bytes_observed": 37560,
+          "truncated": false,
+          "response_sha256": "e7d76e730da76602122ae2ce624544e1497bfb7995b43cb5566d7117b95b9930",
+          "classification": "reachable"
+        }
+      ],
+      "promotion_decision": "discovery_only"
+    }
+  ]
+}

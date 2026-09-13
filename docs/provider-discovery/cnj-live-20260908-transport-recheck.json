@@ -1,0 +1,68 @@
+{
+  "schema_version": "cnj-live-v1",
+  "generated_at": "2026-09-08T22:15:37.357268+00:00",
+  "mode": "live_bounded",
+  "source": "cnj_jurisprudencia",
+  "source_id": "cnj_jurisprudencia",
+  "surface": "curated_informativos",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "record_count_observed": 2,
+  "reported_total": 10,
+  "pagination_mode": "page",
+  "provider": "cnj_jurisprudencia",
+  "query": {
+    "text": "cartorios",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 0,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 28714,
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 10,
+      "total_known": null,
+      "ids": [
+        "cnj-informativo-f5f4f18a48911ddfd1c4",
+        "cnj-informativo-e95a456cedb75aa11e63"
+      ],
+      "has_summary": true,
+      "pdf_links": 2
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 26540,
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 10,
+      "total_known": null,
+      "ids": [
+        "cnj-informativo-03903e2537683e38fd3d",
+        "cnj-informativo-ffe4834f76eeec02991b"
+      ],
+      "has_summary": true,
+      "pdf_links": 2
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "curated_scope": true,
+    "errors": 0
+  }
+}

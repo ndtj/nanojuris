@@ -1,0 +1,42 @@
+{
+  "schema_version": "stj-live-smoke-v1",
+  "observed_at": "2026-09-08T06:57:11.983505+00:00",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "raw_content_persisted": false,
+  "checks": [
+    {
+      "source": "stj_informativo",
+      "classification": "success_with_results",
+      "latency_ms": 1241.92,
+      "returned": 1,
+      "total_state": null,
+      "document_hosts": [
+        "scon.stj.jus.br"
+      ],
+      "source_trace_present": true,
+      "raw_content_persisted": false
+    },
+    {
+      "source": "stj_scon",
+      "classification": "access_blocked",
+      "error_type": "AccessControlRequiredError",
+      "latency_ms": 481.33,
+      "raw_content_persisted": false
+    },
+    {
+      "source": "stj_dados_abertos_jurisprudencia",
+      "classification": "success_with_results",
+      "latency_ms": 945.89,
+      "dataset_count": 11,
+      "sync_download": false,
+      "raw_content_persisted": false
+    }
+  ],
+  "summary": {
+    "success": 2,
+    "blocked_or_unavailable": 1,
+    "errors": 1
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": "provider-runtime-scenarios-v1",
+  "purpose": "shared canonical transport and federation scenario envelope",
+  "scenarios": {
+    "success": {
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "result_kind": "records",
+      "page": 1,
+      "total_state": "known_or_unknown"
+    },
+    "authoritative_empty": {
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "result_kind": "real_empty",
+      "page": 1,
+      "total_state": "zero"
+    },
+    "external_failure": {
+      "access_status": "source_unavailable",
+      "retrieval_status": "unavailable",
+      "extraction_status": "not_run",
+      "result_kind": "not_empty",
+      "page": 1,
+      "total_state": "unknown"
+    },
+    "schema_invalid": {
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "schema_invalid",
+      "result_kind": "not_empty",
+      "page": 1,
+      "total_state": "unknown"
+    },
+    "second_page": {
+      "access_status": "public",
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "result_kind": "records",
+      "page": 2,
+      "total_state": "known_or_unknown",
+      "overlap_check": "required"
+    }
+  }
+}

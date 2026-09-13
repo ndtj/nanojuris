@@ -1,0 +1,670 @@
+{
+  "schema_version": "tre-sjur-first-degree-multi-uf-live-v1",
+  "observed_at": "2026-09-13T15:21:36+00:00",
+  "official_frontend": "https://jurisprudencia-tres.tse.jus.br/",
+  "route_template": "https://sjur-pesquisa-api.tse.jus.br/{state}/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "scope": "one bounded public page per TRE; metadata only",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "safety": {
+    "requests": 27,
+    "spacing_seconds": 2.0,
+    "max_response_bytes": 16000000,
+    "same_host_parallelism": 1
+  },
+  "results": [
+    {
+      "tribunal": "TRE-AC",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ac/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ac/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7287107,
+      "response_sha256": "053aab264b42334ae63a89a47013b0b20984a87cc23bf9424287c64e0c6c51de",
+      "reported_total": 1241,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 508,
+        "Decisão monocrática": 491,
+        "Resolução": 1
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-AL",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-al/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-al/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 8790649,
+      "response_sha256": "91a390835a4b5f4acdaef68c3749d14c89234fcb8770662ca4a36c136cf9b54d",
+      "reported_total": 6027,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 407,
+        "Decisão monocrática": 582,
+        "Resolução": 11
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-AP",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ap/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ap/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7591082,
+      "response_sha256": "06e1db0bbec3f840c6fd846856e126995e05e02faf1c406ceb68067c99bfabb5",
+      "reported_total": 847,
+      "returned": 847,
+      "decision_types": {
+        "Acórdão": 526,
+        "Decisão monocrática": 321
+      },
+      "degree_labels": {
+        "second": 847
+      },
+      "text_records": 847,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-AM",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-am/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-am/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 6208704,
+      "response_sha256": "4b3fbec9946ad8f09202a4d35159d0495f4686825fbb8585147fbf56397c0e44",
+      "reported_total": 5117,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 12,
+        "Decisão monocrática": 988
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-BA",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ba/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ba/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 5775143,
+      "response_sha256": "5e5ae7e2002712a29adfb888a4b0aec728356acdaa8c212880c4804d108f8eac",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 317,
+        "Decisão monocrática": 683
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-CE",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ce/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ce/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 9517209,
+      "response_sha256": "22e0dd5899b115eaddfe814bf010daa251180dbb499120fb589ced6c558bbe87",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 279,
+        "Decisão monocrática": 721
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-DF",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-df/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-df/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 5441969,
+      "response_sha256": "0f39009f4dafae81553ba1a322dce08f962c6e1d92cf04133382f6c48e55561a",
+      "reported_total": 2545,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 289,
+        "Decisão monocrática": 703,
+        "Resolução": 8
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-ES",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-es/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-es/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7740122,
+      "response_sha256": "983dcf164c009c6c6e9796e743d0c28d820316627886fe660ad9c28b514caa04",
+      "reported_total": 5505,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 49,
+        "Decisão monocrática": 934,
+        "Resolução": 17
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-GO",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-go/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-go/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7281308,
+      "response_sha256": "f7808d6ff4f867f0d3824596ec0e9330a6fc22abac05b216ef930342f387993c",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 35,
+        "Decisão monocrática": 965
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-MA",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ma/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ma/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 9919892,
+      "response_sha256": "1cde5666e26dd0a1d2136f76be8d4ea3a18f9192279f527bbcf7615f53e6b7dc",
+      "reported_total": 8648,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 20,
+        "Decisão monocrática": 980
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-MG",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-mg/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-mg/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 6748852,
+      "response_sha256": "9caf46895363308f8e5d4699a80ccb768bc36b9b9178d4e7cb4b7f6ae1042fc9",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 74,
+        "Decisão monocrática": 613,
+        "Sentença": 313
+      },
+      "degree_labels": {
+        "first": 313,
+        "second": 687
+      },
+      "text_records": 1000,
+      "classification": "success_with_explicit_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-MS",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ms/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ms/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 8749000,
+      "response_sha256": "b35dcc8c5555132c6af4531114935ec78d6468857a66fda87b17a182e7097fee",
+      "reported_total": 7359,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 201,
+        "Decisão monocrática": 799
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-MT",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-mt/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-mt/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 8816087,
+      "response_sha256": "d20e9cda8058e480d67784ce68bbd6af4fb6c0d06b350441e68a0424b276838c",
+      "reported_total": 8942,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 135,
+        "Decisão monocrática": 864,
+        "Resolução": 1
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-PA",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-pa/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-pa/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 10071687,
+      "response_sha256": "11127200b33e423043e34c0f2b340ca8c3b0d5f1c2ec050ac8d127987ced95b4",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 31,
+        "Decisão monocrática": 969
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-PB",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-pb/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-pb/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 8866528,
+      "response_sha256": "904749c7e778602ca7844c2e90852073a506f625e0442d36eca63f830318ee13",
+      "reported_total": 6781,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 103,
+        "Decisão monocrática": 897
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-PE",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-pe/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-pe/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 10690518,
+      "response_sha256": "e133ab102bfe005340fb1633b2e5b0fbb6780b57240e887b780d3090d4df6b57",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 154,
+        "Decisão monocrática": 846
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-PI",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-pi/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-pi/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7030276,
+      "response_sha256": "8615cafb89efaad0e0a47076161a43af967105c4f7e9e78d242724bb780c512f",
+      "reported_total": 8435,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 621,
+        "Decisão monocrática": 379
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-PR",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-pr/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-pr/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 8946619,
+      "response_sha256": "1ac0b88c3c3b15cbc66dd527c6ae1eacdfe32638c1df5c19bc8f1332509c8918",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 30,
+        "Decisão monocrática": 970
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-RJ",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-rj/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-rj/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 9340497,
+      "response_sha256": "1206e36ca6416719552135c2d65fadd2c82f7441b6f24d20636c045262960739",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 24,
+        "Decisão monocrática": 976
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-RN",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-rn/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-rn/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 10103682,
+      "response_sha256": "abe418bc2232da0e775360b9bdec531066eb5728d651a1634e81754ccf9a2352",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 110,
+        "Decisão monocrática": 887,
+        "Decisão sem resolução": 3
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-RO",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-ro/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ro/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 5326261,
+      "response_sha256": "8e25accf9f56554b0a2caa45a46fa39e30c33d53036238e3c773251036908955",
+      "reported_total": 2338,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 656,
+        "Decisão monocrática": 342,
+        "Resolução": 2
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-RR",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-rr/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-rr/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7616382,
+      "response_sha256": "0b2bff24345b78850e96647c5c1daf6b80325740fe2b2286f25d0cc4f694c65a",
+      "reported_total": 1069,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 296,
+        "Decisão monocrática": 704
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-RS",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-rs/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-rs/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 5564620,
+      "response_sha256": "78a18e873b44cb76726c0638d76bc77358b61c1bbad6ce0ce1b5d90efbace372",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 464,
+        "Decisão monocrática": 536
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-SC",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-sc/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-sc/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 256,
+      "response_sha256": "9eeaac6af9a9cc533f262a2cf37b35c97184ad2f4965b25c5e9098d7076c87d4",
+      "reported_total": 0,
+      "returned": 0,
+      "decision_types": {},
+      "degree_labels": {},
+      "text_records": 0,
+      "classification": "authoritative_empty"
+    },
+    {
+      "tribunal": "TRE-SE",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-se/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-se/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 6994794,
+      "response_sha256": "c3e52feacbef886bde58c5e2a19016d6fb9dbee748231c1d3a5ab89db1b60e71",
+      "reported_total": 6503,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 272,
+        "Decisão monocrática": 728
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 998,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-SP",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 5301202,
+      "response_sha256": "1646062a2eec1cc3382f67834756079e99050eca64563bbc7069d3b1204fa559",
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 323,
+        "Decisão monocrática": 677
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 974,
+      "classification": "success_without_first_degree_label"
+    },
+    {
+      "tribunal": "TRE-TO",
+      "route": "https://sjur-pesquisa-api.tse.jus.br/tre-to/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "request_method": "POST",
+      "query": "sentença",
+      "credentials_used": false,
+      "bypass_attempted": false,
+      "http_status": 200,
+      "final_url": "https://sjur-pesquisa-api.tse.jus.br/tre-to/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "content_type": "application/json",
+      "response_bytes": 7730242,
+      "response_sha256": "f3cc21bd959eaeb8be2fdb9c8721419a5af536ae12b16667791f1ab5b00b9403",
+      "reported_total": 4348,
+      "returned": 1000,
+      "decision_types": {
+        "Acórdão": 498,
+        "Decisão monocrática": 502
+      },
+      "degree_labels": {
+        "second": 1000
+      },
+      "text_records": 1000,
+      "classification": "success_without_first_degree_label"
+    }
+  ]
+}

@@ -38,6 +38,7 @@ class FakeResponse:
         self.status_code = status_code
         self.headers = headers or {}
         self.content = text.encode("utf-8")
+        self.url = "https://portal.stf.jus.br/jurisprudencia/obterInteiroTeor.asp?idDocumento=1"
 
     def json(self):
         if self._data is None:
@@ -52,6 +53,15 @@ class FakeSession:
 
     def post(self, url, **kwargs):
         self.calls.append({"url": url, "kwargs": kwargs})
+        if not self.responses:
+            raise AssertionError("unexpected request")
+        response = self.responses.pop(0)
+        if isinstance(response, Exception):
+            raise response
+        return response
+
+    def request(self, method, url, **kwargs):
+        self.calls.append({"method": method, "url": url, "kwargs": kwargs})
         if not self.responses:
             raise AssertionError("unexpected request")
         response = self.responses.pop(0)
@@ -199,6 +209,27 @@ def test_provider_detects_waf_fixture_without_bypass():
         provider.search(JurisprudenceQuery(text="teste"))
 
 
+def test_provider_fetches_observed_stf_document_through_shared_pipeline():
+    session = FakeSession(
+        [
+            FakeResponse(
+                text="<html><body>Inteiro teor STF</body></html>",
+                headers={"Content-Type": "text/html; charset=utf-8"},
+            )
+        ]
+    )
+    provider = StfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    document = provider.get_document(
+        "https://portal.stf.jus.br/jurisprudencia/obterInteiroTeor.asp?idDocumento=1"
+    )
+
+    assert document.source == "stf_juris"
+    assert document.text == "Inteiro teor STF"
+    assert document.access_status.value == "public"
+    assert session.calls[0]["method"] == "GET"
+
+
 def test_parse_stf_search_response_maps_alternate_document_shapes():
     page = parse_stf_search_response(
         {
@@ -301,6 +332,9 @@ def test_provider_capabilities_describe_stf_contract():
     assert capabilities.endpoints == ["POST /api/search/search"]
     assert capabilities.content_formats == ["json"]
     assert capabilities.canonical_records == ["CanonicalDecision"]
+    assert "id" in capabilities.extracted_fields
+    assert "source_updated_at" in capabilities.extracted_fields
+    assert "document_url" in capabilities.extracted_fields
     assert "full_text_url" in capabilities.extracted_fields
     assert capabilities.supports_full_text is False
     assert any("AWS WAF" in item for item in capabilities.limitations)

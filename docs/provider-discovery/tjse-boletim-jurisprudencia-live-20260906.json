@@ -1,0 +1,42 @@
+{
+  "source": "tjse_boletim_jurisprudencia",
+  "authority": "TJSE",
+  "checked_at": "2026-09-06",
+  "observed_at": "2026-09-06T12:00:00-03:00",
+  "status": "valid",
+  "classification": "valid",
+  "evidence_type": "public_textual_second_degree",
+  "search": {
+    "method": "POST",
+    "url": "https://diario.tjse.jus.br/revista/internet/pesquisar.wsp",
+    "term": "responsabilidade",
+    "http_status": 200,
+    "result_sections": true
+  },
+  "principal": {
+    "method": "POST",
+    "url": "https://diario.tjse.jus.br/revista/internet/principal.wsp",
+    "edition": "159",
+    "section": "7",
+    "caderno": "8",
+    "label": "2a Camara Civel",
+    "http_status": 200,
+    "textual_ementas": true,
+    "public_process_and_acordao_links": true,
+    "record_count_observed": 1
+  },
+  "surface": "cjsg",
+  "record_count_observed": 1,
+  "detail": {
+    "url_pattern": "https://www.tjse.jus.br/tjnet/jurisprudencia/relatorio.wsp?tmp.numprocesso=<process>&tmp.numacordao=<acordao>",
+    "http_status": 200,
+    "content_type": "text/html"
+  },
+  "degree_proof": "Boletim section is an appellate chamber; sample 2a Camara Civel",
+  "limitations": [
+    "The publication is organized by monthly edition/section and does not expose a global total.",
+    "Content is published ementa text; full vote availability is not implied.",
+    "The protected judicial search remains a separate diagnostic provider."
+  ],
+  "evidence": "bounded public requests; no credentials, CAPTCHA tokens or bypass"
+}

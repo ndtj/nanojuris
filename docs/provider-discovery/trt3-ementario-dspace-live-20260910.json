@@ -1,0 +1,88 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "provider": "trt3_ementario_jurisprudencia",
+  "authority": "TRT3",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "TRT3_EMENTARIO",
+  "observed_at": "2026-09-10",
+  "status": "valid_bounded_partial",
+  "official_entry_point": "https://sistemas.trt3.jus.br/bd-trt3/handle/11103/3797",
+  "search_contract": {
+    "method": "POST",
+    "url": "https://sistemas.trt3.jus.br/bd-trt3/handle/11103/3797/advanced-search",
+    "query": "acidente",
+    "page": 1,
+    "page_size": 2,
+    "http_status": 200,
+    "content_type": "text/html;charset=utf-8",
+    "response_bytes": 52277,
+    "reported_volume_total": 61,
+    "pagination": "page query parameter; total counts volumes"
+  },
+  "adapter_replay": {
+    "status": "success_with_results",
+    "result_count": 2,
+    "total_known": false,
+    "completeness": "partial_bounded_volume_window",
+    "volume_limit": 3,
+    "page_replay": {
+      "page_1_result_count": 2,
+      "page_2_result_count": 2,
+      "page_1_ids": [
+        "trt3-ementario-280d43f8ba83",
+        "trt3-ementario-a9ff657b9baa"
+      ],
+      "page_2_ids": [
+        "trt3-ementario-e75958680f3c",
+        "trt3-ementario-ac3b54756e5b"
+      ],
+      "overlap": false
+    },
+    "first_volume": {
+      "handle": "https://sistemas.trt3.jus.br/bd-trt3/handle/11103/21203",
+      "title": "Ementario de Jurisprudencia n. 4, de Marco de 2014",
+      "pdf_http_status": 200,
+      "pdf_content_type": "application/pdf",
+      "pdf_bytes": 161600,
+      "pdf_pages": 13,
+      "extraction_engine": "pypdf",
+      "extraction_status": "complete"
+    },
+    "canonical_sample": {
+      "authority": "TRT3",
+      "branch": "labor",
+      "degree": "second",
+      "instance": "second",
+      "collection": "TRT3_EMENTARIO",
+      "case_number": "0001039-37.2013.5.03.0141",
+      "publication_date": "2014-03"
+    }
+  },
+  "classification": {
+    "collection_classification": "curated_context",
+    "live_status": "valid_bounded",
+    "contract_status": "valid_curated_volume_search",
+    "federation_status": "disabled",
+    "general_trt3_search": "access_blocked_at_juris_trt3",
+    "full_text": "ementas_pdf_only"
+  },
+  "safety": {
+    "bounded_public_request": true,
+    "credentials_used": false,
+    "captcha_bypass": false,
+    "access_control_bypass": false,
+    "raw_body_persisted": false
+  },
+  "limitations": [
+    "The remote total counts editorial volumes, not individual decisions.",
+    "Only three volume items are opened per bounded probe.",
+    "The collection contains ementas and does not prove full votes.",
+    "The general TRT3 jurisprudence routes remain externally blocked."
+  ],
+  "evidence_ids": [
+    "trt3-dspace-advanced-search-20260910",
+    "trt3-dspace-volume-21203-20260910"
+  ]
+}

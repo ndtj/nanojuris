@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T23:39:59.969237Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "tjpe_jurisprudencia",
+  "surface": "consulta_jurisprudencia",
+  "endpoint": "GET https://consultajurisprudencia.app.tjpe.jus.br/api/v1/jurisprudencias",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "surface": "consulta_jurisprudencia",
+      "endpoint": "GET https://consultajurisprudencia.app.tjpe.jus.br/api/v1/jurisprudencias",
+      "query_shape": {"text": "dano moral", "page": 1, "page_size": 1},
+      "http_status": null,
+      "content_type": null,
+      "response_bytes": 0,
+      "content_sha256": null,
+      "record_count_observed": 0,
+      "reported_total": null,
+      "classification": "blocked_transport",
+      "error_type": "SourceUnavailableError"
+    }
+  ],
+  "attempts": [
+    {
+      "verify_ssl": true,
+      "http_status": null,
+      "response_bytes": 0,
+      "classification": "blocked_transport",
+      "error_type": "SSLCertVerificationError"
+    }
+  ],
+  "elapsed_ms": 360,
+  "promotion_decision": "runtime_unchanged",
+  "promotion_blockers": [
+    "A rota oficial nao completou TLS nesta rede; nao ha resposta JSON para revalidar filtros ou paginacao.",
+    "Nao e seguro desativar verify_ssl no runtime e a falha nao permite inferir ausencia de dados."
+  ],
+  "limitations": [
+    "Uma unica chamada GET publica, sem credenciais e sem retry em escala.",
+    "Nenhum corpo, cookie, token ou payload completo foi persistido.",
+    "Nenhum CAPTCHA, WAF, rate limit ou controle de acesso foi contornado."
+  ]
+}

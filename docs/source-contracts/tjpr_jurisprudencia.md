@@ -2,6 +2,11 @@
 
 Status atual: `implemented`; parser HTML, contrato e fixtures offline estao registrados no pacote.
 
+Desde 2026-09-08, as rotas de formulário, pesquisa e expansão XHR usam o
+`SharedHttpClient` com allowlist, limite de bytes, pacing e classificação
+explícita de estados externos. O comportamento público e a federação não foram
+alterados.
+
 ## Implementacao Atual
 
 - Provider: `src/nanojuris/providers/tjpr_jurisprudencia.py`.
@@ -11,13 +16,15 @@ Status atual: `implemented`; parser HTML, contrato e fixtures offline estao regi
 - Busca live validada em 2026-08-12 com `responsabilidade civil`: HTTP 200,
   total reportado pela fonte e resultados com identificador, processo, tipo,
   relator, orgao, data e URL oficial.
-- O status `implemented` nao promete disponibilidade permanente nem inteiro
-  teor. O provider declara `supports_full_text=False` e preserva acesso parcial
-  para segredo de justica ou conteudo pendente de liberacao.
+- O status `implemented` nao promete disponibilidade permanente nem acesso
+  irrestrito. `fetch_details=True` usa a rota XHR publica
+  `exibirTextoCompleto` para complementar o inteiro teor quando a fonte o
+  libera; segredo de justica e conteudo pendente permanecem `partial`.
 
 ## Contrato Observado
 
 - Rota: `GET https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true`.
+- Complemento opcional: `GET /jurisprudencia/publico/pesquisa.do?actionType=exibirTextoCompleto&idProcesso=<id>&criterio=<termo>`.
 - Resposta: HTML publico.
 - Evidencia: HTTP 200 em sessao limpa, sem captcha/login no teste inicial.
 
@@ -34,8 +41,8 @@ charset real da pagina e separar resultado, paginacao e mensagens de filtro.
 ## Promocao
 
 Implementar parser offline primeiro, com testes para sucesso, vazio, pagina
-seguinte e alteracao de markup. O fetcher live somente entra depois que o
-contrato de detalhe e inteiro teor estiver confirmado.
+seguinte, alteracao de markup e expansao XHR. O fetcher e opt-in e nao muda o
+estado de acesso de linhas protegidas.
 
 ## Validacao live 2026-08-11
 
@@ -68,6 +75,16 @@ GET https://portal.tjpr.jus.br/jurisprudencia/j/{identificador}/{slug}
 montar o slug nem presumir que todo resultado tem inteiro teor.
 
 ### Filtros Publicos
+
+Os controles de comarca, relator, orgao julgador, classe processual e tipo de
+decisao usam IDs numericos emitidos pelos controles publicos do formulario.
+O adapter agora traduz esses IDs para `idComarca`, `idRelator`,
+`idOrgaoJulgador`, `idClasseProcessual` e
+`idsTipoDecisaoSelecionadosString`. Labels livres nao sao enviados como IDs:
+eles produzem erro explicito para evitar uma consulta mais ampla que a pedida.
+As datas canonicas `judgment_date_from/to` sao traduzidas para
+`dataJulgamentoInicio/Fim`; `updated_from/to` permanece alias de compatibilidade
+para essa mesma data observada, nao uma data de atualizacao da fonte.
 
 | Filtro exibido | Escopo | Parametro HTTP |
 | --- | --- | --- |
@@ -127,9 +144,9 @@ teor.
 ## Proximos passos
 
 Manter fixture de formulario com nomes dos parametros, multivalores,
-ordenacao, pagina, vazio, detalhe e resultado sem conteudo. A busca e o parser
-offline ja estao implementados; o proximo gate e comprovar uma pagina seguinte
-estavel e o contrato de detalhe antes de anunciar inteiro teor.
+ordenacao, pagina, vazio, detalhe e resultado sem conteudo. A busca, o parser
+offline e a expansao XHR opt-in estao implementados; o inteiro teor continua
+condicionado ao acesso que a fonte libera por registro.
 
 ## Validacao live de capacidade - 2026-08-16
 
@@ -159,3 +176,19 @@ Evidencia estruturada: `docs/validation/runs/20260816T084500Z-tjpr-tjrr-capacity
   parser, nao um teto comprovado da fonte.
 
 Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.
+## Contrato CJSG fechado - 2026-09-06
+
+- A pesquisa pública do TJPR retorna decisões e acórdãos do tribunal; linhas
+  da Corte IDH são excluídas pelo parser e sentenças de primeiro grau são
+  rejeitadas explicitamente.
+- Registros aceitos expõem `authority=TJPR`, `branch=state`, `degree=second`,
+  `instance=second`, `collection=CJSG`, tipo, ementa, identificador e URL
+  oficial, preservando a indicação de conteúdo parcial.
+- O inteiro teor não é inferido: segredo ou conteúdo pendente permanece
+  `access_status=partial`. A superfície conta como CJSG textual por possuir
+  ementa oficial e filtros de publicação/julgamento.
+
+Quando `fetch_details=True`, o provider usa a rota publica
+`exibirTextoCompleto` com o identificador retornado pela busca. Falhas de
+expansao ficam registradas como `extraction_status=partial`; nao sao
+convertidas em resultado vazio.

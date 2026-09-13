@@ -1,0 +1,65 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "trt2_pje_jurisprudencia",
+  "authority": "TRT2",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "probes": [
+    {
+      "method": "GET",
+      "url": "https://pje.trt2.jus.br/juris-backend/api/opcoes",
+      "http_status": 200,
+      "classification": "public_options",
+      "observed": {
+        "captcha_option": "2",
+        "version": "1.5.0-i1",
+        "recaptcha_secret_persisted": false
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://pje.trt2.jus.br/juris-backend/api/filtros",
+      "http_status": 200,
+      "classification": "public_filter_catalog",
+      "payload_contract": "QUERY_INICIAL",
+      "observed": {
+        "hits": 40245100,
+        "aggregation_fields": [
+          "assunto",
+          "anoProcesso",
+          "tipoDocumento",
+          "instancia",
+          "orgaoJulgador",
+          "orgaoJulgadorColegiado",
+          "meioTramitacao",
+          "magistrado",
+          "classeJudicial"
+        ],
+        "response_body_persisted": false
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://pje.trt2.jus.br/juris-backend/api/documentos",
+      "http_status": 200,
+      "classification": "access_control_required",
+      "observed": {
+        "challenge_fields": ["tokenDesafio", "imagem", "audio"],
+        "documents_returned": false,
+        "response_body_persisted": false
+      }
+    }
+  ],
+  "decision": "keep_candidate_opt_in_until_authorized_non_challenge_result_contract",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "cookies_or_tokens_used": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

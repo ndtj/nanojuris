@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-08",
+  "scope": "bounded_public_jurisprudence_access",
+  "source_of_truth": [
+    "specs/changes/0078-national-coverage-lawful-access",
+    "specs/changes/0080-legitimate-public-access-runtime",
+    "specs/changes/0089-national-coverage-execution-handoff"
+  ],
+  "allowed": [
+    "documented_public_http",
+    "standard_browser_journey",
+    "ephemeral_session_cookie_csrf",
+    "allowlisted_official_redirect",
+    "published_pagination",
+    "cooperative_rate_limit",
+    "transient_retry",
+    "conditional_etag_last_modified",
+    "official_export_dataset_feed",
+    "official_alternative_surface",
+    "human_mediated_interactive_challenge",
+    "approved_institutional_egress",
+    "support_or_allowlist_request"
+  ],
+  "prohibited": [
+    "captcha_solver_or_ocr",
+    "turnstile_token_replay",
+    "waf_or_bot_evasion",
+    "stealth_fingerprint_spoofing",
+    "ip_or_proxy_rotation",
+    "cookie_csrf_token_replay",
+    "tls_verification_disable",
+    "private_endpoint_fuzzing",
+    "credential_sharing",
+    "rate_limit_exhaustion",
+    "robots_terms_control_bypass"
+  ],
+  "classifications": [
+    "success_with_results",
+    "authoritative_empty",
+    "unconfirmed_empty",
+    "access_blocked",
+    "rate_limited",
+    "timeout",
+    "transport_error",
+    "schema_invalid",
+    "partial",
+    "cancelled"
+  ],
+  "challenge_policy": {
+    "passive": "continue_only_through_observed_public_journey",
+    "required": "stop_and_classify_access_blocked",
+    "human_mediated": "allowed_without_token_or_cookie_persistence"
+  },
+  "promotion_requires": [
+    "official_source",
+    "degree_and_collection_contract",
+    "sanitized_fixtures",
+    "bounded_live_evidence",
+    "quality_gate",
+    "public_access_status",
+    "federation_gate"
+  ],
+  "production_changed": false
+}

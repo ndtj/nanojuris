@@ -6,8 +6,10 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `jsf_primefaces_jurisprudencia`.
 - URL inicial: `https://jurisprudencia.tjrr.jus.br/index.xhtml`.
-- Status de acesso: rota publica revalidada; GET, postback e paginacao observados.
-- Status no NanoJuris: implementado, com parser offline e detalhe publico separado.
+- Status de acesso: rota pública revalidada; GET, postback e primeira página
+  observados. A segunda página e o detalhe podem ser rejeitados pela fonte.
+- Status no NanoJuris: implementado para busca textual; falhas de página e
+  detalhe são classificadas explicitamente, nunca como vazio.
 
 ## Contrato HTTP
 
@@ -62,7 +64,9 @@ testada com baixa frequencia.
   - especie;
   - links tematicos.
 - Campos canonicos esperados: `CanonicalDecision`.
-- Inteiro teor: rota publica por id observado, com texto HTML quando disponivel.
+- Inteiro teor: rota pública por id observado, com texto HTML quando disponível;
+  o portal também pode retornar um aviso de visualização de PDF, classificado
+  como `source_unavailable`.
 
 ## Comportamento observado
 
@@ -78,7 +82,8 @@ testada com baixa frequencia.
 - [x] fixture HTML de busca simples com `ViewState` normalizado.
 - [x] fixture HTML de resultado com ementa/acordao.
 - [x] parser offline de busca, pagina e detalhe.
-- [ ] Busca vazia e erro de postback/estado expirado live.
+- [x] Busca vazia coberta pelo parser; erro de postback/estado expirado é
+  preservado como `ParserContractChangedError`.
 
 ## MCP e agentes
 
@@ -105,13 +110,19 @@ documento, preserva URLs de processo, impressao e inteiro teor em `raw` e
 marca `SearchPage.is_complete` somente quando o `rowCount` da fonte sustenta a
 janela retornada.
 
+O extrator de detalhe rejeita o texto padrão "seu navegador não tem suporte
+para visualização de PDF" como conteúdo jurídico. Nesse caso retorna documento
+vazio com `access_status=source_unavailable` e
+`extraction_status=unsupported_format`.
+
 ## Proximos passos
 
 - [x] Reproduzir postback com `requests` em sessao publica nova.
 - [x] Gravar fixtures reduzidas de formulario, resultado e detalhe.
 - [x] Criar parser offline e provider runtime.
 - [x] Documentar parametros obrigatorios e limites do contrato.
-- [ ] Ampliar live opt-in para vazio, estado expirado e detalhe em baixa frequencia.
+- [x] Ampliar live opt-in para primeira página, rejeição de segunda página e
+  detalhe em baixa frequência; a limitação atual está registrada no ciclo 57.
 
 ## Aprofundamento Do Contrato - 2026-08-12
 
@@ -148,6 +159,15 @@ de pagina 1. O provider levanta `ParserContractChangedError` para impedir
 duplicacao silenciosa. Isso e uma alteracao/limitacao observada na fonte, nao
 um resultado vazio. HTML 200 sem sinais de resultado e HTML de estado expirado
 continuam sem poder ser interpretados como vazio.
+
+### Revalidacao de paridade PrimeFaces (2026-09-06)
+
+O provider envia agora o contexto completo do `formPesquisa` (ViewState, flags
+do componente, `_skipChildren`, `_encodeFeature` e cabecalhos AJAX), seguindo a
+tecnica observada no Juscraper sem copiar codigo. A chamada bounded atual
+retornou a pagina 2 com janela distinta (`page_2_status=valid`). O detalhe
+pode responder aviso de visualizador PDF sem bytes e permanece
+`source_unavailable`; esse caso nao e convertido em texto integral vazio.
 
 ### MCP E Gate De Promocao
 
@@ -189,3 +209,16 @@ pagina seguinte e detalhe.
   mantém `ParserContractChangedError` e não mascara a duplicação.
 
 Evidencia estruturada: `docs/validation/runs/20260816T084500Z-tjpr-tjrr-capacity-20260816.json`.
+
+## Evidência live ciclo 57 — 2026-09-05
+
+- Busca `responsabilidade civil`: HTTP 200, 10 registros na primeira página e
+  total remoto 14.161; IDs e números CNJ foram extraídos.
+- A página 2 foi recusada pelo portal ao devolver o marcador da página 1; o
+  provider levantou `ParserContractChangedError`, evitando duplicação silenciosa.
+- O detalhe do primeiro resultado retornou apenas o aviso do visualizador PDF
+  (98 bytes, `text/plain`). O aviso agora é classificado como
+  `source_unavailable`/`unsupported_format`, sem indexar texto não jurídico.
+- Artefato redigido: `docs/provider-discovery/tjrr-live-20260905-cycle57.json`.
+- A superfície de busca está apta à federação de uma página; paginação
+  posterior e inteiro teor permanecem condicionais e aparecem no trace.

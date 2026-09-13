@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NanoJuris coverage surface state",
+  "type": "object",
+  "required": ["surface_id", "authority", "branch", "degree", "instance", "collection", "provider", "lifecycle", "maturity", "live_status", "contract_status", "federation_status", "document_capability", "last_live_check", "evidence_ids"],
+  "properties": {
+    "surface_id": {"type": "string"},
+    "authority": {"type": "string"},
+    "branch": {"type": "string"},
+    "degree": {"enum": ["first", "second", "superior", "not_applicable", "unknown"]},
+    "instance": {"enum": ["first", "second", "superior", "unknown"]},
+    "collection": {"type": "string"},
+    "provider": {"type": ["string", "null"]},
+    "lifecycle": {"enum": ["cataloged", "candidate", "contract_pending", "fixture_pending", "live_validated", "access_blocked", "transport_blocked", "legal_pending", "federation_enabled", "rejected", "source_unavailable"]},
+    "maturity": {"enum": ["mapped", "bronze", "silver", "gold", "blocked", "context", "family"]},
+    "live_status": {"type": "string"},
+    "contract_status": {"type": "string"},
+    "federation_status": {"enum": ["enabled", "opt_in", "disabled", "blocked", "not_eligible"]},
+    "document_capability": {"enum": ["full_text", "summary", "document_link", "conditional", "unavailable", "unknown"]},
+    "last_live_check": {"type": ["string", "null"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

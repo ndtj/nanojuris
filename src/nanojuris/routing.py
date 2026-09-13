@@ -157,6 +157,7 @@ def route_unified_sources(
     capabilities: dict[str, ProviderCapabilities],
     text: str,
     filters: dict[str, Any],
+    opt_in_sources: set[str] | frozenset[str] = frozenset(),
 ) -> RoutedSources:
     """Return sources that fit a unified jurisprudence query.
 
@@ -181,6 +182,7 @@ def route_unified_sources(
             capability,
             has_identifier=has_identifier,
             identifier_filters=identifier_filters,
+            opt_in_allowed=source in opt_in_sources,
         )
         if skip is None:
             searched.append(source)
@@ -264,8 +266,11 @@ def _skip_reason(
     *,
     has_identifier: bool,
     identifier_filters: set[str],
+    opt_in_allowed: bool = False,
 ) -> SourceSkip | None:
-    if not capability.supports_unified_search:
+    if not capability.supports_unified_search and not (
+        capability.opt_in_unified_search and opt_in_allowed
+    ):
         return SourceSkip(
             source=capability.source,
             category=capability.category,
@@ -284,11 +289,11 @@ def _skip_reason(
             ),
         )
 
-    unsupported_identifiers = (
-        identifier_filters.difference(capability.supported_filters)
-        if capability.supported_filters
-        else set()
-    )
+    # An empty declaration is not an implicit "all identifiers supported".
+    # Identifier filters are exact refinements; when a provider has not
+    # declared any filter contract we must skip it instead of sending a query
+    # that the remote endpoint may silently ignore.
+    unsupported_identifiers = identifier_filters.difference(capability.supported_filters)
     if unsupported_identifiers:
         labels = ", ".join(sorted(unsupported_identifiers))
         return SourceSkip(
@@ -312,7 +317,12 @@ def _skip_reason(
             ),
         )
 
-    if capability.category not in JURISPRUDENCE_CATEGORIES:
+    category_is_opt_in_jurisprudence = (
+        capability.category == "specialized_context"
+        and capability.opt_in_unified_search
+        and opt_in_allowed
+    )
+    if capability.category not in JURISPRUDENCE_CATEGORIES and not category_is_opt_in_jurisprudence:
         return SourceSkip(
             source=capability.source,
             category=capability.category,
@@ -349,11 +359,18 @@ def _unsupported_refinement_filters(
     # additional refinement that lacks evidence.
     if not capability.supported_filters:
         active.discard("text")
-    return {
+    # ``filter_semantics`` is authoritative when present.  This matters for
+    # local post-filters and translated fields: they are supported by the
+    # provider contract even when the legacy ``supported_filters`` list only
+    # contains fields sent directly to the remote endpoint.  Unknown and
+    # explicitly unsupported fields still produce a visible warning.
+    supported = {
         name
         for name in active.difference(IDENTIFIER_FILTERS)
-        if name not in capability.supported_filters
+        if capability.filter_status(name)
+        not in {"unsupported", "unverified", "unsupported_by_source"}
     }
+    return active.difference(IDENTIFIER_FILTERS).difference(supported)
 
 
 def _has_value(value: Any) -> bool:

@@ -1,0 +1,12 @@
+{
+  "schema_version": "legal-live-benchmark-evaluation-v1",
+  "benchmark": "docs/benchmarks/live-ranking-v1.json",
+  "ranking_version": "legal-live-v1",
+  "status": "pending_human_labels",
+  "query_count": 8,
+  "rankings_artifact": "docs/benchmarks/live-ranking-rankings-empty.json",
+  "metrics": {},
+  "latency_artifact": "docs/benchmarks/live-ranking-performance-20260908.json",
+  "network_calls": 0,
+  "notes": "The evaluator and CPU benchmark ran successfully. nDCG@10, P@5, MRR@10 and irrelevant@5 remain intentionally unset until independent human labels are added to development and holdout splits."
+}

@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "kind": "national_jurisprudence_gold_handoff",
+  "package": "0098-national-jurisprudence-gold-coverage",
+  "status": "proposed",
+  "observed_at": "2026-09-08",
+  "repository": "C:/Users/admin/Desktop/Nanojuris/repos/nanojuris",
+  "baseline": {
+    "documented_sources": 73,
+    "runtime_providers": 68,
+    "unified_sources": 50,
+    "primary_textual_sources": 45,
+    "document_capable_sources": 56,
+    "state_appellate_complete": "25/27",
+    "cjpg": "8/27",
+    "cjsg": "25/27",
+    "open_tasks": 60,
+    "external_tasks": 44,
+    "human_tasks": 16
+  },
+  "waves": [
+    {"id": "W0", "name": "baseline", "tasks": ["T001", "T002", "T003", "T004", "T005"]},
+    {"id": "W1", "name": "public_discovery", "tasks": ["T006", "T007", "T008", "T009", "T010", "T011"]},
+    {"id": "W2", "name": "contracts_and_adapters", "tasks": ["T012", "T013", "T014", "T015", "T016", "T017"]},
+    {"id": "W3", "name": "fixtures_quality", "tasks": ["T018", "T019", "T020", "T021", "T022", "T023", "T024", "T025"]},
+    {"id": "W4", "name": "federation", "tasks": ["T026", "T027", "T028", "T029", "T030"]},
+    {"id": "W5", "name": "operations", "tasks": ["T031", "T032", "T033", "T034", "T035", "T036"]},
+    {"id": "W6", "name": "national_families", "tasks": ["T037", "T038", "T039", "T040", "T041", "T042"]},
+    {"id": "W7", "name": "closure", "tasks": ["T043", "T044", "T045", "T046"]},
+    {"id": "W8", "name": "national_source_inventory", "tasks": ["T047", "T048", "T049", "T050", "T051", "T052", "T053", "T054", "T055", "T056", "T057", "T058", "T059", "T060"]}
+  ],
+  "commands_per_batch": [
+    "python tools/build_national_source_task_matrix.py --write",
+    "python tools/audit_provider_docs.py --write",
+    "python tools/build_provider_coverage.py --write",
+    "python tools/build_degree_coverage.py",
+    "python tools/build_surface_state_registry.py",
+    "python tools/build_state_appellate_program.py --write",
+    "python tools/build_promotion_manifest.py --write",
+    "python tools/build_fixture_completeness.py --write",
+    "python tools/validate_sdd.py",
+    "python -m pytest -q <focused-tests>",
+    "python -m ruff check .",
+    "python -m ruff format --check .",
+    "python -m mypy src",
+    "python -m compileall -q src tools tests",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "captcha_or_turnstile_required",
+    "waf_or_bot_management_required",
+    "login_or_secret_required",
+    "rate_limit_without_retry_after",
+    "source_terms_or_retention_unknown",
+    "schema_invalid",
+    "degree_not_proven",
+    "document_not_public"
+  ],
+  "forbidden_actions": [
+    "captcha_solver",
+    "waf_evasion",
+    "stealth_or_fingerprint_spoofing",
+    "ip_or_proxy_rotation",
+    "tls_downgrade",
+    "token_or_cookie_replay",
+    "private_endpoint_fuzzing",
+    "commit_push_deploy"
+  ],
+  "completion_claim": "Only claim completion when every required surface closes its declared gates; external blockers remain explicit."
+}

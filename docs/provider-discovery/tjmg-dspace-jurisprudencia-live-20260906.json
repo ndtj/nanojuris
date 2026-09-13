@@ -1,0 +1,53 @@
+{
+  "source": "tjmg_dspace_jurisprudencia",
+  "authority": "TJMG",
+  "checked_at": "2026-09-06",
+  "observed_at": "2026-09-06T17:08:11-03:00",
+  "status": "valid",
+  "classification": "valid",
+  "surface": "cjsg",
+  "search": {
+    "method": "GET",
+    "url": "https://bd.tjmg.jus.br/server/api/discover/search/objects",
+    "query": "responsabilidade",
+    "scopes": ["civil", "criminal", "special"],
+    "http_status": 200,
+    "total_elements_observed": 400,
+    "returned": 1,
+    "record_id": "tjmg-dspace-4e35d890-2618-4c84-abb5-6fa980f0a7a2"
+  },
+  "record": {
+    "item_url": "https://bd.tjmg.jus.br/server/api/core/items/4e35d890-2618-4c84-abb5-6fa980f0a7a2",
+    "case_number": "1.0407.11.000998-9/001",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG_CIVEL",
+    "judging_body": "Minas Gerais. Tribunal de Justiça. 14ª Câmara Cível",
+    "rapporteur": "Desembargador MARCO AURELIO FERENZINI (Relator)"
+  },
+  "document": {
+    "method": "GET",
+    "url": "https://bd.tjmg.jus.br/server/api/core/bitstreams/daa8720a-4718-41e3-9081-df8cef7e6906/content",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 72816,
+    "pages": 4,
+    "text_bytes": 22282,
+    "sha256": "967238fa9ff29c682570916b110449cddb5b7cc50299fad21732607e777860f8"
+  },
+  "promotion": {
+    "runtime": true,
+    "degree_contract": "valid",
+    "fixtures": "complete",
+    "live_status": "valid",
+    "quality_gate": "passed",
+    "access_status": "public",
+    "federation_status": "enabled"
+  },
+  "limitations": [
+    "A busca combina três coleções públicas e soma seus totais.",
+    "O acervo da Biblioteca Digital é uma superfície pública própria e não substitui o formulário legado protegido.",
+    "A disponibilidade do voto integral depende do PDF de cada item."
+  ],
+  "evidence": "bounded public requests; no credentials, CAPTCHA tokens or bypass"
+}

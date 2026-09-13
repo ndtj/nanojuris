@@ -1,0 +1,70 @@
+{
+  "generated_at": "2026-09-06T09:55:55.225742+00:00",
+  "query": "cartorios",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "cnj_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "cnj_jurisprudencia",
+      "query": "cartorios",
+      "search": {
+        "returned": 1,
+        "reported_total": 10,
+        "source": "cnj_jurisprudencia"
+      },
+      "result": {
+        "id": "cnj-informativo-f5f4f18a48911ddfd1c4",
+        "case_number": "12",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://atos.cnj.jus.br/files/original211412202609046a9b34a42f24f.pdf",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "curated_source",
+          "document_url",
+          "edition_number",
+          "publication_date",
+          "publication_date_raw",
+          "summary",
+          "type"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "cnj-informativo-f5f4f18a48911ddfd1c4",
+        "full_text_length": 36087,
+        "content_type": "application/pdf",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://atos.cnj.jus.br/files/original211412202609046a9b34a42f24f.pdf",
+        "content_type": "application/pdf",
+        "response_bytes": 430737,
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 1,
+    "search_returned": 1,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 1,
+    "public_url_reachable": 1,
+    "public_url_document_like": 1,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 0
+  }
+}

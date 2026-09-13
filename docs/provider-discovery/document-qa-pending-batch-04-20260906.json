@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-09-06T09:31:00.504066+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "pending_documents",
+    "sources": [
+      "tjsp_nugepnac",
+      "tre_sp_temas"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjsp_nugepnac",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 0,
+        "reported_total": 0,
+        "source": "tjsp_nugepnac"
+      },
+      "status": "empty"
+    },
+    {
+      "source": "tre_sp_temas",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "SourceUnavailableError",
+      "error": "TRE-SP temas rejected request with HTTP 403"
+    }
+  ],
+  "summary": {
+    "sources_checked": 2,
+    "search_returned": 0,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 0,
+    "public_url_reachable": 0,
+    "public_url_document_like": 0,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 1
+  }
+}

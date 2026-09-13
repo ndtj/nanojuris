@@ -1,0 +1,73 @@
+{
+  "schema_version": "provider-discovery-live-v1",
+  "provider": "tjmrs_jurisprudencia",
+  "source_id": "tjmrs_jurisprudencia",
+  "authority": "TJMRS",
+  "official_entrypoint": "https://www.tjmrs.jus.br/",
+  "endpoint": "GET https://www.tjmrs.jus.br/abreJurisprudencia.php",
+  "observed_at": "2026-09-09",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "raw_content_persisted": false,
+  "surface": "exact_process_appellate_document",
+  "classification": "valid",
+  "record_count_observed": 1,
+  "reported_total": 1,
+  "pagination_mode": "none",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 477021,
+  "content_sha256": "13a624715b3d97542b892ddf8470aed6772a231968a5629ad07d9655a13556dd",
+  "latency_ms": null,
+  "access_status": "public",
+  "semantic_scope": {
+    "authority": "TJMRS",
+    "branch": "military",
+    "degree": "second",
+    "instance": "second",
+    "collection": "TJMRS_JURISPRUDENCIA",
+    "textual_jurisprudence": true
+  },
+  "probes": [
+    {
+      "processo": "10002045120189210002",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 477021,
+      "content_sha256": "13a624715b3d97542b892ddf8470aed6772a231968a5629ad07d9655a13556dd",
+      "returned": 1,
+      "document_id": "6270",
+      "fields_observed": ["case_number", "case_class", "rapporteur", "ementa", "full_text"],
+      "degree_verified": true
+    },
+    {
+      "processo": "00704302520239210002",
+      "processo_evento": "771754928753752953978209109893",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 280044,
+      "content_sha256": "48eaca71f73acdd1114793d803441598cadd7606ffbfee0b407153247acc6c02",
+      "returned": 1,
+      "document_id": "20558",
+      "fields_observed": ["case_number", "case_class", "rapporteur", "ementa", "full_text"],
+      "degree_verified": true
+    },
+    {
+      "processo": "00000000000000000000",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 7221,
+      "content_sha256": "51529276b4eb086088722d9f4ef7563678e75bf2a4a5eceb945e1ef509cb220a",
+      "returned": 0,
+      "total_known": true,
+      "classification": "authoritative_empty"
+    }
+  ],
+  "promotion": "technical_opt_in_only",
+  "limitations": [
+    "A rota aceita processo exato e não prova busca textual geral.",
+    "Não há total de corpus ou paginação remota comprovados.",
+    "A evidência foi registrada como metadados; o corpo decisório não foi persistido."
+  ]
+}

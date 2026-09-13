@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-06T23:50:34+00:00",
+  "source_id": "tjro_jurisprudencia",
+  "authority": "TJRO",
+  "branch": "state",
+  "collection": "CJPG",
+  "degree": "first",
+  "instance": "first",
+  "endpoint": "POST /search/varios_parametros/",
+  "method": "POST",
+  "credentials_used": false,
+  "query": {
+    "text": "responsabilidade",
+    "degree": "first",
+    "instance": "first",
+    "collection": "CJPG",
+    "fields.grau_jurisdicao": [1],
+    "page_size": 10
+  },
+  "status": "valid",
+  "http_status": 200,
+  "result_count": 10,
+  "total": 322506,
+  "total_known": true,
+  "first_page": {
+    "response_bytes": 714205,
+    "content_sha256": "05d6cd4ff0c4cbd6563d081b9efd149b950bff33b363043ec3cbdb9afc9dfa40",
+    "all_records_first_degree": true,
+    "source_origin": "PJEPG",
+    "summary_present": 10,
+    "stable_id_present": 10,
+    "case_number_present": 10,
+    "judgment_date_present": 10
+  },
+  "pagination_probe": {
+    "requested_pages": [1, 2],
+    "page_size": 10,
+    "page_1": "valid",
+    "page_2": {
+      "status": "valid",
+      "http_status": 200,
+      "response_bytes": 511977,
+      "content_sha256": "bb268d2ccd95661c0e8ddf4895ea00a837df4cd32dab32b77b10223c188a6d86",
+      "result_count": 10,
+      "all_records_first_degree": true,
+      "source_origin": "PJEPG"
+    },
+    "overlap": false
+  },
+  "source_trace": {
+    "endpoint": "POST https://juris-back.tjro.jus.br/search/varios_parametros/",
+    "retrieval_status": "complete",
+    "content_type": "application/json",
+    "bypass_attempted": false
+  },
+  "detail_probe": {
+    "requested": true,
+    "document_id_shape": "id_processo_documento-sistema_origem",
+    "source_origin": "PJEPG",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 36312,
+    "content_sha256": "e8865ff9fd174f822447d322db6128dae9eee0529b991bcf3632f23151177002",
+    "extraction_status": "complete",
+    "extracted_text_length": 1830,
+    "raw_content_persisted": false
+  },
+  "promotion_decision": "technical_candidate_first_degree",
+  "limitations": [
+    "Bounded probes covered two offset pages; response bodies were not persisted.",
+    "The source total is authoritative for the filtered query but the adapter remains bounded per request.",
+    "The route also serves second-degree records; the explicit degree filter and PJEPG marker are required for CJPG.",
+    "Document detail was not fetched in this smoke; the provider exposes it through the separate bounded detail call.",
+    "No CAPTCHA, WAF, login, TLS or rate-limit bypass was attempted."
+  ]
+}

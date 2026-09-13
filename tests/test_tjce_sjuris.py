@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
 from typing import Any
@@ -15,7 +16,7 @@ from nanojuris.errors import (
     RateLimitDetectedError,
     SourceUnavailableError,
 )
-from nanojuris.models import JurisprudenceQuery
+from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjce_sjuris import (
     TjceSjurisProvider,
     build_tjce_sjuris_search_payload,
@@ -114,7 +115,7 @@ def test_sjuris_provider_uses_zero_based_page_and_clamps_size() -> None:
     assert page.page_size == 20
 
 
-def test_sjuris_rejects_wrong_root_and_declares_no_detail_route() -> None:
+def test_sjuris_rejects_wrong_root_and_exposes_inline_detail() -> None:
     with pytest.raises(ParserContractChangedError, match="pagina.content"):
         parse_tjce_sjuris_response(
             {"content": []},
@@ -122,8 +123,51 @@ def test_sjuris_rejects_wrong_root_and_declares_no_detail_route() -> None:
             trace=None,  # type: ignore[arg-type]
         )
 
-    with pytest.raises(NotImplementedError, match="inline"):
-        TjceSjurisProvider(NanoJurisConfig(rate_limit_interval=0)).get_decisions("x")
+    trace = SourceTrace(provider="tjce_sjuris", endpoint="POST /jurisprudencia/")
+    page = parse_tjce_sjuris_response(
+        fixture_data(),
+        query=JurisprudenceQuery(text="teste"),
+        trace=trace,
+    )
+    provider = TjceSjurisProvider(NanoJurisConfig(rate_limit_interval=0))
+    result = page.results[0]
+    pdf = base64.b64decode(result.raw["pdfAutenticadoBase64"], validate=True)
+    provider._inline_documents[result.id] = (
+        result.full_text or "",
+        result.full_text or "",
+        pdf,
+        trace,
+    )
+    document = provider.get_document(result.id)
+    assert document.content_type == "application/pdf"
+    assert document.text == result.full_text
+    bundle = provider.get_decisions(result.id)
+    assert bundle.texts[0]["content"] == result.full_text
+    assert bundle.raw["inline"] is True
+
+
+def test_sjuris_empty_response_is_explicit() -> None:
+    page = parse_tjce_sjuris_response(
+        json.loads((Path(__file__).parent / "fixtures" / "tjce_sjuris_empty.json").read_text()),
+        query=JurisprudenceQuery(text="termo"),
+        trace=None,  # type: ignore[arg-type]
+    )
+    assert page.results == []
+    assert page.total == 0
+    assert page.is_complete is True
+    assert page.total_known is True
+
+
+def test_sjuris_schema_drift_is_not_treated_as_empty() -> None:
+    payload = json.loads(
+        (Path(__file__).parent / "fixtures" / "tjce_sjuris_schema_drift.json").read_text()
+    )
+    with pytest.raises(ParserContractChangedError):
+        parse_tjce_sjuris_response(
+            payload,
+            query=JurisprudenceQuery(text="termo"),
+            trace=None,  # type: ignore[arg-type]
+        )
 
 
 @pytest.mark.parametrize(
@@ -154,3 +198,5 @@ def test_sjuris_is_registered_and_declares_inline_contract() -> None:
     assert capabilities.max_remote_page_size == 20
     assert capabilities.supports_full_text is True
     assert capabilities.full_text_access == "inline"
+    assert capabilities.supports_unified_search is True
+    assert capabilities.opt_in_unified_search is False

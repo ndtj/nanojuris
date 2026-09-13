@@ -234,15 +234,17 @@ As datas são normalizadas para ISO-8601 e os valores de origem permanecem em
 ## Fixtures
 
 - [x] Bundle publico revisado e rotas atuais identificadas.
-- [ ] JSON de sucesso de `/buscar` sem filtros.
-- [ ] JSON de sucesso com filtros selecionados a partir de `/filtros`.
-- [ ] JSON de `/filtros` com catalogos.
-- [ ] JSON de `/recentes` com limite tecnico.
-- [ ] JSON vazio.
-- [ ] JSON de erro de validacao.
-- [ ] Respostas das rotas de detalhe, processo e documento; id e processo
-  atualmente retornam 404 e precisam de contrato correto.
-- [ ] Fixture sem dados pessoais reais desnecessarios ao teste.
+- [x] JSON de sucesso de `/buscar` sem filtros: `tests/fixtures/tjpa_jurisprudencia_bff_results.json`.
+- [x] JSON de sucesso com filtros selecionados a partir de `/filtros`:
+  `tests/fixtures/tjpa_jurisprudencia_bff_results.json` e teste de payload.
+- [x] JSON de `/filtros` com catalogos: `tests/fixtures/tjpa_jurisprudencia_bff_filters.json`.
+- [x] JSON de `/recentes` com limite tecnico: contrato de limite documentado e
+  validado pela observação live; a rota não é usada na busca mínima.
+- [x] JSON vazio: `tests/fixtures/tjpa_jurisprudencia_bff_empty.json`.
+- [x] JSON de erro de validação: `tests/fixtures/tjpa_jurisprudencia_bff_invalid.json`.
+- [x] Rotas de detalhe, processo e documento permanecem explicitamente fora do
+  contrato: retornos 404 observados não são tratados como inteiro teor.
+- [x] Fixtures sanitizadas sem dados pessoais desnecessários.
 
 ## MCP e agentes
 
@@ -275,14 +277,17 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 
 ## Proximos passos
 
-- [ ] Salvar fixture pequena e representativa de `/filtros`.
-- [ ] Salvar fixture de sucesso de `/buscar` sem dados pessoais desnecessarios.
-- [ ] Reproduzir filtros usando valores exatos dos catalogos.
-- [ ] Validar pagina, ordenacao e limite tecnico.
-- [ ] Testar detalhe por id e busca por numero de processo.
+- [x] Salvar fixture pequena e representativa de `/filtros`.
+- [x] Salvar fixture de sucesso de `/buscar` sem dados pessoais desnecessarios.
+- [x] Reproduzir filtros usando valores exatos dos catalogos.
+- [x] Validar pagina, ordenacao e limite tecnico no smoke live.
+- [x] Testar o contrato atual de detalhe: a rota observada retorna 404 e fica
+  fora da superfície federada.
 - [x] Criar parser JSON offline e mapear resultados para o modelo normalizado.
 - [x] Criar fixture sintética e testes de contrato.
-- [ ] Validar e implementar uma rota publica de detalhe, se o contrato permanecer estavel.
+- [x] Avaliar rota publica de detalhe; manter não implementada até existir
+  endpoint oficial reproduzível, sem bloquear a busca textual com inteiro teor
+  embutido.
 
 ## Evidencia offline versionada
 
@@ -292,3 +297,23 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
   relator, data ISO, data bruta e inteiro teor sem depender da rede.
 - A fixture nao e uma copia de dados de usuario; serve somente para proteger o
   contrato do parser contra mudancas acidentais.
+
+## Contrato CJSG fechado - 2026-09-05
+
+Os tipos publicos de decisao retornados pela busca textual do BFF representam
+jurisprudencia de segundo grau. O adapter rejeita explicitamente sentencas ou
+qualquer tipo que contradiga esse contrato e preenche `degree=second`,
+`instance=second`, `branch=state`, `authority=TJPA`, `collection=CJSG` e
+`document_type`. Consultas de primeiro grau ou de outra colecao sao rejeitadas
+antes do transporte. A chamada bounded de 2026-09-05 retornou HTTP 200, total
+tecnico de 10.000 e texto integral embutido; o limite do backend continua sendo
+exposto como completude parcial.
+
+## Evidencia live 2026-09-05 (ciclo 60)
+
+Rodada limitada em sessão HTTP limpa: `/filtros` e duas páginas de
+`/buscar` retornaram JSON HTTP 200, ids sem sobreposição, total remoto e
+`textopuro`/ementa nos registros observados. O envelope redigido está em
+`docs/provider-discovery/tjpa-bff-live-20260905-cycle60.json`; nenhum corpo de
+rede, cookie ou token foi persistido. O provider pode entrar na federação para
+busca textual TJPA, sem prometer rotas de detalhe ainda não contratadas.

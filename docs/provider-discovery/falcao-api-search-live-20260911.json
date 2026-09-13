@@ -1,0 +1,16 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-11",
+  "source_id": "falcao_jt",
+  "surface": "search",
+  "classification": "access_control_required",
+  "http_status": 403,
+  "access_status": "access_control_required",
+  "returned": null,
+  "reported_total": null,
+  "pagination_mode": "offset",
+  "endpoint": "GET /no-auth/pesquisa",
+  "note": "Bounded public probe of the official API; no credentials, cookies, proxy, token or bypass used.",
+  "credentials_used": false,
+  "bypass_used": false
+}

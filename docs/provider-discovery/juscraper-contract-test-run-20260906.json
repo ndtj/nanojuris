@@ -1,0 +1,25 @@
+{
+  "schema_version": "juscraper-contract-test-run-v1",
+  "generated_at": "2026-09-06",
+  "repository": "https://github.com/jtrecenti/juscraper",
+  "checkout": "604c1dd70d6f313011cc1079790febe6c71807e2",
+  "scope": [
+    "tests/tjap/test_cjsg_contract.py",
+    "tests/tjap/test_cjsg_filters_contract.py",
+    "tests/tjmg/test_cjsg_contract.py",
+    "tests/tjmg/test_cjsg_download_granular.py",
+    "tests/tjmg/test_cjsg_filters_contract.py"
+  ],
+  "command": "python -m pytest -q <scope>",
+  "result": {
+    "passed": 43,
+    "failed": 0,
+    "skipped": 0,
+    "environment": "temporary checkout with test dependencies"
+  },
+  "live_boundaries": {
+    "tjap": "not_promoted: upstream integration tests are xfail because Tucujuris requires Turnstile",
+    "tjmg": "not_promoted: live integration requires numeric CAPTCHA and optional txtcaptcha"
+  },
+  "interpretation": "Offline contract and parser tests pass upstream; this is not evidence of an unrestricted public live route and does not authorize bypassing CAPTCHA or adding either source to the default federation."
+}

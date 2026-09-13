@@ -6,7 +6,8 @@
 - Identificador no NanoJuris: `tjdf_juris`.
 - Superficie: API JSON publica de jurisprudencia.
 - Estado: rota operacional reproduzida em sessao HTTP limpa e integrada no
-  adapter `tjdf_juris` em modo opt-in.
+  adapter `tjdf_juris`; permanece selecionavel por configuracao para preservar
+  compatibilidade com o fluxo HTML legado.
 - Autenticacao observada: nenhuma.
 - Login, cookie pessoal, captcha, token privado ou proxy: nao utilizados.
 - Ultima validacao: 2026-08-11.
@@ -125,6 +126,12 @@ inventar nomes alternativos no payload sem manter um mapa explicito e testado.
 | relator | `nomeRelator="CARMEN BITTENCOURT"` | HTTP 200, `hits.value=2183` |
 | data de julgamento | `dataJulgamento="2026-01-01"` | HTTP 200 com pagina vazia nessa combinacao |
 | processo | filtro documentado; replay live ainda precisa de nova tentativa estavel | pendente de fixture |
+
+O adapter tambem traduz `descricaoClasseCnj`, `descricaoOrgaoJulgador`,
+`origem`/`source_origins` e os intervalos explicitos de data de julgamento.
+Datas aceitas pela API sao normalizadas para `YYYY-MM-DD`. O payload solicita
+`espelho`, `inteiroTeor` e `retornaInteiroTeor`; ainda assim, a disponibilidade
+e avaliada por registro.
 
 Uma pagina vazia com HTTP 200 e schema valido significa zero resultados para
 os criterios usados. Nao deve ser confundida com falha de rede.

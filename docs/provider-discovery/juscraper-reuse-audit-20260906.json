@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06",
+  "audit_mode": "offline_reuse_security_preflight",
+  "upstream": {
+    "repository": "https://github.com/jtrecenti/juscraper",
+    "commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+    "license_declared": "MIT"
+  },
+  "runtime_root": "C:\\Users\\admin\\Desktop\\Nanojuris\\repos\\nanojuris\\src\\nanojuris",
+  "checks": [
+    {
+      "name": "upstream_license_snapshot",
+      "status": "pass",
+      "evidence": {
+        "path": "C:\\Users\\admin\\AppData\\Local\\Temp\\juscraper-audit-97defe1df5fe483fa00adac9f10a575f\\LICENSE",
+        "expected_sha256": "268966cc8228411db2775fbacf3d91b1a15bcdd99a713892e905b3a541b83c59",
+        "actual_sha256": "268966cc8228411db2775fbacf3d91b1a15bcdd99a713892e905b3a541b83c59"
+      },
+      "note": "Confirma apenas a identidade do arquivo LICENSE do snapshot fixado."
+    },
+    {
+      "name": "runtime_import_boundary",
+      "status": "pass",
+      "evidence": {
+        "violations": []
+      },
+      "note": "O runtime nao pode importar Juscraper nem suas classes."
+    },
+    {
+      "name": "runtime_path_boundary",
+      "status": "pass",
+      "evidence": {
+        "references": []
+      },
+      "note": "O runtime nao pode depender do checkout upstream por caminho ou texto de import."
+    },
+    {
+      "name": "candidate_promotion_guard",
+      "status": "pass",
+      "evidence": {
+        "board": "C:\\Users\\admin\\Desktop\\Nanojuris\\repos\\nanojuris\\docs\\provider-discovery\\adapter-wave-board-20260901.json",
+        "items": 8
+      },
+      "note": "Toda unidade da onda permanece bloqueada ate os gates de release e revisao humana."
+    },
+    {
+      "name": "data_redistribution_review",
+      "status": "pending_human_review",
+      "evidence": {
+        "upstream_commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+        "license": "MIT"
+      },
+      "note": "MIT do codigo nao decide a permissao de redistribuir dados judiciais; requer parecer proprio."
+    }
+  ],
+  "overall": "preflight_pass_human_review_pending",
+  "no_runtime_promotion": true,
+  "limitations": [
+    "A auditoria nao e parecer juridico e nao autoriza redistribuicao de acervo.",
+    "A auditoria nao importa, executa ou copia o Juscraper.",
+    "A ausencia de import nao prova equivalencia semantica dos adapters."
+  ]
+}

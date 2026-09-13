@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
-import time
+import hashlib
 from typing import Any
+from urllib.parse import urlparse
 
 import requests
 
@@ -17,6 +18,7 @@ from nanojuris.errors import (
 from nanojuris.models import (
     AccessStatus,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ParadigmCase,
@@ -26,7 +28,10 @@ from nanojuris.models import (
     SearchPage,
     SourceTrace,
 )
+from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 
 class BnpPangeaProvider(JurisprudenceProvider):
@@ -41,8 +46,24 @@ class BnpPangeaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.config.bnp_api_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=4_000_000,
+                # The public API is used by a browser frontend and may expose
+                # rate-limit or gateway decisions.  Do not repeat those
+                # requests automatically; callers can retry explicitly.
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._catalog_codes: tuple[list[str], list[str]] | None = None
+        self._last_http_metadata: dict[str, Any] = {}
 
     def get_parameters(self) -> dict[str, Any]:
         data = self._request_json("GET", "/parametros")
@@ -62,6 +83,7 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 "Catalogo publico exposto pela interface Pangea/BNP.",
                 "Orgaos marcados como sem precedentes podem aparecer desabilitados.",
             ],
+            **self._last_http_metadata,
         )
         return ProviderCatalog(
             source=self.name,
@@ -123,6 +145,48 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 "updated_from",
                 "updated_to",
             ],
+            filter_semantics={
+                name: "native"
+                for name in (
+                    "text",
+                    "number",
+                    "courts",
+                    "types",
+                    "all_words",
+                    "any_words",
+                    "without_words",
+                    "exact_phrase",
+                    "updated_from",
+                    "updated_to",
+                )
+            },
+            unsupported_filters=[
+                "rapporteur",
+                "published_from",
+                "published_to",
+                "lawyer_name",
+                "oab",
+                "precatory_number",
+                "police_document",
+                "cda",
+                "source_origin",
+                "source_origins",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "degree",
+                "instance",
+                "branch",
+                "legal_area",
+                "authority",
+                "collection",
+                "document_type",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "party_name",
+                "party_document",
+            ],
             limitations=[
                 "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a "
                 "consulta nao os informa, o provider os preenche com o catalogo publico "
@@ -173,14 +237,24 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 "Fonte publica consumida a partir da API usada pelo frontend Pangea/BNP.",
                 "Resultados dependem da disponibilidade e do contrato atual da fonte.",
             ],
+            **self._last_http_metadata,
         )
 
         results = [self._map_result(item, trace) for item in data.get("resultados", [])]
+        total = _coerce_total(data.get("total"))
+        start = int(data.get("posicao_inicial") or 0)
+        end = int(data.get("posicao_final") or 0)
+        complete, reason = page_completeness(
+            reported_total=total,
+            start=start,
+            returned=len(results),
+            total_is_authoritative=True,
+        )
         return SearchPage(
             source=self.name,
-            total=int(data.get("total") or 0),
-            start=int(data.get("posicao_inicial") or 0),
-            end=int(data.get("posicao_final") or 0),
+            total=total,
+            start=start,
+            end=end,
             page=query.page,
             page_size=query.page_size,
             results=results,
@@ -189,6 +263,12 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 "courts": list(data.get("aggsOrgaos") or []),
             },
             source_trace=trace,
+            pagination_mode="page",
+            is_complete=complete,
+            completeness_reason=reason,
+            total_known=True,
+            access_status=AccessStatus.PUBLIC,
+            extraction_status=(ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY),
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -305,40 +385,63 @@ class BnpPangeaProvider(JurisprudenceProvider):
         )
 
     def _request_json(self, method: str, path: str, **kwargs: Any) -> Any:
-        self._respect_rate_limit()
         url = self.config.bnp_api_url.rstrip("/") + path
         headers = {
             "Accept": "application/json",
             "User-Agent": self.config.user_agent,
         }
-        try:
-            response = self.session.request(
-                method,
-                url,
+        response = self.transport.request(
+            TransportRequest(
+                source=self.name,
+                operation=f"{method.upper()} {path}",
+                method=method,
+                url=url,
+                params=dict(kwargs.get("params") or {}),
+                json_body=kwargs.get("json"),
                 headers=headers,
-                timeout=self.config.timeout,
-                **kwargs,
+                idempotent=method.upper() in {"GET", "HEAD"},
             )
-        except requests.RequestException as exc:
-            raise SourceUnavailableError(f"BNP request failed: {exc}") from exc
+        )
+        content = response.body
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": response.final_url or url,
+            "content_type": response.content_type,
+            "content_sha256": response.content_sha256 or hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "retrieval_status": (
+                "ok"
+                if response.status is TransportStatus.COMPLETE
+                and response.status_code is not None
+                and response.status_code < 400
+                else "error"
+            ),
+            "elapsed_ms": response.elapsed_ms,
+        }
 
-        if response.status_code == 429:
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(f"BNP transport failed: {response.status.value}")
+
+        status_code = response.status_code
+        if status_code == 429:
             raise RateLimitDetectedError("BNP returned HTTP 429")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"BNP returned HTTP {response.status_code}")
-        if response.status_code >= 400:
-            detail = _short_response_text(response)
+        if status_code is None:
+            raise SourceUnavailableError("BNP returned no HTTP status")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"BNP returned HTTP {status_code}")
+        if status_code >= 400:
+            detail = " ".join(response.text.split())[:300]
             payload = kwargs.get("json") or kwargs.get("params") or {}
-            if response.status_code == 400:
+            if status_code == 400:
                 raise QueryRejectedError(
-                    f"BNP rejected request with HTTP {response.status_code}"
+                    f"BNP rejected request with HTTP {status_code}"
                     f"; response={detail!r}; payload={payload!r}; "
                     "hint=the /precedentes endpoint requires non-empty 'orgaos' and "
                     "'tipos'; NanoJuris fills them from the public catalog when the "
                     "query does not, so a 400 here signals a further contract change"
                 )
             raise SourceUnavailableError(
-                f"BNP rejected request with HTTP {response.status_code}; response={detail!r}"
+                f"BNP rejected request with HTTP {status_code}; response={detail!r}"
             )
 
         try:
@@ -371,15 +474,6 @@ class BnpPangeaProvider(JurisprudenceProvider):
             )
         return options
 
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
-
     @staticmethod
     def _validate_search_response(data: Any) -> None:
         if not isinstance(data, dict):
@@ -404,3 +498,13 @@ class BnpPangeaProvider(JurisprudenceProvider):
 def _short_response_text(response: requests.Response) -> str:
     text = getattr(response, "text", "") or ""
     return " ".join(text.split())[:300]
+
+
+def _coerce_total(value: Any) -> int:
+    try:
+        total = int(value)
+    except (TypeError, ValueError) as exc:
+        raise ParserContractChangedError("BNP search response total is not an integer") from exc
+    if total < 0:
+        raise ParserContractChangedError("BNP search response total cannot be negative")
+    return total

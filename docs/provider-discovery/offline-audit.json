@@ -1,347 +1,118 @@
 {
-  "generated_at": "2026-08-28T04:38:27+00:00",
+  "generated_at": "2026-09-13T04:19:09+00:00",
   "mode": "offline_only",
   "network_access": "not_used",
   "catalog": "docs/registry/provider-catalog.full.json",
   "summary": {
-    "catalog_entries": 56,
+    "catalog_entries": 85,
     "implementation_status": {
-      "family": 1,
-      "none": 9,
-      "runtime": 46
+      "none": 5,
+      "runtime": 80
     },
-    "mapped_unimplemented": 9,
-    "family_entries": 1,
-    "mapped_without_local_fixture": 9,
-    "local_discovery_runs": 3,
-    "runtime_providers": 46,
-    "runtime_with_versioned_fixture": 43,
-    "runtime_inline_test_only": 1,
-    "runtime_without_fixture_evidence": 2
+    "mapped_unimplemented": 0,
+    "diagnostic_adapters": 5,
+    "family_entries": 0,
+    "mapped_without_local_fixture": 0,
+    "local_discovery_runs": 17,
+    "runtime_providers": 80,
+    "runtime_with_versioned_fixture": 80,
+    "runtime_inline_test_only": 0,
+    "runtime_without_fixture_evidence": 0
   },
-  "mapped_candidates": [
+  "mapped_candidates": [],
+  "diagnostic_candidates": [
     {
-      "source_id": "tjrj_ejuris",
-      "display_name": "TJRJ EJURIS",
+      "source_id": "tjmsp_jurisprudencia",
+      "display_name": "TJMSP Jurisprudência (diagnóstico opt-in)",
       "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 11,
-      "maturity_grade": "D",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 54,
+      "maturity_grade": "C",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio",
+        "completar secoes faltantes do dossie"
       ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 4,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference",
-        "open_documentation_items"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "trf3_jurisprudencia",
-      "display_name": "TRF3 JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 11,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 7,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference",
-        "open_documentation_items"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "trt2_pje_jurisprudencia",
-      "display_name": "TRT2 PJE JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 11,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 4,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference",
-        "open_documentation_items"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "falcao_jt",
-      "display_name": "FALCAO JT",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "tjap_tucujuris",
-      "display_name": "TJAP TUCUJURIS",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "tjes_jurisprudencia",
-      "display_name": "TJES JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "tjmg_jurisprudencia",
-      "display_name": "TJMG JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "tjrn_jurisprudencia",
-      "display_name": "TJRN JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "tjse_jurisprudencia",
-      "display_name": "TJSE JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    }
-  ],
-  "family_entries": [
-    {
-      "source_id": "eproc_jurisprudencia_federal",
-      "display_name": "EPROC JURISPRUDENCIA FEDERAL",
-      "implementation_status": "family",
-      "coverage_role": "implementation_family",
-      "development_priority": "P1_family_reuse",
-      "maturity_score": 17,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
+      "module": "src/nanojuris/providers/tjmsp_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "family_spec",
-      "documentation_open_items": 1,
+      "documentation_readiness": "research_incomplete",
+      "documentation_open_items": 0,
       "fixture_references": [
-        "tnu_eproc_aposentadoria.html",
-        "trf2_eproc_aposentadoria.html",
-        "trf6_eproc_aposentadoria.html"
+        "tjmsp_portal.html"
       ],
       "test_references": [
-        "tests/test_eproc_jurisprudencia_federal.py"
+        "tests/test_tjmsp_jurisprudencia.py"
       ],
-      "inline_fixture_evidence": [
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
         {
-          "test": "tests/test_eproc_jurisprudencia_federal.py",
-          "named_payloads": [],
-          "direct_response_literals": true,
-          "in_memory_builder": false
+          "fixture": "tests/fixtures/tjmsp_portal.html",
+          "status": "analyzed",
+          "bytes": 154,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
         }
       ],
-      "fixture_evidence_kind": "versioned_and_inline",
+      "offline_evidence_status": "analyzed_local_fixtures"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "display_name": "TRT2 PJe jurisprudencia (diagnostico opt-in)",
+      "implementation_status": "none",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 63,
+      "maturity_grade": "C",
+      "next_actions": [
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio",
+        "fechar checklist objetivo do dossie",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+      ],
+      "module": "src/nanojuris/providers/trt2_pje_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_ready",
+      "documentation_open_items": 4,
+      "fixture_references": [
+        "trt2_pje_authorized_success.json",
+        "trt2_pje_challenge.json",
+        "trt2_pje_filtros.json",
+        "trt2_pje_opcoes.json"
+      ],
+      "test_references": [
+        "tests/test_trt2_pje_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
       "offline_discovery": [
         {
-          "fixture": "tests/fixtures/tnu_eproc_aposentadoria.html",
+          "fixture": "tests/fixtures/trt2_pje_authorized_success.json",
           "status": "analyzed",
-          "bytes": 353333,
+          "bytes": 419,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -354,108 +125,18 @@
             "access_denied": false,
             "request_blocked": false
           },
-          "routes": 88,
-          "selectors": 2,
-          "route_samples": [
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/modulos/jurisprudencia/ajuda/doc/Manual_Jurisprudência.pdf",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/imagens/icons/favicons/favicon_df.ico",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/css/dist/bundle-bs4.8383fd69e5d5091daa77.css",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/css/dist/bundle-bs4-contrast.670ec3540554789c4a5d.css",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/css/dist/bundle-global.6f8c6f8e978ead5f3d49.css",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/css/dist/bundle-infra.74dcfa6d713134e5ef04.css",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/css/dist/bundle-infra-contrast.079c8a1d7910fa75d7f4.css",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            },
-            {
-              "url": "https://eproctnu.cjf.jus.br/eproc/infra_js/multiple-select/multiple-select.css?9.22.0-3.0.8",
-              "method": "GET",
-              "source": "asset",
-              "reason": "HTML resource link",
-              "content_type": "",
-              "confidence": 0.35,
-              "depth": 1
-            }
-          ],
-          "selector_samples": [
-            {
-              "field": "decision_text",
-              "selector": "#filtroBase > div.row.mt-2.col-12:nth-of-type(3) > div.d-flex.align-items-center > div.form-group:nth-of-type(1) > span.uic-input-wrapper:nth-of-type(2) > div.d-xl-inline.custom-control.custom-radio:nth-of-type(2) > label.custom-control-label",
-              "label": "ementa",
-              "matches": 1,
-              "confidence": 0.75,
-              "evidence": "label:ementa; structural-match-count:1"
-            },
-            {
-              "field": "identifier",
-              "selector": "#filtroEspecifica > div.row.mt-2:nth-of-type(1) > div.col-12:nth-of-type(1) > div.form-group.mb-2 > label.d-flex",
-              "label": "processo",
-              "matches": 1,
-              "confidence": 0.75,
-              "evidence": "label:processo; structural-match-count:1"
-            }
-          ]
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
         },
         {
-          "fixture": "tests/fixtures/trf2_eproc_aposentadoria.html",
+          "fixture": "tests/fixtures/trt2_pje_challenge.json",
           "status": "analyzed",
-          "bytes": 873894,
-          "probe_status": "live_valid",
+          "bytes": 211,
+          "probe_status": "access_control_or_login",
           "probe_access_signals": {
-            "captcha": false,
+            "captcha": true,
             "recaptcha": false,
             "turnstile": false,
             "cloudflare": false,
@@ -465,105 +146,15 @@
             "access_denied": false,
             "request_blocked": false
           },
-          "routes": 97,
-          "selectors": 2,
-          "route_samples": [
-            {
-              "url": "https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50023356720254025001",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50323080420244025001",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50118237720264020000",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50005816020254025108",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50119779520264020000",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.jfrj.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50058385320264025101",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.jfrj.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50058237020254025117",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc.jfrj.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50021498720254025116",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            }
-          ],
-          "selector_samples": [
-            {
-              "field": "decision_text",
-              "selector": "#filtroBase > div.row.mt-2.col-12:nth-of-type(3) > div.d-flex.align-items-center > div.form-group:nth-of-type(1) > span.uic-input-wrapper:nth-of-type(2) > div.d-xl-inline.custom-control.custom-radio:nth-of-type(2) > label.custom-control-label",
-              "label": "ementa",
-              "matches": 1,
-              "confidence": 0.75,
-              "evidence": "label:ementa; structural-match-count:1"
-            },
-            {
-              "field": "identifier",
-              "selector": "#filtroEspecifica > div.row.mt-2:nth-of-type(1) > div.col-12:nth-of-type(1) > div.form-group.mb-2 > label.d-flex",
-              "label": "processo",
-              "matches": 1,
-              "confidence": 0.75,
-              "evidence": "label:processo; structural-match-count:1"
-            }
-          ]
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
         },
         {
-          "fixture": "tests/fixtures/trf6_eproc_aposentadoria.html",
+          "fixture": "tests/fixtures/trt2_pje_filtros.json",
           "status": "analyzed",
-          "bytes": 633065,
+          "bytes": 298,
           "probe_status": "live_valid",
           "probe_access_signals": {
             "captcha": false,
@@ -576,74 +167,215 @@
             "access_denied": false,
             "request_blocked": false
           },
-          "routes": 97,
-          "selectors": 2,
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/trt2_pje_opcoes.json",
+          "status": "analyzed",
+          "bytes": 372,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
+    },
+    {
+      "source_id": "falcao_jt",
+      "display_name": "Falcao JT (diagnostico opt-in)",
+      "implementation_status": "none",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 67,
+      "maturity_grade": "C",
+      "next_actions": [
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
+      ],
+      "module": "src/nanojuris/providers/falcao_jt.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "falcao_cloudfront.html",
+        "falcao_search_success.json",
+        "falcao_shell.html",
+        "falcao_trt_codes.json"
+      ],
+      "test_references": [
+        "tests/test_falcao_jt.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/falcao_cloudfront.html",
+          "status": "analyzed",
+          "bytes": 131,
+          "probe_status": "access_control_or_login",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": true
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/falcao_search_success.json",
+          "status": "analyzed",
+          "bytes": 565,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
           "route_samples": [
             {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=10089095320224019999",
+              "url": "https://jurisprudencia.jt.jus.br/documentos/TRT9-42",
               "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
+              "source": "json",
+              "reason": "JSON string endpoint",
               "content_type": "",
-              "confidence": 0.55,
+              "confidence": 0.6,
               "depth": 1
-            },
+            }
+          ],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/falcao_shell.html",
+          "status": "analyzed",
+          "bytes": 178,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/falcao_trt_codes.json",
+          "status": "analyzed",
+          "bytes": 101,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "display_name": "TJSE Jurisprudência Judicial",
+      "implementation_status": "none",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 70,
+      "maturity_grade": "B",
+      "next_actions": [
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
+      ],
+      "module": "src/nanojuris/providers/tjse_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjse_jurisprudencia_authorized.html",
+        "tjse_jurisprudencia_catalog.html",
+        "tjse_jurisprudencia_form.html"
+      ],
+      "test_references": [
+        "tests/test_tjse_jurisprudencia.py",
+        "tests/test_tjse_jurisprudencia_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/tjse_jurisprudencia_authorized.html",
+          "status": "analyzed",
+          "bytes": 293,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
             {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=10038221020244069999",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=00042791920174019199",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=10008950820234069999",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=60101753420264060000",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=10004641920184013813",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=00195451220184019199",
-              "method": "GET",
-              "source": "link",
-              "reason": "HTML link",
-              "content_type": "",
-              "confidence": 0.55,
-              "depth": 1
-            },
-            {
-              "url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=00022927120174013823",
+              "url": "https://www.tjse.jus.br/Dgorg/documentos/42",
               "method": "GET",
               "source": "link",
               "reason": "HTML link",
@@ -652,49 +384,172 @@
               "depth": 1
             }
           ],
-          "selector_samples": [
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/tjse_jurisprudencia_catalog.html",
+          "status": "analyzed",
+          "bytes": 604,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
             {
-              "field": "decision_text",
-              "selector": "#filtroBase > div.row.mt-2.col-12:nth-of-type(3) > div.d-flex.align-items-center > div.form-group:nth-of-type(1) > span.uic-input-wrapper:nth-of-type(2) > div.d-xl-inline.custom-control.custom-radio:nth-of-type(2) > label.custom-control-label",
-              "label": "ementa",
-              "matches": 1,
-              "confidence": 0.75,
-              "evidence": "label:ementa; structural-match-count:1"
-            },
-            {
-              "field": "identifier",
-              "selector": "#filtroEspecifica > div.row.mt-2:nth-of-type(1) > div.col-12:nth-of-type(1) > div.form-group.mb-2 > label.d-flex",
-              "label": "processo",
-              "matches": 1,
-              "confidence": 0.75,
-              "evidence": "label:processo; structural-match-count:1"
+              "url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+              "method": "POST",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
             }
-          ]
+          ],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/tjse_jurisprudencia_form.html",
+          "status": "analyzed",
+          "bytes": 440,
+          "probe_status": "candidate",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
+            {
+              "url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+              "method": "POST",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
+            }
+          ],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "display_name": "TJAP Tucujuris",
+      "implementation_status": "none",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 72,
+      "maturity_grade": "B",
+      "next_actions": [
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
+      ],
+      "module": "src/nanojuris/providers/tjap_tucujuris.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjap_tucujuris_access_control.json",
+        "tjap_tucujuris_empty.json"
+      ],
+      "test_references": [
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_tjap_tucujuris.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/tjap_tucujuris_access_control.json",
+          "status": "analyzed",
+          "bytes": 94,
+          "probe_status": "access_control_or_login",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": true,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/tjap_tucujuris_empty.json",
+          "status": "analyzed",
+          "bytes": 69,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
         }
       ],
       "offline_evidence_status": "analyzed_local_fixtures"
     }
   ],
+  "family_entries": [],
   "all_entries": [
     {
       "source_id": "bnp_pangea",
       "display_name": "Banco Nacional de Precedentes/Pangea",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "precedent_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 76,
-      "maturity_grade": "B",
+      "maturity_score": 87,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "manter monitoramento e ampliar fixtures por variacao juridica"
       ],
       "module": "src/nanojuris/providers/bnp_pangea.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 3,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "bnp_precedentes_empty.json",
+        "bnp_precedentes_invalid.json",
         "bnp_precedentes_species.json"
       ],
       "test_references": [
@@ -704,9 +559,7 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -714,12 +567,14 @@
       "source_id": "cjf_jurisprudencia",
       "display_name": "CJF Jurisprudencia TRF1",
       "implementation_status": "runtime",
-      "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 77,
-      "maturity_grade": "B",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 69,
+      "maturity_grade": "C",
       "next_actions": [
-        "fechar checklist objetivo do dossie"
+        "fechar checklist objetivo do dossie",
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/cjf_jurisprudencia.py",
       "runtime_registered": true,
@@ -730,6 +585,7 @@
       "fixture_references": [
         "cjf_trf1_access_control.html",
         "cjf_trf1_contract_changed.html",
+        "cjf_trf1_document.html",
         "cjf_trf1_empty.html",
         "cjf_trf1_success.html"
       ],
@@ -748,53 +604,53 @@
       "source_id": "cnj_jurisprudencia",
       "display_name": "CNJ Informativos de Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "curated_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 69,
-      "maturity_grade": "C",
+      "maturity_score": 83,
+      "maturity_grade": "B",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/cnj_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 6,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
-        "cnj_jurisprudencia_results.html"
+        "cnj_jurisprudencia_empty.html",
+        "cnj_jurisprudencia_results.html",
+        "cnj_jurisprudencia_schema_drift.html"
       ],
       "test_references": [
         "tests/test_cnj_jurisprudencia.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
     {
       "source_id": "eproc_jurisprudencia_federal",
-      "display_name": "EPROC JURISPRUDENCIA FEDERAL",
-      "implementation_status": "family",
-      "coverage_role": "implementation_family",
-      "development_priority": "P1_family_reuse",
-      "maturity_score": 17,
-      "maturity_grade": "D",
+      "display_name": "eproc federal jurisprudência (família opt-in)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 76,
+      "maturity_grade": "B",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
+        "validar inteiro teor com hash, tamanho e access_status",
         "rodar validacao live pequena com termo juridico padrao"
       ],
       "module": "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "family_spec",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tnu_eproc_aposentadoria.html",
         "trf2_eproc_aposentadoria.html",
@@ -812,9 +668,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [
         {
           "fixture": "tests/fixtures/tnu_eproc_aposentadoria.html",
@@ -1154,52 +1008,150 @@
     },
     {
       "source_id": "falcao_jt",
-      "display_name": "FALCAO JT",
+      "display_name": "Falcao JT (diagnostico opt-in)",
       "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 67,
+      "maturity_grade": "C",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/falcao_jt.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "research_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
+      "fixture_references": [
+        "falcao_cloudfront.html",
+        "falcao_search_success.json",
+        "falcao_shell.html",
+        "falcao_trt_codes.json"
       ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
+      "test_references": [
+        "tests/test_falcao_jt.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/falcao_cloudfront.html",
+          "status": "analyzed",
+          "bytes": 131,
+          "probe_status": "access_control_or_login",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": true
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/falcao_search_success.json",
+          "status": "analyzed",
+          "bytes": 565,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
+            {
+              "url": "https://jurisprudencia.jt.jus.br/documentos/TRT9-42",
+              "method": "GET",
+              "source": "json",
+              "reason": "JSON string endpoint",
+              "content_type": "",
+              "confidence": 0.6,
+              "depth": 1
+            }
+          ],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/falcao_shell.html",
+          "status": "analyzed",
+          "bytes": 178,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/falcao_trt_codes.json",
+          "status": "analyzed",
+          "bytes": 101,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
     },
     {
       "source_id": "justica_eleitoral_sjur",
       "display_name": "SJUR - Justica Eleitoral",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "curated_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 43,
+      "maturity_score": 44,
       "maturity_grade": "D",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "fechar checklist objetivo do dossie"
       ],
       "module": "src/nanojuris/providers/justica_eleitoral_sjur.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 4,
+      "documentation_open_items": 2,
       "fixture_references": [
         "sjur_classes.json",
         "sjur_eleicoes.json",
@@ -1221,13 +1173,13 @@
       "source_id": "stf_informativo",
       "display_name": "STF Informativo",
       "implementation_status": "runtime",
-      "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 82,
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P1_access_diagnostics",
+      "maturity_score": 73,
       "maturity_grade": "B",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "fechar checklist objetivo do dossie"
       ],
       "module": "src/nanojuris/providers/stf_informativo.py",
       "runtime_registered": true,
@@ -1235,9 +1187,12 @@
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
       "documentation_open_items": 3,
-      "fixture_references": [],
+      "fixture_references": [
+        "stf_informativo_rows.json"
+      ],
       "test_references": [
-        "tests/test_stf_informativo.py"
+        "tests/test_stf_informativo.py",
+        "tests/test_stf_informativo_live_recheck.py"
       ],
       "inline_fixture_evidence": [
         {
@@ -1247,9 +1202,8 @@
           "in_memory_builder": true
         }
       ],
-      "fixture_evidence_kind": "inline_test_only",
+      "fixture_evidence_kind": "versioned_and_inline",
       "blockers": [
-        "no_checked_in_fixture_reference",
         "open_documentation_items"
       ],
       "offline_discovery": [],
@@ -1259,10 +1213,11 @@
       "source_id": "stf_juris",
       "display_name": "STF Jurisprudencia",
       "implementation_status": "runtime",
-      "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 77,
-      "maturity_grade": "B",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 69,
+      "maturity_grade": "C",
       "next_actions": [
         "fechar checklist objetivo do dossie",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
@@ -1279,7 +1234,8 @@
         "stf_juris_waf.html"
       ],
       "test_references": [
-        "tests/test_stf_juris.py"
+        "tests/test_stf_juris.py",
+        "tests/test_stf_juris_live_recheck.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
@@ -1293,32 +1249,33 @@
       "source_id": "stj_dados_abertos_jurisprudencia",
       "display_name": "STJ Dados Abertos de Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "dataset_pipeline",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 47,
-      "maturity_grade": "D",
+      "maturity_score": 74,
+      "maturity_grade": "B",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/stj_dados_abertos_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "stj_ckan_package_empty.json",
+        "stj_ckan_package_resource_removed.json",
         "stj_ckan_package_search.json",
-        "stj_ckan_package_show.json"
+        "stj_ckan_package_show.json",
+        "stj_ckan_schema_changed.csv"
       ],
       "test_references": [
         "tests/test_stj_dados_abertos_jurisprudencia.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1326,21 +1283,23 @@
       "source_id": "stj_informativo",
       "display_name": "STJ Informativo",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 81,
-      "maturity_grade": "B",
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 90,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/stj_informativo.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 3,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
-        "stj_informativo_infanticidio.html"
+        "stj_informativo_infanticidio.html",
+        "stj_informativo_multiplas_notas.html"
       ],
       "test_references": [
         "tests/test_stj_informativo.py"
@@ -1354,9 +1313,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1364,12 +1321,12 @@
       "source_id": "stj_scon",
       "display_name": "STJ SCON Acordaos",
       "implementation_status": "runtime",
-      "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 82,
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 75,
       "maturity_grade": "B",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -1377,8 +1334,8 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "stj_scon_access_control.html",
         "stj_scon_acordaos_result.html",
@@ -1398,9 +1355,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1408,21 +1363,20 @@
       "source_id": "stm_jurisprudencia",
       "display_name": "STM Jurisprudencia JMU",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 79,
-      "maturity_grade": "B",
+      "maturity_score": 88,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "validar inteiro teor com hash, tamanho e access_status",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/stm_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 5,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "stm_jurisprudencia_results.html"
       ],
@@ -1438,9 +1392,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1448,31 +1400,31 @@
       "source_id": "tce_pr_viajuris",
       "display_name": "TCE-PR ViaJuris Dados Abertos",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "administrative_context",
       "development_priority": "P2_maintain",
-      "maturity_score": 77,
-      "maturity_grade": "B",
+      "maturity_score": 90,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tce_pr_viajuris.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 3,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
-        "tce_pr_viajuris_acordaos.csv"
+        "tce_pr_viajuris_acordaos.csv",
+        "tce_pr_viajuris_empty.csv",
+        "tce_pr_viajuris_invalid.csv"
       ],
       "test_references": [
         "tests/test_tce_pr_viajuris.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1480,33 +1432,39 @@
       "source_id": "tce_sp_jurisprudencia",
       "display_name": "TCE-SP Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "administrative_context",
       "development_priority": "P2_maintain",
-      "maturity_score": 57,
+      "maturity_score": 65,
       "maturity_grade": "C",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao",
+        "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
       "module": "src/nanojuris/providers/tce_sp_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 5,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tce_sp_boletins.html",
+        "tce_sp_indice.html",
         "tce_sp_sumulas.html"
       ],
       "test_references": [
         "tests/test_tce_sp_jurisprudencia.py"
       ],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tce_sp_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
       ],
+      "fixture_evidence_kind": "versioned_and_inline",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1514,22 +1472,24 @@
       "source_id": "tcu_jurisprudencia",
       "display_name": "TCU Jurisprudencia e Dados Abertos",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "administrative_context",
       "development_priority": "P2_maintain",
-      "maturity_score": 69,
-      "maturity_grade": "C",
+      "maturity_score": 88,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie"
+        "manter monitoramento e ampliar fixtures por variacao juridica"
       ],
       "module": "src/nanojuris/providers/tcu_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 4,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tcu_acordao_resumo.csv",
         "tcu_acordao_resumo_empty.csv",
+        "tcu_jurisprudencia_selecionada.csv",
         "tcu_manifest.csv",
         "tcu_manifest_contract_changed.txt"
       ],
@@ -1539,9 +1499,37 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjac_banco_sentencas",
+      "display_name": "TJAC Banco de Sentencas (CJPG curado)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 75,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
+      "module": "src/nanojuris/providers/tjac_banco_sentencas.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjac_banco_sentencas_index.html"
+      ],
+      "test_references": [
+        "tests/test_tjac_banco_sentencas.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1549,12 +1537,12 @@
       "source_id": "tjac_cjsg",
       "display_name": "TJAC Consulta de Jurisprudencia/CJSG",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 80,
-      "maturity_grade": "B",
+      "maturity_score": 88,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -1562,9 +1550,11 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 4,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "tjac_cjsg_empty.html",
+        "tjsp_cjsg_ack.html",
         "tjsp_cjsg_result.html"
       ],
       "test_references": [
@@ -1579,9 +1569,39 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjac_ementario_jurisprudencia",
+      "display_name": "TJAC Ementario de Jurisprudencia",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 88,
+      "maturity_grade": "A",
+      "next_actions": [
+        "manter monitoramento e ampliar fixtures por variacao juridica"
       ],
+      "module": "src/nanojuris/providers/tjac_ementario_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjac_ementario_empty.txt",
+        "tjac_ementario_schema_invalid.txt",
+        "tjac_ementario_success.txt"
+      ],
+      "test_references": [
+        "tests/test_tjac_ementario_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1589,12 +1609,12 @@
       "source_id": "tjal_cjsg",
       "display_name": "TJAL Consulta de Jurisprudencia/CJSG",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 80,
-      "maturity_grade": "B",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -1602,9 +1622,11 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 8,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "provider_contracts.json",
+        "tjsp_cjsg_ack.html",
         "tjsp_cjsg_result.html"
       ],
       "test_references": [
@@ -1619,9 +1641,73 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjal_esmal_banco_sentencas",
+      "display_name": "TJAL ESMAL Banco de Sentencas (CJPG curado)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 84,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
+      "module": "src/nanojuris/providers/tjal_esmal_banco_sentencas.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjal_esmal_empty.html",
+        "tjal_esmal_invalid.html",
+        "tjal_esmal_invalid.pdf",
+        "tjal_esmal_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjal_esmal_banco_sentencas.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjal_turma_recursal_ementario",
+      "display_name": "TJAL Ementario das Turmas Recursais",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 77,
+      "maturity_grade": "B",
+      "next_actions": [
+        "manter monitoramento e ampliar fixtures por variacao juridica"
+      ],
+      "module": "src/nanojuris/providers/tjal_turma_recursal_ementario.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "provider_contracts.json",
+        "tjal_turma_recursal_empty.txt",
+        "tjal_turma_recursal_invalid.pdf",
+        "tjal_turma_recursal_success.txt"
+      ],
+      "test_references": [
+        "tests/test_tjal_turma_recursal_ementario.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1629,12 +1715,12 @@
       "source_id": "tjam_cjsg",
       "display_name": "TJAM Consulta de Jurisprudencia/CJSG",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 78,
-      "maturity_grade": "B",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -1642,9 +1728,11 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 8,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "provider_contracts.json",
+        "tjsp_cjsg_ack.html",
         "tjsp_cjsg_result.html"
       ],
       "test_references": [
@@ -1659,60 +1747,136 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjap_banco_sentencas",
+      "display_name": "TJAP Banco de Sentenças (CJPG)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 91,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
+      "module": "src/nanojuris/providers/tjap_banco_sentencas.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjap_banco_sentencas_blocked.html",
+        "tjap_banco_sentencas_empty.html",
+        "tjap_banco_sentencas_sigiloso.html",
+        "tjap_banco_sentencas_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjap_banco_sentencas.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
     {
       "source_id": "tjap_tucujuris",
-      "display_name": "TJAP TUCUJURIS",
+      "display_name": "TJAP Tucujuris",
       "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 72,
+      "maturity_grade": "B",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tjap_tucujuris.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "research_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
+      "fixture_references": [
+        "tjap_tucujuris_access_control.json",
+        "tjap_tucujuris_empty.json"
       ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
+      "test_references": [
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_tjap_tucujuris.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/tjap_tucujuris_access_control.json",
+          "status": "analyzed",
+          "bytes": 94,
+          "probe_status": "access_control_or_login",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": true,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/tjap_tucujuris_empty.json",
+          "status": "analyzed",
+          "bytes": 69,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
     },
     {
       "source_id": "tjba_graphql",
       "display_name": "TJBA Jurisprudencia GraphQL",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 90,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 94,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjba_graphql.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjba_graphql_catalog.json",
         "tjba_graphql_detail.html",
@@ -1725,9 +1889,7 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1735,12 +1897,12 @@
       "source_id": "tjce_cjsg",
       "display_name": "TJCE Consulta de Jurisprudencia/CJSG",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 75,
-      "maturity_grade": "B",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -1748,10 +1910,11 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 7,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
-        "tjsp_cjsg_result.html"
+        "tjce_cjsg_result.html",
+        "tjsp_cjsg_ack.html"
       ],
       "test_references": [
         "tests/test_tjce_cjsg.py"
@@ -1765,9 +1928,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1775,13 +1936,13 @@
       "source_id": "tjce_informativos",
       "display_name": "TJCE Informativos de Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "curated_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 77,
+      "maturity_score": 70,
       "maturity_grade": "B",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "fechar checklist objetivo do dossie"
       ],
       "module": "src/nanojuris/providers/tjce_informativos.py",
       "runtime_registered": true,
@@ -1807,9 +1968,10 @@
       "source_id": "tjce_sjuris",
       "display_name": "TJCE SJURIS",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 87,
+      "maturity_score": 89,
       "maturity_grade": "A",
       "next_actions": [
         "validar inteiro teor com hash, tamanho e access_status"
@@ -1821,7 +1983,9 @@
       "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
       "fixture_references": [
-        "tjce_sjuris_results.json"
+        "tjce_sjuris_empty.json",
+        "tjce_sjuris_results.json",
+        "tjce_sjuris_schema_drift.json"
       ],
       "test_references": [
         "tests/test_tjce_sjuris.py"
@@ -1836,6 +2000,7 @@
       "source_id": "tjdf_juris",
       "display_name": "TJDFT Jurisprudencia/SISTJ",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_reference_provider",
       "maturity_score": 94,
@@ -1874,32 +2039,109 @@
       "offline_evidence_status": "no_local_fixture"
     },
     {
-      "source_id": "tjes_jurisprudencia",
-      "display_name": "TJES JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
+      "source_id": "tjes_cjpg",
+      "display_name": "TJES CJPG Jurisprudencia (1o grau)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 88,
+      "maturity_grade": "A",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tjes_cjpg.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "research_ready",
+      "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
+      "fixture_references": [
+        "tjes_cjpg_empty.json",
+        "tjes_cjpg_invalid.json",
+        "tjes_cjpg_schema_drift.json",
+        "tjes_cjpg_success.json"
       ],
+      "test_references": [
+        "tests/test_identity_provider_migration.py",
+        "tests/test_tjes_cjpg.py",
+        "tests/test_tjes_cjpg_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "display_name": "TJES Jurisprudencia/CJSG (2o grau)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 87,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+      ],
+      "module": "src/nanojuris/providers/tjes_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjes_cjsg_empty.json",
+        "tjes_cjsg_html_only.json",
+        "tjes_cjsg_invalid.json",
+        "tjes_cjsg_schema_drift.json",
+        "tjes_cjsg_success.json"
+      ],
+      "test_references": [
+        "tests/test_tjes_jurisprudencia.py",
+        "tests/test_tjes_jurisprudencia_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "display_name": "TJES Jurisprudencia/Turma Recursal",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 87,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+      ],
+      "module": "src/nanojuris/providers/tjes_turma_recursal.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjes_turma_recursal_empty.json",
+        "tjes_turma_recursal_invalid.json",
+        "tjes_turma_recursal_schema_drift.json",
+        "tjes_turma_recursal_success.json"
+      ],
+      "test_references": [
+        "tests/test_tjes_turma_recursal.py",
+        "tests/test_tjes_turma_recursal_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1907,27 +2149,29 @@
       "source_id": "tjgo_projudi_jurisprudencia",
       "display_name": "TJGO PROJUDI Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 75,
-      "maturity_grade": "B",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao",
+        "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
       "module": "src/nanojuris/providers/tjgo_projudi_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 3,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjgo_projudi_dano_moral.html",
         "tjgo_projudi_empty.html"
       ],
       "test_references": [
-        "tests/test_tjgo_projudi_jurisprudencia.py"
+        "tests/test_tjgo_contract.py",
+        "tests/test_tjgo_projudi_jurisprudencia.py",
+        "tests/test_tjro_tjgo_live.py"
       ],
       "inline_fixture_evidence": [
         {
@@ -1938,9 +2182,37 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjma_informativos",
+      "display_name": "TJMA Informativos de Jurisprudência",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 68,
+      "maturity_grade": "C",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
+      "module": "src/nanojuris/providers/tjma_informativos.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjma_informativos_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjma_informativos.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -1948,9 +2220,10 @@
       "source_id": "tjma_jurisconsult",
       "display_name": "TJMA JurisConsult",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "specialized_context",
       "development_priority": "P2_maintain",
-      "maturity_score": 54,
+      "maturity_score": 63,
       "maturity_grade": "C",
       "next_actions": [
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
@@ -1974,32 +2247,206 @@
       "offline_evidence_status": "no_local_fixture"
     },
     {
-      "source_id": "tjmg_jurisprudencia",
-      "display_name": "TJMG JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
+      "source_id": "tjmg_dspace_jurisprudencia",
+      "display_name": "TJMG Biblioteca Digital — Jurisprudência (CJSG)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 87,
+      "maturity_grade": "A",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tjmg_dspace_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "research_ready",
+      "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
+      "fixture_references": [
+        "tjmg_dspace_empty.json",
+        "tjmg_dspace_schema_drift.json",
+        "tjmg_dspace_search.json"
       ],
+      "test_references": [
+        "tests/test_tjmg_dspace_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjmg_ejef_boletim_jurisprudencia",
+      "display_name": "TJMG/EJEF Boletim de Jurisprudencia",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 84,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tjmg_ejef_boletim_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjmg_ejef_boletim_empty.json",
+        "tjmg_ejef_boletim_invalid.json",
+        "tjmg_ejef_boletim_search.json"
+      ],
+      "test_references": [
+        "tests/test_tjmg_ejef_boletim_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "display_name": "TJMG Jurisprudência API (CJSG)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 87,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+      ],
+      "module": "src/nanojuris/providers/tjmg_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjmg_jurisprudencia_captcha.html",
+        "tjmg_jurisprudencia_modern.json",
+        "tjmg_jurisprudencia_modern_empty.json",
+        "tjmg_jurisprudencia_modern_error.json",
+        "tjmg_jurisprudencia_modern_schema.json"
+      ],
+      "test_references": [
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_tjmg_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjmmg_jurisprudencia_api",
+      "display_name": "TJMMG Jurisprudência",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 77,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tjmmg_jurisprudencia_api.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjmmg_metadata.json",
+        "tjmmg_search.json"
+      ],
+      "test_references": [
+        "tests/test_tjmmg_jurisprudencia_api.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjmrs_jurisprudencia",
+      "display_name": "TJMRS Jurisprudência (processo exato)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 57,
+      "maturity_grade": "C",
+      "next_actions": [
+        "completar secoes faltantes do dossie",
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tjmrs_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjmrs_jurisprudencia_empty.html",
+        "tjmrs_jurisprudencia_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjmrs_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjmrs_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjms_cjpg",
+      "display_name": "TJMS CJPG Jurisprudencia (1o grau)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 87,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+      ],
+      "module": "src/nanojuris/providers/tjms_cjpg.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjms_cjpg_access_control.html",
+        "tjms_cjpg_empty.html",
+        "tjms_cjpg_schema_drift.html",
+        "tjms_cjpg_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjms_cjpg.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2007,12 +2454,12 @@
       "source_id": "tjms_cjsg",
       "display_name": "TJMS Consulta de Jurisprudencia/CJSG",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 80,
-      "maturity_grade": "B",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -2020,9 +2467,11 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 8,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "provider_contracts.json",
+        "tjsp_cjsg_ack.html",
         "tjsp_cjsg_result.html"
       ],
       "test_references": [
@@ -2037,19 +2486,71 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "display_name": "TJMSP Jurisprudência (diagnóstico opt-in)",
+      "implementation_status": "none",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 54,
+      "maturity_grade": "C",
+      "next_actions": [
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio",
+        "completar secoes faltantes do dossie"
+      ],
+      "module": "src/nanojuris/providers/tjmsp_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "research_incomplete",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjmsp_portal.html"
+      ],
+      "test_references": [
+        "tests/test_tjmsp_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/tjmsp_portal.html",
+          "status": "analyzed",
+          "bytes": 154,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
     },
     {
       "source_id": "tjmt_jurisprudencia_api",
       "display_name": "TJMT Jurisprudencia API",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 86,
+      "maturity_score": 91,
       "maturity_grade": "A",
       "next_actions": [
         "validar inteiro teor com hash, tamanho e access_status"
@@ -2076,31 +2577,33 @@
       "source_id": "tjpa_jurisprudencia_bff",
       "display_name": "TJPA Jurisprudencia BFF",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 88,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 95,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjpa_jurisprudencia_bff.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 14,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "tjpa_jurisprudencia_bff_empty.json",
+        "tjpa_jurisprudencia_bff_filters.json",
+        "tjpa_jurisprudencia_bff_invalid.json",
         "tjpa_jurisprudencia_bff_results.json"
       ],
       "test_references": [
-        "tests/test_initial_json_providers.py"
+        "tests/test_initial_json_providers.py",
+        "tests/test_tjpa_fixture_contract.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2108,30 +2611,31 @@
       "source_id": "tjpb_pje_jurisprudencia",
       "display_name": "TJPB PJe Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 87,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 95,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjpb_pje_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 6,
-      "fixture_references": [],
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjpb_access_control.html",
+        "tjpb_pje_jurisprudencia_success.json"
+      ],
       "test_references": [
-        "tests/test_initial_json_providers.py"
+        "tests/test_initial_json_providers.py",
+        "tests/test_juscraper_runtime_parity.py"
       ],
       "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_checked_in_fixture_reference",
-        "open_documentation_items"
-      ],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2139,10 +2643,11 @@
       "source_id": "tjpe_jurisprudencia",
       "display_name": "TJPE Consulta de Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 84,
-      "maturity_grade": "B",
+      "maturity_score": 91,
+      "maturity_grade": "A",
       "next_actions": [
         "validar inteiro teor com hash, tamanho e access_status"
       ],
@@ -2153,7 +2658,11 @@
       "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
       "fixture_references": [
-        "tjpe_jurisprudencia_results.json"
+        "tjpe_jurisprudencia_results.json",
+        "tjpe_juscraper_choice_ascii.html",
+        "tjpe_juscraper_empty.html",
+        "tjpe_juscraper_results_ascii.html",
+        "tjpe_juscraper_search.html"
       ],
       "test_references": [
         "tests/test_tjpe_jurisprudencia.py"
@@ -2168,27 +2677,29 @@
       "source_id": "tjpi_juspi",
       "display_name": "TJPI JusPI Jurisprudencias",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 85,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 93,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjpi_juspi.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 4,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjpi_juspi_dano_moral.html",
         "tjpi_juspi_detail.html",
         "tjpi_juspi_empty.html"
       ],
       "test_references": [
-        "tests/test_tjpi_juspi.py"
+        "tests/test_tjpi_contract.py",
+        "tests/test_tjpi_juspi.py",
+        "tests/test_tjpi_live.py"
       ],
       "inline_fixture_evidence": [
         {
@@ -2199,9 +2710,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2209,12 +2718,13 @@
       "source_id": "tjpr_jurisprudencia",
       "display_name": "TJPR Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_reference_provider",
-      "maturity_score": 89,
+      "maturity_score": 93,
       "maturity_grade": "A",
       "next_actions": [
-        "manter monitoramento e ampliar fixtures por variacao juridica"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjpr_jurisprudencia.py",
       "runtime_registered": true,
@@ -2228,6 +2738,43 @@
       "test_references": [
         "tests/test_tjpr_jurisprudencia.py"
       ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_tjpr_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjrj_banco_sentencas",
+      "display_name": "TJRJ Banco de Sentencas selecionadas (CJPG curado)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 73,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tjrj_banco_sentencas.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjrj_banco_sentencas_index.json"
+      ],
+      "test_references": [
+        "tests/test_tjrj_banco_sentencas.py"
+      ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
       "blockers": [],
@@ -2236,33 +2783,36 @@
     },
     {
       "source_id": "tjrj_ejuris",
-      "display_name": "TJRJ EJURIS",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 11,
-      "maturity_grade": "D",
+      "display_name": "TJRJ EJURIS Jurisprudência (CJSG)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 91,
+      "maturity_grade": "A",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tjrj_ejuris.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 4,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference",
-        "open_documentation_items"
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjrj_ejuris_empty.json",
+        "tjrj_ejuris_form.html",
+        "tjrj_ejuris_invalid.json",
+        "tjrj_ejuris_page.json",
+        "tjrj_ejuris_page2.json"
       ],
+      "test_references": [
+        "tests/test_tjrj_ejuris.py",
+        "tests/test_tjrj_ejuris_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2270,60 +2820,104 @@
       "source_id": "tjrj_eproc_jurisprudencia",
       "display_name": "TJRJ eproc Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 82,
-      "maturity_grade": "B",
+      "maturity_score": 91,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjrj_eproc_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 6,
-      "fixture_references": [],
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjrj_eproc_jurisprudencia_access_control.html",
+        "tjrj_eproc_jurisprudencia_empty.html",
+        "tjrj_eproc_jurisprudencia_result.html",
+        "tjrj_eproc_jurisprudencia_second.html"
+      ],
       "test_references": [
         "tests/test_state_eproc_jurisprudencia.py"
       ],
       "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_checked_in_fixture_reference",
-        "open_documentation_items"
-      ],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
     {
       "source_id": "tjrn_jurisprudencia",
-      "display_name": "TJRN JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
+      "display_name": "TJRN Jurisprudencia textual (portal unificado)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tjrn_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "research_ready",
+      "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
+      "fixture_references": [
+        "tjrn_jurisprudencia_empty.json",
+        "tjrn_jurisprudencia_invalid.json",
+        "tjrn_jurisprudencia_schema_drift.json",
+        "tjrn_jurisprudencia_success.json"
       ],
+      "test_references": [
+        "tests/test_tjrn_jurisprudencia.py",
+        "tests/test_tjrn_jurisprudencia_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "display_name": "TJRO Jurisprudencia textual",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 82,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tjro_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjro_jurisprudencia_access_control.json",
+        "tjro_jurisprudencia_empty.json",
+        "tjro_jurisprudencia_error.json",
+        "tjro_jurisprudencia_invalid.json",
+        "tjro_jurisprudencia_related.json",
+        "tjro_jurisprudencia_results.json",
+        "tjro_jurisprudencia_schema_drift.json"
+      ],
+      "test_references": [
+        "tests/test_tjro_jurisprudencia.py",
+        "tests/test_tjro_tjgo_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2331,10 +2925,11 @@
       "source_id": "tjro_liame",
       "display_name": "TJRO LIAME Precedentes Qualificados",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "precedent_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 74,
-      "maturity_grade": "B",
+      "maturity_score": 85,
+      "maturity_grade": "A",
       "next_actions": [
         "manter monitoramento e ampliar fixtures por variacao juridica"
       ],
@@ -2345,10 +2940,14 @@
       "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
       "fixture_references": [
-        "tjro_liame_results.json"
+        "tjro_liame_empty.json",
+        "tjro_liame_results.json",
+        "tjro_liame_schema_drift.json"
       ],
       "test_references": [
-        "tests/test_tjro_liame.py"
+        "tests/test_tjro_jurisprudencia.py",
+        "tests/test_tjro_liame.py",
+        "tests/test_tjro_liame_live_smoke.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
@@ -2360,20 +2959,20 @@
       "source_id": "tjrr_juris",
       "display_name": "TJRR Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 84,
-      "maturity_grade": "B",
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 92,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjrr_juris.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 2,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjrr_juris_detail.html",
         "tjrr_juris_form.html",
@@ -2391,9 +2990,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2401,12 +2998,13 @@
       "source_id": "tjrs_solr",
       "display_name": "TJRS Jurisprudencia AJAX/SOLR",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_reference_provider",
-      "maturity_score": 89,
+      "maturity_score": 92,
       "maturity_grade": "A",
       "next_actions": [
-        "manter monitoramento e ampliar fixtures por variacao juridica"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjrs_solr.py",
       "runtime_registered": true,
@@ -2432,21 +3030,24 @@
       "source_id": "tjsc_eproc_jurisprudencia",
       "display_name": "TJSC eproc Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 85,
+      "maturity_score": 91,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjsc_eproc_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 2,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
+        "tjsc_eproc_jurisprudencia_access_control.html",
+        "tjsc_eproc_jurisprudencia_empty.html",
+        "tjsc_eproc_jurisprudencia_form.html",
         "tjsc_eproc_jurisprudencia_result.html"
       ],
       "test_references": [
@@ -2455,39 +3056,205 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tjse_boletim_jurisprudencia",
+      "display_name": "TJSE Boletim Jurídico (CJSG)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 89,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
+      "module": "src/nanojuris/providers/tjse_boletim_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjse_boletim_detail.html",
+        "tjse_boletim_empty.html",
+        "tjse_boletim_empty.html.",
+        "tjse_boletim_principal.html",
+        "tjse_boletim_search.html"
+      ],
+      "test_references": [
+        "tests/test_tjse_boletim_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
     {
       "source_id": "tjse_jurisprudencia",
-      "display_name": "TJSE JURISPRUDENCIA",
+      "display_name": "TJSE Jurisprudência Judicial",
       "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 15,
-      "maturity_grade": "D",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 70,
+      "maturity_grade": "B",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "rodar validacao live pequena com termo juridico padrao"
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tjse_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "research_ready",
       "documentation_open_items": 0,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference"
+      "fixture_references": [
+        "tjse_jurisprudencia_authorized.html",
+        "tjse_jurisprudencia_catalog.html",
+        "tjse_jurisprudencia_form.html"
       ],
+      "test_references": [
+        "tests/test_tjse_jurisprudencia.py",
+        "tests/test_tjse_jurisprudencia_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/tjse_jurisprudencia_authorized.html",
+          "status": "analyzed",
+          "bytes": 293,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
+            {
+              "url": "https://www.tjse.jus.br/Dgorg/documentos/42",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            }
+          ],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/tjse_jurisprudencia_catalog.html",
+          "status": "analyzed",
+          "bytes": 604,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
+            {
+              "url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+              "method": "POST",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
+            }
+          ],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/tjse_jurisprudencia_form.html",
+          "status": "analyzed",
+          "bytes": 440,
+          "probe_status": "candidate",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 1,
+          "selectors": 0,
+          "route_samples": [
+            {
+              "url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+              "method": "POST",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
+            }
+          ],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "display_name": "TJSP CJPG Jurisprudencia (1o grau)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 87,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+      ],
+      "module": "src/nanojuris/providers/tjsp_cjpg.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tjsp_cjpg_access_control.html",
+        "tjsp_cjpg_empty.html",
+        "tjsp_cjpg_schema_drift.html",
+        "tjsp_cjpg_success.html"
+      ],
+      "test_references": [
+        "tests/test_identity_provider_migration.py",
+        "tests/test_tjms_cjpg.py",
+        "tests/test_tjsp_cjpg.py",
+        "tests/test_tjsp_cjpg_live.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2495,12 +3262,12 @@
       "source_id": "tjsp_cjsg",
       "display_name": "TJSP Consulta de Jurisprudencia/CJSG",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 79,
-      "maturity_grade": "B",
+      "maturity_score": 88,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status",
         "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
@@ -2508,10 +3275,11 @@
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 2,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjsp_cjsg_access_control.html",
+        "tjsp_cjsg_ack.html",
         "tjsp_cjsg_document.html",
         "tjsp_cjsg_empty.html",
         "tjsp_cjsg_result.html"
@@ -2524,7 +3292,8 @@
         "tests/test_tjce_cjsg.py",
         "tests/test_tjms_cjsg.py",
         "tests/test_tjsp_cjsg.py",
-        "tests/test_tjsp_cjsg_live.py"
+        "tests/test_tjsp_cjsg_live.py",
+        "tests/test_tjsp_cjsg_live_recheck.py"
       ],
       "inline_fixture_evidence": [
         {
@@ -2535,9 +3304,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2545,20 +3312,20 @@
       "source_id": "tjsp_eproc_jurisprudencia",
       "display_name": "TJSP eproc Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 80,
-      "maturity_grade": "B",
+      "maturity_score": 90,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tjsp_eproc_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 6,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjsc_eproc_jurisprudencia_result.html",
         "tjsp_eproc_jurisprudencia_result.html",
@@ -2569,7 +3336,8 @@
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_stj_scon.py",
         "tests/test_tjsp_eproc_jurisprudencia.py",
-        "tests/test_trf4_eproc_jurisprudencia.py"
+        "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py"
       ],
       "inline_fixture_evidence": [
         {
@@ -2580,9 +3348,7 @@
         }
       ],
       "fixture_evidence_kind": "versioned_and_inline",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2590,22 +3356,25 @@
       "source_id": "tjsp_nugepnac",
       "display_name": "TJSP NugepNac Precedentes",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "precedent_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 66,
-      "maturity_grade": "C",
+      "maturity_score": 73,
+      "maturity_grade": "B",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "manter monitoramento e ampliar fixtures por variacao juridica"
       ],
       "module": "src/nanojuris/providers/tjsp_nugepnac.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 6,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tjsp_nugepnac_detail.html",
+        "tjsp_nugepnac_document.html",
+        "tjsp_nugepnac_iac_detail_no_thesis.html",
+        "tjsp_nugepnac_iac_list.html",
         "tjsp_nugepnac_list.html"
       ],
       "test_references": [
@@ -2613,9 +3382,7 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2623,9 +3390,10 @@
       "source_id": "tjto_jurisprudencia",
       "display_name": "TJTO Jurisprudencia 4.0",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 86,
+      "maturity_score": 91,
       "maturity_grade": "A",
       "next_actions": [
         "validar inteiro teor com hash, tamanho e access_status"
@@ -2637,9 +3405,11 @@
       "documentation_readiness": "implementation_ready",
       "documentation_open_items": 0,
       "fixture_references": [
+        "tjto_cjpg_results.html",
         "tjto_jurisprudencia_results.json"
       ],
       "test_references": [
+        "tests/test_juscraper_runtime_parity.py",
         "tests/test_tjto_jurisprudencia.py"
       ],
       "inline_fixture_evidence": [
@@ -2659,20 +3429,20 @@
       "source_id": "tnu_eproc_jurisprudencia",
       "display_name": "TNU eproc Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 90,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 95,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/tnu_eproc_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tnu_eproc_aposentadoria.html",
         "trf2_eproc_aposentadoria.html",
@@ -2683,6 +3453,38 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tre_sjur_first_degree",
+      "display_name": "SJUR/TRE jurisprudencia de primeiro grau (família opt-in)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 70,
+      "maturity_grade": "B",
+      "next_actions": [
+        "fechar checklist objetivo do dossie",
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tre_sjur_first_degree.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 3,
+      "fixture_references": [
+        "tre_sjur_first_degree_success.json"
+      ],
+      "test_references": [
+        "tests/test_tre_sjur_first_degree_probe.py",
+        "tests/test_tre_sjur_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
         "open_documentation_items"
       ],
@@ -2690,16 +3492,51 @@
       "offline_evidence_status": "no_local_fixture"
     },
     {
+      "source_id": "tre_sjur_jurisprudencia",
+      "display_name": "SJUR/TRE jurisprudencia textual (família opt-in)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 65,
+      "maturity_grade": "C",
+      "next_actions": [
+        "completar secoes faltantes do dossie",
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tre_sjur_jurisprudencia.py",
+      "runtime_registered": false,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tre_sjur_first_degree_success.json",
+        "tre_sjur_pagination_duplicate.json",
+        "tse_sjur_empty.json",
+        "tse_sjur_success.json"
+      ],
+      "test_references": [
+        "tests/test_tre_sjur_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
       "source_id": "tre_sp_temas",
       "display_name": "TRE-SP Temas Selecionados",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "curated_context",
       "development_priority": "P1_contextual_value",
-      "maturity_score": 62,
+      "maturity_score": 58,
       "maturity_grade": "C",
       "next_actions": [
         "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tre_sp_temas.py",
       "runtime_registered": true,
@@ -2726,20 +3563,20 @@
       "source_id": "trf2_eproc_jurisprudencia",
       "display_name": "TRF2 eproc Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 89,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 94,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/trf2_eproc_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tnu_eproc_aposentadoria.html",
         "trf2_eproc_aposentadoria.html",
@@ -2750,72 +3587,40 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
     {
       "source_id": "trf3_jurisprudencia",
-      "display_name": "TRF3 JURISPRUDENCIA",
-      "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 11,
-      "maturity_grade": "D",
-      "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
-        "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
-      ],
-      "module": null,
-      "runtime_registered": false,
-      "canonical_dossier": true,
-      "legacy_contract": true,
-      "documentation_readiness": "research_ready",
-      "documentation_open_items": 7,
-      "fixture_references": [],
-      "test_references": [],
-      "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
-      "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference",
-        "open_documentation_items"
-      ],
-      "offline_discovery": [],
-      "offline_evidence_status": "no_local_fixture"
-    },
-    {
-      "source_id": "trf4_eproc_jurisprudencia",
-      "display_name": "TRF4 eproc Jurisprudencia",
+      "display_name": "TRF3 Jurisprudência (processo exato)",
       "implementation_status": "runtime",
-      "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 85,
-      "maturity_grade": "A",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 63,
+      "maturity_grade": "C",
       "next_actions": [
         "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
-      "module": "src/nanojuris/providers/trf4_eproc_jurisprudencia.py",
+      "module": "src/nanojuris/providers/trf3_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 6,
+      "documentation_open_items": 2,
       "fixture_references": [
-        "trf4_eproc_results.html"
+        "trf3_jurisprudencia_detail.html",
+        "trf3_jurisprudencia_process_empty.html",
+        "trf3_jurisprudencia_process_results.html"
       ],
       "test_references": [
-        "tests/test_client_exporters.py",
-        "tests/test_trf4_eproc_jurisprudencia.py"
+        "tests/test_trf3_jurisprudencia.py"
       ],
       "inline_fixture_evidence": [
         {
-          "test": "tests/test_trf4_eproc_jurisprudencia.py",
+          "test": "tests/test_trf3_jurisprudencia.py",
           "named_payloads": [],
           "direct_response_literals": true,
           "in_memory_builder": false
@@ -2829,23 +3634,67 @@
       "offline_evidence_status": "no_local_fixture"
     },
     {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "display_name": "TRF4 eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 92,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/trf4_eproc_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trf4_eproc_empty.html",
+        "trf4_eproc_pagination.html",
+        "trf4_eproc_results.html",
+        "trf4_eproc_schema_drift.html"
+      ],
+      "test_references": [
+        "tests/test_client_exporters.py",
+        "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_state_eproc_jurisprudencia.py",
+        "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py"
+      ],
+      "inline_fixture_evidence": [
+        {
+          "test": "tests/test_trf4_eproc_jurisprudencia.py",
+          "named_payloads": [],
+          "direct_response_literals": true,
+          "in_memory_builder": false
+        }
+      ],
+      "fixture_evidence_kind": "versioned_and_inline",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
       "source_id": "trf5_jurisprudencia",
       "display_name": "TRF5 Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 84,
-      "maturity_grade": "B",
+      "maturity_score": 89,
+      "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/trf5_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 2,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "trf5_jurisprudencia_access_control.html",
         "trf5_jurisprudencia_contract_changed.html",
@@ -2857,9 +3706,7 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2867,20 +3714,20 @@
       "source_id": "trf6_eproc_jurisprudencia",
       "display_name": "TRF6 eproc Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 89,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 94,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/trf6_eproc_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tnu_eproc_aposentadoria.html",
         "trf2_eproc_aposentadoria.html",
@@ -2891,41 +3738,419 @@
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt15_jurisprudencia",
+      "display_name": "TRT15 Jurisprudência",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 80,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status",
+        "rodar validacao live pequena com termo juridico padrao",
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
+      "module": "src/nanojuris/providers/trt15_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt15_jurisprudencia_captcha.json",
+        "trt15_jurisprudencia_empty.json",
+        "trt15_jurisprudencia_options.json",
+        "trt15_jurisprudencia_page2.json",
+        "trt15_jurisprudencia_schema_drift.json",
+        "trt15_jurisprudencia_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt15_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt2_basis_jurisprudencia",
+      "display_name": "TRT2 BASIS — Boletins de Jurisprudência",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 66,
+      "maturity_grade": "C",
+      "next_actions": [
+        "completar secoes faltantes do dossie",
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/trt2_basis_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt2_basis_search.html"
+      ],
+      "test_references": [
+        "tests/test_trt2_basis_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt2_ementario_jurisprudencia",
+      "display_name": "TRT2 Ementario de Jurisprudencia",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 93,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/trt2_ementario_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt2_ementario_index.html",
+        "trt2_ementario_topic.html"
+      ],
+      "test_references": [
+        "tests/test_trt2_ementario_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
     {
       "source_id": "trt2_pje_jurisprudencia",
-      "display_name": "TRT2 PJE JURISPRUDENCIA",
+      "display_name": "TRT2 PJe jurisprudencia (diagnostico opt-in)",
       "implementation_status": "none",
-      "coverage_role": "mapped_candidate",
-      "development_priority": "P1_candidate_contract",
-      "maturity_score": 11,
-      "maturity_grade": "D",
+      "local_implementation_status": "diagnostic_adapter",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 63,
+      "maturity_grade": "C",
       "next_actions": [
-        "reproduzir contrato HTTP publico e criar fixture minima",
+        "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio",
         "fechar checklist objetivo do dossie",
-        "rodar validacao live pequena com termo juridico padrao"
+        "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
       ],
-      "module": null,
-      "runtime_registered": false,
+      "module": "src/nanojuris/providers/trt2_pje_jurisprudencia.py",
+      "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
       "documentation_readiness": "research_ready",
       "documentation_open_items": 4,
-      "fixture_references": [],
-      "test_references": [],
+      "fixture_references": [
+        "trt2_pje_authorized_success.json",
+        "trt2_pje_challenge.json",
+        "trt2_pje_filtros.json",
+        "trt2_pje_opcoes.json"
+      ],
+      "test_references": [
+        "tests/test_trt2_pje_jurisprudencia.py"
+      ],
       "inline_fixture_evidence": [],
-      "fixture_evidence_kind": "none",
+      "fixture_evidence_kind": "versioned_fixture",
       "blockers": [
-        "no_runtime_module",
-        "no_checked_in_fixture_reference",
-        "no_local_test_reference",
         "open_documentation_items"
       ],
+      "offline_discovery": [
+        {
+          "fixture": "tests/fixtures/trt2_pje_authorized_success.json",
+          "status": "analyzed",
+          "bytes": 419,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/trt2_pje_challenge.json",
+          "status": "analyzed",
+          "bytes": 211,
+          "probe_status": "access_control_or_login",
+          "probe_access_signals": {
+            "captcha": true,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/trt2_pje_filtros.json",
+          "status": "analyzed",
+          "bytes": 298,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        },
+        {
+          "fixture": "tests/fixtures/trt2_pje_opcoes.json",
+          "status": "analyzed",
+          "bytes": 372,
+          "probe_status": "live_valid",
+          "probe_access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "routes": 0,
+          "selectors": 0,
+          "route_samples": [],
+          "selector_samples": []
+        }
+      ],
+      "offline_evidence_status": "analyzed_local_fixtures"
+    },
+    {
+      "source_id": "trt3_ementario_jurisprudencia",
+      "display_name": "TRT3 Ementario de Jurisprudencia (volume curado)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 61,
+      "maturity_grade": "C",
+      "next_actions": [
+        "completar secoes faltantes do dossie"
+      ],
+      "module": "src/nanojuris/providers/trt3_ementario_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt3_ementario_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt3_ementario_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt4_sumulas_jurisprudencia",
+      "display_name": "TRT4 Súmulas e precedentes (coleção curada)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 59,
+      "maturity_grade": "C",
+      "next_actions": [
+        "completar secoes faltantes do dossie"
+      ],
+      "module": "src/nanojuris/providers/trt4_sumulas_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt4_sumulas_success.html"
+      ],
+      "test_references": [
+        "tests/test_trt4_sumulas_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "display_name": "TRT6 Jurisprudencia",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "development_priority": "P2_maintain",
+      "maturity_score": 85,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/trt6_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt6_legacy_search_success.html",
+        "trt6_pje_authorized_success.json",
+        "trt6_pje_options.json",
+        "trt6_pje_recaptcha_error.json"
+      ],
+      "test_references": [
+        "tests/test_trt6_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt8_pje_jurisprudencia",
+      "display_name": "TRT8 PJe Jurisprudencia",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "development_priority": "P0_harden_for_unified_search",
+      "maturity_score": 91,
+      "maturity_grade": "A",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/trt8_pje_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt8_pje_blocked.json",
+        "trt8_pje_detail.json",
+        "trt8_pje_empty.json",
+        "trt8_pje_page2.json",
+        "trt8_pje_schema_invalid.json",
+        "trt8_pje_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt8_pje_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "trt9_nugepnac_jurisprudencia",
+      "display_name": "TRT9 NUGEP/NUGEPNAC (compilacao curada)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 59,
+      "maturity_grade": "C",
+      "next_actions": [
+        "completar secoes faltantes do dossie"
+      ],
+      "module": "src/nanojuris/providers/trt9_nugepnac_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "needs_deepening",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "trt9_nugepnac_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt9_nugepnac_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
+      "offline_discovery": [],
+      "offline_evidence_status": "no_local_fixture"
+    },
+    {
+      "source_id": "tse_sjur_jurisprudencia",
+      "display_name": "TSE SJUR jurisprudencia textual (janela unica opt-in)",
+      "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "development_priority": "P1_contextual_value",
+      "maturity_score": 78,
+      "maturity_grade": "B",
+      "next_actions": [
+        "validar inteiro teor com hash, tamanho e access_status"
+      ],
+      "module": "src/nanojuris/providers/tse_sjur_jurisprudencia.py",
+      "runtime_registered": true,
+      "canonical_dossier": true,
+      "legacy_contract": true,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
+      "fixture_references": [
+        "tse_sjur_empty.json",
+        "tse_sjur_schema_drift.json",
+        "tse_sjur_success.json"
+      ],
+      "test_references": [
+        "tests/test_tre_sjur_jurisprudencia.py",
+        "tests/test_tse_sjur_jurisprudencia.py"
+      ],
+      "inline_fixture_evidence": [],
+      "fixture_evidence_kind": "versioned_fixture",
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     },
@@ -2933,32 +4158,31 @@
       "source_id": "tst_jurisprudencia",
       "display_name": "TST Jurisprudencia",
       "implementation_status": "runtime",
+      "local_implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
-      "maturity_score": 90,
+      "development_priority": "P0_reference_provider",
+      "maturity_score": 94,
       "maturity_grade": "A",
       "next_actions": [
-        "fechar checklist objetivo do dossie",
         "validar inteiro teor com hash, tamanho e access_status"
       ],
       "module": "src/nanojuris/providers/tst_jurisprudencia.py",
       "runtime_registered": true,
       "canonical_dossier": true,
       "legacy_contract": true,
-      "documentation_readiness": "needs_deepening",
-      "documentation_open_items": 1,
+      "documentation_readiness": "implementation_ready",
+      "documentation_open_items": 0,
       "fixture_references": [
         "tst_jurisprudencia_responsabilidade.json"
       ],
       "test_references": [
         "tests/test_initial_json_providers.py",
-        "tests/test_tst_jurisprudencia.py"
+        "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py"
       ],
       "inline_fixture_evidence": [],
       "fixture_evidence_kind": "versioned_fixture",
-      "blockers": [
-        "open_documentation_items"
-      ],
+      "blockers": [],
       "offline_discovery": [],
       "offline_evidence_status": "no_local_fixture"
     }

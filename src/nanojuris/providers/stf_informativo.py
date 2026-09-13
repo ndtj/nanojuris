@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 import re
-import time
 import unicodedata
 import zipfile
 from datetime import datetime, timedelta
 from io import BytesIO
+from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 
 import requests
@@ -28,6 +28,8 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 _XLSX_NS = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 _EXPECTED_HEADERS = [
@@ -70,7 +72,19 @@ class StfInformativoProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.config.stf_informativo_data_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=20_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = self.config.stf_informativo_data_url
@@ -113,6 +127,7 @@ class StfInformativoProvider(JurisprudenceProvider):
             content_formats=["xlsx"],
             canonical_records=["CanonicalDecision"],
             extracted_fields=[
+                "id",
                 "informativo",
                 "case_number",
                 "case_class",
@@ -140,13 +155,56 @@ class StfInformativoProvider(JurisprudenceProvider):
             completeness_contract="reported_total_and_page_window",
             full_text_access="not_available",
             supports_cli=True,
-            supports_unified_search=True,
+            supports_unified_search=False,
+            opt_in_unified_search=True,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
             supported_filters=["text", "number"],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "exact_phrase",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "lawyer_name",
+                        "legal_area",
+                        "oab",
+                        "party_document",
+                        "party_name",
+                        "police_document",
+                        "precatory_number",
+                        "cda",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "courts",
+                        "types",
+                        "document_type",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                    )
+                },
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+            },
             limitations=[
                 "Dados sao curados pelo Informativo STF, nao a base integral de acordaos.",
                 "A data vem em serial Excel no XLSX oficial e e normalizada para ISO date.",
@@ -163,7 +221,6 @@ class StfInformativoProvider(JurisprudenceProvider):
         )
 
     def _request_xlsx(self, url: str) -> bytes:
-        self._respect_rate_limit()
         headers = {
             "Accept": (
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,"
@@ -172,13 +229,22 @@ class StfInformativoProvider(JurisprudenceProvider):
             "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        request = TransportRequest(
+            source=self.name,
+            operation="informativo_xlsx",
+            method="GET",
+            url=url,
+            headers=headers,
+            idempotent=True,
+        )
         try:
-            response = self.session.get(
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-            )
+            response = self.transport.request(request)
+        except SourceUnavailableError as exc:
+            if "TLS" in str(exc):
+                raise SourceUnavailableError(
+                    "STF Informativo XLSX SSL verification failed in this environment."
+                ) from exc
+            raise
         except requests.exceptions.SSLError as exc:
             raise SourceUnavailableError(
                 "STF Informativo XLSX SSL verification failed in this environment."
@@ -186,27 +252,32 @@ class StfInformativoProvider(JurisprudenceProvider):
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"STF Informativo request failed: {exc}") from exc
 
+        if response.status is not TransportStatus.COMPLETE:
+            if response.status is TransportStatus.TLS_ERROR:
+                raise SourceUnavailableError(
+                    "STF Informativo XLSX SSL verification failed in this environment."
+                )
+            raise SourceUnavailableError(
+                f"STF Informativo transport failed: {response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("STF Informativo transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError("STF Informativo returned HTTP 429")
+        if response.status_code in {401, 403, 407, 451}:
+            raise SourceUnavailableError(
+                f"STF Informativo requires access validation (HTTP {response.status_code})"
+            )
         if response.status_code >= 500:
             raise SourceUnavailableError(f"STF Informativo returned HTTP {response.status_code}")
         if response.status_code >= 400:
             raise SourceUnavailableError(
                 f"STF Informativo rejected request with HTTP {response.status_code}"
             )
-        content = response.content
+        content = bytes(response.body)
         if not content.startswith(b"PK"):
             raise ParserContractChangedError("STF Informativo did not return an XLSX ZIP payload")
         return content
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def parse_stf_informativo_xlsx(content: bytes) -> list[dict[str, str]]:

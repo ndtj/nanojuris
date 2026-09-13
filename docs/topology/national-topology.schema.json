@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.org/schemas/national-topology.json",
+  "title": "NanoJuris national jurisprudence topology",
+  "type": "object",
+  "required": ["schema_version", "topology_version", "collections", "epochs", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string", "const": "national-jurisprudence-topology-v1"},
+    "topology_version": {"type": "string", "minLength": 1},
+    "collections": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/collection"},
+      "uniqueItems": true
+    },
+    "epochs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/epoch"},
+      "uniqueItems": true
+    },
+    "metadata": {"type": "object"}
+  },
+  "$defs": {
+    "collection": {
+      "type": "object",
+      "required": [
+        "collection_id", "authority_id", "branch", "degree", "document_types",
+        "period_start", "period_end", "surface_ids", "provider_ids", "status", "evidence_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "collection_id": {"type": "string", "minLength": 1},
+        "authority_id": {"type": "string", "minLength": 1},
+        "branch": {"type": "string", "minLength": 1},
+        "degree": {"type": "string", "minLength": 1},
+        "document_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "period_start": {"type": ["string", "null"], "format": "date"},
+        "period_end": {"type": ["string", "null"], "format": "date"},
+        "surface_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "provider_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "status": {
+          "enum": ["unknown", "gap", "candidate", "implemented", "blocked", "retired"]
+        },
+        "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "epoch": {
+      "type": "object",
+      "required": ["epoch_id", "topology_version", "cutoff_date"],
+      "additionalProperties": false,
+      "properties": {
+        "epoch_id": {"type": "string", "minLength": 1},
+        "topology_version": {"type": "string", "minLength": 1},
+        "cutoff_date": {"type": "string", "format": "date"}
+      }
+    }
+  }
+}

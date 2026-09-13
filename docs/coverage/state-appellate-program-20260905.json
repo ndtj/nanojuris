@@ -1,0 +1,1849 @@
+{
+  "schema_version": "state-appellate-program-v1",
+  "generated_at": "2026-09-13",
+  "source_artifact": "docs/coverage/surface-state-registry-20260902.json",
+  "scope": {
+    "branch": "state",
+    "degree": "second",
+    "collection": "CJSG",
+    "expected_authorities": 27
+  },
+  "summary": {
+    "authorities": 27,
+    "complete_8_of_8": 25,
+    "incomplete": 2,
+    "by_action": {
+      "blocked_recheck": 2,
+      "maintenance": 25
+    },
+    "coverage_claim": "25/27"
+  },
+  "promotion_rule": "8/8 gates: official source, degree contract, adapter, fixtures, pagination/filters, bounded live validation, quality and federation",
+  "workpacks": [
+    {
+      "authority": "TJAC",
+      "surface_id": "surface:tjac:cjsg:second:tjac-cjsg",
+      "provider": "tjac_cjsg",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/cjsg-live-20260908-cycle67.json",
+        "docs/providers/tjac_cjsg/README.md",
+        "provider-catalog:tjac_cjsg"
+      ],
+      "tasks": [
+        {
+          "id": "TJAC-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJAC-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJAL",
+      "surface_id": "surface:tjal:cjsg:second:tjal-cjsg",
+      "provider": "tjal_cjsg",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/cjsg-live-20260908-cycle67.json",
+        "docs/providers/tjal_cjsg/README.md",
+        "provider-catalog:tjal_cjsg"
+      ],
+      "tasks": [
+        {
+          "id": "TJAL-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJAL-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJAM",
+      "surface_id": "surface:tjam:cjsg:second:tjam-cjsg",
+      "provider": "tjam_cjsg",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/tjam-cjsg-live-20260913.json",
+        "docs/providers/tjam_cjsg/README.md",
+        "provider-catalog:tjam_cjsg"
+      ],
+      "tasks": [
+        {
+          "id": "TJAM-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJAM-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJAP",
+      "surface_id": "surface:tjap:cjsg:second:tjap-tucujuris",
+      "provider": "tjap_tucujuris",
+      "lifecycle": "candidate",
+      "live_status": "access_controlled",
+      "contract_status": "blocked_access",
+      "federation_status": "blocked",
+      "action": "blocked_recheck",
+      "completed_gates": 1,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-cjsg-blocked-recheck-live-20260913.json",
+        "docs/providers/tjap_tucujuris/README.md",
+        "provider-catalog:tjap_tucujuris"
+      ],
+      "tasks": [
+        {
+          "id": "TJAP-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJAP-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "pending"
+        },
+        {
+          "id": "TJAP-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "pending"
+        },
+        {
+          "id": "TJAP-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "pending"
+        },
+        {
+          "id": "TJAP-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "pending"
+        },
+        {
+          "id": "TJAP-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "pending"
+        },
+        {
+          "id": "TJAP-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "pending"
+        },
+        {
+          "id": "TJAP-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "authority": "TJBA",
+      "surface_id": "surface:tjba:cjsg:second:tjba-graphql",
+      "provider": "tjba_graphql",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-b1-live-20260908-cycle70.json",
+        "docs/providers/tjba_graphql/README.md",
+        "provider-catalog:tjba_graphql"
+      ],
+      "tasks": [
+        {
+          "id": "TJBA-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJBA-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJCE",
+      "surface_id": "surface:tjce:cjsg:second:tjce-cjsg",
+      "provider": "tjce_cjsg",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/tjce-cjsg-live-20260913.json",
+        "docs/providers/tjce_cjsg/README.md",
+        "provider-catalog:tjce_cjsg"
+      ],
+      "tasks": [
+        {
+          "id": "TJCE-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJCE-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJDFT",
+      "surface_id": "surface:tjdft:cjsg:second:tjdf-juris",
+      "provider": "tjdf_juris",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-b1-live-20260908-cycle70.json",
+        "docs/providers/tjdf_juris/README.md",
+        "provider-catalog:tjdf_juris"
+      ],
+      "tasks": [
+        {
+          "id": "TJDFT-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJDFT-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJES",
+      "surface_id": "surface:tjes:cjsg:second:tjes-jurisprudencia",
+      "provider": "tjes_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/cjsg-live-20260908-cycle67.json",
+        "docs/provider-discovery/tjes-cjsg-live-20260901.json",
+        "docs/providers/tjes_jurisprudencia/README.md",
+        "provider-catalog:tjes_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJES-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJES-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJGO",
+      "surface_id": "surface:tjgo:cjsg:second:tjgo-projudi-jurisprudencia",
+      "provider": "tjgo_projudi_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/tjgo-cjpg-live-20260906.json",
+        "docs/provider-discovery/tjgo-cjsg-live-20260906-cycle58.json",
+        "docs/provider-discovery/tjgo-projudi-live-20260910-continue.json",
+        "docs/providers/tjgo_projudi_jurisprudencia/README.md",
+        "provider-catalog:tjgo_projudi_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJGO-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJGO-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJMA",
+      "surface_id": "surface:tjma:cjsg:second:gap",
+      "provider": null,
+      "lifecycle": "candidate",
+      "live_status": "access_controlled",
+      "contract_status": "candidate",
+      "federation_status": "not_enabled",
+      "action": "blocked_recheck",
+      "completed_gates": 0,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-cjsg-blocked-recheck-live-20260913.json",
+        "docs/provider-discovery/tjma-jurisprudence-route-live-20260908.json",
+        "docs/provider-discovery/tjma-jurisprudencia-captcha-live-20260906.json",
+        "docs/provider-discovery/tjma-official-alternatives-live-20260907.json",
+        "provider-catalog:tjma_jurisconsult"
+      ],
+      "tasks": [
+        {
+          "id": "TJMA-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "pending"
+        },
+        {
+          "id": "TJMA-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "authority": "TJMG",
+      "surface_id": "surface:tjmg:cjsg:second:tjmg-dspace-jurisprudencia",
+      "provider": "tjmg_dspace_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/federated-promotion-live-20260906-legitimate-recheck.json",
+        "docs/provider-discovery/tjmg-dspace-jurisprudencia-live-20260906.json",
+        "docs/providers/tjmg_dspace_jurisprudencia/README.md",
+        "provider-catalog:tjmg_dspace_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJMG-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJMG-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJMS",
+      "surface_id": "surface:tjms:cjsg:second:tjms-cjsg",
+      "provider": "tjms_cjsg",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/cjsg-live-20260908-cycle67.json",
+        "docs/providers/tjms_cjsg/README.md",
+        "provider-catalog:tjms_cjsg"
+      ],
+      "tasks": [
+        {
+          "id": "TJMS-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJMS-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJMT",
+      "surface_id": "surface:tjmt:cjsg:second:tjmt-jurisprudencia-api",
+      "provider": "tjmt_jurisprudencia_api",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-b1-live-20260908-cycle70.json",
+        "docs/providers/tjmt_jurisprudencia_api/README.md",
+        "provider-catalog:tjmt_jurisprudencia_api"
+      ],
+      "tasks": [
+        {
+          "id": "TJMT-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJMT-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJPA",
+      "surface_id": "surface:tjpa:cjsg:second:tjpa-jurisprudencia-bff",
+      "provider": "tjpa_jurisprudencia_bff",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-b1-live-20260908-cycle70.json",
+        "docs/providers/tjpa_jurisprudencia_bff/README.md",
+        "provider-catalog:tjpa_jurisprudencia_bff"
+      ],
+      "tasks": [
+        {
+          "id": "TJPA-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJPA-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJPB",
+      "surface_id": "surface:tjpb:cjsg:second:tjpb-pje-jurisprudencia",
+      "provider": "tjpb_pje_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-b1-live-20260908-cycle70.json",
+        "docs/providers/tjpb_pje_jurisprudencia/README.md",
+        "provider-catalog:tjpb_pje_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJPB-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJPB-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJPE",
+      "surface_id": "surface:tjpe:cjsg:second:tjpe-jurisprudencia",
+      "provider": "tjpe_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/cjsg-live-20260908-cycle67.json",
+        "docs/providers/tjpe_jurisprudencia/README.md",
+        "provider-catalog:tjpe_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJPE-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJPE-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJPI",
+      "surface_id": "surface:tjpi:cjsg:second:tjpi-juspi",
+      "provider": "tjpi_juspi",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-cjsg-live-20260908-cycle68.json",
+        "docs/providers/tjpi_juspi/README.md",
+        "provider-catalog:tjpi_juspi"
+      ],
+      "tasks": [
+        {
+          "id": "TJPI-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJPI-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJPR",
+      "surface_id": "surface:tjpr:cjsg:second:tjpr-jurisprudencia",
+      "provider": "tjpr_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-cjsg-live-20260908-cycle68.json",
+        "docs/providers/tjpr_jurisprudencia/README.md",
+        "provider-catalog:tjpr_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJPR-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJPR-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJRJ",
+      "surface_id": "surface:tjrj:cjsg:second:tjrj-eproc-jurisprudencia",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-eproc-degree-live-20260906.json",
+        "docs/provider-discovery/state-eproc-degree-live-20260913.json",
+        "docs/providers/tjrj_eproc_jurisprudencia/README.md",
+        "provider-catalog:tjrj_eproc_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJRJ-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJRJ-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJRN",
+      "surface_id": "surface:tjrn:cjsg:second:tjrn-jurisprudencia",
+      "provider": "tjrn_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/gold-document-probe-live-20260909.json",
+        "docs/provider-discovery/tjrn-cjsg-live-20260906.json",
+        "docs/providers/tjrn_jurisprudencia/README.md",
+        "provider-catalog:tjrn_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJRN-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJRN-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJRO",
+      "surface_id": "surface:tjro:cjsg:second:tjro-jurisprudencia",
+      "provider": "tjro_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/gold-document-probe-live-20260909.json",
+        "docs/provider-discovery/tjro-cjpg-live-20260906.json",
+        "docs/provider-discovery/tjro-cjsg-live-20260906.json",
+        "docs/providers/tjro_jurisprudencia/README.md",
+        "provider-catalog:tjro_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJRO-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJRO-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJRR",
+      "surface_id": "surface:tjrr:cjsg:second:tjrr-juris",
+      "provider": "tjrr_juris",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/tjrr-live-20260905-cycle57.json",
+        "docs/provider-discovery/tjrr-live-20260913.json",
+        "docs/providers/tjrr_juris/README.md",
+        "provider-catalog:tjrr_juris"
+      ],
+      "tasks": [
+        {
+          "id": "TJRR-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJRR-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJRS",
+      "surface_id": "surface:tjrs:cjsg:second:tjrs-solr",
+      "provider": "tjrs_solr",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-cjsg-live-20260908-cycle68.json",
+        "docs/providers/tjrs_solr/README.md",
+        "provider-catalog:tjrs_solr"
+      ],
+      "tasks": [
+        {
+          "id": "TJRS-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJRS-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJSC",
+      "surface_id": "surface:tjsc:cjsg:second:tjsc-eproc-jurisprudencia",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/state-eproc-degree-live-20260906.json",
+        "docs/provider-discovery/state-eproc-degree-live-20260908.json",
+        "docs/providers/tjsc_eproc_jurisprudencia/README.md",
+        "provider-catalog:tjsc_eproc_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJSC-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJSC-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJSE",
+      "surface_id": "surface:tjse:cjsg:second:tjse-boletim-jurisprudencia",
+      "provider": "tjse_boletim_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/tjse-boletim-jurisprudencia-live-20260906.json",
+        "docs/provider-discovery/tjse-boletim-jurisprudencia-live-20260907.json",
+        "docs/providers/tjse_boletim_jurisprudencia/README.md",
+        "provider-catalog:tjse_boletim_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJSE-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJSE-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJSP",
+      "surface_id": "surface:tjsp:cjsg:second:tjsp-cjsg",
+      "provider": "tjsp_cjsg",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/tjsp-cjsg-live-20260913.json",
+        "docs/providers/tjsp_cjsg/README.md",
+        "provider-catalog:tjsp_cjsg"
+      ],
+      "tasks": [
+        {
+          "id": "TJSP-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJSP-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "authority": "TJTO",
+      "surface_id": "surface:tjto:cjsg:second:tjto-jurisprudencia",
+      "provider": "tjto_jurisprudencia",
+      "lifecycle": "implemented",
+      "live_status": "valid",
+      "contract_status": "live_validated",
+      "federation_status": "enabled",
+      "action": "maintenance",
+      "completed_gates": 8,
+      "total_gates": 8,
+      "evidence_ids": [
+        "docs/provider-discovery/gold-document-probe-live-20260909.json",
+        "docs/provider-discovery/tjto-cjpg-live-20260906.json",
+        "docs/provider-discovery/tjto-cjpg-live-20260907.json",
+        "docs/provider-discovery/tjto-cjsg-live-20260906-cycle56.json",
+        "docs/providers/tjto_jurisprudencia/README.md",
+        "provider-catalog:tjto_jurisprudencia"
+      ],
+      "tasks": [
+        {
+          "id": "TJTO-CJSG-01",
+          "gate": "official_source",
+          "title": "Confirmar fonte oficial, rota publica e limites",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-02",
+          "gate": "degree_contract",
+          "title": "Provar contrato especifico de segundo grau/CJSG",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-03",
+          "gate": "adapter",
+          "title": "Implementar e registrar adapter com erros explicitos",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-04",
+          "gate": "fixtures",
+          "title": "Cobrir sucesso, vazio, parametro invalido e schema drift",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-05",
+          "gate": "pagination_filters",
+          "title": "Validar pagina 2, ordenacao e filtros",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-06",
+          "gate": "live_validation",
+          "title": "Executar chamada live bounded com conteudo juridico",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-07",
+          "gate": "quality",
+          "title": "Validar identidade, grau, trace e deduplicacao",
+          "status": "completed"
+        },
+        {
+          "id": "TJTO-CJSG-08",
+          "gate": "federation",
+          "title": "Habilitar federacao somente apos todos os gates",
+          "status": "completed"
+        }
+      ]
+    }
+  ]
+}

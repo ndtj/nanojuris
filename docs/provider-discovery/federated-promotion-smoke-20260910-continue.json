@@ -1,0 +1,115 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-10T18:55:27.619774+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 3
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 3,
+  "manifest_sources": [
+    "tjmmg_jurisprudencia_api",
+    "trt15_jurisprudencia",
+    "trt2_pje_jurisprudencia"
+  ],
+  "default_capability_sources": 54,
+  "default_contains_manifest_sources": false,
+  "sources_searched": [
+    "tjmmg_jurisprudencia_api",
+    "trt2_pje_jurisprudencia"
+  ],
+  "sources_skipped": [
+    {
+      "source": "trt15_jurisprudencia",
+      "category": "court_jurisprudence",
+      "reason": "unified_search_not_supported",
+      "message": "A fonte nao declara suporte explicito a busca unificada."
+    }
+  ],
+  "routing_warnings": [],
+  "source_outcomes": [
+    {
+      "source": "tjmmg_jurisprudencia_api",
+      "status": "failed",
+      "reason": "QueryRejectedError",
+      "message": "TJMMG exige número exato ou intervalo fechado de julgamento/publicação"
+    },
+    {
+      "source": "trt15_jurisprudencia",
+      "status": "skipped",
+      "reason": "unified_search_not_supported",
+      "message": "A fonte nao declara suporte explicito a busca unificada."
+    },
+    {
+      "source": "trt2_pje_jurisprudencia",
+      "status": "failed",
+      "reason": "AccessControlRequiredError",
+      "message": "TRT2/PJe exige desafio humano antes de liberar documentos; nenhum token foi gerado ou reutilizado"
+    }
+  ],
+  "source_completeness": {
+    "tjmmg_jurisprudencia_api": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "QueryRejectedError",
+      "error_message": "TJMMG exige número exato ou intervalo fechado de julgamento/publicação"
+    },
+    "trt2_pje_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "AccessControlRequiredError",
+      "error_message": "TRT2/PJe exige desafio humano antes de liberar documentos; nenhum token foi gerado ou reutilizado"
+    }
+  },
+  "source_totals": {},
+  "source_total_known": {
+    "tjmmg_jurisprudencia_api": null,
+    "trt2_pje_jurisprudencia": null
+  },
+  "source_access_status": {
+    "tjmmg_jurisprudencia_api": null,
+    "trt2_pje_jurisprudencia": null
+  },
+  "source_extraction_status": {
+    "tjmmg_jurisprudencia_api": null,
+    "trt2_pje_jurisprudencia": null
+  },
+  "errors": [
+    {
+      "source": "tjmmg_jurisprudencia_api",
+      "error_type": "QueryRejectedError",
+      "message": "TJMMG exige número exato ou intervalo fechado de julgamento/publicação"
+    },
+    {
+      "source": "trt2_pje_jurisprudencia",
+      "error_type": "AccessControlRequiredError",
+      "message": "TRT2/PJe exige desafio humano antes de liberar documentos; nenhum token foi gerado ou reutilizado"
+    }
+  ],
+  "summary": {
+    "sources_requested": 3,
+    "sources_searched": 2,
+    "sources_skipped": 1,
+    "sources_with_warnings": 0,
+    "sources_with_errors": 2,
+    "invalid_records": 0,
+    "total_returned": 0,
+    "deduplicated_total": 0,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

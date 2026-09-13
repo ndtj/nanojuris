@@ -7,7 +7,11 @@ import pytest
 import requests
 
 from nanojuris.client import NanoJurisClient
-from nanojuris.errors import AccessControlRequiredError, ParserContractChangedError
+from nanojuris.errors import (
+    AccessControlRequiredError,
+    ParserContractChangedError,
+    SourceUnavailableError,
+)
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.stj_scon import StjSconProvider, parse_stj_scon_results
 
@@ -169,6 +173,10 @@ def test_provider_capabilities_describe_stj_scon_contract():
     assert capabilities.supports_full_text is True
     assert "stj_query_language" in capabilities.search_modes
     assert "document_url" in capabilities.extracted_fields
+    assert capabilities.filter_status("text") == "native"
+    assert capabilities.filter_status("number") == "native"
+    assert capabilities.ordering_modes == ["relevance", "publication"]
+    assert capabilities.detail_modes == ["full_text"]
 
 
 def test_provider_get_document_preserves_official_pdf_bytes_and_hash():
@@ -260,6 +268,34 @@ def test_provider_detects_stj_automatic_verification_without_bypass():
 
     with pytest.raises(AccessControlRequiredError):
         provider.search(JurisprudenceQuery(text="teste"))
+
+
+def test_get_decisions_loads_public_document_detail():
+    session = FakeSession(
+        [
+            FakeResponse(
+                "PDF-DATA",
+                content=b"%PDF-1.7\npublic decision",
+                url="https://processo.stj.jus.br/SCON/GetInteiroTeorDoAcordao",
+                content_type="application/pdf",
+            )
+        ]
+    )
+    provider = StjSconProvider(session=session)
+
+    bundle = provider.get_decisions("stj-scon-202400123456")
+
+    assert bundle.precedent_id == "stj-scon-202400123456"
+    assert bundle.source == "stj_scon"
+    assert bundle.texts[0]["content_type"] == "application/pdf"
+    assert bundle.raw_bytes == b"%PDF-1.7\npublic decision"
+
+
+def test_get_decisions_rejects_unobserved_identifier():
+    provider = StjSconProvider(session=FakeSession([]))
+
+    with pytest.raises(SourceUnavailableError, match="public registry number"):
+        provider.get_decisions("unknown")
 
 
 def test_parser_detects_missing_result_contract():

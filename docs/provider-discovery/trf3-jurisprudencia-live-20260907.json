@@ -1,0 +1,51 @@
+{
+  "provider": "trf3_jurisprudencia",
+  "checked_at": "2026-09-07",
+  "bounded": true,
+  "bypass_used": false,
+  "credentials_used": false,
+  "classification": "transport_error",
+  "access_status": "source_unavailable",
+  "http_status": null,
+  "official_urls": [
+    "https://web.trf3.jus.br/acordaos/Acordao/PesquisarDocumento",
+    "https://web.trf3.jus.br/acordaos/Acordao/BuscarDocumentoPje/346757387"
+  ],
+  "attempts": [
+    {
+      "method": "GET",
+      "path": "/acordaos/Acordao/PesquisarDocumento",
+      "params": {"processo": "00079799120054036119"},
+      "timeout_seconds": 6,
+      "result": "read_timeout",
+      "adapter": "Trf3JurisprudenciaProvider.search"
+    },
+    {
+      "method": "GET",
+      "path": "/acordaos/Acordao/PesquisarDocumento",
+      "params": {"processo": "00079799120054036119"},
+      "timeout_seconds": 20,
+      "result": "read_timeout"
+    },
+    {
+      "method": "GET",
+      "path": "/acordaos/Acordao/BuscarDocumentoPje/346757387",
+      "timeout_seconds": 20,
+      "result": "read_timeout"
+    }
+  ],
+  "offline_evidence": {
+    "fixture": "tests/fixtures/trf3_jurisprudencia_process_results.html",
+    "detail_fixture": "tests/fixtures/trf3_jurisprudencia_detail.html",
+    "official_public_document_observed": true,
+    "degree": "second",
+    "instance": "second",
+    "branch": "federal"
+  },
+  "decision": "keep_opt_in_pending_live",
+  "notes": [
+    "Timeout is not an empty result and is not converted to a success.",
+    "No CAPTCHA, WAF or access-control bypass was attempted.",
+    "The exact-process adapter is executable offline but is not promoted to default federation."
+  ]
+}

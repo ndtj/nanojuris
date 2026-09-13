@@ -1,0 +1,27 @@
+{
+  "schema_version": "tre-sjur-document-live-v1",
+  "observed_at": "2026-09-12T21:58:51Z",
+  "source_id": "tre_sp_sjur_jurisprudencia",
+  "surface": "public_full_text",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "search": {
+    "http_status": 200,
+    "returned": 1,
+    "decision_id": "tre_sp_sjur_jurisprudencia-666306",
+    "access_status": "public",
+    "extraction_status": "complete"
+  },
+  "document": {
+    "url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/666306",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "bytes": 161960,
+    "sha256": "1282651e11ac65b806541a475d909cda5e99f3a120977192e0da3a988e113891",
+    "starts_with_pdf_magic": true,
+    "status": "valid",
+    "access_status": "public",
+    "extraction_status": "complete"
+  }
+}

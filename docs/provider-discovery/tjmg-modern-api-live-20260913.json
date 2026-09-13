@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-13T03:56:05Z",
+  "provider": "tjmg_jurisprudencia",
+  "authority": "TJMG",
+  "surface": "CJSG",
+  "source": "https://jurisprudencia-api.tjmg.jus.br",
+  "credentials_used": false,
+  "query": {
+    "text": "divorcio",
+    "degree": "second",
+    "page": 1,
+    "page_size": 1,
+    "fetch_details": false
+  },
+  "search": {
+    "method": "POST",
+    "path": "/jurisprudencias/filter?size=1&page=0&sort=relevancia,DESC",
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 2046,
+    "content_sha256": "e4439c9f442c4d58aeedf947a87bac6e062a78e7029df710980ad28c6d102fb7",
+    "elapsed_ms": 399.12,
+    "access_status": "public",
+    "result_count": 1,
+    "reported_total": 1000,
+    "total_known": true,
+    "degree_contract": "second",
+    "textual_summary_present": true,
+    "raw_body_persisted": false
+  },
+  "safety": {
+    "captcha_solved": false,
+    "tokens_used": false,
+    "cookies_replayed": false,
+    "rate_limit_bypass": false
+  },
+  "classification": "success_with_results",
+  "decision": "TJMG permanece elegivel; a API moderna retornou resultado textual de segundo grau em chamada publica bounded. Inteiro teor nao foi solicitado nesta sonda."
+}

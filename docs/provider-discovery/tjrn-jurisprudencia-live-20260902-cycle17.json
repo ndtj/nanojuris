@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-02",
+  "audit_mode": "bounded_public_http_recheck",
+  "frequency": "one request",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "surface": "jurisprudencia",
+      "endpoint": "POST https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+      "query_shape": {
+        "jurisprudencia.ementa": "<juridical-term>",
+        "page": 1,
+        "usuario": "empty_public_context"
+      },
+      "http_status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_bytes": 683626,
+      "content_sha256": "5b4a7a2e265ef4f2cd257336580b8b6b7144df3fe60b09ebb82201f71675da64",
+      "record_count_observed": 1,
+      "reported_total": 73401,
+      "pagination_mode": "page",
+      "identity_field_present": true,
+      "summary_field_present": true,
+      "retrieval_status": "ok",
+      "classification": "reachable_valid_data"
+    }
+  ],
+  "promotion_decision": "candidate_only",
+  "promotion_blockers": [
+    "A evidência é uma chamada pontual; não confirma estabilidade, filtros ou paginação completa.",
+    "A revisão de reuso/redistribuição e a aprovação humana continuam pendentes.",
+    "O provider permanece fora da federação padrão; nenhuma coleta em escala foi autorizada."
+  ]
+}

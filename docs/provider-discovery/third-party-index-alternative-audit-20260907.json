@@ -1,0 +1,25 @@
+{
+  "schema_version": "third-party-index-alternative-audit-v1",
+  "observed_at": "2026-09-07",
+  "purpose": "Evaluate public indexes as a legitimate fallback when official search endpoints are challenge-gated.",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "candidates": [
+    {
+      "authority": "TJAP",
+      "url": "https://juribase.com.br/jurisprudencia/tjap",
+      "observed_public_scope": "305 decisions listed by the index",
+      "classification": "third_party_index_research_only",
+      "limitations": ["not an official TJAP endpoint", "no public redistribution contract verified", "coverage and freshness are not authoritative"]
+    },
+    {
+      "authority": "TJMA",
+      "url": "https://juribase.com.br/jurisprudencia/tjma",
+      "observed_public_scope": "4637 decisions listed by the index",
+      "classification": "third_party_index_research_only",
+      "limitations": ["not an official TJMA endpoint", "no public redistribution contract verified", "coverage and freshness are not authoritative"]
+    }
+  ],
+  "official_constraint": "TJAP's official rules recognize external jurisprudence repositories only when authorized by the court; a public index alone does not establish that authorization.",
+  "decision": "Do not use third-party indexes to bypass TJAP/TJMA access controls or promote national coverage. They may be used manually as leads for locating official document identifiers, followed by direct official-source validation."
+}

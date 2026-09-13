@@ -1,0 +1,29 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJCE",
+  "surface": "CJPG",
+  "source_url": "https://esaj.tjce.jus.br/cjpg/",
+  "credentials_used": false,
+  "mode": "bounded_public_browser_session",
+  "checks": [
+    {
+      "method": "GET",
+      "url": "https://esaj.tjce.jus.br/cjpg/",
+      "status": 200,
+      "classification": "public_form_accessible",
+      "details": "The official first-degree judgment form exposes free text, process number, class, subject, judge, date and vara fields."
+    },
+    {
+      "method": "GET",
+      "action": "ordinary form submit with dadosConsulta.pesquisaLivre=dano moral",
+      "url": "https://esaj.tjce.jus.br/cjpg/pesquisar.do",
+      "status": 200,
+      "classification": "access_controlled",
+      "details": "The response returns the official CAPTCHA-controlled form and no decision records. recaptcha_response_token remained empty; no token was read, generated, replayed or altered."
+    }
+  ],
+  "decision": "TJCE/CJPG has a real first-degree form but no reproducible tokenless result contract. Do not create or promote a CJPG adapter until the tribunal publishes a route without CAPTCHA or supplies an authorized public export.",
+  "bypass_attempted": false,
+  "federation": "not_enabled"
+}

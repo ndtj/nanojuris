@@ -1,0 +1,48 @@
+{
+  "schema_version": "1",
+  "description": "Colisoes conhecidas entre processo, decisoes, precedentes e versoes.",
+  "cases": [
+    {
+      "id": "process-vs-decision",
+      "left": {"kind": "process", "source": "tjsp", "case_number": "0000001-02.2025.8.26.0001"},
+      "right": {"kind": "decision", "source": "tjsp", "native_id": "dec-1", "case_number": "0000001-02.2025.8.26.0001"},
+      "expected_relation": "distinct"
+    },
+    {
+      "id": "two-decisions-same-process",
+      "left": {"kind": "decision", "source": "tjsp", "native_id": "dec-1", "case_number": "0000001-02.2025.8.26.0001"},
+      "right": {"kind": "decision", "source": "tjsp", "native_id": "dec-2", "case_number": "0000001-02.2025.8.26.0001"},
+      "expected_relation": "distinct"
+    },
+    {
+      "id": "provider-id-is-scoped",
+      "left": {"kind": "decision", "source": "tjsp", "native_id": "same-id"},
+      "right": {"kind": "decision", "source": "stj", "native_id": "same-id"},
+      "expected_relation": "distinct"
+    },
+    {
+      "id": "same-precedent",
+      "left": {"kind": "precedent", "source": "stj", "record_type": "tema", "case_number": "123"},
+      "right": {"kind": "precedent", "source": "stj", "record_type": "TEMA", "case_number": "123"},
+      "expected_relation": "same"
+    },
+    {
+      "id": "same-document-version",
+      "left": {"kind": "document", "source": "tjsp", "parent_key": "decision:[\"tjsp\",\"dec-1\"]", "text": "Inteiro teor"},
+      "right": {"kind": "document", "source": "stj", "parent_key": "decision:[\"tjsp\",\"dec-1\"]", "text": " inteiro   teor "},
+      "expected_relation": "same"
+    },
+    {
+      "id": "different-document-version",
+      "left": {"kind": "document", "source": "tjsp", "parent_key": "decision:[\"tjsp\",\"dec-1\"]", "text": "Inteiro teor"},
+      "right": {"kind": "document", "source": "tjsp", "parent_key": "decision:[\"tjsp\",\"dec-1\"]", "text": "Inteiro teor corrigido"},
+      "expected_relation": "distinct"
+    },
+    {
+      "id": "insufficient-decision",
+      "left": {"kind": "decision", "source": "tjsp", "case_number": "0000001-02.2025.8.26.0001"},
+      "right": {"kind": "decision", "source": "tjsp", "case_number": "0000001-02.2025.8.26.0001"},
+      "expected_relation": "unknown"
+    }
+  ]
+}

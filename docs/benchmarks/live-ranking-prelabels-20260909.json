@@ -1,0 +1,1372 @@
+{
+  "schema_version": "legal-live-ranking-review-v1",
+  "generated_from": "docs/benchmarks/live-ranking-v1.json",
+  "ranking_version": "legal-live-v1",
+  "top_k": 10,
+  "query_count": 8,
+  "row_count": 80,
+  "prelabel_status": "machine_prelabels_only",
+  "human_validation_required": true,
+  "rows": [
+    {
+      "review_id": "q01:rank-01",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-02",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-03",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-04",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-05",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-06",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-07",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-08",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-09",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q01:rank-10",
+      "query_id": "q01",
+      "query": "responsabilidade civil administrativa",
+      "split": "development",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-01",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-02",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-03",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-04",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-05",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-06",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-07",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-08",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-09",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q02:rank-10",
+      "query_id": "q02",
+      "query": "acórdãos sobre divórcio",
+      "split": "development",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-01",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-02",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-03",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-04",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-05",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-06",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-07",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-08",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-09",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q03:rank-10",
+      "query_id": "q03",
+      "query": "dano moral inscrição indevida",
+      "split": "development",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-01",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-02",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-03",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-04",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-05",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-06",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-07",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-08",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-09",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q04:rank-10",
+      "query_id": "q04",
+      "query": "servidor público acumulação de cargos",
+      "split": "development",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-01",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-02",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-03",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-04",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-05",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-06",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-07",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-08",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-09",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q05:rank-10",
+      "query_id": "q05",
+      "query": "prisão preventiva contemporaneidade",
+      "split": "development",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-01",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-02",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-03",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-04",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-05",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-06",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-07",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-08",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-09",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q06:rank-10",
+      "query_id": "q06",
+      "query": "0000000-12.3452.0.20.1234",
+      "split": "holdout",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-01",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-02",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-03",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-04",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-05",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-06",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-07",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-08",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-09",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q07:rank-10",
+      "query_id": "q07",
+      "query": "responsabilidade objetiva do Estado",
+      "split": "holdout",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-01",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 1,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-02",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 2,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-03",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 3,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-04",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 4,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-05",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 5,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-06",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 6,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-07",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 7,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-08",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 8,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-09",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 9,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    },
+    {
+      "review_id": "q08:rank-10",
+      "query_id": "q08",
+      "query": "\"inscrição indevida\" -segredo",
+      "split": "holdout",
+      "rank": 10,
+      "document_id": null,
+      "machine_prelabel": {
+        "grade": null,
+        "confidence": 0.0,
+        "status": "not_scored_without_candidate_evidence",
+        "reason": "No persisted canonical result body or machine feature set is available."
+      },
+      "human_grade": null,
+      "human_reviewer": null,
+      "status": "pending_human_validation"
+    }
+  ]
+}

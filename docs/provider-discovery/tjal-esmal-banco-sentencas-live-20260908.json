@@ -1,0 +1,75 @@
+{
+  "provider": "tjal_esmal_banco_sentencas",
+  "source_id": "tjal_esmal_banco_sentencas",
+  "surface": "cjpg",
+  "classification": "reachable_valid_data",
+  "record_count_observed": 17,
+  "http_status": 200,
+  "response_bytes": 46536,
+  "content_sha256": "ccabc88440f93f28a0001c4b85c89220648aedbbcbacdd5c92d58c6c53a41b92",
+  "pagination_mode": "remote_page",
+  "authority": "TJAL",
+  "source": "https://esmal.tjal.jus.br/?pag=sentencas",
+  "search_endpoint": "https://esmal.tjal.jus.br/indexS.php?pag=ler",
+  "observed_at": "2026-09-08",
+  "checked_at": "2026-09-08",
+  "method": "bounded public GET; no authentication, challenge solving, enumeration or bypass",
+  "query": {
+    "pag": "ler",
+    "p": 1,
+    "cat": "C",
+    "text": "responsabilidade"
+  },
+  "search": {
+    "http_status": 200,
+    "response_bytes": 46536,
+    "content_sha256": "ccabc88440f93f28a0001c4b85c89220648aedbbcbacdd5c92d58c6c53a41b92",
+    "rows_with_pdf": 17,
+    "sample_titles": [
+      "Responsabilidade civil",
+      "SENTENÇA ORDINÁRIA RESPONSABILIDADE CIVIL",
+      "Sentença. Guarda compartilhada. Procedência."
+    ],
+    "document_host": "intranetlegado.tjal.jus.br",
+    "document_path_prefix": "/bancodesentencas/arquivos/"
+  },
+  "document_probe": {
+    "url": "https://intranetlegado.tjal.jus.br//bancodesentencas/arquivos/4bd663a5ea4bafb51abd96d86f887f66.pdf",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "prefix": "%PDF-",
+    "probe_bytes": 143472,
+    "content_length_header": null,
+    "probe_sha256": "bb4c9e9fc49740d30c781bf45991ed35092bc84a1554cdd6a38014b5ec1e5d51"
+  },
+  "pagination_check": {
+    "page": 2,
+    "http_status": 200,
+    "response_bytes": 31766,
+    "rows_with_pdf": 0,
+    "total_state": "unknown",
+    "reason": "the source did not publish an authoritative total or explicit no-results marker"
+  },
+  "empty_check": {
+    "query": "zzzznanojurisnomatch",
+    "http_status": 200,
+    "response_bytes": 31766,
+    "rows_with_pdf": 0,
+    "total_state": "unknown",
+    "reason": "the page contains the search shell but no authoritative empty-result declaration"
+  },
+  "semantic_classification": {
+    "live_status": "valid",
+    "degree": "first",
+    "instance": "first",
+    "collection": "TJAL_ESMAL_CJPG",
+    "federation_status": "opt_in",
+    "full_text": "linked_official_pdf_observed",
+    "limitations": [
+      "curated selected-sentence bank, not a complete first-instance corpus",
+      "remote total and empty semantics remain unknown",
+      "promotion and retention require human review"
+    ]
+  },
+  "raw_content_persisted": false
+}

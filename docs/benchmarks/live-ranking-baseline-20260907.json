@@ -1,0 +1,413 @@
+{
+  "schema_version": "live-ranking-baseline-v1",
+  "generated_at": "2026-09-07T19:49:28.480785+00:00",
+  "reference_commit": "b20b874960d6a856d4812ab52a966d919aaa773b",
+  "capture_mode": "immutable_head_reconstruction",
+  "pre_code_snapshot_available": true,
+  "raw_payloads_persisted": false,
+  "reference_files": [
+    {
+      "path": "src/nanojuris/client.py",
+      "bytes": 44346,
+      "sha256": "ef0bfe0483792e4631059ec5745b024ccb9a832e9ed6533832dbc946f41158ce"
+    },
+    {
+      "path": "tests/test_client_exporters.py",
+      "bytes": 33507,
+      "sha256": "3d3d1ac4831f6362e6273fa3d62b5b8bc88493d6eb7cf5b9e495cbd5cee75520"
+    }
+  ],
+  "offline_fixture_manifest": [
+    {
+      "path": "tests/fixtures/bnp_precedentes_species.json",
+      "bytes": 2248,
+      "sha256": "2048f006d481a2116e2c78f199e4c1e9dee5f9d3884b1926860e6c389a378ca3"
+    },
+    {
+      "path": "tests/fixtures/cjf_trf1_access_control.html",
+      "bytes": 120,
+      "sha256": "f5e2438f796ec83be20fde9c26b011a96020c68b700ef44827a3cfbf3a2f31b8"
+    },
+    {
+      "path": "tests/fixtures/cjf_trf1_contract_changed.html",
+      "bytes": 125,
+      "sha256": "a3ebc018addfbc6088433e05ab65b9606262552a4d38992688d2ad5ea025f4d2"
+    },
+    {
+      "path": "tests/fixtures/cjf_trf1_empty.html",
+      "bytes": 91,
+      "sha256": "1ea21b15ceadad1376dbc6a8a792c99644d721a4831cf119774a468815aba830"
+    },
+    {
+      "path": "tests/fixtures/cjf_trf1_success.html",
+      "bytes": 1752,
+      "sha256": "a055a5afc0afb1215ae834b2bad5ba53caefa54bdb624d5d1b6f8c8dfad18ed1"
+    },
+    {
+      "path": "tests/fixtures/cnj_jurisprudencia_results.html",
+      "bytes": 1010,
+      "sha256": "07a43f97e0f7f4416abd04061d7609454148fbf00d27bf3a906cd5371259653d"
+    },
+    {
+      "path": "tests/fixtures/provider_contracts.json",
+      "bytes": 2991,
+      "sha256": "a222034e21567b89bc8b23ddc7af2a096944f217ba05a057c8fcdcf84c198d37"
+    },
+    {
+      "path": "tests/fixtures/sjur_classes.json",
+      "bytes": 121,
+      "sha256": "d19919b6a1d22c26d65e41ab8ee9d57afbe8bf5637d09efd1398634e19fa3da0"
+    },
+    {
+      "path": "tests/fixtures/sjur_eleicoes.json",
+      "bytes": 17,
+      "sha256": "99af64dbd5ef312c4c302386a6a1dd93c3399fd35b7ad7c7d2610415809f7a8a"
+    },
+    {
+      "path": "tests/fixtures/sjur_normas.json",
+      "bytes": 66,
+      "sha256": "86c6e3565062dd9908652ac97d7c14f1f10fea8d385ed6bdac649cd544d6648a"
+    },
+    {
+      "path": "tests/fixtures/sjur_relatorias.json",
+      "bytes": 44,
+      "sha256": "058b2b01ec537955c42ea109d36cc6cf5879abe76ed968220e4782407ffce3ac"
+    },
+    {
+      "path": "tests/fixtures/stf_juris_empty.json",
+      "bytes": 136,
+      "sha256": "88815bf3132e5fe9ba5775668761d850cfbf058bbcd69250be814ed7745d32ed"
+    },
+    {
+      "path": "tests/fixtures/stf_juris_infanticidio.json",
+      "bytes": 3356,
+      "sha256": "8938166ade10a068ca5120ba4dc3b39a9f1cee6548f97df537f52b535d949df7"
+    },
+    {
+      "path": "tests/fixtures/stf_juris_waf.html",
+      "bytes": 122,
+      "sha256": "02661da95b63f907c7c04d46ef778b7ac5383ca0650be35a2743c00c6a6ca164"
+    },
+    {
+      "path": "tests/fixtures/stj_ckan_package_search.json",
+      "bytes": 1931,
+      "sha256": "3310ed2a541e9c3ca11b4317add606f59d64230bd45b81016eca943c2d9ce77f"
+    },
+    {
+      "path": "tests/fixtures/stj_ckan_package_show.json",
+      "bytes": 1168,
+      "sha256": "15d462e05810a1f8f670789ead87d555e96eafeb9a5780e59227963bb776cda5"
+    },
+    {
+      "path": "tests/fixtures/stj_informativo_infanticidio.html",
+      "bytes": 1525,
+      "sha256": "05780e3d88f4b42c0982107f7d699dd1c608bfecac79e0c58d20addce17f1d6a"
+    },
+    {
+      "path": "tests/fixtures/stj_scon_access_control.html",
+      "bytes": 143,
+      "sha256": "d058de9920c69b70dcb90ad7cd697102cd998cab82e29a5f6c80a460235ed62b"
+    },
+    {
+      "path": "tests/fixtures/stj_scon_acordaos_result.html",
+      "bytes": 1380,
+      "sha256": "eaf42bc80f2ea7108208050b6d47e7ae31ae4fd9e3a2801a544a097d8b473342"
+    },
+    {
+      "path": "tests/fixtures/stj_scon_empty.html",
+      "bytes": 118,
+      "sha256": "7befe956dcc44fc6c440e6b18e3473c831453c1cb46a935411092e1ff188811c"
+    },
+    {
+      "path": "tests/fixtures/stj_scon_real_documentos.html",
+      "bytes": 3219,
+      "sha256": "8343cf301f3d9f05567f4f76b90c31210e124643ad4f018d0e2cbc78763dd827"
+    },
+    {
+      "path": "tests/fixtures/stm_jurisprudencia_results.html",
+      "bytes": 1420,
+      "sha256": "474399d7593d9e581aa352371472f91f43699e161cfd1600f6a7bfa005562e9a"
+    },
+    {
+      "path": "tests/fixtures/tce_pr_viajuris_acordaos.csv",
+      "bytes": 780,
+      "sha256": "02afcbffc3eab8eb3899d09ca91681e20bd7e56887b5db855d475604ae19ade5"
+    },
+    {
+      "path": "tests/fixtures/tce_sp_boletins.html",
+      "bytes": 365,
+      "sha256": "16d835128d8f21d80b5165aef4db762f3bb72e650bb35ef9402e02c1ffdebb78"
+    },
+    {
+      "path": "tests/fixtures/tce_sp_sumulas.html",
+      "bytes": 462,
+      "sha256": "491cf71fa8a934cc8b933f9f80b6392da1b5429b9ed547e181d0d3592b54450b"
+    },
+    {
+      "path": "tests/fixtures/tcu_acordao_resumo.csv",
+      "bytes": 132,
+      "sha256": "79a71518e92698e0ea662358cfde6e3b01f80506e66f8f19c0118572914b6cb5"
+    },
+    {
+      "path": "tests/fixtures/tcu_acordao_resumo_empty.csv",
+      "bytes": 70,
+      "sha256": "8e16cf1aaf47b271c6953b2ad500cece6981da8c29599ef8f7b8f3e91d54ee27"
+    },
+    {
+      "path": "tests/fixtures/tcu_manifest.csv",
+      "bytes": 226,
+      "sha256": "404f37dd1a083988d83d7d9af3c92254fe774ac58136b17b36f75e30af4c7f7b"
+    },
+    {
+      "path": "tests/fixtures/tcu_manifest_contract_changed.txt",
+      "bytes": 43,
+      "sha256": "123f7c831d92b81a3ee4be8d2f027edbaa6c1a92b81f4345899a869033e88b6e"
+    },
+    {
+      "path": "tests/fixtures/tjba_graphql_catalog.json",
+      "bytes": 393,
+      "sha256": "15ca1a8c9f36e553e60fd449b8afbce24aaded52c6c6ce9a8b7be8b07ff770f9"
+    },
+    {
+      "path": "tests/fixtures/tjba_graphql_detail.html",
+      "bytes": 236,
+      "sha256": "7c41b73c0fd0caee78accb4fd245bc534acdca295bbc4be188b6bc7caf970125"
+    },
+    {
+      "path": "tests/fixtures/tjba_graphql_empty.json",
+      "bytes": 117,
+      "sha256": "9a4dc6901e495540198444d96377f96bd9a696862f14a5d716af7a6d846c9568"
+    },
+    {
+      "path": "tests/fixtures/tjba_graphql_success.json",
+      "bytes": 1736,
+      "sha256": "ba70b6eb19b21fb0a561ed8d87672e15fbdb2a35964a80670f1f210ad5d1fe53"
+    },
+    {
+      "path": "tests/fixtures/tjce_informativos_results.html",
+      "bytes": 1757,
+      "sha256": "a7ab85d18b3f7d57802e6545cd4dd5d678788f79087798fd6710a53d8e81e64b"
+    },
+    {
+      "path": "tests/fixtures/tjce_sjuris_results.json",
+      "bytes": 1246,
+      "sha256": "d652f28f2f4100914611355fd652db8ab9e742bd85b0300f846fbe6d479106e1"
+    },
+    {
+      "path": "tests/fixtures/tjdf_juris_api_contract_changed.json",
+      "bytes": 86,
+      "sha256": "353dfd5969c2f1f36b5fe2d3dcdce78a0037284074d4ab626cd120db9937dc40"
+    },
+    {
+      "path": "tests/fixtures/tjdf_juris_api_empty.json",
+      "bytes": 110,
+      "sha256": "c71624bf42bd45142f17694d1f26ca52398603d5635870ea10b127e2bd4f2a59"
+    },
+    {
+      "path": "tests/fixtures/tjdf_juris_api_results.json",
+      "bytes": 1321,
+      "sha256": "f98f370b9a73d30e151746fc2ac45960aef621469ba716b5d0fce047c62bcaea"
+    },
+    {
+      "path": "tests/fixtures/tjdf_juris_detail.html",
+      "bytes": 1075,
+      "sha256": "6fadbed3c1122680f6cb776dea59086f491b54514f6364e7bcbf566dc0b963d4"
+    },
+    {
+      "path": "tests/fixtures/tjdf_juris_initial.html",
+      "bytes": 134,
+      "sha256": "1e5316cf45d5b84825076e14b91bba0da09003e99f70ab4fb09aeed8eaa751a8"
+    },
+    {
+      "path": "tests/fixtures/tjdf_juris_results.html",
+      "bytes": 871,
+      "sha256": "bf390c0a5fd2de82eb5bdbe8c86e449a985cc25344650101ec3d163e5dea955e"
+    },
+    {
+      "path": "tests/fixtures/tjgo_projudi_dano_moral.html",
+      "bytes": 225698,
+      "sha256": "dfd42c52de9cc9393d2bacedd53dccba4b859982fac9039bee718b6c4fd3bb9b"
+    },
+    {
+      "path": "tests/fixtures/tjgo_projudi_empty.html",
+      "bytes": 49038,
+      "sha256": "3fcf6b52d2cbbd703bd1dc3a07b30f10ffa3c783cb9863f46861f7e0229ac5d4"
+    },
+    {
+      "path": "tests/fixtures/tjma_jurisconsult_catalog.json",
+      "bytes": 634,
+      "sha256": "963acf0a247dcfa03aaf826562df06dd79ac57a2a103021515da302433eabc44"
+    },
+    {
+      "path": "tests/fixtures/tjmt_jurisprudencia_results.json",
+      "bytes": 1174,
+      "sha256": "b5e2accaadf1f018eacedfdd784f4efe85e4881fe8e04ca1edc25683b7159f8d"
+    },
+    {
+      "path": "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+      "bytes": 400,
+      "sha256": "14a53fb344f7c530accd2ee3d7faa3e9d740a574a39486aa6c35b408aa9b2ae5"
+    },
+    {
+      "path": "tests/fixtures/tjpb_access_control.html",
+      "bytes": 254,
+      "sha256": "50c74603ef7e5958250154f56d444bfb06e587b46a82066fc39557e130fe0170"
+    },
+    {
+      "path": "tests/fixtures/tjpe_jurisprudencia_results.json",
+      "bytes": 998,
+      "sha256": "3712f8e37737951a8c9bbeca2edca32b89a66877e518635e995926911ab001c2"
+    },
+    {
+      "path": "tests/fixtures/tjpi_juspi_dano_moral.html",
+      "bytes": 317517,
+      "sha256": "ea858da68d8b7b53e52adde11ff6ccf7318d3454b235e4c18ac84a629bffbe11"
+    },
+    {
+      "path": "tests/fixtures/tjpi_juspi_detail.html",
+      "bytes": 22712,
+      "sha256": "f7a9d78c0bb7b136eab57acad8044eb48f30fc9c793e276301712eecf89ddabb"
+    },
+    {
+      "path": "tests/fixtures/tjpi_juspi_empty.html",
+      "bytes": 23656,
+      "sha256": "524e1160c8f36f613c9b10539237f982d06fec7f37e1f65ac0d8bd4d8a7c6483"
+    },
+    {
+      "path": "tests/fixtures/tjpr_jurisprudencia_results.html",
+      "bytes": 2086,
+      "sha256": "d3b201be42ce6cf388e3b5317caf2cb3e3738c2e5b9090946d1a2b6968d5b2ed"
+    },
+    {
+      "path": "tests/fixtures/tjro_liame_results.json",
+      "bytes": 798,
+      "sha256": "87334badf6cbe083d274ee50040cb9fd84309454159d875eff7a195a8d186a52"
+    },
+    {
+      "path": "tests/fixtures/tjrr_juris_detail.html",
+      "bytes": 127,
+      "sha256": "e9871ddfcea6640136634ed2e0dcbbb33b6eb71f3f1ef042db93361a54914035"
+    },
+    {
+      "path": "tests/fixtures/tjrr_juris_form.html",
+      "bytes": 622,
+      "sha256": "da1762a5feb6d6b90288ef9f832e6cc3f926bc85f23073ba222d79f2276713f0"
+    },
+    {
+      "path": "tests/fixtures/tjrr_juris_result.html",
+      "bytes": 1936,
+      "sha256": "da7bd980785e9015e418c608fd528c2a313f99594422f528bbea6c393717ef67"
+    },
+    {
+      "path": "tests/fixtures/tjrs_solr_results.json",
+      "bytes": 517,
+      "sha256": "22046947e149ab34e72747c11d7ed00c2fe55f23f0d214360a92506515788dc4"
+    },
+    {
+      "path": "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
+      "bytes": 556,
+      "sha256": "d14a5fca113d520b3f43110481ede68c9186683d6621eaf968544e548c8e366c"
+    },
+    {
+      "path": "tests/fixtures/tjsp_cjsg_access_control.html",
+      "bytes": 281,
+      "sha256": "aa327162ea0f9f0191700a97235a1ec46d4c109fe8fe061caa1effb884956ae6"
+    },
+    {
+      "path": "tests/fixtures/tjsp_cjsg_document.html",
+      "bytes": 837,
+      "sha256": "2c97126a85b579cf07efb22c0cc96f8db51a1ed6a28b755cfb58707285b9f437"
+    },
+    {
+      "path": "tests/fixtures/tjsp_cjsg_empty.html",
+      "bytes": 123,
+      "sha256": "abc772454a00269ed52d749076ac01dd2494d234664c2c6ceed340a36b63e75b"
+    },
+    {
+      "path": "tests/fixtures/tjsp_cjsg_result.html",
+      "bytes": 3595,
+      "sha256": "d6f30ce7551f0eb47693039eae30b5b9eafd0678a436eeadff939febee22ce74"
+    },
+    {
+      "path": "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
+      "bytes": 3200,
+      "sha256": "663ddc85844eedc375cbfeaafab93023ed44b9b90994300abe6309e0da26413b"
+    },
+    {
+      "path": "tests/fixtures/tjsp_nugepnac_detail.html",
+      "bytes": 954,
+      "sha256": "3439b08d2022dafdef57c1b706ea57fe315466f7fc43f783ba23db34e5869643"
+    },
+    {
+      "path": "tests/fixtures/tjsp_nugepnac_list.html",
+      "bytes": 179,
+      "sha256": "7e163311f4d40ae1f9210a96021f0dddfe77a9335a18297155645dd9f8cd7b6e"
+    },
+    {
+      "path": "tests/fixtures/tjto_jurisprudencia_results.json",
+      "bytes": 854,
+      "sha256": "0a9247f8c0fe5d5903a62880dfad1911c966ced638d0fd226f80e17044ccdef2"
+    },
+    {
+      "path": "tests/fixtures/tnu_eproc_aposentadoria.html",
+      "bytes": 349555,
+      "sha256": "91a66e1ff3f6edd37a5925a2e1d5f2ffee3fb00ef1cac85229ee9dc03e06ae91"
+    },
+    {
+      "path": "tests/fixtures/tre_sp_temas_detail.html",
+      "bytes": 368,
+      "sha256": "1620948a4e326b211c2cb2b5631ea5e87df73b6ea5deb8dad48c19864d3205ce"
+    },
+    {
+      "path": "tests/fixtures/tre_sp_temas_index.html",
+      "bytes": 215,
+      "sha256": "7f9578ab94ac19b408123e6952fd52bd77a045b7703d90960e6e185aa84c6ce0"
+    },
+    {
+      "path": "tests/fixtures/trf2_eproc_aposentadoria.html",
+      "bytes": 866158,
+      "sha256": "ba82e277fc759dba99ed36152099a5ec243cfed348844229ca296079dc01e841"
+    },
+    {
+      "path": "tests/fixtures/trf4_eproc_results.html",
+      "bytes": 2411,
+      "sha256": "783a95063b6ae7b3da171cac0096920d19323c310b9338cdaebd14fb15187a8b"
+    },
+    {
+      "path": "tests/fixtures/trf5_jurisprudencia_access_control.html",
+      "bytes": 108,
+      "sha256": "0e0105da274893b9158b55aeef5ddd1669be5cb53d55f4b16b43f6659f279110"
+    },
+    {
+      "path": "tests/fixtures/trf5_jurisprudencia_contract_changed.html",
+      "bytes": 134,
+      "sha256": "1272fceb55ee095a8281ab00708e407db2f89cc18c6237e3f4b762d9a1d9b031"
+    },
+    {
+      "path": "tests/fixtures/trf5_jurisprudencia_empty.html",
+      "bytes": 91,
+      "sha256": "1ea21b15ceadad1376dbc6a8a792c99644d721a4831cf119774a468815aba830"
+    },
+    {
+      "path": "tests/fixtures/trf5_jurisprudencia_results.html",
+      "bytes": 545,
+      "sha256": "3c9baa63352e1b3b12530c730489dacef8aaec0cfac6946d0827f258b92ea103"
+    },
+    {
+      "path": "tests/fixtures/trf6_eproc_aposentadoria.html",
+      "bytes": 627637,
+      "sha256": "f8247d9362b2fca9b4dbd7f3fa469e42756a668361cbd152f1fabe445831cb59"
+    },
+    {
+      "path": "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
+      "bytes": 1500,
+      "sha256": "29426dc47e5a74e15a0a174f189992a46d4bcec86e5562771b0a06c5ae405233"
+    }
+  ],
+  "commands": [
+    "python -m pytest -q tests/test_client_exporters.py tests/test_routing.py tests/test_provider_contract_v2.py",
+    "python -m ruff check .",
+    "python -m mypy src"
+  ],
+  "notes": "The worktree already contained implementation edits when this SDD was resumed. The immutable HEAD commit is used as the pre-change baseline; only hashes and metadata are persisted."
+}

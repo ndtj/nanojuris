@@ -1,0 +1,25 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "tjmsp_jurisprudencia",
+  "authority": "TJMSP",
+  "surface": "military_jurisprudencia_second_degree",
+  "request": {
+    "method": "GET",
+    "url": "https://jurisprudencia-client.tjmsp.jus.br/",
+    "bounded": true,
+    "credentials_used": false,
+    "bypass_used": false
+  },
+  "response": {
+    "http_status": 403,
+    "classification": "access_control_required",
+    "raw_body_persisted": false
+  },
+  "decision": "diagnostic_opt_in_only",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "cookies_or_tokens_used": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

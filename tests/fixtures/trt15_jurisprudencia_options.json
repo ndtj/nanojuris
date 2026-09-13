@@ -1,0 +1,11 @@
+{
+  "sucesso": 1,
+  "listaOrgaosJulgadores": [
+    ["10ª Câmara", "19"],
+    ["11ª Câmara", "20"]
+  ],
+  "listaRelatores": [
+    ["RELATOR DE TESTE", "00000000000"],
+    ["OUTRO RELATOR", "11111111111"]
+  ]
+}

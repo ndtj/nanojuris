@@ -1,0 +1,80 @@
+{
+  "schema_version": "tjsc-eproc-live-v1",
+  "generated_at": "2026-09-07T19:53:26.209713+00:00",
+  "mode": "live_bounded",
+  "source": "tjsc_eproc_jurisprudencia",
+  "source_id": "tjsc_eproc_jurisprudencia",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": "text/html; charset=iso-8859-1",
+  "record_count_observed": 2,
+  "reported_total": 785609,
+  "pagination_mode": "page",
+  "provider": "tjsc_eproc_jurisprudencia",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 785609,
+      "total_known": true,
+      "ids": [
+        "tjsc-eproc-jurisprudencia-4870937",
+        "tjsc-eproc-jurisprudencia-321788797177132181268993329006"
+      ],
+      "case_numbers": [
+        null,
+        "5052128-58.2026.8.24.0000"
+      ],
+      "has_summary": true,
+      "access_status": "public",
+      "extraction_status": "complete"
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 785609,
+      "total_known": true,
+      "ids": [
+        "tjsc-eproc-jurisprudencia-321788805884437907780240047107",
+        "tjsc-eproc-jurisprudencia-321788783380383618927868259046"
+      ],
+      "case_numbers": [
+        "5081656-40.2026.8.24.0000",
+        "5082511-19.2026.8.24.0000"
+      ],
+      "has_summary": true,
+      "access_status": "public",
+      "extraction_status": "complete"
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    },
+    "error": {
+      "type": "AccessControlRequiredError",
+      "message": "TJSC/eproc jurisprudence returned access-control HTML"
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "detail_valid": false,
+    "errors": 1
+  }
+}

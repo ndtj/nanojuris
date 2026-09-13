@@ -1,0 +1,22 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-07",
+  "source": "PDPJ Banco de Sentencas",
+  "frontend": {
+    "url": "https://bancosentencas.pdpj.jus.br/pesquisa",
+    "method": "GET",
+    "http_status": 200,
+    "classification": "public_frontend_only",
+    "project_label": "Banco de Sentenças das Justiças Militares",
+    "api_base_discovered_in_public_bundle": "https://gateway.cloud.pje.jus.br/banco-sentencas/api"
+  },
+  "search_probe": {
+    "method": "POST",
+    "url": "https://gateway.cloud.pje.jus.br/banco-sentencas/api/sentencas/buscar",
+    "http_status": 403,
+    "classification": "access_controlled",
+    "result_payload": false
+  },
+  "scope_decision": "A aplicacao publica identificada e especifica para Justicas Militares e nao fornece contrato anonimo reproduzivel para as 27 Justicas Estaduais. Nao criar provider estadual a partir desta rota.",
+  "safety": "Foram usados somente GET/POST HTTPS publicos e bounded; sem credenciais, token, replay de sessao, proxy, geracao de desafio ou contorno de controle de acesso."
+}

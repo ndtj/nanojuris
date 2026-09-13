@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "provider": "tjsc_eproc_jurisprudencia",
+  "route": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+  "credentials_used": false,
+  "queries": [
+    {
+      "degree": "first",
+      "instance": "first",
+      "text": "responsabilidade civil",
+      "page_size": 1,
+      "classification": "contract_rejected",
+      "reason": "public response contained records outside requested degree=first; no first-degree identity was exposed",
+      "http_status": 200,
+      "returned": 0
+    },
+    {
+      "degree": "second",
+      "instance": "second",
+      "text": "responsabilidade civil",
+      "page_size": 1,
+      "classification": "reachable_valid_data",
+      "http_status": 200,
+      "returned": 1,
+      "total_known": false,
+      "identity": {
+        "authority": "TJSC",
+        "degree": "second",
+        "instance": "second",
+        "collection": "JURISPRUDENCIA"
+      }
+    }
+  ],
+  "detail_probe": {
+    "classification": "access_controlled",
+    "reason": "the public search result's detail route returned access-control HTML",
+    "credentials_used": false,
+    "body_persisted": false
+  },
+  "decision": "Do not promote TJSC/eproc to CJPG. Keep the existing second-degree contract, expose detail access as conditional, and require a separate official first-degree surface before counting CJPG."
+}

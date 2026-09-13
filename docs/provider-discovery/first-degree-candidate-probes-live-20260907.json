@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "scope": "bounded_first_degree_candidate_route_probe",
+  "credentials_used": false,
+  "response_bodies_persisted": false,
+  "results": [
+    {
+      "authority": "TJAM",
+      "url": "https://www.tjam.jus.br/index.php/jurisprudencia",
+      "status": 200,
+      "classification": "public_shell_no_first_degree_contract",
+      "content_type": "text/html; charset=utf-8",
+      "response_bytes_observed": 173886,
+      "markers": ["jurisprudencia"]
+    },
+    {
+      "authority": "TJBA",
+      "url": "https://jurisprudencia.tjba.jus.br/",
+      "status": 200,
+      "classification": "public_shell_no_first_degree_contract",
+      "content_type": "text/html",
+      "response_bytes_observed": 424,
+      "markers": ["jurisprudencia"]
+    },
+    {
+      "authority": "TJDFT",
+      "url": "https://www.tjdft.jus.br/consultas/jurisprudencia",
+      "status": 200,
+      "classification": "public_jurisprudence_portal_degree_unconfirmed",
+      "content_type": "text/html;charset=utf-8",
+      "response_bytes_observed": 148199,
+      "markers": ["jurisprudencia", "ementa"]
+    },
+    {
+      "authority": "TJES",
+      "url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/",
+      "status": 200,
+      "classification": "public_shell_no_contract",
+      "content_type": "text/html",
+      "response_bytes_observed": 749,
+      "markers": []
+    },
+    {
+      "authority": "TJPR",
+      "url": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do",
+      "status": 200,
+      "classification": "public_jurisprudence_portal_degree_unconfirmed",
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes_observed": 14309,
+      "markers": ["jurisprudencia", "ementa"]
+    },
+    {
+      "authority": "TJSC",
+      "url": "https://www.tjsc.jus.br/pesquisa-jurisprudencia",
+      "final_url": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
+      "status": 200,
+      "classification": "public_eproc_first_degree_candidate",
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes_observed": 105111,
+      "markers": ["jurisprudencia", "sentenca", "ementa"],
+      "next_action": "validate explicit degree, search payload, pagination and document detail before CJPG promotion"
+    },
+    {
+      "authority": "TJSP",
+      "url": "https://www.tjsp.jus.br/Jurisprudencia",
+      "status": 200,
+      "classification": "public_portal_degree_unconfirmed",
+      "content_type": "text/html; charset=utf-8",
+      "response_bytes_observed": 49108,
+      "markers": ["jurisprudencia", "sentenca"]
+    },
+    {
+      "authority": "TJTO",
+      "url": "https://jurisprudencia.tjto.jus.br/",
+      "status": 403,
+      "classification": "access_controlled",
+      "content_type": "text/html",
+      "response_bytes_observed": 118,
+      "markers": []
+    }
+  ],
+  "interpretation": "HTTP 200 and textual markers are discovery evidence only. TJSC is the only candidate in this bounded probe whose final route explicitly names consulta1g; it still needs a separate contract and live search validation. No candidate was promoted automatically and the TJTO 403 was not treated as empty."
+}

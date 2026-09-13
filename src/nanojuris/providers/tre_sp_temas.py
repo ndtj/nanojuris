@@ -12,6 +12,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     ParserContractChangedError,
     RateLimitDetectedError,
@@ -19,6 +20,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -27,6 +29,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import TransportPolicy
 
 
 class TreSpTemasProvider(JurisprudenceProvider):
@@ -42,6 +45,16 @@ class TreSpTemasProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        tre_host = urlparse(self.config.tre_sp_url).hostname or "www.tre-sp.jus.br"
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(tre_host,),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         index_html, index_url = self._request_text("GET", "/jurisprudencia/temas-selecionados-1")
@@ -77,6 +90,16 @@ class TreSpTemasProvider(JurisprudenceProvider):
 
         start_index = (query.page - 1) * query.page_size
         limited = results[start_index : start_index + query.page_size]
+        for result in results:
+            links = result.raw.get("document_links") if isinstance(result.raw, dict) else None
+            if isinstance(links, list):
+                for link in links:
+                    if not isinstance(link, dict):
+                        continue
+                    url = link.get("url")
+                    if isinstance(url, str) and url.startswith("https://"):
+                        self._document_urls[result.id] = url
+                        break
         start = start_index + 1 if limited else 0
         return SearchPage(
             source=self.name,
@@ -87,6 +110,41 @@ class TreSpTemasProvider(JurisprudenceProvider):
             page_size=query.page_size,
             results=limited,
             source_trace=trace,
+        )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch an observed public TRE-SP theme document.
+
+        Only HTTPS URLs discovered in the official theme page (or an explicit
+        URL on the allowlisted TRE-SP host) are accepted.  Access and content
+        errors are surfaced by the shared document pipeline.
+        """
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "TRE-SP document_id must be an observed official HTTPS URL or a result id"
+            )
+        parsed = urlparse(document_url)
+        allowed_host = urlparse(self.config.tre_sp_url).hostname or "www.tre-sp.jus.br"
+        if parsed.hostname != allowed_host:
+            raise ValueError("TRE-SP document URL is outside the official host allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            document_type="tema_selecionado",
+            expected_content_types=("application/pdf", "text/html", "text/plain"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title="TRE-SP Tema Selecionado",
         )
 
     def _request_theme(
@@ -180,18 +238,62 @@ class TreSpTemasProvider(JurisprudenceProvider):
                 "GET /jurisprudencia/arquivos-da-secao-de-jurisprudencia-sp/"
                 "temas-selecionados/<slug>",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             pagination_mode="local_window",
             completeness_contract="observed_window_only",
-            full_text_access="link_only",
+            full_text_access="document_link",
             supports_cli=True,
-            supports_unified_search=True,
+            # Curated thematic pages are not a general decision search and
+            # remain blocked from default federation until explicitly enabled.
+            supports_unified_search=False,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
             supported_filters=["text", "exact_phrase"],
+            filter_semantics={
+                "text": "local_postfilter",
+                "exact_phrase": "local_postfilter",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "types",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "number",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                    )
+                },
+            },
             limitations=[
                 "Fonte tematica, nao uma busca geral de acordaos.",
                 "Links de inteiro teor podem apontar para sistemas eleitorais externos.",

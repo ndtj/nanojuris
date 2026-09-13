@@ -1,0 +1,131 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": "trt8_pje_jurisprudencia",
+  "source_id": "trt8_pje_jurisprudencia",
+  "authority": "TRT8",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "checked_at": "2026-09-09",
+  "observed_at": "2026-09-09",
+  "results": [
+    {
+      "source_id": "trt8_pje_jurisprudencia",
+      "surface": "jurisprudencia",
+      "classification": "valid",
+      "record_count_observed": 10,
+      "reported_total": 46181,
+      "http_status": 200,
+      "content_type": "application/json",
+      "pagination_mode": "page"
+    }
+  ],
+  "source": {
+    "official_entry_point": "https://pje.trt8.jus.br/jurisprudencia/",
+    "backend_origin": "https://pje.trt8.jus.br",
+    "options_endpoint": "GET /juris-backend/api/opcoes",
+    "filters_endpoint": "POST /juris-backend/api/filtros",
+    "documents_endpoint": "POST /juris-backend/api/documentos",
+    "detail_endpoint": "POST /juris-backend/api/documentos/{id}",
+    "frontend_asset": "https://pje.trt8.jus.br/jurisprudencia/main-es2015.0f830db47a0d780ff85a0d.js"
+  },
+  "observations": {
+    "options": {
+      "http_status": 200,
+      "response_bytes": 254,
+      "captcha_option": "0",
+      "interpretation": "A opcao oficial indica que a consulta publica observada nao exige CAPTCHA nem token de recaptcha."
+    },
+    "filters": {
+      "http_status": 200,
+      "response_bytes": 77876,
+      "sha256": "a8a65b8bb3648444a9d690294a86d7e9ef61c0c12d9af35b2dc73d17dbcc755b",
+      "reported_hits": 3840203,
+      "fields": [
+        "assunto",
+        "anoProcesso",
+        "tipoDocumento",
+        "instancia",
+        "orgaoJulgadorColegiado",
+        "meioTramitacao",
+        "orgaoJulgador",
+        "magistrado",
+        "classeJudicial"
+      ]
+    },
+    "documents": {
+      "query": {
+        "andField": ["dano", "moral"],
+        "instancia": ["2ª Instância"],
+        "tipoDocumento": ["Acórdão"],
+        "ordenarPor": "relevancia",
+        "paginationSize": 10,
+        "fragmentSize": 512
+      },
+      "page_1": {
+        "http_status": 200,
+        "response_bytes": 77686,
+        "sha256": "244682fd8b828ab43ca60409d6fa104d9d530a263ef7e9ec32e7ba097574196f",
+        "reported_hits": 46181,
+        "documents_returned": 10,
+        "sample": {
+          "id": "pje2_15349541",
+          "processo": "0000471-91.2022.5.08.0003",
+          "instancia": "2ª Instância",
+          "tipoDocumento": "Acórdão",
+          "classeJudicial": "Recurso Ordinário - Rito Sumaríssimo",
+          "orgaoJulgadorColegiado": "1ª Turma",
+          "dataPublicacao": "2023-06-29"
+        }
+      },
+      "page_2": {
+        "http_status": 200,
+        "response_bytes": 80846,
+        "sha256": "dd7af0fe8f052c56612576ad40b1a8eac16ad61b54b809f04904a64dd327a3b3",
+        "reported_hits": 46181,
+        "documents_returned": 10,
+        "sample": {
+          "id": "pje2_2706756",
+          "processo": "0000405-85.2016.5.08.0015",
+          "instancia": "2ª Instância",
+          "tipoDocumento": "Acórdão",
+          "classeJudicial": "Recurso Ordinário Trabalhista",
+          "orgaoJulgadorColegiado": "1ª Turma",
+          "dataPublicacao": "2017-03-09"
+        }
+      }
+    },
+    "detail": {
+      "endpoint": "POST /juris-backend/api/documentos/pje2_15349541",
+      "http_status": 200,
+      "response_bytes": 19386,
+      "sha256": "d3fc4641099065c727ec1f09d1435989700f7b18e47019d6662276b910130fab",
+      "fields": ["ementaHTML", "dispositivoHTML", "inteiroTeorHTML", "processo", "instancia", "tipoDocumento"],
+      "full_text": "inteiroTeorHTML presente; detalhe retornado sem token ou desafio"
+    }
+  },
+  "classification": {
+    "status": "live_validated",
+    "contract_status": "valid_for_second_degree_search",
+    "degree_contract": "explicit_instancia_2_and_tipoDocumento_acordao",
+    "full_text_status": "detail_html_public",
+    "pagination_status": "validated_page_1_and_page_2",
+    "promotion": "pending_fixture_and_federated_smoke"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "challenge_token_persisted": false,
+    "raw_response_persisted": false,
+    "bounded_request": true,
+    "request_budget": "filters + two result pages + one detail"
+  },
+  "limitations": [
+    "A consulta sem instancia/tipoDocumento mistura primeiro e segundo grau; o adapter deve sempre aplicar o escopo CJSG.",
+    "O endpoint de detalhe retorna HTML integral, mas a disponibilidade pode variar por documento sigiloso.",
+    "O contrato de filtros foi observado no bundle oficial e nas agregacoes; mudanças de schema devem abrir falha explícita.",
+    "A primeira tentativa de página 2 sem os filtros canônicos expirou; a página 2 filtrada foi reproduzida com sucesso."
+  ]
+}

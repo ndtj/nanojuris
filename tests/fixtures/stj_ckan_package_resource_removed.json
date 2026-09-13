@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "result": {
+    "id": "dataset-espelhos-1",
+    "name": "espelhos-de-acordaos-primeira-turma",
+    "title": "Espelhos de acordaos - Primeira Turma",
+    "resources": [
+      {
+        "id": "resource-json-current",
+        "name": "20260630.json",
+        "format": "JSON",
+        "url": "https://dadosabertos.web.stj.jus.br/resource/resource-json-current"
+      }
+    ]
+  }
+}

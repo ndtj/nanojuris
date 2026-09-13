@@ -1,0 +1,23 @@
+{
+  "schema_version": "legal-live-benchmark-v1",
+  "ranking_version": "legal-live-v1",
+  "label_scale": {"0": "irrelevante", "1": "relacionado_mas_nao_responde", "2": "relevante", "3": "altamente_relevante"},
+  "splits": {
+    "development": [
+      {"id": "q01", "query": "responsabilidade civil administrativa", "intent": ["compound_concept"]},
+      {"id": "q02", "query": "acórdãos sobre divórcio", "intent": ["document_type", "concept"]},
+      {"id": "q03", "query": "dano moral inscrição indevida", "intent": ["compound_concept"]},
+      {"id": "q04", "query": "servidor público acumulação de cargos", "intent": ["concept"]},
+      {"id": "q05", "query": "prisão preventiva contemporaneidade", "intent": ["compound_concept"]}
+    ],
+    "holdout": [
+      {"id": "q06", "query": "0000000-12.3452.0.20.1234", "intent": ["exact_identifier"]},
+      {"id": "q07", "query": "responsabilidade objetiva do Estado", "intent": ["natural_language"]},
+      {"id": "q08", "query": "\"inscrição indevida\" -segredo", "intent": ["phrase", "negative_term"]}
+    ]
+  },
+  "judgments": [],
+  "judgment_status": "pending_human_labels",
+  "notes": "Consultas e intenções são sanitizadas. Não há decisões ou texto de tribunal persistidos neste benchmark; julgamentos devem ser adicionados por IDs canônicos após revisão humana.",
+  "telemetry_policy": {"query_storage": "hmac_fingerprint_only", "retention_days": 30, "raw_payloads": false}
+}

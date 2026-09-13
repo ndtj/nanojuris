@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from nanojuris.pagination import page_completeness
+from nanojuris.pagination import authoritative_total_reached, page_completeness
 
 
 @pytest.mark.parametrize(
@@ -33,6 +33,37 @@ def test_page_completeness_is_conservative(
 
     assert complete is expected
     assert reason
+
+
+@pytest.mark.parametrize(
+    ("reported_total", "total_known", "returned", "accumulated", "expected"),
+    [
+        (0, True, 0, 0, True),
+        # A legacy zero sentinel must not truncate a non-empty response.
+        (0, True, 2, 2, False),
+        (0, True, 0, 2, False),
+        (2, True, 2, 2, True),
+        (3, True, 2, 2, False),
+        (3, False, 3, 3, False),
+        (None, True, 3, 3, False),
+    ],
+)
+def test_authoritative_total_never_treats_zero_with_rows_as_complete(
+    reported_total: int | None,
+    total_known: bool | None,
+    returned: int,
+    accumulated: int,
+    expected: bool,
+) -> None:
+    assert (
+        authoritative_total_reached(
+            reported_total=reported_total,
+            total_known=total_known,
+            returned=returned,
+            accumulated=accumulated,
+        )
+        is expected
+    )
 
 
 def test_provider_iter_pages_never_yields_more_than_max_records() -> None:

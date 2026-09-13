@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import hashlib
 import re
-import time
 import unicodedata
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -20,6 +20,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -29,6 +30,8 @@ from nanojuris.models import (
 )
 from nanojuris.parsing import HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 SEARCH_PATH = "/trf1/index.xhtml"
 PROCESS_RE = re.compile(r"\b\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}\b")
@@ -47,8 +50,21 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
+        cjf_host = (
+            urlparse(self.config.cjf_trf1_jurisprudencia_url).hostname
+            or "jurisprudencia.cjf.jus.br"
+        )
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(cjf_host, "pje2g.trf1.jus.br"),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self.transport = SharedHttpClient(self._document_policy, session=self.session)
+        self._document_urls: dict[str, str] = {}
 
     @property
     def base_url(self) -> str:
@@ -75,6 +91,10 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
             **self._last_http_metadata,
         )
         results, total = parse_cjf_results(html, trace=trace)
+        for result in results:
+            document_url = result.document_url or result.raw.get("document_url")
+            if isinstance(document_url, str) and document_url.startswith("https://"):
+                self._document_urls[result.id] = document_url
         page_size = _page_size(query.page_size)
         limited = results[:page_size]
         return SearchPage(
@@ -88,10 +108,59 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
             source_trace=trace,
         )
 
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch an observed public TRF1 document through shared transport."""
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "CJF/TRF1 document_id must be an observed official HTTPS URL or a result id"
+            )
+        parsed = urlparse(document_url)
+        allowed_hosts = {
+            urlparse(self.config.cjf_trf1_jurisprudencia_url).hostname
+            or "jurisprudencia.cjf.jus.br",
+            "pje2g.trf1.jus.br",
+        }
+        if parsed.hostname not in allowed_hosts:
+            raise ValueError("CJF/TRF1 document URL is outside the official host allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            document_type="acordao",
+            expected_content_types=("application/pdf", "text/html", "text/plain"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title="CJF/TRF1 Acordao",
+        )
+
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
-        raise NotImplementedError(
-            "CJF/TRF1 retorna ementa e links externos, mas a rota de detalhe individual "
-            "ainda nao possui contrato promovido."
+        # The result card carries an observed official PJe2G/HTML link.  Use
+        # the same allowlisted document path as ``get_document`` so callers
+        # receive a complete decision envelope without inventing a detail
+        # endpoint or silently downgrading the record to metadata-only.
+        document = self.get_document(precedent_id)
+        return DecisionBundle(
+            precedent_id=precedent_id,
+            source=self.name,
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/html",
+                }
+            ],
+            procedural_follow_url=document.url,
+            source_trace=document.source_trace,
+            raw={"document_url": document.url},
+            raw_bytes=document.raw_bytes,
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -103,8 +172,9 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
             search_modes=["full_text", "summary", "case_number", "date_range", "document_type"],
             document_types=["acordao", "sumula", "arguicao", "decisao_monocratica"],
             content_formats=["html"],
-            canonical_records=["CanonicalDecision"],
+            canonical_records=["JurisprudenceResult", "CanonicalDocument", "DecisionBundle"],
             extracted_fields=[
+                "id",
                 "case_number",
                 "decision_type",
                 "case_class",
@@ -120,21 +190,66 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
             ],
             access_statuses=[AccessStatus.PUBLIC, AccessStatus.SOURCE_UNAVAILABLE],
             endpoints=["GET /trf1/index.xhtml", "POST /trf1/index.xhtml"],
-            supports_full_text=False,
+            supports_full_text=True,
             pagination_mode="local_window",
             completeness_contract="reported_total_and_source_page_window",
-            full_text_access="link_only",
+            full_text_access="detail_call",
             supports_cli=True,
-            supports_unified_search=True,
+            # The TRF1 surface is blocked and lacks a promoted detail contract;
+            # keep it out of the default federation rather than reporting a
+            # false empty result.
+            supports_unified_search=False,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=False,
             supports_live_tests=True,
             supported_filters=["text", "number", "types"],
+            filter_semantics={
+                "text": "translated",
+                "exact_phrase": "translated",
+                "number": "translated",
+                "types": "translated",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "translated",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                    )
+                },
+            },
             limitations=[
                 "O provider implementa a superficie TRF1, nao a busca unificada do CJF.",
                 "A fonte retorna uma pagina volumosa e o provider limita os resultados locais.",
-                "Inteiro teor externo nao e inferido nem baixado sem contrato individual.",
+                "O inteiro teor depende do link oficial observado e e baixado sob demanda.",
             ],
             responsible_use=[
                 "Usar page_size pequeno e intervalo entre chamadas.",
@@ -144,23 +259,32 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request(self, method: str, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(self.base_url + "/", path.lstrip("/"))
+        request = TransportRequest(
+            source=self.name,
+            operation=f"search_{method.lower()}",
+            method=method,
+            url=url,
+            data=kwargs.get("data"),
+            headers={
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "User-Agent": self.config.user_agent,
+            },
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers={
-                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                    "User-Agent": self.config.user_agent,
-                },
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                verify=self.config.verify_ssl,
-                **kwargs,
-            )
+            response = self.transport.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"CJF/TRF1 jurisprudence request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
+            if response.status is TransportStatus.TLS_ERROR:
+                raise SourceUnavailableError("CJF/TRF1 jurisprudence TLS negotiation failed")
+            raise SourceUnavailableError(
+                "CJF/TRF1 jurisprudence transport failed: "
+                f"{response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("CJF/TRF1 jurisprudence transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError("CJF/TRF1 jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -171,31 +295,20 @@ class CjfJurisprudenciaProvider(JurisprudenceProvider):
             )
         if response.status_code >= 400:
             raise SourceUnavailableError(f"CJF/TRF1 rejected HTTP {response.status_code}")
-        response.encoding = response.encoding or "utf-8"
-        content = bytes(getattr(response, "content", b"") or b"")
-        if not content:
-            content = response.text.encode(response.encoding or "utf-8", errors="replace")
-        headers = getattr(response, "headers", {}) or {}
+        content = bytes(response.body)
+        headers = response.headers
+        text = response.text
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", url) or url),
+            "final_url": str(response.final_url or url),
             "content_type": headers.get("Content-Type") or headers.get("content-type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "content_sha256": response.content_sha256,
             "response_bytes": len(content),
             "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
         }
-        if _looks_like_access_control(response.text):
+        if _looks_like_access_control(text):
             raise AccessControlRequiredError("CJF/TRF1 jurisprudence returned access-control HTML")
-        return response.text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return text, str(response.final_url or url)
 
 
 def parse_cjf_results(html: str, *, trace: SourceTrace) -> tuple[list[JurisprudenceResult], int]:
@@ -230,6 +343,30 @@ def parse_cjf_results(html: str, *, trace: SourceTrace) -> tuple[list[Jurisprude
                 publication_date=publication_date,
                 access_status=AccessStatus.PUBLIC,
                 source_trace=trace,
+                # The route is the official TRF1 appellate collection.  The
+                # page does not repeat the degree on every card, so preserve
+                # the scope proven by the route and the PJe2G document host
+                # explicitly instead of leaving identity in ``raw`` only.
+                degree="second",
+                instance="second",
+                branch="federal",
+                authority="TRF1",
+                collection="JURISPRUDENCIA",
+                document_type=_normalize_type(fields.get("tipo")),
+                field_provenance={
+                    "authority": {"value": "TRF1", "method": "official_route_scope"},
+                    "branch": {"value": "federal", "method": "official_route_scope"},
+                    "degree": {"value": "second", "method": "official_route_scope"},
+                    "instance": {"value": "second", "method": "official_route_scope"},
+                    "collection": {
+                        "value": "JURISPRUDENCIA",
+                        "method": "official_route_scope",
+                    },
+                    "document_type": {
+                        "value": _normalize_type(fields.get("tipo")),
+                        "method": "official_result_field",
+                    },
+                },
                 raw={
                     **fields,
                     "case_class": fields.get("classe"),

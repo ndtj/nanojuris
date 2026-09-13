@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.local/schemas/promotion-gate-0092.json",
+  "type": "object",
+  "required": ["provider", "surface_id", "gates", "decision"],
+  "properties": {
+    "provider": {"type": "string"},
+    "surface_id": {"type": "string"},
+    "gates": {
+      "type": "object",
+      "required": ["official_source", "degree_contract", "runtime", "fixtures", "pagination_filters", "live", "quality", "public_access"],
+      "properties": {
+        "official_source": {"type": "boolean"},
+        "degree_contract": {"type": "boolean"},
+        "runtime": {"type": "boolean"},
+        "fixtures": {"type": "boolean"},
+        "pagination_filters": {"type": "boolean"},
+        "live": {"type": "boolean"},
+        "quality": {"type": "boolean"},
+        "public_access": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "decision": {"enum": ["automatic_technical_approval", "opt_in", "blocked", "rejected", "pending_human_review"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

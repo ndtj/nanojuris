@@ -141,6 +141,16 @@ teor inline. Para Gold, completar filtros de relator/órgão/data, verificar a
 estabilidade de página profunda e reproduzir, ou formalmente rejeitar, o
 contrato documental independente.
 
+## Contrato CJSG fechado - 2026-09-05
+
+As rotas publicas `Acordao` e `Decisao` sao superficies de segundo grau; o
+adapter fixa e preserva `degree=second`, `instance=second`, `branch=state`,
+`authority=TJMT`, `collection=CJSG` e o tipo documental correspondente.
+Filtros de primeiro grau ou de outra colecao sao rejeitados antes do
+transporte. A evidencia live bounded de 2026-09-05 retornou HTTP 200, texto
+integral inline, identificador estavel e total remoto; fixture e testes cobrem
+erros e token efemero sem persisti-lo.
+
 ## Proximos passos
 
 1. Reproduzir filtros de relator, órgão julgador e julgamento.

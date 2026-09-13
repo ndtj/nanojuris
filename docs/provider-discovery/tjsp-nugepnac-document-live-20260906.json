@@ -1,0 +1,20 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjsp_nugepnac",
+  "source_id": "tjsp_nugepnac",
+  "surface": "document",
+  "checked_at": "2026-09-06",
+  "source": "tjsp_nugepnac",
+  "source_url": "https://esaj.tjsp.jus.br/cjsg/getArquivo.do",
+  "classification": "schema_invalid_or_empty",
+  "http_status": 200,
+  "access_status": "public_response_without_extractable_text",
+  "record_count_observed": 0,
+  "reported_total": null,
+  "response_bytes": 1471,
+  "extraction_status": "empty",
+  "limitations": [
+    "The official e-SAJ document route responded with HTML but no extractable decision text in a clean bounded request.",
+    "Captcha or access-control tokens are not generated or bypassed; the provider raises an explicit parser/access error."
+  ]
+}

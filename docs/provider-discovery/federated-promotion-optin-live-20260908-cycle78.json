@@ -1,0 +1,134 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T16:15:50.717312+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 15,
+  "manifest_sources": [
+    "eproc_jurisprudencia_federal",
+    "falcao_jt",
+    "stj_dados_abertos_jurisprudencia",
+    "tce_sp_jurisprudencia",
+    "tjal_esmal_banco_sentencas",
+    "tjal_turma_recursal_ementario",
+    "tjce_informativos",
+    "tjma_informativos",
+    "tjrj_banco_sentencas",
+    "tjse_jurisprudencia",
+    "tjsp_nugepnac",
+    "trf3_jurisprudencia",
+    "trt15_jurisprudencia",
+    "trt2_basis_jurisprudencia",
+    "trt2_pje_jurisprudencia"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": false,
+  "sources_searched": [
+    "eproc_jurisprudencia_federal",
+    "falcao_jt",
+    "tjse_jurisprudencia",
+    "trt2_pje_jurisprudencia"
+  ],
+  "source_completeness": {
+    "eproc_jurisprudencia_federal": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "UnsupportedProviderError",
+      "error_message": "Provider 'eproc_jurisprudencia_federal' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, t...[truncated]"
+    },
+    "falcao_jt": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "UnsupportedProviderError",
+      "error_message": "Provider 'falcao_jt' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, tjce_informativos, t...[truncated]"
+    },
+    "tjse_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "UnsupportedProviderError",
+      "error_message": "Provider 'tjse_jurisprudencia' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, tjce_infor...[truncated]"
+    },
+    "trt2_pje_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "UnsupportedProviderError",
+      "error_message": "Provider 'trt2_pje_jurisprudencia' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, tjce_i...[truncated]"
+    }
+  },
+  "source_totals": {},
+  "source_total_known": {
+    "eproc_jurisprudencia_federal": null,
+    "falcao_jt": null,
+    "tjse_jurisprudencia": null,
+    "trt2_pje_jurisprudencia": null
+  },
+  "source_access_status": {
+    "eproc_jurisprudencia_federal": null,
+    "falcao_jt": null,
+    "tjse_jurisprudencia": null,
+    "trt2_pje_jurisprudencia": null
+  },
+  "source_extraction_status": {
+    "eproc_jurisprudencia_federal": null,
+    "falcao_jt": null,
+    "tjse_jurisprudencia": null,
+    "trt2_pje_jurisprudencia": null
+  },
+  "errors": [
+    {
+      "source": "eproc_jurisprudencia_federal",
+      "error_type": "UnsupportedProviderError",
+      "message": "Provider 'eproc_jurisprudencia_federal' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, t...[truncated]"
+    },
+    {
+      "source": "falcao_jt",
+      "error_type": "UnsupportedProviderError",
+      "message": "Provider 'falcao_jt' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, tjce_informativos, t...[truncated]"
+    },
+    {
+      "source": "tjse_jurisprudencia",
+      "error_type": "UnsupportedProviderError",
+      "message": "Provider 'tjse_jurisprudencia' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, tjce_infor...[truncated]"
+    },
+    {
+      "source": "trt2_pje_jurisprudencia",
+      "error_type": "UnsupportedProviderError",
+      "message": "Provider 'trt2_pje_jurisprudencia' is not registered. Available: bnp_pangea, cjf_jurisprudencia, cnj_jurisprudencia, justica_eleitoral_sjur, stf_informativo, stf_juris, stj_dados_abertos_jurisprudencia, stj_informativo, stj_scon, stm_jurisprudencia, tce_pr_viajuris, tce_sp_jurisprudencia, tcu_jurisprudencia, tjac_cjsg, tjac_ementario_jurisprudencia, tjal_cjsg, tjal_esmal_banco_sentencas, tjal_turma_recursal_ementario, tjam_cjsg, tjap_banco_sentencas, tjba_graphql, tjce_cjsg, tjce_i...[truncated]"
+    }
+  ],
+  "summary": {
+    "sources_requested": 15,
+    "sources_searched": 4,
+    "sources_with_errors": 4,
+    "invalid_records": 0,
+    "total_returned": 0,
+    "deduplicated_total": 0,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

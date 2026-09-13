@@ -1,0 +1,1128 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-09-01T00:00:00+00:00",
+  "audit_mode": "static_inventory_no_network",
+  "upstream": {
+    "repository": "https://github.com/jtrecenti/juscraper",
+    "commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+    "court_packages": 25,
+    "trf_packages": 4
+  },
+  "nanojuris": {
+    "court_catalog_source": "nanojuris.brazil.COURTS",
+    "court_catalog_exhaustiveness": "cnj_register_snapshot_with_local_metadata",
+    "runtime_provider_count": 58,
+    "runtime_providers": [
+      "bnp_pangea",
+      "cjf_jurisprudencia",
+      "cnj_jurisprudencia",
+      "justica_eleitoral_sjur",
+      "stf_informativo",
+      "stf_juris",
+      "stj_dados_abertos_jurisprudencia",
+      "stj_informativo",
+      "stj_scon",
+      "stm_jurisprudencia",
+      "tce_pr_viajuris",
+      "tce_sp_jurisprudencia",
+      "tcu_jurisprudencia",
+      "tjac_cjsg",
+      "tjal_cjsg",
+      "tjam_cjsg",
+      "tjap_tucujuris",
+      "tjba_graphql",
+      "tjce_cjsg",
+      "tjce_informativos",
+      "tjce_sjuris",
+      "tjdf_juris",
+      "tjes_cjpg",
+      "tjes_jurisprudencia",
+      "tjes_turma_recursal",
+      "tjgo_projudi_jurisprudencia",
+      "tjma_jurisconsult",
+      "tjmg_dspace_jurisprudencia",
+      "tjmg_jurisprudencia",
+      "tjms_cjsg",
+      "tjmt_jurisprudencia_api",
+      "tjpa_jurisprudencia_bff",
+      "tjpb_pje_jurisprudencia",
+      "tjpe_jurisprudencia",
+      "tjpi_juspi",
+      "tjpr_jurisprudencia",
+      "tjrj_ejuris",
+      "tjrj_eproc_jurisprudencia",
+      "tjrn_jurisprudencia",
+      "tjro_jurisprudencia",
+      "tjro_liame",
+      "tjrr_juris",
+      "tjrs_solr",
+      "tjsc_eproc_jurisprudencia",
+      "tjse_boletim_jurisprudencia",
+      "tjse_jurisprudencia",
+      "tjsp_cjpg",
+      "tjsp_cjsg",
+      "tjsp_eproc_jurisprudencia",
+      "tjsp_nugepnac",
+      "tjto_jurisprudencia",
+      "tnu_eproc_jurisprudencia",
+      "tre_sp_temas",
+      "trf2_eproc_jurisprudencia",
+      "trf4_eproc_jurisprudencia",
+      "trf5_jurisprudencia",
+      "trf6_eproc_jurisprudencia",
+      "tst_jurisprudencia"
+    ],
+    "court_catalog_count": 94,
+    "court_catalog_codes": [
+      "cnj",
+      "stf",
+      "stj",
+      "stm",
+      "tjac",
+      "tjal",
+      "tjam",
+      "tjap",
+      "tjba",
+      "tjce",
+      "tjdft",
+      "tjes",
+      "tjgo",
+      "tjma",
+      "tjmg",
+      "tjmmg",
+      "tjmrs",
+      "tjms",
+      "tjmsp",
+      "tjmt",
+      "tjpa",
+      "tjpb",
+      "tjpe",
+      "tjpi",
+      "tjpr",
+      "tjrj",
+      "tjrn",
+      "tjro",
+      "tjrr",
+      "tjrs",
+      "tjsc",
+      "tjse",
+      "tjsp",
+      "tjto",
+      "tnu",
+      "treac",
+      "treal",
+      "tream",
+      "treap",
+      "treba",
+      "trece",
+      "tredf",
+      "trees",
+      "trego",
+      "trema",
+      "tremg",
+      "trems",
+      "tremt",
+      "trepa",
+      "trepb",
+      "trepe",
+      "trepi",
+      "trepr",
+      "trerj",
+      "trern",
+      "trero",
+      "trerr",
+      "trers",
+      "tresc",
+      "trese",
+      "tresp",
+      "treto",
+      "trf1",
+      "trf2",
+      "trf3",
+      "trf4",
+      "trf5",
+      "trf6",
+      "trt1",
+      "trt10",
+      "trt11",
+      "trt12",
+      "trt13",
+      "trt14",
+      "trt15",
+      "trt16",
+      "trt17",
+      "trt18",
+      "trt19",
+      "trt2",
+      "trt20",
+      "trt21",
+      "trt22",
+      "trt23",
+      "trt24",
+      "trt3",
+      "trt4",
+      "trt5",
+      "trt6",
+      "trt7",
+      "trt8",
+      "trt9",
+      "tse",
+      "tst"
+    ],
+    "juscraper_overlap_count": 29,
+    "courts_not_in_juscraper": [
+      "cnj",
+      "stf",
+      "stj",
+      "stm",
+      "tjma",
+      "tjmmg",
+      "tjmrs",
+      "tjmsp",
+      "tjse",
+      "tnu",
+      "treac",
+      "treal",
+      "tream",
+      "treap",
+      "treba",
+      "trece",
+      "tredf",
+      "trees",
+      "trego",
+      "trema",
+      "tremg",
+      "trems",
+      "tremt",
+      "trepa",
+      "trepb",
+      "trepe",
+      "trepi",
+      "trepr",
+      "trerj",
+      "trern",
+      "trero",
+      "trerr",
+      "trers",
+      "tresc",
+      "trese",
+      "tresp",
+      "treto",
+      "trf2",
+      "trf4",
+      "trt1",
+      "trt10",
+      "trt11",
+      "trt12",
+      "trt13",
+      "trt14",
+      "trt15",
+      "trt16",
+      "trt17",
+      "trt18",
+      "trt19",
+      "trt2",
+      "trt20",
+      "trt21",
+      "trt22",
+      "trt23",
+      "trt24",
+      "trt3",
+      "trt4",
+      "trt5",
+      "trt6",
+      "trt7",
+      "trt8",
+      "trt9",
+      "tse",
+      "tst"
+    ]
+  },
+  "records": [
+    {
+      "source_id": "tjac",
+      "upstream_package": "courts/tjac",
+      "upstream_client_class": "TJACScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjac_cjsg",
+      "nanojuris_equivalents": [
+        "tjac_cjsg"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjac_cjsg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjac_cjsg": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjal",
+      "upstream_package": "courts/tjal",
+      "upstream_client_class": "TJALScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjal_cjsg",
+      "nanojuris_equivalents": [
+        "tjal_cjsg"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjal_cjsg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjal_cjsg": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjam",
+      "upstream_package": "courts/tjam",
+      "upstream_client_class": "TJAMScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjam_cjsg",
+      "nanojuris_equivalents": [
+        "tjam_cjsg"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjam_cjsg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjam_cjsg": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjap",
+      "upstream_package": "courts/tjap",
+      "upstream_client_class": "TJAPScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjap_tucujuris",
+      "nanojuris_equivalents": [
+        "tjap_tucujuris"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjap_tucujuris",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjap_tucujuris": "access_controlled"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [
+        "tjap_tucujuris"
+      ],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "runtime_overlap_blocked",
+      "priority": "P0_access_or_transport",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjba",
+      "upstream_package": "courts/tjba",
+      "upstream_client_class": "TJBAScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjba_graphql",
+      "nanojuris_equivalents": [
+        "tjba_graphql"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjba_graphql",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjba_graphql": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjce",
+      "upstream_package": "courts/tjce",
+      "upstream_client_class": "TJCEScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjce_cjsg",
+      "nanojuris_equivalents": [
+        "tjce_cjsg"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjce_cjsg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjce_cjsg": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjdft",
+      "upstream_package": "courts/tjdft",
+      "upstream_client_class": "TJDFTScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjdf_juris",
+      "nanojuris_equivalents": [
+        "tjdf_juris"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjdf_juris",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjdf_juris": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjes",
+      "upstream_package": "courts/tjes",
+      "upstream_client_class": "TJESScraper",
+      "surfaces": [
+        "cjsg",
+        "cjpg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjes_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjes_cjpg",
+        "tjes_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjes_jurisprudencia",
+        "cjpg": "tjes_cjpg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjes_cjpg": "valid",
+        "tjes_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjgo",
+      "upstream_package": "courts/tjgo",
+      "upstream_client_class": "TJGOScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjgo_projudi_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjgo_projudi_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjgo_projudi_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjgo_projudi_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjmg",
+      "upstream_package": "courts/tjmg",
+      "upstream_client_class": "TJMGScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjmg_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjmg_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjmg_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjmg_jurisprudencia": "access_controlled"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [
+        "tjmg_jurisprudencia"
+      ],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "runtime_overlap_blocked",
+      "priority": "P0_access_or_transport",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjms",
+      "upstream_package": "courts/tjms",
+      "upstream_client_class": "TJMSScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjms_cjsg",
+      "nanojuris_equivalents": [
+        "tjms_cjsg"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjms_cjsg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjms_cjsg": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjmt",
+      "upstream_package": "courts/tjmt",
+      "upstream_client_class": "TJMTScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjmt_jurisprudencia_api",
+      "nanojuris_equivalents": [
+        "tjmt_jurisprudencia_api"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjmt_jurisprudencia_api",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjmt_jurisprudencia_api": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjpa",
+      "upstream_package": "courts/tjpa",
+      "upstream_client_class": "TJPAScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjpa_jurisprudencia_bff",
+      "nanojuris_equivalents": [
+        "tjpa_jurisprudencia_bff"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjpa_jurisprudencia_bff",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjpa_jurisprudencia_bff": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjpb",
+      "upstream_package": "courts/tjpb",
+      "upstream_client_class": "TJPBScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjpb_pje_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjpb_pje_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjpb_pje_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjpb_pje_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjpe",
+      "upstream_package": "courts/tjpe",
+      "upstream_client_class": "TJPEScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjpe_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjpe_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjpe_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjpe_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjpi",
+      "upstream_package": "courts/tjpi",
+      "upstream_client_class": "TJPIScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjpi_juspi",
+      "nanojuris_equivalents": [
+        "tjpi_juspi"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjpi_juspi",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjpi_juspi": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjpr",
+      "upstream_package": "courts/tjpr",
+      "upstream_client_class": "TJPRScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjpr_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjpr_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjpr_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjpr_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjrj",
+      "upstream_package": "courts/tjrj",
+      "upstream_client_class": "TJRJScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjrj_eproc_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjrj_eproc_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjrj_eproc_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjrj_eproc_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "partial_overlap_review",
+      "priority": "P2_compare_contracts",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjrn",
+      "upstream_package": "courts/tjrn",
+      "upstream_client_class": "TJRNScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjrn_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjrn_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjrn_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjrn_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjro",
+      "upstream_package": "courts/tjro",
+      "upstream_client_class": "TJROScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjro_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjro_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjro_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjro_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjrr",
+      "upstream_package": "courts/tjrr",
+      "upstream_client_class": "TJRRScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjrr_juris",
+      "nanojuris_equivalents": [
+        "tjrr_juris"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjrr_juris",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjrr_juris": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjrs",
+      "upstream_package": "courts/tjrs",
+      "upstream_client_class": "TJRSScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjrs_solr",
+      "nanojuris_equivalents": [
+        "tjrs_solr"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjrs_solr",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjrs_solr": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjsc",
+      "upstream_package": "courts/tjsc",
+      "upstream_client_class": "TJSCScraper",
+      "surfaces": [
+        "cjsg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjsc_eproc_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjsc_eproc_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjsc_eproc_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjsc_eproc_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "partial_overlap_review",
+      "priority": "P2_compare_contracts",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjsp",
+      "upstream_package": "courts/tjsp",
+      "upstream_client_class": "TJSPScraper",
+      "surfaces": [
+        "cjsg",
+        "cjpg",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjsp_cjsg",
+      "nanojuris_equivalents": [
+        "tjsp_cjpg",
+        "tjsp_cjsg"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjsp_cjsg",
+        "cjpg": "tjsp_cjpg",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjsp_cjpg": "valid",
+        "tjsp_cjsg": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "tjto",
+      "upstream_package": "courts/tjto",
+      "upstream_client_class": "TJTOScraper",
+      "surfaces": [
+        "cjsg",
+        "cjpg",
+        "detail",
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "tjto_jurisprudencia",
+      "nanojuris_equivalents": [
+        "tjto_jurisprudencia"
+      ],
+      "surface_equivalents": {
+        "cjsg": "tjto_jurisprudencia",
+        "cjpg": "tjto_jurisprudencia",
+        "detail": "tjto_jurisprudencia",
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": true,
+      "equivalent_live_statuses": {
+        "tjto_jurisprudencia": "valid"
+      },
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "covered_by_existing_runtime",
+      "priority": "maintenance",
+      "notes": "Compare source contract and identity before changing the runtime."
+    },
+    {
+      "source_id": "trf1",
+      "upstream_package": "courts/trf1",
+      "upstream_client_class": "TRF1Scraper",
+      "surfaces": [
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": null,
+      "nanojuris_equivalents": [],
+      "surface_equivalents": {
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": false,
+      "equivalent_live_statuses": {},
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "out_of_scope_process_surface",
+      "priority": "out_of_scope",
+      "notes": "Juscraper TRF surface is process consultation; keep in NanoJud."
+    },
+    {
+      "source_id": "trf3",
+      "upstream_package": "courts/trf3",
+      "upstream_client_class": "TRF3Scraper",
+      "surfaces": [
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": null,
+      "nanojuris_equivalents": [],
+      "surface_equivalents": {
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": false,
+      "equivalent_live_statuses": {},
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "out_of_scope_process_surface",
+      "priority": "out_of_scope",
+      "notes": "Juscraper TRF surface is process consultation; keep in NanoJud."
+    },
+    {
+      "source_id": "trf5",
+      "upstream_package": "courts/trf5",
+      "upstream_client_class": "TRF5Scraper",
+      "surfaces": [
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "trf5_jurisprudencia",
+      "nanojuris_equivalents": [],
+      "surface_equivalents": {
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": false,
+      "equivalent_live_statuses": {},
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "out_of_scope_process_surface",
+      "priority": "out_of_scope",
+      "notes": "Juscraper TRF surface is process consultation; keep in NanoJud."
+    },
+    {
+      "source_id": "trf6",
+      "upstream_package": "courts/trf6",
+      "upstream_client_class": "TRF6Scraper",
+      "surfaces": [
+        "cpopg",
+        "cposg"
+      ],
+      "nanojuris_equivalent": "trf6_eproc_jurisprudencia",
+      "nanojuris_equivalents": [],
+      "surface_equivalents": {
+        "cpopg": null,
+        "cposg": null
+      },
+      "equivalent_registered": false,
+      "equivalent_live_statuses": {},
+      "missing_runtime_equivalents": [],
+      "unmatched_jurisprudence_surfaces": [],
+      "blocked_runtime_equivalents": [],
+      "unvalidated_runtime_equivalents": [],
+      "classification": "out_of_scope_process_surface",
+      "priority": "out_of_scope",
+      "notes": "Juscraper TRF surface is process consultation; keep in NanoJud."
+    }
+  ],
+  "summary": {
+    "total_court_packages": 29,
+    "state_court_packages": 25,
+    "trf_packages": 4,
+    "covered": 21,
+    "partial_overlap": 2,
+    "live_valid_candidates": 0,
+    "runtime_overlap_blocked": 2,
+    "runtime_overlap_unvalidated": 0,
+    "other_candidates": 0,
+    "out_of_scope_process": 4
+  },
+  "promotion_rule": "Inventory never promotes a provider. Each candidate requires an independent NanoJuris contract, sanitized fixtures, canonical identity, negative tests, bounded live evidence and reuse review.",
+  "scope_note": "Juscraper inventory covers only its checked-out court packages. The NanoJuris court catalog is broader; courts_not_in_juscraper are explicit coverage gaps, not evidence that their official sources are unavailable.",
+  "evidence_artifacts": [
+    "docs/topology/cnj-tribunal-register-20260901.json",
+    "docs/topology/court-catalog-url-probe-20260901.json"
+  ],
+  "catalog_limitations": [
+    "The CNJ tribunal directory is a dated web snapshot and must be refreshed per coverage epoch.",
+    "The catalog models tribunal authorities, not every judicial unit, section, or first-instance court.",
+    "Councils and administrative bodies outside the tribunal directory require separate authority modeling."
+  ]
+}

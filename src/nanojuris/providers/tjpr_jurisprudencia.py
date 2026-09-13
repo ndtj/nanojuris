@@ -7,19 +7,22 @@ import re
 import time
 from datetime import datetime
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
     JurisprudenceQuery,
@@ -31,6 +34,8 @@ from nanojuris.models import (
 from nanojuris.pagination import page_completeness
 from nanojuris.parsing import HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
 DATE_PATTERN = re.compile(r"\d{2}/\d{2}/\d{4}")
@@ -49,10 +54,40 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
+        host = urlparse(self.config.tjpr_jurisprudencia_url).hostname or ""
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(host,),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self.http = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                # The public form is stateful and reports access-control and
+                # server errors explicitly.  Do not hide those signals behind
+                # an automatic retry; pacing and circuit breaking remain in the
+                # shared boundary.
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
+        # Detail slugs are source-issued and may contain accents or session
+        # state.  Keep the exact URL observed during search so callers can use
+        # the opaque result id without reconstructing a route.
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
+        _validate_degree_scope(query)
         endpoint = "/jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true"
         html, final_url = self._search_html(query, endpoint)
         trace = SourceTrace(
@@ -78,17 +113,155 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             ],
             **self._last_http_metadata,
         )
-        return parse_tjpr_results(
+        page = parse_tjpr_results(
             html,
             query=query,
             trace=trace,
             base_url=self.config.tjpr_jurisprudencia_url,
         )
+        if query.fetch_details:
+            self._populate_full_text(page, query)
+        for result in page.results:
+            if result.document_url:
+                self._document_urls[result.id] = result.document_url
+        return page
+
+    def _populate_full_text(self, page: SearchPage, query: JurisprudenceQuery) -> None:
+        """Expand truncated ementas through TJPR's public XHR endpoint.
+
+        The portal exposes the complete text through a session-bound, read-only
+        ``exibirTextoCompleto`` request.  This is deliberately opt-in because
+        it costs one bounded request per result and the endpoint may return a
+        partial/secret document.  A failed expansion never becomes an empty
+        search result: the row remains visible with explicit extraction
+        metadata.
+        """
+
+        criterion = query.text or query.exact_phrase or query.number
+        if not criterion:
+            return
+        for result in page.results:
+            if result.access_status is not AccessStatus.PUBLIC:
+                result.raw["full_text_status"] = "not_requested_access_partial"
+                continue
+            source_id = str(result.raw.get("source_record_id") or "").strip()
+            if not source_id:
+                continue
+            try:
+                full_text, metadata = self._fetch_full_text(source_id, criterion)
+            except (
+                AccessControlRequiredError,
+                RateLimitDetectedError,
+                SourceUnavailableError,
+                ParserContractChangedError,
+            ) as exc:
+                result.raw["full_text_error"] = str(exc)
+                result.raw["full_text_status"] = "unavailable"
+                result.extraction_status = ExtractionStatus.PARTIAL
+                continue
+            if not full_text:
+                result.raw["full_text_status"] = "empty"
+                result.extraction_status = ExtractionStatus.PARTIAL
+                continue
+            result.full_text = full_text
+            result.extraction_status = ExtractionStatus.COMPLETE
+            result.raw["full_text_status"] = "complete"
+            result.raw["full_text_sha256"] = hashlib.sha256(full_text.encode("utf-8")).hexdigest()
+            result.raw["full_text_http"] = metadata
+
+    def _fetch_full_text(self, source_id: str, criterion: str) -> tuple[str, dict[str, Any]]:
+        endpoint = "/jurisprudencia/publico/pesquisa.do?actionType=exibirTextoCompleto"
+        url = urljoin(self.config.tjpr_jurisprudencia_url.rstrip("/") + "/", endpoint.lstrip("/"))
+        try:
+            response = self._request(
+                "GET",
+                url,
+                params={"idProcesso": source_id, "criterio": criterion},
+                headers={
+                    "Accept": "text/javascript, text/html, application/xml, text/xml, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Referer": urljoin(
+                        self.config.tjpr_jurisprudencia_url.rstrip("/") + "/",
+                        "jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+                    ),
+                },
+            )
+            _raise_for_tjpr_response(response, "TJPR full-text request")
+        except (AccessControlRequiredError, RateLimitDetectedError):
+            raise
+        except SourceUnavailableError as exc:
+            raise SourceUnavailableError(f"TJPR full-text request failed: {exc}") from exc
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"TJPR full-text request failed: {exc}") from exc
+        content = bytes(response.body)
+        metadata = {
+            "http_status": response.status_code,
+            "content_type": (getattr(response, "headers", {}) or {}).get("Content-Type"),
+            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "elapsed_ms": response.elapsed_ms,
+            "endpoint": "GET " + endpoint,
+        }
+        text = _normalize_text(parse_html(content, base_url=url).text())
+        if not text or _looks_like_access_control(text) or _looks_like_restricted_detail(text):
+            raise ParserContractChangedError("TJPR full-text response had no usable text")
+        return text, metadata
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
-        raise NotImplementedError(
-            "TJPR exige o link de detalhe retornado pela pesquisa; nao e seguro "
-            "reconstruir o slug a partir de um identificador isolado."
+        try:
+            document = self.get_document(precedent_id)
+        except ValueError as exc:
+            raise SourceUnavailableError(
+                "TJPR detail is available only from an observed official detail URL"
+            ) from exc
+        return DecisionBundle(
+            precedent_id=precedent_id,
+            source=self.name,
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/html",
+                }
+            ],
+            source_trace=document.source_trace,
+            raw=document.raw_metadata,
+            raw_bytes=document.raw_bytes,
+        )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch an explicit TJPR detail URL through the shared document pipeline.
+
+        Search results carry the canonical ``/jurisprudencia/j/<id>/<slug>``
+        URL.  Requiring that URL here avoids guessing session-bound slugs from
+        an opaque result id while still allowing callers to opt in to the
+        public HTML detail page.
+        """
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "TJPR document_id must be an observed official HTTPS detail URL or "
+                "a result id from the current search"
+            )
+        parsed = urlparse(document_url)
+        expected_host = urlparse(self.config.tjpr_jurisprudencia_url).hostname
+        if parsed.hostname != expected_host:
+            raise ValueError("TJPR document URL is outside the configured allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            expected_content_types=("text/html", "text/plain"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title=f"TJPR jurisprudência {parsed.path.rsplit('/', 1)[-1]}",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -121,8 +294,9 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             endpoints=[
                 "GET /jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true",
                 "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+                "GET /jurisprudencia/publico/pesquisa.do?actionType=exibirTextoCompleto",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -132,7 +306,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_tjpr_window",
-            full_text_access="not_available",
+            full_text_access="document_link",
             supported_filters=[
                 "text",
                 "number",
@@ -140,12 +314,82 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "judgment_date_from",
+                "judgment_date_to",
+                "courts",
+                "rapporteur",
+                "case_class",
+                "judging_body",
+                "types",
+                "fetch_details",
             ],
+            unsupported_filters=[
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "degree",
+                "instance",
+                "branch",
+                "authority",
+                "collection",
+                "document_type",
+                "decision_type",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origin",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "published_from": "native",
+                "published_to": "native",
+                "updated_from": "native",
+                "updated_to": "native",
+                "fetch_details": "translated",
+                "courts": "translated",
+                "types": "translated",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "exact_phrase": "unsupported",
+                "case_class": "translated",
+                "judging_body": "translated",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "branch": "validated_scope",
+                "authority": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "decision_type": "unsupported",
+                "judgment_date_from": "translated",
+                "judgment_date_to": "translated",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "rapporteur": "translated",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+            },
             limitations=[
-                "Filtros de classe, relator, comarca, orgao e assunto exigem IDs "
-                "obtidos pelos controles da propria pagina e ainda nao sao inferidos.",
+                "Filtros de classe, relator, comarca, orgao e tipo exigem IDs "
+                "obtidos pelos controles publicos da propria pagina; labels nao "
+                "sao inferidos nem enviados como se fossem IDs.",
                 "O link de detalhe deve ser preservado da resposta; o provider nao monta slug.",
-                "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor.",
+                "O inteiro teor depende do carregamento explicito do link de detalhe publico; "
+                "ementa e inteiro teor continuam estados distintos.",
             ],
             responsible_use=[
                 "Usar paginas pequenas e respeitar rate limit local.",
@@ -155,7 +399,6 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _search_html(self, query: JurisprudenceQuery, endpoint: str) -> tuple[str, str]:
-        self._respect_rate_limit()
         initial_url = urljoin(
             self.config.tjpr_jurisprudencia_url.rstrip("/") + "/", endpoint.lstrip("/")
         )
@@ -164,43 +407,73 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             "User-Agent": self.config.user_agent,
         }
         try:
-            initial = self.session.get(
-                initial_url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-            )
+            initial = self._request("GET", initial_url, headers=headers)
             _raise_for_tjpr_response(initial, "TJPR initial search")
-            form = parse_html(initial.content, base_url=initial.url).select_one("form#pesquisaForm")
+            initial_final_url = str(initial.final_url or initial.url)
+            form = parse_html(initial.body, base_url=initial_final_url).select_one(
+                "form#pesquisaForm"
+            )
             if form is None or not form.get("action"):
                 raise ParserContractChangedError("TJPR search form pesquisaForm not found")
             payload = _form_payload(form)
             payload.update(_query_payload(query))
-            action = urljoin(initial.url, str(form["action"]))
-            response = self.session.post(
+            action = urljoin(initial_final_url, str(form["action"]))
+            response = self._request(
+                "POST",
                 action,
                 data=payload,
-                headers={**headers, "Referer": initial.url},
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
+                headers={**headers, "Referer": initial_final_url},
             )
             _raise_for_tjpr_response(response, "TJPR search")
         except (ParserContractChangedError, AccessControlRequiredError):
             raise
+        except SourceUnavailableError as exc:
+            raise SourceUnavailableError(f"TJPR search request failed: {exc}") from exc
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJPR search request failed: {exc}") from exc
-        self._last_request = time.monotonic()
-        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
+        content = bytes(response.body)
         headers_received = getattr(response, "headers", {}) or {}
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": getattr(response, "url", action),
-            "content_type": headers_received.get("Content-Type"),
+            "final_url": str(response.final_url or action),
+            "content_type": response.content_type or headers_received.get("Content-Type"),
             "content_sha256": hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
+            "elapsed_ms": response.elapsed_ms,
             "retrieval_status": "ok" if response.status_code < 400 else "error",
         }
-        return response.text, _strip_session_id(response.url)
+        return response.text, _strip_session_id(str(response.final_url or action))
+
+    def _request(
+        self,
+        method: str,
+        url: str,
+        *,
+        headers: dict[str, str],
+        params: dict[str, Any] | None = None,
+        data: Any = None,
+    ) -> Any:
+        """Execute one bounded request through the shared transport."""
+
+        request = TransportRequest(
+            source=self.name,
+            operation=f"tjpr_{method.lower()}",
+            method=method,
+            url=url,
+            headers=headers,
+            params=params or {},
+            data=data,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        try:
+            response = self.http.request(request)
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"TJPR request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                f"TJPR transport failed: {response.error_type or response.status.value}"
+            )
+        return response
 
     def _respect_rate_limit(self) -> None:
         interval = self.config.rate_limit_interval
@@ -243,14 +516,14 @@ def parse_tjpr_results(
     limited = results[: query.page_size]
     start = ((query.page - 1) * query.page_size) + 1 if limited else 0
     complete, reason = page_completeness(
-        reported_total=total or None,
+        reported_total=total,
         start=start,
         returned=len(limited),
-        total_is_authoritative=total > 0,
+        total_is_authoritative=total is not None,
     )
     return SearchPage(
         source="tjpr_jurisprudencia",
-        total=total or len(results),
+        total=total if total is not None else len(results),
         start=start,
         end=start + len(limited) - 1 if limited else 0,
         page=query.page,
@@ -260,6 +533,10 @@ def parse_tjpr_results(
         pagination_mode="page",
         is_complete=complete,
         completeness_reason=reason,
+        filters_applied=_tjpr_filters_applied(query),
+        total_known=total is not None,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=(ExtractionStatus.COMPLETE if limited else ExtractionStatus.EMPTY),
     )
 
 
@@ -293,6 +570,8 @@ def _parse_tjpr_row(
     secret = "Segredo de Justiça" in row_text
     pending = "Conteúdo pendente de análise e liberação" in row_text
     access_status = AccessStatus.PARTIAL if secret or pending else AccessStatus.PUBLIC
+    if decision_type == "sentenca":
+        raise ParserContractChangedError("TJPR CJSG returned a first-degree sentence")
     result_trace = SourceTrace(
         provider=trace.provider,
         endpoint=trace.endpoint,
@@ -315,6 +594,14 @@ def _parse_tjpr_row(
         summary=summary or None,
         rapporteur=rapporteur,
         judgment_date=judgment_date,
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJPR",
+        collection="CJSG",
+        document_type=decision_type,
+        source_origin="TJPR",
+        document_url=document_url,
         access_status=access_status,
         extraction_status=ExtractionStatus.PARTIAL if pending else ExtractionStatus.COMPLETE,
         source_trace=result_trace,
@@ -332,8 +619,29 @@ def _parse_tjpr_row(
             "content_pending_release": pending,
             "row_text": row_text,
             "source_row_index": index,
+            "degree": "second",
+            "instance": "second",
+            "branch": "state",
+            "authority": "TJPR",
+            "collection": "CJSG",
+            "document_type": decision_type,
+        },
+        field_provenance={
+            "degree": {"source": "source_contract:tjpr_jurisprudencia_publica"},
+            "instance": {"source": "source_contract:tjpr_jurisprudencia_publica"},
+            "branch": {"source": "source_contract:tjpr"},
+            "authority": {"source": "source_contract:tjpr"},
+            "collection": {"source": "source_contract:tjpr_jurisprudencia_publica"},
         },
     )
+
+
+def _validate_degree_scope(query: JurisprudenceQuery) -> None:
+    """Reject first-degree filters before contacting the appellate portal."""
+
+    values = {value.strip().casefold() for value in query.types}
+    if values & {"sentenca", "sentença", "first", "primeiro", "primeiro_grau"}:
+        raise QueryRejectedError("TJPR jurisprudencia public exposes only second-degree decisions")
 
 
 def _form_payload(form: HtmlNode) -> dict[str, str]:
@@ -349,19 +657,55 @@ def _form_payload(form: HtmlNode) -> dict[str, str]:
 
 
 def _query_payload(query: JurisprudenceQuery) -> dict[str, str]:
-    return {
+    # The public TJPR form represents refinement controls as hidden numeric
+    # identifiers.  Accepting labels here would make the portal silently run a
+    # broader query, so reject them explicitly instead of dropping filters.
+    judgment_from = query.judgment_date_from or query.updated_from
+    judgment_to = query.judgment_date_to or query.updated_to
+    payload = {
         "criterioPesquisa": query.text or query.exact_phrase or query.number,
         "processo": query.number,
         "dataPublicacaoInicio": query.published_from,
         "dataPublicacaoFim": query.published_to,
-        "dataJulgamentoInicio": query.updated_from,
-        "dataJulgamentoFim": query.updated_to,
+        "dataJulgamentoInicio": judgment_from,
+        "dataJulgamentoFim": judgment_to,
         "pageSize": str(min(query.page_size, 50)),
         "pageNumber": str(query.page),
         "page": str(query.page),
         "sortColumn": "id",
         "sortOrder": "desc",
     }
+    payload.update(
+        {
+            "idComarca": _numeric_selection(query.courts, "courts"),
+            "idRelator": _numeric_selection((query.rapporteur,), "rapporteur"),
+            "idOrgaoJulgador": _numeric_selection((query.judging_body,), "judging_body"),
+            "idClasseProcessual": _numeric_selection((query.case_class,), "case_class"),
+            "idsTipoDecisaoSelecionadosString": _numeric_selection(query.types, "types"),
+        }
+    )
+    return payload
+
+
+def _numeric_selection(values: Any, field_name: str) -> str:
+    """Normalize TJPR's comma-separated numeric selection identifiers."""
+
+    if isinstance(values, str):
+        items = [values]
+    else:
+        items = list(values or [])
+    tokens: list[str] = []
+    for item in items:
+        for token in str(item).replace(";", ",").split(","):
+            token = token.strip()
+            if not token:
+                continue
+            if not token.isdecimal():
+                raise QueryRejectedError(
+                    f"TJPR {field_name} requires official numeric selection IDs; got {item!r}"
+                )
+            tokens.append(token)
+    return ",".join(dict.fromkeys(tokens))
 
 
 def _is_tjpr_row(row: HtmlNode) -> bool:
@@ -404,9 +748,9 @@ def _truncate_at_labels(value: str | None) -> str | None:
     return _normalize_text(value) or None
 
 
-def _parse_total(text: str) -> int:
+def _parse_total(text: str) -> int | None:
     match = re.search(r"([\d.]+)\s+registro\(s\) encontrado", text, re.IGNORECASE)
-    return int(match.group(1).replace(".", "")) if match else 0
+    return int(match.group(1).replace(".", "")) if match else None
 
 
 def _is_explicit_empty(text: str) -> bool:
@@ -469,7 +813,23 @@ def _normalize_text(value: str) -> str:
 
 def _looks_like_access_control(text: str) -> bool:
     normalized = text.lower()
-    return any(marker in normalized for marker in ("captcha", "acesso negado", "access denied"))
+    return any(
+        marker in normalized
+        for marker in (
+            "captcha",
+            "acesso negado",
+            "access denied",
+        )
+    )
+
+
+def _looks_like_restricted_detail(text: str) -> bool:
+    """Detect TJPR's authenticated/intranet shell returned by the XHR route."""
+
+    normalized = text.lower()
+    return "acesso restrito" in normalized and (
+        "tjpr intranet" in normalized or "usuários" in normalized or "usu�rios" in normalized
+    )
 
 
 def _empty_page(query: JurisprudenceQuery, trace: SourceTrace, reason: str) -> SearchPage:
@@ -485,7 +845,66 @@ def _empty_page(query: JurisprudenceQuery, trace: SourceTrace, reason: str) -> S
         pagination_mode="page",
         is_complete=True,
         completeness_reason=reason,
+        filters_applied=_tjpr_filters_applied(query),
+        total_known=True,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.EMPTY,
     )
+
+
+def _tjpr_filters_applied(query: JurisprudenceQuery) -> dict[str, str]:
+    """Expose TJPR's remote, translated, scope and unsupported filters."""
+
+    native = {
+        "text",
+        "number",
+        "published_from",
+        "published_to",
+        "updated_from",
+        "updated_to",
+    }
+    translated = {
+        "courts",
+        "rapporteur",
+        "case_class",
+        "judging_body",
+        "types",
+        "fetch_details",
+        "judgment_date_from",
+        "judgment_date_to",
+    }
+    scope = {"degree", "instance", "branch", "authority", "collection", "document_type"}
+    unsupported = {
+        "all_words",
+        "any_words",
+        "without_words",
+        "exact_phrase",
+        "decision_type",
+        "lawyer_name",
+        "legal_area",
+        "oab",
+        "party_document",
+        "party_name",
+        "police_document",
+        "precatory_number",
+        "cda",
+        "source_origin",
+        "source_origins",
+    }
+    output: dict[str, str] = {}
+    for name in native | translated | unsupported:
+        value = getattr(query, name)
+        output[name] = (
+            "native"
+            if name in native and value
+            else "translated"
+            if name in translated and value
+            else "unsupported"
+            if name in unsupported and value
+            else "not_requested"
+        )
+    output.update({name: "validated_scope" for name in scope})
+    return output
 
 
 def _raise_for_tjpr_response(response: Any, operation: str) -> None:

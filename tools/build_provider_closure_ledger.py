@@ -12,16 +12,23 @@ import json
 import re
 import sys
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(ROOT / "src"))
+SOURCE_ROOT = str(ROOT / "src")
+if SOURCE_ROOT in sys.path:
+    sys.path.remove(SOURCE_ROOT)
+sys.path.insert(0, SOURCE_ROOT)
 
 OUTPUT_DIR = ROOT / "docs" / "provider-discovery"
 SWEEP_PATH = OUTPUT_DIR / "all-provider-sweep.json"
 REGISTRY_PATH = ROOT / "docs" / "registry" / "providers.json"
+PROMOTION_MANIFEST_PATH = (
+    ROOT / "docs" / "operations" / "technical-promotion-manifest-20260905.json"
+)
+CATALOG_PATH = ROOT / "docs" / "registry" / "provider-catalog.full.json"
 
 
 def _read(path: Path) -> str:
@@ -106,6 +113,61 @@ def _status_set(row: dict[str, Any]) -> set[str]:
     return statuses
 
 
+@lru_cache(maxsize=1)
+def _catalog_blocked_sources() -> frozenset[str]:
+    """Return candidates whose current catalog status is externally blocked.
+
+    Discovery snapshots can predate a focused access-control check.  Reading
+    the generated catalog here prevents a candidate with local code/fixtures
+    from being mislabeled as merely awaiting promotion when its public route
+    is currently blocked.
+    """
+
+    try:
+        payload = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return frozenset()
+    blocked = {
+        "access_controlled",
+        "blocked_access",
+        "blocked_access_control_no_reproducible_result",
+        "blocked_transport",
+        "source_unavailable",
+        "transport_blocked",
+        "unavailable",
+    }
+    return frozenset(
+        str(entry.get("source_id"))
+        for entry in payload.get("entries", [])
+        if isinstance(entry, dict)
+        and entry.get("source_id")
+        and str(entry.get("live_status")) in blocked
+    )
+
+
+@lru_cache(maxsize=1)
+def _current_live_valid_sources() -> frozenset[str]:
+    """Return sources with a newer valid live observation.
+
+    The discovery sweep is an immutable historical snapshot and can retain an
+    old WAF/CAPTCHA signal after a later bounded check succeeds.  Reconcile
+    that stale signal with the promotion manifest when building the closure
+    ledger; the historical evidence remains attached to the item.
+    """
+
+    try:
+        payload = json.loads(PROMOTION_MANIFEST_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return frozenset()
+    return frozenset(
+        str(row.get("source"))
+        for row in payload.get("decisions", [])
+        if isinstance(row, dict)
+        and row.get("mode") == "enabled"
+        and row.get("live_status") == "valid"
+    )
+
+
 def _classify_todo(
     source: str,
     todo: str,
@@ -114,7 +176,62 @@ def _classify_todo(
     *,
     candidate: bool = False,
 ) -> dict[str, Any]:
+    evidence = list(local["paths"])
+    statuses = _status_set(row)
+    current_live_valid = source in _current_live_valid_sources()
     if candidate:
+        # Access/transport failures take precedence over local adapter
+        # completeness.  A diagnostic adapter can have tests and fixtures and
+        # still be ineligible for promotion while its source is blocked.
+        blocked_markers = statuses.intersection(
+            {
+                "robots_disallowed",
+                "access_controlled",
+                "blocked_access",
+                "blocked_access_control_no_reproducible_result",
+                "blocked_transport",
+                "request_blocked",
+                "source_unavailable",
+                "timeout",
+                "tls_error",
+                "transport_blocked",
+                "unavailable",
+            }
+        )
+        if source in _catalog_blocked_sources():
+            blocked_markers.add("catalog_live_status")
+        if blocked_markers and not current_live_valid:
+            return {
+                "status": "blocked_external",
+                "evidence": evidence
+                + ["candidate access/transport state: " + ", ".join(sorted(blocked_markers))],
+                "next_action": (
+                    "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel "
+                    "da polÃ­tica de acesso antes de promover"
+                ),
+            }
+        # Discovery snapshots can lag behind an adapter that was implemented
+        # through a separate SDD.  Keep it candidate-only for runtime
+        # purposes, but do not mislabel its code and fixtures as absent.
+        has_runtime_module = any(
+            path.startswith("src/nanojuris/providers/") for path in local["paths"]
+        )
+        if (
+            has_runtime_module
+            and local["has_tests"]
+            and (local["has_fixtures"] or local["has_inline_fixtures"])
+        ):
+            return {
+                "status": "candidate_pending_promotion",
+                "evidence": evidence
+                + [
+                    "runtime adapter + provider tests + fixtures",
+                    "explicit opt-in only; default federation unchanged",
+                ],
+                "next_action": (
+                    "fechar contrato live, reuso/licenca e revisao humana antes da promocao"
+                ),
+            }
         return {
             "status": "candidate_pending_adapter",
             "evidence": local["paths"] or ["docs/provider-discovery/all-provider-sweep.json"],
@@ -123,9 +240,17 @@ def _classify_todo(
 
     texts = local["texts"]
     combined = "\n".join(texts.values()).lower()
-    statuses = _status_set(row)
-    evidence = list(local["paths"])
-
+    if current_live_valid and any(
+        marker in todo.lower()
+        for marker in ("robots.txt", "controle de acesso", "indisponibilidade")
+    ):
+        return {
+            "status": "implemented_with_local_evidence",
+            "evidence": evidence + ["latest promotion manifest reports a valid bounded live check"],
+            "next_action": (
+                "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
+            ),
+        }
     # Candidate snapshots predate adapter promotion.  Once the source has a
     # runtime module, versioned fixtures and tests, close the stale generic
     # adapter TODO with the current local contract evidence.
@@ -146,15 +271,19 @@ def _classify_todo(
             "next_action": "preservar limites declarados; promover busca decisoria somente com contrato de resultados",
         }
 
-    if "robots.txt" in todo.lower() and "robots_disallowed" in statuses:
+    if "robots.txt" in todo.lower() and "robots_disallowed" in statuses and not current_live_valid:
         return {
             "status": "blocked_external",
             "evidence": evidence
             + ["docs/provider-discovery/all-provider-sweep.json#robots_disallowed"],
             "next_action": "revalidar somente após alteração autorizada da política pública/robots",
         }
-    if "controle de acesso" in todo.lower() and statuses.intersection(
-        {"access_controlled", "login_required", "redirect_outside_allowlist"}
+    if (
+        "controle de acesso" in todo.lower()
+        and statuses.intersection(
+            {"access_controlled", "login_required", "redirect_outside_allowlist"}
+        )
+        and not current_live_valid
     ):
         return {
             "status": "blocked_external",
@@ -162,8 +291,10 @@ def _classify_todo(
             + ["docs/provider-discovery/all-provider-sweep.json#access_controlled"],
             "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado",
         }
-    if "indisponibilidade" in todo.lower() and statuses.intersection(
-        {"source_unavailable", "timeout", "tls_error"}
+    if (
+        "indisponibilidade" in todo.lower()
+        and statuses.intersection({"source_unavailable", "timeout", "tls_error"})
+        and not current_live_valid
     ):
         return {
             "status": "blocked_external",

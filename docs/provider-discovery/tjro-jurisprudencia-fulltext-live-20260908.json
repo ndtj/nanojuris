@@ -1,0 +1,46 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjro_jurisprudencia",
+  "observed_at": "2026-09-08",
+  "bounded": true,
+  "bypass_used": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "page": 1,
+    "page_size": 1,
+    "fetch_details": true
+  },
+  "search": {
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 55844,
+    "content_sha256": "da6465c156d20b4ccf7efdfd7fc145194c7257bed1eb9405828f8cae575ae266",
+    "elapsed_ms": 3174.13,
+    "returned": 1,
+    "total": 753637,
+    "total_known": true,
+    "classification": "success_with_results",
+    "endpoint": "https://juris-back.tjro.jus.br/search/varios_parametros/"
+  },
+  "result": {
+    "id": "tjro-jurisprudencia-27276954-PJESG",
+    "case_number": "7027583-09.2024.8.22.0001",
+    "document_type": "voto",
+    "authority": "TJRO",
+    "branch": "state",
+    "degree": "second",
+    "instance": "second",
+    "collection": "JURISPRUDENCIA",
+    "source_origin": "PJESG",
+    "full_text_status": "loaded",
+    "full_text_length": 11949,
+    "document_content_type": "application/pdf",
+    "document_response_bytes": 29618,
+    "document_sha256": "ed3c357720fd7744dfd0f6f79a35d000ae89e45efb6957744dfd0f6f86b80a0",
+    "document_url": "https://juris-back.tjro.jus.br/pje/buscar_pdf_ou_docx/PJESG/27276954/pdf/"
+  },
+  "decision": "full_text_contract_confirmed_for_bounded_second_degree_record",
+  "raw_body_persisted": false
+}

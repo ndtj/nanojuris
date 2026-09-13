@@ -1,0 +1,75 @@
+{
+  "schema_version": "tjpa-bff-live-v1",
+  "generated_at": "2026-09-05T20:20:18.542674+00:00",
+  "mode": "live_bounded",
+  "source": "tjpa_jurisprudencia_bff",
+  "source_id": "tjpa_jurisprudencia_bff",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": "application/json",
+  "record_count_observed": 2,
+  "reported_total": 10000,
+  "pagination_mode": "page",
+  "provider": "tjpa_jurisprudencia_bff",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 0,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "catalog": {
+      "http_status": null,
+      "courts": 49,
+      "species": 462
+    },
+    "page_1": {
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 186716,
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 10000,
+      "total_known": true,
+      "ids": [
+        "tjpa-bff-34658551",
+        "tjpa-bff-35743034"
+      ],
+      "has_summary": true,
+      "has_full_text": true,
+      "extraction_status": "complete"
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 154321,
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 10000,
+      "total_known": true,
+      "ids": [
+        "tjpa-bff-38819528",
+        "tjpa-bff-36489987"
+      ],
+      "has_summary": true,
+      "has_full_text": true,
+      "extraction_status": "complete"
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "full_text_observed": true,
+    "errors": 0
+  }
+}

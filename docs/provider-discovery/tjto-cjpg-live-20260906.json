@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-06T23:23:44+00:00",
+  "source_id": "tjto_jurisprudencia",
+  "authority": "TJTO",
+  "branch": "state",
+  "collection": "CJPG",
+  "degree": "first",
+  "instance": "first",
+  "endpoint": "POST /consulta.php",
+  "method": "POST",
+  "query": {
+    "text": "dano moral",
+    "tip_criterio_inst": "1",
+    "type_minuta_selected": "3",
+    "rows": 10
+  },
+  "status": "valid",
+  "http_status": 200,
+  "result_count": 10,
+  "total": 86022,
+  "total_known": true,
+  "first_result": {
+    "id": "tjto-jurisprudencia-291149cab2522c84804ee43b17199a8d",
+    "number": "0000390-08.2026.8.27.2725",
+    "case_class_present": true,
+    "judging_body_present": true,
+    "judgment_date": "2026-09-06",
+    "summary_present": true,
+    "degree": "first",
+    "instance": "first",
+    "collection": "CJPG",
+    "document_type": "sentenca",
+    "access_status": "public",
+    "extraction_status": "complete",
+    "document_url_present": true
+  },
+  "source_trace": {
+    "endpoint": "POST /consulta.php",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "response_bytes": 1461356,
+    "content_sha256": "885cfe0b42118c3ba139739f25caea74bf4ae7ccb9d39f4e122ae5716ecd3432",
+    "retrieval_status": "complete"
+  },
+  "pagination_probe": {
+    "requested_pages": [1, 2],
+    "page_size": 10,
+    "page_1": "valid",
+    "page_2": {
+      "status": "transport_incomplete",
+      "http_status": 202,
+      "response_bytes": 0,
+      "classification": "async_response_without_completed_body"
+    },
+    "overlap": false
+  },
+  "standard_session_probe": {
+    "method": "requests.Session with normal browser headers, cookies and referer",
+    "requests": ["GET /consulta.php", "POST /consulta.php page 1", "POST /consulta.php page 2"],
+    "status": "access_controlled",
+    "http_status": 202,
+    "response_bytes": 2431,
+    "waf_action": "challenge",
+    "classification": "public_route_requires_waf_challenge",
+    "bypass_attempted": false
+  },
+  "promotion_decision": "technical_candidate_first_degree_only",
+  "limitations": [
+    "Bounded page-one smoke plus a page-two probe; response bodies were not persisted.",
+    "Page two returned HTTP 202 with no body and is retained as transport-incomplete, never as an empty result.",
+    "The public route supports first-degree filtering through tip_criterio_inst=1.",
+    "The provider still exposes the second-degree surface under the same official endpoint.",
+    "Document detail was not fetched in this smoke."
+  ]
+}

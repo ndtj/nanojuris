@@ -1,0 +1,37 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-07",
+  "source": "tjba_graphql",
+  "authority": "TJBA",
+  "surface": "public jurisprudence portal",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "probes": [
+    {
+      "method": "GET",
+      "url": "https://jurisprudencia.tjba.jus.br/",
+      "http_status": 200,
+      "response_bytes": 424,
+      "classification": "public_shell"
+    },
+    {
+      "method": "GET",
+      "url": "https://jurisprudencia.tjba.jus.br/main.462837a72986081633b2.js",
+      "http_status": 200,
+      "classification": "graphql_contract_inspection"
+    }
+  ],
+  "observed_contract": {
+    "graphql_origin": "https://jurisprudenciaws.tjba.jus.br/graphql",
+    "instance_filters": ["segundoGrau", "turmasRecursais"],
+    "document_types": ["acordao", "decisao_monocratica"],
+    "first_degree_contract": false,
+    "evidence": "public bundle exposes only appellate/recursal groups and a DecisaoFilter with segundoGrau/turmasRecursais"
+  },
+  "decision": "candidate_only",
+  "limitations": [
+    "The public shell and bundle do not expose a first-degree decision corpus.",
+    "No first-degree endpoint was inferred from the bundle.",
+    "Do not classify the appellate GraphQL route as CJPG."
+  ]
+}

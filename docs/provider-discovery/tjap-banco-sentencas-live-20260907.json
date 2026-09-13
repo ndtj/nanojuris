@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07T02:25:47Z",
+  "provider": "tjap_banco_sentencas",
+  "source": "tjap_banco_sentencas",
+  "surface": "cjpg",
+  "classification": "reachable_valid_data",
+  "record_count_observed": 3,
+  "reported_total": 10000,
+  "pagination_mode": "livewire_page",
+  "http_status": 200,
+  "response_bytes": 713405,
+  "content_sha256": "56467f1f5becdbc161a2c54f9df4bf636e81dd68f5980253dec11531ab2b22bb",
+  "authority": "TJAP",
+  "source_url": "https://bancosentencas.tjap.jus.br/",
+  "credentials_used": false,
+  "challenge_tokens_used": false,
+  "bypass_used": false,
+  "bounded_query": {"text": "direito", "page_size": 3},
+  "attempts": [
+    {
+      "page": 1,
+      "classification": "valid_public_response",
+      "http_status": 200,
+      "response_bytes": 713405,
+      "content_sha256": "56467f1f5becdbc161a2c54f9df4bf636e81dd68f5980253dec11531ab2b22bb",
+      "results": 3,
+      "reported_total": 10000,
+      "total_known": true,
+      "all_first_degree": true,
+      "reader_ids": ["3145203", "1250029073", "950233429"]
+    },
+    {
+      "page": 2,
+      "classification": "valid_public_response",
+      "http_status": 200,
+      "results": 3,
+      "all_first_degree": true,
+      "reader_ids": ["6486234", "1462021", "1462130"],
+      "no_overlap_with_page_1": true
+    },
+    {
+      "page": 1,
+      "classification": "transient_transport_timeout",
+      "http_status": null,
+      "retryable": true,
+      "converted_to_empty": false
+    }
+  ],
+  "observed_fields": [
+    "authority", "branch", "degree", "instance", "collection", "case_number",
+    "case_class", "judging_body", "rapporteur", "judgment_date", "summary",
+    "full_text", "document_url", "source_trace"
+  ],
+  "surface_classification": "public_live_validated_first_degree_bounded",
+  "limitations": [
+    "Banco oficial curado de decisões e sentenças; não prova cobertura integral do CJPG.",
+    "O total 10000 é a janela exibida pelo portal e deve ser tratado com cautela.",
+    "A rota Tucujuris/CJSG continua separadamente access_controlled por Turnstile/WAF."
+  ]
+}

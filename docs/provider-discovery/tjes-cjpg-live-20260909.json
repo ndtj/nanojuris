@@ -1,0 +1,93 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "source_id": "tjes_cjpg",
+  "authority": "TJES",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "surface": "cjpg",
+  "collection": "CJPG",
+  "observed_at": "2026-09-09",
+  "classification": "success_with_results",
+  "access_method": "public_https_bounded",
+  "bypass_used": false,
+  "credentials_used": false,
+  "query": "responsabilidade civil",
+  "pages": [
+    {
+      "page": 1,
+      "classification": "success_with_results",
+      "returned": 1,
+      "reported_total": 977546,
+      "total_known": true,
+      "is_complete": false,
+      "trace": {
+        "http_status": 200,
+        "content_type": "application/json",
+        "response_bytes": 135886,
+        "content_sha256": "fc74ae55c5956c4bd0bcd756ba07daa1908152df22aebb3775b481715246a7bb",
+        "elapsed_ms": 364.99,
+        "source_url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search?core=pje1g&q=responsabilidade+civil&page=1&per_page=1"
+      },
+      "records": [
+        {
+          "id": "tjes-cjpg-82935316",
+          "document_type": "decisao_1g",
+          "case_number": "0007154-28.2020.8.08.0048",
+          "judgment_date": "2025-11-13",
+          "degree": "first",
+          "instance": "first",
+          "authority": "TJES",
+          "collection": "CJPG",
+          "core": "pje1g",
+          "full_text": "available",
+          "text_chars": 23399
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "classification": "success_with_results",
+      "returned": 1,
+      "reported_total": 977546,
+      "total_known": true,
+      "is_complete": false,
+      "trace": {
+        "http_status": 200,
+        "content_type": "application/json",
+        "response_bytes": 109433,
+        "content_sha256": "972a203025bf0c6342e372161329b842e503e868aaee7c6de2820667cd590296",
+        "elapsed_ms": 106.7,
+        "source_url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search?core=pje1g&q=responsabilidade+civil&page=2&per_page=1"
+      },
+      "records": [
+        {
+          "id": "tjes-cjpg-83925770",
+          "document_type": "decisao_1g",
+          "case_number": "5017347-57.2022.8.08.0012",
+          "judgment_date": "2025-12-01",
+          "degree": "first",
+          "instance": "first",
+          "authority": "TJES",
+          "collection": "CJPG",
+          "core": "pje1g",
+          "full_text": "available",
+          "text_chars": 15414
+        }
+      ]
+    }
+  ],
+  "contract": {
+    "endpoint": "GET https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search",
+    "parameters": ["core", "q", "page", "per_page"],
+    "core": "pje1g",
+    "pagination": "page/per_page",
+    "document_access": "inline",
+    "identity": "degree=first; instance=first; authority=TJES; collection=CJPG"
+  },
+  "federated_smoke": "already_covered_by_existing_tjes_cjpg_contract_and_smoke",
+  "limitations": [
+    "The bounded query proves the public search contract and two non-overlapping pages; it does not claim exhaustive availability of the 1.5M-document corpus.",
+    "No response body or party names are persisted in this evidence artifact."
+  ]
+}

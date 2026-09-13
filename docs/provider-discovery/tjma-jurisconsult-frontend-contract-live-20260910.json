@@ -1,0 +1,75 @@
+{
+  "schema_version": "provider-frontend-contract-evidence-v1",
+  "provider": "tjma_jurisconsult",
+  "observed_at": "2026-09-11T00:49:38Z",
+  "source": "official TJMA JurisConsult web application",
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://jurisconsult.tjma.jus.br/",
+      "status": 200,
+      "content_type": "text/html",
+      "observation": "Ionic shell references build/main.js and public API base."
+    },
+    {
+      "method": "GET",
+      "url": "https://jurisconsult.tjma.jus.br/build/main.js",
+      "status": 200,
+      "content_type": "application/javascript",
+      "observation": "Frontend declares https://apijuris.tjma.jus.br/v1 and lazy routes for jurisprudence."
+    },
+    {
+      "method": "GET",
+      "url": "https://jurisconsult.tjma.jus.br/build/5.js",
+      "status": 200,
+      "content_type": "application/javascript",
+      "sha256": "68BF8365D816C54C1F1C6278FCA7AD19243774BC910B1EBC76A4DBDD07BD2E42",
+      "observation": "The official form builds tokenG/keyId and sends the browser challenge token in the transient Authorization bearer."
+    },
+    {
+      "method": "GET",
+      "url": "https://jurisconsult.tjma.jus.br/build/197.js",
+      "status": 200,
+      "content_type": "application/javascript",
+      "sha256": "7E6369B17702FBB6F3DEF8A80082E46474CEA3F1F3172D8F8449A41845AB5CE1",
+      "observation": "The second-degree list uses inicioPagina/fimPagina, the report URL, and the public download route."
+    }
+  ],
+  "contract": {
+    "base_url": "https://apijuris.tjma.jus.br/v1",
+    "result_method": "GET",
+    "result_routes": {
+      "1": "/sg/jurisprudencias/processos",
+      "2": "/jurisprudencia/processos/pesquisa_monocraticas",
+      "5": "/jurisprudencia/processos/pesquisa_monocraticas_tr",
+      "6": "/jurisprudencia/processos/pesquisa_acordaos_tr"
+    },
+    "pagination": ["inicioPagina", "fimPagina"],
+    "filters": [
+      "chave",
+      "tipoPesquisa",
+      "relator",
+      "revisor",
+      "camara",
+      "condicao",
+      "classe",
+      "dtaInicio",
+      "dtaFim",
+      "checkForm",
+      "fraseExata"
+    ],
+    "challenge": ["Authorization bearer", "tokenG", "keyId"]
+  },
+  "classification": {
+    "catalog": "public",
+    "result_search_without_user_challenge": "access_control_required",
+    "authorized_user_token_path": "implemented_non_federated",
+    "federation": "disabled_until_an_authorized_session_contract_is_operational"
+  },
+  "safety": {
+    "captcha_solved_by_agent": false,
+    "challenge_generated_or_reused": false,
+    "tokens_persisted": false,
+    "bypass_attempted": false
+  }
+}

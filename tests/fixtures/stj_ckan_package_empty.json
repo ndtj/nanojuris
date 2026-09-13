@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "result": {
+    "id": "dataset-empty",
+    "name": "espelhos-de-acordaos-vazio",
+    "title": "Dataset vazio de fixture",
+    "resources": []
+  }
+}

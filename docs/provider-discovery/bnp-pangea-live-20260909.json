@@ -1,0 +1,51 @@
+{
+  "schema_version": "live-evidence-v1",
+  "provider": "bnp_pangea",
+  "source": "bnp_pangea",
+  "source_url": "https://pangeabnp.pdpj.jus.br/api/v1",
+  "checked_at": "2026-09-09",
+  "observed_at": "2026-09-09T00:00:00-03:00",
+  "method": "NANOJURIS_RUN_LIVE=1 python -m pytest -q tests/test_bnp_pangea_live.py",
+  "surface": "search",
+  "classification": "success_with_results",
+  "http_status": 200,
+  "record_count_observed": 1,
+  "reported_total": 1,
+  "pagination_mode": "page",
+  "bounded": true,
+  "body_persisted": false,
+  "checks": [
+    {
+      "name": "catalog",
+      "status": "success_with_results",
+      "assertions": ["core court codes present", "core species present", "SourceTrace present"]
+    },
+    {
+      "name": "search",
+      "status": "success_with_results",
+      "query_class": "bounded legal text",
+      "page_size": 1,
+      "assertions": ["total >= 1", "one canonical result", "SourceTrace present"]
+    },
+    {
+      "name": "search_without_explicit_catalog_filters",
+      "status": "success_with_results",
+      "query_class": "bounded legal text",
+      "page_size": 3,
+      "assertions": ["catalog fallback populated orgaos and tipos"]
+    }
+  ],
+  "transport": {
+    "client": "SharedHttpClient",
+    "allowlist": ["pangeabnp.pdpj.jus.br"],
+    "max_bytes": 4000000,
+    "max_retries": 0,
+    "rate_limit": "NanoJurisConfig.rate_limit_interval",
+    "access_controls_bypassed": false
+  },
+  "limitations": [
+    "BNP/Pangea exposes qualified precedents, not general court jurisprudence.",
+    "The current contract does not provide full-text documents.",
+    "This evidence does not promote or change the default federation rollout."
+  ]
+}

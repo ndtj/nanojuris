@@ -1,0 +1,26 @@
+{
+  "schema_version": "federated-provider-live-v1",
+  "provider": "tjmg_ejef_boletim_jurisprudencia",
+  "source_id": "tjmg_ejef_boletim_jurisprudencia",
+  "observed_at": "2026-09-08",
+  "mode": "live_bounded_single_source",
+  "query": {"text": "responsabilidade civil", "page": 1, "page_size": 2},
+  "limits": {
+    "max_pages": 1,
+    "result_bodies_persisted": false,
+    "credentials_used": false,
+    "bypass_used": false
+  },
+  "source_completeness": {
+    "returned": 2,
+    "reported_total": 2,
+    "pagination_mode": "offset",
+    "complete": true,
+    "pages_fetched": 1,
+    "invalid_records": 0,
+    "reason": "totalElements informado pela colecao oficial"
+  },
+  "source_access_status": "public",
+  "errors": [],
+  "classification": "success_with_results"
+}

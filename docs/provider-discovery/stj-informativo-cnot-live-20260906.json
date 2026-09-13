@@ -1,0 +1,32 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "source": "stj_informativo",
+  "observed_at": "2026-09-06T09:11:52-03:00",
+  "surface": "document",
+  "classification": "valid",
+  "http_status": 200,
+  "access_status": "public",
+  "record_count_observed": 1,
+  "reported_total": 1,
+  "response_bytes": 11545,
+  "extraction_status": "complete",
+  "operation": "search_then_get_document",
+  "search": {
+    "text": "infanticidio",
+    "page_size": 1,
+    "result_id": "stj-informativo-507-hc-228-998-mg",
+    "cnot_url": "https://processo.stj.jus.br/jurisprudencia/externo/informativo/?livre=@CNOT=013685"
+  },
+  "document": {
+    "http_status": 200,
+    "content_type": "text/html",
+    "bytes": 11545,
+    "extraction_status": "complete",
+    "text_characters": 11545,
+    "access_status": "public"
+  },
+  "limitations": [
+    "A nota CNOT é o texto público do informativo; o acórdão SCON relacionado permanece uma rota separada.",
+    "A evidência não declara acesso público ao inteiro teor do acórdão SCON."
+  ]
+}

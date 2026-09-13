@@ -1,0 +1,186 @@
+{
+  "generated_at": "2026-09-06T09:29:06.092272+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "trf4_eproc_jurisprudencia",
+      "trf5_jurisprudencia",
+      "trf6_eproc_jurisprudencia",
+      "tst_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "trf4_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 630212,
+        "source": "trf4_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "trf4-eproc-jurisprudencia-41788636987998079203196574102",
+        "case_number": "5004297-45.2022.4.04.7113",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "http://www.trf4.jus.br/trf4/processos/acompanhamento/resultado_pesquisa.php?selForma=NU&selOrigem=TRF&txtValor=50042974520224047113",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf4-eproc-jurisprudencia-document-41788636987998079203196574102",
+        "full_text_length": 56390,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://consulta.trf4.jus.br/trf4/controlador.php?acao=consulta_processual_valida_pesquisa&selForma=NU&txtValor=50042974520224047113&chkMostrarBaixados=&todasfases=&todosvalores=&todaspartes=&txtDataFase=&selOrigem=TRF&sistema=&codigoparte=&txtChave=",
+        "content_type": "text/html; charset=iso-8859-1",
+        "response_bytes": 11450,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "trf5_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1,
+        "source": "trf5_jurisprudencia"
+      },
+      "result": {
+        "id": "trf5-jurisprudencia-12272",
+        "case_number": "0532048-90.2009.4.05.8300",
+        "summary_present": false,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "data_julgamento",
+          "document_url",
+          "id_documento",
+          "orgao_julgador",
+          "tipo_documento"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf5-jurisprudencia-document-12272",
+        "full_text_length": 9941,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 9941,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 25856,
+        "source": "trf6_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "trf6-eproc-jurisprudencia-381788633207489456402101496378",
+        "case_number": "6014452-93.2026.4.06.0000",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=60144529320264060000",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf6-eproc-jurisprudencia-document-381788633207489456402101496378",
+        "full_text_length": 10059,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproc2g.trf6.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=60144529320264060000",
+        "content_type": "text/html; charset=iso-8859-1",
+        "response_bytes": 42940,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tst_jurisprudencia",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "SourceUnavailableError",
+      "error": "TST jurisprudence rejected request with HTTP 400"
+    }
+  ],
+  "summary": {
+    "sources_checked": 4,
+    "search_returned": 3,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 3,
+    "public_url_reachable": 3,
+    "public_url_document_like": 0,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 1
+  }
+}

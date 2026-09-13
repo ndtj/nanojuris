@@ -33,3 +33,10 @@ contornar controles de acesso nem para transformar indisponibilidade em zero.
 - AC-006: campo `todo` por provider e `all-provider-sweep.md`.
 - AC-007: `tests/test_provider_discovery.py`, replay/evidence local.
 - AC-008: comandos acima e testes live opt-in existentes.
+
+## Encerramento técnico
+
+O ciclo foi encerrado localmente: cada provider possui estado de contrato,
+evidência disponível e próximo gate no catálogo consolidado. Gaps sem contrato
+ou com bloqueio externo permanecem visíveis no ledger e não entram na federação
+por acidente.

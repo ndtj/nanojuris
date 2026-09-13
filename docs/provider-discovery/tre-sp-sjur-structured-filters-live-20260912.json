@@ -1,0 +1,30 @@
+{
+  "provider": "tre_sp_sjur_jurisprudencia",
+  "authority": "TRE-SP",
+  "endpoint": "POST /tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "retrieved_at": "2026-09-12",
+  "request": {
+    "text": "eleicao",
+    "types": ["acordao"],
+    "election_year": "2022",
+    "uf": "SP",
+    "page": 1,
+    "page_size": 2
+  },
+  "classification": "success_with_bounded_window",
+  "http_status": 200,
+  "access_status": "public",
+  "result_count": 2,
+  "total_known": false,
+  "is_complete": false,
+  "filters_applied": {
+    "degree": "remote+local:second",
+    "election_year": "remote",
+    "uf": "remote",
+    "types": "remote"
+  },
+  "limitations": [
+    "A janela remota nao prova paginacao ou total exaustivo.",
+    "Nenhum corpo bruto, cookie, token ou credencial foi persistido."
+  ]
+}

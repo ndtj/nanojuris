@@ -1,0 +1,533 @@
+{
+  "schema_version": "state-cjsg-live-v1",
+  "generated_at": "2026-09-08T05:50:34+00:00",
+  "mode": "bounded_public_http",
+  "query": {
+    "text": "responsabilidade civil",
+    "all_words": "",
+    "any_words": "",
+    "without_words": "",
+    "exact_phrase": "",
+    "updated_from": "",
+    "updated_to": "",
+    "published_from": "",
+    "published_to": "",
+    "include_cancelled": false,
+    "order_by": "Text",
+    "number": "",
+    "rapporteur": "",
+    "party_name": "",
+    "party_document": "",
+    "lawyer_name": "",
+    "oab": "",
+    "precatory_number": "",
+    "police_document": "",
+    "cda": "",
+    "source_origin": "",
+    "source_origins": [],
+    "fetch_details": false,
+    "courts": [],
+    "types": [],
+    "page": 1,
+    "page_size": 1,
+    "case_class": "",
+    "judging_body": "",
+    "degree": "second",
+    "instance": "second",
+    "branch": "",
+    "legal_area": "",
+    "authority": "",
+    "collection": "",
+    "document_type": "",
+    "decision_type": "",
+    "judgment_date_from": "",
+    "judgment_date_to": ""
+  },
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "surface": "cjsg",
+      "first_page": {
+        "classification": "reachable_valid_data",
+        "page": 1,
+        "returned": 1,
+        "reported_total": 14032,
+        "total_known": true,
+        "ids": [
+          "tjgo-projudi-5259964-59.2026.8.09.0051"
+        ],
+        "identities": [
+          {
+            "id": "tjgo-projudi-5259964-59.2026.8.09.0051",
+            "authority": "TJGO",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/ConsultaJurisprudencia",
+          "http_status": 200,
+          "final_url": "https://projudi.tjgo.jus.br/ConsultaJurisprudencia",
+          "content_type": "text/html;charset=iso-8859-1",
+          "response_bytes": 106489,
+          "content_sha256": "55516e47d28d7bca7eb415efcd8ba75e1c32499d1c0838d1cdb992cc0ece380f",
+          "retrieval_status": "ok"
+        }
+      },
+      "second_page": {
+        "classification": "reachable_valid_data",
+        "page": 2,
+        "returned": 1,
+        "reported_total": 14032,
+        "total_known": true,
+        "ids": [
+          "tjgo-projudi-5608773-38.2025.8.09.0149"
+        ],
+        "identities": [
+          {
+            "id": "tjgo-projudi-5608773-38.2025.8.09.0149",
+            "authority": "TJGO",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/ConsultaJurisprudencia",
+          "http_status": 200,
+          "final_url": "https://projudi.tjgo.jus.br/ConsultaJurisprudencia",
+          "content_type": "text/html;charset=iso-8859-1",
+          "response_bytes": 105267,
+          "content_sha256": "cdf2a1c56405817a6a90585fad3378b48e0dbd49d2e760af1a50d80ae899cfa6",
+          "retrieval_status": "ok"
+        }
+      },
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "surface": "cjsg",
+      "first_page": {
+        "classification": "reachable_valid_data",
+        "page": 1,
+        "returned": 1,
+        "reported_total": 33404,
+        "total_known": true,
+        "ids": [
+          "tjpi-juspi-35941362"
+        ],
+        "identities": [
+          {
+            "id": "tjpi-juspi-35941362",
+            "authority": "TJPI",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/jurisprudences/search",
+          "http_status": 200,
+          "final_url": "https://jurisprudencia.tjpi.jus.br/jurisprudences/search?q=responsabilidade+civil&tipo=Ac%C3%B3rd%C3%A3o",
+          "content_type": "text/html; charset=utf-8",
+          "response_bytes": 201737,
+          "content_sha256": "a6592206a96609cb3e9231e8794f27cc7d8e954d888be9995596b864688879ea",
+          "retrieval_status": "ok"
+        }
+      },
+      "second_page": {
+        "classification": "reachable_valid_data",
+        "page": 2,
+        "returned": 1,
+        "reported_total": 33404,
+        "total_known": true,
+        "ids": [
+          "tjpi-juspi-34091704"
+        ],
+        "identities": [
+          {
+            "id": "tjpi-juspi-34091704",
+            "authority": "TJPI",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/jurisprudences/search",
+          "http_status": 200,
+          "final_url": "https://jurisprudencia.tjpi.jus.br/jurisprudences/search?q=responsabilidade+civil&page=2&tipo=Ac%C3%B3rd%C3%A3o",
+          "content_type": "text/html; charset=utf-8",
+          "response_bytes": 212509,
+          "content_sha256": "835c6baf5cc9a6f6d5e91b1ef1621eb8656c837370bc4faea15610b2fb168976",
+          "retrieval_status": "ok"
+        }
+      },
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "surface": "cjsg",
+      "first_page": {
+        "classification": "reachable_valid_data",
+        "page": 1,
+        "returned": 1,
+        "reported_total": 1004007,
+        "total_known": true,
+        "ids": [
+          "tjpr-4100000039693932"
+        ],
+        "identities": [
+          {
+            "id": "tjpr-4100000039693932",
+            "authority": "TJPR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "decisao_monocratica"
+          }
+        ],
+        "trace": {
+          "endpoint": "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+          "http_status": 200,
+          "final_url": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do;jsessionid=f9149059c81399946bbd165be838?actionType=pesquisar",
+          "content_type": "text/html;charset=UTF-8",
+          "response_bytes": 329463,
+          "content_sha256": "b67cf42ba456e966636fe7e0d63983b2aee7f37ad88e05c3a69a9510329e62ad",
+          "retrieval_status": "ok"
+        }
+      },
+      "second_page": {
+        "classification": "reachable_valid_data",
+        "page": 2,
+        "returned": 1,
+        "reported_total": 1004007,
+        "total_known": true,
+        "ids": [
+          "tjpr-2100000038049122"
+        ],
+        "identities": [
+          {
+            "id": "tjpr-2100000038049122",
+            "authority": "TJPR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "decisao_monocratica"
+          }
+        ],
+        "trace": {
+          "endpoint": "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+          "http_status": 200,
+          "final_url": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+          "content_type": "text/html;charset=UTF-8",
+          "response_bytes": 332572,
+          "content_sha256": "1a43d62ee0338d0e109e3bb0dbf4af85527b33977421ef6890674942d6cf8d9b",
+          "retrieval_status": "ok"
+        }
+      },
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjrr_juris",
+      "surface": "cjsg",
+      "first_page": {
+        "classification": "reachable_valid_data",
+        "page": 1,
+        "returned": 10,
+        "reported_total": 14206,
+        "total_known": true,
+        "ids": [
+          "tjrr-juris-131260",
+          "tjrr-juris-131264",
+          "tjrr-juris-131263",
+          "tjrr-juris-131241",
+          "tjrr-juris-131259",
+          "tjrr-juris-131256",
+          "tjrr-juris-131254",
+          "tjrr-juris-131251",
+          "tjrr-juris-131246",
+          "tjrr-juris-131225"
+        ],
+        "identities": [
+          {
+            "id": "tjrr-juris-131260",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131264",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131263",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131241",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131259",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131256",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131254",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131251",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131246",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          },
+          {
+            "id": "tjrr-juris-131225",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/index.xhtml",
+          "http_status": 200,
+          "final_url": "https://jurisprudencia.tjrr.jus.br/index.xhtml;jsessionid=mt01kYRsqrvYpACIiNJwoTdTZFt9H6WjJ43BRXXg.jurisprudencia-prd-5d84d75469-ctxr9",
+          "content_type": "text/html;charset=UTF-8",
+          "response_bytes": 501801,
+          "content_sha256": "78c85b8d3b618f6351d9466cdb51efa54a04d921ef714212d6bb84e0d3a5f282",
+          "retrieval_status": "ok"
+        }
+      },
+      "second_page": {
+        "classification": "reachable_valid_data",
+        "page": 2,
+        "returned": 1,
+        "reported_total": null,
+        "total_known": false,
+        "ids": [
+          "tjrr-juris-131220"
+        ],
+        "identities": [
+          {
+            "id": "tjrr-juris-131220",
+            "authority": "TJRR",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/index.xhtml",
+          "http_status": 200,
+          "final_url": "https://jurisprudencia.tjrr.jus.br/index.xhtml",
+          "content_type": "text/xml; charset=UTF-8",
+          "response_bytes": 200948,
+          "content_sha256": "66e0ea0c42ab9cad40b83354220b9f50fe3b37ba874ea2a41e77de1836a0433e",
+          "retrieval_status": "ok"
+        }
+      },
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjrs_solr",
+      "surface": "cjsg",
+      "first_page": {
+        "classification": "reachable_valid_data",
+        "page": 1,
+        "returned": 1,
+        "reported_total": 706568,
+        "total_known": true,
+        "ids": [
+          "tjrs-solr-5225133"
+        ],
+        "identities": [
+          {
+            "id": "tjrs-solr-5225133",
+            "authority": "TJRS",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/buscas/jurisprudencia/ajax.php",
+          "http_status": 200,
+          "final_url": "https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php",
+          "content_type": "text/html; charset=iso-8859-1",
+          "response_bytes": 410479,
+          "content_sha256": "92ca3dc8e8301ec55ae4a0d090366a8f5bd60ca0a7258e5519e9d79d8de2a9a6",
+          "retrieval_status": "ok"
+        }
+      },
+      "second_page": {
+        "classification": "reachable_valid_data",
+        "page": 2,
+        "returned": 1,
+        "reported_total": 706568,
+        "total_known": true,
+        "ids": [
+          "tjrs-solr-5253763"
+        ],
+        "identities": [
+          {
+            "id": "tjrs-solr-5253763",
+            "authority": "TJRS",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "/buscas/jurisprudencia/ajax.php",
+          "http_status": 200,
+          "final_url": "https://www.tjrs.jus.br/buscas/jurisprudencia/ajax.php",
+          "content_type": "text/html; charset=iso-8859-1",
+          "response_bytes": 402193,
+          "content_sha256": "c06e45f77e705327b075c3f7f5b39dde1a5648bc2b179ce3df9b3d6b220c50c8",
+          "retrieval_status": "ok"
+        }
+      },
+      "pagination": {
+        "disjoint": true
+      }
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "surface": "cjsg",
+      "first_page": {
+        "classification": "reachable_valid_data",
+        "page": 1,
+        "returned": 1,
+        "reported_total": 137589,
+        "total_known": true,
+        "ids": [
+          "tjto-jurisprudencia-babd056794098393c00a78d45e3b9477"
+        ],
+        "identities": [
+          {
+            "id": "tjto-jurisprudencia-babd056794098393c00a78d45e3b9477",
+            "authority": "TJTO",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "POST /consulta.php",
+          "http_status": 200,
+          "final_url": "https://jurisprudencia.tjto.jus.br/consulta.php",
+          "content_type": "text/html; charset=UTF-8",
+          "response_bytes": 927639,
+          "content_sha256": "fb91004977d60edc6e8ac6665f4bb3a64cf5000f67f9d741c1cb866740ecb98e",
+          "retrieval_status": "complete"
+        }
+      },
+      "second_page": {
+        "classification": "reachable_valid_data",
+        "page": 2,
+        "returned": 1,
+        "reported_total": 137589,
+        "total_known": true,
+        "ids": [
+          "tjto-jurisprudencia-594ea228ad8b60f82ebf414c17ebcfe8"
+        ],
+        "identities": [
+          {
+            "id": "tjto-jurisprudencia-594ea228ad8b60f82ebf414c17ebcfe8",
+            "authority": "TJTO",
+            "degree": "second",
+            "instance": "second",
+            "collection": "CJSG",
+            "document_type": "acordao"
+          }
+        ],
+        "trace": {
+          "endpoint": "POST /consulta.php",
+          "http_status": 200,
+          "final_url": "https://jurisprudencia.tjto.jus.br/consulta.php",
+          "content_type": "text/html; charset=UTF-8",
+          "response_bytes": 926053,
+          "content_sha256": "5e80741f1bc84ce812eedf251fe3bf5cb56cb0d878325adcda01503b7e561bac",
+          "retrieval_status": "complete"
+        }
+      },
+      "pagination": {
+        "disjoint": true
+      }
+    }
+  ],
+  "summary": {
+    "sources": 6,
+    "search_valid": 6,
+    "second_pages_valid": 6,
+    "pagination_disjoint": 6,
+    "blocked_or_failed": 0
+  },
+  "limitations": [
+    "A amostra e bounded e nao prova estabilidade permanente.",
+    "Somente metadados, identidades e hashes foram persistidos; corpos nao foram gravados.",
+    "Detalhes e documentos nao foram requisitados nesta rechecagem."
+  ]
+}

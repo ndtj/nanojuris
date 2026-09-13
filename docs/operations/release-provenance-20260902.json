@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-13T00:15:13+00:00",
+  "audit_mode": "local_release_rehearsal_read_only",
+  "production_action_performed": false,
+  "bom": {
+    "bomFormat": "CycloneDX",
+    "specVersion": "1.5",
+    "version": 1,
+    "metadata": {
+      "timestamp": "2026-09-13T00:15:13+00:00",
+      "component": {
+        "type": "library",
+        "name": "nanojuris",
+        "version": "0.4.0",
+        "licenses": [
+          {
+            "license": {
+              "id": "MIT"
+            }
+          }
+        ]
+      }
+    },
+    "components": [
+      {
+        "type": "library",
+        "name": "Pillow",
+        "bom-ref": "pkg:pypi/pillow",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "Pillow>=10.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "beautifulsoup4",
+        "bom-ref": "pkg:pypi/beautifulsoup4",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "beautifulsoup4>=4.11"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "build",
+        "bom-ref": "pkg:pypi/build",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "build>=1.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "cssselect",
+        "bom-ref": "pkg:pypi/cssselect",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "cssselect>=1.2"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "fastapi",
+        "bom-ref": "pkg:pypi/fastapi",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "fastapi>=0.111"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "lxml",
+        "bom-ref": "pkg:pypi/lxml",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "lxml>=5.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "mcp",
+        "bom-ref": "pkg:pypi/mcp",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "mcp>=1.0,<3"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "mypy",
+        "bom-ref": "pkg:pypi/mypy",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "mypy>=1.10"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "playwright",
+        "bom-ref": "pkg:pypi/playwright",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "playwright>=1.40"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "pypdf",
+        "bom-ref": "pkg:pypi/pypdf",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "pypdf>=5.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "pypdfium2",
+        "bom-ref": "pkg:pypi/pypdfium2",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "pypdfium2>=4.30"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "pytesseract",
+        "bom-ref": "pkg:pypi/pytesseract",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "pytesseract>=0.3.13"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "pytest-cov",
+        "bom-ref": "pkg:pypi/pytest-cov",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "pytest-cov>=5.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "pytest",
+        "bom-ref": "pkg:pypi/pytest",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "pytest>=7.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "requests",
+        "bom-ref": "pkg:pypi/requests",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "requests>=2.28"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "ruff",
+        "bom-ref": "pkg:pypi/ruff",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "ruff>=0.5"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "twine",
+        "bom-ref": "pkg:pypi/twine",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "twine>=5.0"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "typing_extensions",
+        "bom-ref": "pkg:pypi/typing_extensions",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "typing_extensions>=4.9"
+          }
+        ],
+        "licenses": []
+      },
+      {
+        "type": "library",
+        "name": "uvicorn",
+        "bom-ref": "pkg:pypi/uvicorn",
+        "properties": [
+          {
+            "name": "dependency_specifier",
+            "value": "uvicorn>=0.30"
+          }
+        ],
+        "licenses": []
+      }
+    ]
+  },
+  "provenance": {
+    "git_commit": "b20b874960d6a856d4812ab52a966d919aaa773b",
+    "git_tree_state": "dirty",
+    "hashed_files": [
+      {
+        "path": "pyproject.toml",
+        "sha256": "5b53182fcb41e09f382f505b7acfc91cc571df76e176c2d7158ea27bec220ab0"
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "4e7c2133fc3ba9b2cba63ee810aac6f6e297a5c9ca3948456ffc58e4fb0de820"
+      },
+      {
+        "path": "src/nanojuris/__init__.py",
+        "sha256": "83766ad1098c9f988557cd8d33925ed5d0aa4fdfa0180250914651ae72fb61a8"
+      },
+      {
+        "path": "docs/registry/provider-catalog.full.json",
+        "sha256": "07bc05b04b36aa59c060842571f4d393c4c85dc4df505a1dbc1afa94e35bbcf0"
+      }
+    ],
+    "source_catalog_entries": 85,
+    "runtime_providers": 80,
+    "technical_operation_authorized": true,
+    "license_review": "not_required_for_local_federation",
+    "redistribution_authorized": false
+  }
+}

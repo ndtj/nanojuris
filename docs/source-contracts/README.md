@@ -45,6 +45,7 @@ A validacao live mais recente dos candidatos esta em
 | `tjpi_juspi` | jurisprudencia judicial | [tjpi_juspi.md](tjpi_juspi.md) |
 | `tjpr_jurisprudencia` | jurisprudencia judicial | [tjpr_jurisprudencia.md](tjpr_jurisprudencia.md) |
 | `tjsp_cjsg` | jurisprudencia CJSG/e-SAJ | [tjsp_cjsg.md](tjsp_cjsg.md) |
+| `tjrj_banco_sentencas` | sentencas selecionadas de primeiro grau | [tjrj_banco_sentencas.md](tjrj_banco_sentencas.md) |
 | `tjsp_eproc_jurisprudencia` | jurisprudencia eproc | [tjsp_eproc_jurisprudencia.md](tjsp_eproc_jurisprudencia.md) |
 | `tjsp_nugepnac` | precedentes locais | [tjsp_nugepnac.md](tjsp_nugepnac.md) |
 | `tre_sp_temas` | jurisprudencia eleitoral tematica | [tre_sp_temas.md](tre_sp_temas.md) |

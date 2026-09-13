@@ -1,0 +1,66 @@
+{
+  "schema_version": "federated-opt-in-live-v1",
+  "checked_at": "2026-09-05",
+  "mode": "bounded_public_live_check",
+  "query": {
+    "text": "responsabilidade",
+    "page": 1,
+    "page_size": 1
+  },
+  "sources": [
+    {
+      "source_id": "tjes_cjpg",
+      "opt_in": true,
+      "status": "searched",
+      "http_status": 200,
+      "returned": 1,
+      "reported_total": 314523,
+      "total_known": true,
+      "complete": false,
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "opt_in": true,
+      "status": "searched",
+      "http_status": 200,
+      "returned": 1,
+      "reported_total": 69451,
+      "total_known": true,
+      "complete": false,
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "opt_in": true,
+      "status": "searched",
+      "http_status": 200,
+      "returned": 1,
+      "reported_total": 4662509,
+      "total_known": true,
+      "complete": false,
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "opt_in": true,
+      "status": "searched",
+      "http_status": 200,
+      "returned": 1,
+      "reported_total": 73895,
+      "total_known": true,
+      "complete": false,
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  ],
+  "default_federation_changed": false,
+  "notes": [
+    "Cada fonte foi chamada isoladamente com opt-in explícito e janela bounded.",
+    "Nenhum provider foi promovido à federação padrão.",
+    "Legalidade, retenção e autorização de promoção continuam pendentes."
+  ]
+}

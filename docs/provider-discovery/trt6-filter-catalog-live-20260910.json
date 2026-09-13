@@ -1,0 +1,50 @@
+{
+  "schema_version": "labor-filter-catalog-live-v1",
+  "observed_at": "2026-09-10T22:16:00-03:00",
+  "provider": "trt6_jurisprudencia",
+  "authority": "TRT6",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "request": {
+    "method": "POST",
+    "url": "https://pje.trt6.jus.br/juris-backend/api/filtros",
+    "bounded": true,
+    "credentials_used": false,
+    "bypass_used": false,
+    "body_scope": "metadata_catalog_only"
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 85896,
+    "content_sha256": "ad20e0775cd965f81770332edfd2a298a2fde69fd39784b9faf50e379af155bc",
+    "hits": 10329104,
+    "documents_returned": 0,
+    "aggregations": {
+      "assunto": 1095,
+      "anoProcesso": 49,
+      "tipoDocumento": 4,
+      "instancia": 2,
+      "orgaoJulgadorColegiado": 9,
+      "meioTramitacao": 1,
+      "orgaoJulgador": 139,
+      "magistrado": 226,
+      "classeJudicial": 95
+    }
+  },
+  "classification": {
+    "status": "metadata_public",
+    "search_results_observed": false,
+    "document_search_status": "access_control_required",
+    "recaptcha_required_for_documents": true,
+    "federation": "not_enabled"
+  },
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "cookies_or_tokens_used": false,
+    "raw_response_persisted": false
+  },
+  "next_action": "retain_diagnostic_only_until_an_authorized_public_document_search_contract_exists"
+}

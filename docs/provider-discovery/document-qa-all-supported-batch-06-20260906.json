@@ -1,0 +1,309 @@
+{
+  "generated_at": "2026-09-06T09:28:57.378539+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "tjsp_cjsg",
+      "tjsp_eproc_jurisprudencia",
+      "tjto_jurisprudencia",
+      "tnu_eproc_jurisprudencia",
+      "trf2_eproc_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjsp_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 3632746,
+        "source": "tjsp_cjsg"
+      },
+      "result": {
+        "id": "tjsp-cjsg-20923790-0",
+        "case_number": "1500595-71.2025.8.26.0446",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://esaj.tjsp.jus.br/cjsg/getArquivo.do?cdAcordao=20923790&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "empty_document",
+        "document_id": "tjsp-cjsg-20923790-0",
+        "full_text_length": 0,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://esaj.tjsp.jus.br/cjsg/jsp/verificarLoginArquivo.jsp?cdAcordao=20923790&cdForo=0",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 1471,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "empty_document"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 320687,
+        "source": "tjsp_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "tjsp-eproc-jurisprudencia-611788527992208703593435670565",
+        "case_number": "1007021-65.2024.8.26.0229",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproc2g-consulta.tjsp.jus.br/eproc/externo_controlador.php?acao=tjsp@consulta_publica_eproc/exibir_processo&acao_origem=tjsp@consulta_publica_eproc/consultar&acao_retorno=tjsp@consulta_publica_eproc/consultar&num_processo=10070216520248260229",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "AccessControlRequiredError",
+        "error": "TJSP/eproc jurisprudence returned access-control HTML"
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproc2g-consulta.tjsp.jus.br/eproc/externo_controlador.php?acao=tjsp@consulta_publica_eproc/consultar&num_processo=10070216520248260229",
+        "content_type": "text/html; charset=iso-8859-1",
+        "response_bytes": 52910,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "AccessControlRequiredError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjto_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 49637,
+        "source": "tjto_jurisprudencia"
+      },
+      "result": {
+        "id": "tjto-jurisprudencia-594ea228ad8b60f82ebf414c17ebcfe8",
+        "case_number": "0000074-71.2026.8.27.2732",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.tjto.jus.br/documento.php?uuid=594ea228ad8b60f82ebf414c17ebcfe8",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "authority",
+          "branch",
+          "card_html",
+          "case_class",
+          "collection",
+          "competence",
+          "degree",
+          "document_type",
+          "document_url",
+          "document_uuid",
+          "filing_date",
+          "instance",
+          "judgment_date",
+          "source_origin",
+          "subject"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjto-jurisprudencia-594ea228ad8b60f82ebf414c17ebcfe8",
+        "full_text_length": 26514,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "http_error",
+        "http_status": 403,
+        "final_url": "https://jurisprudencia.tjto.jus.br/documento.php?uuid=594ea228ad8b60f82ebf414c17ebcfe8",
+        "content_type": "text/html",
+        "response_bytes": 118,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": 403
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1197,
+        "source": "tnu_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "tnu-eproc-jurisprudencia-771786993513847664850135395543",
+        "case_number": "1094058-89.2023.4.01.3400",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproctnu.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=771786993513847664850135395543&termosPesquisados=cmVzcG9uc2FiaWxpZGFkZQ==",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tnu-eproc-jurisprudencia-document-771786993513847664850135395543",
+        "full_text_length": 29116,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproctnu.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=771786993513847664850135395543&termosPesquisados=cmVzcG9uc2FiaWxpZGFkZQ==",
+        "content_type": "text/html; charset= ISO-8859-1",
+        "response_bytes": 137780,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 144973,
+        "source": "trf2_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "trf2-eproc-jurisprudencia-501787860726878989490819843300",
+        "case_number": "5029106-24.2021.4.02.5001",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproc.jfes.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50291062420214025001",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf2-eproc-jurisprudencia-document-501787860726878989490819843300",
+        "full_text_length": 20460,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproc-consulta.jfes.jus.br/eproc/externo_controlador.php?acao=processo_seleciona_publica&acao_origem=processo_consulta_publica&acao_retorno=processo_consulta_publica&num_processo=50291062420214025001",
+        "content_type": "text/html; charset=iso-8859-1",
+        "response_bytes": 38106,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 5,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 3,
+    "public_url_reachable": 4,
+    "public_url_document_like": 1,
+    "document_probe_failures": 3,
+    "partial": 3,
+    "errors": 0
+  }
+}

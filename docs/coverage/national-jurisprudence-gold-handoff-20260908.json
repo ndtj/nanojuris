@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "kind": "national_jurisprudence_gold_handoff",
+  "observed_at": "2026-09-08",
+  "sdd": "specs/changes/0098-national-jurisprudence-gold-coverage",
+  "baseline": {
+    "documented_sources": 73,
+    "runtime_providers": 68,
+    "unified_sources": 50,
+    "primary_textual_sources": 45,
+    "document_capable_sources": 56,
+    "state_appellate_complete": "25/27",
+    "cjpg": "8/27",
+    "cjsg": "25/27",
+    "open_tasks": 60,
+    "external_tasks": 44,
+    "human_tasks": 16
+  },
+  "constraints": {
+    "no_bypass": true,
+    "no_index": true,
+    "no_llm_per_query": true,
+    "no_commit_push_deploy": true,
+    "public_or_formal_authorization_only": true
+  },
+  "required_outputs": [
+    "provider_contract",
+    "sanitized_fixtures",
+    "live_evidence",
+    "quality_report",
+    "federated_smoke",
+    "regenerated_inventories"
+  ]
+}

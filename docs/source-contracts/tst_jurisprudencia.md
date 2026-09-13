@@ -6,8 +6,9 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: SPA React + API REST JSON.
 - URL inicial: `https://jurisprudencia.tst.jus.br/`.
-- Status de acesso: publico, reproduzido em sessao HTTP limpa.
-- Status no NanoJuris: provider implementado com fixtures e testes offline.
+- Status de acesso: publico, revalidado em sessao HTTP limpa no ciclo 46.
+- Status no NanoJuris: provider implementado com busca, inteiro teor, fixtures,
+  testes offline e smoke live bounded.
 
 ## Contrato descoberto
 
@@ -157,7 +158,7 @@ jurisprudencia trabalhista do TST.
 - [x] Documento HTML por `GET /rest/documentos/{id}`.
 - [x] Catalogo de filtros pelas seis rotas REST publicas declaradas.
 - [x] HTTP 401/429 e contrato nao-JSON tratados explicitamente.
-- [ ] Teste live opt-in, com `page_size` pequeno e sem termo vazio.
+- [x] Teste live opt-in, com `page_size` pequeno e sem termo vazio (ciclo 46).
 
 ## Uso pelo MCP
 
@@ -196,6 +197,15 @@ Promover para `implemented` somente depois de fixture publica versionada,
 parser offline, testes de contrato, capability declaration, tratamento de
 HTML/documento e teste live opt-in passarem no CI local.
 
+## Validacao live bounded — ciclo 46 (2026-09-05)
+
+- A busca `responsabilidade civil` com `page_size=1` respondeu HTTP 200 e
+  retornou registro com ementa e total reportado pela fonte; o total permanece
+  `total_known=None` até que o contrato confirme sua autoridade.
+- O inteiro teor do registro retornou HTML público textual; tamanho e SHA-256
+  foram registrados sem persistir o corpo.
+- Evidência estruturada: `docs/provider-discovery/tst-live-20260905-cycle46.json`.
+
 ## Inteiro teor e contrato de bytes
 
 `GET /rest/documentos/{id}` e uma rota publica de inteiro teor HTML. O
@@ -203,3 +213,18 @@ provider preserva os bytes originais recebidos, calcula SHA-256 e tamanho e
 extrai o texto para `CanonicalDocument.text`. O Studio e o MCP devem expor
 esses metadados e deixar claro que a extração textual nao substitui o
 documento bruto.
+## Transporte compartilhado (2026-09-08)
+
+As consultas JSON, catálogos e downloads HTML do `tst_jurisprudencia` usam
+`SharedHttpClient` com allowlist do backend oficial, TLS verificado, limite de
+16 MB, timeout, intervalo por host e sem retry automático. 401/403, 429,
+timeout, TLS, resposta excedente, redirecionamento fora da allowlist e schema
+inválido continuam estados explícitos; nenhum é convertido em vazio. O
+`SourceTrace` preserva URL final, tipo, hash, bytes e latência.
+## Rechecagem live do transporte — 2026-09-08
+
+O smoke bounded de `responsabilidade civil` respondeu HTTP 200, retornou um
+registro e confirmou o detalhe HTML público (91.008 bytes, texto presente).
+Busca, detalhe e extração foram classificados como válidos após a migração;
+os corpos não foram persistidos. Evidência:
+`docs/provider-discovery/tst-live-20260908-transport-recheck.json`.

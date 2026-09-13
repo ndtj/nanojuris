@@ -1,0 +1,62 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJPR",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-09",
+  "source": {
+    "official_entry_point": "https://www.tjpr.jus.br/jurisprudencia",
+    "candidate_route": "https://www.tjpr.jus.br/sentenca-digital",
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "jurisprudencia_landing": {
+      "http_status": 200,
+      "final_url": "https://www.tjpr.jus.br/jurisprudencia-inicio",
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 294942,
+      "linked_first_degree_routes": [
+        "https://www.tjpr.jus.br/despachos-e-decisoes-interlocutorias-do-1-grau",
+        "https://www.tjpr.jus.br/sentenca-digital"
+      ]
+    },
+    "sentenca_digital": {
+      "http_status": 200,
+      "final_url": "https://www.tjpr.jus.br/sentenca-digital",
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 289180,
+      "response_sha256": "8e1c4deff14d7dfb0e492dae9fa28d1b61344e9c5a05780b76c227a5e379c8ae",
+      "title": "Sentença Digital - TJPR",
+      "forms": 2,
+      "form_actions": [
+        "https://www.tjpr.jus.br/search",
+        "#"
+      ],
+      "first_degree_markers": [
+        "despachos e decisões interlocutórias do 1º grau",
+        "sentença digital"
+      ],
+      "decision_records_observed": 0,
+      "document_download_routes_observed": 0,
+      "pagination_contract_observed": false
+    }
+  },
+  "classification": {
+    "status": "discovery_only",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "portal oficial de primeiro grau identificado, mas a resposta observada não expõe corpus decisório, filtros de jurisprudência, paginação ou documentos"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "localizar uma rota oficial de resultados ou exportação antes de implementar o adapter CJPG"
+}

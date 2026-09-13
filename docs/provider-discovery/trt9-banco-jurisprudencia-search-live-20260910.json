@@ -1,0 +1,71 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "provider": "trt9_banco_jurisprudencia_search",
+  "authority": "TRT9",
+  "branch": "labor",
+  "degree": "unknown",
+  "instance": "unknown",
+  "collection": "TRT9_BANCO_JURISPRUDENCIA",
+  "checked_at": "2026-09-10",
+  "observed_at": "2026-09-10",
+  "status": "contract_inconclusive",
+  "surface": "official_jsf_public_search",
+  "official_entry_point": "https://www.trt9.jus.br/bancojurisprudencia/publico/pesquisaAvancada.xhtml",
+  "live_surface": {
+    "method": "GET + JSF POST",
+    "http_status_get": 200,
+    "http_status_post": 200,
+    "content_type_post": "text/html; charset=UTF-8",
+    "session": "ephemeral_public_webrequest_session",
+    "csrf": "javax.faces.ViewState_observed_and_replayed",
+    "query": {
+      "tribunal": "TRT9",
+      "containing_all_words": "responsabilidade",
+      "page": 1
+    },
+    "response": {
+      "incidents": 0,
+      "jurisprudencia_consolidada": 0,
+      "message": "Nenhuma jurisprudência listada.",
+      "empty_authority": "not_confirmed"
+    }
+  },
+  "observed_contract": {
+    "framework": "Jakarta/JavaServer Faces with PrimeFaces",
+    "form": "formPrincipal",
+    "search_action": "formPrincipal:btnPesquisar",
+    "fields": [
+      "formPrincipal:inputTribunal",
+      "formPrincipal:inputCategoria",
+      "formPrincipal:inputTexto3",
+      "formPrincipal:inputTexto4",
+      "formPrincipal:inputTexto5",
+      "formPrincipal:inputTexto6",
+      "formPrincipal:inputDataInicio_input",
+      "formPrincipal:inputDataFim_input"
+    ],
+    "result_tables": [
+      "formTabela:tabelaIncidentes",
+      "formTabela:tabelaJurisprudencia"
+    ],
+    "official_pdf_routes_observed": [
+      "/bancojurisprudencia/api/v1/jurisprudencia/pdf-completo",
+      "/bancojurisprudencia/api/v1/jurisprudencia/pdf-simplificado",
+      "/bancojurisprudencia/api/v1/incidentes/pdf",
+      "/bancojurisprudencia/api/v1/orientacoesjurisprudenciais/pdf-oj"
+    ]
+  },
+  "classification": "official_route_reached_without_replayable_general_result_contract",
+  "runtime_status": "not_implemented",
+  "federation_status": "disabled",
+  "limitations": [
+    "A busca bounded respondeu tabelas vazias para o termo testado; isso não prova ausência do acervo.",
+    "Os endpoints PDF observados são coleções consolidadas/incidentes e não foram promovidos como jurisprudência geral.",
+    "Não houve CAPTCHA, WAF, login ou bypass; somente um POST JSF público com ViewState da sessão efêmera.",
+    "São necessárias consultas com termos conhecidos e inspeção de links de detalhe antes de definir degree ou criar adapter."
+  ],
+  "next_action": "manter em descoberta; testar somente uma consulta oficial adicional de baixa frequência com termo conhecido ou categoria documentada",
+  "credentials_used": false,
+  "captcha_bypass": false,
+  "access_control_bypass": false
+}

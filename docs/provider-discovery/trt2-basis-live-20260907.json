@@ -1,0 +1,27 @@
+{
+  "source": "trt2_basis_jurisprudencia",
+  "surface": "search",
+  "observed_at": "2026-09-07T23:59:52Z",
+  "classification": "partial",
+  "access_status": "public",
+  "extraction_status": "partial",
+  "http_status": 200,
+  "record_count_observed": 0,
+  "total_known": false,
+  "content_type": "text/html;charset=utf-8",
+  "response_bytes": 296960,
+  "content_sha256": "20d24ae9899cf9e39181a153649cf45c38cf612a0a101554e01b8fb5091f3f48",
+  "url": "https://basis.trt2.jus.br/discover?rpp=100&etal=0&query=responsabilidade&scope=123456789%2F16181&group_by=none&page=0",
+  "note": "A rota oficial respondeu HTTP 200. A mesma rota foi observada em chamada pública bounded anterior com cartões DSpace e títulos de Boletim de Jurisprudência do TRT2; a tentativa pelo adapter nesta janela retornou zero após filtragem e uma revalidação subsequente atingiu timeout. Mantido como partial até nova chamada bem-sucedida do parser, sem promoção automática.",
+  "evidence": {
+    "official_route_cards": 100,
+    "official_route_sample_titles": [
+      "Boletim de Jurisprudência do TRT2: N. 11 (2025)",
+      "Boletim de Jurisprudência do TRT2: N. 10 (2025)",
+      "Boletim de Jurisprudência do TRT2: N. 9 (2025)"
+    ],
+    "scope": "123456789/16181",
+    "bounded": true,
+    "bypass_used": false
+  }
+}

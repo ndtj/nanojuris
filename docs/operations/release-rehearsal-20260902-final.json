@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-02T00:00:00+00:00",
+  "audit_mode": "local_release_rehearsal",
+  "production_action_performed": false,
+  "distribution": "C:/Users/admin/Desktop/Nanojuris/repos/nanojuris/.artifacts/release-rehearsal-20260902-final",
+  "version": "0.4.0",
+  "artifacts": [
+    {
+      "name": "nanojuris-0.4.0-py3-none-any.whl",
+      "bytes": 550156,
+      "sha256": "9cbb1479c124c8f219c3dd322f722531f94b1dd04be7e50ea01a7664d41b1663",
+      "size_limit": 600000,
+      "size_status": "passed"
+    },
+    {
+      "name": "nanojuris-0.4.0.tar.gz",
+      "bytes": 1492275,
+      "sha256": "0b08f1f2d4468f3b8c14d4f1dfcf0962bc0129529fac36742e303236567098a2",
+      "size_limit": 1500000,
+      "size_status": "passed"
+    }
+  ],
+  "checks": {
+    "wheel_present": true,
+    "sdist_present": true,
+    "twine_check": true,
+    "size_budgets": true
+  },
+  "twine": {
+    "status": "passed",
+    "error": null
+  },
+  "status": "passed"
+}

@@ -15,6 +15,7 @@ NanoJuris. O projeto separa claramente **usar**, **entender**, **expandir** e
 | Carregar e auditar inteiro teor | [Documentos](documents.md) |
 | Escolher uma fonte | [Capacidades por fonte](source-capabilities.md) |
 | Ver implementação, validação e evidência live | [Status das fontes](provider-status.md) |
+| Auditar qualidade offline e golden sets | [Scorecard de qualidade](quality/README.md) |
 
 ## 2. Entender
 
@@ -79,3 +80,4 @@ Rotas públicas podem mudar, ficar indisponíveis ou aplicar limites diferentes
 conforme rede, horário e política do tribunal. Os relatórios de validação sempre
 registram data, ambiente e resultado observado. Eles não devem ser interpretados
 como garantia permanente de disponibilidade.
+Consulte também o [status de fechamento local das ondas](implementation-status-20260902.md).

@@ -4,9 +4,8 @@ from __future__ import annotations
 
 import hashlib
 import re
-import time
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -24,6 +23,7 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -34,6 +34,13 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import (
+    TransportPolicy,
+    TransportRequest,
+    TransportResponse,
+    TransportStatus,
+)
 
 TJBA_GRAPHQL_QUERY = """query filter(
   $decisaoFilter: DecisaoFilter!
@@ -84,7 +91,19 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlsplit(self.config.tjba_graphql_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     @property
     def graphql_url(self) -> str:
@@ -95,8 +114,18 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
         return self.config.tjba_graphql_url.rstrip("/") + "/inteiroTeor/"
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
-        if not (query.text.strip() or query.number.strip() or query.exact_phrase.strip()):
-            raise QueryRejectedError("TJBA exige assunto, numero de recurso ou frase exata")
+        _validate_degree_scope(query)
+        if not (
+            query.text.strip()
+            or query.number.strip()
+            or query.exact_phrase.strip()
+            or query.all_words.strip()
+            or query.any_words.strip()
+            or query.without_words.strip()
+        ):
+            raise QueryRejectedError(
+                "TJBA exige assunto, numero, frase exata ou filtros booleanos de palavras"
+            )
         page_size = max(1, min(query.page_size, 50))
         variables: dict[str, Any] = {
             "decisaoFilter": build_tjba_filter(query),
@@ -156,6 +185,18 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
             pagination_mode="page",
             is_complete=complete,
             completeness_reason=reason,
+            ordering="dataPublicacao",
+            filters_applied={
+                "degree": "remote",
+                "instance": "remote",
+                "text": "remote"
+                if query.text or query.exact_phrase or query.all_words
+                else "not_requested",
+                "number": "remote" if query.number else "not_requested",
+            },
+            total_known="itemCount" in envelope,
+            access_status=AccessStatus.PUBLIC,
+            extraction_status=ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY,
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -170,7 +211,7 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
             response=response,
             limitations=["Inteiro teor publico consultado por identificador observado."],
         )
-        raw_bytes = bytes(response.content)
+        raw_bytes = bytes(response.body)
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
@@ -194,7 +235,7 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
         identifier = _parse_tjba_identifier(document_id)
         endpoint = f"/inteiroTeor/{identifier}"
         response = self._request("GET", endpoint, headers={"Accept": "text/html,*/*"})
-        content = bytes(response.content)
+        content = bytes(response.body)
         trace = _source_trace(
             self.name,
             endpoint=endpoint,
@@ -282,6 +323,9 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
             supported_filters=[
                 "text",
                 "exact_phrase",
+                "all_words",
+                "any_words",
+                "without_words",
                 "number",
                 "updated_from",
                 "updated_to",
@@ -289,6 +333,65 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
                 "published_to",
                 "order_by",
             ],
+            unsupported_filters=[
+                "courts",
+                "types",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "rapporteur",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origin",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "exact_phrase": "translated",
+                "all_words": "translated",
+                "any_words": "translated",
+                "without_words": "translated",
+                "number": "translated",
+                "updated_from": "translated",
+                "updated_to": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "order_by": "native",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "types": "unsupported",
+                "fetch_details": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "rapporteur": "unsupported",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+            },
             limitations=[
                 "A busca depende dos defaults publicos de instancia e tipo do frontend.",
                 "PageCount e preservado como metadado; itemCount e o total de decisoes.",
@@ -301,7 +404,7 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
             ],
         )
 
-    def _request_json(self, payload: dict[str, Any]) -> tuple[dict[str, Any], requests.Response]:
+    def _request_json(self, payload: dict[str, Any]) -> tuple[dict[str, Any], TransportResponse]:
         response = self._request("POST", "/graphql", json=payload)
         try:
             data = response.json()
@@ -319,8 +422,7 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
             raise ParserContractChangedError("TJBA GraphQL response missing data object")
         return body, response
 
-    def _request(self, method: str, endpoint: str, **kwargs: Any) -> requests.Response:
-        self._respect_rate_limit()
+    def _request(self, method: str, endpoint: str, **kwargs: Any) -> TransportResponse:
         url = urljoin(self.config.tjba_graphql_url.rstrip("/") + "/", endpoint.lstrip("/"))
         headers = {
             "Accept": "application/json, text/html;q=0.9, */*;q=0.8",
@@ -329,17 +431,29 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
         }
         if method == "POST":
             headers.setdefault("Content-Type", "application/json")
+        request = TransportRequest(
+            source=self.name,
+            operation="graphql_request",
+            method=method,
+            url=url,
+            headers=headers,
+            json_body=kwargs.pop("json", None),
+            data=kwargs.pop("data", None),
+            params=kwargs.pop("params", {}),
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport arguments: {', '.join(sorted(kwargs))}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-                **kwargs,
-            )
+            response = self.transport.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJBA request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                f"TJBA transport failed: {response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("TJBA transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError("TJBA returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -350,21 +464,12 @@ class TjbaGraphqlProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"TJBA rejected request with HTTP {response.status_code}")
         return response
 
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
-
 
 def build_tjba_filter(query: JurisprudenceQuery) -> dict[str, Any]:
     """Build the public frontend-compatible DecisaoFilter payload."""
 
     payload: dict[str, Any] = {
-        "assunto": _graphql_text(query.text or query.exact_phrase or query.all_words),
+        "assunto": _graphql_text(_build_tjba_search_expression(query)),
         "orgaos": [],
         "relatores": [],
         "classes": [],
@@ -383,9 +488,39 @@ def build_tjba_filter(query: JurisprudenceQuery) -> dict[str, Any]:
     return payload
 
 
+def _build_tjba_search_expression(query: JurisprudenceQuery) -> str:
+    """Translate the canonical word filters to TJBA's GraphQL expression.
+
+    The public endpoint accepts one boolean expression in ``assunto`` rather
+    than separate fields.  Keeping the translation here means federation can
+    report the three word filters as translated without silently dropping
+    them, while preserving the caller's explicit ``text`` expression.
+    """
+
+    if query.text.strip():
+        return query.text.strip()
+    if query.exact_phrase.strip():
+        return f'"{query.exact_phrase.strip()}"'
+    clauses: list[str] = []
+    if query.all_words.strip():
+        words = [part for part in query.all_words.split() if part]
+        if words:
+            clauses.append(" AND ".join(words))
+    if query.any_words.strip():
+        words = [part for part in query.any_words.split() if part]
+        if words:
+            clauses.append("(" + " OR ".join(words) + ")")
+    if query.without_words.strip():
+        words = [part for part in query.without_words.split() if part]
+        if words:
+            clauses.extend(f"NOT {word}" for word in words)
+    return " AND ".join(clauses)
+
+
 def _decision_to_result(
     item: dict[str, Any], *, trace: SourceTrace, base_url: str = ""
 ) -> JurisprudenceResult:
+    _validate_decision_degree(item)
     external_id = _first_uuid(item, "hash", "id") or _first_string(
         item, "id", "sourceId", "numeroProcesso"
     )
@@ -404,7 +539,26 @@ def _decision_to_result(
         publication_date=_date_iso(_first_string(item, "dataPublicacao")) or None,
         source_updated_at=_date_iso(_first_string(item, "dataAtualizacao")) or None,
         access_status=AccessStatus.PUBLIC,
+        extraction_status=(
+            ExtractionStatus.COMPLETE
+            if _first_string(item, "conteudo", "ementa")
+            else ExtractionStatus.PARTIAL
+        ),
         source_trace=trace,
+        case_class=_nested_string(item.get("classe"), "descricao"),
+        judging_body=_nested_string(item.get("orgaoJulgador"), "nome"),
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJBA",
+        collection="CJSG",
+        document_type=_decision_type_to_document_type(_first_string(item, "tipoDecisao")),
+        source_origin="TJBA",
+        document_url=(
+            urljoin(base_url.rstrip("/") + "/", f"inteiroTeor/{external_id}")
+            if base_url and UUID_PATTERN.fullmatch(external_id)
+            else None
+        ),
         raw={
             **item,
             "case_class": _nested_string(item.get("classe"), "descricao"),
@@ -417,8 +571,56 @@ def _decision_to_result(
                 if UUID_PATTERN.fullmatch(external_id)
                 else None
             ),
+            "degree": "second",
+            "instance": "second",
+            "branch": "state",
+            "authority": "TJBA",
+            "collection": "CJSG",
+            "document_type": _decision_type_to_document_type(_first_string(item, "tipoDecisao")),
         },
     )
+
+
+def _validate_degree_scope(query: JurisprudenceQuery) -> None:
+    """Reject filters that cannot be satisfied by the TJBA/CJSG endpoint."""
+
+    degree = query.degree.strip().casefold()
+    instance = query.instance.strip().casefold()
+    collection = query.collection.strip().casefold()
+    if degree and degree not in {"second", "segundo", "segundo grau", "2", "2º"}:
+        raise QueryRejectedError("TJBA GraphQL e exclusivo para jurisprudencia de segundo grau")
+    if instance and instance not in {"second", "segundo", "segundo grau", "2", "2º"}:
+        raise QueryRejectedError("TJBA GraphQL e exclusivo para instancia de segundo grau")
+    if collection and collection not in {"cjsg", "jurisprudencia"}:
+        raise QueryRejectedError("TJBA GraphQL nao suporta a colecao solicitada")
+
+
+def _validate_decision_degree(item: dict[str, Any]) -> None:
+    """Reject response items that contradict the second-degree contract."""
+
+    raw_instance = _first_string(item, "instancia", "instance", "grau", "degree")
+    if not raw_instance:
+        # The source query is explicitly restricted to segundo grau; when the
+        # source omits the field, preserve that contract in the canonical row.
+        return
+    normalized = (
+        raw_instance.casefold()
+        .replace("º", "")
+        .replace("°", "")
+        .replace("_", " ")
+        .replace("-", " ")
+    )
+    if normalized not in {"segundo grau", "segundo", "2", "2 grau", "second"}:
+        raise ParserContractChangedError(
+            f"TJBA retornou item fora do contrato de segundo grau: {raw_instance!r}"
+        )
+
+
+def _decision_type_to_document_type(value: str) -> str:
+    normalized = value.casefold().replace("_", " ")
+    if "monocrat" in normalized:
+        return "decisao_monocratica"
+    return "acordao"
 
 
 def _extract_document_text(html: str) -> tuple[str, dict[str, Any]]:
@@ -442,10 +644,11 @@ def _source_trace(
     *,
     endpoint: str,
     query: dict[str, Any],
-    response: requests.Response,
+    response: TransportResponse,
     limitations: list[str],
 ) -> SourceTrace:
-    content = bytes(getattr(response, "content", b"") or b"")
+    content = bytes(response.body)
+    status_code = response.status_code
     return SourceTrace(
         provider=provider,
         endpoint=endpoint,
@@ -453,11 +656,17 @@ def _source_trace(
         source_url=str(getattr(response, "url", "") or "") or None,
         final_url=str(getattr(response, "url", "") or "") or None,
         limitations=limitations,
-        http_status=response.status_code,
+        http_status=status_code,
         content_type=response.headers.get("Content-Type") if response.headers else None,
         content_sha256=hashlib.sha256(content).hexdigest(),
         response_bytes=len(content),
-        retrieval_status="ok" if 200 <= response.status_code < 300 else "http_error",
+        retrieval_status=(
+            "ok"
+            if status_code is not None and 200 <= status_code < 300
+            else "transport_error"
+            if status_code is None
+            else "http_error"
+        ),
     )
 
 

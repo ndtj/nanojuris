@@ -1,0 +1,41 @@
+{
+  "schema_version": "stj-integral-pair-live-v1",
+  "observed_at": "2026-09-07",
+  "provider": "stj_dados_abertos_jurisprudencia",
+  "dataset_id": "integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica",
+  "credentials_used": false,
+  "resources": {
+    "metadata": {
+      "resource_id": "fcade939-0b58-41ba-bbb9-1a4709c16c05",
+      "format": "JSON",
+      "status": 200,
+      "bytes": 62233,
+      "sha256": "24dcb4c39c558170ea3ed479c8a3faff5e1685c80801adc21f90acf070709759"
+    },
+    "text": {
+      "resource_id": "253f0e4e-aee2-41ef-a956-f046dd72966a",
+      "format": "ZIP",
+      "status": 200,
+      "bytes": 192816,
+      "sha256": "ad45e8e2b6d92671cadc24ab767fbe808b2d8dd7236b208aa3fdd195a724cb51"
+    }
+  },
+  "join": {
+    "key": "SeqDocumento -> text filename stem",
+    "metadata_records": 108,
+    "text_records": 106,
+    "matched_records": 106,
+    "unmatched_metadata": 2,
+    "unmatched_text": 0
+  },
+  "classification": "public_official_integral_text_pair",
+  "decision": "The pair is reproducible with bounded downloads and provides searchable integral text. The NanoJuris adapter now joins the resources explicitly, preserves raw HTML and reports unmatched metadata; it remains local-sync only and outside remote federation.",
+  "safety": {
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  }
+}

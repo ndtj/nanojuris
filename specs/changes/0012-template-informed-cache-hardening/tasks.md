@@ -4,4 +4,5 @@
   compatível.
 - [x] **T02** Implementar escrita atômica e cache miss para envelope corrompido.
 - [x] **T03** Adicionar testes de regressão e executar gates locais.
-- [ ] **T04** Avaliar release após revisão humana; nenhum deploy automático.
+- [x] **T04** Avaliar release após decisão do operador: manter a mudança local,
+  sem publicação ou deploy automático neste ciclo.

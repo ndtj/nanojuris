@@ -1,0 +1,23 @@
+{
+  "provider": "tjrj_banco_sentencas",
+  "checked_at": "2026-09-09",
+  "transport": {
+    "client": "SharedHttpClient",
+    "allowlist": ["portaltj.tjrj.jus.br"],
+    "max_bytes": 5000000,
+    "max_retries": 0,
+    "redirects": "bounded",
+    "tls": "verified",
+    "body_persistence": false
+  },
+  "classification": "transport_hardened_curated_opt_in",
+  "tests": {
+    "focused": "tests/test_tjrj_banco_sentencas.py",
+    "passed": 8
+  },
+  "limitations": [
+    "A fonte continua sendo um PDF curado de sentenças selecionadas e não uma busca CJPG completa.",
+    "Os documentos vinculados permanecem sob o transporte limitado da camada de documentos.",
+    "Nenhuma rota de consulta processual, bloqueio ou controle de acesso foi contornada."
+  ]
+}

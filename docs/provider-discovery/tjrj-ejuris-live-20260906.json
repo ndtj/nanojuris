@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source": "tjrj_ejuris",
+  "surface": "cjsg",
+  "classification": "valid",
+  "observed_at": "2026-09-06T11:05:00-03:00",
+  "endpoint": "https://www3.tjrj.jus.br/EJURIS/ProcessarConsJurisES.aspx/ExecutarConsultarJurisprudencia",
+  "http_status": 200,
+  "access_status": "public",
+  "retrieval_status": "ok",
+  "extraction_status": "complete",
+  "reported_total": 45643,
+  "record_count_observed": 1,
+  "pagination_mode": "page",
+  "requested_page_size": 1,
+  "degree": "second",
+  "collection": "CJSG",
+  "note": "bounded public search; response body and identifiers are not persisted"
+}

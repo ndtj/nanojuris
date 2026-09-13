@@ -147,6 +147,8 @@ def test_search_api_maps_zero_based_page_and_canonical_fields():
     assert result.judgment_date == "2024-09-04"
     assert result.publication_date == "2024-09-16"
     assert result.updated_at == "2024-09-16"
+    assert result.source_updated_at == "2024-09-16"
+    assert result.judging_body == "1a Turma Civel"
     assert result.full_text == "Texto integral publico de teste."
     assert result.raw["campoDesconhecido"] == "preservar"
     assert result.source_trace is not None
@@ -158,6 +160,9 @@ def test_search_api_maps_zero_based_page_and_canonical_fields():
     assert request["url"].endswith("/api/v1/pesquisa")
     assert request["kwargs"]["json"]["pagina"] == 1
     assert request["kwargs"]["json"]["tamanho"] == 2
+    assert request["kwargs"]["json"]["inteiroTeor"] is True
+    assert request["kwargs"]["json"]["retornaInteiroTeor"] is True
+    assert request["kwargs"]["json"]["espelho"] is True
     assert request["kwargs"]["json"]["termosAcessorios"] == [
         {"campo": "processo", "valor": "0700001-00.2024.8.07.0001"},
         {"campo": "nomeRelator", "valor": "MARIA TESTE"},
@@ -184,6 +189,28 @@ def test_build_tjdf_api_payload_maps_documented_date_fields():
         {"campo": "dataJulgamento", "valor": "2024-01-31"},
         {"campo": "dataPublicacao", "valor": "2024-02-01"},
         {"campo": "dataPublicacao", "valor": "2024-02-29"},
+    ]
+
+
+def test_build_tjdf_api_payload_maps_structured_filters_and_normalizes_dates():
+    payload = _build_api_payload(
+        JurisprudenceQuery(
+            text="dano moral",
+            source_origins=["PJe", "SISTJ"],
+            case_class="Apelação Cível",
+            judging_body="Segunda Turma Cível",
+            judgment_date_from="01/02/2024",
+            judgment_date_to="29/02/2024",
+        )
+    )
+
+    assert payload["termosAcessorios"] == [
+        {"campo": "descricaoClasseCnj", "valor": "Apelação Cível"},
+        {"campo": "descricaoOrgaoJulgador", "valor": "Segunda Turma Cível"},
+        {"campo": "dataJulgamento", "valor": "2024-02-01"},
+        {"campo": "dataJulgamento", "valor": "2024-02-29"},
+        {"campo": "origem", "valor": "PJe"},
+        {"campo": "origem", "valor": "SISTJ"},
     ]
 
 

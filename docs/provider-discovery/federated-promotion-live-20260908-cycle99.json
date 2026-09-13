@@ -1,0 +1,38 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T19:27:13.583806+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 2
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 1,
+  "manifest_sources": [
+    "tjal_esmal_banco_sentencas"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": false,
+  "sources_searched": [],
+  "source_completeness": {},
+  "source_totals": {},
+  "source_total_known": {},
+  "source_access_status": {},
+  "source_extraction_status": {},
+  "errors": [],
+  "summary": {
+    "sources_requested": 1,
+    "sources_searched": 0,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 0,
+    "deduplicated_total": 0,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

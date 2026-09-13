@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "description": "Cenarios sanitizados para o gate offline de qualidade de providers.",
+  "scenarios": [
+    {"id": "success", "expected": "records"},
+    {"id": "empty", "expected": "explicit_empty"},
+    {"id": "partial", "expected": "partial_with_trace"},
+    {"id": "invalid", "expected": "explicit_failure"},
+    {"id": "timeout", "expected": "explicit_transport_failure"},
+    {"id": "access_controlled", "expected": "explicit_access_status"},
+    {"id": "rate_limited", "expected": "explicit_retryable_failure"},
+    {"id": "schema_changed", "expected": "explicit_parser_contract_changed"}
+  ]
+}

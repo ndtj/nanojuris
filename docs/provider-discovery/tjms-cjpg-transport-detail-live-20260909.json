@@ -1,0 +1,36 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-09T00:00:00-03:00",
+  "provider": "tjms_cjpg",
+  "source_id": "tjms_cjpg",
+  "surface": "cjpg",
+  "classification": "success_with_results",
+  "access_status": "public",
+  "bypass_used": false,
+  "credentials_used": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "http_status": 200,
+  "content_type": "text/html;charset=UTF-8",
+  "response_bytes": 315262,
+  "content_sha256": "8278270f19a4eb5fabc609637d3767b96d71cd350c7a85a62f3476268361cb5c",
+  "elapsed_ms": 759.5,
+  "reported_total": 317418,
+  "record_count_observed": 1,
+  "pagination_mode": "page",
+  "degree": "first",
+  "instance": "first",
+  "authority": "TJMS",
+  "collection": "CJPG",
+  "source_id_observed": "tjms_cjpg-record-02000EAQG0000",
+  "full_text_chars": 20421,
+  "full_text_status": "inline_complete",
+  "limitations": [
+    "A evidencia e bounded e nao prova estabilidade permanente.",
+    "A fonte publica o inteiro teor inline; nao foi usado detalhe independente.",
+    "Nenhum CAPTCHA, WAF, login, proxy ou bypass foi usado."
+  ]
+}

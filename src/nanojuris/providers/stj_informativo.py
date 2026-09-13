@@ -2,17 +2,16 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
-import time
 import unicodedata
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
 from nanojuris.adaptive_selectors import resilient_select
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -21,6 +20,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
     JurisprudenceQuery,
@@ -32,6 +32,12 @@ from nanojuris.models import (
 from nanojuris.pagination import page_completeness
 from nanojuris.parsing import HtmlDocument, HtmlNode, parse_html
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import (
+    SharedHttpClient,
+    TransportPolicy,
+    TransportRequest,
+    TransportStatus,
+)
 
 
 class StjInformativoProvider(JurisprudenceProvider):
@@ -46,8 +52,27 @@ class StjInformativoProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
+        host = urlparse(self.config.stj_url).hostname or ""
+        self._transport_policy = TransportPolicy(
+            allowed_hosts=(host,),
+            timeout_seconds=self.config.timeout,
+            max_bytes=8_000_000,
+            max_retries=0,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._transport = SharedHttpClient(self._transport_policy, session=self.session)
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(host,),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/jurisprudencia/externo/informativo/"
@@ -72,19 +97,71 @@ class StjInformativoProvider(JurisprudenceProvider):
             ],
             **self._last_http_metadata,
         )
-        return parse_stj_informativo_results(
+        page = parse_stj_informativo_results(
             html,
             query=query,
             trace=trace,
             base_url=self.config.stj_url,
         )
+        for result in page.results:
+            # CNOT is the public informativo note.  An associated SCON
+            # acórdão link may be protected, so it is never substituted here.
+            note_url = str(result.raw.get("cnot_url") or "")
+            if note_url:
+                self._document_urls[result.id] = note_url
+        return page
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
+        if precedent_id in self._document_urls:
+            document = self.get_document(precedent_id)
+            return DecisionBundle(
+                precedent_id=precedent_id,
+                source=self.name,
+                texts=[
+                    {
+                        "content": document.text or "",
+                        "content_type": document.content_type or "text/plain",
+                    }
+                ],
+                source_trace=document.source_trace,
+                raw={"document": document.raw_metadata},
+                raw_bytes=document.raw_bytes,
+            )
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
             texts=[],
             raw={"message": "stj_informativo exposes public note text and linked case metadata."},
+        )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch a public CNOT note URL observed in the current search."""
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "STJ Informativo document_id must be an observed CNOT URL or a result id "
+                "from the current search"
+            )
+        parsed = urlparse(document_url)
+        expected_host = urlparse(self.config.stj_url).hostname
+        if parsed.hostname != expected_host:
+            raise ValueError("STJ Informativo document URL is outside the configured allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            expected_content_types=("text/html", "text/plain"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title=f"STJ Informativo {parsed.query or parsed.path.rsplit('/', 1)[-1]}",
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -96,7 +173,7 @@ class StjInformativoProvider(JurisprudenceProvider):
             search_modes=["text", "case_number", "stj_informativo_query"],
             document_types=["informativo", "nota_jurisprudencia"],
             content_formats=["html"],
-            canonical_records=["CanonicalDecision"],
+            canonical_records=["CanonicalDecision", "CanonicalDocument"],
             extracted_fields=[
                 "informativo",
                 "period",
@@ -107,6 +184,7 @@ class StjInformativoProvider(JurisprudenceProvider):
                 "title",
                 "summary",
                 "document_url",
+                "cnot_url",
             ],
             access_statuses=[
                 AccessStatus.PUBLIC,
@@ -115,7 +193,7 @@ class StjInformativoProvider(JurisprudenceProvider):
                 AccessStatus.SOURCE_UNAVAILABLE,
             ],
             endpoints=["GET /jurisprudencia/externo/informativo/"],
-            supports_full_text=False,
+            supports_full_text=True,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -125,8 +203,50 @@ class StjInformativoProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="local_window",
             completeness_contract="observed_window_only",
-            full_text_access="link_only",
+            full_text_access="document_link",
             supported_filters=["text", "number"],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "exact_phrase",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "lawyer_name",
+                        "legal_area",
+                        "oab",
+                        "party_document",
+                        "party_name",
+                        "police_document",
+                        "precatory_number",
+                        "cda",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "courts",
+                        "types",
+                        "document_type",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                    )
+                },
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+            },
             limitations=[
                 "Retorna notas curadas do Informativo STJ, nao a base integral SCON.",
                 "Acordaos referenciados podem depender de rotas SCON sujeitas a verificacao.",
@@ -140,50 +260,52 @@ class StjInformativoProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, path: str, **kwargs: Any) -> str:
-        self._respect_rate_limit()
         url = urljoin(self.config.stj_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
         try:
-            response = self.session.get(url, headers=headers, timeout=self.config.timeout, **kwargs)
-        except requests.RequestException as exc:
+            response = self._transport.request(
+                TransportRequest(
+                    source=self.name,
+                    operation="search",
+                    method="GET",
+                    url=url,
+                    params=kwargs.pop("params", {}) or {},
+                    headers=headers,
+                )
+            )
+        except SourceUnavailableError as exc:
             raise SourceUnavailableError(f"STJ Informativo request failed: {exc}") from exc
-        response.encoding = response.encoding or "ISO-8859-1"
         text = response.text
-        content = bytes(getattr(response, "content", b"") or text.encode(response.encoding))
-        headers_received = getattr(response, "headers", {}) or {}
+        status_code = int(response.status_code or 0)
         self._last_http_metadata = {
-            "http_status": response.status_code,
-            "final_url": getattr(response, "url", url),
-            "content_type": headers_received.get("Content-Type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
-            "response_bytes": len(content),
-            "retrieval_status": "ok" if response.status_code < 400 else "error",
+            "http_status": status_code,
+            "final_url": response.final_url or url,
+            "content_type": response.content_type,
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok"
+            if response.status is TransportStatus.COMPLETE and status_code < 400
+            else response.status.value,
         }
-        if response.status_code in {401, 403} and _looks_like_access_control(text):
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(f"STJ Informativo request failed: {response.status.value}")
+        if status_code in {401, 403}:
             raise AccessControlRequiredError("STJ Informativo requires access-control validation")
-        if response.status_code == 429:
+        if status_code == 429:
             raise RateLimitDetectedError("STJ Informativo returned HTTP 429")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"STJ Informativo returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        if status_code >= 500:
+            raise SourceUnavailableError(f"STJ Informativo returned HTTP {status_code}")
+        if status_code >= 400:
             raise SourceUnavailableError(
-                f"STJ Informativo rejected request with HTTP {response.status_code}"
+                f"STJ Informativo rejected request with HTTP {status_code}"
             )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError("STJ Informativo requires access-control validation")
         return text
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def parse_stj_informativo_results(
@@ -268,7 +390,8 @@ def _item_to_result(
     title = _extract_title(item, text)
     body = _extract_body(item, title)
     case_number = _extract_case_number(item)
-    document_url = _extract_document_url(item, base_url=base_url)
+    document_links = _extract_document_links(item, base_url=base_url)
+    document_url = document_links["document_url"]
     informativo = _match_group(r"Informativo\s*n[ºo.]?\s*(\d+)", text)
     period = _match_group(r"Per[ií]odo:\s*([^\.]+(?:\d{4})?)", text)
     judging_body = _extract_judging_body(text)
@@ -308,6 +431,8 @@ def _item_to_result(
             "data_julgamento": judgment_date,
             "judgment_date": judgment_date,
             "document_url": document_url,
+            "acordao_url": document_links["acordao_url"],
+            "cnot_url": document_links["cnot_url"],
             "raw_text": text,
         },
     )
@@ -347,15 +472,44 @@ def _extract_case_number(item: HtmlNode) -> str | None:
 
 
 def _extract_document_url(item: HtmlNode, *, base_url: str) -> str | None:
-    fallback: str | None = None
+    return _extract_document_links(item, base_url=base_url)["document_url"]
+
+
+def _extract_document_links(item: HtmlNode, *, base_url: str) -> dict[str, str | None]:
+    """Return the separate STJ CNOT and acórdão links from an informativo item.
+
+    The public informativo page commonly exposes both a ``@CNOT`` note link and
+    one or more links to the underlying decision.  Keeping both links prevents
+    consumers from losing the note when the first anchor happens to be the
+    CNOT navigation link.
+    """
+    acordao_url: str | None = None
+    cnot_url: str | None = None
     for anchor in item.select("a[href]"):
-        text = anchor.text(" ", strip=True)
+        text = _normalize_spaces(anchor.text(" ", strip=True))
         href = str(anchor.get("href") or "")
-        if re.search(r"\b[A-Z]{1,8}\s+\d", text):
-            return urljoin(base_url.rstrip("/") + "/", href.lstrip("/"))
-        if "@CNOT" in href and fallback is None:
-            fallback = urljoin(base_url.rstrip("/") + "/", href.lstrip("/"))
-    return fallback
+        resolved = urljoin(base_url.rstrip("/") + "/", href.lstrip("/"))
+        if acordao_url is None and re.search(r"\b[A-Z]{1,8}\s+\d", text):
+            acordao_url = resolved
+        if "@CNOT" in href and cnot_url is None:
+            cnot_url = resolved
+    if cnot_url is None:
+        # The current STJ response sometimes renders the CNOT target as plain
+        # text (or through a script) instead of an anchor.  Recover only the
+        # official route; do not synthesize an SCON URL from the case number.
+        plain_text = _normalize_spaces(item.text(" ", strip=True))
+        match = re.search(
+            r"((?:https?://[^\s/]+)?/jurisprudencia/externo/informativo/\?livre=@CNOT=[^\s<\"']+)",
+            plain_text,
+            flags=re.I,
+        )
+        if match:
+            cnot_url = urljoin(base_url.rstrip("/") + "/", match.group(1).rstrip(".,;"))
+    return {
+        "document_url": acordao_url or cnot_url,
+        "acordao_url": acordao_url,
+        "cnot_url": cnot_url,
+    }
 
 
 def _extract_judging_body(text: str) -> str | None:

@@ -8,10 +8,9 @@ result contract.
 
 from __future__ import annotations
 
-import time
 from collections.abc import Iterable
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
@@ -34,6 +33,8 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 CATALOG_ROUTES = ("classes", "relatorias", "eleicoes", "normas")
 
@@ -50,7 +51,19 @@ class JusticaEleitoralSjurProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.api_base_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=4_000_000,
+                max_retries=1,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     @property
     def api_base_url(self) -> str:
@@ -129,6 +142,48 @@ class JusticaEleitoralSjurProvider(JurisprudenceProvider):
             pagination_mode="none",
             completeness_contract="catalog_snapshot_only",
             full_text_access="not_available",
+            filter_semantics={
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "text",
+                        "courts",
+                        "types",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "exact_phrase",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "number",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "document_type",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                    )
+                },
+            },
             limitations=[
                 "A busca de decisoes permanece fora do contrato runtime.",
                 "O endpoint principal pode exigir validacao antirrobo/token.",
@@ -144,21 +199,31 @@ class JusticaEleitoralSjurProvider(JurisprudenceProvider):
     def _request_catalog(self, route: str, *, tribunal: str) -> list[Any]:
         if route not in CATALOG_ROUTES:
             raise ValueError(f"Rota de catalogo SJUR desconhecida: {route}")
-        self._respect_rate_limit()
         endpoint = f"/{tribunal.lower()}/sjur-pesquisa-backend/rest/public/pesquisa/{route}"
         url = urljoin(self.api_base_url + "/", endpoint.lstrip("/"))
+        request = TransportRequest(
+            source=self.name,
+            operation=f"catalog_{route}",
+            method="POST",
+            url=url,
+            json_body=[tribunal],
+            headers={"Accept": "application/json", "Content-Type": "application/json"},
+            idempotent=False,
+        )
         try:
-            response = self.session.post(
-                url,
-                json=[tribunal],
-                headers={"Accept": "application/json", "Content-Type": "application/json"},
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-            )
+            response = self.transport.request(request)
         except requests.exceptions.SSLError as exc:
             raise SourceUnavailableError("SJUR/TSE catalog TLS validation failed") from exc
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"SJUR/TSE catalog request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
+            if response.status is TransportStatus.TLS_ERROR:
+                raise SourceUnavailableError("SJUR/TSE catalog TLS validation failed")
+            raise SourceUnavailableError(
+                f"SJUR/TSE catalog transport failed: {response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("SJUR/TSE catalog transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError(f"SJUR/TSE catalog returned HTTP 429 for {route}")
         if response.status_code in {401, 403}:
@@ -210,15 +275,6 @@ class JusticaEleitoralSjurProvider(JurisprudenceProvider):
                 )
             )
         return options
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def _first_value(item: dict[str, Any], *keys: str) -> str:

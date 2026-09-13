@@ -1,0 +1,63 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T18:15:29.153891+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 1,
+  "manifest_sources": [
+    "tjpe_jurisprudencia"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjpe_jurisprudencia"
+  ],
+  "source_completeness": {
+    "tjpe_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "SslVerificationError",
+      "error_message": "A verificacao SSL local impediu a conexao com a fonte publica. Isso costuma indicar cadeia de certificados ausente ou interceptacao corporativa."
+    }
+  },
+  "source_totals": {},
+  "source_total_known": {
+    "tjpe_jurisprudencia": null
+  },
+  "source_access_status": {
+    "tjpe_jurisprudencia": null
+  },
+  "source_extraction_status": {
+    "tjpe_jurisprudencia": null
+  },
+  "errors": [
+    {
+      "source": "tjpe_jurisprudencia",
+      "error_type": "SslVerificationError",
+      "message": "A verificacao SSL local impediu a conexao com a fonte publica. Isso costuma indicar cadeia de certificados ausente ou interceptacao corporativa."
+    }
+  ],
+  "summary": {
+    "sources_requested": 1,
+    "sources_searched": 1,
+    "sources_with_errors": 1,
+    "invalid_records": 0,
+    "total_returned": 0,
+    "deduplicated_total": 0,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

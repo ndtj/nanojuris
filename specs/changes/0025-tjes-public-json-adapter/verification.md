@@ -1,8 +1,8 @@
 # Verification
 
-Status: `proposed` — nenhum adapter, fixture ou alteração de runtime foi
-introduzida neste ciclo. Este pacote registra a decisão e o plano; a
-implementação depende de T02 (revisão de reuso) e T03 (fixtures live).
+Status: `verified_with_limitations` — contrato comum e implementação foram
+desdobrados nos bindings 0044 (CJPG), 0049 (CJSG) e 0067 (turma recursal), com
+fixtures, testes e smoke live bounded; cada collection permanece independente.
 
 ## Comandos e resultados
 
@@ -18,28 +18,34 @@ paridade de dossiê canônico/legado ....... passed
 python tools/validate_sdd.py ............. passed
 ```
 
+Evidência adicional de 2026-09-01:
+`docs/provider-discovery/juscraper-live-smoke-20260901.json` registra
+`tjes` com HTTP 200, um documento e sinal de identidade/ementa. Isso é prova
+de disponibilidade momentânea, não substitui fixtures nem equivalência.
+
 Nenhuma credencial, CAPTCHA ou rota privada foi usada. O endpoint foi
 descoberto no JavaScript da própria página oficial.
 
-## Gates pendentes
+## Gates por binding
 
 | Gate | Requisito | Bloqueio |
 | --- | --- | --- |
-| G-01 revisão de condições de reuso/redistribuição concluída | REQ-008 | T02 |
-| G-02 fixtures sanitizadas de sucesso/vazio/erro/paginação/legado | AC-001..AC-006 | T03 |
-| G-03 `per_page` máximo, ordenação e rate limit confirmados | REQ-003 | T04 |
-| G-04 adapter + parser + testes de contrato passam sem rede | AC-001..AC-007 | T05..T08 |
-| G-05 provider promovido no registro e catálogo regenerado | REQ-007 | T09 |
+| G-01 contrato público e limites | REQ-001..REQ-003 | passed nos bindings 0044/0049/0067 |
+| G-02 fixtures sanitizadas e estados negativos | AC-001..AC-006, AC-008 | passed por binding |
+| G-03 parser, trace e identidade | REQ-004..REQ-006 | passed por binding |
+| G-04 registro, catálogo e matriz | REQ-007, REQ-009 | passed; artefatos regenerados |
+| G-05 produção/coleta em escala | REQ-008 | fora do escopo; nenhum deploy ou publicação |
 
 ## Rastreabilidade
 
 | Requisito | Evidência atual | Status |
 | --- | --- | --- |
-| REQ-001 | design fixa a URL pública; `url` privado de `/health` explicitamente ignorado | especificado |
-| REQ-002 | design define default `pje2g` e proíbe fan-out | especificado |
-| REQ-003 | contrato `page`/`per_page`/`total`/`total_pages` observado live | pendente (G-03) |
-| REQ-004 | tabela de mapeamento canônico por core no design | pendente (G-02) |
-| REQ-005 | matriz de classificação de erro no design | pendente (G-02) |
-| REQ-006 | `SourceTrace` com rota/core/parâmetros | pendente (G-04) |
-| REQ-007 | capability opt-in planejada | pendente (G-05) |
+| REQ-001 | design fixa a URL pública; `url` privado de `/health` explicitamente ignorado | passed |
+| REQ-002 | bindings separados por core/collection | passed |
+| REQ-003 | contrato `page`/`per_page`/`total`/`total_pages` observado live | passed com limites |
+| REQ-004 | mapeamento canônico por core nos bindings | passed |
+| REQ-005 | matriz de classificação de erro nos testes | passed |
+| REQ-006 | `SourceTrace` com rota/core/parâmetros | passed |
+| REQ-007 | capability e catálogo por binding | passed |
 | REQ-008 | escopo não promove produção nem coleta em escala | especificado |
+| REQ-009 | design separa collection de core e T10 liga a topologia | passed |

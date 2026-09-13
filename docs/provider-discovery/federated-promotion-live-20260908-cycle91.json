@@ -1,0 +1,58 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T17:58:22.121628+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 1,
+  "manifest_sources": [
+    "tjrr_juris"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjrr_juris"
+  ],
+  "source_completeness": {
+    "tjrr_juris": {
+      "returned": 10,
+      "reported_total": 14206,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "tjrr_juris": 14206
+  },
+  "source_total_known": {
+    "tjrr_juris": true
+  },
+  "source_access_status": {
+    "tjrr_juris": "public"
+  },
+  "source_extraction_status": {
+    "tjrr_juris": "complete"
+  },
+  "errors": [],
+  "summary": {
+    "sources_requested": 1,
+    "sources_searched": 1,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 1,
+    "deduplicated_total": 10,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

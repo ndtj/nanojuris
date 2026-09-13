@@ -1,0 +1,88 @@
+{
+  "schema_version": "blocked-browser-session-recheck-v1",
+  "observed_at": "2026-09-07",
+  "mode": "ordinary_headless_browser_session",
+  "credentials_used": false,
+  "imported_cookies": false,
+  "proxy_used": false,
+  "stealth_or_impersonation": false,
+  "challenge_solving": false,
+  "policy": "A fresh Chromium session was used only to execute the public page JavaScript and the normal form submit. No challenge token was read, generated, replayed, or altered. CAPTCHA, Turnstile, WAF and HTTP denial remain explicit access states.",
+  "checks": [
+    {
+      "authority": "TJAP",
+      "url": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "status": 403,
+      "title": "Just a moment...",
+      "classification": "access_controlled",
+      "evidence": "Normal browser session reached a Cloudflare challenge page; no public result shell was released."
+    },
+    {
+      "authority": "TJTO",
+      "url": "https://jurisprudencia.tjto.jus.br/",
+      "status": 403,
+      "title": "403 Forbidden",
+      "classification": "access_controlled",
+      "evidence": "Normal browser session received the official host denial."
+    },
+    {
+      "authority": "STJ",
+      "url": "https://scon.stj.jus.br/SCON/",
+      "status": 403,
+      "title": "Just a moment...",
+      "classification": "access_controlled",
+      "evidence": "Normal browser session reached the Cloudflare challenge page."
+    },
+    {
+      "authority": "STF",
+      "url": "https://jurisprudencia.stf.jus.br/pages/search",
+      "status": 403,
+      "title": "403 Forbidden",
+      "classification": "access_controlled",
+      "evidence": "Normal browser session received the official host denial."
+    },
+    {
+      "authority": "TJRN",
+      "url": "https://jurisprudencia.tjrn.jus.br/",
+      "status": 403,
+      "title": "Access Denied",
+      "classification": "access_controlled",
+      "evidence": "Normal browser session received an access-denied response."
+    },
+    {
+      "authority": "TJCE",
+      "url": "https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do",
+      "action": "ordinary form submit with text 'dano moral'",
+      "status": 200,
+      "classification": "access_controlled",
+      "evidence": "The public form loaded, but the normal submit returned the reCAPTCHA-controlled form rather than a decision result."
+    },
+    {
+      "authority": "TJSE",
+      "url": "https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "action": "ordinary form submit with text 'dano moral'",
+      "status": 200,
+      "classification": "access_controlled",
+      "evidence": "The public form loaded, but the normal submit returned the CAPTCHA-controlled form rather than a decision result."
+    },
+    {
+      "authority": "CJF",
+      "urls": [
+        "https://jurisprudencia.cjf.jus.br/index.xhtml",
+        "https://jurisprudencia.cjf.jus.br/unificada/",
+        "https://jurisprudencia.cjf.jus.br/trf1/"
+      ],
+      "status": [200, 404, 404],
+      "classification": "alternate_route_insufficient",
+      "evidence": "The official JSF index loads, while the guessed directory aliases return 404; no tokenless decision-search route was exposed."
+    },
+    {
+      "authority": "TJMG",
+      "url": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+      "status": 200,
+      "classification": "public_form_only",
+      "evidence": "The normal browser session loads the first-degree form; submitting it remains governed by the numeric CAPTCHA documented in the HTTP probe."
+    }
+  ],
+  "decision": "Ordinary browser JavaScript and form submissions did not produce a new public result route. Keep the affected surfaces access_controlled or alternate_route_insufficient; do not classify them as empty and do not add stealth, proxy rotation, token replay, or challenge solving."
+}

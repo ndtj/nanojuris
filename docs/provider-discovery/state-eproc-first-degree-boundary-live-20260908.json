@@ -1,0 +1,45 @@
+{
+  "schema_version": "state-eproc-degree-boundary-v1",
+  "observed_at": "2026-09-08",
+  "scope": "bounded_public_first_degree_boundary_check",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "bypass_used": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "first",
+    "instance": "first",
+    "page": 1,
+    "page_size": 1
+  },
+  "results": [
+    {
+      "authority": "TJRJ",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "classification": "mixed_degree_rejected",
+      "error_type": "ParserContractChangedError",
+      "error": "results outside requested degree=first",
+      "http_status": 200,
+      "returned_to_caller": 0,
+      "converted_to_empty": false,
+      "decision": "The public eproc route exposed appellate records for the first-degree request; keep CJPG unproven."
+    },
+    {
+      "authority": "TJSC",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "classification": "mixed_degree_rejected",
+      "error_type": "ParserContractChangedError",
+      "error": "results outside requested degree=first",
+      "http_status": 200,
+      "returned_to_caller": 0,
+      "converted_to_empty": false,
+      "decision": "The public eproc route exposed appellate or recursal records for the first-degree request; keep CJPG unproven."
+    }
+  ],
+  "route_assessment": {
+    "official_origin_filter_observed": true,
+    "distinct_first_degree_origin_for_tjrj_or_tjsc": false,
+    "next_action": "Locate a separate official first-degree jurisprudence surface; do not retry the same mixed corpus."
+  },
+  "conclusion": "Both public eproc adapters preserve the degree contract by rejecting incompatible records. The bounded check adds no CJPG evidence and does not classify the response as authoritative_empty."
+}

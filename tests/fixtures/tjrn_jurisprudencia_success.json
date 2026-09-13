@@ -1,0 +1,38 @@
+{
+  "hits": {
+    "total": {"value": 2, "relation": "eq"},
+    "hits": [
+      {
+        "_id": "doc-001",
+        "_source": {
+          "id_documento": "doc-001",
+          "numero_processo": "0000001-00.2024.8.20.0001",
+          "ementa": "Responsabilidade civil por dano moral em relacao de consumo.",
+          "inteiro_teor": "Decisao publica de fixture sanitizada.",
+          "magistrado": "Relator de Fixture",
+          "orgao_julgador": "Segunda Camara Civel",
+          "classe_judicial": "Apelacao Civel",
+          "dt_julgamento": "2024-03-10",
+          "dt_publicacao": "2024-03-15",
+          "grau": "2",
+          "sistema": "PJe"
+        }
+      },
+      {
+        "_id": "doc-002",
+        "_source": {
+          "id_documento": "doc-002",
+          "numero_processo": "0000002-00.2024.8.20.0001",
+          "ementa": "Contrato administrativo e equilibrio economico-financeiro.",
+          "inteiro_teor": "Segundo texto publico sanitizado.",
+          "magistrado": "Magistrado de Fixture",
+          "orgao_julgador": "Primeira Camara Civel",
+          "classe_judicial": "Mandado de Seguranca",
+          "dt_publicacao": "2024-03-20",
+          "grau": "1",
+          "sistema": "SAJ"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "observed_at": "2026-09-02T17:01:39Z",
+  "mode": "live_bounded_public_contract",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "request_policy": {
+    "frequency": "single bounded request per scenario",
+    "post_payloads_invented": false,
+    "captcha_or_waf_bypassed": false,
+    "body_recorded": false
+  },
+  "command_groups": [
+    {
+      "command": "NANOJURIS_RUN_LIVE=1 pytest -q tests/test_bnp_pangea_live.py tests/test_tjes_cjpg_live.py tests/test_tjes_jurisprudencia_live.py tests/test_tjba_graphql_live.py tests/test_stj_html_parsers_live.py tests/test_stj_dados_abertos_live.py",
+      "result": "9 passed"
+    },
+    {
+      "command": "NANOJURIS_RUN_TJSP_CJPG_LIVE=1 NANOJURIS_RUN_TJSP_LIVE=1 pytest -q tests/test_tjsp_cjpg_live.py tests/test_tjsp_cjsg_live.py",
+      "result": "2 passed"
+    }
+  ],
+  "scenarios": [
+    {
+      "test": "test_live_bnp_catalog_has_core_courts_and_species",
+      "source_id": "bnp_pangea",
+      "status": "valid",
+      "record_count_observed": null,
+      "http_status": 200,
+      "evidence": "catalog and source trace assertions passed"
+    },
+    {
+      "test": "test_live_bnp_search_returns_trace_and_result",
+      "source_id": "bnp_pangea",
+      "status": "valid",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "evidence": "ICMS search returned one result with source trace"
+    },
+    {
+      "test": "test_live_bnp_search_without_filters_defaults_to_full_catalog",
+      "source_id": "bnp_pangea",
+      "status": "valid",
+      "record_count_observed": 3,
+      "http_status": 200,
+      "evidence": "unfiltered search returned results and populated catalog filters"
+    },
+    {
+      "test": "test_tjes_cjpg_live_public_json_contract",
+      "source_id": "tjes_cjpg",
+      "status": "valid",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "evidence": "public JSON, hash, non-empty response and pje1g/full_text assertions passed"
+    },
+    {
+      "test": "test_tjes_cjsg_live_public_json_contract",
+      "source_id": "tjes_jurisprudencia",
+      "status": "valid",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "evidence": "public JSON, hash, non-empty response and pje2g/summary assertions passed"
+    },
+    {
+      "test": "test_live_tjba_search_and_public_full_text",
+      "source_id": "tjba_graphql",
+      "status": "valid",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "evidence": "search and public document extraction completed with hash"
+    },
+    {
+      "test": "test_live_stj_informativo_uses_shared_html_parser",
+      "source_id": "stj_informativo",
+      "status": "valid",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "evidence": "HTML parser returned a document URL"
+    },
+    {
+      "test": "test_live_stj_scon_uses_shared_html_parser_or_reports_access_state",
+      "source_id": "stj_scon",
+      "status": "blocked_access",
+      "record_count_observed": 0,
+      "http_status": null,
+      "error_type": "AccessControlRequiredError",
+      "evidence": "provider explicitly reported access-control validation; no empty-result claim"
+    },
+    {
+      "test": "test_live_stj_open_data_catalog_and_sync_plan_are_metadata_only",
+      "source_id": "stj_dados_abertos_jurisprudencia",
+      "status": "valid",
+      "record_count_observed": null,
+      "http_status": 200,
+      "evidence": "public CKAN dataset catalog, description and dry-run sync plan passed"
+    },
+    {
+      "test": "test_live_tjsp_cjpg_public_search_contract",
+      "source_id": "tjsp_cjpg",
+      "status": "valid",
+      "record_count_observed": 1,
+      "http_status": 200,
+      "evidence": "public search returned numbered full-text result with trace"
+    },
+    {
+      "test": "test_live_tjsp_cjsg_search_or_access_control",
+      "source_id": "tjsp_cjsg",
+      "status": "blocked_access",
+      "record_count_observed": 0,
+      "http_status": null,
+      "error_type": "AccessControlRequiredError",
+      "evidence": "captcha/access-control markers reported; no bypass attempted"
+    }
+  ],
+  "summary": {
+    "scenarios": 11,
+    "valid": 9,
+    "blocked_access": 2,
+    "source_ids_with_valid_data": 7,
+    "source_ids_blocked_access": 2,
+    "promotion_performed": false
+  },
+  "interpretation": "Evidence is a point-in-time public contract check. It does not promote providers, prove national coverage, or guarantee future availability."
+}

@@ -60,3 +60,48 @@ def test_ledger_reconciles_promoted_candidate_from_registry():
     assert ledger["summary"]["runtime_items"] == 2
     assert ledger["summary"]["candidate_items"] == 0
     assert all(item["status"] == "implemented_with_local_evidence" for item in ledger["items"])
+
+
+def test_ledger_reconciles_promoted_source_with_stale_candidate_snapshot():
+    ledger = _module().build_ledger(
+        {
+            "generated_at": "2026-09-05T00:00:00+00:00",
+            "mode": "live_bounded",
+            "catalog_candidates": [
+                {
+                    "source": "tjrn_jurisprudencia",
+                    "todo": [
+                        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+                        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
+                    ],
+                }
+            ],
+        }
+    )
+
+    assert ledger["summary"]["runtime_items"] == 2
+    assert ledger["summary"]["candidate_items"] == 0
+    assert all(item["status"] == "implemented_with_local_evidence" for item in ledger["items"])
+
+
+def test_candidate_access_block_takes_precedence_over_local_adapter_evidence():
+    module = _module()
+    module._catalog_blocked_sources.cache_clear()
+    module._catalog_blocked_sources = lambda: frozenset({"candidate_blocked"})
+    ledger = module.build_ledger(
+        {
+            "generated_at": "2026-08-20T00:00:00+00:00",
+            "mode": "live_bounded",
+            "catalog_candidates": [
+                {
+                    "source": "candidate_blocked",
+                    "todo": ["criar adapter somente apÃ³s contrato"],
+                    "metrics": {"statuses": {"candidate": 1}},
+                }
+            ],
+        }
+    )
+
+    # No local adapter exists for the synthetic source, but the catalog block
+    # must still be represented explicitly rather than as a promotion queue.
+    assert ledger["items"][0]["status"] == "blocked_external"

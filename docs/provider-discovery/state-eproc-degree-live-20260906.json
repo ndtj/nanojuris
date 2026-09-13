@@ -1,0 +1,111 @@
+{
+  "schema_version": "state-eproc-degree-live-v1",
+  "generated_at": "2026-09-06T04:42:07+00:00",
+  "mode": "bounded_public_http",
+  "query": {
+    "text": "responsabilidade civil",
+    "all_words": "",
+    "any_words": "",
+    "without_words": "",
+    "exact_phrase": "",
+    "updated_from": "",
+    "updated_to": "",
+    "published_from": "",
+    "published_to": "",
+    "include_cancelled": false,
+    "order_by": "Text",
+    "number": "",
+    "rapporteur": "",
+    "party_name": "",
+    "party_document": "",
+    "lawyer_name": "",
+    "oab": "",
+    "precatory_number": "",
+    "police_document": "",
+    "cda": "",
+    "source_origin": "",
+    "source_origins": [],
+    "fetch_details": false,
+    "courts": [],
+    "types": [],
+    "page": 1,
+    "page_size": 1,
+    "case_class": "",
+    "judging_body": "",
+    "degree": "second",
+    "instance": "",
+    "branch": "",
+    "legal_area": "",
+    "authority": "",
+    "collection": "",
+    "document_type": "",
+    "decision_type": "",
+    "judgment_date_from": "",
+    "judgment_date_to": ""
+  },
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjrj_eproc_jurisprudencia",
+      "classification": "reachable_valid_data",
+      "returned": 1,
+      "reported_total": null,
+      "total_known": false,
+      "degrees": [
+        "second"
+      ],
+      "identities": [
+        {
+          "id": "tjrj-eproc-jurisprudencia-191785336679117570546122024996",
+          "court": "TJRJ",
+          "source": "tjrj_eproc_jurisprudencia"
+        }
+      ],
+      "trace": {
+        "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "http_status": 200,
+        "final_url": "https://eproc1g.tjrj.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "response_bytes": 597314,
+        "content_sha256": "fb16f551ea68dc52d4bffada074484c423fb2a6d3b52c213e2b80c608df39b46"
+      }
+    },
+    {
+      "source_id": "tjsc_eproc_jurisprudencia",
+      "classification": "reachable_valid_data",
+      "returned": 1,
+      "reported_total": null,
+      "total_known": false,
+      "degrees": [
+        "second"
+      ],
+      "identities": [
+        {
+          "id": "tjsc-eproc-jurisprudencia-321788610358758333589883632476",
+          "court": "TJSC",
+          "source": "tjsc_eproc_jurisprudencia"
+        }
+      ],
+      "trace": {
+        "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "http_status": 200,
+        "final_url": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "response_bytes": 1221035,
+        "content_sha256": "db6e6713856f00c3b7a4df3fd9f3d042e4ee087f0a0d03ec0fd9a5c88f33c3f6"
+      }
+    }
+  ],
+  "summary": {
+    "sources": 2,
+    "search_valid": 2,
+    "search_empty": 0,
+    "search_blocked": 0,
+    "search_schema_invalid": 0,
+    "search_errors": 0
+  },
+  "limitations": [
+    "A amostra e bounded e nao prova estabilidade permanente.",
+    "Somente metadados, identidades e hashes foram persistidos; corpos nao foram gravados.",
+    "O filtro de segundo grau e validado pelo parser; o total remoto pode ficar desconhecido."
+  ]
+}

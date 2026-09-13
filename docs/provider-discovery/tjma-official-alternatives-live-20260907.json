@@ -1,0 +1,52 @@
+{
+  "checked_at": "2026-09-07",
+  "source": "tjma_jurisconsult",
+  "authority": "TJMA",
+  "routes_checked": [
+    {
+      "url": "https://jurisconsult.tjma.jus.br/",
+      "method": "GET",
+      "status": 200,
+      "classification": "official_application_shell"
+    },
+    {
+      "url": "https://apijuris.tjma.jus.br/v1/jurisprudencia/lista_relatorios",
+      "method": "GET",
+      "status": 200,
+      "classification": "public_catalog_only"
+    },
+    {
+      "url": "https://apijuris.tjma.jus.br/v1/sg/jurisprudencias/processos",
+      "method": "GET",
+      "status": "not_submitted",
+      "classification": "captcha_token_required",
+      "note": "A rota oficial exige tokenG/keyId; nenhum desafio foi criado, reutilizado ou contornado."
+    },
+    {
+      "url": "https://www.tjma.jus.br/jurisprudencia",
+      "method": "GET",
+      "status": 200,
+      "classification": "institutional_portal_no_public_search_contract"
+    },
+    {
+      "url": "https://www.tjma.jus.br/robots.txt",
+      "method": "GET",
+      "status": 200,
+      "classification": "robots_public_no_jurisprudence_api"
+    },
+    {
+      "url": "https://apijuris.tjma.jus.br/v1/openapi.json",
+      "method": "GET",
+      "status": 404,
+      "classification": "no_public_openapi"
+    },
+    {
+      "url": "https://www.tjma.jus.br/api/v1/portal/dados-abertos/projetos",
+      "method": "GET",
+      "status": 200,
+      "classification": "official_open_data_non_jurisprudence",
+      "observed": "The public JSON lists institutional projects and strategic metrics; it exposes no decision records, full text or jurisprudence search contract."
+    }
+  ],
+  "conclusion": "Nenhuma rota oficial alternativa pública, sem CAPTCHA, foi encontrada. TJMA permanece access_controlled para resultados; catálogos públicos não contam como jurisprudência textual."
+}

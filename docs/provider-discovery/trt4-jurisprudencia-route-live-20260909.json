@@ -1,0 +1,59 @@
+{
+  "provider": "trt4_jurisprudencia",
+  "authority": "TRT4",
+  "branch": "labor",
+  "degree": "second",
+  "collection": "JURISPRUDENCIA",
+  "source": "https://pesquisatextual.trt4.jus.br/",
+  "discovery": {
+    "official_portal": "https://www.trt4.jus.br/portais/trt4/consultas/jurisprudencia/acordaos",
+    "official_search_name": "Pesquisa textual em decisões publicadas",
+    "known_document_route": "https://pesquisatextual.trt4.jus.br/pesquisas/rest/cache/acordao/pje/"
+  },
+  "bounded_attempt": {
+    "method": "GET",
+    "attempted_at": "2026-09-09",
+    "user_agent": "NanoJuris-research/1.0",
+    "credentials": false,
+    "bypass": false,
+    "requests": [
+      {
+        "url": "https://pesquisatextual.trt4.jus.br/",
+        "http_status": 403,
+        "content_type": "text/html",
+        "bytes": 919,
+        "sha256": "a8d447fba4eb118cd46fe525b6d1f3df4757ef2b4076eafec8ac924c80402400",
+        "classification": "access_blocked",
+        "body_signature": "CloudFront request blocked"
+      },
+      {
+        "url": "https://pesquisatextual.trt4.jus.br/pesquisas/",
+        "http_status": 403,
+        "content_type": "text/html",
+        "bytes": 919,
+        "sha256": "e1f8107c55a2ddd8f92de244299eef0c1e8e75c23926b70c12f228d2f653afd8",
+        "classification": "access_blocked",
+        "body_signature": "CloudFront request blocked"
+      },
+      {
+        "url": "https://pesquisatextual.trt4.jus.br/pesquisas/rest/cache/acordao/pje/",
+        "http_status": 403,
+        "content_type": "text/html",
+        "bytes": 919,
+        "sha256": "2fd59f4db2f29db48f20511397815ca195f12f7b824679235c9c90b1fcd17dca",
+        "classification": "access_blocked",
+        "body_signature": "CloudFront request blocked"
+      }
+    ]
+  },
+  "classification": {
+    "source_status": "access_blocked",
+    "contract_status": "discovery_only",
+    "live_status": "access_blocked",
+    "federation_status": "disabled",
+    "runtime": false,
+    "results": null,
+    "reason": "The official TRT4 portal documents a textual second-degree decision search, but the public search host and known document route reject bounded unauthenticated requests with HTTP 403. No access control was bypassed."
+  },
+  "next_action": "Keep as official discovery evidence and recheck only after an official public alternative or authorized user-assisted flow is available."
+}

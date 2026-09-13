@@ -1,0 +1,31 @@
+{
+  "schema_version": "provider-live-parity-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJTO",
+  "surface": ["CJSG", "CJPG"],
+  "reference_repository": "https://github.com/jtrecenti/juscraper",
+  "reference_revision": "604c1dd70d6f313011cc1079790febe6c71807e2",
+  "route": "https://jurisprudencia.tjto.jus.br/consulta.php",
+  "query": {
+    "text": "dano moral",
+    "pages": [1]
+  },
+  "runs": [
+    {
+      "method": "POST",
+      "operation": "TJTOScraper.cjsg",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "retries": 3
+    },
+    {
+      "method": "POST",
+      "operation": "TJTOScraper.cjpg",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "retries": 3
+    }
+  ],
+  "conclusion": "The current Juscraper implementation does not obtain a live TJTO result from this public route either. Its passing provider tests are fixture/contract evidence, not current availability evidence. NanoJuris keeps TJTO blocked and does not classify HTTP 403 as an empty result.",
+  "safety": "Only the repository's ordinary HTTPS request path was executed. No CAPTCHA/WAF bypass, credential use, proxy rotation, TLS disablement, or token generation was attempted."
+}

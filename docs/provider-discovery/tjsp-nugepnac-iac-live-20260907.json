@@ -1,0 +1,44 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjsp_nugepnac",
+  "source_id": "tjsp_nugepnac",
+  "surface": "iac",
+  "checked_at": "2026-09-07",
+  "source": "tjsp_nugepnac",
+  "source_url": "https://www.tjsp.jus.br/NugepNac/Iac",
+  "classification": "available",
+  "http_status": 200,
+  "access_status": "public",
+  "list_response_bytes": 50288,
+  "record_count_observed": 6,
+  "sample_detail": {
+    "url": "https://www.tjsp.jus.br/NugepNac/Iac/DetalheTema?codigoNoticia=52107&pagina=1",
+    "http_status": 200,
+    "response_bytes": 53894,
+    "theme_number": 2,
+    "precedent_type": "iac",
+    "question_present": true,
+    "thesis_present": false,
+    "related_links_observed": 2,
+    "document_link_observed": 1
+  },
+  "contract": {
+    "list_method": "GET",
+    "detail_method": "GET",
+    "detail_path": "/NugepNac/Iac/DetalheTema?codigoNoticia=<id>&pagina=1",
+    "pagination": "catalog_window",
+    "ordering": "source_page_order",
+    "thesis_optional": true,
+    "process_search_is_document": false
+  },
+  "fixture_coverage": [
+    "tjsp_nugepnac_iac_list.html",
+    "tjsp_nugepnac_iac_detail_no_thesis.html",
+    "related process link without a decision-document link"
+  ],
+  "limitations": [
+    "The IAC catalog is a curated precedent surface, not the complete TJSP decision corpus.",
+    "A process-search URL is preserved as related context and is never promoted to a document URL.",
+    "Some CJSG links can require an access-control validation; no captcha or access control is bypassed."
+  ]
+}

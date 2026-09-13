@@ -6,7 +6,7 @@ import pytest
 
 from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import ParserContractChangedError, UnsupportedQueryError
+from nanojuris.errors import ParserContractChangedError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.trf5_jurisprudencia import (
     Trf5JurisprudenciaProvider,
@@ -31,11 +31,26 @@ HTML = """
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
-def test_trf5_rejects_unproven_remote_pagination() -> None:
-    provider = Trf5JurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+def test_trf5_uses_result_form_offset_for_pagination() -> None:
+    session = FakeSession(
+        [
+            FakeResponse(HTML, "https://jurisprudencia.trf5.jus.br/jurisprudencia/pesquisa.wsp"),
+            FakeResponse(
+                HTML, "https://jurisprudencia.trf5.jus.br/jurisprudencia/resultado_pesquisa.wsp"
+            ),
+            FakeResponse(
+                HTML, "https://jurisprudencia.trf5.jus.br/jurisprudencia/resultado_pesquisa.wsp"
+            ),
+        ]
+    )
+    provider = Trf5JurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
-    with pytest.raises(UnsupportedQueryError, match="paginacao remota comprovada"):
-        provider.search(JurisprudenceQuery(text="dano moral", page=2))
+    page = provider.search(JurisprudenceQuery(text="dano moral", page=2, page_size=1))
+
+    assert page.page == 2
+    assert page.pagination_mode == "offset"
+    assert len(session.calls) == 3
+    assert session.calls[2]["kwargs"]["data"]["grid.pesquisa.next"] == "2"  # type: ignore[index]
 
 
 class FakeResponse:
@@ -69,6 +84,14 @@ def test_parse_trf5_results_maps_html_row() -> None:
     assert page[0].type == "acordao"
     assert page[0].raw["orgao_julgador"] == "Primeira Turma - JFSE"
     assert "DANO MORAL" in (page[0].summary or "")
+    assert page[0].authority == "TRF5"
+    assert page[0].branch == "federal"
+    assert page[0].degree == "second"
+    assert page[0].instance == "second"
+    assert page[0].collection == "JURISPRUDENCIA"
+    assert page[0].judging_body == "Primeira Turma - JFSE"
+    assert page[0].document_type == "acordao"
+    assert page[0].document_url is not None
 
 
 def test_parse_trf5_fixture_maps_public_result_and_judgment_date() -> None:
@@ -83,6 +106,8 @@ def test_parse_trf5_fixture_maps_public_result_and_judgment_date() -> None:
     assert page[0].id == "trf5-jurisprudencia-90001"
     assert page[0].judgment_date == "10/03/2025"
     assert page[0].access_status.value == "public"
+    assert page[0].degree == "second"
+    assert page[0].document_url is not None
 
 
 def test_trf5_parser_accepts_empty_fixture() -> None:

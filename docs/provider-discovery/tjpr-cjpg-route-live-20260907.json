@@ -1,0 +1,26 @@
+{
+  "schema_version": "provider-live-probe-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJPR",
+  "surface": "CJPG",
+  "route": "https://portal.tjpr.jus.br/pesquisa_sentenca/publico/sentenca.do",
+  "source_page": "https://www.tjpr.jus.br/sentenca-digital",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "checks": [
+    {
+      "method": "GET",
+      "http_status": 200,
+      "classification": "public_form",
+      "details": "The official form exposes first-degree sentence search and public comarca/vara autocomplete endpoints."
+    },
+    {
+      "method": "POST",
+      "http_status": 200,
+      "classification": "process_specific_lookup",
+      "details": "The form requires a valid CNJ number together with comarca, vara and judge identifiers; a bounded query without a matching process returned the authoritative empty table. It does not expose a general text-searchable corpus suitable for federation."
+    }
+  ],
+  "decision": "Do not implement or count this route as TJPR CJPG. Keep it available as a future process-specific document lookup only; it is not equivalent to the public CJSG jurisprudence corpus.",
+  "safety": "Only ordinary official HTTPS GET/POST requests were used with bounded parameters. No enumeration, credentials, CAPTCHA solving, session replay, or access-control circumvention was attempted."
+}

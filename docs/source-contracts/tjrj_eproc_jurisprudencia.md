@@ -88,12 +88,17 @@ um possivel dado inconsistente da origem.
 
 ## Fixtures necessarias
 
-- [ ] Sucesso com termo (`dano moral`).
-- [ ] Sucesso por numero de processo.
-- [ ] Resultado vazio.
-- [ ] Paginacao ou limite de resultados.
-- [ ] Inteiro teor publico com `id_jurisprudencia` real.
-- [ ] Resposta de acesso bloqueado/indisponibilidade.
+- [x] `tests/fixtures/tjrj_eproc_jurisprudencia_result.html` (replay sintetico
+  com UF RJ e processo `.8.19`).
+- [x] `tests/fixtures/tjrj_eproc_jurisprudencia_empty.html` (pagina publica sem
+  cards).
+- [x] `tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html` (desafio
+  sintetico, nunca tratado como vazio).
+- [x] Sucesso por numero de processo.
+- [x] Resultado vazio.
+- [x] Paginacao ou limite de resultados.
+- [x] Inteiro teor publico com `id_jurisprudencia` real.
+- [x] Resposta de acesso bloqueado/indisponibilidade.
 
 ## MCP e agentes
 
@@ -111,13 +116,26 @@ o host, tribunal, identificador e trace do TJRJ. O runtime classifica resposta
 sem cards como alteracao de contrato, sem converter o caso em vazio. A base
 eproc continua separada do eJURIS legado.
 
+## Fechamento do contrato local
+
+- [x] Sucesso por numero de processo: `tests/fixtures/tjrj_eproc_jurisprudencia_result.html`.
+- [x] Resultado vazio: `tests/fixtures/tjrj_eproc_jurisprudencia_empty.html`.
+- [x] Paginacao/limite: janela de tres paginas validada na evidencia live de
+      2026-08-16; o parser preserva o limite remoto.
+- [x] Inteiro teor publico: o teste de runtime valida `id_jurisprudencia` e
+      `SourceTrace` sem persistir corpo externo.
+- [x] Controle de acesso: `tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html`.
+- [x] O parser compartilhado foi comparado com os labels especificos do TJRJ
+      e a base continua separada do eJURIS legado.
+- [x] Testes opt-in e chamadas live permanecem bounded e sem bypass.
+
+Os artefatos de resultado, vazio e controle sao sanitizados; a evidencia live
+continua sendo uma fotografia de disponibilidade e nao implica SLA.
+
 ## Proximos passos
 
-1. Capturar uma fixture pequena e estavel de sucesso, vazio e detalhe.
-2. Reusar o parser eproc somente depois de comparar todos os labels do TJRJ.
-3. Validar o link de inteiro teor com um identificador real.
-4. Adicionar fixtures especificas do TJRJ antes de coleta em escala.
-5. Adicionar teste live opt-in com baixa frequencia e limite pequeno.
+Monitorar periodicamente a disponibilidade publica e qualquer alteracao do
+markup, mantendo a coleta bounded e sem bypass de controles de acesso.
 
 ## Validacao live 2026-08-11
 
@@ -136,6 +154,16 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
   mantendo rate limit e tratamento explícito de alteração de fonte.
 
 Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.
+
+## Rechecagem de primeiro grau - 2026-09-10
+
+Uma sonda bounded repetiu o fluxo público do eproc/TJRJ com `degree=first`,
+`instance=first` e origem `primeiro_grau`. A fonte respondeu HTTP 200, mas os
+cards não apresentaram identidade consistente de primeiro grau; o parser rejeitou
+a página como incompatível. A evidência redigida está em
+`docs/provider-discovery/tjrj-first-degree-eproc-boundary-live-20260910.json`.
+O binding continua restrito ao contrato de segundo grau e não é contado como
+CJPG.
 
 ## Referencias oficiais
 

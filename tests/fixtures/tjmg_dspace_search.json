@@ -1,0 +1,32 @@
+{
+  "_embedded": {
+    "searchResult": {
+      "page": {"number": 0, "size": 1, "totalPages": 1, "totalElements": 1},
+      "_embedded": {
+        "objects": [
+          {
+            "_embedded": {
+              "indexableObject": {
+                "id": "item-001",
+                "name": "APELAÇÃO CÍVEL Nº 1.0024.97.001459-3/001",
+                "handle": "tjmg/4107",
+                "metadata": {
+                  "dc.title": [{"value": "APELAÇÃO CÍVEL Nº 1.0024.97.001459-3/001"}],
+                  "dc.description.abstract": [{"value": "Ementa: Apelação. Cobrança. Responsabilidade civil."}],
+                  "dc.date.issued": [{"value": "2007-11-14"}],
+                  "dc.contributor.author": [
+                    {"value": "Minas Gerais. Tribunal de Justiça. 11ª Câmara Cível"},
+                    {"value": "Desembargador TESTE (Relator)"}
+                  ]
+                },
+                "_links": {
+                  "self": {"href": "https://bd.tjmg.jus.br/server/api/core/items/item-001"}
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

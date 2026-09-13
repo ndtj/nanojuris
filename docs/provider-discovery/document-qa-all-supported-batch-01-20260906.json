@@ -1,0 +1,242 @@
+{
+  "generated_at": "2026-09-06T09:27:27.501368+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "stj_scon",
+      "stm_jurisprudencia",
+      "tjac_cjsg",
+      "tjal_cjsg",
+      "tjam_cjsg"
+    ]
+  },
+  "sources": [
+    {
+      "source": "stj_scon",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "AccessControlRequiredError",
+      "error": "STJ/SCON requires access-control validation"
+    },
+    {
+      "source": "stm_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 3661,
+        "source": "stm_jurisprudencia"
+      },
+      "result": {
+        "id": "stm-jurisprudencia-bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "case_number": "7000060-45.2025.7.11.0011",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "access_status": null,
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "document_url",
+          "judgment_date",
+          "labels",
+          "publication_date",
+          "reviewer",
+          "source_url",
+          "subject",
+          "uuid"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "stm-jurisprudencia-document-bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "full_text_length": 289806,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "content_type": "application/pdf",
+        "response_bytes": 305408,
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjac_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 22857,
+        "source": "tjac_cjsg"
+      },
+      "result": {
+        "id": "tjac-cjsg-2510362-0",
+        "case_number": "0718497-14.2023.8.01.0001",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://esaj.tjac.jus.br/cjsg/getArquivo.do?cdAcordao=2510362&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "AccessControlRequiredError",
+        "error": "TJAC/CJSG requires captcha or another access-control step (has_uuid_captcha_field, has_recaptcha_widget, has_access_control_route)"
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://esaj.tjac.jus.br/cjsg/getArquivo.do?cdAcordao=2510362&cdForo=0",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 10707,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "AccessControlRequiredError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjal_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 167564,
+        "source": "tjal_cjsg"
+      },
+      "result": {
+        "id": "tjal-cjsg-867588-0",
+        "case_number": "0808395-09.2026.8.02.0000",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://www2.tjal.jus.br/cjsg/getArquivo.do?cdAcordao=867588&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "AccessControlRequiredError",
+        "error": "TJAL/CJSG requires captcha or another access-control step (has_uuid_captcha_field, has_recaptcha_widget, has_access_control_route)"
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://www2.tjal.jus.br/cjsg/getArquivo.do?cdAcordao=867588&cdForo=0",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 10706,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "AccessControlRequiredError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjam_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 46049,
+        "source": "tjam_cjsg"
+      },
+      "result": {
+        "id": "tjam-cjsg-3363939-0",
+        "case_number": "0708349-62.2020.8.04.0001",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://consultasaj.tjam.jus.br/cjsg/getArquivo.do?cdAcordao=3363939&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "AccessControlRequiredError",
+        "error": "TJAM/CJSG requires captcha or another access-control step (has_uuid_captcha_field, has_recaptcha_widget, has_access_control_route)"
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://consultasaj.tjam.jus.br/cjsg/getArquivo.do?cdAcordao=3363939&cdForo=0",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 10707,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "AccessControlRequiredError"
+        }
+      ],
+      "status": "partial"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 4,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 1,
+    "public_url_reachable": 4,
+    "public_url_document_like": 1,
+    "document_probe_failures": 3,
+    "partial": 3,
+    "errors": 1
+  }
+}

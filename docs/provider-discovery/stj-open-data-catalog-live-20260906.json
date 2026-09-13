@@ -1,0 +1,18 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "source": "stj_dados_abertos_jurisprudencia",
+  "observed_at": "2026-09-06T09:16:00-03:00",
+  "surface": "catalog",
+  "classification": "valid",
+  "http_status": 200,
+  "access_status": "public",
+  "record_count_observed": 11,
+  "reported_total": 11,
+  "extraction_status": "complete",
+  "endpoint": "https://dadosabertos.web.stj.jus.br/api/3/action/package_search",
+  "note": "Catálogo CKAN consultado; nenhum recurso de grande porte foi baixado.",
+  "limitations": [
+    "A evidência valida metadados do catálogo e não substitui sincronização de recursos.",
+    "O provider permanece catalog-only e fora da busca remota de decisões."
+  ]
+}

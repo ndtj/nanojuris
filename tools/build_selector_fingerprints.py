@@ -18,8 +18,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(ROOT / "src"))
+SOURCE_ROOT = str(ROOT / "src")
+if SOURCE_ROOT in sys.path:
+    sys.path.remove(SOURCE_ROOT)
+sys.path.insert(0, SOURCE_ROOT)
 
 from bs4 import BeautifulSoup  # noqa: E402
 

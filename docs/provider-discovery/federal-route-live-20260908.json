@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-08",
+  "mode": "bounded_public_http",
+  "raw_content_persisted": false,
+  "sources": [
+    {
+      "source_id": "trf2_eproc_jurisprudencia",
+      "surface": "TRF2/federal/second/JURISPRUDENCIA",
+      "endpoint": "POST https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "query": {"text": "aposentadoria", "page_size": 1},
+      "classification": "route_validated",
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "reported_total": 228086,
+      "record_count_observed": 1,
+      "result": {
+        "id": "trf2-eproc-jurisprudencia-501787860726878989490823231735",
+        "case_number": "5003658-92.2025.4.02.5006",
+        "document_type": "acordao",
+        "authority": "TRF2",
+        "branch": "federal",
+        "degree": "second",
+        "instance": "second",
+        "source_origin": "ES",
+        "judging_body": "2ª Turma Recursal do Espírito Santo",
+        "full_text_observed": true
+      },
+      "detail": {
+        "classification": "public_text",
+        "endpoint": "GET .../download_inteiro_teor&id_jurisprudencia=<id>",
+        "content_type": "text/html",
+        "response_bytes": 160114,
+        "text_present": true,
+        "sha256": "73d1879e99530cedaac54a6dc7c93d48cbf6ba10c1662c8f7c73e24758812617"
+      },
+      "limitations": [
+        "Consulta limitada a uma página e um identificador; nenhum corpo foi persistido.",
+        "O resultado é de Turma Recursal da origem ES, ainda que a superfície seja TRF2/eproc; a origem deve permanecer explícita.",
+        "Nenhuma proteção de acesso foi contornada."
+      ]
+    },
+    {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "surface": "TRF4/federal/second/JURISPRUDENCIA",
+      "endpoint": "POST https://jurisprudencia.trf4.jus.br/eproc2trf4/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+      "query": {"text": "aposentadoria", "page_size": 1},
+      "classification": "route_validated",
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "reported_total": 1749378,
+      "record_count_observed": 1,
+      "result": {
+        "id": "trf4-eproc-jurisprudencia-41788853103365155184849695204",
+        "case_number": "5000417-33.2026.4.04.7201",
+        "document_type": "monocratica",
+        "authority": "TRF4",
+        "branch": "federal",
+        "degree": "second",
+        "instance": "second",
+        "source_origin": "SC",
+        "judging_body": "9ª Turma",
+        "full_text_observed": true
+      },
+      "detail": {
+        "classification": "public_text",
+        "endpoint": "GET .../download_inteiro_teor&id_jurisprudencia=<id>",
+        "content_type": "text/html",
+        "response_bytes": 0,
+        "text_present": true,
+        "sha256": null
+      },
+      "limitations": [
+        "Consulta limitada a uma página e um identificador; nenhum corpo foi persistido.",
+        "A rota de detalhe devolveu texto ao parser, mas não expôs bytes/hash pelo adapter atual.",
+        "Nenhuma proteção de acesso foi contornada."
+      ]
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "surface": "TRF1/federal/second/JURISPRUDENCIA",
+      "endpoint": "GET https://jurisprudencia.cjf.jus.br/trf1/index.xhtml",
+      "classification": "blocked_external",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 16687,
+      "record_count_observed": 0,
+      "markers": ["captcha", "recaptcha"],
+      "content_sha256": "f671f48e903e67aa348968d46673d8d195a4f04afd7407557c0c6c1f4bed2376",
+      "attempted_at": "2026-09-08",
+      "evidence_ref": "docs/provider-discovery/cjf-trf1-live-recheck-20260901-cycle8.json",
+      "limitations": [
+        "HTML de controle de acesso não foi convertido em vazio autoritativo.",
+        "Nenhum CAPTCHA, WAF ou controle de acesso foi contornado."
+      ]
+    }
+  ]
+}

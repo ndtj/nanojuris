@@ -82,13 +82,15 @@ de acesso possiveis.
 ### `source_health`
 
 Executa uma consulta live pequena e opt-in para verificar o estado operacional
-de uma ou mais fontes. A ferramenta preserva um relatorio por provider e nao
-transforma resultado vazio em erro.
+de uma ou mais fontes. A ferramenta preserva um relatorio por provider e
+mantem vazio confirmado separado de vazio inconclusivo.
 
 Estados possiveis:
 
 - `healthy`: a fonte respondeu com resultados;
 - `empty`: a fonte respondeu validamente sem resultados;
+- `empty_unconfirmed`: a fonte nao retornou registros, mas nao comprovou que a
+  consulta e realmente vazia;
 - `blocked`: login, CAPTCHA, WAF ou outro controle de acesso;
 - `rate_limited`: a fonte sinalizou limite de requisicoes;
 - `source_unavailable`: indisponibilidade ou problema de rede;
@@ -115,7 +117,10 @@ paginacao basica, IDs, conteudo juridico minimo e rastreabilidade
 Estados adicionais:
 
 - `valid`: a resposta passou pelo contrato live minimo;
-- `empty`: a fonte respondeu validamente sem resultados;
+- `empty`: a fonte respondeu validamente sem resultados e provou total zero ou
+  completude;
+- `empty_unconfirmed`: a fonte respondeu sem registros, mas não provou que a
+  janela é realmente vazia; não deve ser tratada como sucesso;
 - `contract_invalid`: a fonte respondeu, mas o resultado nao cumpre o contrato;
 - `blocked`, `source_changed`, `rate_limited`, `source_unavailable` e `timeout`:
   falhas operacionais classificadas sem mascaramento.

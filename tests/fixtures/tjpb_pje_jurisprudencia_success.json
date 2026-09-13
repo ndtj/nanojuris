@@ -1,0 +1,16 @@
+{
+  "fixture_notice": "synthetic replay payload; not a tribunal record",
+  "total": 1,
+  "hits": [
+    {
+      "_id": "fixture-tjpb-abc123",
+      "_score": 1.0,
+      "dt_ementa": "2026-01-01",
+      "ementa": "Dano moral e responsabilidade civil em caso sintetico de fixture.",
+      "numero_processo": "0000001-10.2024.8.15.0001",
+      "classe": "APELACAO",
+      "orgao_julgador": "Camara Civel de Fixture",
+      "relator": "Relator de Fixture"
+    }
+  ]
+}

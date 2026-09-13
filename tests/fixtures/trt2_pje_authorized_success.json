@@ -1,0 +1,16 @@
+{
+  "total": 1,
+  "token": "response-token-must-not-persist",
+  "documents": [
+    {
+      "id": "doc-42",
+      "numeroProcesso": "0000001-42.2026.5.02.0001",
+      "tipoDocumento": "Acórdão",
+      "ementa": "Ementa sanitizada",
+      "magistrado": "Relator sanitizado",
+      "dataPublicacao": "2026-01-02",
+        "orgaoJulgador": "Primeira Turma",
+        "token": "document-token-must-not-persist"
+    }
+  ]
+}

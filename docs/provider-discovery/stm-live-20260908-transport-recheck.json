@@ -1,0 +1,78 @@
+{
+  "schema_version": "stm-live-v1",
+  "generated_at": "2026-09-08T22:15:41.809142+00:00",
+  "mode": "live_bounded",
+  "source": "stm_jurisprudencia",
+  "source_id": "stm_jurisprudencia",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": null,
+  "record_count_observed": 2,
+  "reported_total": 2597,
+  "pagination_mode": "offset",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 2597,
+      "total_known": null,
+      "ids": [
+        "stm-jurisprudencia-bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "stm-jurisprudencia-eff8dd341c14e9ad9dbcd412261c3c37265a63b98d8e324433cfcbc69814ffae"
+      ],
+      "case_numbers": [
+        "7000060-45.2025.7.11.0011",
+        "7000214-68.2026.7.00.0000"
+      ],
+      "has_summary": true
+    },
+    "page_2": {
+      "http_status": 200,
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 2597,
+      "total_known": null,
+      "ids": [
+        "stm-jurisprudencia-e36ae6f96b93f60eddf60ac727d7b5feb8b2c24370006867ba2eab898a471cef",
+        "stm-jurisprudencia-e6bd406cda9716e270d065a5e93f1c5bc79799ea5b211e6c74d4e739471bb83a"
+      ],
+      "case_numbers": [
+        "7000238-07.2024.7.02.0002",
+        "7000124-60.2026.7.00.0000"
+      ],
+      "has_summary": true
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    },
+    "detail": {
+      "status": "valid",
+      "http_status": null,
+      "content_type": "text/html",
+      "byte_size": 305408,
+      "sha256": "bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+      "has_text": true,
+      "extraction_status": "complete"
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "detail_valid": true,
+    "errors": 0
+  }
+}

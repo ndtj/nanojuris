@@ -1,0 +1,37 @@
+{
+  "provider": "tcu_jurisprudencia",
+  "checked_at": "2026-09-07",
+  "method": "bounded GET and Range probes against official public open-data URLs",
+  "credentials_used": false,
+  "bypass_used": false,
+  "manifest": {
+    "url": "https://sites.tcu.gov.br/dados-abertos/jurisprudencia/arquivos/jurisprudencia-arquivos.csv",
+    "http_status": 200,
+    "bytes_observed": 5945
+  },
+  "datasets": {
+    "jurisprudencia-selecionada": {
+      "url": "https://sites.tcu.gov.br/dados-abertos/jurisprudencia/arquivos/jurisprudencia-selecionada/jurisprudencia-selecionada.csv",
+      "http_status": 206,
+      "range": "bytes=0-4095",
+      "schema_prefix": "KEY|NUMACORDAO|ANOACORDAO|COLEGIADO|AREA|TEMA|SUBTEMA|ENUNCIADO|EXCERTO"
+    },
+    "boletim-jurisprudencia": {
+      "url": "https://sites.tcu.gov.br/dados-abertos/jurisprudencia/arquivos/boletim-jurisprudencia/boletim-jurisprudencia.csv",
+      "http_status": 206,
+      "range": "bytes=0-4095",
+      "schema_prefix": "KEY|TITULO|ENUNCIADO|REFERENCIA|TEXTOACORDAO"
+    },
+    "resposta-consulta": {
+      "url": "https://sites.tcu.gov.br/dados-abertos/jurisprudencia/arquivos/resposta-consulta/resposta-consulta.csv",
+      "http_status": 206,
+      "range": "bytes=0-4095",
+      "schema_checked": true
+    }
+  },
+  "limitations": [
+    "Only headers and bounded ranges were downloaded; no full corpus was retained.",
+    "The interactive search endpoint remains a separate firewall-controlled channel.",
+    "Range success proves public dataset availability, not completeness of every field."
+  ]
+}

@@ -6,6 +6,7 @@ evidence and SDD drafts, never canonical provider registrations.
 
 from nanojuris.discovery.cache import DiscoveryCache
 from nanojuris.discovery.crawler import DiscoveryCrawler
+from nanojuris.discovery.differential import compare_filter_runs, compare_pages
 from nanojuris.discovery.models import (
     DiscoveryEvidence,
     DiscoveryPolicy,
@@ -15,6 +16,7 @@ from nanojuris.discovery.models import (
     RouteCandidate,
     SelectorCandidate,
 )
+from nanojuris.discovery.replay import evidence_fingerprint
 
 __all__ = [
     "DiscoveryEvidence",
@@ -26,4 +28,7 @@ __all__ = [
     "SelectorCandidate",
     "DiscoveryCrawler",
     "DiscoveryCache",
+    "compare_filter_runs",
+    "compare_pages",
+    "evidence_fingerprint",
 ]

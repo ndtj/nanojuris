@@ -1,0 +1,73 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T16:36:58.598736+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 2,
+  "manifest_sources": [
+    "tjsp_cjsg",
+    "tjac_cjsg"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjsp_cjsg",
+    "tjac_cjsg"
+  ],
+  "source_completeness": {
+    "tjsp_cjsg": {
+      "returned": 1,
+      "reported_total": 2741988,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjac_cjsg": {
+      "returned": 1,
+      "reported_total": 18299,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "tjsp_cjsg": 2741988,
+    "tjac_cjsg": 18299
+  },
+  "source_total_known": {
+    "tjsp_cjsg": true,
+    "tjac_cjsg": true
+  },
+  "source_access_status": {
+    "tjsp_cjsg": "public",
+    "tjac_cjsg": "public"
+  },
+  "source_extraction_status": {
+    "tjsp_cjsg": "complete",
+    "tjac_cjsg": "complete"
+  },
+  "errors": [],
+  "summary": {
+    "sources_requested": 2,
+    "sources_searched": 2,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 1,
+    "deduplicated_total": 2,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

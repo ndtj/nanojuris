@@ -6,6 +6,7 @@ import csv
 import io
 
 from nanojuris.canonical import search_page_to_canonical
+from nanojuris.identity import canonical_record_identity
 from nanojuris.models import CanonicalDecision, CanonicalDocument, CanonicalPrecedent, SearchPage
 
 CSV_FIELDS = [
@@ -31,6 +32,9 @@ CSV_FIELDS = [
     "source_url",
     "extraction_status",
     "access_status",
+    "legal_identity_kind",
+    "legal_identity_key",
+    "legal_identity_parent_key",
 ]
 
 DECISION_CSV_FIELDS = [
@@ -51,6 +55,9 @@ DECISION_CSV_FIELDS = [
     "source_url",
     "extraction_status",
     "access_status",
+    "legal_identity_kind",
+    "legal_identity_key",
+    "legal_identity_parent_key",
 ]
 
 PRECEDENT_CSV_FIELDS = [
@@ -67,6 +74,9 @@ PRECEDENT_CSV_FIELDS = [
     "source_url",
     "extraction_status",
     "access_status",
+    "legal_identity_kind",
+    "legal_identity_key",
+    "legal_identity_parent_key",
 ]
 
 DOCUMENT_CSV_FIELDS = [
@@ -78,10 +88,15 @@ DOCUMENT_CSV_FIELDS = [
     "url",
     "sha256",
     "byte_size",
+    "page_count",
+    "ocr_confidence",
     "retrieved_at",
     "access_status",
     "source_url",
     "extraction_status",
+    "legal_identity_kind",
+    "legal_identity_key",
+    "legal_identity_parent_key",
 ]
 
 
@@ -121,6 +136,7 @@ def _record_to_row(record: CanonicalDecision | CanonicalPrecedent) -> dict[str, 
 
 
 def _decision_row(record: CanonicalDecision) -> dict[str, object]:
+    identity = canonical_record_identity(record)
     return {
         "id": record.id,
         "source": record.source,
@@ -143,10 +159,14 @@ def _decision_row(record: CanonicalDecision) -> dict[str, object]:
         "access_status": record.extraction_trace.access_status.value
         if record.extraction_trace
         else None,
+        "legal_identity_kind": identity.kind,
+        "legal_identity_key": identity.key,
+        "legal_identity_parent_key": identity.parent_key,
     }
 
 
 def _precedent_row(record: CanonicalPrecedent) -> dict[str, object]:
+    identity = canonical_record_identity(record)
     return {
         "record_kind": "precedent",
         "id": record.id,
@@ -163,10 +183,14 @@ def _precedent_row(record: CanonicalPrecedent) -> dict[str, object]:
         "access_status": record.extraction_trace.access_status.value
         if record.extraction_trace
         else None,
+        "legal_identity_kind": identity.kind,
+        "legal_identity_key": identity.key,
+        "legal_identity_parent_key": identity.parent_key,
     }
 
 
 def _document_row(record: CanonicalDocument) -> dict[str, object]:
+    identity = canonical_record_identity(record)
     return {
         "id": record.id,
         "source": record.source,
@@ -176,12 +200,17 @@ def _document_row(record: CanonicalDocument) -> dict[str, object]:
         "url": record.url,
         "sha256": record.sha256,
         "byte_size": record.byte_size,
+        "page_count": record.page_count,
+        "ocr_confidence": record.ocr_confidence,
         "retrieved_at": record.retrieved_at,
         "access_status": record.access_status.value,
         "source_url": record.source_trace.source_url if record.source_trace else None,
         "extraction_status": record.extraction_trace.status.value
         if record.extraction_trace
         else None,
+        "legal_identity_kind": identity.kind,
+        "legal_identity_key": identity.key,
+        "legal_identity_parent_key": identity.parent_key,
     }
 
 

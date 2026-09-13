@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-09-06T09:45:16.493986+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "tjms_cjsg"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjms_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 270751,
+        "source": "tjms_cjsg"
+      },
+      "result": {
+        "id": "tjms-cjsg-1949907-0",
+        "case_number": "1407698-91.2025.8.12.0000",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://esaj.tjms.jus.br/cjsg/getArquivo.do?cdAcordao=1949907&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjms-cjsg-1949907-0",
+        "full_text_length": 41313,
+        "content_type": "application/pdf",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://esaj.tjms.jus.br/cjsg/getArquivo.do?cdAcordao=1949907&cdForo=0",
+        "content_type": "application/pdf;charset=UTF-8",
+        "response_bytes": 475946,
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 1,
+    "search_returned": 1,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 1,
+    "public_url_reachable": 1,
+    "public_url_document_like": 1,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 0
+  }
+}

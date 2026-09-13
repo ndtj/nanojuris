@@ -1,0 +1,28 @@
+{
+  "schema_version": "provider-discovery-live-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJPA",
+  "surface": "CJPG",
+  "route": "https://tjpa.jus.br/PortalExterno/institucional/Central-de-Pesquisa-e-Apoio-a-Magistratura/1165-BANCO-DE-SENTENcAS.xhtml",
+  "scope": "bounded_public_read_only",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "probe": {
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "response_bytes_observed": 151038,
+    "response_sha256": "6de1d4fee6d55c571c9dfe0d6542f7e67b863d2486fa84de3c5852894cef4e80",
+    "classification": "public_page_restricted_to_magistrates"
+  },
+  "observed_contract": {
+    "first_degree": true,
+    "searchable_public_corpus": false,
+    "full_text_public": false,
+    "page_text": "O Banco de Sentenças é uma área de acesso restrita aos magistrados do Estado do Pará, em que são publicadas as sentenças proferidas no âmbito do Primeiro Grau.",
+    "scripts_required": true
+  },
+  "decision": "blocked_access",
+  "promotion_decision": "do_not_implement",
+  "next_action": "Recheck only if TJPA publishes an unauthenticated official search/API route or supplies an authorized public export. Do not automate the magistrate-only area."
+}

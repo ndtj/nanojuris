@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.org/schemas/provider-certification-v1.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "policy", "summary", "reports"],
+  "properties": {
+    "schema_version": {"const": "provider-certification-v1"},
+    "generated_at": {"type": "string"},
+    "policy": {"type": "object"},
+    "summary": {
+      "type": "object",
+      "required": ["providers", "promotable", "blocked", "by_smoke_frequency"]
+    },
+    "reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["provider", "freshness", "alerts", "can_promote", "recommended_smoke"],
+        "properties": {
+          "provider": {"type": "string"},
+          "freshness": {"enum": ["fresh", "stale", "missing", "invalid"]},
+          "alerts": {"type": "array"},
+          "can_promote": {"type": "boolean"},
+          "recommended_smoke": {"enum": ["daily", "weekly", "monthly"]}
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Verificação — Implantação inicial OCI
 
-Status: `pending`
+Status: `deferred_external; local_release_ready`
 
 ## Pré-condições
 
@@ -33,6 +33,17 @@ preencher durante a execução
 ## Divergências
 
 Nenhuma registrada.
+
+## Local release verification - 2026-09-07
+
+The local release rehearsal and compatibility audit passed. No OCI credentials,
+Terraform apply, publication or production change was performed. The unchecked
+prerequisites below are external tenancy and human-approval gates, not missing
+local provider implementation.
+
+- 64/64 catalog providers passed release compatibility.
+- sdist, wheel, twine check and size budgets passed.
+- Full test suite: 1,418 passed, 26 skipped.
 
 ## Rastreabilidade
 

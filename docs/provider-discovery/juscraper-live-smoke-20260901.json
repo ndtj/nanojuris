@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-09-01T00:00:00+00:00",
+  "audit_mode": "bounded_public_http_smoke",
+  "source_repository": "https://github.com/jtrecenti/juscraper",
+  "upstream_commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+  "frequency": "one request per endpoint",
+  "raw_content_persisted": false,
+  "credentials_used": false,
+  "results": [
+    {
+      "provider": "tjes",
+      "source_id": "tjes_jurisprudencia",
+      "endpoint": "GET /consulta-jurisprudencia/api/search",
+      "query_shape": {
+        "core": "pje2g",
+        "q": "<juridical-term>",
+        "page": 1,
+        "per_page": 1
+      },
+      "status": 200,
+      "content_type": "application/json",
+      "response_bytes": 135737,
+      "content_sha256": "81fa9dd4e78df520f9fa6ca313e4e786ab117a918b3af2e49e1744009dfe2935",
+      "json_root": "object",
+      "record_count": 1,
+      "reported_total": 200397,
+      "identity_field_present": true,
+      "summary_field_present": true,
+      "retrieval_status": "ok",
+      "classification": "candidate_live_valid_data"
+    },
+    {
+      "provider": "tjrn",
+      "source_id": "tjrn_jurisprudencia",
+      "endpoint": "POST /api/pesquisar",
+      "query_shape": {
+        "jurisprudencia.ementa": "<juridical-term>",
+        "page": 1,
+        "usuario": "empty_public_context"
+      },
+      "status": 200,
+      "content_type": "application/json; charset=utf-8",
+      "response_bytes": 667653,
+      "content_sha256": "059de64a0a010d11c6f20ed1d33166ffd44946b60ba2fb32d7950f700e089b1c",
+      "json_root": "object",
+      "record_count": 10,
+      "reported_total": 329883,
+      "identity_field_present": true,
+      "summary_field_present": true,
+      "retrieval_status": "ok",
+      "classification": "candidate_live_valid_data"
+    }
+  ],
+  "promotion_decision": "candidate_only",
+  "promotion_blockers": [
+    "NanoJuris ainda não possui adapters runtime para tjes_jurisprudencia ou tjrn_jurisprudencia.",
+    "Ainda faltam fixtures sanitizadas e equivalência independente com o contrato canônico.",
+    "A revisão das condições de reuso/redistribuição da fonte oficial não foi concluída.",
+    "Esta evidência não autoriza coleta em escala nem alteração de produção."
+  ]
+}

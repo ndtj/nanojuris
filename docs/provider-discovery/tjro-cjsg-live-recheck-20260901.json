@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T21:48:45Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "tjro_jurisprudencia",
+  "endpoint": "POST https://juris-back.tjro.jus.br/search/varios_parametros/",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "cjsg",
+      "query": "responsabilidade civil",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 806,
+      "content_sha256": "7ee2b49c8bac7e2f1f245df45ac3ecf7de0205a3dd809b60df399b1128db4f4c",
+      "reported_total": 0,
+      "record_count_observed": 0,
+      "classification": "reachable_empty_data"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "cjsg",
+      "query": "dano moral",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 792,
+      "content_sha256": "d89cc7ce6e13db7622941a649a35836e6136dfe28572336aec78c6c5bb4392e3",
+      "reported_total": 0,
+      "record_count_observed": 0,
+      "classification": "reachable_empty_data"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "cjsg",
+      "query": "mandado",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 743,
+      "content_sha256": "65e7d9c2517c5d3500c62c1748066a1cc237e2cf564260a26f69733e34b85857",
+      "reported_total": 0,
+      "record_count_observed": 0,
+      "classification": "reachable_empty_data"
+    }
+  ],
+  "promotion_decision": "candidate_only",
+  "promotion_blockers": [
+    "Nenhum registro decisorio foi retornado nos tres termos de smoke.",
+    "O endpoint responde JSON valido, mas a semantica atual de consulta e o acervo retornado ainda nao foram fechados.",
+    "Nao ha fixture de sucesso independente para o contrato NanoJuris."
+  ],
+  "limitations": [
+    "Rechecagem limitada a tres chamadas publicas de tamanho 1.",
+    "O corpo das respostas nao foi persistido.",
+    "Vazio 200 e distinto de bloqueio, mas nao prova que o acervo esteja indisponivel."
+  ]
+}

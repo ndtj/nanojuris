@@ -19,6 +19,8 @@
   tipo decisorio.
 - Paginacao: reproduzida em sessao publica com `POST /resultadoCompleta.do`
   seguido de `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>`.
+- O POST inicial somente estabelece a sessao; os resultados vem de
+  `trocaDePagina.do`.
 
 ## Dados retornados
 
@@ -46,11 +48,14 @@
 
 ## Fixtures
 
-- [ ] Busca com resultado.
-- [ ] Busca vazia.
-- [ ] Inteiro teor.
-- [ ] Controle de acesso.
-- [ ] Paginacao.
+- [x] Busca com resultado (`tests/fixtures/tjsp_cjsg_result.html`, parser
+  compartilhado e carimbo especifico TJMS).
+- [x] Busca vazia (`tests/fixtures/provider_contracts.json#providers/tjms_cjsg/empty`).
+- [x] Inteiro teor (`tests/fixtures/provider_contracts.json#providers/tjms_cjsg/success`;
+  HTML e PDF cobertos pelo teste de contrato).
+- [x] Controle de acesso (`tests/fixtures/provider_contracts.json#providers/tjms_cjsg/non_success`).
+- [x] Paginacao (`tests/fixtures/provider_contracts.json#providers/tjms_cjsg/success`;
+  sessao publica e rota `trocaDePagina.do` cobertas pelo teste offline).
 
 ## MCP e agentes
 
@@ -62,9 +67,12 @@
 
 ## Proximos passos
 
-- [ ] Completar fixture propria de TJMS.
-- [ ] Validar diferencas de labels em relator/orgao/data.
-- [ ] Aprofundar inteiro teor e paginacao.
+- A fixture e-SAJ compartilhada e deliberadamente sanitizada; os testes
+  especificos carimbam `source=tjms_cjsg` e `court=TJMS`, evitando persistir
+  corpos da fonte. Nao ha pendencia de contrato para promover a busca.
+- Revalidar periodicamente a disponibilidade do detalhe e a extracao de PDFs;
+  um PDF publico pode ser retornado sem camada de texto (OCR continua fora do
+  adapter).
 
 ## Validacao live de capacidade - 2026-08-16
 
@@ -77,3 +85,34 @@
   rota publica `getArquivo.do` responder sem controle adicional.
 
 Evidencia estruturada: `docs/validation/runs/20260816T082800Z-cjsg-capacity-20260816.json`.
+
+### Alinhamento Juscraper (2026-09-01, ciclo 12)
+
+O POST de `resultadoCompleta.do` e tratado como ack; a resposta e obtida por
+GETs de `trocaDePagina.do` para pagina 1 e pagina solicitada na mesma sessao.
+
+## Validacao live de capacidade - 2026-09-05 (ciclo 51)
+
+- Consulta publica: `responsabilidade civil`, pagina 1, dois itens.
+- Busca: HTTP 200, dois registros com identidade e resumo, total remoto
+  observado `230.539` (o valor pode variar entre execucoes).
+- Inteiro teor: `getArquivo.do` respondeu HTTP 200 com PDF de 475.946 bytes;
+  a extracao foi classificada como `partial` e sem texto selecionavel, mas o
+  hash, MIME e bytes foram preservados no `SourceTrace`.
+- A evidencia da mesma chamada tambem revalidou TJAC, TJAL e TJAM: as buscas
+  retornaram dados, enquanto os detalhes responderam com
+  `AccessControlRequiredError` por captcha/controle da fonte. Esse estado e
+  explicito e nao e convertido em vazio nem contornado.
+
+Evidencia estruturada (sem corpos):
+`docs/provider-discovery/cjsg-live-20260905-cycle51.json`.
+
+### Fechamento do contrato local
+
+- `[x]` busca com resultado, busca vazia e falha HTTP classificadas;
+- `[x]` identidade TJMS/CJSG e identificadores `cdAcordao`/`cdForo` validados;
+- `[x]` paginação por sessão reproduzida em teste de contrato;
+- `[x]` detalhe HTML/PDF, MIME, tamanho, hash e extração parcial preservados;
+- `[x]` controle de acesso sem bypass e com erro tipado;
+- `[x]` filtros textuais, número, datas, tipos e ordenação mapeados;
+- `[x]` trace e política de limites documentados.

@@ -97,7 +97,9 @@ content-type, hash da resposta, bytes, latência e limitações observadas.
 
 ## Validação e testes
 
-- Fixture: `tests/fixtures/tjce_sjuris_results.json`.
+- Fixtures: `tests/fixtures/tjce_sjuris_results.json`,
+  `tests/fixtures/tjce_sjuris_empty.json` e
+  `tests/fixtures/tjce_sjuris_schema_drift.json`.
 - Testes: `tests/test_tjce_sjuris.py`.
 - Evidência live: `docs/validation/runs/20260816T111431Z-tjce-sjuris-search.json`.
 - Consulta de validação: `transporte aereo dano moral`.
@@ -164,6 +166,10 @@ O provider pode ser usado para busca textual pública e permanece em nível
 Silver. Gold depende de evidência adicional para filtros de data/relator,
 disponibilidade do PDF por item e uma rota de detalhe independente, quando a
 fonte a oferecer.
+
+Revalidação bounded de 2026-09-10: HTTP 200, uma decisão retornada, total
+autoritativo 42009 e janela explicitamente parcial. Evidência:
+`docs/provider-discovery/tjce-sjuris-live-20260910-continue.json`.
 
 ## Proximos passos
 

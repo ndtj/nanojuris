@@ -1,0 +1,230 @@
+{
+  "generated_at": "2026-09-07T21:31:04.850510+00:00",
+  "query": "responsabilidade civil",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "trf5_jurisprudencia",
+      "stm_jurisprudencia",
+      "tst_jurisprudencia",
+      "tjpr_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "trf5_jurisprudencia",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 1,
+        "source": "trf5_jurisprudencia"
+      },
+      "result": {
+        "id": "trf5-jurisprudencia-12272",
+        "case_number": "0532048-90.2009.4.05.8300",
+        "summary_present": false,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "data_julgamento",
+          "document_url",
+          "id_documento",
+          "orgao_julgador",
+          "tipo_documento"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf5-jurisprudencia-document-12272",
+        "full_text_length": 9941,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 9941,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "stm_jurisprudencia",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 2597,
+        "source": "stm_jurisprudencia"
+      },
+      "result": {
+        "id": "stm-jurisprudencia-bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "case_number": "7000060-45.2025.7.11.0011",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "access_status": null,
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "document_url",
+          "judgment_date",
+          "labels",
+          "publication_date",
+          "reviewer",
+          "source_url",
+          "subject",
+          "uuid"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "stm-jurisprudencia-document-bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "full_text_length": 289806,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=bc0fb87017eaddb639248f969f77ab2c230a1dc61b1178a909a6453f811fa9ee",
+        "content_type": "application/pdf",
+        "response_bytes": 305408,
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tst_jurisprudencia",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 849232,
+        "source": "tst_jurisprudencia"
+      },
+      "result": {
+        "id": "tst-jurisprudencia-5de44f849de00074a2560afcbaa336d4",
+        "case_number": "Ag-AIRR - 1001499-67.2023.5.02.0049",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia-backend2.tst.jus.br/rest/documentos/5de44f849de00074a2560afcbaa336d4",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "court_name",
+          "data_julgamento",
+          "data_publicacao",
+          "disposition",
+          "document_url",
+          "full_text_url",
+          "numeracao_unica",
+          "orgao_julgador",
+          "registry_id",
+          "source_record"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tst-jurisprudencia-document-5de44f849de00074a2560afcbaa336d4",
+        "full_text_length": 33414,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia-backend2.tst.jus.br/rest/documentos/5de44f849de00074a2560afcbaa336d4",
+        "content_type": "text/html;charset=utf-8",
+        "response_bytes": 140484,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 1003944,
+        "source": "tjpr_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpr-4100000040063372",
+        "case_number": "0126161-29.2026.8.16.0000",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://portal.tjpr.jus.br/jurisprudencia/j/4100000040063372/Decisão monocrática-0126161-29.2026.8.16.0000",
+        "access_status": "partial",
+        "extraction_status": "partial",
+        "raw_keys": [
+          "authority",
+          "branch",
+          "case_number",
+          "collection",
+          "content_pending_release",
+          "decision_type",
+          "degree",
+          "document_type",
+          "document_url",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "judgment_date_raw",
+          "rapporteur",
+          "row_text",
+          "secret_of_justice",
+          "secret_or_pending_content",
+          "source_record_id",
+          "source_row_index"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjpr-4100000040063372",
+        "full_text_length": 1725,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://portal.tjpr.jus.br/jurisprudencia/j/4100000040063372/Decis%C3%A3o%20monocr%C3%A1tica-0126161-29.2026.8.16.0000",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 35493,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 4,
+    "search_returned": 4,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 4,
+    "public_url_reachable": 4,
+    "public_url_document_like": 3,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 0
+  }
+}

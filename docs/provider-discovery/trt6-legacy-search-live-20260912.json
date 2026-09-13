@@ -1,0 +1,63 @@
+{
+  "schema_version": "labor-route-live-v2",
+  "observed_at": "2026-09-12",
+  "authority": "TRT6",
+  "source_id": "trt6_jurisprudencia",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "mode": "bounded_public_post",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "official_endpoint": "https://apps.trt6.jus.br/acordaos/pesquisar",
+  "method": "POST",
+  "request_fields": [
+    "texto",
+    "numeroCnj",
+    "numeroTst",
+    "redator",
+    "orgaoJulgador",
+    "dataInicio",
+    "dataFim",
+    "pagina"
+  ],
+  "classification": "success_with_results",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 64566,
+  "content_sha256": "32260ffdfa8bb52cd244400bdf9e88bcd3085cfb0d9b289ce19f10ad4ea479c0",
+  "latency_ms": null,
+  "record_count_observed": 10,
+  "reported_total": 77585,
+  "total_known": true,
+  "page": 1,
+  "page_size": 10,
+  "pagination_mode": "offset",
+  "pagination_validated": {
+    "page_1_first_document": "838532019",
+    "page_2_first_document": "837922019",
+    "page_1_and_page_2_disjoint": true,
+    "page_2_http_status": 200,
+    "page_2_record_count": 10,
+    "page_2_response_sha256": "fa9f8b442f80ce564d23871916984af014f2293452e106f234d0af4903baada3"
+  },
+  "exact_number_probe": {
+    "number": "0000001-47.2019.5.06.0221",
+    "http_status": 200,
+    "record_count_observed": 1,
+    "total_known": false,
+    "document_id": "838532019"
+  },
+  "full_text_status": "inline_ementa_decisao_and_public_document_links",
+  "access_status": "public",
+  "extraction_status": "complete",
+  "search_contract_proven": true,
+  "federation_status": "enabled",
+  "limitations": [
+    "A busca ampla limita a exibicao a 1.000 registros e retorna dez cards por pagina.",
+    "Consultas exatas podem nao informar total autoritativo; permanecem total_unknown.",
+    "O PJe SPA continua separado e challenge-gated; esta evidencia cobre somente a rota legada oficial.",
+    "Nenhum CAPTCHA, token, cookie ou sessao humana foi resolvido, enviado ou persistido."
+  ]
+}

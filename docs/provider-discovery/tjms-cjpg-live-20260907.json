@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07T01:19:47+00:00",
+  "source": "tjms_cjpg",
+  "authority": "TJMS",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "classification": "reachable_valid_data",
+  "request": {
+    "method": "GET",
+    "endpoint": "https://esaj.tjms.jus.br/cjpg/pesquisar.do",
+    "query": "responsabilidade civil",
+    "page": 1,
+    "page_size": 2
+  },
+  "response": {
+    "http_status": 200,
+    "response_bytes": 234059,
+    "content_sha256": "fe7a6b4c83a382d7f121c14cba68125aa489233b360a1e1db6db0efb3c2f2907",
+    "record_count_observed": 2,
+    "reported_total": 317281,
+    "full_text_records": 2
+  },
+  "sample_records": [
+    {
+      "id": "tjms_cjpg-record-0D00032IN0000",
+      "case_number": "0802099-21.2024.8.12.0013",
+      "degree": "first",
+      "instance": "first",
+      "collection": "CJPG",
+      "full_text_chars": 16826,
+      "case_class": "Procedimento Comum Cível",
+      "updated_at": "2026-09-05"
+    },
+    {
+      "id": "tjms_cjpg-record-0Q0002ECG0000",
+      "case_number": "0801318-57.2024.8.12.0026",
+      "degree": "first",
+      "instance": "first",
+      "collection": "CJPG",
+      "full_text_chars": 7360,
+      "case_class": "Procedimento Comum Cível",
+      "updated_at": "2026-09-05"
+    }
+  ],
+  "decision": "eligible_for_technical_promotion_after_fixture_and_federated_smoke",
+  "limitations": [
+    "The public e-SAJ page exposes the decision text inline; no separate detail endpoint was observed.",
+    "The sample proves first-degree semantics for the bounded response only; it does not establish national completeness.",
+    "No CAPTCHA, credential, cookie replay or access-control bypass was used."
+  ]
+}

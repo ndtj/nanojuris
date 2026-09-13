@@ -1,6 +1,7 @@
 # TJMG - Espelho De Acordao
 
-Status atual: `blocked_or_inconclusive` para busca automatizada.
+Status atual: `live_validated` para a API pública CJSG; o formulário legado
+continua `blocked_control` por CAPTCHA.
 
 ## Identidade Da Fonte
 
@@ -51,4 +52,74 @@ A fonte possui duas superficies distintas: pesquisa por numero CNJ e pesquisa po
 
 ## MCP
 
-O MCP deve classificar TJMG como blocked_control e nao tentar busca textual, resolver captcha ou reaproveitar tokens. Somente uma superficie oficial sem desafio ou uma fixture publica legitimamente obtida pode promover esta fonte.
+O MCP pode usar a API moderna pública CJSG quando a chamada bounded estiver
+disponível. O formulário legado `www5` continua `blocked_control` e não pode
+ser submetido para resolver CAPTCHA ou reaproveitar tokens; falhas dessa rota
+devem permanecer separadas do estado da API moderna.
+
+### Rechecagem CJPG 2026-09-09
+
+A rota oficial `pesquisaPalavraSentenca.do` respondeu HTTP 401 com pagina de
+codigo/CAPTCHA para uma consulta bounded. O estado continua `access_blocked`;
+nao ha adapter CJPG promovido. Evidencia:
+`docs/provider-discovery/tjmg-cjpg-legacy-live-20260909.json`.
+
+## Diagnostico NanoJuris 2026-09-06
+
+O adapter independente `tjmg_jurisprudencia` agora reproduz a descoberta do
+formulário do Juscraper (`GET /jurisprudencia/formEspelhoAcordao.do`) em modo
+opt-in. A presença de `txtcaptcha`/reCAPTCHA é classificada como
+`access_controlled`; o adapter não envia solução, não faz OCR e não transforma
+o bloqueio em lista vazia. A evidência bounded está em
+`docs/provider-discovery/juscraper-captcha-boundary-live-20260906.json`.
+Fixture sanitizada do formulário: `tests/fixtures/tjmg_jurisprudencia_captcha.html`.
+
+### Rechecagem da superfície de sentenças (2026-09-07)
+
+Além do espelho de acórdãos, o portal oficial expõe
+`GET /jurisprudencia/sentenca.do`, com filtros de primeiro grau. A submissão
+normal de `pesquisaPalavraSentenca.do` para `dano moral` respondeu HTTP 401 com
+a página oficial de CAPTCHA numérico. Não houve solução, OCR ou reaproveitamento
+de sessão. Evidência: `docs/provider-discovery/tjmg-cjpg-route-live-20260907.json`.
+O resultado mantém TJMG/CJPG como `access_controlled`, sem falso vazio.
+## API pública moderna (2026-09-07)
+
+O portal oficial `consulta-jurisprudencia.tjmg.jus.br` publica o backend
+`https://jurisprudencia-api.tjmg.jus.br`. O adapter usa `POST
+/jurisprudencias/filter` para CJSG, com paginação zero-based convertida para o
+contrato NanoJuris, filtros nativos de número, classe, órgão julgador,
+magistrado, comarca e datas, e `tipoTexto=EMENTA` ou `INTEIRO_TEOR`. O inteiro
+teor é recuperado sob demanda em `POST /jurisprudencias/document` com
+`documentoId` e data de publicação ISO. O formulário `www5` com CAPTCHA não é
+submetido nem contornado.
+
+Evidência bounded: `docs/provider-discovery/tjmg-modern-api-live-20260907.json`.
+Fixtures sanitizadas: `tests/fixtures/tjmg_jurisprudencia_modern.json`,
+`tests/fixtures/tjmg_jurisprudencia_modern_empty.json`,
+`tests/fixtures/tjmg_jurisprudencia_modern_error.json` e
+`tests/fixtures/tjmg_jurisprudencia_modern_schema.json`.
+
+### Rechecagem live bounded 2026-09-11
+
+Uma consulta pública limitada (`divorcio`, página 1, tamanho 1) retornou
+HTTP 200 em `/jurisprudencias/filter`, um registro e total autoritativo 1000.
+O detalhe público em `/jurisprudencias/document` também retornou HTTP 200 e
+8.434 caracteres de inteiro teor. Nenhum token, cookie ou texto bruto foi
+persistido. Evidência sanitizada:
+`docs/provider-discovery/tjmg-modern-api-live-recheck-20260911.json`.
+
+### Rechecagem de documento live bounded 2026-09-13
+
+Nova sessão pública limitada confirmou novamente HTTP 200 na busca CJSG e no
+detalhe de inteiro teor. O detalhe retornou 4.431 caracteres e 8.584 bytes;
+hash, MIME, tamanho e `access_status=public` foram preservados somente como
+metadados. Nenhum corpo foi persistido. Evidência:
+`docs/provider-discovery/tjmg-modern-api-document-live-20260913.json`.
+
+## Capability alignment (2026-09-12)
+
+The modern API-backed adapter now declares the filters it already sends:
+`types`, `document_type`, `decision_type`, `courts` and `legal_area` are native;
+`exact_phrase` and `all_words` are translated through the free-text channel.
+`any_words` and `without_words` are rejected because their independent remote
+semantics are not proven. Type aliases are de-duplicated before transport.

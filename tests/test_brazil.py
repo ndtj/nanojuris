@@ -13,6 +13,8 @@ def test_court_catalog_contains_brazilian_judiciary_core():
     assert "TJSP" in codes
     assert "TRF6" in codes
     assert "TRT24" in codes
+    assert "TRESP" in codes
+    assert "TJMMG" in codes
 
 
 def test_get_court_normalizes_acronyms():
@@ -34,7 +36,7 @@ def test_list_courts_filters_by_branch_state_and_status():
     implemented = list_courts(implemented=True)
 
     assert len(state_courts) == 27
-    assert [court.code for court in sao_paulo_courts] == ["TJSP"]
+    assert [court.code for court in sao_paulo_courts] == ["TJMSP", "TJSP", "TRESP"]
     assert [court.code for court in esaj_cjsg_courts] == [
         "TJAC",
         "TJAL",
@@ -57,6 +59,7 @@ def test_list_courts_filters_by_branch_state_and_status():
         "TJRR",
         "TJSP",
         "TNU",
+        "TRESP",
         "TRF2",
         "TRF4",
         "TRF6",
@@ -71,6 +74,59 @@ def test_list_courts_filters_by_branch_state_and_status():
     tjgo = get_court("TJGO")
     assert tjgo.source_system == "projudi_jurisprudencia"
     assert tjgo.providers == ("tjgo_projudi_jurisprudencia",)
+    tjrn = get_court("TJRN")
+    assert tjrn.source_system == "portal_proprio"
+    assert tjrn.providers == ("tjrn_jurisprudencia",)
+    tjro = get_court("TJRO")
+    assert tjro.source_system == "portal_proprio"
+    assert tjro.providers == ("tjro_jurisprudencia", "tjro_liame")
+
+
+def test_regional_electoral_and_state_military_catalog_entries_are_explicit():
+    tres = list_courts(branch="electoral")
+    tjms = list_courts(branch="military", state="sp")
+    tre_codes = {court.code for court in tres if court.code.startswith("TRE")}
+    expected_states = {
+        "AC",
+        "AL",
+        "AP",
+        "AM",
+        "BA",
+        "CE",
+        "DF",
+        "ES",
+        "GO",
+        "MA",
+        "MT",
+        "MS",
+        "MG",
+        "PA",
+        "PB",
+        "PR",
+        "PE",
+        "PI",
+        "RJ",
+        "RN",
+        "RS",
+        "RO",
+        "RR",
+        "SC",
+        "SP",
+        "SE",
+        "TO",
+    }
+
+    assert len(tres) == 28  # TSE plus 27 TREs
+    assert tre_codes == {f"TRE{state}" for state in expected_states}
+    assert get_court("TRE-SP").code == "TRESP"
+    assert get_court("TRE-SP").providers == ("tre_sp_temas",)
+    assert [court.code for court in tjms] == ["TJMSP"]
+    assert {court.code for court in list_courts(branch="military")} == {
+        "STM",
+        "TJMMG",
+        "TJMSP",
+        "TJMRS",
+    }
 
 
 def test_core_courts_include_official_urls_and_source_systems():

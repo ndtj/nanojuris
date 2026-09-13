@@ -1,0 +1,37 @@
+{
+  "provider": "tjro_jurisprudencia",
+  "captured_at": "2026-09-02T03:18:18Z",
+  "network_access": "public_bounded",
+  "credentials_used": false,
+  "client_mode": "NanoJurisClient(include_candidate_providers=True)",
+  "query": {
+    "text": "responsabilidade",
+    "page_size": 1,
+    "sha256": "bf5ee0c7f685be85f0c01394be3034059079aef0f8b42bfaa56aa69f8520a45a"
+  },
+  "report": {
+    "passed": true,
+    "status": "valid",
+    "http_status": 200,
+    "source": "tjro_jurisprudencia",
+    "endpoint": "POST /search/varios_parametros/",
+    "source_url": "https://juris-back.tjro.jus.br/search/varios_parametros/",
+    "content_type": "application/json",
+    "content_sha256": "678da6ca5d6a3d77be81b0786684bec4ef57318d34c333065b0277d906152367",
+    "response_bytes": 93148,
+    "elapsed_ms": 1547.11,
+    "reported_total": 676011,
+    "returned": 1,
+    "effective_page_size": 1,
+    "pagination_mode": "offset",
+    "access_status": "public",
+    "retrieval_status": "ok",
+    "extraction_status": "complete",
+    "full_text_status": "not_returned",
+    "completeness": false,
+    "completeness_reason": "A resposta e uma janela parcial do total informado pela fonte.",
+    "failed_checks": []
+  },
+  "body_persisted": false,
+  "promotion": "candidate_opt_in_only"
+}

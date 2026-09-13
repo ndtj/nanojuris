@@ -1,0 +1,97 @@
+{
+  "schema_version": "official-alternative-surface-recheck-v1",
+  "observed_at": "2026-09-07",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "challenge_handling": "none",
+  "methods": [
+    "ordinary HTTPS GET",
+    "public HTML and JavaScript shell inspection",
+    "official route classification without submitting a challenge"
+  ],
+  "checks": [
+    {
+      "authority": "TJAP",
+      "url": "https://tucujuris.tjap.jus.br/api/publico/consultar-jurisprudencia",
+      "method": "GET",
+      "http_status": 403,
+      "classification": "access_controlled_method_not_supported",
+      "observed": {
+        "query_attempted": "orgao=0&ementa=dano moral&votacao=0&offset=0",
+        "challenge_handling": "none"
+      },
+      "decision": "A normal GET variant is denied by the official host and does not provide a tokenless result route."
+    },
+    {
+      "authority": "TJAP",
+      "url": "https://pje.tjap.jus.br/2g/ConsultaPublica/listView.seam",
+      "http_status": 200,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "classification": "production_process_consultation_only",
+      "observed": {
+        "title": "Consulta pública · Tribunal de Justiça do Estado do Amapá - 2º Grau",
+        "forms": 3,
+        "jurisprudence_markers": 0,
+        "process_markers": 81,
+        "captcha_markers": 5
+      },
+      "decision": "The production PJe 2G public route is reachable, but it searches processes and does not expose a general jurisprudence text corpus."
+    },
+    {
+      "authority": "TJAP",
+      "url": "https://hml.pje.stg.apps.tjap.jus.br/2g/ConsultaPublica/listView.seam",
+      "http_status": 200,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "classification": "process_consultation_only",
+      "observed": {
+        "forms": 3,
+        "process_markers": 81,
+        "jurisprudence_markers": 0,
+        "captcha_markers": 5
+      },
+      "decision": "Public PJe second-degree process consultation is not a general jurisprudence corpus and is not promoted as CJSG."
+    },
+    {
+      "authority": "TJAP",
+      "url": "https://old.tjap.jus.br/portal/consultas/sumulas.html",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "classification": "specialized_summaries_only",
+      "observed": {
+        "forms": 1,
+        "jurisprudence_markers": 4,
+        "process_markers": 7,
+        "captcha_markers": 0
+      },
+      "decision": "The official page exposes summaries/sumulas, not a searchable general collection of second-degree decisions."
+    },
+    {
+      "authority": "TJMA",
+      "url": "https://jurisconsult.tjma.jus.br/build/main.js",
+      "http_status": 200,
+      "content_type": "application/javascript",
+      "classification": "official_application_bundle",
+      "observed": {
+        "bytes": 427192,
+        "captcha_markers": 31,
+        "jurisprudence_markers": 129,
+        "process_markers": 436,
+        "api_base": "https://apijuris.tjma.jus.br/v1"
+      },
+      "decision": "The public bundle confirms the jurisprudence route and challenge modules, but does not provide a tokenless result contract."
+    },
+    {
+      "authority": "TJMA",
+      "url": "https://www.tjma.jus.br/links/portal/advogado",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "classification": "portal_link_to_challenge_gated_app",
+      "observed": {
+        "acordao_online_link": "https://jurisconsult.tjma.jus.br/",
+        "search_form_present": true
+      },
+      "decision": "The official portal links to JurisConsult; it does not expose an independent tokenless jurisprudence result endpoint."
+    }
+  ],
+  "conclusion": "The additional official routes are process-only or specialized catalog/summary surfaces. TJAP and TJMA general jurisprudence remain access-controlled; no blocked source is converted to an empty result or promoted."
+}

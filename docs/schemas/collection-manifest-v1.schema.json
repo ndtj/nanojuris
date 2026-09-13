@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.dev/schemas/collection-manifest-v1.json",
+  "title": "NanoJuris collection manifest v1",
+  "type": "object",
+  "required": [
+    "schema_version", "run_id", "source", "query", "query_fingerprint",
+    "contract_fingerprint", "started_at", "finished_at", "outcome",
+    "complete", "stop_reason", "max_pages", "max_records", "pages_fetched",
+    "records_seen", "records_saved", "duplicate_records", "invalid_records",
+    "failures"
+  ],
+  "properties": {
+    "schema_version": {"const": "nanojuris-collection-manifest-v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "source": {"type": "string", "minLength": 1},
+    "query": {"type": "object"},
+    "query_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "contract_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "started_at": {"type": "string", "minLength": 1},
+    "finished_at": {"type": "string", "minLength": 1},
+    "outcome": {"enum": ["complete", "paused", "failed"]},
+    "complete": {"type": "boolean"},
+    "stop_reason": {"type": "string", "minLength": 1},
+    "max_pages": {"type": "integer", "minimum": 1},
+    "max_records": {"type": "integer", "minimum": 1},
+    "pages_fetched": {"type": "integer", "minimum": 0},
+    "records_seen": {"type": "integer", "minimum": 0},
+    "records_saved": {"type": "integer", "minimum": 0},
+    "duplicate_records": {"type": "integer", "minimum": 0},
+    "invalid_records": {"type": "integer", "minimum": 0},
+    "failures": {"type": "array", "items": {"type": "object"}},
+    "freshness": {"type": ["object", "null"]}
+  },
+  "additionalProperties": false
+}

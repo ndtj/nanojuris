@@ -1,7 +1,7 @@
 # Adaptação premium do template para NanoJuris
 
 ID: `0005-template-adaptation`
-Status: `in_progress`
+Status: `verified`
 Owner: `NanoJuris engineering`
 Data: `2026-08-20`
 

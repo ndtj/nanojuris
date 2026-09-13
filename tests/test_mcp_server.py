@@ -52,6 +52,7 @@ def test_create_server_registers_expected_tools(monkeypatch):
         "list_source_datasets",
         "list_sources",
         "plan_source_sync",
+        "sync_source_integral_pair",
         "sync_source_resource",
         "search_jurisprudence",
         "search_unified",
@@ -126,6 +127,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
     monkeypatch.setattr(mcp_server, "list_source_datasets_tool", recorder("datasets"))
     monkeypatch.setattr(mcp_server, "describe_source_dataset_tool", recorder("describe"))
     monkeypatch.setattr(mcp_server, "plan_source_sync_tool", recorder("plan_sync"))
+    monkeypatch.setattr(mcp_server, "sync_source_integral_pair_tool", recorder("sync_pair"))
     monkeypatch.setattr(mcp_server, "sync_source_resource_tool", recorder("sync"))
 
     def fake_search_tool(text, **kwargs):
@@ -163,6 +165,10 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
     assert server.tools["list_source_datasets"]()["tool"] == "datasets"
     assert server.tools["describe_source_dataset"]("dataset-1")["tool"] == "describe"
     assert server.tools["plan_source_sync"]("dataset-1")["tool"] == "plan_sync"
+    assert (
+        server.tools["sync_source_integral_pair"]("dataset-1", "metadata-1", "text-1")["tool"]
+        == "sync_pair"
+    )
     assert server.tools["sync_source_resource"]("dataset-1", "resource-1")["tool"] == "sync"
     assert server.tools["source_validation"](["tjdf_juris"], text="icms")["passed"] is True
     assert (
@@ -187,6 +193,7 @@ def test_create_server_tools_delegate_to_tool_layer(monkeypatch):
         "datasets",
         "describe",
         "plan_sync",
+        "sync_pair",
         "sync",
         "search",
         "unified",

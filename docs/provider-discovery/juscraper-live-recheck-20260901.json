@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T15:04:31-03:00",
+  "audit_mode": "bounded_public_http_recheck",
+  "frequency": "one request per endpoint",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjes_jurisprudencia",
+      "endpoint": "GET https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search",
+      "query_shape": {"core": "pje2g", "q": "<juridical-term>", "page": 1, "per_page": 1},
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 104148,
+      "content_sha256": "0388328c7cfe82fd372c5e1bfe52d6990f15f9911429176a34f2741f9418ee7b",
+      "record_count_observed": 1,
+      "classification": "reachable_valid_data"
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "endpoint": "POST https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+      "query_shape": {"jurisprudencia.ementa": "<juridical-term>", "page": 1, "usuario": "empty_public_context"},
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 401,
+      "content_sha256": "ba013fe7a236cf44b29128de2f1c291201ec750e09b306ee4f9f84c705145a0b",
+      "record_count_observed": null,
+      "classification": "blocked_access",
+      "note": "HTTP 403 Access Denied nesta janela; nao e evidencia de ausencia de jurisprudencia."
+    }
+  ],
+  "promotion_decision": "candidate_only",
+  "limitations": [
+    "Recheck limitada a uma chamada publica por endpoint.",
+    "O corpo das respostas nao foi persistido.",
+    "A classificacao e uma fotografia de acesso e nao substitui contrato, fixtures ou revisao de reuso."
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T23:18:15.434240Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "cjf_jurisprudencia",
+  "surface": "TRF1",
+  "endpoint": "GET https://jurisprudencia.cjf.jus.br/trf1/index.xhtml",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "cjf_jurisprudencia",
+      "surface": "trf1",
+      "endpoint": "GET https://jurisprudencia.cjf.jus.br/trf1/index.xhtml",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 16685,
+      "content_sha256": "bca271ebb542c34555602f3d3ecc5e8b78fcc6802d5f9eb0ceff327fa3d152de",
+      "record_count_observed": 0,
+      "reported_total": null,
+      "pagination_mode": "local_window",
+      "classification": "blocked_access"
+    }
+  ],
+  "attempts": [
+    {
+      "verify_ssl": true,
+      "http_status": 200,
+      "final_url": "https://jurisprudencia.cjf.jus.br/trf1/index.xhtml",
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 16685,
+      "content_sha256": "bca271ebb542c34555602f3d3ecc5e8b78fcc6802d5f9eb0ceff327fa3d152de",
+      "markers": ["captcha", "recaptcha"],
+      "classification": "blocked_access"
+    }
+  ],
+  "elapsed_ms": 406,
+  "promotion_decision": "runtime_unchanged",
+  "promotion_blockers": [
+    "A rota TRF1 nao entregou pagina de resultados reproduzivel nesta rodada; o HTML de controle de acesso nao habilita POST especulativo.",
+    "A fotografia nao prova disponibilidade permanente nem autoriza mudanca de contrato."
+  ],
+  "limitations": [
+    "Uma unica abertura GET publica, sem credenciais e sem retry em escala.",
+    "Nenhum corpo live foi persistido; hash e marcadores sao apenas metadados.",
+    "Nenhum CAPTCHA, WAF, rate limit ou controle de acesso foi contornado."
+  ]
+}

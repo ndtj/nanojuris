@@ -1,0 +1,34 @@
+{
+  "schema_version": "provider-document-evidence-v1",
+  "provider": "tjam_cjsg",
+  "source_id": "tjam_cjsg",
+  "authority": "TJAM",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG",
+  "surface": "document",
+  "checked_at": "2026-09-13",
+  "generated_at": "2026-09-13T15:00:06Z",
+  "request": {
+    "precedent_id": "tjam-cjsg-3362925-0",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "response_bytes": 10657,
+    "content_sha256": "2a0e8b2ceb3de5af46730759d448425f617cea352eb623ab20358c1109031a9e",
+    "access_status": "access_control_required",
+    "extraction_status": "blocked",
+    "reason": "A rota oficial de inteiro teor retornou página de CAPTCHA/controle de acesso; nenhum token foi fornecido ou contornado."
+  },
+  "classification": "access_control_required",
+  "promotion": "keep_search_enabled_document_blocked",
+  "safety": {
+    "bypass_used": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  }
+}

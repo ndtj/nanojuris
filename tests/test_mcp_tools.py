@@ -92,6 +92,13 @@ class FakeProvider:
             search_modes=["text"],
             canonical_records=["CanonicalDecision"],
             supports_unified_search=True,
+            supported_filters=[
+                "text",
+                "party_name",
+                "party_document",
+                "lawyer_name",
+                "oab",
+            ],
             supports_mcp=True,
         )
 
@@ -274,6 +281,61 @@ def test_search_jurisprudence_tool_returns_canonical_records_and_limits_page_siz
     assert payload["page_size"] == 100
     assert payload["results"][0]["case_number"] == "0003938-14.2017.8.26.0323"
     assert payload["results"][0]["subject"] == "Homicidio Qualificado"
+
+
+def test_search_jurisprudence_tool_canonical_preserves_page_contract_metadata():
+    payload = search_jurisprudence_tool(
+        "homicidio",
+        source="fake",
+        degree="second",
+        collection="CJSG",
+        client=_client(),
+    )
+
+    assert payload["canonical"] is True
+    assert payload["source"] == "fake"
+    assert payload["total_known"] is None
+    assert payload["filters_applied"] == {
+        "collection": "unverified",
+        "degree": "unverified",
+        "text": "native",
+    }
+    assert "source_trace" in payload
+
+
+def test_search_jurisprudence_tool_forwards_extended_refinement_filters():
+    provider = RecordingProvider()
+    search_jurisprudence_tool(
+        "dano moral",
+        source="fake",
+        all_words="contrato consumidor",
+        any_words="indenização reparação",
+        without_words="modelo",
+        updated_from="2024-01-01",
+        updated_to="2024-12-31",
+        party_name="Maria Silva",
+        party_document="00000000000",
+        lawyer_name="João Souza",
+        oab="SP123456",
+        include_cancelled=True,
+        order_by="Date",
+        fetch_details=True,
+        client=NanoJurisClient(providers=[provider]),
+    )
+
+    assert provider.query is not None
+    assert provider.query.all_words == "contrato consumidor"
+    assert provider.query.any_words == "indenização reparação"
+    assert provider.query.without_words == "modelo"
+    assert provider.query.updated_from == "2024-01-01"
+    assert provider.query.updated_to == "2024-12-31"
+    assert provider.query.party_name == "Maria Silva"
+    assert provider.query.party_document == "00000000000"
+    assert provider.query.lawyer_name == "João Souza"
+    assert provider.query.oab == "SP123456"
+    assert provider.query.include_cancelled is True
+    assert provider.query.order_by == "Date"
+    assert provider.query.fetch_details is True
 
 
 def test_search_jurisprudence_tool_normalizes_invalid_page():

@@ -169,7 +169,8 @@ def test_client_registers_cnj_provider_and_capabilities_scope_is_curated():
     capabilities = CnjJurisprudenciaProvider(session=FakeSession([])).get_capabilities()
     assert capabilities.category == "curated_jurisprudence"
     assert capabilities.supports_catalog is True
-    assert capabilities.supports_full_text is False
+    assert capabilities.supports_full_text is True
+    assert capabilities.full_text_access == "document_link"
     assert "number" in capabilities.supported_filters
 
 
@@ -201,6 +202,23 @@ def test_parser_detects_empty_and_changed_contracts():
     with pytest.raises(ParserContractChangedError):
         parse_cnj_results(
             "<html><body>pagina sem estrutura conhecida</body></html>",
+            query=JurisprudenceQuery(text="teste"),
+            trace=trace(),
+            base_url="https://atos.cnj.jus.br",
+        )
+
+
+def test_versioned_cnj_empty_and_schema_drift_fixtures():
+    empty = parse_cnj_results(
+        load_fixture("cnj_jurisprudencia_empty.html"),
+        query=JurisprudenceQuery(text="sem resultado"),
+        trace=trace(),
+        base_url="https://atos.cnj.jus.br",
+    )
+    assert empty.is_explicit_empty is True
+    with pytest.raises(ParserContractChangedError):
+        parse_cnj_results(
+            load_fixture("cnj_jurisprudencia_schema_drift.html"),
             query=JurisprudenceQuery(text="teste"),
             trace=trace(),
             base_url="https://atos.cnj.jus.br",

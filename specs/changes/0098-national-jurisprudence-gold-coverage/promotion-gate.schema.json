@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NanoJuris technical promotion gate",
+  "type": "object",
+  "required": ["runtime", "degree_contract", "fixtures", "live_status", "quality_gate", "access_status", "federation_status", "promotion_decision"],
+  "properties": {
+    "runtime": {"const": true},
+    "degree_contract": {"const": "valid"},
+    "fixtures": {"const": "complete"},
+    "live_status": {"const": "valid"},
+    "quality_gate": {"const": "passed"},
+    "access_status": {"const": "public"},
+    "federation_status": {"const": "enabled"},
+    "promotion_decision": {"const": "automatic_technical_approval"},
+    "human_legal_review": {"enum": ["pending", "approved", "not_required", "rejected"]}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,64 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "source_id": "trt15_jurisprudencia",
+  "authority": "TRT15",
+  "branch": "labor",
+  "observed_at": "2026-09-08",
+  "classification": "access_blocked",
+  "access_method": "public_https_bounded",
+  "bypass_used": false,
+  "requests": [
+    {
+      "method": "GET",
+      "route": "/",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 10918,
+      "sha256": "27f490c3e37a3f77ee0666cf34c57a752e1a846149dbbcc83caaaa4ca08acaa7"
+    },
+    {
+      "method": "GET",
+      "route": "/assets/app-config.json",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes": 140,
+      "sha256": "55eca9419058b19da1a1a5f50654dfe57af0b7beb77b715f3b6241b0fb65d812"
+    },
+    {
+      "method": "GET",
+      "route": "/backend/configure",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes": 24,
+      "sha256": "5f849877ce879146fbcc8b51b68102071d0ef8c8fcb2642a215af92c54fbeab2",
+      "autoconfigure": false
+    },
+    {
+      "method": "GET",
+      "route": "/backend/listarOpcoes",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes": 12551,
+      "sha256": "fd9539bbc8efcca38ee89811c6448f28f5e9412eefcd94d477eaec80e3b1481f",
+      "options": {"organs": 44, "rapporteurs": 242}
+    },
+    {
+      "method": "POST",
+      "route": "/backend/pesquisar",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes": 14,
+      "sha256": "2618b79f44a18ceb911b2eb909cacb34f7f0d2ab0380846ac15e98158eb57415",
+      "payload": "text=responsabilidade; captchaResponse=empty; recaptcha=empty",
+      "sucesso": 3,
+      "meaning": "captcha_required_or_expired"
+    }
+  ],
+  "contract": {
+    "catalog": "public_options",
+    "search": "official_post_json_but_challenge_required",
+    "degree": "unknown_until_result",
+    "federation": "disabled"
+  },
+  "next_action": "request official API/export or approved human-mediated flow; do not automate challenge"
+}

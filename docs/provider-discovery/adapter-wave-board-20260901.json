@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-07T04:42:36.880710+00:00",
+  "audit_mode": "offline_readiness_join_no_network",
+  "upstream_commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+  "no_runtime_promotion": true,
+  "wave": "juscraper-adapter-waves",
+  "items": [
+    {
+      "work_item": "A1",
+      "source_id": "tjes_jurisprudencia",
+      "surface": "cjsg",
+      "sdd": "0025",
+      "priority": "P0",
+      "collection": "second_degree",
+      "resume_when": "reuso aprovado, fixtures proprias e contrato de paginacao fechado",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "reachable_valid_data",
+      "live_evidence": "recheck:http_200",
+      "readiness": "candidate_ready_for_contract_closure",
+      "next_gate": "fechar reuso, fixtures e limites; nao promover ainda",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "A2",
+      "source_id": "tjrn_jurisprudencia",
+      "surface": "cjsg",
+      "sdd": "0041",
+      "priority": "P0",
+      "collection": "second_degree",
+      "resume_when": "rota publica voltar a responder sem bloqueio de acesso",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "blocked_access",
+      "live_evidence": "recheck:http_403",
+      "readiness": "blocked_access",
+      "next_gate": "replay publico sem bloqueio e evidencias negativas antes de parser",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "A3",
+      "source_id": "tjro_jurisprudencia",
+      "surface": "cjsg",
+      "sdd": "0042",
+      "priority": "P1",
+      "collection": "second_degree",
+      "resume_when": "rota geral oficial, filtros e contrato forem reproduzidos",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "reachable_empty_data",
+      "live_evidence": "dedicated:http_200",
+      "readiness": "covered_requires_differential_fixture",
+      "next_gate": "capturar fixture propria e executar comparacao diferencial",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "A4",
+      "source_id": "tjto_ementa_detail",
+      "surface": "detail",
+      "sdd": "0043",
+      "priority": "P1",
+      "collection": "second_degree_detail",
+      "resume_when": "rota de detalhe e pareamento com listagem forem comprovados",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "not_recorded",
+      "live_evidence": "none",
+      "readiness": "detail_contract_unverified",
+      "next_gate": "reproduzir detalhe lazy, pareamento e falhas parciais",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "C1",
+      "source_id": "tjes_cjpg",
+      "surface": "cjpg",
+      "sdd": "0044",
+      "priority": "P2",
+      "collection": "first_degree",
+      "resume_when": "revisao de reuso aprovar a coleta e o contrato continuar estavel",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "reachable_valid_data",
+      "live_evidence": "dedicated:http_200",
+      "readiness": "separate_collection_contract",
+      "next_gate": "revisar reuso e manter opt-in; nao misturar com CJSG ou processo",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "C2",
+      "source_id": "tjes_turma_recursal",
+      "surface": "cjpg",
+      "sdd": "0045",
+      "priority": "P2",
+      "collection": "review_panel",
+      "resume_when": "binding de turma recursal e semantica propria forem confirmados",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "not_recorded",
+      "live_evidence": "none",
+      "readiness": "separate_collection_contract",
+      "next_gate": "abrir contrato da collection sem misturar CJSG/processo",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "C3",
+      "source_id": "tjsp_cjpg",
+      "surface": "cjpg",
+      "sdd": "0046",
+      "priority": "P2",
+      "collection": "first_degree",
+      "resume_when": "rota CJPG oficial e contrato independente forem confirmados",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "reachable_valid_data",
+      "live_evidence": "dedicated:http_200",
+      "readiness": "separate_collection_contract",
+      "next_gate": "abrir contrato da collection sem misturar CJSG/processo",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    },
+    {
+      "work_item": "C4",
+      "source_id": "tjto_cjpg",
+      "surface": "cjpg",
+      "sdd": "0047",
+      "priority": "P2",
+      "collection": "first_degree",
+      "resume_when": "rota CJPG oficial e separacao de grau forem confirmadas",
+      "semantic_status": "surface_not_declared",
+      "semantic_equivalent": null,
+      "live_classification": "blocked_access",
+      "live_evidence": "dedicated:http_403",
+      "readiness": "blocked_access",
+      "next_gate": "replay publico sem bloqueio e evidencias negativas antes de parser",
+      "runtime_promotion": "forbidden_until_0031_0034_and_human_review",
+      "evidence": {
+        "semantic_diff": "juscraper-semantic-diff-20260901.json",
+        "historical_smoke": "juscraper-live-smoke-20260901.json",
+        "recheck": "juscraper-live-recheck-20260901.json",
+        "dedicated_cjpg": "tjes-cjpg-live-20260901.json",
+        "dedicated_tjsp_cjpg": "tjsp-cjpg-live-20260901.json",
+        "dedicated_tjto_cjpg": "tjto-cjpg-live-20260901.json",
+        "dedicated_tjro_recheck": "tjro-cjsg-live-recheck-20260901.json"
+      }
+    }
+  ],
+  "summary": {
+    "items": 8,
+    "by_readiness": {
+      "candidate_ready_for_contract_closure": 1,
+      "blocked_access": 2,
+      "covered_requires_differential_fixture": 1,
+      "detail_contract_unverified": 1,
+      "separate_collection_contract": 3
+    },
+    "by_priority": {
+      "P0": 2,
+      "P1": 2,
+      "P2": 4
+    }
+  },
+  "limitations": [
+    "A classificacao combina evidencia estatica e fotografias live bounded; nao fecha contrato.",
+    "Nenhum corpo de resposta foi promovido a fixture ou federacao padrao.",
+    "Reuso, equivalencia, identidade e seguranca continuam gates por pacote."
+  ]
+}

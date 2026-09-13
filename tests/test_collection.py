@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import errno
+import json
 from pathlib import Path
 from uuid import uuid4
 
 import pytest
 
-from nanojuris.collection import CollectionRunner
+from nanojuris.collection import CollectionCheckpoint, CollectionRunner
 from nanojuris.models import DecisionBundle, JurisprudenceQuery, JurisprudenceResult, SearchPage
 from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.store import SQLiteStore
@@ -105,6 +107,159 @@ def test_collection_runner_resumes_checkpoint_and_deduplicates() -> None:
         checkpoint.unlink(missing_ok=True)
 
 
+def test_collection_checkpoint_records_contract_query_and_page_fingerprints() -> None:
+    checkpoint = Path(".tmp") / f"collection-fingerprint-{uuid4().hex}.json"
+    try:
+        report = CollectionRunner(
+            FakePagedProvider(), checkpoint_path=checkpoint, max_pages=1
+        ).collect(
+            JurisprudenceQuery(text="responsabilidade", party_document="123456789", oab="SP12345")
+        )
+
+        stored = CollectionCheckpoint.from_path(checkpoint)
+        assert stored.schema_version == 2
+        assert stored.run_id == report.run_id
+        assert stored.query_fingerprint == report.query_fingerprint
+        assert stored.contract_fingerprint == report.contract_fingerprint
+        assert stored.query["party_document"] == "<redacted>"
+        assert stored.query["oab"] == "<redacted>"
+        assert len(stored.page_fingerprints) == 1
+        assert stored.attempts == 1
+        assert stored.outcome == "paused"
+        assert report.freshness is not None
+        assert report.freshness.source_updated_at is None
+        assert report.freshness.coverage_end_known is False
+        assert report.manifest is not None
+        assert report.manifest.schema_version == "nanojuris-collection-manifest-v1"
+        assert report.manifest.query_fingerprint == report.query_fingerprint
+        assert report.manifest.query["party_document"] == "<redacted>"
+        assert report.manifest.complete is False
+        assert report.manifest.outcome == "paused"
+        assert report.to_dict()["manifest"]["freshness"]["source_updated_at"] is None
+    finally:
+        checkpoint.unlink(missing_ok=True)
+
+
+def test_collection_runner_marks_completed_checkpoint_without_deleting_audit() -> None:
+    checkpoint = Path(".tmp") / f"collection-complete-{uuid4().hex}.json"
+    try:
+        report = CollectionRunner(
+            FakePagedProvider(), checkpoint_path=checkpoint, max_pages=3
+        ).collect(JurisprudenceQuery())
+        stored = CollectionCheckpoint.from_path(checkpoint)
+        assert report.complete is True
+        assert stored.outcome == "complete"
+        assert stored.last_error is None
+    finally:
+        checkpoint.unlink(missing_ok=True)
+
+
+def test_collection_runner_rejects_contract_changed_checkpoint() -> None:
+    class MutableContractProvider(FakePagedProvider):
+        def __init__(self) -> None:
+            super().__init__()
+            self.contract = "v1"
+
+        def get_parameters(self):
+            return {"contract": self.contract}
+
+    checkpoint = Path(".tmp") / f"collection-contract-{uuid4().hex}.json"
+    try:
+        provider = MutableContractProvider()
+        CollectionRunner(provider, checkpoint_path=checkpoint, max_pages=1).collect(
+            JurisprudenceQuery(text="responsabilidade")
+        )
+        provider.contract = "v2"
+        with pytest.raises(ValueError, match="contrato atual"):
+            CollectionRunner(provider, checkpoint_path=checkpoint).collect(
+                JurisprudenceQuery(text="responsabilidade")
+            )
+    finally:
+        checkpoint.unlink(missing_ok=True)
+
+
+def test_collection_runner_rejects_legacy_checkpoint_without_fingerprints() -> None:
+    checkpoint = Path(".tmp") / f"collection-legacy-{uuid4().hex}.json"
+    try:
+        CollectionCheckpoint(
+            schema_version=1,
+            source=FakePagedProvider.name,
+            query={"text": "responsabilidade", "page": 1},
+            next_page=2,
+        ).write_atomic(checkpoint)
+        with pytest.raises(ValueError, match="checkpoint legado"):
+            CollectionRunner(FakePagedProvider(), checkpoint_path=checkpoint).collect(
+                JurisprudenceQuery(text="responsabilidade")
+            )
+    finally:
+        checkpoint.unlink(missing_ok=True)
+
+
+def test_collection_checkpoint_atomic_write_cleans_temporary_file_on_failure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    checkpoint = tmp_path / "collection.json"
+
+    def fail_replace(_source: object, _target: object) -> None:
+        raise OSError("simulated replace failure")
+
+    monkeypatch.setattr("nanojuris.collection.os.replace", fail_replace)
+    with pytest.raises(OSError, match="replace failure"):
+        CollectionCheckpoint(
+            schema_version=2,
+            source="fake",
+            query={},
+            next_page=1,
+        ).write_atomic(checkpoint)
+
+    assert not list(tmp_path.glob("*.tmp"))
+
+
+def test_collection_checkpoint_atomic_write_surfaces_disk_full(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A durability failure must be visible and leave no staging file behind."""
+
+    checkpoint = tmp_path / "collection.json"
+
+    def fail_fsync(_fd: int) -> None:
+        raise OSError(errno.ENOSPC, "simulated disk full")
+
+    monkeypatch.setattr("nanojuris.collection.os.fsync", fail_fsync)
+    with pytest.raises(OSError) as error:
+        CollectionCheckpoint(
+            schema_version=2,
+            source="fake",
+            query={},
+            next_page=1,
+        ).write_atomic(checkpoint)
+
+    assert error.value.errno == errno.ENOSPC
+    assert not checkpoint.exists()
+    assert not list(tmp_path.glob("*.tmp"))
+
+
+def test_collection_manifest_and_checkpoint_schema_artifacts_are_versioned() -> None:
+    root = Path(__file__).parents[1] / "docs" / "schemas"
+    checkpoint_schema = json.loads(
+        (root / "collection-checkpoint-v2.schema.json").read_text(encoding="utf-8")
+    )
+    manifest_schema = json.loads(
+        (root / "collection-manifest-v1.schema.json").read_text(encoding="utf-8")
+    )
+    tombstone_schema = json.loads(
+        (root / "tombstone-evidence-v1.schema.json").read_text(encoding="utf-8")
+    )
+
+    assert checkpoint_schema["properties"]["schema_version"]["const"] == 2
+    assert manifest_schema["properties"]["schema_version"]["const"] == (
+        "nanojuris-collection-manifest-v1"
+    )
+    assert tombstone_schema["properties"]["schema_version"]["const"] == (
+        "nanojuris-tombstone-evidence-v1"
+    )
+
+
 def test_collection_runner_replays_partially_consumed_page_after_record_cap() -> None:
     checkpoint = Path(".tmp") / f"collection-cap-{uuid4().hex}.json"
     try:
@@ -196,6 +351,34 @@ def test_collection_runner_reports_repeated_page_when_no_records_are_invalid() -
     assert report.invalid_records == 0
     assert report.duplicate_records >= 1
     assert report.stop_reason == "repeated_page"
+
+
+def test_collection_runner_rejects_known_zero_total_with_rows() -> None:
+    class ContradictoryTotalProvider(FakePagedProvider):
+        name = "fake_contradictory_total"
+
+        def search(self, query: JurisprudenceQuery) -> SearchPage:
+            self.calls.append(query.page)
+            return SearchPage(
+                source=self.name,
+                total=0,
+                total_known=True,
+                start=1,
+                end=1,
+                page=query.page,
+                page_size=query.page_size,
+                results=[self._result("row")],
+                pagination_mode="page",
+                is_complete=False,
+            )
+
+    provider = ContradictoryTotalProvider()
+    report = CollectionRunner(provider, max_pages=5).collect(JurisprudenceQuery())
+
+    assert report.records_saved == 1
+    assert report.complete is False
+    assert report.stop_reason == "inconsistent_total"
+    assert provider.calls == [1]
 
 
 def test_collection_runner_invalid_items_do_not_consume_record_cap() -> None:

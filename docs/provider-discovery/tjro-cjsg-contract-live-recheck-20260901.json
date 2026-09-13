@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01",
+  "audit_mode": "bounded_public_http_contract_recheck",
+  "source_id": "tjro_jurisprudencia",
+  "endpoint": "POST https://juris-back.tjro.jus.br/search/varios_parametros/",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "controls_bypassed": false,
+  "requests": [
+    {
+      "label": "query_without_tipo_from_0",
+      "query": "responsabilidade",
+      "from": 0,
+      "size": 1,
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 93148,
+      "content_sha256": "36890cd43ebdd7fbc5f22b278f18e9c15d1c1cf38051b028138642b96f93e0f1",
+      "reported_total": 676011,
+      "record_count_observed": 1,
+      "first_hit_id_observed": true,
+      "sample_metadata": {
+        "tipo": "SENTENÇA",
+        "grau_jurisdicao": 1,
+        "sistema_origem": "PJEPG"
+      }
+    },
+    {
+      "label": "query_without_tipo_from_1",
+      "query": "responsabilidade",
+      "from": 1,
+      "size": 1,
+      "http_status": 200,
+      "content_type": "application/json",
+      "reported_total": 676011,
+      "record_count_observed": 1,
+      "different_first_hit_from_offset_0": true
+    },
+    {
+      "label": "query_with_tipo_ementa",
+      "query": "responsabilidade",
+      "from": 0,
+      "size": 1,
+      "fields_tipo": ["EMENTA"],
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 753,
+      "content_sha256": "5f76b95015233ee214b5b8f4d05f165f1bd28a4a8b5ef40f53f8d51dde9888f5",
+      "reported_total": 0,
+      "record_count_observed": 0
+    },
+    {
+      "label": "query_grau_1",
+      "query": "responsabilidade",
+      "fields_grau_jurisdicao": [1],
+      "http_status": 200,
+      "reported_total": 322266,
+      "record_count_observed": 1
+    },
+    {
+      "label": "query_grau_2",
+      "query": "responsabilidade",
+      "fields_grau_jurisdicao": [2],
+      "http_status": 200,
+      "reported_total": 353745,
+      "record_count_observed": 1,
+      "sample_metadata": {
+        "tipo": "VOTO",
+        "grau_jurisdicao": 2,
+        "sistema_origem": "PJESG"
+      }
+    }
+  ],
+  "decision": "T02_contract_closed_candidate_only",
+  "limitations": [
+    "O limite maximo de size ainda nao foi medido.",
+    "O vocabulario correto de fields.tipo ainda nao foi confirmado.",
+    "Nenhum corpo textual ou documento foi persistido nesta evidencia.",
+    "Parser, fixture de sucesso e detalhe documental pertencem a T03/T04."
+  ],
+  "production_changed": false
+}

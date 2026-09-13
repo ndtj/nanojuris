@@ -68,11 +68,12 @@ O resultado e normalizado como `JurisprudenceResult` e depois
 
 ## Fixtures
 
-- Sucesso: XLSX minimo gerado em `tests/test_stf_informativo.py`.
+- Sucesso de replay normalizado: `tests/fixtures/stf_informativo_rows.json`.
+- Sucesso estrutural XLSX: builder minimo mantido em
+  `tests/test_stf_informativo.py` para detectar drift de cabecalho e ZIP.
 - Erro: header alterado e payload nao-XLSX.
-- Decisao de rastreabilidade: o XLSX permanece um builder inline, pois o
-  conteudo atual e um contrato sintetico versionado e nao uma resposta oficial
-  arquivada; nao foi promovido a fixture live por inferencia.
+- Decisao de rastreabilidade: a fixture JSON e sintetica e nao e uma resposta
+  oficial arquivada; a evidencia live permanece separada e sem corpo persistido.
 
 ## MCP e Agentes
 
@@ -98,3 +99,18 @@ local. O projeto permanece com `verify_ssl=True` por padrao.
 
 Veja a matriz completa em
 [live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
+
+## Rechecagem bounded 2026-09-01
+
+A rota recebeu `SSLError` com TLS padrao e HTTP 403 em tentativa diagnostica
+sem verificacao. O estado e operacional e especifico do ambiente; nao e
+tratado como lista vazia nem altera o contrato runtime. Metadados sem corpo:
+[`stf-informativo-live-recheck-20260901-cycle1.json`](../../provider-discovery/stf-informativo-live-recheck-20260901-cycle1.json).
+
+## Transporte compartilhado e limites (2026-09-08)
+
+O download XLSX usa o `SharedHttpClient` com allowlist do host oficial,
+HTTP/1.1, limite de 20 MB, timeout, rate limit e circuito compartilhado. Erros
+TLS, timeout, HTTP 403/429 e respostas acima do limite permanecem estados de
+transporte explícitos; o parser só recebe bytes após uma resposta HTTP válida e
+não transforma falhas em vazio.

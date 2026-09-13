@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "ranking_version", "splits", "judgments"],
+  "properties": {
+    "schema_version": {"const": "legal-live-benchmark-v1"},
+    "ranking_version": {"const": "legal-live-v1"},
+    "splits": {"type": "object", "required": ["development", "holdout"]},
+    "judgments": {"type": "array", "items": {"type": "object", "required": ["query_id", "document_id", "grade"], "properties": {"query_id": {"type": "string"}, "document_id": {"type": "string"}, "grade": {"type": "integer", "minimum": 0, "maximum": 3}}}}
+  }
+}

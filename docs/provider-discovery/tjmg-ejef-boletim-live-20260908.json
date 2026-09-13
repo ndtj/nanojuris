@@ -1,0 +1,47 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjmg_ejef_boletim_jurisprudencia",
+  "source_id": "tjmg_ejef_boletim_jurisprudencia",
+  "authority": "TJMG",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG_EJEF_BOLETIM",
+  "source_url": "https://ejef.tjmg.jus.br/boletim-de-jurisprudencia/",
+  "collection_url": "https://bd.tjmg.jus.br/collections/c4bd64ae-089d-446c-966f-2ba332a0cbf5",
+  "search_url": "https://bd.tjmg.jus.br/server/api/discover/search/objects?query=responsabilidade%20civil&scope=c4bd64ae-089d-446c-966f-2ba332a0cbf5&size=2&page=0",
+  "observed_at": "2026-09-08",
+  "credentials_used": false,
+  "bypass_used": false,
+  "search": {
+    "http_status": 200,
+    "content_type": "application/json;charset=UTF-8",
+    "reported_total": 2,
+    "returned": 2,
+    "pagination_mode": "offset",
+    "classification": "success_with_results"
+  },
+  "document_probe": {
+    "item_uuid": "ecd53b20-ca8b-4e2f-9714-d9db923d06a5",
+    "item_title": "Boletim de Jurisprudencia n 170",
+    "http_status": 200,
+    "content_type": "application/pdf;charset=UTF-8",
+    "bytes": 405979,
+    "sha256": "d47ab8891cdf41dca13be41ea4edb809f98e0ea0f231f1d4d869704686543850",
+    "classification": "public_official_pdf"
+  },
+  "limitations": [
+    "colecao curada e historica; nao e acervo integral do TJMG",
+    "total e referente apenas a consulta na colecao",
+    "PDF pode ser image-only; OCR nao foi executado",
+    "formulario legado protegido por CAPTCHA nao foi utilizado"
+  ],
+  "surface": "search",
+  "classification": "success_with_results",
+    "record_count_observed": 2,
+    "reported_total": 2,
+  "pagination_mode": "offset",
+  "http_status": 200,
+  "content_type": "application/json;charset=UTF-8",
+  "raw_body_persisted": false
+}

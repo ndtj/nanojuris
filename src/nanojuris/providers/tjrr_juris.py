@@ -5,7 +5,6 @@ from __future__ import annotations
 import hashlib
 import html as html_lib
 import re
-import time
 import unicodedata
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -14,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -35,6 +35,13 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import (
+    TransportPolicy,
+    TransportRequest,
+    TransportResponse,
+    TransportStatus,
+)
 
 CNJ_RAW_PATTERN = re.compile(r"(?<!\d)(\d{7})(\d{2})(\d{4})(\d)(\d{2})(\d{4})(?!\d)")
 CNJ_PATTERN = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
@@ -42,6 +49,10 @@ DOCUMENT_ID_PATTERN = re.compile(r"/(?:inteiroTeor|impressao)\.xhtml\?id=(\d+)")
 ROW_COUNT_PATTERN = re.compile(r"rowCount\s*:\s*(\d+)")
 ROWS_PATTERN = re.compile(r"rows\s*:\s*(\d+)")
 PAGE_COUNT_PATTERN = re.compile(r"\((\d+)\s+of\s+(\d+)\)")
+PDF_LINK_PATTERN = re.compile(
+    r"(?:href|data)\s*=\s*['\"](?P<href>[^'\"]*/pdf\?id=(?P<id>\d+)[^'\"]*)",
+    re.IGNORECASE,
+)
 
 
 class TjrrJurisProvider(JurisprudenceProvider):
@@ -56,11 +67,36 @@ class TjrrJurisProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.config.tjrr_juris_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         if not (query.text.strip() or query.number.strip() or query.exact_phrase.strip()):
             raise QueryRejectedError("TJRR exige termo livre, numero ou frase exata")
+        if query.degree and _normalize(query.degree) not in {"second", "segundo", "2"}:
+            raise QueryRejectedError("TJRR/CJSG aceita apenas grau de segundo grau")
+        if query.instance and _normalize(query.instance) not in {"second", "segundo", "2"}:
+            raise QueryRejectedError("TJRR/CJSG aceita apenas instancia de segundo grau")
+        if query.branch and _normalize(query.branch) not in {"state", "estadual"}:
+            raise QueryRejectedError("TJRR pertence ao ramo estadual")
+        if query.authority and _normalize(query.authority) not in {
+            "tjrr",
+            "tribunal de justica de roraima",
+        }:
+            raise QueryRejectedError("A autoridade solicitada nao corresponde ao TJRR")
+        if query.collection and _normalize(query.collection) not in {"cjsg", "jurisprudencia"}:
+            raise QueryRejectedError("TJRR expoe a colecao CJSG")
 
         initial = self._request("GET", "/index.xhtml")
         initial_soup = BeautifulSoup(initial.text, "html.parser")
@@ -68,7 +104,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
         if form is None:
             result_form = initial_soup.select_one("form#formPesquisa")
             if query.page > 1 and result_form is not None and _has_result_markup(initial.text):
-                fields = _hidden_fields(result_form)
+                fields: dict[str, str | list[str]] = _hidden_fields(result_form)
                 response = self._request_page(
                     initial.text,
                     query,
@@ -127,6 +163,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
         endpoint = f"/inteiroTeor.xhtml?id={document_id}"
         response = self._request("GET", endpoint)
         text, metadata = extract_tjrr_document_text(response.text)
+        pdf_url = _extract_pdf_url(response.text, document_id)
         trace = _source_trace(
             self.name,
             endpoint="/inteiroTeor.xhtml",
@@ -137,7 +174,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 "O documento deve ser consultado somente com id observado na fonte.",
             ],
         )
-        content_bytes = response.content
+        content_bytes = response.body
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
@@ -154,6 +191,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 "raw_content_sha256": hashlib.sha256(content_bytes).hexdigest(),
                 "raw_content_bytes": len(content_bytes),
                 "raw_content_type": response.headers.get("Content-Type", "text/html"),
+                "pdf_url": pdf_url,
                 **metadata,
             },
         )
@@ -163,7 +201,55 @@ class TjrrJurisProvider(JurisprudenceProvider):
         content = str(bundle.texts[0].get("content") if bundle.texts else "")
         raw = dict(bundle.raw or {})
         access_status = AccessStatus(str(raw.get("access_status") or AccessStatus.PUBLIC.value))
-        status = ExtractionStatus.COMPLETE if content.strip() else ExtractionStatus.EMPTY
+        # TJRR's public detail route is a PDF viewer shell.  The shell itself
+        # contains an official ``/pdf?id=...`` link; following that explicit
+        # link is part of the documented browser flow and is not an access
+        # control bypass.  Older versions returned the shell as an empty
+        # document, losing the available full text.
+        pdf_url = raw.get("pdf_url")
+        if not content.strip() and access_status is AccessStatus.SOURCE_UNAVAILABLE:
+            if isinstance(pdf_url, str) and pdf_url:
+                pdf_response = self._request("GET", pdf_url)
+                if not pdf_response.body.startswith(b"%PDF-"):
+                    raise ParserContractChangedError("TJRR PDF link returned a non-PDF response")
+                pdf_trace = _source_trace(
+                    self.name,
+                    endpoint=_endpoint_from_response(pdf_response, "/pdf"),
+                    query={"id": _parse_document_id(document_id)},
+                    response=pdf_response,
+                    limitations=[
+                        "PDF oficial obtido pelo link publico exposto no visualizador TJRR.",
+                        "O corpo do documento nao e incluido em SourceTrace nem em logs.",
+                    ],
+                )
+                return build_canonical_document(
+                    document_id=document_id,
+                    source=self.name,
+                    document_type="acordao",
+                    content=pdf_response.body,
+                    content_type=pdf_response.headers.get("Content-Type", "application/pdf"),
+                    url=pdf_url,
+                    title=f"TJRR inteiro teor {document_id}",
+                    source_trace=pdf_trace,
+                    access_status=AccessStatus.PUBLIC,
+                    raw_metadata={
+                        "viewer_url": bundle.source_trace.source_url
+                        if bundle.source_trace
+                        else None,
+                        "pdf_url": pdf_url,
+                        "document_id": _parse_document_id(document_id),
+                    },
+                    parser="tjrr_juris.get_document_pdf",
+                    parser_version="1",
+                    max_bytes=8_000_000,
+                )
+        status = (
+            ExtractionStatus.UNSUPPORTED_FORMAT
+            if access_status is AccessStatus.SOURCE_UNAVAILABLE
+            else ExtractionStatus.COMPLETE
+            if content.strip()
+            else ExtractionStatus.EMPTY
+        )
         digest = hashlib.sha256(content.encode("utf-8")).hexdigest()
         return CanonicalDocument(
             id=document_id,
@@ -229,6 +315,7 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 "POST /index.xhtml (ViewState da sessao publica)",
                 "POST AJAX formPesquisa (paginacao PrimeFaces)",
                 "GET /inteiroTeor.xhtml?id=<id>",
+                "GET /pdf?id=<id> (link oficial exposto pelo visualizador)",
             ],
             supports_full_text=True,
             full_text_access="detail_call",
@@ -244,11 +331,53 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 "text",
                 "number",
                 "exact_phrase",
-                "updated_from",
-                "updated_to",
-                "published_from",
-                "published_to",
+                "rapporteur",
+                "judging_body",
+                "judgment_date_from",
+                "judgment_date_to",
+                "degree",
+                "instance",
+                "branch",
+                "authority",
+                "collection",
             ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "exact_phrase": "native",
+                "rapporteur": "native",
+                "judging_body": "native",
+                "judgment_date_from": "native",
+                "judgment_date_to": "native",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "branch": "validated_scope",
+                "authority": "validated_scope",
+                "collection": "validated_scope",
+                "case_class": "unsupported",
+                "document_type": "validated_scope",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "cda": "unsupported",
+                "courts": "unsupported",
+                "decision_type": "unsupported",
+                "fetch_details": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "published_from": "unsupported",
+                "published_to": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+                "types": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+                "without_words": "unsupported",
+            },
             limitations=[
                 "Contrato HTML/JSF sujeito a mudancas de markup e ViewState.",
                 "Filtros de catalogo devem ser mapeados a partir do formulario atual.",
@@ -266,11 +395,15 @@ class TjrrJurisProvider(JurisprudenceProvider):
         html: str,
         query: JurisprudenceQuery,
         *,
-        fallback_fields: dict[str, str],
-    ) -> requests.Response:
+        fallback_fields: dict[str, str | list[str]],
+    ) -> TransportResponse:
         soup = BeautifulSoup(html, "html.parser")
         form = soup.select_one("form#formPesquisa") or soup.select_one("form")
-        fields = _hidden_fields(form) if form is not None else dict(fallback_fields)
+        fields = (
+            _form_defaults(form, prefix="formPesquisa")
+            if form is not None
+            else dict(fallback_fields)
+        )
         table = soup.select_one("div[id$=dataTablePesquisa]")
         table_id = str(
             table.get("id") if table is not None else "formPesquisa:j_idt155:dataTablePesquisa"
@@ -291,6 +424,9 @@ class TjrrJurisProvider(JurisprudenceProvider):
                 f"{table_id}_pagination": "true",
                 f"{table_id}_first": str((query.page - 1) * rows),
                 f"{table_id}_rows": str(rows),
+                f"{table_id}_skipChildren": "true",
+                f"{table_id}_encodeFeature": "true",
+                "formPesquisa": "formPesquisa",
             }
         )
         action = str(form.get("action") if form is not None else "/index.xhtml")
@@ -300,47 +436,56 @@ class TjrrJurisProvider(JurisprudenceProvider):
             data=fields,
             headers={
                 "Faces-Request": "partial/ajax",
+                "X-Requested-With": "XMLHttpRequest",
                 "Accept": "application/xml, text/xml, */*;q=0.01",
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Origin": self.config.tjrr_juris_url.replace("/index.xhtml", ""),
+                "Referer": self.config.tjrr_juris_url,
             },
         )
 
-    def _request(self, method: str, path: str, **kwargs: Any) -> requests.Response:
-        self._respect_rate_limit()
+    def _request(self, method: str, path: str, **kwargs: Any) -> TransportResponse:
         url = urljoin(self.config.tjrr_juris_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
             **kwargs.pop("headers", {}),
         }
+        request = TransportRequest(
+            source=self.name,
+            operation="tjrr_request",
+            method=method,
+            url=url,
+            headers=headers,
+            params=kwargs.pop("params", {}),
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport arguments: {', '.join(sorted(kwargs))}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                verify=self.config.verify_ssl,
-                **kwargs,
-            )
+            response = self.transport.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJRR request failed: {exc}") from exc
-        if response.status_code == 429:
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                f"TJRR transport failed: {response.error_type or response.status.value}"
+            )
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError("TJRR transport returned no HTTP status")
+        if status_code == 429:
             raise RateLimitDetectedError("TJRR returned HTTP 429")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJRR returned HTTP {response.status_code}")
-        if response.status_code >= 400:
-            raise SourceUnavailableError(f"TJRR rejected request with HTTP {response.status_code}")
+        if status_code in {401, 403, 407, 451}:
+            raise AccessControlRequiredError("TJRR requires access validation")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TJRR returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(f"TJRR rejected request with HTTP {status_code}")
         if _looks_like_access_control(response.text) and not _has_result_markup(response.text):
             raise AccessControlRequiredError("TJRR returned captcha or access-control HTML")
         return response
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def parse_tjrr_results(
@@ -385,6 +530,9 @@ def parse_tjrr_results(
                 pagination_mode="page",
                 is_complete=complete,
                 completeness_reason=reason,
+                access_status=AccessStatus.PUBLIC,
+                extraction_status=ExtractionStatus.EMPTY,
+                total_known=total is not None,
             )
         raise ParserContractChangedError("TJRR nao retornou containers de jurisprudencia")
 
@@ -395,7 +543,8 @@ def parse_tjrr_results(
             results.append(result)
     if not results:
         raise ParserContractChangedError("TJRR retornou containers sem campos juridicos")
-    total = _reported_total(markup) or len(results)
+    reported_total = _reported_total(markup)
+    total = reported_total if reported_total is not None else len(results)
     actual_page_size = _reported_page_size(markup) or query.page_size
     # PrimeFaces can include more containers than the declared source window.
     # Keep the source-reported page contract instead of leaking extra rows.
@@ -405,7 +554,7 @@ def parse_tjrr_results(
         reported_total=total,
         start=start,
         returned=len(results),
-        total_is_authoritative=_reported_total(markup) is not None,
+        total_is_authoritative=reported_total is not None,
     )
     return SearchPage(
         source=source,
@@ -419,6 +568,9 @@ def parse_tjrr_results(
         pagination_mode="page",
         is_complete=complete,
         completeness_reason=reason,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE,
+        total_known=reported_total is not None,
     )
 
 
@@ -430,6 +582,14 @@ def extract_tjrr_document_text(html: str) -> tuple[str, dict[str, Any]]:
             "access_status": AccessStatus.ACCESS_CONTROL_REQUIRED.value,
             "warnings": ["TJRR document response contains access-control text."],
         }
+    if _looks_like_pdf_viewer_notice(html):
+        return "", {
+            "access_status": AccessStatus.SOURCE_UNAVAILABLE.value,
+            "warnings": [
+                "TJRR returned a PDF viewer notice instead of the document bytes; "
+                "the public detail is unavailable to this client."
+            ],
+        }
     soup = BeautifulSoup(html, "html.parser")
     for node in soup.select("script, style, noscript"):
         node.decompose()
@@ -438,6 +598,19 @@ def extract_tjrr_document_text(html: str) -> tuple[str, dict[str, Any]]:
         "access_status": AccessStatus.PUBLIC.value if text else AccessStatus.PARTIAL.value,
         "text_characters": len(text),
     }
+
+
+def _looks_like_pdf_viewer_notice(value: str) -> bool:
+    """Detect the portal's text fallback when a PDF cannot be displayed.
+
+    The response is not a decision and must never be indexed as full text.
+    Matching is accent-insensitive because the portal frequently emits a
+    legacy encoding with mojibake.
+    """
+
+    normalized = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode()
+    compact = " ".join(normalized.casefold().split())
+    return "seu navegad" in compact and "suporte para visualiza" in compact and "pdf" in compact
 
 
 def _parse_result(
@@ -483,6 +656,14 @@ def _parse_result(
         publication_date=publication_date,
         access_status=AccessStatus.PUBLIC,
         source_trace=trace,
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJRR",
+        collection="CJSG",
+        document_type="acordao",
+        source_origin="official_portal",
+        document_url=detail_url,
         raw={
             "case_class": case_class,
             "judging_body": judging_body,
@@ -495,8 +676,8 @@ def _parse_result(
     )
 
 
-def _build_search_fields(form: Tag, query: JurisprudenceQuery) -> dict[str, str]:
-    fields = _hidden_fields(form)
+def _build_search_fields(form: Tag, query: JurisprudenceQuery) -> dict[str, str | list[str]]:
+    fields = _form_defaults(form, prefix="menuinicial")
     text_input = form.select_one("#consultaAtual") or form.select_one("input[name*=':j_idt']")
     if text_input is None or not text_input.get("name"):
         raise ParserContractChangedError("TJRR nao encontrou o campo de termo livre")
@@ -508,21 +689,104 @@ def _build_search_fields(form: Tag, query: JurisprudenceQuery) -> dict[str, str]
         form, fields, ["numero SISCOM", "numero PROJUDI", "numero do processo"], query.number
     )
     _set_labeled_value(form, fields, ["ementa/indexacao", "ementa/indexação"], query.exact_phrase)
-    _set_labeled_value(form, fields, ["data inicial"], query.updated_from or query.published_from)
-    _set_labeled_value(form, fields, ["data final"], query.updated_to or query.published_to)
+    _set_relator_value(form, fields, query.rapporteur)
+    _set_option_value(form, fields, ["orgao julgador", "orgao julgador"], query.judging_body)
+    _set_labeled_value(
+        form,
+        fields,
+        ["data inicial"],
+        query.judgment_date_from or query.updated_from or query.published_from,
+    )
+    _set_labeled_value(
+        form,
+        fields,
+        ["data final"],
+        query.judgment_date_to or query.updated_to or query.published_to,
+    )
     return fields
 
 
-def _hidden_fields(form: Tag | None) -> dict[str, str]:
+def _set_option_value(
+    form: Tag, fields: dict[str, str | list[str]], labels: list[str], value: str
+) -> None:
+    """Resolve a human-readable select label to the source option code."""
+
+    if not value:
+        return
+    wanted = {_normalize(label) for label in labels}
+    for label in form.select("label[for]"):
+        if not any(item in _normalize(label.get_text(" ", strip=True)) for item in wanted):
+            continue
+        control = form.select_one(f"#{_css_escape(str(label['for']))}")
+        if control is None:
+            continue
+        for option in control.select("option"):
+            if _normalize(option.get_text(" ", strip=True)) == _normalize(value):
+                fields[str(control.get("name") or label["for"])] = str(option.get("value") or "")
+                return
+        raise QueryRejectedError(f"Orgao julgador desconhecido no TJRR: {value}")
+
+
+def _set_relator_value(form: Tag, fields: dict[str, str | list[str]], value: str) -> None:
+    """Resolve the public relator label to its opaque JSF checkbox value."""
+
+    if not value:
+        return
+    wanted = _normalize(value)
+    for checkbox in form.select("input[type=checkbox][name*='relatorList']"):
+        checkbox_id = str(checkbox.get("id") or "")
+        label = form.find("label", attrs={"for": checkbox_id})
+        if label is None or _normalize(label.get_text(" ", strip=True)) != wanted:
+            continue
+        fields[str(checkbox["name"])] = str(checkbox.get("value") or "")
+        return
+    raise QueryRejectedError(f"Relator desconhecido no TJRR: {value}")
+
+
+def _hidden_fields(form: Tag | None) -> dict[str, str | list[str]]:
     if form is None:
         return {}
-    fields: dict[str, str] = {}
+    fields: dict[str, str | list[str]] = {}
     for input_tag in form.select("input[type=hidden][name]"):
         fields[str(input_tag["name"])] = str(input_tag.get("value") or "")
     return fields
 
 
-def _set_labeled_value(form: Tag, fields: dict[str, str], labels: list[str], value: str) -> None:
+def _form_defaults(form: Tag | None, *, prefix: str) -> dict[str, str | list[str]]:
+    """Collect the public JSF form context required by PrimeFaces.
+
+    Hidden fields alone are insufficient for TJRR: the server uses visible
+    defaults (collapsed flags and selected options) to reconstruct the
+    component tree. Values remain lists for multi-select controls, matching a
+    browser's ``application/x-www-form-urlencoded`` submission.
+    """
+
+    if form is None:
+        return {}
+    values: dict[str, list[str]] = {}
+    for control in form.select("input[name], select[name], textarea[name]"):
+        name = str(control.get("name") or "")
+        # JSF's ViewState is global to the form and does not carry the
+        # component prefix; it is nevertheless mandatory for every POST.
+        if not name.startswith(prefix) and name != "javax.faces.ViewState":
+            continue
+        control_type = str(control.get("type") or "").lower()
+        if control_type in {"submit", "button", "image", "reset"}:
+            continue
+        if control_type in {"checkbox", "radio"} and not control.has_attr("checked"):
+            continue
+        if control.name == "select":
+            options = control.select("option[selected]") or control.select("option")[:1]
+            selected = [str(option.get("value") or "") for option in options]
+        else:
+            selected = [str(control.get("value") or "")]
+        values.setdefault(name, []).extend(selected)
+    return {name: entries[0] if len(entries) == 1 else entries for name, entries in values.items()}
+
+
+def _set_labeled_value(
+    form: Tag, fields: dict[str, str | list[str]], labels: list[str], value: str
+) -> None:
     if not value:
         return
     normalized_labels = {_normalize(label) for label in labels}
@@ -670,8 +934,28 @@ def _parse_document_id(precedent_id: str) -> str:
     return match.group(1)
 
 
-def _endpoint_from_response(response: requests.Response, fallback: str) -> str:
-    parsed = urlparse(str(getattr(response, "url", "") or ""))
+def _extract_pdf_url(markup: str, document_id: str) -> str | None:
+    """Extract the official PDF link from TJRR's viewer shell.
+
+    The viewer can contain unrelated assets, so require both the expected
+    ``/pdf`` route and the observed decision id.  Relative links are returned
+    as absolute HTTPS URLs and are later checked by the allowlisted transport.
+    """
+
+    for match in PDF_LINK_PATTERN.finditer(markup):
+        if match.group("id") != document_id:
+            continue
+        href = html_lib.unescape(match.group("href"))
+        parsed = urlparse(href)
+        if not parsed.scheme:
+            return urljoin("https://jurisprudencia.tjrr.jus.br/", href.lstrip("/"))
+        if parsed.scheme == "https" and parsed.hostname == "jurisprudencia.tjrr.jus.br":
+            return href
+    return None
+
+
+def _endpoint_from_response(response: TransportResponse, fallback: str) -> str:
+    parsed = urlparse(str(response.final_url or response.url or ""))
     return parsed.path or fallback
 
 
@@ -680,22 +964,26 @@ def _source_trace(
     *,
     endpoint: str,
     query: dict[str, Any],
-    response: requests.Response,
+    response: TransportResponse,
     limitations: list[str],
 ) -> SourceTrace:
-    content = bytes(getattr(response, "content", b"") or b"")
+    content = bytes(response.body or b"")
     if not content:
-        content = str(getattr(response, "text", "")).encode("utf-8")
+        content = response.text.encode("utf-8")
+    status_code = response.status_code
     return SourceTrace(
         provider=provider,
         endpoint=endpoint,
         query=query,
-        source_url=str(getattr(response, "url", "") or "") or None,
+        source_url=str(response.final_url or response.url or "") or None,
         limitations=limitations,
-        http_status=int(getattr(response, "status_code", 0) or 0) or None,
-        final_url=str(getattr(response, "url", "") or "") or None,
+        http_status=status_code,
+        final_url=str(response.final_url or response.url or "") or None,
         content_type=response.headers.get("Content-Type") if response.headers else None,
         content_sha256=hashlib.sha256(content).hexdigest(),
         response_bytes=len(content),
-        retrieval_status="ok" if 200 <= response.status_code < 300 else "http_error",
+        elapsed_ms=response.elapsed_ms,
+        retrieval_status="ok"
+        if status_code is not None and 200 <= status_code < 300
+        else "http_error",
     )

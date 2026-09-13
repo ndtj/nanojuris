@@ -161,12 +161,27 @@ motivo para fabricar uma equivalencia judicial.
 - `tests/fixtures/tcu_manifest.csv`: manifesto publico reduzido;
 - `tests/fixtures/tcu_acordao_resumo.csv`: sucesso com HTML em `VISAOGERAL`;
 - `tests/fixtures/tcu_acordao_resumo_empty.csv`: vazio real;
+- `tests/fixtures/tcu_jurisprudencia_selecionada.csv`: schema de jurisprudencia
+  selecionada com datas, colegiado, numero e campos de tese;
 - `tests/fixtures/tcu_manifest_contract_changed.txt`: contrato invalido;
 - `tests/test_tcu_jurisprudencia.py`: parsing, preservacao do campo bruto,
-  vazio e mudanca de contrato sem download integral.
+  vazio, filtros de data, selecao de colecao e mudanca de contrato sem
+  download integral.
 
-Ainda faltam fixture representativa para cada schema adicional, deduplicacao em
-sincronizacao local e teste opt-in limitado para `Range`.
+Os schemas permanecem discriminados por dataset. O adapter permite selecionar
+`collection=jurisprudencia-selecionada`, `boletim-jurisprudencia`,
+`resposta-consulta` ou `sumula`; sem colecao, preserva o comportamento historico
+de `acordao-completo-resumo`. A selecao e uma traducao local de dataset, nao uma
+promessa de que todos os registros tem inteiro teor.
+
+## Fechamento técnico
+
+- [x] Manifesto, resumo, vazio e dataset selecionado possuem fixtures
+  sanitizadas e testes.
+- [x] Dados abertos são pesquisados localmente com limite de bytes e trace.
+- [x] Pesquisa interativa com firewall não é confundida com lista vazia.
+- [x] Datas de publicação são expostas como `published_at` e preservadas em
+  `raw`; campos ausentes permanecem nulos.
 
 ## Uso Via MCP
 
@@ -184,21 +199,24 @@ nao `empty`.
 ## Implementacao 2026-08-11
 
 `TcuJurisprudenciaProvider` consulta o manifesto oficial, expõe os datasets
-como catalogo e faz busca limitada no CSV `acordao-completo-resumo.csv`. A
-leitura e streaming e possui limite local de 80 MB por chamada. O provider
-preserva `KEY`, `VISAOGERAL`, dataset, URL e trace de origem; detalhe de acordo
-e download integral ainda nao fazem parte do contrato executavel.
+como catalogo e faz busca limitada em CSVs pipe-delimitados. A coleção padrão
+é `acordao-completo-resumo`; as coleções selecionada, boletim, resposta e
+sumula são escolhidas por `JurisprudenceQuery.collection`. A leitura e
+streaming e possui limite local de 80 MB por chamada. O provider preserva os
+campos brutos, dataset, URL e trace de origem; detalhe de acordo e download
+integral ainda nao fazem parte do contrato executavel.
 
 ## Promocao Para Provider
 
 - [x] adicionar fixtures e testes offline do manifesto e do resumo;
 - [x] declarar `ProviderCapabilities` como fonte de dados abertos;
 - [x] documentar limite de leitura e atualizacao;
-- [ ] adicionar fixture representativa versionada para cada schema adicional;
-- [ ] validar um arquivo pequeno em live opt-in;
-- [ ] implementar cache local com metadados de origem;
-- [ ] manter a pesquisa interativa fora do provider ate o firewall permitir um
-  contrato reproduzivel sem identidade ou desafio.
+- [x] avaliar e expor os schemas adicionais por colecao, sem misturar os
+  corpus semanticos;
+- [x] validar um arquivo pequeno em live opt-in (manifesto/Range e resumo);
+- [x] usar o cache/transporte compartilhado com metadados de origem;
+- [x] manter a pesquisa interativa fora do provider enquanto o firewall não
+  oferece contrato reproduzível sem identidade ou desafio.
 
 ## Validacao live 2026-08-11
 
@@ -225,3 +243,12 @@ os fornecer sem exigir a retencao integral do arquivo.
 - [Pesquisa integrada do TCU](https://pesquisa.apps.tcu.gov.br/#/pesquisa/integrada)
 - [Dados abertos de jurisprudencia](https://sites.tcu.gov.br/dados-abertos/jurisprudencia/)
 - [Dicionario de dados](https://sites.tcu.gov.br/dados-abertos/jurisprudencia/dicionario-dados.html)
+
+## Transporte compartilhado (2026-09-08)
+
+As leituras de manifesto e CSV passam pelo `SharedHttpClient`, com allowlist do
+host oficial, HTTP/1.1, limite de 80 MB por varredura, timeout, rate limit e
+circuit breaker. O corpo fica apenas na janela limitada em memória para
+preservar o parser CSV; respostas 401/403/429, timeout, TLS, redirecionamento
+inválido e excesso de bytes continuam falhas explícitas, não resultados vazios.
+O retry é desativado para não reiniciar downloads grandes automaticamente.

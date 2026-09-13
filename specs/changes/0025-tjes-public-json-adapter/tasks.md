@@ -1,21 +1,15 @@
 # Tasks
 
-- [x] **T01** Registrar o contrato JSON observado no dossiê canônico e na
-  pesquisa de rotas (concluído em 0023/route-research; sincronizado neste
-  ciclo).
-- [ ] **T02** Revisar as condições públicas de reuso/redistribuição do acervo e
-  registrar a conclusão. Bloqueia toda a implementação abaixo.
-- [ ] **T03** Capturar fixtures live sanitizadas: sucesso `pje2g`, vazio, erro
-  de parâmetro, paginação `page=1`/`page=2`, e core `legado`.
-- [ ] **T04** Confirmar `per_page` máximo, ordenação estável e comportamento de
-  rate limit; fixar constantes do adapter.
-- [ ] **T05** Implementar o request JSON com seleção de core e classificação de
-  erro (`REQ-002`, `REQ-005`, `REQ-006`).
-- [ ] **T06** Implementar o parser canônico e a conversão de paginação
-  (`REQ-003`, `REQ-004`).
-- [ ] **T07** Declarar rota, cores, formatos e limite no catálogo/capability e
-  atualizar os dossiês (`REQ-007`).
-- [ ] **T08** Adicionar os testes de contrato (AC-001..AC-007) e executar
-  suíte focada, lint e validação SDD sem rede.
-- [ ] **T09** Marcar o provider como `candidate_adapter_p1` → adapter ativo no
-  registro e no `provider-catalog.full.json` regenerado.
+- [x] T01 - registrar o contrato JSON observado no dossie canonico e na pesquisa de rotas.
+- [x] T02 - registrar a decisao operacional: fontes publicas podem ser usadas no runtime local/federado quando os gates tecnicos passarem; sem deploy ou redistribuicao.
+- [x] T03 - capturar fixtures sanitizadas de sucesso, vazio, erro, pagina 1/pagina 2, core legado e core incompatível.
+- [x] T04 - confirmar limite de pagina, ordenacao estavel e comportamento de rate limit.
+- [x] T05 - implementar request JSON com selecao de core e classificacao de erro.
+- [x] T06 - implementar parser canonico e conversao de paginacao.
+- [x] T07 - declarar rota, cores, formatos e limites no catalogo e capability.
+- [x] T08 - adicionar testes de contrato e executar suite focada, lint e validacao SDD.
+- [x] T09 - registrar o adapter ativo no runtime e no catalogo regenerado.
+- [x] T10 - vincular `pje2g` somente a CJSG; `pje1g` e turma recursal usam pacotes proprios.
+
+Evidencia principal: SDD 0049 (TJES/CJSG), SDD 0044 (TJES/CJPG), fixtures
+sanitizadas, testes unitarios/live opt-in e os catalogos gerados em `docs/`.

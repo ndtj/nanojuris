@@ -1,0 +1,40 @@
+{
+  "schema_version": "provider-live-v1",
+  "generated_at": "2026-09-07T20:22:39.986216+00:00",
+  "source": "tst_jurisprudencia",
+  "scope": "jurisprudencia",
+  "status": "valid",
+  "retrieval_status": "ok",
+  "extraction_status": "complete",
+  "http_status": 200,
+  "record_count_observed": 1,
+  "reported_total": 849232,
+  "pagination_mode": "offset",
+  "content_type": "application/json",
+  "response_bytes": null,
+  "observed_at": "2026-09-07T20:22:39.986216+00:00",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 1
+  },
+  "observation": {
+    "search": {
+      "http_status": 200,
+      "returned": 1,
+      "total_known": true,
+      "reported_total": 849232,
+      "ids": [
+        "tst-jurisprudencia-5de44f849de00074a2560afcbaa336d4"
+      ],
+      "has_summary": true
+    },
+    "detail": {
+      "status": "valid",
+      "byte_size": 140484,
+      "content_type": "text/html",
+      "sha256": "36716b7f88cd2b75f7105423bcff3abf7b913eb0e89246d53c83caf7dedd4c4a",
+      "has_text": true
+    }
+  },
+  "bodies_persisted": false
+}

@@ -116,7 +116,7 @@ def test_cli_tribunais_filters_brazilian_courts(capsys):
 
     assert exit_code == 0
     payload = json.loads(capsys.readouterr().out)
-    assert [court["code"] for court in payload] == ["TJSP"]
+    assert [court["code"] for court in payload] == ["TJSP", "TRESP"]
     assert payload[0]["providers"] == [
         "tjsp_cjsg",
         "tjsp_eproc_jurisprudencia",

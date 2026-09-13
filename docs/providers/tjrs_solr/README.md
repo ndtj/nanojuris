@@ -1,8 +1,9 @@
 # TJRS - Jurisprudencia AJAX/SOLR
 
 Status atual: `implemented`; busca textual JSON/SOLR e paginacao por offset
-possuem contrato reproduzido, fixture offline e evidencia live recente.
-Detalhe e inteiro teor continuam explicitamente fora do contrato executavel.
+possuem contrato reproduzido, fixture offline e evidencia live recente. O
+inteiro teor publico e recuperavel pela rota AJAX `retorna_tiff` e preservado
+como TIFF, com extracao textual explicitamente separada.
 
 ## Identidade e escopo
 
@@ -12,7 +13,8 @@ Detalhe e inteiro teor continuam explicitamente fora do contrato executavel.
 - Familia tecnica: formulario AJAX legado com resposta SOLR-like em JSON.
 - O provider cobre busca textual, numero de processo, metadados, facets e
   highlighting retornados pelo indice.
-- Nao representa consulta processual nem anuncia inteiro teor.
+- Nao representa consulta processual; o documento TIFF e uma capacidade
+  independente da busca textual.
 
 ## Contrato HTTP
 
@@ -67,16 +69,20 @@ retornada.
 
 ## Detalhe e inteiro teor
 
-O provider nao promove `document_url` numerica ou link legado a documento
-carregado. Rotas de detalhe e inteiro teor devem ser reproduzidas em sessao
-publica limpa, com fixture e teste, antes de serem expostas como capacidade.
+O endpoint `POST .../ajax.php` com `metodo=retorna_tiff` e
+`codigo_documento=<cod_ementa>` retorna JSON com o campo `documento` em
+base64. O adapter valida a assinatura TIFF, aplica limite de 20 MB, calcula
+SHA-256 e preserva os bytes no `CanonicalDocument` e no `DecisionBundle`.
+Como a fonte entrega imagem, `extraction_status` fica `unsupported_format` ate
+que um pipeline OCR explicitamente governado seja habilitado; nenhum texto e
+inventado.
 
 ## Uso pelo MCP e Studio
 
 O agente pode usar `tjrs_solr` para pesquisa textual e deve receber total,
-offset, facets, highlighting, trace e completude. A interface deve informar
-que o resultado e de indice/ementa e que detalhe e inteiro teor nao foram
-validados pelo provider.
+offset, facets, highlighting, trace e completude. Para inteiro teor, deve
+solicitar o documento por seu ID e informar que o original e uma imagem TIFF
+sem texto extraido.
 
 ## Validacao live
 
@@ -100,4 +106,29 @@ trace do TJRS; uma nova rodada deve ser usada para monitoramento posterior.
 ## Proximos passos
 
 - Revalidar pagina vazia e pagina posterior em monitoramento live controlado.
-- Mapear rotas publicas de detalhe e inteiro teor antes de anuncia-las.
+- Avaliar OCR separado, com limites, proveniencia e permissao da fonte.
+
+## Evidencia de inteiro teor (2026-09-07)
+
+A rota publica `retorna_tiff` foi validada com HTTP 200 e documento TIFF
+decodificado. O binario original e preservado pelo adapter; a ausencia de OCR
+continua explicita e nao e tratada como texto vazio.
+
+Evidencia: `docs/provider-discovery/tjrs-solr-fulltext-live-20260907.json`.
+## Contrato CJSG fechado - 2026-09-06
+
+> Atualizacao de 2026-09-07: a rota publica `retorna_tiff` comprovou acesso ao
+> inteiro teor em TIFF. A extracao textual/OCR permanece uma capacidade
+> separada e nao deve ser inferida automaticamente.
+
+O adapter aceita `ocr_allowed=True`, `ocr_max_pages` e `ocr_timeout_seconds`
+para OCR opt-in bounded do TIFF, usando os extras `nanojuris[ocr]`. O TIFF
+original continua preservado mesmo quando OCR estiver indisponivel ou parcial.
+
+- A busca AJAX/SOLR pública do TJRS retornou acórdãos textuais em duas páginas
+  consecutivas; o parser rejeita explicitamente registros de sentença.
+- Registros aceitos expõem `authority=TJRS`, `branch=state`, `degree=second`,
+  `instance=second`, `collection=CJSG` e `document_type`, preservando facets,
+  campos brutos e o trace HTTP.
+- A superfície oferece ementa/índice textual; inteiro teor continua declarado
+  como indisponível e não é inferido a partir do link legado.

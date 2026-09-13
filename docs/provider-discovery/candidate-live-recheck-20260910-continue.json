@@ -1,0 +1,37 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "audit_mode": "bounded_public_recheck",
+  "credentials_used": false,
+  "bypass_used": false,
+  "checks": [
+    {
+      "provider": "tjap_tucujuris",
+      "request": "POST /api/publico/consultar-jurisprudencia",
+      "query_shape": {"ementa": "divorcio", "orgao": "0"},
+      "http_status": 200,
+      "response_status": "ERRO",
+      "classification": "access_control_required",
+      "evidence": "A API oficial respondeu envelope de falha de verificacao de seguranca; o passe Turnstile e obrigatorio.",
+      "authorized_contract": "captcha no JSON; dados como lista de resultados; offset para pagina; detalhe/exportacao observados no frontend",
+      "federation": "not_enabled"
+    },
+    {
+      "provider": "tjse_jurisprudencia",
+      "request": "GET + POST /Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "query_shape": {"itTermos": "divorcio", "sorCompetencia": "SG"},
+      "get_http_status": 200,
+      "post_http_status": 200,
+      "classification": "access_control_required",
+      "evidence": "O formulario JSF oficial foi carregado; a submissao sem token respondeu 'Captcha invalido'. Nenhum resultado foi tratado como vazio.",
+      "federation": "not_enabled"
+    }
+  ],
+  "decision": "Os dois providers permanecem candidatos opt-in. O contrato de busca autorizado foi refinado, mas a promocao exige passe humano real, fixture de sucesso, detalhe/inteiro teor e validacao de paginacao.",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "tokens_persisted": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

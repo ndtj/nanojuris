@@ -1,7 +1,7 @@
 # Spec — maturação premium do contrato de busca unificada
 
 ID: `0007-unified-contract-maturation`
-Status: `in_progress`
+Status: `verified`
 Owner: `NanoJuris engineering`
 Data: `2026-08-20`
 

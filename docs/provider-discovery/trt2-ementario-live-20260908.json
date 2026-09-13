@@ -1,0 +1,71 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "trt2_ementario_jurisprudencia",
+  "observed_at": "2026-09-08",
+  "bounded": true,
+  "bypass_used": false,
+  "source": "https://trt2.jus.br",
+  "source_id": "trt2_ementario_jurisprudencia",
+  "surface": "jurisprudencia",
+  "classification": "success_with_results",
+  "record_count_observed": 2,
+  "pagination_mode": "local_window",
+  "http_status": 200,
+  "content_type": "text/html",
+  "queries": [
+    {
+      "collection": "tribunal_pleno",
+      "text": "responsabilidade",
+      "page": 1,
+      "page_size": 1,
+      "classification": "success_with_results",
+      "total": 3,
+      "total_known": false,
+      "returned": 1,
+      "record": {
+        "id": "trt2-ementario-023013e6d6083e9ba59d",
+        "authority": "TRT2",
+        "branch": "labor",
+        "degree": "second",
+        "instance": "second",
+        "collection": "TRT2_EMENTARIO",
+        "summary_length": 25781,
+        "document_url": "https://www.trt2.jus.br/geral/tribunal2/Ementario/Tribunal_Pleno/Acordaos/Ac_028_17.pdf"
+      },
+      "document": {
+        "content_type": "application/pdf",
+        "bytes": 489171,
+        "sha256": "97f5ece96b16e301400e20c766e4fbf135eb0334682dcdc0876b5f327de21dea",
+        "extracted_text_length": 0,
+        "access_status": "public"
+      }
+    },
+    {
+      "collection": "corregedoria",
+      "text": "responsabilidade",
+      "page": 1,
+      "page_size": 1,
+      "classification": "success_with_results",
+      "total": 1,
+      "total_known": false,
+      "returned": 1,
+      "record": {
+        "id": "trt2-ementario-4ef840cee279a7ad3b20",
+        "authority": "TRT2",
+        "branch": "labor",
+        "degree": "second",
+        "instance": "second",
+        "collection": "TRT2_EMENTARIO",
+        "summary_length": 1530,
+        "document_url": null
+      }
+    }
+  ],
+  "decision": "public_bounded_surface_revalidated; eligible_for_default_federation_as_partial_total_unknown",
+  "limitations": [
+    "Static topic index; no authoritative national total.",
+    "PDF linked by the source may be image-only; no OCR was performed.",
+    "This collection does not replace the protected PJe search."
+  ],
+  "raw_body_persisted": false
+}

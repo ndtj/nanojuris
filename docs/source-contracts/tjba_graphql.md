@@ -166,7 +166,25 @@ reais ou dados pessoais desnecessarios.
 - [x] Fixture de catalogo e detalhe.
 - [x] Classificacao de erros HTTP e GraphQL.
 - [x] Teste live opt-in de busca e inteiro teor publico.
-- [ ] Revalidar vazio e pagina seguinte em monitoramento live controlado.
+- [x] Revalidar a pagina seguinte em monitoramento live controlado.
+- [x] Revalidar vazio com numero CNJ impossivel em monitoramento live controlado.
+
+## Contrato CJSG fechado - 2026-09-05
+
+Esta superficie foi promovida explicitamente como `TJBA/CJSG`. O payload de
+busca fixa `segundoGrau=true`, e cada item que informa `instancia`, `grau` ou
+`degree` deve declarar segundo grau; qualquer valor de primeiro grau ou outro
+valor e rejeitado como mudanca de contrato. Os resultados normalizados
+preservam `degree=second`, `instance=second`, `branch=state`,
+`authority=TJBA`, `collection=CJSG` e o tipo documental (`acordao` ou
+`decisao_monocratica`). Consultas que pedem primeiro grau ou outra colecao sao
+rejeitadas antes do transporte. `SearchPage` informa `total_known`,
+`access_status`, `extraction_status`, ordenacao e filtros remotos.
+
+Evidencia tecnica: `tests/test_tjba_graphql.py`,
+`tests/test_tjba_graphql_live.py` e os artefatos de validacao live de
+2026-09-05. A promocao nao infere cobertura para qualquer outro tribunal ou
+colecao.
 
 ## MCP
 

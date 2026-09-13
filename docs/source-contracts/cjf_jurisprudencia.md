@@ -11,6 +11,12 @@
 - Status observado: busca publica reproduzida em sessao limpa em 2026-08-11.
 - Status no NanoJuris: implementado para a superficie TRF1; unificada ainda separada.
 
+Cada registro da rota `/trf1/index.xhtml` preserva a identidade canônica
+comprovada pelo escopo oficial: `authority=TRF1`, `branch=federal`,
+`degree=second`, `instance=second` e `collection=JURISPRUDENCIA`. Quando o
+cartão HTML não repete o grau, essa origem é registrada em `field_provenance`
+como escopo da rota, e não inferida por texto livre.
+
 ## Contrato observado
 
 As paginas sao aplicacoes JSF/PrimeFaces. O cliente deve abrir a pagina,
@@ -46,6 +52,15 @@ Em 2026-08-11, o fluxo TRF1 com `dano moral` e `ACORDAO` retornou:
 A busca observada retornou, por exemplo, o processo
 `1001321-42.2024.4.01.3300`, com ementa e metadados decisorios. Esse numero
 serve apenas como evidencia tecnica da sessao, nao como fixture obrigatoria.
+
+### Rechecagem bounded de acesso (2026-09-01, ciclo 8)
+
+Uma abertura GET publica da rota TRF1 respondeu HTTP 200, mas o HTML continha
+marcadores `captcha` e `recaptcha` e nao apresentou tabela de resultados. A
+rodada foi classificada como `blocked_access`; nenhum POST com ViewState foi
+enviado depois do desafio e nenhum resultado foi convertido em vazio. Hash,
+tamanho e limites estao registrados em
+`docs/provider-discovery/cjf-trf1-live-recheck-20260901-cycle8.json`.
 
 ## Campos canonicos
 
@@ -85,8 +100,8 @@ deve salvar ViewState, cookies ou `jsessionid` como configuracao persistente.
 sessao atual e envia a pesquisa JSF com termo e tipo documental. O parser usa
 as tabelas semanticas `table.table_resultado` e os labels oficiais para
 normalizar numero, classe, relator, origem, orgao, datas, ementa, decisao e
-link externo. A rota individual de inteiro teor permanece fora do contrato
-executavel.
+link externo. URLs observadas podem ser buscadas sob demanda pelo pipeline
+compartilhado; respostas sem contrato de documento continuam sendo rejeitadas.
 
 ## Fixtures e criterio de promocao
 
@@ -95,6 +110,7 @@ executavel.
 - `tests/fixtures/cjf_trf1_empty.html` cobre zero resultado;
 - `tests/fixtures/cjf_trf1_access_control.html` cobre controle de acesso;
 - `tests/fixtures/cjf_trf1_contract_changed.html` cobre mudanca de contrato;
+- `tests/fixtures/cjf_trf1_document.html` cobre documento HTML extraido;
 
 - [x] fixture TRF1 de formulario com ViewState normalizado;
 - [x] fixture de resultados com ementa e links PJe/arquivo;
@@ -103,6 +119,9 @@ executavel.
 - [x] parser offline resiliente a IDs dinamicos;
 - [x] teste de identidade estavel, datas separadas e preservacao da origem;
 - [ ] teste live opt-in com pagina pequena.
+
+- [x] rechecagem bounded 2026-09-01 registrada como `blocked_access`, sem corpo
+  live ou bypass de controle de acesso;
 
 O provider deve ser separado em `cjf_trf1_jurisprudencia` e, se o contrato
 unificado for confirmado, `cjf_jurisprudencia_unificada`; nao juntar as duas
@@ -118,11 +137,13 @@ superficies em um parser sem discriminacao de origem.
    provider separado ou apenas fonte candidata.
 4. Adicionar teste de paginacao com preservacao de `source_court`, impedindo
    mistura entre CJF, TRF1, JEF1 e superficie unificada.
-5. Validar `get_document` apenas depois de separar contratos PJe, arquivo HTML
-   e arquivo binario; ate la, o provider deve expor URL e access status, nao
-   texto integral inferido.
+5. Validar `get_document` separando contratos PJe, arquivo HTML e arquivo
+   binario; respostas sem texto extraivel devem permanecer como erro explicito.
 6. Rodar teste live opt-in com termo juridico pequeno e registrar no dossie a
    data, HTTP status, total declarado e estado de acesso.
+
+7. Repetir a captura somente quando houver uma pagina publica sem desafio e
+   contrato JSF reproduzivel; ate la, manter o status operacional bloqueado.
 
 ## Validacao live 2026-08-11
 
@@ -137,3 +158,12 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 - [Entrada da Jurisprudencia do CJF](https://jurisprudencia.cjf.jus.br/index.xhtml)
 - [Jurisprudencia do TRF1 no CJF](https://jurisprudencia.cjf.jus.br/trf1/index.xhtml)
 - [Perguntas frequentes do TRF1 sobre pesquisa de jurisprudencia](https://www.trf1.jus.br/trf1/ouvidoria/perguntas-frequentes)
+
+## Transporte compartilhado (2026-09-08)
+
+As rotas JSF de pesquisa usam o `SharedHttpClient` com allowlist de
+`jurisprudencia.cjf.jus.br` e `pje2g.trf1.jus.br`, limite de 4 MB, timeout,
+rate limit e circuit breaker. GET e POST preservam o ViewState da sessão sem
+replay automático de POST; 401/403/429, timeout, TLS, redirecionamento fora da
+allowlist, HTML de controle e schema inválido permanecem estados explícitos,
+nunca resultados vazios.

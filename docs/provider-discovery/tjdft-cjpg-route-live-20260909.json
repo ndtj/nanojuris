@@ -1,0 +1,72 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJDFT",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-09",
+  "source": {
+    "official_entry_point": "https://www.tjdft.jus.br/consultas/jurisprudencia",
+    "candidate_routes": [
+      "https://www.tjdft.jus.br/consultas/jurisprudencia",
+      "https://www.tjdft.jus.br/internet/consultas/jurisprudencia",
+      "https://www.tjdft.jus.br/consultas/jurisprudencia-e-precedentes"
+    ],
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "consultas_jurisprudencia": {
+      "http_status": 200,
+      "final_url": "https://www.tjdft.jus.br/consultas/jurisprudencia",
+      "content_type": "text/html",
+      "response_bytes": 148063,
+      "response_sha256": "1f012d25f395a4565f3119be3eeb6b36e65379b3724d5978551963141cfb89ec",
+      "title": "Jurisprudência — Tribunal de Justiça do Distrito Federal e dos Territórios",
+      "forms": 1,
+      "form_contract": {
+        "action": "https://www.tjdft.jus.br/@@search",
+        "method": "GET",
+        "fields": ["selected", "SearchableText"]
+      },
+      "decision_records_observed": 0,
+      "document_download_routes_observed": 0,
+      "pagination_contract_observed": false,
+      "classification": "contextual_portal_search"
+    },
+    "internet_jurisprudencia": {
+      "http_status": 200,
+      "final_url": "https://www.tjdft.jus.br/internet/consultas/jurisprudencia",
+      "content_type": "text/html",
+      "response_bytes": 148998,
+      "response_sha256": "e74322c8efc514be07197ab37c61744bafc6aefa99bc40c089ddb03266ab4a20",
+      "title": "Jurisprudência — Tribunal de Justiça do Distrito Federal e dos Territórios",
+      "forms": 1,
+      "form_contract": {
+        "action": "https://www.tjdft.jus.br/@@search",
+        "method": "GET",
+        "fields": ["selected", "SearchableText"]
+      },
+      "decision_records_observed": 0,
+      "document_download_routes_observed": 0,
+      "pagination_contract_observed": false,
+      "classification": "contextual_portal_search"
+    }
+  },
+  "classification": {
+    "status": "discovery_only",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "as entradas oficiais expõem apenas busca contextual do portal Plone; não foi observada busca decisória geral de primeiro grau, paginação ou documento"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "monitorar diretório oficial por rota decisória de primeiro grau ou exportação pública; não implementar adapter CJPG com base na busca contextual"
+}

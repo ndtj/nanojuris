@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "kind": "handoff_index",
+  "date": "2026-09-08",
+  "sdd": "specs/changes/0091-national-coverage-gold-handoff",
+  "entrypoint": "specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md",
+  "source_of_truth": [
+    "docs/registry/provider-catalog.full.json",
+    "docs/coverage/surface-state-registry-20260902.json",
+    "docs/coverage/open-task-audit-20260907.json",
+    "docs/operations/technical-promotion-manifest-20260905.json",
+    "docs/coverage/0091-local-gates-20260908.json",
+    "docs/provider-discovery/tjmg-modern-api-live-20260908.json",
+    "docs/provider-discovery/tjac-ementario-live-20260908.json",
+    "docs/coverage/national-coverage-model-handoff-20260908.json"
+  ],
+  "no_release": true,
+  "no_bypass": true,
+  "required_gates": [
+    "official_source",
+    "degree_contract",
+    "runtime",
+    "fixtures",
+    "pagination_filters",
+    "bounded_live",
+    "canonical_quality",
+    "federation"
+  ]
+}

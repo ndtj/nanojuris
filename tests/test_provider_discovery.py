@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from uuid import uuid4
 
@@ -196,6 +197,41 @@ def test_discovery_cache_treats_corrupt_envelopes_as_misses():
             child.unlink()
         if cache_dir.exists():
             cache_dir.rmdir()
+
+
+def test_discovery_cache_cleanup_is_age_and_size_bounded():
+    cache_dir = Path(".tmp") / f"provider-discovery-cache-cleanup-{uuid4().hex}"
+    try:
+        cache = DiscoveryCache(cache_dir)
+        old_path = cache.put(_evidence(b"old"))
+        newer = _evidence(b"new")
+        newer.request = DiscoveryRequest("GET", "https://example.test/jurisprudencia?page=2")
+        new_path = cache.put(newer)
+        os.utime(old_path, (100, 100))
+        os.utime(new_path, (200, 200))
+
+        report = cache.cleanup(max_age_seconds=50, now=250)
+
+        assert report["deleted_files"] == 1
+        assert report["remaining_files"] == 1
+        assert not old_path.exists()
+        assert new_path.exists()
+    finally:
+        for child in cache_dir.glob("*"):
+            child.unlink()
+        if cache_dir.exists():
+            cache_dir.rmdir()
+
+
+def test_discovery_cache_cleanup_rejects_unbounded_arguments():
+    cache = DiscoveryCache(Path(".tmp") / f"provider-discovery-cache-args-{uuid4().hex}")
+    with pytest.raises(ValueError):
+        cache.cleanup(max_age_seconds=-1)
+    with pytest.raises(ValueError):
+        cache.cleanup(max_bytes=-1)
+    for child in cache.directory.glob("*"):
+        child.unlink()
+    cache.directory.rmdir()
 
 
 def test_extract_discovery_contracts_from_json_and_text_evidence():

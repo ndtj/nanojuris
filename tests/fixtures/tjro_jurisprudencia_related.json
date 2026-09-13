@@ -1,0 +1,66 @@
+{
+  "took": 10,
+  "timed_out": false,
+  "hits": {
+    "total": {"value": 4, "relation": "eq"},
+    "hits": [
+      {
+        "_id": "principal-PJESG",
+        "_score": 1.0,
+        "_source": {
+          "id_processo_documento": "principal",
+          "id_documento_principal": null,
+          "sistema_origem": "PJESG",
+          "tipo": "ACORDAO",
+          "grau_jurisdicao": 2,
+          "nr_processo": "00000010020268220001",
+          "dtjulgamento": "2026-06-10",
+          "dtpublicacao": "2026-06-12",
+          "ds_classe_judicial": "Apelacao",
+          "ds_nome": "Relator de fixture",
+          "ds_orgao_julgador": "Camara de fixture",
+          "ds_modelo_documento": "<p>ACORDAO de fixture.</p>"
+        }
+      },
+      {
+        "_id": "ementa-PJESG",
+        "_score": 0.9,
+        "_source": {
+          "id_processo_documento": "ementa",
+          "id_documento_principal": "principal",
+          "sistema_origem": "PJESG",
+          "tipo": "EMENTA",
+          "grau_jurisdicao": 2,
+          "nr_processo": "00000010020268220001",
+          "ds_modelo_documento": "<p>EMENTA de fixture.</p>"
+        }
+      },
+      {
+        "_id": "relatorio-PJESG",
+        "_score": 0.8,
+        "_source": {
+          "id_processo_documento": "relatorio",
+          "id_documento_principal": "principal",
+          "sistema_origem": "PJESG",
+          "tipo": "RELATORIO",
+          "grau_jurisdicao": 2,
+          "nr_processo": "00000010020268220001",
+          "ds_modelo_documento": "<p>RELATORIO de fixture.</p>"
+        }
+      },
+      {
+        "_id": "voto-PJESG",
+        "_score": 0.7,
+        "_source": {
+          "id_processo_documento": "voto",
+          "id_documento_principal": "principal",
+          "sistema_origem": "PJESG",
+          "tipo": "VOTO",
+          "grau_jurisdicao": 2,
+          "nr_processo": "00000010020268220001",
+          "ds_modelo_documento": "<p>VOTO de fixture.</p>"
+        }
+      }
+    ]
+  }
+}

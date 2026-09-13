@@ -82,12 +82,17 @@ def test_provider_registry_matches_documentation_and_runtime_inventory() -> None
 def test_provider_documentation_audit_report_is_current() -> None:
     report_path = ROOT / "docs" / "provider-documentation-audit.md"
     template_path = ROOT / "docs" / "provider-dossier-template.md"
+    registry_path = ROOT / "docs" / "registry" / "providers.json"
 
     assert template_path.is_file()
     assert report_path.read_text(encoding="utf-8") == render(audit())
 
     rows = audit()
-    assert len(rows) == 56
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    expected_sources = (
+        set(registry["implemented"]) | set(registry["candidates"]) | set(registry["families"])
+    )
+    assert len(rows) == len(expected_sources)
     assert all(row["parity"] for row in rows)
 
 

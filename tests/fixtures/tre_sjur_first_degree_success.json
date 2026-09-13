@@ -1,0 +1,41 @@
+{
+  "mensagem": null,
+  "content": [
+    {
+      "id": null,
+      "siglaTribunalJE": "TRE-MG",
+      "codigoDecisao": 910001,
+      "numeroProcesso": "0000001-00.2024.6.13.0001",
+      "numeroUnicoFormatado": "0000001-00.2024.6.13.0001",
+      "dataDecisao": "10/02/2024",
+      "descricaoClasse": "Ação Eleitoral",
+      "siglaClasse": "AI",
+      "descricaoTipoDecisao": "Sentença",
+      "textoEmenta": "<div>Sentença eleitoral de exemplo para fixture.</div>",
+      "textoDecisao": "<p>Conteúdo sanitizado de primeiro grau.</p>",
+      "temInteiroTeorPDF": "false",
+      "relatores": [{"nome": "Relator sanitizado"}],
+      "publicacoes": [{"dataPublicacao": "15/02/2024"}],
+      "anexos": null
+    },
+    {
+      "id": null,
+      "siglaTribunalJE": "TRE-MG",
+      "codigoDecisao": 910002,
+      "numeroProcesso": "0000002-00.2024.6.13.0001",
+      "numeroUnicoFormatado": "0000002-00.2024.6.13.0001",
+      "dataDecisao": "11/02/2024",
+      "descricaoClasse": "Recurso Eleitoral",
+      "siglaClasse": "RE",
+      "descricaoTipoDecisao": "Acórdão",
+      "textoEmenta": "<div>Acórdão de exemplo que deve ser rejeitado pelo binding de primeiro grau.</div>",
+      "textoDecisao": "<p>Conteúdo sanitizado de segundo grau.</p>",
+      "temInteiroTeorPDF": "false",
+      "relatores": [{"nome": "Relator sanitizado"}],
+      "publicacoes": [{"dataPublicacao": "16/02/2024"}],
+      "anexos": null
+    }
+  ],
+  "totalRegistros": 2,
+  "aggs": {}
+}

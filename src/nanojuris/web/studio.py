@@ -56,11 +56,22 @@ def studio_sources_payload(client: NanoJurisClient) -> dict[str, Any]:
         )
         item["coverage"] = get_provider_catalog_entry(capability.source)
         sources.append(item)
+    default_sources = _default_studio_sources(sources)
+    filter_sets = {str(item["source"]): set(item.get("supported_filters", [])) for item in sources}
+    selected_filter_sets = [
+        filter_sets[source] for source in default_sources if source in filter_sets
+    ]
+    filter_intersection = (
+        sorted(set.intersection(*selected_filter_sets)) if selected_filter_sets else []
+    )
+    filter_union = sorted(set.union(*selected_filter_sets)) if selected_filter_sets else []
     return {
         "total": len(sources),
         "runtime_total": len(sources),
         "catalog_total": len(sources),
-        "default_sources": _default_studio_sources(sources),
+        "default_sources": default_sources,
+        "filter_intersection": filter_intersection,
+        "filter_union": filter_union,
         "recommended_sources": [
             str(item["source"]) for item in sources if item.get("recommended_for_studio")
         ],
@@ -97,11 +108,14 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
         page=request.page,
         page_size=request.page_size,
         canonical=request.canonical,
+        mode=request.mode,
+        ranking_version=request.ranking_version,
         **request.search_kwargs(),
     )
     results = [_jsonable(result) for result in payload["results"]]
     routing = payload.get("routing_summary", [])
     source_completeness = payload.get("source_completeness", {})
+    source_filters_applied = payload.get("source_filters_applied", {})
     errors = payload.get("errors", [])
     return {
         "query": request.query,
@@ -123,6 +137,10 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
         "routing_warnings": payload.get("routing_warnings", []),
         "source_totals": payload.get("source_totals", {}),
         "source_completeness": source_completeness,
+        "source_filters_applied": source_filters_applied,
+        # ``filter_application`` is the contract-level name. Keep the
+        # historical key above for clients that already consume it.
+        "filter_application": source_filters_applied,
         "sources_complete": payload.get("sources_complete", []),
         "sources_partial": payload.get("sources_partial", []),
         "sources_unknown": payload.get("sources_unknown", []),
@@ -132,11 +150,17 @@ def studio_search(client: NanoJurisClient, request: StudioSearchRequest) -> dict
             routing,
             results,
             source_completeness=source_completeness,
+            source_filters_applied=source_filters_applied,
             errors=errors,
         ),
         "routing_summary": routing,
         "errors": errors,
         "results": results,
+        "search_mode": payload.get("mode", request.mode),
+        "ranking_version": payload.get("ranking_version", request.ranking_version),
+        "bm25_version": payload.get("bm25_version"),
+        "query_intent": payload.get("query_intent"),
+        "ranking": payload.get("ranking", {}),
     }
 
 
@@ -167,6 +191,14 @@ def supported_filters_for(capability: ProviderCapabilities) -> list[str]:
     """Infer UI filters from declared provider capabilities."""
 
     filters = set(capability.supported_filters)
+    # Explicit v2 semantics are stronger evidence than inferred UI modes.
+    # Expose every capability that can be applied or validated; unsupported and
+    # unverified declarations must remain hidden from the Studio affordances.
+    filters.update(
+        name
+        for name, status in capability.filter_semantics.items()
+        if status in {"native", "translated", "local_postfilter", "validated_scope"}
+    )
     filters.update(_normalize_mode(mode) for mode in capability.search_modes)
     for field in capability.extracted_fields:
         mapped = FIELD_FILTERS.get(field)
@@ -183,9 +215,11 @@ def _source_status(
     results: list[dict[str, Any]],
     *,
     source_completeness: dict[str, dict[str, Any]] | None = None,
+    source_filters_applied: dict[str, dict[str, str]] | None = None,
     errors: list[dict[str, Any]] | None = None,
 ) -> dict[str, dict[str, Any]]:
     source_completeness = source_completeness or {}
+    source_filters_applied = source_filters_applied or {}
     errors = errors or []
     counts: dict[str, int] = {}
     for result in results:
@@ -234,6 +268,7 @@ def _source_status(
                 or error.get("error")
                 or error.get("message")
             ),
+            "filters_applied": source_filters_applied.get(source, {}),
         }
     for source, count in counts.items():
         status.setdefault(
@@ -278,6 +313,17 @@ def _normalize_mode(mode: str) -> str:
 
 
 def _is_studio_source(capability: ProviderCapabilities) -> bool:
+    # A source that is explicitly opt-in and does not support the unified
+    # contract is available for diagnostics/selection, but must not silently
+    # enter the Studio's default research set.  This keeps bounded portals
+    # such as TJMMG out of broad live searches while preserving their runtime
+    # binding and explicit source selection.
+    if (
+        capability.opt_in_unified_search
+        and not capability.supports_studio
+        and not capability.supports_unified_search
+    ):
+        return False
     return capability.category in {
         "administrative_jurisprudence",
         "court_jurisprudence",

@@ -1,0 +1,41 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjce_sjuris",
+  "authority": "TJCE",
+  "surface": "jurisprudencia",
+  "collection": "CJSG-compatible textual jurisprudence",
+  "observed_at": "2026-09-10",
+  "method": "single bounded public provider query after transient smoke failure",
+  "credentials_used": false,
+  "bypass_used": false,
+  "query": {
+    "text": "dano moral",
+    "page_size": 1
+  },
+  "classification": "reachable_valid_data",
+  "record_count_observed": 1,
+  "reported_total": 42009,
+  "http_status": 200,
+  "content_type": "application/json",
+  "response_bytes": 301203,
+  "latency_ms": 1454.4,
+  "pagination_mode": "page",
+  "response": {
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 301203,
+    "elapsed_ms": 1454.4,
+    "endpoint": "POST /jurisprudencia/",
+    "result_count": 1,
+    "reported_total": 42009,
+    "total_known": true,
+    "is_complete": false
+  },
+  "decision": "keep_runtime_and_federation_enabled; transient HTTP 500 was not treated as empty",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "cookies_or_tokens_used": false,
+    "raw_response_persisted": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

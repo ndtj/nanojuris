@@ -1,0 +1,24 @@
+{
+  "provider": "tjmg_jurisprudencia",
+  "checked_at": "2026-09-08T22:57:28Z",
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "branch": "state",
+    "page_size": 2
+  },
+  "classification": "valid",
+  "http_status": 200,
+  "returned": 2,
+  "reported_total": 1000,
+  "total_known": true,
+  "response_bytes": 2691,
+  "content_type": "application/json",
+  "content_sha256": "e75ce418c909a1cb0a18d8da0c21ca6fed54d614bc94e491736b3207445a2af5",
+  "body_persisted": false,
+  "notes": [
+    "Bounded public API request through SharedHttpClient.",
+    "TJMG public contract caps reported totals at 1000."
+  ]
+}

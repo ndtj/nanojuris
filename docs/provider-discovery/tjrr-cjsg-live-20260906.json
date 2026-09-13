@@ -1,0 +1,50 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-06",
+  "audit_mode": "bounded_public_cjsg_recheck",
+  "credentials_used": false,
+  "source": "tjrr_juris",
+  "source_id": "tjrr_juris",
+  "status": "valid",
+  "surface": "cjsg",
+  "scope": "cjsg",
+  "endpoint": "GET/POST https://jurisprudencia.tjrr.jus.br/index.xhtml",
+  "query_shape": {
+    "text": "responsabilidade",
+    "page_size": 10,
+    "pages": [1, 2]
+  },
+  "pages": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "record_count_observed": 10,
+      "reported_total": 17417,
+      "degree_values": ["second"],
+      "instance_values": ["second"],
+      "collection_values": ["CJSG"],
+      "textual_fields": ["summary"]
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "record_count_observed": 10,
+      "reported_total": 17417,
+      "degree_values": ["second"],
+      "instance_values": ["second"],
+      "collection_values": ["CJSG"],
+      "textual_fields": ["summary"]
+    }
+  ],
+  "overlap": false,
+  "contract_decision": "explicit_cjsg_binding",
+  "detail_probe": {
+    "status": "source_unavailable",
+    "reason": "public viewer returned PDF-support notice; no text was indexed as full text"
+  },
+  "notes": [
+    "A busca e a paginação pública foram válidas e identificaram exclusivamente registros de segundo grau.",
+    "A indisponibilidade do visualizador de detalhe permanece explícita e não foi convertida em vazio.",
+    "O teste foi bounded, público e sem contorno de CAPTCHA, WAF, login ou limite de frequência."
+  ]
+}

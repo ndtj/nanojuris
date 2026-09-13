@@ -10,6 +10,7 @@ from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -17,6 +18,7 @@ from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjpr_jurisprudencia import (
     TjprJurisprudenciaProvider,
     _clean_tjpr_ementa,
+    _query_payload,
     parse_tjpr_results,
 )
 
@@ -43,6 +45,10 @@ class FakeSession:
 
     def post(self, url, **kwargs):
         self.calls.append({"method": "POST", "url": url, "kwargs": kwargs})
+        return self._next()
+
+    def request(self, method, url, **kwargs):
+        self.calls.append({"method": method, "url": url, "kwargs": kwargs})
         return self._next()
 
     def _next(self):
@@ -87,6 +93,11 @@ def test_parse_tjpr_results_maps_decisions_and_excludes_corte_idh():
     assert first.raw["judging_body"] == "1ª Câmara Cível"
     assert first.source_trace is not None
     assert ";jsessionid" not in (first.source_trace.source_url or "")
+    assert page.total_known is True
+    assert page.access_status.value == "public"
+    assert page.filters_applied["text"] == "native"
+    assert page.filters_applied["degree"] == "validated_scope"
+    assert page.filters_applied["exact_phrase"] == "not_requested"
 
     pending = page.results[1]
     assert pending.access_status.value == "partial"
@@ -152,6 +163,21 @@ def test_parse_tjpr_empty_page_is_complete():
     assert page.is_complete is True
 
 
+def test_parse_tjpr_missing_counter_is_unknown():
+    html = load_fixture("tjpr_jurisprudencia_results.html")
+    html = html.replace("123 registro(s) encontrado(s)", "Resultados")
+    page = parse_tjpr_results(
+        html,
+        query=JurisprudenceQuery(text="responsabilidade civil"),
+        trace=trace(),
+        base_url="https://portal.tjpr.jus.br",
+    )
+
+    assert page.results
+    assert page.total_known is False
+    assert page.is_complete is None
+
+
 def test_provider_replays_public_form_and_preserves_query_contract():
     fixture = load_fixture("tjpr_jurisprudencia_results.html")
     session = FakeSession(
@@ -196,12 +222,106 @@ def test_client_registers_tjpr_provider():
     assert "tjpr_jurisprudencia" in {item.source for item in NanoJurisClient().list_sources()}
 
 
+def test_fetch_details_uses_public_tjpr_xhr_and_preserves_partial_rows():
+    fixture = load_fixture("tjpr_jurisprudencia_results.html")
+    full_text = "ACÓRDÃO TJPR. Inteiro teor público retornado pela rota XHR."
+    session = FakeSession(
+        [
+            FakeResponse(fixture),
+            FakeResponse(
+                fixture, url="https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do"
+            ),
+            FakeResponse(
+                full_text, url="https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do"
+            ),
+        ]
+    )
+    provider = TjprJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(
+        JurisprudenceQuery(text="responsabilidade civil", page_size=2, fetch_details=True)
+    )
+
+    assert page.results[0].full_text == full_text
+    assert page.results[0].raw["full_text_status"] == "complete"
+    assert page.results[0].extraction_status.value == "complete"
+    assert page.results[1].raw["full_text_status"] == "not_requested_access_partial"
+    assert [call["method"] for call in session.calls] == ["GET", "POST", "GET"]
+    assert session.calls[2]["kwargs"]["params"] == {
+        "idProcesso": "2100000000000001",
+        "criterio": "responsabilidade civil",
+    }
+
+
 def test_provider_capabilities_describe_partial_full_text_contract():
     capabilities = TjprJurisprudenciaProvider(session=FakeSession([])).get_capabilities()
     assert capabilities.source == "tjpr_jurisprudencia"
-    assert capabilities.supports_full_text is False
+    assert capabilities.supports_full_text is True
+    assert capabilities.full_text_access == "document_link"
     assert "number" in capabilities.supported_filters
+    assert capabilities.filter_status("fetch_details") == "translated"
     assert "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar" in capabilities.endpoints
+
+
+def test_tjpr_payload_translates_public_native_selection_ids_and_judgment_dates():
+    payload = _query_payload(
+        JurisprudenceQuery(
+            text="responsabilidade civil",
+            courts=["12", "12", "34"],
+            rapporteur="56",
+            judging_body="78",
+            case_class="90",
+            types=["2", "3"],
+            judgment_date_from="2024-01-01",
+            judgment_date_to="2024-12-31",
+        )
+    )
+    assert payload["idComarca"] == "12,34"
+    assert payload["idRelator"] == "56"
+    assert payload["idOrgaoJulgador"] == "78"
+    assert payload["idClasseProcessual"] == "90"
+    assert payload["idsTipoDecisaoSelecionadosString"] == "2,3"
+    assert payload["dataJulgamentoInicio"] == "2024-01-01"
+    assert payload["dataJulgamentoFim"] == "2024-12-31"
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [("courts", ["TJPR"]), ("rapporteur", "Desembargador"), ("case_class", "Apelacao")],
+)
+def test_tjpr_rejects_labels_for_id_backed_filters(field: str, value: object):
+    kwargs = {field: value}
+    with pytest.raises(QueryRejectedError, match="official numeric selection IDs"):
+        _query_payload(JurisprudenceQuery(**kwargs))
+
+
+def test_provider_fetches_explicit_detail_url_through_document_pipeline():
+    session = FakeSession(
+        [
+            FakeResponse(
+                "<html><body><h1>Acórdão TJPR</h1><p>Inteiro teor público.</p></body></html>",
+                url="https://portal.tjpr.jus.br/jurisprudencia/j/123/Acórdão",
+            )
+        ]
+    )
+    provider = TjprJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=session,
+    )
+    document = provider.get_document("https://portal.tjpr.jus.br/jurisprudencia/j/123/Acórdão")
+    assert document.source == "tjpr_jurisprudencia"
+    assert "Inteiro teor público" in document.text
+    assert document.source_trace is not None
+    assert session.calls[0]["method"] == "GET"
+
+
+def test_provider_rejects_non_detail_document_id():
+    provider = TjprJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([]),
+    )
+    with pytest.raises(ValueError, match="observed official HTTPS detail URL"):
+        provider.get_document("tjpr-123")
 
 
 @pytest.mark.parametrize(

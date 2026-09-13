@@ -1,0 +1,75 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": "trt2_pje_jurisprudencia",
+  "authority": "TRT2",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "checked_at": "2026-09-08",
+  "source": {
+    "official_entry_point": "https://pje.trt2.jus.br/jurisprudencia/",
+    "backend_origin": "https://pje.trt2.jus.br",
+    "frontend_version": "1.5.0-i1",
+    "endpoints": [
+      "GET /juris-backend/api/opcoes",
+      "POST /juris-backend/api/filtros",
+      "POST /juris-backend/api/documentos",
+      "GET /juris-backend/api/token"
+    ]
+  },
+  "observations": {
+    "options": {
+      "http_status": 200,
+      "response_bytes": 368,
+      "captcha_option": "2"
+    },
+    "filters": {
+      "http_status": 200,
+      "response_bytes": 207046,
+      "reported_hits": 40199552,
+      "aggregation_fields": [
+        "assunto",
+        "anoProcesso",
+        "tipoDocumento",
+        "instancia",
+        "orgaoJulgadorColegiado",
+        "meioTramitacao",
+        "orgaoJulgador",
+        "magistrado",
+        "classeJudicial"
+      ],
+      "documents_returned": 0,
+      "interpretation": "catalogo/agregacoes publicas de filtros; nao e uma busca de documentos"
+    },
+    "documents": {
+      "http_status": 200,
+      "response_bytes": 6236,
+      "documents_returned": 0,
+      "response_keys": ["mensagem", "tokenDesafio", "imagem", "audio"],
+      "challenge": "tokenDesafio_and_image",
+      "interpretation": "o endpoint de resultados exige desafio humano antes de fornecer documentos"
+    }
+  },
+  "classification": {
+    "status": "access_blocked",
+    "contract_status": "partial_catalog_only",
+    "degree_contract": "declared_by_official_pje_jurisprudence_surface",
+    "promotion": "not_promoted",
+    "next_action": "aguardar rota oficial sem desafio ou acesso formalmente autorizado; nao automatizar documentos sem resolver o desafio por interacao humana permitida"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "challenge_token_persisted": false,
+    "challenge_image_persisted": false,
+    "raw_response_persisted": false,
+    "bounded_request": true
+  },
+  "limitations": [
+    "A chamada de filtros prova a existência do catálogo de campos, mas nao prova paginação de resultados.",
+    "HTTP 200 no endpoint de documentos representa uma resposta de desafio, nao sucesso de busca.",
+    "Nenhum registro foi promovido para runtime ou federação."
+  ]
+}

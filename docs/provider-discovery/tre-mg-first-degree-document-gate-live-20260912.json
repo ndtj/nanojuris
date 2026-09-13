@@ -1,0 +1,43 @@
+{
+  "provider": "tre_mg_sjur_first_degree",
+  "authority": "TRE-MG",
+  "endpoint": "POST /tre-mg/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "observed_at": "2026-09-12",
+  "request": {
+    "query": "sentença",
+    "page": 1,
+    "page_size": 2,
+    "document_type": "sentenca",
+    "transport": "official public route; no token, session, CAPTCHA solving, proxy or challenge bypass"
+  },
+  "response": {
+    "http_status": 200,
+    "retrieval_status": "ok",
+    "access_status": "public",
+    "record_count": 2,
+    "total_known": false,
+    "is_complete": false,
+    "decision_types": ["Sentença"],
+    "degree_values": ["first"],
+    "full_text_lengths": [2490, 2579],
+    "full_text_sha256": [
+      "d03d87dc4a8b8a916be9c7550ed78f0e5c727bec1b39c587c036a46ff93e6b0b",
+      "e94d88506c22ac973025e897283cc5860a3685c5d50e382e466700ffb845bfa5"
+    ],
+    "document_url_present": false,
+    "pdf_flag_values": ["false"]
+  },
+  "document_probe": {
+    "url_pattern": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/{codigoDecisao}",
+    "code": "3455387",
+    "http_status": 200,
+    "content_type": "application/pdf;charset=UTF-8",
+    "bytes_read": 67,
+    "body_classification": "provider_error_text_not_pdf",
+    "body_sha256": "5d40eef3cf0ce462635e76318564519960b276acfd092c4584e78321e975f663",
+    "error_text": "Erro ao tentar recuperar PDF: Falha ao recuperar arquivo do SitDoc."
+  },
+  "classification": "live_validated_text_without_pdf",
+  "decision": "Keep first-degree TRE family runtime opt-in and outside default federation. Inline decision text is available for this bounded window, but remote pagination and detail/PDF gates remain unproven; no national first-degree coverage claim is changed.",
+  "retention": "Only metadata and SHA-256 fingerprints are recorded; response bodies are not persisted."
+}

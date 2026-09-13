@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-02T01:24:00-03:00",
+  "purpose": "single-source federated search smoke after default registration",
+  "bounded": true,
+  "body_retained": false,
+  "results": [
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "search",
+      "classification": "reachable_valid_data",
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 1905968,
+      "pagination_mode": "offset",
+      "query": "responsabilidade civil",
+      "federated": true,
+      "errors": []
+    }
+  ]
+}

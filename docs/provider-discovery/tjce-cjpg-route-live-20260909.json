@@ -1,0 +1,28 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-09",
+  "authority": "TJCE",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "official_entry_point": "https://esaj.tjce.jus.br/cjpg/",
+  "search_endpoint": "https://esaj.tjce.jus.br/cjpg/pesquisar.do",
+  "method": "GET",
+  "query": "responsabilidade civil",
+  "credentials_used": false,
+  "bypass_used": false,
+  "classification": "transport_blocked",
+  "http_status": null,
+  "error_type": "ConnectionError",
+  "error_summary": "TLS connection reset by remote host before a response body was received",
+  "result_count": null,
+  "document_count": null,
+  "federation_status": "not_enabled",
+  "decision": "Do not implement or promote a TJCE/CJPG adapter until the official source provides a reproducible public route or an authorized export.",
+  "limitations": [
+    "The route is an official e-SAJ first-degree form, but this attempt did not produce a result response.",
+    "No CAPTCHA, WAF, TLS, login or access control was bypassed.",
+    "The transport failure is not an authoritative empty result."
+  ]
+}

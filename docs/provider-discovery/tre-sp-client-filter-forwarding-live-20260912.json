@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-09-12",
+  "provider": "tre_sp_sjur_jurisprudencia",
+  "entrypoint": "NanoJurisClient.search",
+  "query_shape": {
+    "text": "eleicao",
+    "page_size": 1,
+    "aliases": {
+      "ano_eleicao": "2022",
+      "uf": "SP"
+    }
+  },
+  "result": {
+    "http_status": 200,
+    "access_status": "public",
+    "retrieval_status": "ok",
+    "returned": 1,
+    "total_known": false,
+    "filters_applied": {
+      "degree": "remote+local:second",
+      "election_year": "remote",
+      "uf": "remote",
+      "text": "translated"
+    }
+  },
+  "classification": "live_validated_client_forwarding",
+  "limitations": [
+    "The public SJUR route exposes a bounded window and does not prove an exhaustive total.",
+    "No response body or personal data is persisted in this evidence file."
+  ]
+}

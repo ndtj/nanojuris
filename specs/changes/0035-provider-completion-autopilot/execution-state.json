@@ -1,0 +1,2661 @@
+{
+  "schema_version": "provider-completion-state-v2",
+  "objective": "Complete every provider to its evidence-based target or record a verified external blocker without masking it.",
+  "updated_at": "2026-09-13T00:15:30+00:00",
+  "terminal_states": [
+    "accepted",
+    "accepted_with_limitations",
+    "deferred_with_review",
+    "out_of_scope",
+    "rejected"
+  ],
+  "providers": {
+    "bnp_pangea": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/bnp_pangea.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "35a364071ab4c6bd36bfdb2e92dd33586fabd79d4861e569fd4b45f0c5befebe",
+      "topology_collection_ids": [
+        "collection:unattributed:bnp_pangea"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "cjf_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "cjf_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/cjf_jurisprudencia.md",
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "6c49cc2c24f1bb8384f5433c98455bb06229a36b675cd73dd6932c497b3ab962",
+      "topology_collection_ids": [
+        "collection:unattributed:cjf_jurisprudencia"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access"
+    },
+    "cnj_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/cnj_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "5bd0292c09823795a29ef5ff76de9da4eee12d25b057c769a7f7af754b253066",
+      "topology_collection_ids": [
+        "collection:unattributed:cnj_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "eproc_jurisprudencia_federal": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "eproc_jurisprudencia_federal",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/eproc_jurisprudencia_federal.md",
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "857218caddbb2b8ffd95dcfa016d16e112548a4f1fe12863834f46f49abbfc2c",
+      "topology_collection_ids": [
+        "collection:unattributed:eproc_jurisprudencia_federal"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "falcao_jt": {
+      "status": "waiting_evidence",
+      "phase": "research",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "falcao_jt",
+          "disposition": "deferred_with_review",
+          "reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 4,
+      "target_tier": "candidate_contract_confirmed",
+      "workpack": "provider-workpacks/falcao_jt.md",
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "e21d75d4af7f546458ad57c6f47a7a853aaabe43f7db544ad66020bbbc67b112",
+      "topology_collection_ids": [
+        "collection:unattributed:falcao_jt"
+      ],
+      "completion_reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access"
+    },
+    "justica_eleitoral_sjur": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "justica_eleitoral_sjur",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; source_unavailable",
+          "resume_when": "recheck when the official source is available again"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/justica_eleitoral_sjur.md",
+      "operational_health": "unavailable",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "recheck when the official source is available again",
+      "evidence_fingerprint": "e0ec818412ceb4c625cd95d076edad7ea2037ded951f201c8afe331d2e8fa5ec",
+      "topology_collection_ids": [
+        "collection:unattributed:justica_eleitoral_sjur"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; source_unavailable"
+    },
+    "stf_informativo": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "stf_informativo",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; source_unavailable",
+          "resume_when": "recheck when the official source is available again"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/stf_informativo.md",
+      "operational_health": "unavailable",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "recheck when the official source is available again",
+      "evidence_fingerprint": "971e204ab26c40b43bb8d12b04a7c82e6c9b16dbe69195cfaa3175f4c06d39b7",
+      "topology_collection_ids": [
+        "collection:unattributed:stf_informativo"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; source_unavailable"
+    },
+    "stf_juris": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "stf_juris",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_transport",
+          "resume_when": "reexecute a bounded request after the official transport/TLS path is healthy"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/stf_juris.md",
+      "operational_health": "tls_error",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded request after the official transport/TLS path is healthy",
+      "evidence_fingerprint": "242df251cff0f8262bd007f956e033c5ed1c39501fb06100dcaf35036a17425e",
+      "topology_collection_ids": [
+        "collection:stf:jurisprudence"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_transport"
+    },
+    "stj_dados_abertos_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "stj_dados_abertos_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "technical promotion gate did not pass",
+          "resume_when": "rerun the provider completion command after new source evidence"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/stj_dados_abertos_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "rerun the provider completion command after new source evidence",
+      "evidence_fingerprint": "8812ef8077971e09a19aacf07b32d19a3bacdbf8019d051c5dabf45580242009",
+      "topology_collection_ids": [
+        "collection:stj:jurisprudence"
+      ],
+      "completion_reason": "technical promotion gate did not pass"
+    },
+    "stj_informativo": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/stj_informativo.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "868121d496fd7b6f22899fbf40ba784d682ddc433b2d412b4c71333321b93bd2",
+      "topology_collection_ids": [
+        "collection:unattributed:stj_informativo"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "stj_scon": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "stj_scon",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/stj_scon.md",
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "3d06e87ab7e01293f7e2863108b2f3a8a987ec3e5b512c50ca7f33bbee3ed205",
+      "topology_collection_ids": [
+        "collection:stj:jurisprudence"
+      ],
+      "completion_reason": "live_validation_missing; quality_gate_failed; blocked_access"
+    },
+    "stm_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/stm_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "a807415488969375c23ede8e9b0d45dba596f94adfb55fd26a8ae75c2bfb78f0",
+      "topology_collection_ids": [
+        "collection:stm:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tce_pr_viajuris": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tce_pr_viajuris.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "04d54f54888ae46ab4a5164b872ac769a52dfb7447e1c6aa8d4b033333369df8",
+      "topology_collection_ids": [
+        "collection:unattributed:tce_pr_viajuris"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tce_sp_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tce_sp_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "quality_gate_failed",
+          "resume_when": "close the quality gate and rerun the promotion manifest"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tce_sp_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "close the quality gate and rerun the promotion manifest",
+      "evidence_fingerprint": "9663b79149f8afce8f7de1ba0c978b69c9c0027357ae63f7d6dfbc1d6b95ddac",
+      "topology_collection_ids": [
+        "collection:unattributed:tce_sp_jurisprudencia"
+      ],
+      "completion_reason": "quality_gate_failed"
+    },
+    "tcu_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tcu_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "58c00a84dce43ad0bbf2a7499fd48cafccdb3a4e64a510c01d6290b48c599ba9",
+      "topology_collection_ids": [
+        "collection:unattributed:tcu_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjac_banco_sentencas": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjac_banco_sentencas",
+          "disposition": "deferred_with_review",
+          "reason": "technical promotion gate did not pass",
+          "resume_when": "rerun the provider completion command after new source evidence"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "rerun the provider completion command after new source evidence",
+      "evidence_fingerprint": "dc5ba194f987aa9bf06da0a9f92bb47a738cd74c67b2738fe915538b2c679e29",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tjac_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjac_banco_sentencas.md",
+      "completion_reason": "technical promotion gate did not pass"
+    },
+    "tjac_cjsg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjac_cjsg.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "ae53f125e6197c0a33d8f3b7dc947968c574560d97f655ae94cc64625af12c1d",
+      "topology_collection_ids": [
+        "collection:tjac:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjac_ementario_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "7ad587432a90f3bb0753f2ef5c4c18ad451247ab6a489958ded14e1647a8ccc9",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjac_ementario_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjac_ementario_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjal_cjsg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjal_cjsg.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "d1a8c5eb815017a8e230c6df5d424b74e32defb739f3c6631100bee90d49acdc",
+      "topology_collection_ids": [
+        "collection:tjal:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjal_esmal_banco_sentencas": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "f47f91150306045543ffc06d61ee73fe3612246d587831fc9f8f190822b708d5",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjal_esmal_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjal_esmal_banco_sentencas.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjal_turma_recursal_ementario": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjal_turma_recursal_ementario",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing",
+          "resume_when": "run one bounded live check against the documented public route"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "run one bounded live check against the documented public route",
+      "evidence_fingerprint": "bea60a979368affb11ac951163abc1f4611a068225e67833c71341f90f33e943",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tjal_turma_recursal_ementario"
+      ],
+      "workpack": "provider-workpacks/tjal_turma_recursal_ementario.md",
+      "completion_reason": "live_validation_missing"
+    },
+    "tjam_cjsg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjam_cjsg.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "1c3ea995be3f6f9f382e2816e2fae90d3610c6e1535ed9a784e927182c6b4477",
+      "topology_collection_ids": [
+        "collection:tjam:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjap_banco_sentencas": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "e858acd13069519c9a5be200d4ce7cf8892b2987d34856f3347f2f152bc41a47",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjap_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjap_banco_sentencas.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjap_tucujuris": {
+      "status": "waiting_evidence",
+      "phase": "research",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjap_tucujuris",
+          "disposition": "deferred_with_review",
+          "reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 4,
+      "target_tier": "candidate_contract_confirmed",
+      "workpack": "provider-workpacks/tjap_tucujuris.md",
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "2f56c4d2d28a4acf3d78dffcb29751efd1448654d9217ee9f6162d57430f7654",
+      "topology_collection_ids": [
+        "collection:unattributed:tjap_tucujuris"
+      ],
+      "completion_reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access"
+    },
+    "tjba_graphql": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjba_graphql.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "803fe2b7ca86122073f9abfaed586d6cafd89305cb4925433e3cde133c30958f",
+      "topology_collection_ids": [
+        "collection:tjba:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjce_cjsg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjce_cjsg.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "23f27632ae9ad35038724a8501cdc0242f3d2fd5d1ed01db09e9681f05a0ac70",
+      "topology_collection_ids": [
+        "collection:unattributed:tjce_cjsg"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjce_informativos": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjce_informativos",
+          "disposition": "deferred_with_review",
+          "reason": "reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tjce_informativos.md",
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "ed8c4a5800e201c14be73fcf4f54d863d20d869836e285f734734a56babdbd97",
+      "topology_collection_ids": [
+        "collection:unattributed:tjce_informativos"
+      ],
+      "completion_reason": "reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tjce_sjuris": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjce_sjuris.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "b3d99aa202b122858b290b95f4b3a7df34d1ba7e75cb778e45d354a887fc4405",
+      "topology_collection_ids": [
+        "collection:unattributed:tjce_sjuris"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjdf_juris": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjdf_juris.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "e07829705a2255e281bd67e109e04a884bbb8b1cdb1617244f94c0287cbf0344",
+      "topology_collection_ids": [
+        "collection:tjdft:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjes_cjpg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "8a4137c0796ae22d4c35f5da36f4aab1deab37a394846b7fa453e1f7a45c95bc",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:tjes:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjes_cjpg.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjes_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjes_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "1030027fa26688fde590cc3f4c7fe88de1761f1d06b50e52c26e06e1e7ea778a",
+      "topology_collection_ids": [
+        "collection:tjes:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjes_turma_recursal": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "175d58e7476fa4659d43e997ce4855ab935a1a344d38214462ae896f50874434",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:tjes:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjes_turma_recursal.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjgo_projudi_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjgo_projudi_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "c4b15f7878424a733886c7e491f90cdcc4ae5a9ac728df6a717709eef8ec4653",
+      "topology_collection_ids": [
+        "collection:tjgo:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjma_informativos": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjma_informativos",
+          "disposition": "deferred_with_review",
+          "reason": "reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "d0a317c9824316aa5d4a2341691f428d9379f962a7cc4defa9cd66e4957334fa",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tjma_informativos"
+      ],
+      "workpack": "provider-workpacks/tjma_informativos.md",
+      "completion_reason": "reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tjma_jurisconsult": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjma_jurisconsult",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tjma_jurisconsult.md",
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "429daa0e40e4ef5187afdfe40a6d83155a10abe669a374428809758dda4996e5",
+      "topology_collection_ids": [
+        "collection:unattributed:tjma_jurisconsult"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access"
+    },
+    "tjmg_dspace_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "46aad3ddb2133863fbce34d536d22f75c2445d973339b9510801dfb6f944dff4",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmg_dspace_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmg_dspace_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjmg_ejef_boletim_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "061c0ffeb00e672f9a478cb15b661365c07ef096df9d60611dec0dcf502c6c0c",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmg_ejef_boletim_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmg_ejef_boletim_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjmg_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjmg_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "c624b4145b0a4fd817b74df8de3c01e3cd6633dacc1cf69c41a699fbf1acc7e6",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmg_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjmmg_jurisprudencia_api": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjmmg_jurisprudencia_api",
+          "disposition": "deferred_with_review",
+          "reason": "reproducible_fixture_missing",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "25a35418659bb9e8a027c0fe8e6fb3f0d2c9b0466cbb0e8b817f05e3189f0078",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmmg_jurisprudencia_api"
+      ],
+      "workpack": "provider-workpacks/tjmmg_jurisprudencia_api.md",
+      "completion_reason": "reproducible_fixture_missing"
+    },
+    "tjmrs_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjmrs_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "3134e461b1803523d10fd8fe6ff0fac3775d2cb7251d6ada366931c037a8cede",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmrs_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmrs_jurisprudencia.md",
+      "completion_reason": "reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tjms_cjpg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "128ec10b2db39a630415a688a639414fffdb30c851d0d02d751012a6bc05abe2",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjms_cjpg"
+      ],
+      "workpack": "provider-workpacks/tjms_cjpg.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjms_cjsg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjms_cjsg.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "101ff6cd5f036cc42ed0023adc2ccc5a0693dd7f9cede7ac4c4b2bbc57028f93",
+      "topology_collection_ids": [
+        "collection:tjms:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjmsp_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "research",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjmsp_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "4bb98fd0f1ad80a6ac90cf31ca4d921ae7de7219c60d3c9d2df0959417558a61",
+      "priority": 4,
+      "target_tier": "candidate_contract_confirmed",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmsp_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmsp_jurisprudencia.md",
+      "completion_reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access"
+    },
+    "tjmt_jurisprudencia_api": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjmt_jurisprudencia_api.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "2ea3a31b98390ea03fb351f5ebbd871c48fb209f489791cd277cf8407d470a8e",
+      "topology_collection_ids": [
+        "collection:unattributed:tjmt_jurisprudencia_api"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjpa_jurisprudencia_bff": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjpa_jurisprudencia_bff.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "bdbdde42501542796668d27e20e3ba0d18fd08e7605d904cae4b58f1bc412612",
+      "topology_collection_ids": [
+        "collection:unattributed:tjpa_jurisprudencia_bff"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjpb_pje_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjpb_pje_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "b8314c5b95d96e823fee08b7313fef0770b9015327e99c31313495bdb9133c79",
+      "topology_collection_ids": [
+        "collection:unattributed:tjpb_pje_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjpe_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjpe_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "88d6a7251840cca8b806ab835740fec82413488f3f4131173356bc1697b9846c",
+      "topology_collection_ids": [
+        "collection:unattributed:tjpe_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjpi_juspi": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjpi_juspi.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "2a2c0fc4863340bbcc0b762755477b62d7f0a299bfd8968684a562aca30c1858",
+      "topology_collection_ids": [
+        "collection:tjpi:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjpr_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjpr_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "82334a157731fcb456be3f9bcf3198cce973c50c6330babb8941a1296bc043ee",
+      "topology_collection_ids": [
+        "collection:unattributed:tjpr_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjrj_banco_sentencas": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjrj_banco_sentencas",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "66980e9d322e5bfb71908a00bc366d9838cdf46b160555300a4d498a0f0072cf",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tjrj_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjrj_banco_sentencas.md",
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing"
+    },
+    "tjrj_ejuris": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjrj_ejuris.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "5f5dedeeda57e8e98dafa3de0f616c8ba2c59051a101764e261b6a7255728958",
+      "topology_collection_ids": [
+        "collection:unattributed:tjrj_ejuris"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjrj_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjrj_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "21d8ef07d99fb12bf4a99e3df30e86099a17a2f70e580ff5d588f8ab9edc0eee",
+      "topology_collection_ids": [
+        "collection:unattributed:tjrj_eproc_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjrn_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjrn_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "6fb895e7216e210b44c3de335c6dd42215cdd7a4de18db9153922ed47055847f",
+      "topology_collection_ids": [
+        "collection:tjrn:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjro_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "e163847df1bb4c96db126808df850e7736d57f4cf56b7948599e8a625d012e0e",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:tjro:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjro_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjro_liame": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tjro_liame.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "cbafb263a5ca51e5566697a6aef83fa6abddf919ae59a91cf4f7c6c1d4c88b3c",
+      "topology_collection_ids": [
+        "collection:tjro:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjrr_juris": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjrr_juris.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "69e8cfc5e51b2fec98c2341af0dc1b2d4f4c5bb161949710556ec17b605d53f6",
+      "topology_collection_ids": [
+        "collection:tjrr:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjrs_solr": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjrs_solr.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "e9c017b091a5ab0e479ac7526bd28cdea1aee87575b3eeaaaa9a30235c48645e",
+      "topology_collection_ids": [
+        "collection:unattributed:tjrs_solr"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjsc_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjsc_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "10f518a6f5b63ada5ec492754fd6ceea769bb18024b6aa8721488e762814fb53",
+      "topology_collection_ids": [
+        "collection:unattributed:tjsc_eproc_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjse_boletim_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "0735ba2ed995b2f68c4d6b79c6fd39b0428b73cf1fad5d34329ed6c948275bc8",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjse_boletim_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjse_boletim_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjse_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "research",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjse_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "approve an official contract, implement the adapter, and add success/empty/failure fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 4,
+      "target_tier": "candidate_contract_confirmed",
+      "workpack": "provider-workpacks/tjse_jurisprudencia.md",
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "approve an official contract, implement the adapter, and add success/empty/failure fixtures",
+      "evidence_fingerprint": "29073f6014bd126b1bbbe791b3e154812563dc79e3930c04c7adc20d20fa138f",
+      "topology_collection_ids": [
+        "collection:unattributed:tjse_jurisprudencia"
+      ],
+      "completion_reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tjsp_cjpg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "9ba585caf1c45dae859adcbb498c5c0611b841585b30f4fc657b87bcb09e5fde",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:tjsp_cjpg"
+      ],
+      "workpack": "provider-workpacks/tjsp_cjpg.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjsp_cjsg": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjsp_cjsg.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "6c2ecbfba44a005cdf76b9186fbcc95dd9b5fe016917a092c0e69a76cca40970",
+      "topology_collection_ids": [
+        "collection:tjsp:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjsp_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjsp_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "89cfdd8ba502e2fa5a442b95bc83ea5dec8c7ab8e526e0b45ca4612c9c304ae9",
+      "topology_collection_ids": [
+        "collection:tjsp:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tjsp_nugepnac": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tjsp_nugepnac",
+          "disposition": "deferred_with_review",
+          "reason": "technical promotion gate did not pass",
+          "resume_when": "rerun the provider completion command after new source evidence"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tjsp_nugepnac.md",
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "rerun the provider completion command after new source evidence",
+      "evidence_fingerprint": "6915098ca604f2d67a45fe537380a7428f869918ce8a9216f46f1c1a7584ea15",
+      "topology_collection_ids": [
+        "collection:unattributed:tjsp_nugepnac"
+      ],
+      "completion_reason": "technical promotion gate did not pass"
+    },
+    "tjto_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tjto_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "8e70e4e928404f7c3e3a8bdecc97fbef599d39db0086091d7db4d3317c09f0f1",
+      "topology_collection_ids": [
+        "collection:unattributed:tjto_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tnu_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tnu_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "414fab5d616cac48fee44bc03245bbdb492b9d3a2c2a6172833f24fd07624f33",
+      "topology_collection_ids": [
+        "collection:tnu:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "tre_sjur_first_degree": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tre_sjur_first_degree",
+          "disposition": "deferred_with_review",
+          "reason": "reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "a81555a5556657c97c5e871c5494f96207d2aee083168febf830189ba1b6c3e6",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tre_sjur_first_degree"
+      ],
+      "workpack": "provider-workpacks/tre_sjur_first_degree.md",
+      "completion_reason": "reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tre_sjur_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tre_sjur_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "6ca0dd64bd0a192d96f52912304fd92613842f2b1f823987fbe18f005642da77",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tre_sjur_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tre_sjur_jurisprudencia.md",
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tre_sp_temas": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tre_sp_temas",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; source_unavailable",
+          "resume_when": "recheck when the official source is available again"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/tre_sp_temas.md",
+      "operational_health": "unavailable",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "recheck when the official source is available again",
+      "evidence_fingerprint": "59ac8be4f76f889cea7595f3954b3c7e5cf4aa22b6a6177732311ddcf34451d7",
+      "topology_collection_ids": [
+        "collection:tresp:jurisprudence"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed; source_unavailable"
+    },
+    "trf2_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/trf2_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "6e7b338dffdd59d7c5b55dfc5254e4cbc83bc15c1f58bf3ffbdf2a680058b640",
+      "topology_collection_ids": [
+        "collection:trf2:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trf3_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trf3_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 3,
+      "target_tier": "context_verified",
+      "workpack": "provider-workpacks/trf3_jurisprudencia.md",
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "98dd8b3862832d9b9509ed5658e7090577e75d872024fe5d83c14f449ed27d22",
+      "topology_collection_ids": [
+        "collection:unattributed:trf3_jurisprudencia"
+      ],
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "trf4_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/trf4_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "c51cc88115aafef288ae91849d3441e2ff9bd1e77712727941ea1cbfb1aecb0b",
+      "topology_collection_ids": [
+        "collection:trf4:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trf5_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 1,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/trf5_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "ff2555f842255a72feb2b43f5f88818962dcca0ea8856f2ff7acd73e65d2da78",
+      "topology_collection_ids": [
+        "collection:unattributed:trf5_jurisprudencia"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trf6_eproc_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/trf6_eproc_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "b3afab91c33f22251bc64d5bee18d023767c8c76169a1eaef072bdde7f24c44c",
+      "topology_collection_ids": [
+        "collection:trf6:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trt15_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trt15_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "fb6c4758e2cda64a331611e31d911bb6f86b89cb26800fe7a583baea8a70ad8d",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:trt15_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt15_jurisprudencia.md",
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "trt2_basis_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trt2_basis_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "c7d210cee8132223b7bdca871689da30ada2702467be42841dc1d3def3dc2d83",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:trt2_basis_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt2_basis_jurisprudencia.md",
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "trt2_ementario_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "c2b6a5c1139afe459394e2694bae5db375f0a32dbd69bf9170a37d60bbef163f",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:trt2_ementario_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt2_ementario_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trt2_pje_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "research",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trt2_pje_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access",
+          "resume_when": "reexecute a bounded public request after the source removes access control"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 4,
+      "target_tier": "candidate_contract_confirmed",
+      "workpack": "provider-workpacks/trt2_pje_jurisprudencia.md",
+      "operational_health": "access_controlled",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "reexecute a bounded public request after the source removes access control",
+      "evidence_fingerprint": "c4421d5a99efdb860fdae6add866b314d4169529e2e9e39304a62a7d2636eced",
+      "topology_collection_ids": [
+        "collection:unattributed:trt2_pje_jurisprudencia"
+      ],
+      "completion_reason": "contract_gate_failed; live_validation_missing; reproducible_fixture_missing; quality_gate_failed; blocked_access"
+    },
+    "trt3_ementario_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trt3_ementario_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "943db4530459c06a5b32732c354aa3a552b8ef10a6248490f59bb54e60ebc6e5",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:trt3_ementario_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt3_ementario_jurisprudencia.md",
+      "completion_reason": "reproducible_fixture_missing; quality_gate_failed"
+    },
+    "trt4_sumulas_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trt4_sumulas_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "e9008dfb9aab22d83baec4578dbd6b1acfe735d178f81ee84184ce9bb12a2104",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:trt4_sumulas_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt4_sumulas_jurisprudencia.md",
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "trt6_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "60a9ced484cada1bb3ff8a945d036f0a4fa7e71f60b8eff027f2ef033463e698",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:trt6_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt6_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trt8_pje_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "dc1f4548f413e5320ffbad9dffbe3a15b9074ef7eef8722f7a654dc98022f07d",
+      "priority": 1,
+      "target_tier": "gold",
+      "topology_collection_ids": [
+        "collection:unattributed:trt8_pje_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt8_pje_jurisprudencia.md",
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    },
+    "trt9_nugepnac_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "trt9_nugepnac_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed",
+          "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "not_checked",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "add sanitized versioned success, explicit-empty, and failure/schema fixtures",
+      "evidence_fingerprint": "2c1ff439a5922de26926f08f2ffaed0b2d668716fed341a5055387b8475c87e8",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:trt9_nugepnac_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt9_nugepnac_jurisprudencia.md",
+      "completion_reason": "live_validation_missing; reproducible_fixture_missing; quality_gate_failed"
+    },
+    "tse_sjur_jurisprudencia": {
+      "status": "waiting_evidence",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "deferred_with_review"
+      },
+      "blocking_conditions": [
+        {
+          "kind": "completion_decision",
+          "source": "tse_sjur_jurisprudencia",
+          "disposition": "deferred_with_review",
+          "reason": "technical promotion gate did not pass",
+          "resume_when": "rerun the provider completion command after new source evidence"
+        }
+      ],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "operational_health": "valid",
+      "disposition": "deferred_with_review",
+      "review_after": "2026-10-12",
+      "resume_when": "rerun the provider completion command after new source evidence",
+      "evidence_fingerprint": "befa9572a2a1e157f683179d22b17610f04fbf29c8a66e48a2dad753176e1a67",
+      "priority": 3,
+      "target_tier": "context_verified",
+      "topology_collection_ids": [
+        "collection:unattributed:tse_sjur_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tse_sjur_jurisprudencia.md",
+      "completion_reason": "technical promotion gate did not pass"
+    },
+    "tst_jurisprudencia": {
+      "status": "ready_for_review",
+      "phase": "review",
+      "attempts": 1,
+      "owner": "nanojuris-provider-maintainers",
+      "last_checkpoint": {
+        "command": "python tools/complete_provider_workpacks.py --write",
+        "outcome": "accepted_with_limitations"
+      },
+      "blocking_conditions": [],
+      "evidence": [
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/registry/provider-catalog.full.json",
+        "specs/changes/0035-provider-completion-autopilot/provider-baseline.json"
+      ],
+      "priority": 2,
+      "target_tier": "gold",
+      "workpack": "provider-workpacks/tst_jurisprudencia.md",
+      "operational_health": "valid",
+      "disposition": "accepted_with_limitations",
+      "review_after": null,
+      "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
+      "evidence_fingerprint": "4f1a82a4f7e1ac39091e4520853abf9593c03021205213a8a94477d30493d3c0",
+      "topology_collection_ids": [
+        "collection:tst:jurisprudence"
+      ],
+      "completion_reason": "technical gates passed; residual limitations remain recorded in the work pack"
+    }
+  },
+  "completion_run": {
+    "providers": 85,
+    "dispositions": {
+      "accepted_with_limitations": 53,
+      "deferred_with_review": 32
+    },
+    "terminal": 85,
+    "mode": "offline_evidence_review",
+    "network": "not_used",
+    "review_after": "2026-10-12"
+  }
+}

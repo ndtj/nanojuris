@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-09",
+  "provider": "trt2_basis_jurisprudencia",
+  "authority": "TRT2",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "TRT2_BASIS",
+  "mode": "bounded_public_http",
+  "credentials_used": false,
+  "bypass_used": false,
+  "request": {
+    "method": "GET",
+    "endpoint": "https://basis.trt2.jus.br/discover",
+    "query": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1,
+    "scope": "123456789/16181"
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "text/html;charset=utf-8",
+    "response_bytes": 319270,
+    "content_sha256": "0a688781d7cad4c51a21c346953abed7c6d3246e76a4609a7a5510c144ac3cc0",
+    "elapsed_ms": 12404.98,
+    "records_returned": 0,
+    "reported_total": null,
+    "total_state": "unknown"
+  },
+  "classification": "unconfirmed_empty",
+  "decision": "Keep the curated TRT2 BASIS source opt-in/contextual; do not count it as complete TRT2 jurisprudence coverage or promote it to default federation.",
+  "limitations": [
+    "The DSpace collection does not expose an authoritative result total for this query.",
+    "No document was available to probe in this request.",
+    "The result is not an authoritative empty corpus and is not an access failure."
+  ]
+}

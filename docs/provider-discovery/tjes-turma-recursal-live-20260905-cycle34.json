@@ -1,0 +1,43 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjes_turma_recursal",
+  "observed_at": "2026-09-05",
+  "mode": "bounded_public_live_check",
+  "query_shape": {
+    "q": "dano moral",
+    "core": "turma_recursal_legado",
+    "page": 1,
+    "per_page": 1
+  },
+  "results": [
+    {
+      "source_id": "tjes_turma_recursal",
+      "surface": "turma_recursal",
+      "endpoint": "GET https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 11009,
+      "content_sha256": "b4c2c346a1fcaa226f1026c841fab3c64066337e298399a1a3795cfaf7b3759d",
+      "record_count_observed": 1,
+      "reported_total": 45333,
+      "classification": "reachable_valid_data",
+      "pagination_mode": "offset",
+      "fields_observed": [
+        "id",
+        "num_processo",
+        "classe_processo",
+        "nome_juiz",
+        "orgao_julgador",
+        "data_julgamento",
+        "cont_ementa"
+      ]
+    }
+  ],
+  "raw_content_persisted": false,
+  "promotion_decision": "implemented_opt_in_only",
+  "limitations": [
+    "A verificacao foi limitada a uma chamada publica e uma janela pequena.",
+    "O corpo da resposta nao foi persistido; somente metadados e hash foram registrados.",
+    "A evidencia de acesso nao substitui revisao juridica de reuso ou coleta em escala."
+  ]
+}

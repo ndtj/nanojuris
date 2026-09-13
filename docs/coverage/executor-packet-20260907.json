@@ -1,0 +1,484 @@
+{
+  "schema_version": "nanojuris-executor-packet-v1",
+  "generated_at": "2026-09-08",
+  "scope": {
+    "library": "repos/nanojuris",
+    "platform": "repos/nanojuris-platform",
+    "no_commit_push_deploy": true,
+    "juscraper_reference": {
+      "path": "repos/.tmp-juscraper",
+      "repository": "https://github.com/jtrecenti/juscraper",
+      "commit": "604c1dd70d6f313011cc1079790febe6c71807e2"
+    }
+  },
+  "scope_excludes": [
+    "0091-national-coverage-gold-handoff",
+    "0098-national-jurisprudence-gold-coverage",
+    "0099-national-route-discovery-wave-1",
+    "0100-tse-sjur-jurisprudencia",
+    "0101-tjmrs-jurisprudencia",
+    "0112-tre-sjur-first-degree"
+  ],
+  "verified_baseline": {
+    "library_tests_passed": 1566,
+    "library_tests_skipped": 26,
+    "platform_tests_passed": 153,
+    "state_authorities": 27,
+    "state_appellate_complete": 25,
+    "state_appellate_incomplete": 2,
+    "cjpg_implemented": 8,
+    "cjpg_expected": 27,
+    "cjsg_implemented": 25,
+    "cjsg_expected": 27,
+    "surfaces_mapped": 150,
+    "surfaces_required": 125,
+    "providers_cataloged": 72,
+    "providers_runtime": 67,
+    "promotable_without_new_evidence": 0
+  },
+  "open_tasks": [
+    {
+      "package": "0069-state-appellate-national-coverage",
+      "task_id": "T07",
+      "class": "external_source",
+      "scope": "[blocked-external: TJAP/TJMA exigem CAPTCHA/Turnstile ou rota oficial alternativa; rechecagens 2026-09-07 registradas em docs/provider-discovery/legitimate-blocked-techniques-20260907.json e docs/provider-discovery/tjma-public-route-inventory-live-20260907.json]"
+    },
+    {
+      "package": "0077-live-intelligent-federated-search",
+      "task_id": "T62",
+      "class": "human_review",
+      "scope": "medir/calibrar development, validar holdout e performance p95."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T012",
+      "class": "external_source",
+      "scope": "close TJRJ/TJSC CJPG and priority CJSG gaps."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T013",
+      "class": "external_source",
+      "scope": "prove Falcao by labor-court authority."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T015",
+      "class": "external_source",
+      "scope": "implement the remaining state CJPG family surfaces."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T016",
+      "class": "external_source",
+      "scope": "close federal, superior, and military surfaces."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T017",
+      "class": "external_source",
+      "scope": "prove every provider filter differentially."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T019",
+      "class": "external_source",
+      "scope": "locate and validate detail and document routes live."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T021",
+      "class": "external_source",
+      "scope": "complete per-surface success, empty, error, blocked, and drift fixtures."
+    },
+    {
+      "package": "0078-national-coverage-lawful-access",
+      "task_id": "T022",
+      "class": "external_source",
+      "scope": "complete semantic validation of degree, authority, identity, dates,"
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T003",
+      "class": "external_source",
+      "scope": "prove degree, class, filters, and pagination per court."
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T004",
+      "class": "external_source",
+      "scope": "implement fixtures and canonical parsers."
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T005",
+      "class": "external_source",
+      "scope": "validate documents and temporal ranges."
+    },
+    {
+      "package": "0081-state-first-degree-expansion",
+      "task_id": "T006",
+      "class": "external_source",
+      "scope": "promote only surfaces passing all eight gates."
+    },
+    {
+      "package": "0083-federal-superior-military-closure",
+      "task_id": "T004",
+      "class": "external_source",
+      "scope": "validate detail, document, and temporal-range routes live."
+    },
+    {
+      "package": "0084-fulltext-and-field-completeness",
+      "task_id": "T002",
+      "class": "external_source",
+      "scope": "prove filters and pagination differentially with provider evidence."
+    },
+    {
+      "package": "0084-fulltext-and-field-completeness",
+      "task_id": "T004",
+      "class": "external_source",
+      "scope": "locate and validate detail, download, and full-text routes live."
+    },
+    {
+      "package": "0084-fulltext-and-field-completeness",
+      "task_id": "T005",
+      "class": "external_source",
+      "scope": "run the complete live MIME, PDF, OCR, hash, and linkage QA matrix."
+    },
+    {
+      "package": "0086-trt2-basis-jurisprudencia",
+      "task_id": "T009",
+      "class": "human_review",
+      "scope": "Confirmar retenção e uso operacional com responsável humano."
+    },
+    {
+      "package": "0087-trf3-jurisprudencia-exact-process",
+      "task_id": "T008",
+      "class": "external_source",
+      "scope": "Revalidar a rota com chamada live bounded que retorne registro parseado; a janela de 2026-09-07 expirou por timeout."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "[E]** descobrir a rota pública oficial por tribunal."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T008",
+      "class": "external_source",
+      "scope": "[E]** provar `degree=first`, coleção e escopo textual."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T009",
+      "class": "external_source",
+      "scope": "[E]** validar filtros, paginação e ordenação."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T010",
+      "class": "external_source",
+      "scope": "[E]** implementar parser e fixtures sanitizadas."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T011",
+      "class": "external_source",
+      "scope": "[E]** validar detalhe, PDF/HTML, MIME, hash e extração."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T021",
+      "class": "external_source",
+      "scope": "[E]** fechar TRF, STJ, STF, STM e CJF com detalhe documental."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T025",
+      "class": "external_source",
+      "scope": "[E]** validar datas de julgamento, publicação, atualização e"
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T026",
+      "class": "external_source",
+      "scope": "[E]** validar links de detalhe e documentos bounded."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T036",
+      "class": "human_review",
+      "scope": "[H]** obter decisão de licença, retenção e responsável por fonte."
+    },
+    {
+      "package": "0089-national-coverage-execution-handoff",
+      "task_id": "T037",
+      "class": "human_review",
+      "scope": "[H]** aprovar rótulos humanos de relevância para o benchmark."
+    },
+    {
+      "package": "0090-tjrj-banco-sentencas",
+      "task_id": "T008",
+      "class": "human_review",
+      "scope": "decidir promoção de coleção curada após revisão humana."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T011",
+      "class": "external_source",
+      "scope": "[E]** confirmar fonte oficial e rota pública por superfície CJPG."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T012",
+      "class": "external_source",
+      "scope": "[E]** confirmar fonte oficial e rota pública por superfície CJSG."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T013",
+      "class": "external_source",
+      "scope": "[E]** fechar TRF/STJ/STF/STM/CJF com contratos documentais."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T014",
+      "class": "external_source",
+      "scope": "[E]** fechar TRT/TST e TSE/TRE/SJUR sem misturar coleções."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T016",
+      "class": "external_source",
+      "scope": "[E]** executar chamadas bounded e classificar bloqueios."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T018",
+      "class": "external_source",
+      "scope": "[E]** registrar fixture sanitizada de sucesso e segunda página."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T019",
+      "class": "external_source",
+      "scope": "[E]** registrar vazio autoritativo e vazio não confirmado separados."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T021",
+      "class": "external_source",
+      "scope": "[E]** validar detalhe, PDF/HTML, MIME, hash e limites."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T027",
+      "class": "human_review",
+      "scope": "[H]** aprovar rótulos de benchmark e holdout."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T029",
+      "class": "human_review",
+      "scope": "[H]** aprovar licença, retenção, frequência e responsável."
+    },
+    {
+      "package": "0092-national-coverage-execution-blueprint",
+      "task_id": "T030",
+      "class": "human_review",
+      "scope": "[H]** autorizar promoção padrão, release ou mudança externa."
+    },
+    {
+      "package": "0093-trt15-jurisprudencia-surface",
+      "task_id": "T006",
+      "class": "external_source",
+      "scope": "[E]** obter API/export/fluxo público autorizado que retorne"
+    },
+    {
+      "package": "0095-tjal-turma-recursal-ementario",
+      "task_id": "T008",
+      "class": "human_review",
+      "scope": "decidir promocao padrao apos revisao de qualidade e operacao."
+    },
+    {
+      "package": "0095-tjal-turma-recursal-ementario",
+      "task_id": "T009",
+      "class": "human_review",
+      "scope": "decidir politica de atualizacao dos volumes por responsavel humano."
+    },
+    {
+      "package": "0096-tjal-esmal-banco-sentencas",
+      "task_id": "T010",
+      "class": "human_review",
+      "scope": "aprovar retencao e politica de atualizacao dos PDFs."
+    },
+    {
+      "package": "0097-tjmg-ejef-boletim-jurisprudencia",
+      "task_id": "T010",
+      "class": "human_review",
+      "scope": "decidir retencao e politica de atualizacao da colecao curada."
+    },
+    {
+      "package": "0102-trt2-pje-diagnostic",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "obter rota oficial de documentos sem desafio ou fluxo autorizado reproduzivel."
+    },
+    {
+      "package": "0103-falcao-jt-diagnostic",
+      "task_id": "T006",
+      "class": "external_source",
+      "scope": "obter API, exportacao ou allowlist oficial reproduzivel do Falcao."
+    },
+    {
+      "package": "0106-trt6-jurisprudencia-diagnostic",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "obter rota oficial autorizada para busca TRT6 sem desafio automatizado."
+    },
+    {
+      "package": "0106-trt6-jurisprudencia-diagnostic",
+      "task_id": "T008",
+      "class": "external_source",
+      "scope": "confirmar contrato de segundo grau, paginação e filtros com o TRT6."
+    },
+    {
+      "package": "0106-trt6-jurisprudencia-diagnostic",
+      "task_id": "T009",
+      "class": "human_review",
+      "scope": "reavaliar promoção federada somente após os gates restantes."
+    },
+    {
+      "package": "0107-tre-sjur-family",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "validar paginacao remota individual por UF."
+    },
+    {
+      "package": "0107-tre-sjur-family",
+      "task_id": "T008",
+      "class": "external_source",
+      "scope": "validar detalhe/PDF valido individual por UF."
+    },
+    {
+      "package": "0107-tre-sjur-family",
+      "task_id": "T009",
+      "class": "human_review",
+      "scope": "submeter promocao tecnica apos os gates pendentes."
+    },
+    {
+      "package": "0109-trt3-ementario-jurisprudencia",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "obter contrato oficial de busca geral do TRT3, se publicado."
+    },
+    {
+      "package": "0109-trt3-ementario-jurisprudencia",
+      "task_id": "T008",
+      "class": "human_review",
+      "scope": "decidir retencao e promocao da colecao curada TRT3."
+    },
+    {
+      "package": "0108-federal-eproc-family-dispatcher",
+      "task_id": "T010",
+      "class": "human_review",
+      "scope": "aprovar promoção individual de cada superfície após os oito gates."
+    },
+    {
+      "package": "0110-trt9-nugepnac-jurisprudencia",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "obter contrato oficial de busca geral TRT9, se publicado."
+    },
+    {
+      "package": "0110-trt9-nugepnac-jurisprudencia",
+      "task_id": "T008",
+      "class": "human_review",
+      "scope": "decidir retencao e promocao da colecao curada TRT9."
+    },
+    {
+      "package": "0111-trt4-sumulas-jurisprudencia",
+      "task_id": "T008",
+      "class": "external_source",
+      "scope": "obter contrato publico de busca geral TRT4, se publicado."
+    },
+    {
+      "package": "0111-trt4-sumulas-jurisprudencia",
+      "task_id": "T009",
+      "class": "human_review",
+      "scope": "decidir retencao e promocao da colecao curada TRT4."
+    },
+    {
+      "package": "0113-tjmg-modern-api-filter-contract",
+      "task_id": "T006",
+      "class": "external_source",
+      "scope": "revalidate the official API after upstream schema changes."
+    }
+  ],
+  "promotion_gates": [
+    "runtime",
+    "official_source",
+    "degree_contract",
+    "fixtures",
+    "pagination_filters",
+    "live_status",
+    "quality_gate",
+    "public_access"
+  ],
+  "forbidden_access_methods": [
+    "captcha_solver_or_challenge_ocr",
+    "turnstile_or_waf_bypass",
+    "token_or_cookie_replay",
+    "stealth_or_fingerprint_spoofing",
+    "proxy_or_ip_rotation_for_evasion",
+    "tls_verification_relaxation",
+    "rate_limit_evasion",
+    "non_public_admin_endpoint"
+  ],
+  "authoritative_artifacts": [
+    "docs/coverage/public-access-boundary-playbook-20260908.md",
+    "docs/coverage/public-access-boundary-playbook-20260908.json",
+    "docs/coverage/first-degree-federation-gate-20260908.json",
+    "docs/coverage/open-task-audit-20260907.json",
+    "docs/coverage/state-appellate-program-20260905.json",
+    "docs/coverage/surface-state-registry-20260902.json",
+    "docs/registry/provider-catalog.full.json",
+    "docs/provider-discovery/juscraper-parity-assessment-20260906.md",
+    "docs/provider-discovery/juscraper-court-inventory-20260906.json",
+    "docs/provider-discovery/juscraper-semantic-diff-20260906.json",
+    "docs/provider-discovery/tjgo-projudi-live-20260907.json",
+    "docs/provider-discovery/stm-live-20260907-cycle59.json",
+    "docs/provider-discovery/trf4-live-20260907-cycle62.json",
+    "docs/provider-discovery/trf5-live-20260907-cycle45.json",
+    "docs/provider-discovery/tst-live-20260907-cycle60.json",
+    "docs/provider-discovery/tjap-pje-2g-alternative-live-20260907.json",
+    "docs/benchmarks/live-ranking-v1.json",
+    "docs/benchmarks/live-ranking-performance-20260907.json",
+    "docs/benchmarks/live-ranking-performance-20260907-cycle2.json",
+    "docs/operations/provider-certification-20260907.json",
+    "docs/provider-discovery/trt2-ementario-live-20260907.json",
+    "specs/changes/0088-trt2-ementario-jurisprudencia/spec.md",
+    "specs/changes/0088-trt2-ementario-jurisprudencia/design.md",
+    "specs/changes/0088-trt2-ementario-jurisprudencia/tasks.md",
+    "specs/changes/0088-trt2-ementario-jurisprudencia/verification.md",
+    "specs/changes/0090-tjrj-banco-sentencas/spec.md",
+    "specs/changes/0090-tjrj-banco-sentencas/design.md",
+    "specs/changes/0090-tjrj-banco-sentencas/tasks.md",
+    "specs/changes/0090-tjrj-banco-sentencas/verification.md",
+    "docs/operations/technical-promotion-manifest-20260905.json",
+    "docs/provider-discovery/document-qa-cycle-20260907-batch06.json",
+    "docs/provider-discovery/document-qa-cycle-20260907-batch07.json",
+    "docs/provider-discovery/document-qa-cycle-20260907-batch08.json",
+    "docs/provider-discovery/document-qa-cycle-20260907-batch09.json",
+    "docs/provider-discovery/document-qa-cycle-20260907-batch10.json",
+    "docs/provider-discovery/tjrj-ejuris-origin-options-live-20260907.json",
+    "docs/provider-discovery/tjse-boletim-jurisprudencia-live-20260907.json",
+    "docs/provider-discovery/trf3-jurisprudencia-live-20260907.json",
+    "docs/provider-discovery/tjrj-banco-sentencas-live-20260908.json",
+    "specs/changes/0084-fulltext-and-field-completeness/verification.md",
+    "docs/provider-discovery/unified-contract-matrix.json",
+    "docs/coverage/external-action-requests-20260907.md"
+  ],
+  "stop_rule": "Do not claim 27/27 or zero open tasks without external evidence and, for T62, human relevance judgments. If blocked, record the bounded attempt and terminal blocker instead."
+}

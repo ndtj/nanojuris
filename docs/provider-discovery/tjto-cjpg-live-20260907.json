@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-07T05:07:13Z",
+  "source_id": "tjto_jurisprudencia",
+  "authority": "TJTO",
+  "branch": "state",
+  "surface": "cjpg",
+  "collection": "CJPG",
+  "degree": "first",
+  "instance": "first",
+  "endpoint": "POST /consulta.php",
+  "method": "POST",
+  "query": {
+    "text": "dano moral",
+    "tip_criterio_inst": "1",
+    "type_minuta_selected": "3",
+    "rows": 10
+  },
+  "status": "valid",
+  "classification": "valid",
+  "http_status": 200,
+  "record_count_observed": 10,
+  "reported_total": 86023,
+  "total_known": true,
+  "pagination_mode": "offset",
+  "pagination_probe": {
+    "requested_pages": [1, 2],
+    "page_1": {"status": "valid", "http_status": 200, "record_count": 10},
+    "page_2": {"status": "valid", "http_status": 200, "record_count": 10},
+    "overlap": false
+  },
+  "first_result": {
+    "id": "tjto-jurisprudencia-291149cab2522c84804ee43b17199a8d",
+    "number": "0000390-08.2026.8.27.2725",
+    "case_class_present": true,
+    "judging_body_present": true,
+    "judgment_date": "2026-09-06",
+    "summary_present": true,
+    "degree": "first",
+    "instance": "first",
+    "collection": "CJPG",
+    "document_type": "sentenca",
+    "access_status": "public",
+    "extraction_status": "complete",
+    "document_url_present": true
+  },
+  "source_trace": {
+    "endpoint": "POST /consulta.php",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "response_bytes": 1461356,
+    "retrieval_status": "complete"
+  },
+  "standard_session_probe": {
+    "method": "NanoJuris SharedHttpClient with ordinary browser User-Agent and bounded rate limit",
+    "bypass_attempted": false,
+    "classification": "valid_page_one_and_page_two"
+  },
+  "promotion_decision": "technical_candidate_first_degree_validated",
+  "limitations": [
+    "Bounded two-page smoke only; no corpus-wide completeness claim.",
+    "The route occasionally returns HTTP 202/WAF challenge under a different session state; this remains an explicit access-control outcome, never an empty page.",
+    "Document detail was not fetched in this smoke."
+  ]
+}

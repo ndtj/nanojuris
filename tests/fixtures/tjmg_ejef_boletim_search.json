@@ -1,0 +1,30 @@
+{
+  "_embedded": {
+    "searchResult": {
+      "page": {"number": 0, "size": 5, "totalPages": 1, "totalElements": 1},
+      "_embedded": {
+        "objects": [
+          {
+            "_embedded": {
+              "indexableObject": {
+                "id": "ecd53b20-ca8b-4e2f-9714-d9db923d06a5",
+                "handle": "tjmg/8566",
+                "metadata": {
+                  "dc.title": [{"value": "Boletim de Jurisprudencia n 170"}],
+                  "dc.description.abstract": [{"value": "Ementa: responsabilidade civil objetiva por falha de servico publico."}],
+                  "dc.date.issued": [{"value": "2017-09-20"}],
+                  "dc.subject": [{"value": "Responsabilidade civil"}, {"value": "Direito administrativo"}],
+                  "dc.contributor.author": [{"value": "Tribunal de Justica de Minas Gerais - Coordenacao de Jurisprudencia"}],
+                  "dc.identifier.uri": [{"value": "http://bd.tjmg.jus.br/jspui/handle/tjmg/8566"}]
+                },
+                "_links": {
+                  "self": {"href": "https://bd.tjmg.jus.br/server/api/core/items/ecd53b20-ca8b-4e2f-9714-d9db923d06a5"}
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

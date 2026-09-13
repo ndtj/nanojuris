@@ -1,0 +1,71 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "provider": "trt4_sumulas_jurisprudencia",
+  "authority": "TRT4",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "TRT4_SUMULAS",
+  "checked_at": "2026-09-10",
+  "observed_at": "2026-09-10",
+  "status": "valid",
+  "surface": "curated_jurisprudence",
+  "record_count_observed": 212,
+  "reported_total": 212,
+  "http_status": 200,
+  "content_type": "text/html;charset=UTF-8",
+  "response_bytes": 489802,
+  "content_sha256": "47bf7acffa66402a1af5ddd3aad7c4cfbd18175f2da6d4cc5936bae978a9d7e9",
+  "pagination_mode": "local_html_window",
+  "official_entry_point": "https://www.trt4.jus.br/portais/trt4/sumulas",
+  "live_surface": {
+    "url": "https://www.trt4.jus.br/portais/trt4/sumulas",
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "response_bytes": 489802,
+    "semantic_scope": "colecao oficial curada de sumulas e precedentes TRT4"
+  },
+  "classification": "valid_curated_context",
+  "collection_classification": "curated_context",
+  "live_status": "valid_static_html",
+  "contract_status": "candidate_static_sumulas_only",
+  "federation_status": "disabled",
+  "adapter_replay": {
+    "checked_at": "2026-09-10",
+    "query": {"text": "responsabilidade", "page": 1, "page_size": 5},
+    "status": "success_with_results",
+    "result_count": 5,
+    "collection_total": 212,
+    "http_status": 200,
+    "response_bytes": 489802,
+    "document_replay": {
+      "url": "https://www.trt4.jus.br/portais/documento-ato/1064327/RA%2013-2024%20-%20CANCELA%20SUMULA%2050%20TRT4%20%281%29.pdf",
+      "content_type": "application/pdf",
+      "byte_size": 69827,
+      "page_count": 1,
+      "extraction_status": "complete",
+      "sha256": "92e006b79578e94e4e1f690ab408f5efb47b5636793c5ce7ee596e5a7da1df10"
+    },
+    "bounded_public_request": true,
+    "credentials_used": false,
+    "captcha_bypass": false,
+    "access_control_bypass": false
+  },
+  "document_capability": "official_pdf_links_when_published",
+  "limitations": [
+    "A página é uma coleção estática e curada, não a busca geral Falcão.",
+    "O total conhecido refere-se apenas à página observada; não há paginação remota.",
+    "O inteiro teor depende de links individuais e não foi demonstrado para todos os registros.",
+    "A fonte permanece contextual/opt-in e não fecha a cobertura geral TRT4."
+  ],
+  "next_action": "manter em descoberta contextual até existir contrato público de busca geral",
+  "evidence_ids": ["trt4-sumulas-entry-20260910", "trt4-sumulas-document-20260910"],
+  "safety": {
+    "bounded_public_request": true,
+    "captcha_bypass": false,
+    "access_control_bypass": false,
+    "credentials_used": false,
+    "raw_body_persisted": false
+  }
+}

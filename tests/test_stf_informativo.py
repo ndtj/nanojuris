@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from io import BytesIO
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
@@ -36,8 +37,8 @@ class FakeSession:
         self.responses = list(responses)
         self.calls = []
 
-    def get(self, url, **kwargs):
-        self.calls.append({"url": url, "kwargs": kwargs})
+    def request(self, method, url, **kwargs):
+        self.calls.append({"method": method, "url": url, "kwargs": kwargs})
         if not self.responses:
             raise AssertionError("unexpected request")
         response = self.responses.pop(0)
@@ -55,6 +56,28 @@ def test_parse_stf_informativo_xlsx_maps_official_columns():
     assert rows[0]["Data Julgamento"] == "46199.125"
     assert "progressão de praças" in rows[0]["Título"]
     assert rows[0]["ODS ONU 2030"] == "16 Paz, Justiça e Instituições Eficazes"
+
+
+def test_parse_stf_informativo_versioned_fixture() -> None:
+    payload = json.loads((FIXTURES / "stf_informativo_rows.json").read_text(encoding="utf-8"))
+
+    page = parse_stf_informativo_rows(
+        payload["rows"],
+        query=JurisprudenceQuery(text="tese constitucional", page_size=1),
+        trace=SourceTrace(
+            provider="stf_informativo",
+            endpoint="fixture/stf_informativo_rows.json",
+            source_url="https://example.invalid/stf-informativo-fixture",
+        ),
+    )
+
+    assert page.total == 1
+    result = page.results[0]
+    assert result.id == "stf-informativo-1223-adi-9999-df"
+    assert result.number == "ADI 9999/DF"
+    assert result.summary == "Resumo de jurisprudencia sintetica para teste."
+    assert result.updated_at == "2026-01-02"
+    assert result.raw["orgao_julgador"] == "Plenario de Fixture"
 
 
 def test_parse_stf_informativo_rows_filters_and_maps_results():
@@ -119,6 +142,7 @@ def test_provider_capabilities_describe_stf_informativo_contract():
     assert capabilities.category == "court_jurisprudence"
     assert capabilities.content_formats == ["xlsx"]
     assert capabilities.supports_catalog is True
+    assert "id" in capabilities.extracted_fields
     assert "thesis" in capabilities.extracted_fields
 
 

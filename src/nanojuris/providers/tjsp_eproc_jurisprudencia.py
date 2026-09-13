@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
-import time
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -33,6 +31,8 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 PROCESS_NUMBER_RE = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
 
@@ -49,9 +49,23 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
         self._last_response_content = b""
+        host = urlparse(self.config.tjsp_eproc_url).hostname or "eproc-consulta.tjsp.jus.br"
+        self._transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=16_000_000,
+                # Preserve one bounded request per eproc operation; access
+                # challenges must be surfaced rather than replayed.
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         return fetch_eproc_page(
@@ -182,7 +196,74 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "source_origin",
+                "degree",
+                "instance",
             ],
+            unsupported_filters=[
+                "courts",
+                "types",
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "rapporteur",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "published_from": "native",
+                "published_to": "native",
+                "updated_from": "native",
+                "updated_to": "native",
+                "source_origin": "translated",
+                # eproc exposes origin (4/5) rather than canonical degree;
+                # the adapter translates the request and verifies the card
+                # locally before returning it.
+                "degree": "local_postfilter",
+                "instance": "local_postfilter",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "types": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "exact_phrase": "unsupported",
+                "rapporteur": "unsupported",
+                "fetch_details": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origins": "unsupported",
+            },
             limitations=[
                 "Rota publica descoberta e validada por requests limpo em 2026-08-02.",
                 "O filtro source_origin aceita colegio_recursal, primeiro_grau e segundo_grau.",
@@ -199,35 +280,49 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(self.config.tjsp_eproc_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        headers.update(kwargs.pop("headers", {}))
+        request = TransportRequest(
+            source=self.name,
+            operation=f"{method.lower()}_{path.lstrip('/').replace('/', '_')}",
+            method=method,
+            url=url,
+            params=kwargs.pop("params", {}),
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            headers=headers,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported TJSP/eproc transport arguments: {sorted(kwargs)}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
-            )
-        except requests.RequestException as exc:
+            response = self._transport.request(request)
+        except (requests.RequestException, SourceUnavailableError) as exc:
             raise SourceUnavailableError(f"TJSP/eproc jurisprudence request failed: {exc}") from exc
-
-        response.encoding = response.encoding or "utf-8"
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                "TJSP/eproc jurisprudence transport failed: "
+                f"{response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError(
+                "TJSP/eproc jurisprudence transport returned no HTTP status"
+            )
         text = response.text
-        content = _response_bytes(response, text)
+        content = response.body
         headers = getattr(response, "headers", {}) or {}
         self._last_response_content = content
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", url) or url),
+            "final_url": str(response.final_url or url),
             "content_type": headers.get("Content-Type") or headers.get("content-type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
-            "response_bytes": len(content),
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
         }
         if response.status_code == 429:
             raise RateLimitDetectedError("TJSP/eproc jurisprudence returned HTTP 429")
@@ -245,16 +340,7 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
             raise AccessControlRequiredError(
                 "TJSP/eproc jurisprudence returned access-control HTML"
             )
-        return text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return text, str(response.final_url or url)
 
 
 def parse_eproc_jurisprudencia_results(
@@ -266,6 +352,7 @@ def parse_eproc_jurisprudencia_results(
     court: str = "TJSP",
     id_prefix: str = "tjsp-eproc-jurisprudencia",
     source_label: str = "TJSP/eproc jurisprudence",
+    degree_hint: str | None = None,
 ) -> list[JurisprudenceResult]:
     """Parse public eproc jurisprudence result cards."""
 
@@ -274,9 +361,17 @@ def parse_eproc_jurisprudencia_results(
 
     soup = BeautifulSoup(html, "html.parser")
     items = resilient_find_all(
-        soup, ".resultadoItem", name="result_card", source=source, trace=trace
+        soup,
+        ".resultadoItem",
+        name="result_card",
+        source=source,
+        # An explicit empty result page must not be populated by adaptive
+        # relocation from a prior page.  Relocation is useful for layout drift,
+        # but reusing a stale card would fabricate a result.
+        memory=None,
+        trace=trace,
     )
-    if not items and _looks_like_search_page(soup):
+    if not items and (_looks_like_search_page(soup) or _looks_like_empty_result(soup)):
         return []
     if not items:
         raise ParserContractChangedError(f"{source_label} result cards not found")
@@ -289,6 +384,7 @@ def parse_eproc_jurisprudencia_results(
             court=court,
             id_prefix=id_prefix,
             source_label=source_label,
+            degree_hint=degree_hint,
         )
         for item in items
     ]
@@ -307,7 +403,7 @@ def fetch_eproc_page(
     """Fetch one logical page through eproc's public form/AJAX contract."""
 
     list_endpoint = "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados"
-    initial_payload = _build_payload(query)
+    initial_payload = _build_payload(query, court=court)
     initial_html, initial_url = provider._request_text("POST", list_endpoint, data=initial_payload)
     remote_size = _remote_page_size(query.page_size)
     remote_page, local_offset = _remote_window(query.page, query.page_size, remote_size)
@@ -317,6 +413,14 @@ def fetch_eproc_page(
     request_payload: dict[str, Any] = initial_payload
     total = _hidden_int(initial_html, "hdnTotalResultado")
     total_is_authoritative = total is not None
+    requested_degree = _normalize_requested_degree(query.degree or query.instance)
+    degree_hint = (
+        requested_degree
+        if requested_degree == "second"
+        and court in {"TRF2", "TRF4", "TRF6"}
+        and "1" in list(initial_payload.get("selOrigem[]", []))
+        else None
+    )
     if remote_page > 1:
         form_payload = _extract_form_payload(initial_html)
         form_payload["hdnPaginaAtual"] = str(remote_page)
@@ -345,7 +449,26 @@ def fetch_eproc_page(
         court=court,
         id_prefix=id_prefix,
         source_label=source_label,
+        degree_hint=degree_hint,
     )
+    # eproc installations expose several judicial instances through the same
+    # public form.  When the caller asks for a specific degree, accepting a
+    # card without an auditable degree would silently mix first/second
+    # instance data.  Treat that as a contract failure, never as an empty
+    # result or a best-effort post-filter.
+    degree_postfiltered = False
+    if requested_degree:
+        unknown = [item for item in results if item.degree is None]
+        if unknown:
+            raise ParserContractChangedError(
+                f"{source_label} returned results without an identifiable judicial degree"
+            )
+        results = [item for item in results if item.degree == requested_degree]
+        degree_postfiltered = True
+        if not results:
+            raise ParserContractChangedError(
+                f"{source_label} returned results outside requested degree={requested_degree}"
+            )
     if total is None:
         total = _hidden_int(html, "hdnTotalResultado")
         if total is not None:
@@ -358,7 +481,7 @@ def fetch_eproc_page(
         reported_total=total,
         start=start,
         returned=len(limited),
-        total_is_authoritative=total_is_authoritative,
+        total_is_authoritative=total_is_authoritative and not degree_postfiltered,
     )
     return SearchPage(
         source=source,
@@ -372,7 +495,42 @@ def fetch_eproc_page(
         pagination_mode="page",
         is_complete=complete,
         completeness_reason=reason,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE if limited else ExtractionStatus.EMPTY,
+        total_known=total_is_authoritative and not degree_postfiltered,
+        filters_applied=_eproc_filters_applied(query, degree_postfiltered=degree_postfiltered),
     )
+
+
+def _eproc_filters_applied(
+    query: JurisprudenceQuery, *, degree_postfiltered: bool = False
+) -> dict[str, str]:
+    """Describe the canonical filters represented by the eproc form."""
+
+    applied: dict[str, str] = {}
+    if query.text and not query.exact_phrase:
+        applied["text"] = "native"
+    if query.exact_phrase:
+        applied["exact_phrase"] = "native"
+    if query.number:
+        applied["number"] = "native"
+    for name, value in (
+        ("published_from", query.published_from),
+        ("published_to", query.published_to),
+        ("updated_from", query.updated_from),
+        ("updated_to", query.updated_to),
+    ):
+        if value:
+            applied[name] = "native"
+    if query.types:
+        applied["types"] = "translated"
+    if query.source_origin or query.source_origins:
+        applied["source_origin"] = "translated"
+    if degree_postfiltered or query.degree:
+        applied["degree"] = "local_postfilter"
+    if degree_postfiltered or query.instance:
+        applied["instance"] = "local_postfilter"
+    return applied
 
 
 def _remote_page_size(requested: int) -> int:
@@ -455,6 +613,7 @@ def _parse_result_item(
     court: str,
     id_prefix: str,
     source_label: str,
+    degree_hint: str | None = None,
 ) -> JurisprudenceResult:
     labels = _extract_label_values(item)
     process_link = item.select_one("a.numero-processo") or item.select_one(
@@ -465,7 +624,8 @@ def _parse_result_item(
         process_text or labels.get("processo", "") or item.get_text(" ", strip=True)
     )
 
-    document_type = _clean_text(_text(item.select_one(".resValueTipoJurisprudencia")))
+    document_type_label = _clean_text(_text(item.select_one(".resValueTipoJurisprudencia")))
+    document_type = document_type_label
     if not document_type:
         document_type = _infer_document_type(item.get_text(" ", strip=True))
     document_id = _extract_item_id(item)
@@ -482,6 +642,19 @@ def _parse_result_item(
     case_class = _extract_case_class(labels.get("processo", ""), process_number or "")
     publication_date = labels.get("data da publicacao")
     judgment_date = labels.get("data do julgamento")
+    judging_body = labels.get("orgao julgador")
+    source_origin = (
+        labels.get("origem")
+        or labels.get("origem do documento")
+        or labels.get("instancia")
+        or labels.get("uf")
+    )
+    # Keep the original label as a degree signal.  TJSC, for example, emits
+    # "Decisoes Monocraticas do Tribunal de Justica" as plain card text and
+    # the normalized document type alone would lose the appellate qualifier.
+    degree_signal = document_type_label or item.get_text(" ", strip=True)
+    degree = _infer_degree(source_origin, judging_body, degree_signal) or degree_hint
+    instance = degree
 
     return JurisprudenceResult(
         id=f"{id_prefix}-{document_id or _digits(process_number)}",
@@ -500,23 +673,38 @@ def _parse_result_item(
         access_status=AccessStatus.PUBLIC,
         extraction_status=ExtractionStatus.COMPLETE,
         source_trace=trace,
+        case_class=case_class,
+        judging_body=judging_body,
+        degree=degree,
+        instance=instance,
+        branch="state" if court.startswith("TJ") else "federal",
+        authority=court,
+        collection="JURISPRUDENCIA",
+        document_type=_normalize_decision_type(document_type),
+        source_origin=source_origin,
+        document_url=full_text_url or process_url,
         raw={
             "id_jurisprudencia": document_id,
             "decision_type_label": document_type,
             "case_class": case_class,
-            "judging_body": labels.get("orgao julgador"),
+            "judging_body": judging_body,
             "judgment_date": judgment_date,
             "publication_date": publication_date,
             "state": labels.get("uf"),
             "document_url": process_url,
             "full_text_url": full_text_url,
             "source_url": source_url,
+            "degree": degree,
+            "instance": instance,
+            "source_origin": source_origin,
             "process_number_missing": process_number is None,
         },
     )
 
 
-def _build_payload(query: JurisprudenceQuery) -> dict[str, str | list[str]]:
+def _build_payload(
+    query: JurisprudenceQuery, *, court: str | None = None
+) -> dict[str, str | list[str]]:
     search_text = query.text or query.exact_phrase
     payload: dict[str, str | list[str]] = {
         "txtPesquisa": search_text,
@@ -537,7 +725,12 @@ def _build_payload(query: JurisprudenceQuery) -> dict[str, str | list[str]]:
     document_types = _map_document_types(query.types)
     if document_types:
         payload["selTipoDocumento[]"] = document_types
-    source_origins = _map_source_origins(query.source_origins or [query.source_origin])
+    requested_origins = query.source_origins or [query.source_origin]
+    if not any(requested_origins) and (query.degree or query.instance):
+        # The public eproc vocabulary uses origin values rather than a
+        # ``degree`` field.  Keep this translation local and auditable.
+        requested_origins = [_origin_for_degree(query.degree or query.instance, court=court)]
+    source_origins = _map_source_origins(requested_origins, court=court)
     if source_origins:
         payload["selOrigem[]"] = source_origins
     return payload
@@ -561,8 +754,9 @@ def _map_document_types(values: list[str]) -> list[str]:
     return [mapped for value in values if (mapped := mapping.get(_normalize_label(value)))]
 
 
-def _map_source_origins(values: list[str]) -> list[str]:
+def _map_source_origins(values: list[str], *, court: str | None = None) -> list[str]:
     mapping = {
+        "1": "1",
         "3": "3",
         "colegio_recursal": "3",
         "colegio recursal": "3",
@@ -575,9 +769,86 @@ def _map_source_origins(values: list[str]) -> list[str]:
         "segundo grau": "5",
         "2g": "5",
     }
-    return [
-        mapped for value in values if value and (mapped := mapping.get(_normalize_label(value)))
-    ]
+    mapped_values: list[str] = []
+    for value in values:
+        if not value:
+            continue
+        normalized = _normalize_label(value)
+        if normalized in {"segundo grau", "2g", "second", "segunda instancia"} and court in {
+            "TJRJ",
+            "TJSC",
+            "TRF2",
+            "TRF4",
+            "TRF6",
+        }:
+            mapped_values.append("1")
+            continue
+        if normalized in {"primeiro grau", "1g", "first", "primeira instancia"} and court in {
+            "TJRJ",
+            "TJSC",
+        }:
+            # These public eproc installations expose only their appellate
+            # corpus through this form; keep the request explicit and let the
+            # parser reject any non-first-degree response.
+            mapped_values.append("1")
+            continue
+        mapped = mapping.get(normalized)
+        if mapped:
+            mapped_values.append(mapped)
+    return mapped_values
+
+
+def _origin_for_degree(value: str, *, court: str | None = None) -> str:
+    """Translate canonical degree/instance values to eproc origin labels."""
+
+    normalized = _normalize_label(value)
+    if normalized in {"second", "2", "2g", "segundo grau", "segunda instancia"}:
+        return "1" if court in {"TJRJ", "TJSC", "TRF2", "TRF4", "TRF6"} else "segundo_grau"
+    if normalized in {"first", "1", "1g", "primeiro grau", "primeira instancia"}:
+        return "primeiro_grau"
+    return value
+
+
+def _normalize_requested_degree(value: str) -> str | None:
+    """Return the canonical degree requested by a query, when recognized."""
+
+    normalized = _normalize_label(value)
+    if normalized in {"second", "2", "2g", "segundo grau", "segunda instancia"}:
+        return "second"
+    if normalized in {"first", "1", "1g", "primeiro grau", "primeira instancia"}:
+        return "first"
+    return None
+
+
+def _infer_degree(origin: str | None, judging_body: str | None, document_type: str) -> str | None:
+    """Infer degree only from explicit source labels or strong court clues."""
+
+    haystack = _normalize_label(" ".join(part for part in (origin, judging_body) if part))
+    if any(token in haystack for token in ("segundo grau", "2o grau", "2g", "segundo instancia")):
+        return "second"
+    if any(token in haystack for token in ("primeiro grau", "1o grau", "1g", "primeiro instancia")):
+        return "first"
+    # A vara/sentenca is a reliable first-instance signal in the eproc result
+    # cards.  Câmara, turma and tribunal labels identify appellate material.
+    if any(token in haystack for token in ("vara ", "vara de", "juizado especial")):
+        return "first"
+    if any(token in haystack for token in ("camara", "turma", "tribunal", "orgao especial")):
+        return "second"
+    normalized_type = _normalize_label(document_type)
+    if normalized_type in {"acordao", "sumula"} or any(
+        token in normalized_type for token in ("acordao", "sumula")
+    ):
+        return "second"
+    # Some eproc deployments put the appellate scope only in the document
+    # label (for example, "Decisoes Monocraticas do Tribunal de Justica") and
+    # omit a separate origin/organ field.  Accept that signal only when the
+    # label names a tribunal; a generic "decisao monocratica" remains unknown
+    # rather than being guessed as second degree.
+    if "tribunal" in normalized_type and (
+        "decisao monocratica" in normalized_type or "decisoes monocraticas" in normalized_type
+    ):
+        return "second"
+    return None
 
 
 def _extract_label_values(item: Tag) -> dict[str, str]:
@@ -688,6 +959,21 @@ def _looks_like_search_page(soup: BeautifulSoup) -> bool:
     return soup.select_one("#frmJurisprudenciaPesquisa") is not None
 
 
+def _looks_like_empty_result(soup: BeautifulSoup) -> bool:
+    """Recognize eproc's authoritative zero-result result form.
+
+    A filtered query can return the result form without any cards.  The form
+    carries an explicit ``0 documentos encontrados`` message, which is a
+    legitimate empty result and must not be confused with a parser/schema
+    failure.
+    """
+
+    if soup.select_one("#frmJurisprudenciaResultado") is None:
+        return False
+    text = _normalize_label(soup.get_text(" ", strip=True))
+    return bool(re.search(r"\b0\s+documentos?\s+encontrad", text))
+
+
 def _looks_like_access_control(html: str) -> bool:
     lowered = html.lower()
     return (
@@ -737,14 +1023,6 @@ def _normalize_label(value: str) -> str:
     for original, replacement in replacements.items():
         normalized = normalized.replace(original, replacement)
     return normalized
-
-
-def _response_bytes(response: requests.Response, text: str) -> bytes:
-    content = getattr(response, "content", None)
-    if isinstance(content, bytes):
-        return content
-    encoding = getattr(response, "encoding", None) or "utf-8"
-    return text.encode(encoding, errors="replace")
 
 
 def _trace_with_http_metadata(trace: SourceTrace, metadata: dict[str, Any]) -> SourceTrace:

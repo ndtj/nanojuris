@@ -1,0 +1,12 @@
+{
+  "message": "Consulta realizada com sucesso.",
+  "data": {
+    "total": 0,
+    "page": 1,
+    "page_size": 20,
+    "total_pages": 0,
+    "has_next": false,
+    "has_previous": false,
+    "results": []
+  }
+}

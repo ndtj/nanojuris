@@ -1,0 +1,35 @@
+{
+  "source": "tjmg_ementario_trimestral",
+  "authority": "TJMG",
+  "checked_at": "2026-09-06",
+  "status": "insufficient_general_contract",
+  "classification": "official_curated_collection",
+  "surface": "cjsg",
+  "collection_url": "https://bd.tjmg.jus.br/handle/tjmg/7826",
+  "api_search_url": "https://bd.tjmg.jus.br/server/api/discover/search/objects",
+  "api_search": {
+    "method": "GET",
+    "query": "Apelação Cível",
+    "http_status": 200,
+    "items_observed": 3,
+    "individual_item_metadata": true,
+    "second_degree_evidence": true
+  },
+  "document_fetch": {
+    "method": "GET",
+    "content_url": "https://bd.tjmg.jus.br/server/api/core/bitstreams/f16d590b-9f6e-4166-a5d2-5f7a83bbd814/content",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 1096851,
+    "pages": 125,
+    "text_extracted": true
+  },
+  "decision": "not_promoted",
+  "reason": [
+    "A colecao e oficial e contem ementas de acordaos de segundo grau.",
+    "A rota publica oferece itens curatoriais e PDFs, mas nao comprova uma busca geral de acordaos com filtros e paginacao estaveis.",
+    "A cobertura e historica/selecionada e nao deve substituir o formulario CJSG protegido por CAPTCHA.",
+    "Nenhuma tentativa de resolver ou contornar CAPTCHA foi feita."
+  ],
+  "evidence": "bounded public GET requests; no credentials, tokens or bypass"
+}

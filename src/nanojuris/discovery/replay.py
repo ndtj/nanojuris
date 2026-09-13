@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,18 @@ from nanojuris.discovery.models import (
 )
 from nanojuris.models import AccessStatus, ExtractionStatus
 from nanojuris.route_probe import analyze_route_response
+
+
+def evidence_fingerprint(evidence: DiscoveryEvidence) -> str:
+    """Hash redacted evidence metadata while retaining the body digest."""
+
+    material = json.dumps(
+        evidence.to_dict(include_body=False),
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(material).hexdigest()
 
 
 def write_evidence(evidence: DiscoveryEvidence, path: str | Path) -> None:

@@ -6,7 +6,7 @@ import hashlib
 import re
 import time
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
@@ -37,6 +37,21 @@ from nanojuris.providers.tjsp_cjsg import (
     extract_cjsg_document_text_bytes,
     fetch_cjsg_page,
 )
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
+
+# e-SAJ applies different bot/access heuristics depending on the client
+# headers.  Keep the same conservative browser profile used by Juscraper for
+# the public CJSG flow.  An explicitly configured NanoJuris user agent always
+# wins (useful for deployments that have an approved identification policy).
+_ESAJ_HEADERS = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+}
+_ESAJ_DEFAULT_USER_AGENT = "juscraper/0.1 (https://github.com/jtrecenti/juscraper)"
 
 
 class TjacCjsgProvider(JurisprudenceProvider):
@@ -51,9 +66,24 @@ class TjacCjsgProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
+        host = urlparse(self.config.tjac_cjsg_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
+        # Kept for subclasses that still use the legacy request boundary while
+        # they are migrated independently (notably TJCE's TLS-specific path).
         self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
         self._last_response_content = b""
+        self._pending_access_diagnostic: str | None = None
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         return fetch_cjsg_page(
@@ -168,11 +198,52 @@ class TjacCjsgProvider(JurisprudenceProvider):
                 "text",
                 "number",
                 "exact_phrase",
+                "case_class",
+                "judging_body",
                 "updated_from",
                 "updated_to",
+                "published_from",
+                "published_to",
                 "types",
                 "order_by",
             ],
+            filter_semantics={
+                "text": "native",
+                "number": "translated",
+                "exact_phrase": "translated",
+                "case_class": "translated",
+                "judging_body": "translated",
+                "updated_from": "translated",
+                "updated_to": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "types": "translated",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "decision_type": "translated",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "rapporteur": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+                "fetch_details": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+            },
             limitations=[
                 "A fonte compartilha padrao CJSG/e-SAJ e pode mudar sem aviso.",
                 "Provider nao tenta contornar captcha, login ou controles de acesso.",
@@ -184,44 +255,75 @@ class TjacCjsgProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> str:
-        self._respect_rate_limit()
         url = urljoin(self.config.tjac_cjsg_url.rstrip("/") + "/", path.lstrip("/"))
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "User-Agent": self.config.user_agent,
-        }
+        skip_access_diagnostic = bool(kwargs.pop("skip_access_diagnostic", False))
+        configured_ua = self.config.user_agent
+        request_headers = dict(_ESAJ_HEADERS)
+        request_headers["User-Agent"] = (
+            _ESAJ_DEFAULT_USER_AGENT
+            if configured_ua == NanoJurisConfig().user_agent
+            else configured_ua
+        )
+        request_headers.update(kwargs.pop("headers", {}) or {})
+        request = TransportRequest(
+            source=self.name,
+            operation=f"cjsg_{method.lower()}",
+            method=method,
+            url=url,
+            headers=request_headers,
+            data=kwargs.pop("data", None),
+            params=kwargs.pop("params", {}),
+            json_body=kwargs.pop("json", None),
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport arguments: {', '.join(sorted(kwargs))}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                **kwargs,
-            )
+            response = self.transport.request(request)
+        except (AssertionError, IndexError) as exc:
+            if self._pending_access_diagnostic:
+                raise AccessControlRequiredError(
+                    "TJAC/CJSG requires captcha or another access-control step "
+                    f"({self._pending_access_diagnostic})"
+                ) from exc
+            raise
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJAC/CJSG request failed: {exc}") from exc
-        if response.status_code == 429:
-            raise RateLimitDetectedError("TJAC/CJSG returned HTTP 429")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJAC/CJSG returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        except SourceUnavailableError as exc:
+            raise SourceUnavailableError(f"TJAC/CJSG request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
             raise SourceUnavailableError(
-                f"TJAC/CJSG rejected request with HTTP {response.status_code}"
+                f"TJAC/CJSG transport failed: {response.error_type or response.status.value}"
             )
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError("TJAC/CJSG transport returned no HTTP status")
+        if status_code == 429:
+            raise RateLimitDetectedError("TJAC/CJSG returned HTTP 429")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TJAC/CJSG returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(f"TJAC/CJSG rejected request with HTTP {status_code}")
         text = decode_cjsg_response_text(response)
         content = _response_bytes(response)
         self._last_response_content = content
         headers = getattr(response, "headers", {}) or {}
         self._last_http_metadata = {
-            "http_status": response.status_code,
+            "http_status": status_code,
             "final_url": str(getattr(response, "url", url) or url),
             "content_type": headers.get("Content-Type") or headers.get("content-type"),
             "content_sha256": hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
-            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+            "retrieval_status": "ok" if 200 <= status_code < 300 else "http_error",
         }
         diagnostic = diagnose_cjsg_access(text)
-        if diagnostic.access_control_required:
+        if skip_access_diagnostic:
+            self._pending_access_diagnostic = (
+                diagnostic.summary() if diagnostic.access_control_required else None
+            )
+        else:
+            self._pending_access_diagnostic = None
+        if diagnostic.access_control_required and not skip_access_diagnostic:
             raise AccessControlRequiredError(
                 "TJAC/CJSG requires captcha or another access-control step "
                 f"({diagnostic.summary()})"
@@ -229,6 +331,8 @@ class TjacCjsgProvider(JurisprudenceProvider):
         return text
 
     def _respect_rate_limit(self) -> None:
+        """Compatibility pacing for subclasses not yet on shared transport."""
+
         interval = self.config.rate_limit_interval
         if interval <= 0:
             return

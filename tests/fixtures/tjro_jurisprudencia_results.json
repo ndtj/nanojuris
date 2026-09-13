@@ -1,0 +1,82 @@
+{
+  "took": 12,
+  "hits": {
+    "total": {"value": 2, "relation": "eq"},
+    "hits": [
+      {
+        "_id": "fixture-1-PJEPG",
+        "_score": 14.9,
+        "sort": [14.9, 1781049600000],
+        "_source": {
+          "id_processo_documento": 100001,
+          "id_processo": 200001,
+          "nr_processo": "00000010020268220001",
+          "tipo": "SENTENÇA",
+          "grau_jurisdicao": 1,
+          "sistema_origem": "PJEPG",
+          "dtjulgamento": "2026-06-10",
+          "dtpublicacao": "2026-06-12",
+          "data_indexacao": "2026-06-13T10:20:30.000Z",
+          "ds_classe_judicial": "Ação de responsabilidade civil",
+          "ds_classe_judicial_sigla": "ARC",
+          "ds_assunto_trf": "Responsabilidade civil",
+          "ds_nome": "Relator de fixture",
+          "ds_orgao_julgador": "Vara de fixture",
+          "ds_orgao_julgador_colegiado": null,
+          "ds_modelo_documento": "<div><strong>Tribunal de Justica de Rondonia</strong><br><b>EMENTA:</b> responsabilidade civil por dano moral em relacao de consumo.</div>",
+          "ds_md5_documento": "00000000000000000000000000000001",
+          "cod_ini": "FIXTURE01",
+          "id_orgao_julgador": 101,
+          "id_orgao_julgador_colegiado": null,
+          "id_documento_principal": null,
+          "id_processo_documento_bin": 300001,
+          "nivel_sigilo_processo": 0,
+          "nmpresidente": "",
+          "nome_relator_acordao": "",
+          "nome_relator_processo": "",
+          "datarodape": "12/06/2026",
+          "dtjulgamento_str": "10/06/2026"
+        },
+        "highlight": {
+          "ds_modelo_documento": ["<em>responsabilidade civil</em> por dano moral"]
+        }
+      },
+      {
+        "_id": "fixture-2-PJESG",
+        "_score": 13.1,
+        "sort": [13.1, 1778457600000],
+        "_source": {
+          "id_processo_documento": 100002,
+          "id_processo": 200002,
+          "nr_processo": "00000020020258220002",
+          "tipo": "VOTO",
+          "grau_jurisdicao": 2,
+          "sistema_origem": "PJESG",
+          "dtjulgamento": "2026-05-10",
+          "dtpublicacao": null,
+          "data_indexacao": "2026-05-11T09:00:00.000Z",
+          "ds_classe_judicial": "Apelacao de fixture",
+          "ds_classe_judicial_sigla": "APL",
+          "ds_assunto_trf": "Dano moral",
+          "ds_nome": "Camara de fixture",
+          "ds_orgao_julgador": "Gabinete de fixture",
+          "ds_orgao_julgador_colegiado": "Camara de Direito de Fixture",
+          "ds_modelo_documento": "<p><b>VOTO:</b> a pretensao indenizatoria exige prova do dano e do nexo causal.</p>",
+          "ds_md5_documento": "00000000000000000000000000000002",
+          "cod_ini": "FIXTURE02",
+          "id_orgao_julgador": 202,
+          "id_orgao_julgador_colegiado": 22,
+          "id_documento_principal": null,
+          "id_processo_documento_bin": 300002,
+          "nivel_sigilo_processo": 0,
+          "nmpresidente": "",
+          "nome_relator_acordao": "",
+          "nome_relator_processo": "",
+          "datarodape": "10/05/2026",
+          "dtjulgamento_str": "10/05/2026"
+        },
+        "highlight": {}
+      }
+    ]
+  }
+}

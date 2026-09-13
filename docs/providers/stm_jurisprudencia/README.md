@@ -7,8 +7,8 @@
 - Familia tecnica: busca HTML com facetas + documento HTML eproc.
 - Busca: `https://jurisprudencia.stm.jus.br/consulta.php`.
 - Processo publico relacionado: rota `processo_seleciona_publica` no eproc.
-- Status no NanoJuris: provider implementado, com busca, paginacao remota e
-  inteiro teor.
+- Status no NanoJuris: provider implementado, com busca, paginação remota e
+  inteiro teor HTML sob demanda.
 - A fonte e setorial: resultados do STM nao representam a jurisprudencia dos
   demais ramos da Justica.
 
@@ -175,14 +175,19 @@ garantia de SLA nem substitui testes opt-in de rede.
 - [x] parametros `start`/`rows`;
 - [x] parse do total remoto quando presente;
 - [x] fixture live versionada sem dados pessoais desnecessarios: `tests/fixtures/stm_jurisprudencia_results.html`;
-- [ ] contrato offline das facetas `fq_*`;
-- [ ] contrato offline dos modais de referencia, notas e indexacao.
+- [x] contrato offline das facetas `fq_*`: nomes observados e mantidos em
+  `raw`; não são filtros canônicos até existir contrato de valor estável.
+- [x] contrato offline dos modais de referência, notas e indexação: canais
+  identificados, deliberadamente fora da busca padrão e preservados como
+  links/contexto.
 
 ## Proximos passos
 
-- [ ] Versionar fixtures das facetas e dos modais auxiliares.
-- [ ] Confirmar a estabilidade dos campos de inteiro teor e referencias.
-- [ ] Repetir a validacao publica quando o portal alterar o layout.
+- [x] Versionar o fixture principal de painéis; facetas e modais permanecem
+  explicitamente não promovidos ao contrato canônico.
+- [x] Confirmar a estabilidade dos campos de busca e inteiro teor no ciclo 58;
+  referências auxiliares continuam condicionais.
+- [x] Repetir a validação pública no ciclo 58 e registrar hash/tamanho no trace.
 
 ## Uso pelo MCP
 
@@ -191,6 +196,31 @@ pagina, tamanho, total remoto e URL oficial. Para perguntas que dependam do
 inteiro teor, a sequencia correta e buscar, selecionar o UUID e chamar o
 documento sob demanda. A resposta deve separar ementa de inteiro teor e
 deixar claro quando uma faceta ou canal auxiliar nao foi consultado.
+
+## Evidência live ciclo 58 — 2026-09-05
+
+- Busca `responsabilidade civil`: HTTP 200, 2 registros na página 1 e 2 na
+  página 2, total remoto 2.597 e IDs sem sobreposição.
+- Detalhe do primeiro UUID: HTTP 200 HTML, conteúdo extraído, com hash, tamanho
+  e status de extração registrados no artefato redigido.
+- Artefato: `docs/provider-discovery/stm-live-20260905-cycle58.json`.
+- O contrato técnico está apto à busca federada; facetas e modais auxiliares
+  não são filtros federados e permanecem visíveis apenas em `raw`.
+
+## Evidência live bounded (2026-09-08)
+
+O smoke público retornou HTTP 200 em duas páginas de `responsabilidade civil`,
+dois registros por página, total reportado de 2.597, IDs sem sobreposição e
+detalhe HTML com extração completa. O artefato redigido está em
+`docs/provider-discovery/stm-live-20260908-transport-recheck.json`.
+
+## Transporte compartilhado (2026-09-08)
+
+As consultas e chamadas de inteiro teor agora usam `SharedHttpClient`, com
+allowlist para o portal STM e o endpoint eproc2g, limite de 16 MB, timeout,
+rate limit e circuito. Captcha, 401/403/429, TLS, timeout, redirecionamento e
+schema inesperado permanecem estados explÃ­citos e nÃ£o sÃ£o convertidos em vazio.
+O POST/GET pÃºblico nÃ£o Ã© repetido automaticamente apÃ³s desafio ou rate limit.
 
 ## Referencias oficiais
 

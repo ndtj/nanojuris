@@ -1,0 +1,69 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJRS",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-09",
+  "source": {
+    "official_entry_point": "https://www.tjrs.jus.br/novo/",
+    "candidate_routes": [
+      "https://www.tjrs.jus.br/novo/comunicacao/acoes-e-programas-institucionais/peticao-10-sentenca-10/",
+      "https://www.tjrs.jus.br/novo/busca/?site=sentencas&client=wp_index&proxystylsheet=wp_index&filter=0&get_fields=*&ie=UTF-8&oe=UTF-8&output=xml_no_dtd&aba=se&wc=200&wc_mc=1&ud=1&lr=lang_pt&tipoProcesso=z&sort=date%3AD%3AS%3Ad1&q=divorcio",
+      "https://www.tjrs.jus.br/sistemas/banco_sentencas/search.php"
+    ],
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "peticao_10_sentenca_10": {
+      "http_status": 200,
+      "final_url": "https://www.tjrs.jus.br/novo/comunicacao/acoes-e-programas-institucionais/peticao-10-sentenca-10/",
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 791316,
+      "response_sha256": "3c49766ff5dfee266f36ae0b777c7e5e8e10a6cf28fa2908d1a6cf36cd67d660",
+      "title": "Poder Judiciário Tribunal de Justiça do Estado do Rio Grande do Sul",
+      "captcha_marker_present": true,
+      "pdf_links_observed": [
+        "https://www.tjrs.jus.br/static/2025/12/Cartilha_Precatorios_CCPREC_qrcode_2.pdf"
+      ],
+      "decision_records_observed": 0,
+      "decision_download_routes_observed": 0,
+      "pagination_contract_observed": false,
+      "classification": "institutional_program_page"
+    },
+    "site_search_sentencas": {
+      "http_status": 200,
+      "final_url": "https://www.tjrs.jus.br/novo/busca/?site=sentencas&client=wp_index&proxystylsheet=wp_index&filter=0&get_fields=*&ie=UTF-8&oe=UTF-8&output=xml_no_dtd&aba=se&wc=200&wc_mc=1&ud=1&lr=lang_pt&tipoProcesso=z&sort=date%3AD%3AS%3Ad1&q=divorcio",
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 484892,
+      "response_sha256": "7fa4ae9446854b1d51446df0befb9ba96b67f6efdb3fb6e2f4a7b519e3f82c4f",
+      "captcha_marker_present": false,
+      "decision_records_observed": 0,
+      "decision_download_routes_observed": 0,
+      "pagination_contract_observed": false,
+      "classification": "contextual_site_search_shell"
+    },
+    "legacy_bank_sentencas": {
+      "http_status": 404,
+      "final_url": "https://www.tjrs.jus.br/sistemas/banco_sentencas/search.php",
+      "classification": "official_route_not_found"
+    }
+  },
+  "classification": {
+    "status": "discovery_only",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "as rotas oficiais observadas são página institucional, busca contextual do portal ou endpoint legado inexistente; nenhuma expôs corpus textual CJPG, filtros decisórios, paginação ou documentos de sentenças"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "monitorar diretório oficial por uma rota decisória/exportação de primeiro grau; não implementar adapter CJPG com base nestas páginas"
+}

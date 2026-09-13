@@ -31,9 +31,11 @@ FIXTURES = Path(__file__).parent / "fixtures"
 class FakeResponse:
     def __init__(self, data=None, *, text: str = "", status_code: int = 200, url: str = ""):
         self._data = data
-        self.text = text
+        self.text = text or (json.dumps(data, ensure_ascii=False) if data is not None else "")
         self.status_code = status_code
         self.url = url
+        self.content = self.text.encode("utf-8")
+        self.headers = {"Content-Type": "application/json" if data is not None else "text/html"}
 
     def json(self):
         if self._data is None:
@@ -110,6 +112,12 @@ def test_parse_tst_search_response_maps_fixture():
     assert page.results[0].number == "RR - 0012345-67.2024.5.15.0001"
     assert page.results[0].rapporteur == "Ministro de Exemplo"
     assert page.results[0].raw["orgao_julgador"] == "1a Turma"
+    assert page.total_known is True
+    assert page.access_status.value == "public"
+    assert page.extraction_status.value == "complete"
+    assert page.filters_applied["text"] == "native"
+    assert page.filters_applied["types"] == "not_requested"
+    assert page.filters_applied["degree"] == "not_requested"
     assert (
         page.results[0]
         .raw["document_url"]
@@ -140,7 +148,7 @@ def test_provider_search_posts_public_tst_payload():
     trace = page.results[0].source_trace
     assert trace is not None
     assert trace.http_status == 200
-    assert trace.response_bytes == 0
+    assert trace.response_bytes > 0
     assert trace.content_sha256
     assert trace.retrieval_status == "ok"
     assert page.results[0].access_status.value == "public"
@@ -167,6 +175,29 @@ def test_provider_get_document_returns_canonical_html_document():
     assert document.sha256 is not None
     assert document.byte_size == len(html.encode("utf-8"))
     assert document.extraction_trace is not None
+
+
+def test_provider_get_catalog_preserves_groups_and_uses_public_options():
+    responses = [
+        FakeResponse([{"codigo": "T1", "descricao": "Turma exemplo"}]),
+        FakeResponse([]),
+        FakeResponse([]),
+        FakeResponse({"items": [{"id": "AC", "nome": "Acordao"}]}),
+        FakeResponse([]),
+        FakeResponse({"results": ["Direito do Trabalho"]}),
+    ]
+    provider = TstJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession(responses),
+    )
+
+    catalog = provider.get_catalog()
+
+    assert [option.code for option in catalog.courts] == ["TST"]
+    assert catalog.species[0].code == "AC"
+    assert catalog.species[0].metadata["group"] == "classes-processuais"
+    assert catalog.species_groups[-1]["options"][0]["code"] == "Direito do Trabalho"
+    assert len(provider.session.calls) == 6
 
 
 @pytest.mark.parametrize(

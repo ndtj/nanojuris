@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-09-02T03:36:00Z",
+  "source_id": "tjro_jurisprudencia",
+  "audit_mode": "bounded_public_http_and_frontend_route_audit",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "official_frontend": {
+    "url": "https://juris.tjro.jus.br/jurisprudencia/",
+    "http_status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "route_source": "Next.js public bundle page-bad31267c9b533fe.js",
+    "observed_route_literals": [
+      "/search/varios_parametros/",
+      "/search/agregacoes",
+      "/search/documentos_relacionados/<id_documento_principal>",
+      "/pje/buscar_pdf_ou_docx/<sistema_origem>/<id_processo_documento>/<pdf|docx>/"
+    ]
+  },
+  "routes": [
+    {
+      "route": "POST /search/varios_parametros/",
+      "surface": "cjsg_and_cjpg_search",
+      "status": "implemented",
+      "classification": "live_reproducible",
+      "http_status": 200,
+      "content_type": "application/json",
+      "query": "responsabilidade",
+      "reported_total": 676011,
+      "record_count_observed": 1,
+      "notes": "The same route serves PJEPG/PJESG records; omitting the divergent tipo filter is required for the observed dataset."
+    },
+    {
+      "route": "GET /pje/buscar_pdf_ou_docx/<sistema_origem>/<id_processo_documento>/<pdf|docx>/",
+      "surface": "public_full_text_download",
+      "status": "implemented",
+      "classification": "live_reproducible",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "sample": {
+        "sistema_origem": "PJEPG",
+        "id_processo_documento": "117961509",
+        "extension": "pdf",
+        "response_bytes": 63134,
+        "content_sha256": "a4f63ceb192fed75397dbc255fa38cd010bea9c857dbba423e09e3c88d4ddfda",
+        "text_characters_extracted": 2003
+      },
+      "notes": "The public frontend sends Origin/Referer and a browser-compatible Accept header. No credentials or access-control bypass is used."
+    },
+    {
+      "route": "POST /search/agregacoes",
+      "surface": "facets_and_filter_catalog",
+      "status": "pending_contract",
+      "classification": "live_reproducible_pending_adapter",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 84235,
+      "content_sha256": "4cd730acc75a6a0bfc9900d67bf6aa72809f90d5b15812442e9b618a5c1305a6",
+      "reported_total": 3480824,
+      "aggregation_keys": [
+        "classes_judiciais",
+        "classes_judiciais_com_codigo",
+        "graus_jurisdicao",
+        "ids_orgaos_julgadores",
+        "juizes",
+        "orgaos_julgadores",
+        "orgaos_julgadores_colegiados",
+        "tipos_documentos",
+        "tipos_documentos_e_grau"
+      ],
+      "notes": "A resposta bounded reproduziu oito agregacoes com buckets extensos, inclusive nomes de juizes. Nenhum corpo bruto ou nome foi persistido; nao ha adapter de consulta ate definir modelo canonico e retencao."
+    },
+    {
+      "route": "GET /search/documentos_relacionados/<id_documento_principal>",
+      "surface": "related_documents_for_pjesg",
+      "status": "implemented",
+      "classification": "live_reproducible",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 75407,
+      "content_sha256": "d539ab1df4a2bd2d352be0a8353c5b9e63a2eb42bb123a17868f00fc6a1bc9c5",
+      "sample": {
+        "id_documento_principal": "7384224",
+        "sistema_origem": "PJESG",
+        "reported_total": 4,
+        "record_count_observed": 4,
+        "types_observed": ["ACORDAO", "EMENTA", "RELATORIO", "VOTO"]
+      },
+      "notes": "The frontend invokes this route only for PJESG records with a non-null id_documento_principal. The adapter exposes get_related_documents on demand and never fans out during normal search."
+    }
+  ],
+  "upstream_parity": {
+    "juscraper_tjro_module": "Only POST /search/varios_parametros/ is implemented upstream; no detail/download method is exposed.",
+    "nanojuris_extension": "The detail route was derived from the official public frontend bundle and implemented with explicit document identity, PDF/DOCX validation and SourceTrace."
+  },
+  "promotion": "candidate_opt_in_only",
+  "promotion_blockers": [
+    "The filter vocabulary for tipo and the remote maximum page size remain unverified.",
+    "Facet and related-document route contracts lack a captured response fixture.",
+    "Global quality/release gates 0031 and 0034 remain proposed and require review."
+  ]
+}

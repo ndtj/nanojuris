@@ -7,14 +7,14 @@ import hashlib
 import html as html_module
 import json
 import re
-import time
 from datetime import date
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -24,6 +24,8 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
+    DecisionBundle,
     ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -33,6 +35,8 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 SJURIS_PORTAL_URL = "https://sjuris.tjce.jus.br/"
 SJURIS_DEFAULT_DOCUMENT_TYPES = ["ACÓRDÃO"]
@@ -58,8 +62,21 @@ class TjceSjurisProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.config.tjce_sjuris_url).hostname
+        self.http = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,) if host else (),
+                timeout_seconds=self.config.timeout,
+                max_bytes=24_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_http_metadata: dict[str, Any] = {}
+        self._inline_documents: dict[str, tuple[str, str, bytes | None, SourceTrace]] = {}
 
     @property
     def base_url(self) -> str:
@@ -97,12 +114,57 @@ class TjceSjurisProvider(JurisprudenceProvider):
             ],
             **self._last_http_metadata,
         )
-        return parse_tjce_sjuris_response(data, query=query, trace=trace)
+        page = parse_tjce_sjuris_response(data, query=query, trace=trace)
+        for result in page.results:
+            if not result.full_text:
+                continue
+            pdf_bytes = _decode_pdf(result.raw.get("pdfAutenticadoBase64"))
+            entry = (result.full_text, result.full_text, pdf_bytes, trace)
+            self._inline_documents[result.id] = entry
+            self._inline_documents[result.id.removeprefix("tjce-sjuris-")] = entry
+        return page
 
-    def get_decisions(self, precedent_id: str):
-        raise NotImplementedError(
-            "TJCE/SJURIS entrega conteudo e PDF inline na busca; "
-            "uma rota de detalhe independente ainda nao foi validada."
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Return the text/PDF captured in an observed SJURIS result."""
+
+        try:
+            text, _, pdf_bytes, trace = self._inline_documents[document_id]
+        except KeyError as exc:
+            raise SourceUnavailableError(
+                "TJCE/SJURIS inline document is available only after an observed search"
+            ) from exc
+        content = pdf_bytes or text.encode("utf-8")
+        content_type = "application/pdf" if pdf_bytes else "text/plain"
+        return build_canonical_document(
+            document_id=document_id,
+            source=self.name,
+            document_type="acordao",
+            content=content,
+            content_type=content_type,
+            title="TJCE SJURIS documento inline",
+            url=trace.source_url,
+            source_trace=trace,
+            access_status=AccessStatus.PUBLIC,
+            raw_metadata={"inline": True, "pdf_available": pdf_bytes is not None},
+            parser=f"{self.name}.inline_document",
+            parser_version="1",
+            text_override=text,
+        )
+
+    def get_decisions(self, precedent_id: str) -> DecisionBundle:
+        document = self.get_document(precedent_id)
+        return DecisionBundle(
+            precedent_id=precedent_id,
+            source=self.name,
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/plain",
+                }
+            ],
+            source_trace=document.source_trace,
+            raw=document.raw_metadata,
+            raw_bytes=document.raw_bytes,
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -140,7 +202,12 @@ class TjceSjurisProvider(JurisprudenceProvider):
             ],
             supports_full_text=True,
             supports_cli=True,
+            # The provider now has a reproducible two-page live check,
+            # success/empty/schema fixtures and a complete technical contract;
+            # it is therefore eligible for the default federation.  Legal or
+            # deployment policy is intentionally not encoded in capabilities.
             supports_unified_search=True,
+            opt_in_unified_search=False,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=False,
@@ -159,6 +226,72 @@ class TjceSjurisProvider(JurisprudenceProvider):
                 "types",
                 "source_origins",
             ],
+            unsupported_filters=[
+                "courts",
+                "rapporteur",
+                "updated_from",
+                "updated_to",
+                "published_from",
+                "published_to",
+                "number",
+                "case_class",
+                "judging_body",
+                "degree",
+                "instance",
+                "branch",
+                "authority",
+                "collection",
+                "document_type",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "fetch_details",
+            ],
+            filter_semantics={
+                "text": "translated",
+                "all_words": "translated",
+                "any_words": "translated",
+                "without_words": "translated",
+                "exact_phrase": "translated",
+                "types": "translated",
+                "source_origins": "translated",
+                "source_origin": "unsupported",
+                "courts": "unsupported",
+                "rapporteur": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+                "published_from": "unsupported",
+                "published_to": "unsupported",
+                "number": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "branch": "validated_scope",
+                "authority": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "fetch_details": "unsupported",
+            },
             limitations=[
                 "A interface observada usa ACÓRDÃO, 2º GRAU e PJE como filtros padrão.",
                 "O gateway retornou HTTP 504 para size 50 e size 100 na validação live.",
@@ -182,69 +315,62 @@ class TjceSjurisProvider(JurisprudenceProvider):
         size: int,
         payload: dict[str, Any],
     ) -> tuple[dict[str, Any], str]:
-        self._respect_rate_limit()
         url = urljoin(self.base_url + "/", endpoint.lstrip("/"))
         body = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
         request_url = f"{url}?page={page}&size={size}"
-        started = time.perf_counter()
+        request = TransportRequest(
+            source=self.name,
+            operation="tjce_sjuris_search",
+            method="POST",
+            url=request_url,
+            headers={
+                "Accept": "application/json, text/plain, */*",
+                "Content-Type": "application/json",
+                "Origin": SJURIS_PORTAL_URL.rstrip("/"),
+                "Referer": SJURIS_PORTAL_URL,
+            },
+            data=body,
+            idempotent=False,
+        )
         try:
-            response = self.session.request(
-                "POST",
-                request_url,
-                data=body,
-                headers={
-                    "Accept": "application/json, text/plain, */*",
-                    "Content-Type": "application/json",
-                    "Origin": SJURIS_PORTAL_URL.rstrip("/"),
-                    "Referer": SJURIS_PORTAL_URL,
-                    "User-Agent": self.config.user_agent,
-                },
-                timeout=self.config.timeout,
-                allow_redirects=True,
-            )
+            response = self.http.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJCE/SJURIS request failed: {exc}") from exc
-        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
-        headers = getattr(response, "headers", {}) or {}
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                f"TJCE/SJURIS transport failed: {response.error_type or response.status.value}"
+            )
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError("TJCE/SJURIS transport returned no HTTP status")
+        content = bytes(response.body)
+        headers = response.headers
         self._last_http_metadata = {
-            "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", request_url) or request_url),
+            "http_status": status_code,
+            "final_url": str(response.final_url or request_url),
             "content_type": headers.get("Content-Type") or headers.get("content-type"),
             "content_sha256": hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
-            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
-            "retrieval_status": "ok" if response.status_code < 400 else "error",
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok" if status_code < 400 else "error",
         }
-        if response.status_code == 429:
+        if status_code == 429:
             raise RateLimitDetectedError("TJCE/SJURIS returned HTTP 429")
-        if response.status_code in {401, 403}:
+        if status_code in {401, 403, 407, 451}:
             raise AccessControlRequiredError("TJCE/SJURIS requires access validation")
-        if response.status_code in {400, 422}:
-            raise QueryRejectedError(
-                f"TJCE/SJURIS rejected the query with HTTP {response.status_code}"
-            )
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJCE/SJURIS returned HTTP {response.status_code}")
-        if response.status_code >= 400:
-            raise SourceUnavailableError(
-                f"TJCE/SJURIS rejected request with HTTP {response.status_code}"
-            )
+        if status_code in {400, 422}:
+            raise QueryRejectedError(f"TJCE/SJURIS rejected the query with HTTP {status_code}")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TJCE/SJURIS returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(f"TJCE/SJURIS rejected request with HTTP {status_code}")
         try:
             data = response.json()
         except ValueError as exc:
             raise ParserContractChangedError("TJCE/SJURIS response is not JSON") from exc
         if not isinstance(data, dict):
             raise ParserContractChangedError("TJCE/SJURIS JSON root is not an object")
-        return data, str(getattr(response, "url", request_url) or request_url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return data, str(response.final_url or request_url)
 
 
 def build_tjce_sjuris_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
@@ -300,6 +426,9 @@ def parse_tjce_sjuris_response(
         pagination_mode="page",
         is_complete=complete,
         completeness_reason=reason,
+        total_known="totalElements" in page_data,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=(ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY),
     )
 
 
@@ -414,6 +543,17 @@ def _first_value(item: dict[str, Any], *keys: str) -> Any:
 
 
 _HTML_TAG = re.compile(r"<[^>]+>")
+
+
+def _decode_pdf(value: Any) -> bytes | None:
+    encoded = _string_value(value)
+    if not encoded:
+        return None
+    try:
+        decoded = base64.b64decode(encoded, validate=True)
+    except (TypeError, ValueError):
+        return None
+    return decoded or None
 
 
 def _string_value(value: Any) -> str:

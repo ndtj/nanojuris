@@ -40,6 +40,10 @@ def _fixture_html() -> str:
     return (FIXTURES / "tjsp_cjsg_result.html").read_text(encoding="utf-8")
 
 
+def _ack_html() -> str:
+    return (FIXTURES / "tjsp_cjsg_ack.html").read_text(encoding="utf-8")
+
+
 def test_parse_cjsg_results_can_stamp_tjal_source_and_court():
     page = parse_cjsg_results(
         _fixture_html(),
@@ -60,7 +64,7 @@ def test_parse_cjsg_results_can_stamp_tjal_source_and_court():
 
 
 def test_provider_search_posts_tjal_cjsg_payload_and_parses_results():
-    session = FakeSession([FakeResponse(_fixture_html())])
+    session = FakeSession([FakeResponse(_ack_html()), FakeResponse(_fixture_html())])
     provider = TjalCjsgProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
     page = provider.search(
@@ -90,18 +94,28 @@ def test_provider_search_posts_tjal_cjsg_payload_and_parses_results():
     assert payload["dados.buscaEmenta"] == "homicidio"
     assert payload["dados.nuProcOrigem"] == "0805753-97.2025.8.02.0000"
     assert payload["tipoDecisaoSelecionados"] == ["A"]
+    assert session.calls[1]["method"] == "GET"
+    assert session.calls[1]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
 
 
 def test_provider_search_page_two_uses_public_cjsg_pagination_route():
     fixture = _fixture_html()
-    session = FakeSession([FakeResponse(fixture), FakeResponse(fixture)])
+    session = FakeSession(
+        [
+            FakeResponse(_ack_html()),
+            FakeResponse(fixture),
+            FakeResponse(fixture),
+        ]
+    )
     provider = TjalCjsgProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
     provider.search(JurisprudenceQuery(text="infanticidio", page=2, page_size=20))
 
-    assert len(session.calls) == 2
+    assert len(session.calls) == 3
     assert "/trocaDePagina.do?" in session.calls[1]["url"]
-    assert "pagina=2" in session.calls[1]["url"]
+    assert "pagina=1" in session.calls[1]["url"]
+    assert "/trocaDePagina.do?" in session.calls[2]["url"]
+    assert "pagina=2" in session.calls[2]["url"]
 
 
 def test_provider_get_decisions_builds_tjal_getarquivo_url():

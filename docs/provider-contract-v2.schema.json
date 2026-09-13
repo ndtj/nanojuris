@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.dev/schemas/provider-contract-v2.json",
+  "title": "NanoJuris provider contract v2",
+  "type": "object",
+  "required": ["provider", "operation", "status", "returned", "retryable"],
+  "properties": {
+    "provider": {"type": "string", "minLength": 1},
+    "operation": {"type": "string", "minLength": 1},
+    "status": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "empty",
+        "empty_unconfirmed",
+        "partial",
+        "invalid_query",
+        "blocked",
+        "rate_limited",
+        "timeout",
+        "unavailable",
+        "tls_error",
+        "parser_changed",
+        "schema_invalid"
+      ]
+    },
+    "retryable": {"type": "boolean"},
+    "returned": {"type": "integer", "minimum": 0},
+    "reported_total": {"type": ["integer", "null"], "minimum": 0},
+    "pagination_mode": {"type": ["string", "null"]},
+    "complete": {"type": ["boolean", "null"]},
+    "completeness_reason": {"type": ["string", "null"]},
+    "error_type": {"type": ["string", "null"]},
+    "message": {"type": ["string", "null"], "maxLength": 500},
+    "trace": {"type": ["object", "null"]}
+  },
+  "additionalProperties": true
+}

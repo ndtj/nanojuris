@@ -17,8 +17,10 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(ROOT / "src"))
+SOURCE_ROOT = str(ROOT / "src")
+if SOURCE_ROOT in sys.path:
+    sys.path.remove(SOURCE_ROOT)
+sys.path.insert(0, SOURCE_ROOT)
 
 DEFAULT_OUTPUT_DIR = ROOT / "docs" / "provider-discovery"
 DEFAULT_SMOKE = DEFAULT_OUTPUT_DIR / "provider-live-search-smoke.json"
@@ -48,6 +50,21 @@ COMMON_FILTERS = (
     "source_origin",
     "source_origins",
     "fetch_details",
+    # Canonical legal dimensions.  These names are the stable cross-provider
+    # vocabulary; provider-specific aliases are translated by the client and
+    # are intentionally not duplicated in this comparison matrix.
+    "case_class",
+    "judging_body",
+    "degree",
+    "instance",
+    "branch",
+    "legal_area",
+    "authority",
+    "collection",
+    "document_type",
+    "decision_type",
+    "judgment_date_from",
+    "judgment_date_to",
 )
 
 IDENTIFIER_FILTERS = {
@@ -71,6 +88,18 @@ REFINEMENT_FILTERS = {
     "updated_to",
     "published_from",
     "published_to",
+    "case_class",
+    "judging_body",
+    "degree",
+    "instance",
+    "branch",
+    "legal_area",
+    "authority",
+    "collection",
+    "document_type",
+    "decision_type",
+    "judgment_date_from",
+    "judgment_date_to",
 }
 
 
@@ -102,7 +131,13 @@ def _sweep_map(payload: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 
 def _row(capability: Any, smoke: dict[str, Any], sweep: dict[str, Any]) -> dict[str, Any]:
-    declared = set(capability.supported_filters)
+    declared_semantics = {
+        str(name): str(status)
+        for name, status in (getattr(capability, "filter_semantics", {}) or {}).items()
+        if str(status)
+        in {"native", "translated", "local_postfilter", "validated_scope", "unsupported"}
+    }
+    declared = set(capability.supported_filters) | set(declared_semantics)
     declared_unsupported = set(getattr(capability, "unsupported_filters", []) or [])
     missing = [name for name in COMMON_FILTERS if name not in declared]
     observed = {
@@ -115,9 +150,11 @@ def _row(capability: Any, smoke: dict[str, Any], sweep: dict[str, Any]) -> dict[
     observed_not_promoted = sorted(
         set(missing).intersection(observed).difference(declared_unsupported)
     )
-    explicitly_unsupported = sorted(
-        set(missing).intersection(declared_unsupported).union(set(missing).difference(observed))
-    )
+    # An absent declaration is not evidence that a source rejects a filter.
+    # Keep ``unsupported`` reserved for an explicit provider declaration and
+    # report every other missing filter as ``unverified``.  This prevents the
+    # contract matrix from turning unknown capability into a false negative.
+    explicitly_unsupported = sorted(set(missing).intersection(declared_unsupported))
     gaps: list[str] = []
     if not capability.supports_unified_search:
         gaps.append("excluded_from_unified_search")
@@ -163,14 +200,15 @@ def _row(capability: Any, smoke: dict[str, Any], sweep: dict[str, Any]) -> dict[
         "filter_support_ratio": round(support_count / len(COMMON_FILTERS), 3),
         "supported_filters": sorted(declared),
         "filter_classification": {
-            name: (
-                "native"
-                if name in declared
-                else "unsupported"
-                if name in declared_unsupported
-                else "observed_not_promoted"
-                if name in observed_not_promoted
-                else "unsupported"
+            name: declared_semantics.get(
+                name,
+                (
+                    "native"
+                    if name in capability.supported_filters
+                    else "unsupported"
+                    if name in declared_unsupported
+                    else "unverified"
+                ),
             )
             for name in COMMON_FILTERS
         },
@@ -288,7 +326,7 @@ def render_markdown(report: dict[str, Any]) -> str:
         "",
         "## Filtros",
         "",
-        "A contagem indica quantos providers declaram o filtro como nativo. Filtros ausentes sao tratados como `unsupported`; nao ha pos-filtro silencioso.",
+        "A contagem indica quantos providers declaram o filtro como nativo. Filtros ausentes permanecem `unverified`; somente uma declaracao explicita os torna `unsupported`.",
         "",
         "| Filtro | Providers |",
         "|---|---:|",

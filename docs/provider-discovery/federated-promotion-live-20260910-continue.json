@@ -1,0 +1,1164 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-10T19:16:36.906635+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 52,
+  "manifest_sources": [
+    "bnp_pangea",
+    "cnj_jurisprudencia",
+    "stj_informativo",
+    "stm_jurisprudencia",
+    "tce_pr_viajuris",
+    "tcu_jurisprudencia",
+    "tjac_cjsg",
+    "tjac_ementario_jurisprudencia",
+    "tjal_cjsg",
+    "tjal_esmal_banco_sentencas",
+    "tjam_cjsg",
+    "tjap_banco_sentencas",
+    "tjba_graphql",
+    "tjce_cjsg",
+    "tjce_sjuris",
+    "tjdf_juris",
+    "tjes_cjpg",
+    "tjes_jurisprudencia",
+    "tjes_turma_recursal",
+    "tjgo_projudi_jurisprudencia",
+    "tjmg_dspace_jurisprudencia",
+    "tjmg_ejef_boletim_jurisprudencia",
+    "tjmg_jurisprudencia",
+    "tjms_cjpg",
+    "tjms_cjsg",
+    "tjmt_jurisprudencia_api",
+    "tjpa_jurisprudencia_bff",
+    "tjpb_pje_jurisprudencia",
+    "tjpe_jurisprudencia",
+    "tjpi_juspi",
+    "tjpr_jurisprudencia",
+    "tjrj_ejuris",
+    "tjrj_eproc_jurisprudencia",
+    "tjrn_jurisprudencia",
+    "tjro_jurisprudencia",
+    "tjro_liame",
+    "tjrr_juris",
+    "tjrs_solr",
+    "tjsc_eproc_jurisprudencia",
+    "tjse_boletim_jurisprudencia",
+    "tjsp_cjpg",
+    "tjsp_cjsg",
+    "tjsp_eproc_jurisprudencia",
+    "tjto_jurisprudencia",
+    "tnu_eproc_jurisprudencia",
+    "trf2_eproc_jurisprudencia",
+    "trf4_eproc_jurisprudencia",
+    "trf5_jurisprudencia",
+    "trf6_eproc_jurisprudencia",
+    "trt2_ementario_jurisprudencia",
+    "trt8_pje_jurisprudencia",
+    "tst_jurisprudencia"
+  ],
+  "default_capability_sources": 52,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "bnp_pangea",
+    "cnj_jurisprudencia",
+    "stj_informativo",
+    "stm_jurisprudencia",
+    "tce_pr_viajuris",
+    "tcu_jurisprudencia",
+    "tjac_cjsg",
+    "tjac_ementario_jurisprudencia",
+    "tjal_cjsg",
+    "tjal_esmal_banco_sentencas",
+    "tjam_cjsg",
+    "tjap_banco_sentencas",
+    "tjba_graphql",
+    "tjce_cjsg",
+    "tjce_sjuris",
+    "tjdf_juris",
+    "tjes_cjpg",
+    "tjes_jurisprudencia",
+    "tjes_turma_recursal",
+    "tjgo_projudi_jurisprudencia",
+    "tjmg_dspace_jurisprudencia",
+    "tjmg_ejef_boletim_jurisprudencia",
+    "tjmg_jurisprudencia",
+    "tjms_cjpg",
+    "tjms_cjsg",
+    "tjmt_jurisprudencia_api",
+    "tjpa_jurisprudencia_bff",
+    "tjpb_pje_jurisprudencia",
+    "tjpe_jurisprudencia",
+    "tjpi_juspi",
+    "tjpr_jurisprudencia",
+    "tjrj_ejuris",
+    "tjrj_eproc_jurisprudencia",
+    "tjrn_jurisprudencia",
+    "tjro_jurisprudencia",
+    "tjro_liame",
+    "tjrr_juris",
+    "tjrs_solr",
+    "tjsc_eproc_jurisprudencia",
+    "tjse_boletim_jurisprudencia",
+    "tjsp_cjpg",
+    "tjsp_cjsg",
+    "tjsp_eproc_jurisprudencia",
+    "tjto_jurisprudencia",
+    "tnu_eproc_jurisprudencia",
+    "trf2_eproc_jurisprudencia",
+    "trf4_eproc_jurisprudencia",
+    "trf5_jurisprudencia",
+    "trf6_eproc_jurisprudencia",
+    "trt2_ementario_jurisprudencia",
+    "trt8_pje_jurisprudencia",
+    "tst_jurisprudencia"
+  ],
+  "sources_skipped": [],
+  "routing_warnings": [],
+  "source_outcomes": [
+    {
+      "source": "bnp_pangea",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "cnj_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "stj_informativo",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "stm_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tce_pr_viajuris",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tcu_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjac_cjsg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjac_ementario_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjal_cjsg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjal_esmal_banco_sentencas",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjam_cjsg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjap_banco_sentencas",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjba_graphql",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjce_cjsg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjce_sjuris",
+      "status": "failed",
+      "reason": "SourceUnavailableError",
+      "message": "provider request failed: HTTPSConnectionPool(host='gateway.tjce.jus.br', port=443): Read timed out."
+    },
+    {
+      "source": "tjdf_juris",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjes_cjpg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjes_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjes_turma_recursal",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjgo_projudi_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjmg_dspace_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjmg_ejef_boletim_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjmg_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjms_cjpg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjms_cjsg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjmt_jurisprudencia_api",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjpa_jurisprudencia_bff",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjpb_pje_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjpe_jurisprudencia",
+      "status": "failed",
+      "reason": "SslVerificationError",
+      "message": "A verificacao SSL local impediu a conexao com a fonte publica. Isso costuma indicar cadeia de certificados ausente ou interceptacao corporativa.",
+      "hint": "Atualize os certificados do ambiente. Para diagnostico controlado, use --sem-verificar-ssl apenas em probe-rota."
+    },
+    {
+      "source": "tjpi_juspi",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjrj_ejuris",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjrj_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjrn_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjro_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjro_liame",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjrr_juris",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjrs_solr",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjsc_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjse_boletim_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjsp_cjpg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjsp_cjsg",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tjto_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "trf4_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "trf5_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "trt2_ementario_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "trt8_pje_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    },
+    {
+      "source": "tst_jurisprudencia",
+      "status": "searched",
+      "reason": "source_called",
+      "message": "A fonte foi chamada e seu resultado está refletido na completude."
+    }
+  ],
+  "source_completeness": {
+    "bnp_pangea": {
+      "returned": 1,
+      "reported_total": 1965,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "cnj_jurisprudencia": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "page",
+      "complete": null,
+      "reason": "A fonte nao informou um total autoritativo para a consulta.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "stj_informativo": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "local_window",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "stm_jurisprudencia": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tce_pr_viajuris": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "local_window",
+      "complete": true,
+      "reason": "A janela retornada alcanca o total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tcu_jurisprudencia": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "local_window",
+      "complete": true,
+      "reason": "bounded_dataset_scan",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjac_cjsg": {
+      "returned": 1,
+      "reported_total": 18312,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjac_ementario_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "local_pdf_window",
+      "complete": false,
+      "reason": "volume oficial estatico; o TJAC nao publica total pesquisavel entre volumes e a janela nao representa o acervo integral",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjal_cjsg": {
+      "returned": 1,
+      "reported_total": 159825,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjal_esmal_banco_sentencas": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "remote_page",
+      "complete": false,
+      "reason": "A ESMAL publica uma colecao curada de sentencas selecionadas e nao informa total autoritativo do acervo.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjam_cjsg": {
+      "returned": 1,
+      "reported_total": 39557,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjap_banco_sentencas": {
+      "returned": 1,
+      "reported_total": 10000,
+      "pagination_mode": "livewire_page",
+      "complete": false,
+      "reason": "total da fonte",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjba_graphql": {
+      "returned": 1,
+      "reported_total": 1970960,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjce_cjsg": {
+      "returned": 1,
+      "reported_total": 107098,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjce_sjuris": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "SourceUnavailableError",
+      "error_message": "provider request failed: HTTPSConnectionPool(host='gateway.tjce.jus.br', port=443): Read timed out."
+    },
+    "tjdf_juris": {
+      "returned": 1,
+      "reported_total": 133134,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjes_cjpg": {
+      "returned": 1,
+      "reported_total": 978684,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjes_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 156058,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjes_turma_recursal": {
+      "returned": 1,
+      "reported_total": 39182,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjgo_projudi_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 14040,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjmg_dspace_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 185,
+      "pagination_mode": "merged_collection_page",
+      "complete": false,
+      "reason": "totais somados das coleções cível, criminal e órgão especial",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjmg_ejef_boletim_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 2,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "totalElements informado pela colecao oficial",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjmg_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 1000,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjms_cjpg": {
+      "returned": 1,
+      "reported_total": 317551,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjms_cjsg": {
+      "returned": 1,
+      "reported_total": 231115,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjmt_jurisprudencia_api": {
+      "returned": 1,
+      "reported_total": 74202,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjpa_jurisprudencia_bff": {
+      "returned": 1,
+      "reported_total": 10000,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjpb_pje_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 26092,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjpe_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "failed",
+      "complete": false,
+      "reason": "A fonte nao concluiu a consulta.",
+      "pages_fetched": 0,
+      "error_type": "SslVerificationError",
+      "error_message": "A verificacao SSL local impediu a conexao com a fonte publica. Isso costuma indicar cadeia de certificados ausente ou interceptacao corporativa."
+    },
+    "tjpi_juspi": {
+      "returned": 1,
+      "reported_total": 33404,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjpr_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 1004886,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjrj_ejuris": {
+      "returned": 1,
+      "reported_total": 46191,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjrj_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 17322,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjrn_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 54043,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjro_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 1910745,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjro_liame": {
+      "returned": 0,
+      "reported_total": 0,
+      "pagination_mode": "page",
+      "complete": true,
+      "reason": "A fonte informou total zero para a consulta.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjrr_juris": {
+      "returned": 10,
+      "reported_total": 14210,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjrs_solr": {
+      "returned": 1,
+      "reported_total": 707567,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjsc_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 786505,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjse_boletim_jurisprudencia": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "edition_section",
+      "complete": false,
+      "reason": "uma edição/seção processada; total entre edições não é informado",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjsp_cjpg": {
+      "returned": 1,
+      "reported_total": 3841417,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjsp_cjsg": {
+      "returned": 1,
+      "reported_total": 2743477,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjsp_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 303318,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjto_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 138644,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tnu_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 886,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "trf2_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 123349,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "trf4_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 478214,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "trf5_jurisprudencia": {
+      "returned": 1,
+      "reported_total": null,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A fonte aceita offsets no campo grid.pesquisa.next; o total remoto não é exposto de forma confiável e a completude permanece por janela.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "trf6_eproc_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 19040,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "trt2_ementario_jurisprudencia": {
+      "returned": 0,
+      "reported_total": null,
+      "pagination_mode": "local_window",
+      "complete": false,
+      "reason": "A fonte nao publica total nem busca textual nacional; apenas uma janela bounded de topicos oficiais foi consultada.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "trt8_pje_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 46189,
+      "pagination_mode": "page",
+      "complete": false,
+      "reason": "TRT8 informou hits autoritativos no contrato JSON",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tst_jurisprudencia": {
+      "returned": 1,
+      "reported_total": 850021,
+      "pagination_mode": "offset",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "bnp_pangea": 1965,
+    "cnj_jurisprudencia": null,
+    "stj_informativo": null,
+    "stm_jurisprudencia": null,
+    "tce_pr_viajuris": null,
+    "tcu_jurisprudencia": null,
+    "tjac_cjsg": 18312,
+    "tjac_ementario_jurisprudencia": null,
+    "tjal_cjsg": 159825,
+    "tjal_esmal_banco_sentencas": null,
+    "tjam_cjsg": 39557,
+    "tjap_banco_sentencas": 10000,
+    "tjba_graphql": 1970960,
+    "tjce_cjsg": 107098,
+    "tjdf_juris": 133134,
+    "tjes_cjpg": 978684,
+    "tjes_jurisprudencia": 156058,
+    "tjes_turma_recursal": 39182,
+    "tjgo_projudi_jurisprudencia": 14040,
+    "tjmg_dspace_jurisprudencia": 185,
+    "tjmg_ejef_boletim_jurisprudencia": 2,
+    "tjmg_jurisprudencia": 1000,
+    "tjms_cjpg": 317551,
+    "tjms_cjsg": 231115,
+    "tjmt_jurisprudencia_api": 74202,
+    "tjpa_jurisprudencia_bff": 10000,
+    "tjpb_pje_jurisprudencia": 26092,
+    "tjpi_juspi": 33404,
+    "tjpr_jurisprudencia": 1004886,
+    "tjrj_ejuris": 46191,
+    "tjrj_eproc_jurisprudencia": 17322,
+    "tjrn_jurisprudencia": 54043,
+    "tjro_jurisprudencia": 1910745,
+    "tjro_liame": 0,
+    "tjrr_juris": 14210,
+    "tjrs_solr": 707567,
+    "tjsc_eproc_jurisprudencia": 786505,
+    "tjse_boletim_jurisprudencia": null,
+    "tjsp_cjpg": 3841417,
+    "tjsp_cjsg": 2743477,
+    "tjsp_eproc_jurisprudencia": 303318,
+    "tjto_jurisprudencia": 138644,
+    "tnu_eproc_jurisprudencia": 886,
+    "trf2_eproc_jurisprudencia": 123349,
+    "trf4_eproc_jurisprudencia": 478214,
+    "trf5_jurisprudencia": null,
+    "trf6_eproc_jurisprudencia": 19040,
+    "trt2_ementario_jurisprudencia": null,
+    "trt8_pje_jurisprudencia": 46189,
+    "tst_jurisprudencia": 850021
+  },
+  "source_total_known": {
+    "bnp_pangea": true,
+    "cnj_jurisprudencia": null,
+    "stj_informativo": null,
+    "stm_jurisprudencia": null,
+    "tce_pr_viajuris": null,
+    "tcu_jurisprudencia": false,
+    "tjac_cjsg": true,
+    "tjac_ementario_jurisprudencia": false,
+    "tjal_cjsg": true,
+    "tjal_esmal_banco_sentencas": false,
+    "tjam_cjsg": true,
+    "tjap_banco_sentencas": true,
+    "tjba_graphql": true,
+    "tjce_cjsg": true,
+    "tjce_sjuris": null,
+    "tjdf_juris": true,
+    "tjes_cjpg": true,
+    "tjes_jurisprudencia": true,
+    "tjes_turma_recursal": true,
+    "tjgo_projudi_jurisprudencia": true,
+    "tjmg_dspace_jurisprudencia": true,
+    "tjmg_ejef_boletim_jurisprudencia": true,
+    "tjmg_jurisprudencia": true,
+    "tjms_cjpg": true,
+    "tjms_cjsg": true,
+    "tjmt_jurisprudencia_api": true,
+    "tjpa_jurisprudencia_bff": true,
+    "tjpb_pje_jurisprudencia": true,
+    "tjpe_jurisprudencia": null,
+    "tjpi_juspi": true,
+    "tjpr_jurisprudencia": true,
+    "tjrj_ejuris": true,
+    "tjrj_eproc_jurisprudencia": true,
+    "tjrn_jurisprudencia": true,
+    "tjro_jurisprudencia": true,
+    "tjro_liame": true,
+    "tjrr_juris": true,
+    "tjrs_solr": true,
+    "tjsc_eproc_jurisprudencia": true,
+    "tjse_boletim_jurisprudencia": false,
+    "tjsp_cjpg": true,
+    "tjsp_cjsg": true,
+    "tjsp_eproc_jurisprudencia": true,
+    "tjto_jurisprudencia": true,
+    "tnu_eproc_jurisprudencia": true,
+    "trf2_eproc_jurisprudencia": true,
+    "trf4_eproc_jurisprudencia": true,
+    "trf5_jurisprudencia": null,
+    "trf6_eproc_jurisprudencia": true,
+    "trt2_ementario_jurisprudencia": false,
+    "trt8_pje_jurisprudencia": true,
+    "tst_jurisprudencia": true
+  },
+  "source_access_status": {
+    "bnp_pangea": "public",
+    "cnj_jurisprudencia": null,
+    "stj_informativo": null,
+    "stm_jurisprudencia": null,
+    "tce_pr_viajuris": null,
+    "tcu_jurisprudencia": null,
+    "tjac_cjsg": "public",
+    "tjac_ementario_jurisprudencia": "public",
+    "tjal_cjsg": "public",
+    "tjal_esmal_banco_sentencas": "public",
+    "tjam_cjsg": "public",
+    "tjap_banco_sentencas": "public",
+    "tjba_graphql": "public",
+    "tjce_cjsg": "public",
+    "tjce_sjuris": null,
+    "tjdf_juris": "public",
+    "tjes_cjpg": "public",
+    "tjes_jurisprudencia": "public",
+    "tjes_turma_recursal": "public",
+    "tjgo_projudi_jurisprudencia": "public",
+    "tjmg_dspace_jurisprudencia": "public",
+    "tjmg_ejef_boletim_jurisprudencia": "public",
+    "tjmg_jurisprudencia": "public",
+    "tjms_cjpg": "public",
+    "tjms_cjsg": "public",
+    "tjmt_jurisprudencia_api": "public",
+    "tjpa_jurisprudencia_bff": "public",
+    "tjpb_pje_jurisprudencia": "public",
+    "tjpe_jurisprudencia": null,
+    "tjpi_juspi": "public",
+    "tjpr_jurisprudencia": "public",
+    "tjrj_ejuris": "public",
+    "tjrj_eproc_jurisprudencia": "public",
+    "tjrn_jurisprudencia": "public",
+    "tjro_jurisprudencia": "public",
+    "tjro_liame": "public",
+    "tjrr_juris": "public",
+    "tjrs_solr": "public",
+    "tjsc_eproc_jurisprudencia": "public",
+    "tjse_boletim_jurisprudencia": "public",
+    "tjsp_cjpg": "public",
+    "tjsp_cjsg": "public",
+    "tjsp_eproc_jurisprudencia": "public",
+    "tjto_jurisprudencia": "public",
+    "tnu_eproc_jurisprudencia": "public",
+    "trf2_eproc_jurisprudencia": "public",
+    "trf4_eproc_jurisprudencia": "public",
+    "trf5_jurisprudencia": null,
+    "trf6_eproc_jurisprudencia": "public",
+    "trt2_ementario_jurisprudencia": "public",
+    "trt8_pje_jurisprudencia": "public",
+    "tst_jurisprudencia": "public"
+  },
+  "source_extraction_status": {
+    "bnp_pangea": "complete",
+    "cnj_jurisprudencia": null,
+    "stj_informativo": null,
+    "stm_jurisprudencia": null,
+    "tce_pr_viajuris": null,
+    "tcu_jurisprudencia": null,
+    "tjac_cjsg": "complete",
+    "tjac_ementario_jurisprudencia": "complete",
+    "tjal_cjsg": "complete",
+    "tjal_esmal_banco_sentencas": "complete",
+    "tjam_cjsg": "complete",
+    "tjap_banco_sentencas": "complete",
+    "tjba_graphql": "complete",
+    "tjce_cjsg": "complete",
+    "tjce_sjuris": null,
+    "tjdf_juris": "complete",
+    "tjes_cjpg": "complete",
+    "tjes_jurisprudencia": "complete",
+    "tjes_turma_recursal": "complete",
+    "tjgo_projudi_jurisprudencia": "complete",
+    "tjmg_dspace_jurisprudencia": "complete",
+    "tjmg_ejef_boletim_jurisprudencia": null,
+    "tjmg_jurisprudencia": "complete",
+    "tjms_cjpg": "complete",
+    "tjms_cjsg": "complete",
+    "tjmt_jurisprudencia_api": "complete",
+    "tjpa_jurisprudencia_bff": "complete",
+    "tjpb_pje_jurisprudencia": "complete",
+    "tjpe_jurisprudencia": null,
+    "tjpi_juspi": "complete",
+    "tjpr_jurisprudencia": "complete",
+    "tjrj_ejuris": "complete",
+    "tjrj_eproc_jurisprudencia": "complete",
+    "tjrn_jurisprudencia": "complete",
+    "tjro_jurisprudencia": "complete",
+    "tjro_liame": "complete",
+    "tjrr_juris": "complete",
+    "tjrs_solr": "complete",
+    "tjsc_eproc_jurisprudencia": "complete",
+    "tjse_boletim_jurisprudencia": "complete",
+    "tjsp_cjpg": "complete",
+    "tjsp_cjsg": "complete",
+    "tjsp_eproc_jurisprudencia": "complete",
+    "tjto_jurisprudencia": "complete",
+    "tnu_eproc_jurisprudencia": "complete",
+    "trf2_eproc_jurisprudencia": "complete",
+    "trf4_eproc_jurisprudencia": "complete",
+    "trf5_jurisprudencia": null,
+    "trf6_eproc_jurisprudencia": "complete",
+    "trt2_ementario_jurisprudencia": null,
+    "trt8_pje_jurisprudencia": "complete",
+    "tst_jurisprudencia": "complete"
+  },
+  "errors": [
+    {
+      "source": "tjce_sjuris",
+      "error_type": "SourceUnavailableError",
+      "message": "provider request failed: HTTPSConnectionPool(host='gateway.tjce.jus.br', port=443): Read timed out."
+    },
+    {
+      "source": "tjpe_jurisprudencia",
+      "error_type": "SslVerificationError",
+      "message": "A verificacao SSL local impediu a conexao com a fonte publica. Isso costuma indicar cadeia de certificados ausente ou interceptacao corporativa."
+    }
+  ],
+  "summary": {
+    "sources_requested": 52,
+    "sources_searched": 52,
+    "sources_skipped": 0,
+    "sources_with_warnings": 0,
+    "sources_with_errors": 2,
+    "invalid_records": 0,
+    "total_returned": 1,
+    "deduplicated_total": 56,
+    "collection_complete": false,
+    "unknown_total_sources": [
+      "cnj_jurisprudencia",
+      "stj_informativo",
+      "stm_jurisprudencia",
+      "tce_pr_viajuris",
+      "tcu_jurisprudencia",
+      "tjac_ementario_jurisprudencia",
+      "tjal_esmal_banco_sentencas",
+      "tjse_boletim_jurisprudencia",
+      "trf5_jurisprudencia",
+      "trt2_ementario_jurisprudencia"
+    ]
+  }
+}

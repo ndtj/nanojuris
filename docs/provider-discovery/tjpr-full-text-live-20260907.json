@@ -1,0 +1,33 @@
+{
+  "schema_version": "provider-live-probe-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJPR",
+  "surface": "CJSG",
+  "provider": "tjpr_jurisprudencia",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "query": {
+    "text": "transporte aereo dano moral",
+    "page": 1,
+    "page_size": 1,
+    "fetch_details": true
+  },
+  "search": {
+    "endpoint": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+    "method": "GET+POST",
+    "http_status": 200,
+    "classification": "valid_public_second_degree_search",
+    "records": 1,
+    "degree": "second",
+    "collection": "CJSG"
+  },
+  "full_text": {
+    "endpoint": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do?actionType=exibirTextoCompleto",
+    "method": "GET",
+    "http_status": 200,
+    "classification": "access_controlled_or_restricted_shell",
+    "result": "The public XHR returned the TJPR Intranet/Acesso Restrito shell instead of decision text. The row remains public with extraction_status=partial; it is not converted to an empty result."
+  },
+  "decision": "Enable fetch_details as an opt-in translation, preserve explicit partial extraction when the source restricts the text, and keep the observed detail URL available through get_document.",
+  "safety": "Only bounded official HTTPS requests were used. No credentials, CAPTCHA solving, token generation, session replay, proxy rotation, TLS disablement, or access-control circumvention was attempted."
+}

@@ -7,6 +7,7 @@ from dataclasses import asdict, is_dataclass
 from typing import Any
 
 from nanojuris.canonical import search_page_to_canonical
+from nanojuris.identity import canonical_record_identity
 from nanojuris.models import (
     CanonicalDecision,
     CanonicalDocument,
@@ -40,8 +41,17 @@ def to_canonical_jsonl(
         else page_or_records
     )
     return "\n".join(
-        json.dumps(_to_jsonable(record), ensure_ascii=False, sort_keys=True) for record in records
+        json.dumps(_canonical_payload(record), ensure_ascii=False, sort_keys=True)
+        for record in records
     )
+
+
+def _canonical_payload(record: CanonicalExportRecord) -> dict[str, Any]:
+    """Export canonical fields plus the explainable identity projection."""
+
+    payload = _to_jsonable(record)
+    payload["legal_identity"] = canonical_record_identity(record).to_dict()
+    return payload
 
 
 def _to_jsonable(value: object) -> Any:

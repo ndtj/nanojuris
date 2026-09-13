@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-09-07",
+  "observed_at": "2026-09-07T01:21:00-03:00",
+  "source": "tjmg_jurisprudencia",
+  "authority": "TJMG",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "CJSG",
+  "portal": "https://consulta-jurisprudencia.tjmg.jus.br",
+  "api": "https://jurisprudencia-api.tjmg.jus.br",
+  "surface": "cjsg",
+  "classification": "valid",
+  "record_count_observed": 3,
+  "reported_total": 1000,
+  "pagination_mode": "page",
+  "http_status": 200,
+  "bounded_checks": [
+    {
+      "route": "POST /jurisprudencias/filter?size=3&page=0&sort=relevancia,DESC",
+      "status": 200,
+      "total_records": 1000,
+      "returned": 3,
+      "document_types": ["Acórdão"],
+      "fields": [
+        "id", "tipoDocumento", "ementa", "orgaoJulgador", "julgamentoData",
+        "numeroProcessoTj", "numeroProcessoCnj", "publicacaoData", "magistrado",
+        "classe", "documentoId", "documentoHash", "comarca"
+      ]
+    },
+    {
+      "route": "POST /jurisprudencias/filter?size=3&page=1&sort=relevancia,DESC",
+      "status": 200,
+      "total_records": 1000,
+      "returned": 3,
+      "document_types": ["Acórdão"],
+      "distinct_from_page_0": true
+    },
+    {
+      "route": "POST /dominio/tiposDocumento",
+      "status": 200,
+      "values": [
+        {"dominio": "Acórdão", "quantidade": "443181"}
+      ],
+      "query": {"texto": "dano moral", "tipoTexto": "EMENTA"}
+    },
+    {
+      "route": "POST /dominio/classes",
+      "status": 200,
+      "values_observed": ["Apelação", "Agravo de Instrumento", "Embargos de Declaração"],
+      "query": {"texto": "dano moral", "tipoTexto": "EMENTA"}
+    },
+    {
+      "route": "POST /dominio/orgaosJulgadores",
+      "status": 200,
+      "values_observed": ["1ª Câmara Cível", "3ª Câmara Cível"],
+      "query": {"texto": "dano moral", "tipoTexto": "EMENTA"}
+    },
+    {
+      "route": "POST /jurisprudencias/filter (tipoTexto=INTEIRO_TEOR)",
+      "status": 200,
+      "total_records": 1000,
+      "document_types": ["Acórdão", "Decisão Monocrática", "Decisão Turma Recursal", "Decisão Vice-Presidência"]
+    },
+    {
+      "route": "POST /jurisprudencias/document",
+      "status": 200,
+      "document_type": "text/html body (Content-Type declarado application/json)",
+      "full_text": true,
+      "request_requires": ["documentoId", "datasPublicacao[].inicio", "datasPublicacao[].fim"],
+      "note": "A resposta HTML foi preservada; o MIME declarado pela API é inconsistente e deve ser validado pelo extrator."
+    }
+  ],
+  "blocked_routes_not_bypassed": [
+    {
+      "route": "GET https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+      "status": 200,
+      "classification": "legacy_captcha_boundary"
+    }
+  ],
+  "conclusion": "A API moderna é uma superfície pública reproduzível de jurisprudência textual de segundo grau, com filtros, paginação e inteiro teor sob demanda. Não foi comprovada uma coleção pública de primeiro grau; os domínios observados retornam apenas documentos de segundo grau."
+}

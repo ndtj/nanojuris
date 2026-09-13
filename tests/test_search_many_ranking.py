@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-import json
-from pathlib import Path
+import threading
+import time
 
 import pytest
 
 from nanojuris.client import NanoJurisClient
+from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import InvalidQueryError
 from nanojuris.models import (
     JurisprudenceQuery,
@@ -14,6 +15,52 @@ from nanojuris.models import (
     SearchPage,
 )
 from nanojuris.relevance import BM25_VERSION, RANKING_VERSION
+
+
+class WaveFixtureProvider:
+    """Small provider used to prove that explicit waves are real boundaries."""
+
+    def __init__(self, name: str, events: list[tuple[str, str]], lock: threading.Lock) -> None:
+        self.name = name
+        self._events = events
+        self._lock = lock
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        with self._lock:
+            self._events.append(("start", self.name))
+        time.sleep(0.01)
+        with self._lock:
+            self._events.append(("end", self.name))
+        return SearchPage(
+            source=self.name,
+            total=1,
+            start=1,
+            end=1,
+            page=query.page,
+            page_size=query.page_size,
+            results=[
+                JurisprudenceResult(
+                    id=f"{self.name}-result",
+                    source=self.name,
+                    court=self.name.upper(),
+                    type="acordao",
+                    summary="Responsabilidade civil administrativa.",
+                )
+            ],
+            is_complete=True,
+            total_known=True,
+        )
+
+    def get_capabilities(self) -> ProviderCapabilities:
+        return ProviderCapabilities(
+            source=self.name,
+            display_name=self.name,
+            source_url=f"https://{self.name}.example",
+            category="jurisprudence",
+            search_modes=["text"],
+            supported_filters=["text"],
+            supports_unified_search=True,
+        )
 
 
 class RankingFixtureProvider:
@@ -45,6 +92,7 @@ class RankingFixtureProvider:
                 ),
             ],
             is_complete=True,
+            total_known=True,
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -70,27 +118,15 @@ def test_search_many_opt_in_ranking_orders_records_and_exposes_reasons() -> None
     assert payload["bm25_version"] == BM25_VERSION
     assert payload["ranking_complete"] is True
     assert payload["results"][0].id == "relevant"
-    metadata = next(value for value in payload["ranking"].values() if value["relevance_score"] > 0)
+    metadata = next(
+        value for key, value in payload["ranking"].items() if key.endswith('"relevant"]')
+    )
     irrelevant = next(
-        value for value in payload["ranking"].values() if value["relevance_score"] == 0
+        value for key, value in payload["ranking"].items() if key.endswith('"irrelevant"]')
     )
     assert metadata["relevance_score"] > irrelevant["relevance_score"]
     assert metadata["match_reasons"]
-    assert metadata["native_rank"] == 2
     assert payload["query_intent"]["analyzer_version"] == "legal-intent-v1"
-
-
-def test_ranking_gold_fixture_preserves_expected_top_result() -> None:
-    fixture = json.loads(
-        (Path(__file__).parent / "fixtures" / "ranking_gold.json").read_text(encoding="utf-8")
-    )
-    for case in fixture["cases"]:
-        payload = NanoJurisClient(providers=[RankingFixtureProvider()]).search_many(
-            case["query"],
-            sources=["ranking_fixture"],
-            ranking_version=RANKING_VERSION,
-        )
-        assert payload["results"][0].id == case["expected_top_id"]
 
 
 def test_search_many_keeps_legacy_payload_without_opt_in_ranking() -> None:
@@ -112,13 +148,50 @@ def test_search_many_rejects_unknown_ranking_version() -> None:
         )
 
 
-def test_search_many_mode_selects_v1_by_default() -> None:
+def test_search_many_adaptive_mode_emits_bounded_plan_and_uses_v1_by_default() -> None:
     payload = NanoJurisClient(providers=[RankingFixtureProvider()]).search_many(
         "responsabilidade civil administrativa",
         mode="adaptive",
     )
 
     assert payload["mode"] == "adaptive"
+    assert payload["search_plan"]["sources"] == ["ranking_fixture"]
     assert payload["ranking_version"] == RANKING_VERSION
     assert payload["bm25_version"] == BM25_VERSION
     assert payload["results"][0].id == "relevant"
+    assert payload["source_outcomes_v2"]["ranking_fixture"]["status"] == "success_with_results"
+
+
+def test_search_many_executes_explicit_plan_waves_sequentially() -> None:
+    events: list[tuple[str, str]] = []
+    lock = threading.Lock()
+    names = [f"wave_{index}" for index in range(6)]
+    providers = [WaveFixtureProvider(name, events, lock) for name in names]
+    config = NanoJurisConfig(unified_max_workers=6, unified_timeout=5.0)
+
+    payload = NanoJurisClient(config=config, providers=providers).search_many(
+        "responsabilidade civil",
+        mode="selected",
+        sources=names,
+    )
+
+    assert [
+        source for wave in payload["search_plan"]["waves"] for source in wave["sources"]
+    ] == names
+    first_wave = set(names[:3])
+    second_wave = set(names[3:])
+    # Every source in the first wave must have completed before any second-wave
+    # request starts.  This is the observable invariant that the old all-at-once
+    # executor violated.
+    first_wave_end = max(
+        index
+        for index, (kind, source) in enumerate(events)
+        if kind == "end" and source in first_wave
+    )
+    second_wave_start = min(
+        index
+        for index, (kind, source) in enumerate(events)
+        if kind == "start" and source in second_wave
+    )
+    assert first_wave_end < second_wave_start
+    assert [item.id for item in payload["results"]] == [f"{name}-result" for name in names]

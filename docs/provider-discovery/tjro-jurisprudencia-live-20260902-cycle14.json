@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-02T03:35:54Z",
+  "audit_mode": "bounded_public_adapter_validation",
+  "source_id": "tjro_jurisprudencia",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "jurisprudencia",
+      "http_status": 200,
+      "content_type": "application/json",
+      "query": "responsabilidade",
+      "reported_total": 676011,
+      "record_count_observed": 1,
+      "pagination_mode": "offset",
+      "classification": "reachable_valid_data",
+      "detail_route": {
+        "endpoint": "GET /pje/buscar_pdf_ou_docx/PJEPG/137613154/pdf/",
+        "http_status": 200,
+        "content_type": "application/pdf",
+        "response_bytes": 63134,
+        "content_sha256": "a4f63ceb192fed75397dbc255fa38cd010bea9c857dbba423e09e3c88d4ddfda",
+        "extraction_status": "complete"
+      }
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "facets_and_filter_catalog",
+      "endpoint": "POST /search/agregacoes",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 84235,
+      "content_sha256": "4cd730acc75a6a0bfc9900d67bf6aa72809f90d5b15812442e9b618a5c1305a6",
+      "reported_total": 3480824,
+      "aggregation_keys": [
+        "classes_judiciais",
+        "classes_judiciais_com_codigo",
+        "graus_jurisdicao",
+        "ids_orgaos_julgadores",
+        "juizes",
+        "orgaos_julgadores",
+        "orgaos_julgadores_colegiados",
+        "tipos_documentos",
+        "tipos_documentos_e_grau"
+      ],
+      "classification": "reachable_valid_metadata_pending_canonical_facets",
+      "body_persisted": false
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "related_documents_for_pjesg",
+      "endpoint": "GET /search/documentos_relacionados/7384224",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 75407,
+      "content_sha256": "d539ab1df4a2bd2d352be0a8353c5b9e63a2eb42bb123a17868f00fc6a1bc9c5",
+      "reported_total": 4,
+      "record_count_observed": 4,
+      "types_observed": ["ACORDAO", "EMENTA", "RELATORIO", "VOTO"],
+      "classification": "reachable_valid_data",
+      "body_persisted": false
+    }
+  ],
+  "promotion": "candidate_opt_in_only",
+  "promotion_blockers": [
+    "Filtros tipo, facetas e limite maximo remoto de size ainda nao foram fechados.",
+    "Os gates globais 0031/0034 continuam proposed e requerem revisao."
+  ]
+}

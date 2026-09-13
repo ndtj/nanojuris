@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 import requests
+from bs4 import BeautifulSoup
 
 from nanojuris.errors import (
     AccessControlRequiredError,
@@ -15,6 +16,7 @@ from nanojuris.errors import (
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjrr_juris import (
     TjrrJurisProvider,
+    _build_search_fields,
     extract_tjrr_document_text,
     parse_tjrr_results,
 )
@@ -35,6 +37,23 @@ class FakeResponse:
         self._content = body.encode("utf-8")
         self.text = body
         self.content = self._content
+
+
+class FakeBinaryResponse:
+    """Small binary response double for the official TJRR PDF route."""
+
+    def __init__(
+        self,
+        body: bytes,
+        url: str = "https://jurisprudencia.tjrr.jus.br/pdf?id=321",
+        status_code: int = 200,
+    ):
+        self.status_code = status_code
+        self.url = url
+        self.headers = {"Content-Type": "application/pdf"}
+        self._content = body
+        self.text = body.decode("latin-1")
+        self.content = body
 
 
 class FakeSession:
@@ -70,6 +89,10 @@ def test_parse_tjrr_result_maps_metadata_and_full_text():
     assert result.raw["case_class"] == "Apelacao Civel"
     assert result.raw["judging_body"] == "Câmara de Fixture"
     assert result.raw["document_url"] == "/inteiroTeor.xhtml?id=321"
+    assert result.degree == "second"
+    assert result.instance == "second"
+    assert result.collection == "CJSG"
+    assert page.total_known is True
 
 
 def test_provider_posts_public_form_and_supports_primefaces_page_request():
@@ -97,6 +120,9 @@ def test_provider_posts_public_form_and_supports_primefaces_page_request():
     assert isinstance(ajax, dict)
     assert ajax["headers"]["Faces-Request"] == "partial/ajax"
     assert ajax["data"]["formPesquisa:j_idt155:dataTablePesquisa_first"] == "1"
+    assert ajax["data"]["formPesquisa"] == "formPesquisa"
+    assert ajax["data"]["formPesquisa:j_idt155:dataTablePesquisa_skipChildren"] == "true"
+    assert ajax["headers"]["X-Requested-With"] == "XMLHttpRequest"
 
 
 def test_provider_reuses_public_result_form_for_second_page_in_same_session():
@@ -148,6 +174,31 @@ def test_provider_get_document_uses_observed_public_id():
     assert session.calls[0]["url"].endswith("/inteiroTeor.xhtml?id=321")
 
 
+def test_provider_follows_official_pdf_link_from_viewer_shell():
+    viewer = (
+        "<html><head><title>Arquivo PDF</title></head><body>"
+        "Seu navegador não tem suporte para visualização de PDF."
+        '<object type="application/pdf"><a href="/pdf?id=321">baixar</a></object>'
+        "</body></html>"
+    )
+    pdf = b"%PDF-1.4\nTJRR public PDF fixture\n%%EOF"
+    session = FakeSession(
+        [
+            FakeResponse(viewer),
+            FakeBinaryResponse(pdf),
+        ]
+    )
+    provider = TjrrJurisProvider(session=session)
+
+    document = provider.get_document("tjrr-juris-321")
+
+    assert document.content_type == "application/pdf"
+    assert document.raw_bytes == pdf
+    assert document.url == "https://jurisprudencia.tjrr.jus.br/pdf?id=321"
+    assert [call["method"] for call in session.calls] == ["GET", "GET"]
+    assert session.calls[1]["url"].endswith("/pdf?id=321")
+
+
 def test_provider_rejects_unbounded_empty_search():
     provider = TjrrJurisProvider(session=FakeSession([]))
 
@@ -165,6 +216,9 @@ def test_provider_exposes_explicit_capabilities():
     assert capabilities.max_remote_page_size == 10
     assert "number" in capabilities.supported_filters
     assert "GET /inteiroTeor.xhtml?id=<id>" in capabilities.endpoints
+    assert capabilities.filter_status("degree") == "validated_scope"
+    assert capabilities.filter_status("case_class") == "unsupported"
+    assert capabilities.filter_status("rapporteur") == "native"
 
 
 def test_provider_maps_number_and_query_filters_into_public_form():
@@ -189,6 +243,34 @@ def test_provider_maps_number_and_query_filters_into_public_form():
     assert isinstance(data, dict)
     assert data["menuinicial:j_idt28"] == "dano moral"
     assert data["menuinicial:j_idt42"] == "0000001-23.2026.8.23.0001"
+
+
+def test_provider_resolves_relator_and_judging_body_to_jsf_values() -> None:
+    form = BeautifulSoup(
+        """
+        <form id='menuinicial'>
+          <input type='hidden' name='javax.faces.ViewState' value='state'>
+          <input id='consultaAtual' name='menuinicial:q'>
+          <button type='submit' name='menuinicial:submit'></button>
+          <input id='relator0' type='checkbox' name='menuinicial:relatorList'
+                 value='bean:MAGISTRADO'>
+          <label for='relator0'>Magistrado de Fixture</label>
+          <label for='orgao'>Orgão Julgador:</label>
+          <select id='orgao' name='menuinicial:tipoOrgaoList'>
+            <option value='42'>Câmara de Fixture</option>
+          </select>
+        </form>
+        """,
+        "html.parser",
+    ).form
+    fields = _build_search_fields(
+        form,
+        JurisprudenceQuery(
+            text="dano moral", rapporteur="Magistrado de Fixture", judging_body="Câmara de Fixture"
+        ),
+    )
+    assert fields["menuinicial:relatorList"] == "bean:MAGISTRADO"
+    assert fields["menuinicial:tipoOrgaoList"] == "42"
 
 
 def test_provider_rejects_missing_public_form_and_invalid_document_id():
@@ -237,6 +319,27 @@ def test_document_text_preserves_access_diagnostics():
     assert text == ""
     assert metadata["access_status"] == "access_control_required"
     assert metadata["warnings"]
+
+
+def test_document_pdf_viewer_notice_is_not_indexed_as_full_text():
+    text, metadata = extract_tjrr_document_text(
+        "<html><body>Arquivo PDF Seu navegador não tem suporte para "
+        "visualização de PDF. para baixar o arquivo.</body></html>"
+    )
+
+    assert text == ""
+    assert metadata["access_status"] == "source_unavailable"
+    assert metadata["warnings"]
+
+
+def test_document_mojibake_pdf_viewer_notice_is_detected():
+    text, metadata = extract_tjrr_document_text(
+        "<html><body>Arquivo PDF Seu navegado nÃ£o tem suporte para "
+        "visualizaÃ§Ã£o de PDF. para baixar o arquivo.</body></html>"
+    )
+
+    assert text == ""
+    assert metadata["access_status"] == "source_unavailable"
 
 
 def test_provider_classifies_http_failures_and_transport_errors():

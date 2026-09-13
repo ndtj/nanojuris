@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-06",
+  "network_access": "public_bounded_one_request_per_provider",
+  "upstream_reference": {
+    "repository": "https://github.com/jtrecenti/juscraper",
+    "commit": "604c1dd70d6f313011cc1079790febe6c71807e2"
+  },
+  "results": [
+    {
+      "source": "tjap_tucujuris",
+      "endpoint": "POST https://tucujuris.tjap.jus.br/api/publico/consultar-jurisprudencia",
+      "query": {"ementa": "responsabilidade", "orgao": "0", "offset": 0},
+      "classification": "access_controlled",
+      "surface": "cjsg",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "O envelope HTTP-200 informa falha de verificação de segurança; o backend exige token Cloudflare Turnstile server-side.",
+      "bypass_attempted": false,
+      "federation": "not_enabled"
+    },
+    {
+      "source": "tjmg_jurisprudencia",
+      "endpoint": "GET https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+      "query": {"palavras": "responsabilidade", "degree": "second"},
+      "classification": "access_controlled",
+      "surface": "cjsg",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "O formulário público contém desafio CAPTCHA numérico; nenhuma submissão foi feita sem validação humana.",
+      "bypass_attempted": false,
+      "federation": "not_enabled"
+    }
+  ]
+}

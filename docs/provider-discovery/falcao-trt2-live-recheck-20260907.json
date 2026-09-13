@@ -1,0 +1,104 @@
+{
+  "schema_version": "candidate-live-recheck-v1",
+  "observed_at": "2026-09-07",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "requests": [
+    {
+      "provider": "falcao_jt",
+      "authority": "JUSTICA_TRABALHO_NACIONAL",
+      "url": "https://www.trt9.jus.br/portal/pagina.xhtml?pagina=FALCAO&secao=168",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "classification": "official_landing_page",
+      "response_bytes": 370711,
+      "observed": {
+        "links_to": "https://jurisprudencia.jt.jus.br/",
+        "describes_first_and_second_degree": true
+      },
+      "decision": "Official TRT9 page confirms the national Falcão link and scope; it does not expose a result API or export contract."
+    },
+    {
+      "provider": "falcao_jt",
+      "authority": "JUSTICA_TRABALHO_NACIONAL",
+      "url": "https://jurisprudencia.jt.jus.br/",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "classification": "public_shell_only_intermittent",
+      "response_bytes": 16849,
+      "observed": {
+        "title": "FALCÃO - Sistema de busca de jurisprudência",
+        "base_href": "/jurisprudencia-nacional/",
+        "result_contract_present": false,
+        "api_contract_observed": false
+      },
+      "decision": "Ordinary GET reached only the Angular shell; no bounded result request was exposed."
+    },
+    {
+      "provider": "falcao_jt",
+      "authority": "JUSTICA_TRABALHO_NACIONAL",
+      "url": "https://jurisprudencia.jt.jus.br/",
+      "method": "GET",
+      "client": "ordinary_browser_without_credentials",
+      "http_status": 403,
+      "content_type": "text/html",
+      "classification": "blocked_transport_or_distribution_intermittent",
+      "response_bytes": 919,
+      "decision": "A standard browser request received a CloudFront-style block; this is an external availability inconsistency, not an empty result."
+    },
+    {
+      "provider": "falcao_jt",
+      "authority": "JUSTICA_TRABALHO_NACIONAL",
+      "url": "https://jurisprudencia.jt.jus.br/jurisprudencia-nacional/10545e32d40d7d1f.js",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "classification": "application_asset_fallback",
+      "response_bytes": 16834,
+      "observed": {
+        "expected_content_type": "application/javascript",
+        "result_contract_present": false
+      },
+      "decision": "A lazy application asset returned the HTML shell rather than JavaScript, so the public application cannot be validated reproducibly from this edge."
+    },
+    {
+      "provider": "trt2_pje_jurisprudencia",
+      "authority": "TRT2",
+      "url": "https://pje.trt2.jus.br/jurisprudencia/",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "classification": "public_shell_only",
+      "response_bytes": 1360
+    },
+    {
+      "provider": "trt2_pje_jurisprudencia",
+      "authority": "TRT2",
+      "url": "https://pje.trt2.jus.br/juris-backend/api/opcoes",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "application/json",
+      "classification": "public_options_with_captcha",
+      "observed": {
+        "regional": "TRT da 2ª Região",
+        "version": "1.5.0-i1",
+        "captcha_option": "2",
+        "recaptcha_site_key_present": true,
+        "result_contract_present": false
+      }
+    },
+    {
+      "provider": "trt2_pje_jurisprudencia",
+      "authority": "TRT2",
+      "url": "https://pje.trt2.jus.br/juris-backend/api/token",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": null,
+      "classification": "empty_token_endpoint",
+      "response_bytes": 0
+    }
+  ],
+  "decision": "Neither candidate gained a reproducible public result contract. Keep both outside runtime/federation; do not classify a blocked or challenge-gated result as empty."
+}

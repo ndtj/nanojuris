@@ -1,0 +1,1460 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-13T00:15:13+00:00",
+  "source_catalog": "C:/Users/admin/Desktop/Nanojuris/repos/nanojuris/docs/registry/provider-catalog.full.json",
+  "audit_mode": "offline_read_only",
+  "promotion_performed": false,
+  "checks": [
+    {
+      "source_id": "bnp_pangea",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "cnj_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "eproc_jurisprudencia_federal",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "falcao_jt",
+      "runtime": false,
+      "candidate": true,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "justica_eleitoral_sjur",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "stf_informativo",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "stf_juris",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "stj_dados_abertos_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "stj_informativo",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "stj_scon",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "stm_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tce_pr_viajuris",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tce_sp_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tcu_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjac_banco_sentencas",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjac_cjsg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjac_ementario_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjal_cjsg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjal_esmal_banco_sentencas",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjal_turma_recursal_ementario",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjam_cjsg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjap_banco_sentencas",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "runtime": false,
+      "candidate": true,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjba_graphql",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjce_cjsg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjce_informativos",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjce_sjuris",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjdf_juris",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjes_cjpg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjma_informativos",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmg_dspace_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmg_ejef_boletim_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmmg_jurisprudencia_api",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmrs_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjms_cjpg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjms_cjsg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "runtime": false,
+      "candidate": true,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjpa_jurisprudencia_bff",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjpb_pje_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjrj_banco_sentencas",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjrj_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjro_liame",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjrr_juris",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjrs_solr",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjsc_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjse_boletim_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "runtime": false,
+      "candidate": true,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjsp_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjsp_nugepnac",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tnu_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tre_sjur_first_degree",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tre_sjur_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tre_sp_temas",
+      "runtime": true,
+      "candidate": false,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trf2_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trf3_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trf5_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trf6_eproc_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt15_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt2_basis_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt2_ementario_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "runtime": false,
+      "candidate": true,
+      "blocked": true,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt3_ementario_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt4_sumulas_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt8_pje_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "trt9_nugepnac_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tse_sjur_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    },
+    {
+      "source_id": "tst_jurisprudencia",
+      "runtime": true,
+      "candidate": false,
+      "blocked": false,
+      "checks": {
+        "source_id": true,
+        "interfaces_object": true,
+        "legacy_doc_exists": true,
+        "canonical_doc_exists": true,
+        "candidate_not_enabled": true,
+        "blocked_status_explicit": true,
+        "surface_keys_complete": true
+      },
+      "missing_surface_keys": [],
+      "status": "pass"
+    }
+  ],
+  "summary": {
+    "providers": 85,
+    "passed": 85,
+    "failed": 0,
+    "runtime": 80
+  }
+}

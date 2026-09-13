@@ -131,6 +131,15 @@ def test_studio_search_request_normalizes_payload():
     assert request.sources == ["tjdf_juris", "stj_scon"]
     assert request.page_size == 50
     assert request.search_kwargs()["published_from"] == "2026-01-01"
+    assert request.mode == "adaptive"
+    assert request.ranking_version == "legal-live-v1"
+
+
+def test_studio_search_request_rejects_unknown_live_mode_or_ranker() -> None:
+    with pytest.raises(ValueError, match="mode"):
+        StudioSearchRequest.from_payload({"query": "dano", "mode": "parallel"})
+    with pytest.raises(ValueError, match="ranking_version"):
+        StudioSearchRequest.from_payload({"query": "dano", "ranking_version": "v9"})
 
 
 def test_studio_search_request_preserves_structured_types():
@@ -168,6 +177,23 @@ def test_supported_filters_are_inferred_from_capabilities():
     ]
 
 
+def test_supported_filters_include_explicit_v2_semantics_but_not_unknown() -> None:
+    capability = ProviderCapabilities(
+        source="scoped",
+        display_name="Scoped",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        filter_semantics={
+            "degree": "validated_scope",
+            "case_class": "local_postfilter",
+            "secret": "unverified",
+            "unsupported": "unsupported",
+        },
+    )
+
+    assert supported_filters_for(capability) == ["case_class", "degree"]
+
+
 def test_studio_sources_payload_marks_recommended_jurisprudence_sources():
     payload = studio_sources_payload(FakeStudioClient())
 
@@ -194,6 +220,8 @@ def test_studio_sources_payload_marks_recommended_jurisprudence_sources():
     ]
     assert payload["sources"][1]["recommended_for_studio"] is False
     assert payload["sources"][1]["studio_tier"] == "context"
+    assert "date_range" in payload["filter_intersection"]
+    assert set(payload["filter_intersection"]).issubset(payload["filter_union"])
 
 
 def test_studio_search_returns_source_status_and_jsonable_results():
@@ -214,7 +242,10 @@ def test_studio_search_returns_source_status_and_jsonable_results():
     assert payload["observed_total_pages"] == 1
     assert payload["source_totals"] == {"tjdf_juris": 1}
     assert payload["source_completeness"]["tjdf_juris"]["complete"] is True
+    assert payload["filter_application"] == payload["source_filters_applied"]
     assert payload["results"][0]["case_number"] == "0000000-00.2026.8.07.0000"
+    assert payload["search_mode"] == "adaptive"
+    assert payload["ranking_version"] == "legal-live-v1"
 
 
 def test_studio_search_distinguishes_partial_and_empty_sources():
@@ -335,15 +366,15 @@ def test_studio_validate_reuses_shared_validation_contract():
 def test_real_studio_catalog_exposes_maturity_selection_profiles():
     payload = studio_sources_payload(NanoJurisClient())
 
-    assert payload["total"] == 46
-    assert len(payload["default_sources"]) == 42
+    assert payload["total"] == 80
+    assert len(payload["default_sources"]) == 70
     assert payload["default_sources"] == payload["recommended_sources"]
-    assert len(payload["recommended_sources"]) == 42
+    assert len(payload["recommended_sources"]) == 70
     assert payload["tier_counts"] == {
-        "advanced": 17,
-        "context": 4,
-        "restricted": 10,
-        "stable": 15,
+        "advanced": 36,
+        "context": 10,
+        "restricted": 18,
+        "stable": 16,
     }
 
 

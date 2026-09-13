@@ -1,0 +1,25 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "observed_at": "2026-09-09",
+  "authority": "TJMG",
+  "surface": "CJPG",
+  "official_entry_point": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+  "query_route": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavraSentenca.do",
+  "method": "GET",
+  "bounded_query": {
+    "palavrasConsulta": "responsabilidade",
+    "tipoFiltro": "TODAS",
+    "resultPagina": "10",
+    "pesquisar": "Pesquisar"
+  },
+  "http_status": 401,
+  "content_type": "text/html",
+  "response_bytes": 6896,
+  "content_sha256": "5d5c4850c46054c360e4996702b4cb795e5e1af366cc9e8c2411210bd6397c1e",
+  "classification": "access_blocked",
+  "reason": "A rota oficial respondeu uma pagina que exige codigo/CAPTCHA antes da pesquisa.",
+  "decision": "keep_cjpg_blocked; use only the public modern CJSG API; do not automate or bypass the CAPTCHA",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_body_persisted": false
+}

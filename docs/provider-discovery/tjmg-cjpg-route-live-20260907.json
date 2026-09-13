@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "network_access": "public_bounded_session_two_requests",
+  "source": "TJMG",
+  "surface": "CJPG",
+  "routes": [
+    {
+      "method": "GET",
+      "url": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+      "status_code": 200,
+      "content_type": "text/html",
+      "classification": "public_form_accessible",
+      "evidence": "O portal oficial apresenta uma pesquisa separada de Sentenças, com busca livre, número, comarca, relator e intervalo de datas.",
+      "bypass_attempted": false
+    },
+    {
+      "method": "GET",
+      "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavraSentenca.do",
+      "query": {
+        "palavrasConsulta": "dano moral",
+        "tipoFiltro": "and",
+        "resultPagina": "10"
+      },
+      "status_code": 401,
+      "content_type": "text/html",
+      "classification": "access_controlled",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "A submissão pública sem CAPTCHA foi interrompida pela página oficial 'Jurisprudência - Informe o código', que exige CAPTCHA numérico.",
+      "bypass_attempted": false
+    }
+  ],
+  "decision": "A tela confirma uma superfície de primeiro grau, mas não há resposta decisória reproduzível sem validação humana. Não criar adapter CJPG nem converter o 401 em vazio; manter access_controlled e reavaliar após rota oficial sem CAPTCHA.",
+  "federation": "not_enabled"
+}

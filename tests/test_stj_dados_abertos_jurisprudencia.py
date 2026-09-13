@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+from io import BytesIO
 from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import pytest
 
@@ -114,6 +116,34 @@ def test_sync_plan_is_bounded_and_never_downloads_resources():
     assert len(session.calls) == 1
 
 
+def test_empty_dataset_is_explicit_and_has_no_sync_resources():
+    empty = _payload("stj_ckan_package_empty.json")
+    provider, session = _provider(empty, empty)
+
+    description = provider.describe_dataset("espelhos-de-acordaos-vazio")
+    plan = provider.plan_source_sync("espelhos-de-acordaos-vazio", format="JSON")
+
+    assert description["resources"] == []
+    assert plan["resource_count"] == 0
+    assert plan["download"] is False
+    assert len(session.calls) == 2
+
+
+def test_removed_resource_is_not_treated_as_empty_success(tmp_path):
+    provider, session = _provider(_payload("stj_ckan_package_resource_removed.json"))
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "removed.db") as store:
+        with pytest.raises(QueryRejectedError, match="resource_id nao pertence"):
+            provider.sync_resource(
+                "espelhos-de-acordaos-primeira-turma",
+                "resource-json-1",
+                store=store,
+            )
+    assert len(session.calls) == 1
+
+
 def test_capabilities_explicitly_exclude_unified_search():
     provider, _ = _provider()
 
@@ -121,6 +151,8 @@ def test_capabilities_explicitly_exclude_unified_search():
 
     assert capabilities.supports_catalog is True
     assert capabilities.supports_unified_search is False
+    assert capabilities.supports_full_text is True
+    assert capabilities.full_text_access == "detail_call"
     assert capabilities.supports_mcp is True
     assert "dataset_id" in capabilities.supported_filters
 
@@ -205,6 +237,68 @@ def test_sync_json_deduplicates_by_id_and_persists_a_research_run(tmp_path):
     assert session.calls[-1]["stream"] is True
 
 
+def test_sync_integral_pair_joins_seq_documento_to_text_zip(tmp_path):
+    package = _payload("stj_ckan_package_show.json")
+    package["result"]["resources"] = [
+        {
+            "id": "metadata-20210104",
+            "format": "JSON",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/metadata-20210104",
+        },
+        {
+            "id": "text-20210104",
+            "format": "ZIP",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/text-20210104",
+        },
+    ]
+    metadata = json.dumps(
+        [
+            {
+                "SeqDocumento": 119739763,
+                "dataPublicacao": "2021-01-04",
+                "tipoDocumento": "DECISAO",
+                "numeroRegistro": "202003489900",
+                "processo": "HC 637258",
+                "NM_MINISTRO": "Ministro de Fixture",
+            },
+            {"SeqDocumento": 119739764, "dataPublicacao": "2021-01-04"},
+        ],
+        ensure_ascii=False,
+    ).encode("utf-8")
+    archive = BytesIO()
+    with ZipFile(archive, "w", ZIP_DEFLATED) as handle:
+        handle.writestr("119739763.txt", "DECISÃO<br>Inteiro teor da decisão.")
+        handle.writestr("119739765.txt", "Texto sem metadata correspondente.")
+    provider, session = _provider(
+        package,
+        metadata,
+        archive.getvalue(),
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "stj-integral.db") as store:
+        result = provider.sync_integral_pair(
+            "espelhos-de-acordaos-primeira-turma",
+            "metadata-20210104",
+            "text-20210104",
+            store=store,
+            max_bytes=10_000,
+        )
+        stored = store.list_records(source=provider.name)
+
+    assert result.metadata_records == 2
+    assert result.text_records == 2
+    assert result.records_saved == 1
+    assert result.unmatched_metadata == 1
+    assert result.unmatched_text == 1
+    assert stored[0]["full_text"] == "DECISÃO\nInteiro teor da decisão."
+    assert stored[0]["degree"] == "superior"
+    assert stored[0]["collection"] == "JURISPRUDENCIA"
+    assert stored[0]["raw"]["integral_text_resource_id"] == "text-20210104"
+    assert len(session.calls) == 3
+
+
 def test_sync_skips_matching_source_hash_and_force_refreshes(tmp_path):
     resource = json.dumps([{"id": "record-1", "ementa": "Ementa incremental"}]).encode("utf-8")
     provider, session = _provider(
@@ -272,7 +366,7 @@ def test_sync_rejects_resource_that_exceeds_byte_limit(tmp_path):
             )
 
 
-def test_sync_rejects_zip_resources_before_download(tmp_path):
+def test_sync_parses_bounded_zip_resources(tmp_path):
     package = _payload("stj_ckan_package_show.json")
     package["result"]["resources"].append(
         {
@@ -281,18 +375,65 @@ def test_sync_rejects_zip_resources_before_download(tmp_path):
             "url": "https://dadosabertos.web.stj.jus.br/resource/resource-zip-1",
         }
     )
+    archive = BytesIO()
+    with ZipFile(archive, "w", ZIP_DEFLATED) as handle:
+        handle.writestr("2026-08.json", json.dumps([{"id": "zip-1", "ementa": "Acordao ZIP"}]))
+        handle.writestr("README.txt", "arquivo de licença")
     provider, session = _provider(package)
+    session.responses = iter(
+        [
+            FakeResponse(package, url="https://dadosabertos.web.stj.jus.br/api/3/action"),
+            FakeResponse(
+                archive.getvalue(),
+                url="https://dadosabertos.web.stj.jus.br/resource/resource-zip-1",
+            ),
+        ]
+    )
 
     from nanojuris.store import SQLiteStore
 
     with SQLiteStore(tmp_path / "zip.db") as store:
-        with pytest.raises(UnsupportedQueryError, match="somente recursos JSON ou CSV"):
+        result = provider.sync_resource(
+            "espelhos-de-acordaos-primeira-turma",
+            "resource-zip-1",
+            store=store,
+            max_bytes=10_000,
+        )
+        stored = store.list_records(source=provider.name)
+    assert result.format == "ZIP"
+    assert result.records_saved == 1
+    assert stored[0]["raw"]["id"] == "zip-1"
+    assert len(session.calls) == 2
+
+
+def test_sync_rejects_unsafe_zip_member(tmp_path):
+    package = _payload("stj_ckan_package_show.json")
+    package["result"]["resources"].append(
+        {
+            "id": "resource-zip-1",
+            "format": "ZIP",
+            "url": "https://dadosabertos.web.stj.jus.br/resource/resource-zip-1",
+        }
+    )
+    archive = BytesIO()
+    with ZipFile(archive, "w", ZIP_DEFLATED) as handle:
+        handle.writestr("../escape.json", json.dumps([{"id": "unsafe"}]))
+    provider, session = _provider(
+        package,
+        archive.getvalue(),
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "unsafe-zip.db") as store:
+        with pytest.raises(ParserContractChangedError, match="unsafe path"):
             provider.sync_resource(
                 "espelhos-de-acordaos-primeira-turma",
                 "resource-zip-1",
                 store=store,
+                max_bytes=10_000,
             )
-    assert len(session.calls) == 1
+    assert len(session.calls) == 2
 
 
 def test_sync_rejects_resource_outside_official_domain(tmp_path):
@@ -325,6 +466,23 @@ def test_sync_rejects_invalid_json_resource(tmp_path):
             provider.sync_resource(
                 "espelhos-de-acordaos-primeira-turma",
                 "resource-json-1",
+                store=store,
+            )
+
+
+def test_sync_rejects_schema_without_stable_id(tmp_path):
+    provider, _ = _provider(
+        _payload("stj_ckan_package_show.json"),
+        (FIXTURES / "stj_ckan_schema_changed.csv").read_bytes(),
+    )
+
+    from nanojuris.store import SQLiteStore
+
+    with SQLiteStore(tmp_path / "schema-changed.db") as store:
+        with pytest.raises(ParserContractChangedError, match="schema missing id"):
+            provider.sync_resource(
+                "espelhos-de-acordaos-primeira-turma",
+                "resource-csv-1",
                 store=store,
             )
 

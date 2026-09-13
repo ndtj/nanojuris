@@ -8,11 +8,11 @@ quais estao maduras para busca unificada e quais ainda exigem aprofundamento.
 
 ## Resumo Atual
 
-- Fontes documentadas: **56**.
-- Providers implementados: **46**.
-- Fontes na busca unificada: **42**.
-- Fontes primarias de jurisprudencia textual: **34**.
-- Fontes com algum suporte a inteiro teor/documento: **27**.
+- Fontes documentadas: **85**.
+- Providers implementados: **80**.
+- Fontes na busca unificada: **53**.
+- Fontes primarias de jurisprudencia textual: **47**.
+- Fontes com algum suporte a inteiro teor/documento: **66**.
 
 ## Como Usar
 
@@ -28,7 +28,14 @@ quais estao maduras para busca unificada e quais ainda exigem aprofundamento.
 | Qual e o plano de ondas para maturidade dos providers? | [maturity-waves.md](maturity-waves.md) |
 | Qual artefato e a fonte de verdade para cada pergunta? | [source-of-truth.md](source-of-truth.md) |
 | Qual foi a ultima validacao live focada? | [live-status.md](live-status.md) |
+| Qual e o estado de fechamento das ondas tecnicas? | [../operations/wave-implementation-20260902.md](../operations/wave-implementation-20260902.md) |
+| Qual e o roadmap executavel para CJPG/CJSG? | [degree-coverage-roadmap-20260902.md](degree-coverage-roadmap-20260902.md) |
+| Qual e o mapa completo de lacunas por superficie, incluindo fontes com pouca informacao? | [national-coverage-gap-map-20260908.md](national-coverage-gap-map-20260908.md) e [national-coverage-gap-map-20260908.json](national-coverage-gap-map-20260908.json) |
+| Quais tecnicas de acesso publico sao permitidas e quais sao proibidas? | [public-access-boundary-playbook-20260908.md](public-access-boundary-playbook-20260908.md) e [public-access-boundary-playbook-20260908.json](public-access-boundary-playbook-20260908.json) |
 | Qual catalogo uma IA deve ler? | [../registry/provider-catalog.full.json](../registry/provider-catalog.full.json) |
+| Qual pacote autonomo deve ser seguido para fechar a cobertura nacional? | [national-coverage-gold-handoff-20260908.md](national-coverage-gold-handoff-20260908.md) e [SDD 0091](../../specs/changes/0091-national-coverage-gold-handoff/) |
+| Qual é o inventário atual de tarefas e decisões de baixo risco? | [low-risk-decision-register-20260909.md](low-risk-decision-register-20260909.md) e [open-task-audit-current.json](open-task-audit-current.json) |
+| Qual foi o último ciclo de reconciliação técnica? | [reconciliation-cycle-20260909.md](reconciliation-cycle-20260909.md) |
 
 ## Regra De Produto
 

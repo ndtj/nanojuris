@@ -1,0 +1,15 @@
+{
+  "pagina": {
+    "content": [],
+    "totalPages": 0,
+    "totalElements": 0,
+    "number": 0,
+    "size": 1,
+    "numberOfElements": 0,
+    "first": true,
+    "last": true,
+    "empty": true
+  },
+  "filtros": {},
+  "id": "empty-fixture"
+}

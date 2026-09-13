@@ -1,0 +1,94 @@
+{
+  "schema_version": "eproc-detail-live-v1",
+  "generated_at": "2026-09-08T06:58:32.005145+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "aposentadoria",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "tribunals": 3,
+    "documents_per_tribunal": 1,
+    "bodies_persisted": false
+  },
+  "providers": [
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": true,
+        "identity": {
+          "authority": "TNU",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA"
+        },
+        "id_jurisprudencia": "771786993513847664850135395543",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "byte_size": 137621,
+        "content_type": "text/html",
+        "sha256": "b03c693dae4b410cf1ec2c7d27e49517e73de38ee5ac307807652776042af364",
+        "has_text": true
+      }
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": true,
+        "identity": {
+          "authority": "TRF2",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA"
+        },
+        "id_jurisprudencia": "501787860726878989490888432314",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "byte_size": 160114,
+        "content_type": "text/html",
+        "sha256": "95db08ce3c7e734d53550a803e3f6868eadaee94b6c12bd5b309486ce6e482e3",
+        "has_text": true
+      }
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": true,
+        "identity": {
+          "authority": "TRF6",
+          "branch": "federal",
+          "degree": "second",
+          "instance": "second",
+          "collection": "JURISPRUDENCIA"
+        },
+        "id_jurisprudencia": "381788542327575092772452783427",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "byte_size": 43387,
+        "content_type": "text/html",
+        "sha256": "92688320b406800b45e49b72fbfea4b0239a30042ee9ece4a6178d78213bc7ef",
+        "has_text": true
+      }
+    }
+  ],
+  "summary": {
+    "search_valid": 3,
+    "detail_valid": 3,
+    "detail_errors": 0
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "kind": "legal_search_quality_benchmark",
+  "ranking_version": "gold-v1",
+  "judgment_scale": {"0": "irrelevante", "1": "relacionado_mas_insuficiente", "2": "relevante", "3": "altamente_relevante"},
+  "queries": [
+    {"id": "q001", "query": "responsabilidade civil administrativa", "intent": ["civil", "administrativo"], "required": ["responsabilidade"], "ambiguous": true},
+    {"id": "q002", "query": "acórdãos sobre divórcio", "filters": {"document_type": "acordao"}, "concepts": ["divórcio"]},
+    {"id": "q003", "query": "dano moral inscrição indevida", "concepts": ["dano moral", "inscrição indevida"]},
+    {"id": "q004", "query": "servidor público acumulação de cargos", "concepts": ["servidor público", "acumulação de cargos"]},
+    {"id": "q005", "query": "prisão preventiva contemporaneidade", "concepts": ["prisão preventiva", "contemporaneidade"]},
+    {"id": "q006", "query": "0000000-00.0000.0.00.0000", "identifier_exact": true},
+    {"id": "q007", "query": "acórdão segundo grau tribunal de justiça", "filters": {"degree": "second", "branch": "state"}},
+    {"id": "q008", "query": "decisão que não contém este termo inexistente", "expected": "empty_or_unconfirmed"}
+  ],
+  "metrics": ["nDCG@10", "precision@5", "MRR@10", "irrelevant_top5", "exact_identifier_top1", "degree_precision", "partial_rate", "latency_p50_ms", "latency_p95_ms"],
+  "acceptance": {
+    "relative_ndcg_improvement": 0.25,
+    "irrelevant_top5_reduction": 0.50,
+    "max_irrelevant_top5": 0.10,
+    "exact_identifier_top1": 1.0,
+    "explicit_degree_precision": 1.0,
+    "ranking_p95_ms": 150
+  },
+  "privacy": {"store_query_text": false, "fingerprint": "HMAC", "retention_days": 30}
+}

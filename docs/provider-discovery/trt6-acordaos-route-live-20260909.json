@@ -1,0 +1,55 @@
+{
+  "schema_version": "labor-route-discovery-v1",
+  "observed_at": "2026-09-09T06:20:16Z",
+  "authority": "TRT6",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "mode": "bounded_public_get",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "official_endpoint": "https://apps.trt6.jus.br/acordaos/",
+  "method": "GET",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 23116,
+  "content_sha256": "d5370ae9c2c06e6db379c2c6a924b33ba4d538c924185600e5a7be50f73f9aa4",
+  "form": {
+    "action": "pesquisar",
+    "method": "POST",
+    "fields": [
+      "numero_cnj",
+      "numero_tst",
+      "pesquisa_textual",
+      "redator",
+      "orgao_colegiado",
+      "data_publicacao_inicio",
+      "data_publicacao_fim",
+      "g-recaptcha-response"
+    ],
+    "pagination": "pagina=<number> appended by public JavaScript",
+    "detail": "not observed without a successful search"
+  },
+  "public_assets": [
+    {
+      "url": "https://apps.trt6.jus.br/acordaos/public/js/consultaAcordaos.js",
+      "http_status": 200,
+      "response_bytes": 5765,
+      "sha256": "06bbd575937f5029876ada8d87d3e44cbe4408aab434c31808e6ce58e4cabe2f"
+    }
+  ],
+  "classification": "access_blocked",
+  "search_contract_status": "not_reproducible_without_captcha",
+  "federation_status": "not_enabled",
+  "observed_markers": [
+    "The form requires a Google reCAPTCHA response before POST search.",
+    "The public JavaScript posts to /acordaos/pesquisar and appends pagina for subsequent pages."
+  ],
+  "limitations": [
+    "The initial HTML does not prove that a search returns jurisprudential records.",
+    "No CAPTCHA was solved, submitted, replayed or bypassed.",
+    "No POST was issued without a valid user-provided challenge response."
+  ],
+  "next_action": "Keep TRT6 diagnostic-only; recheck only if the official source publishes an authorized non-CAPTCHA API/export or an approved access flow."
+}

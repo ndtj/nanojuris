@@ -1,0 +1,80 @@
+{
+  "generated_at": "2026-09-07T21:50:01.381095+00:00",
+  "query": "responsabilidade civil",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "trf5_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "trf5_jurisprudencia",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 1,
+        "source": "trf5_jurisprudencia"
+      },
+      "result": {
+        "id": "trf5-jurisprudencia-12272",
+        "case_number": "0532048-90.2009.4.05.8300",
+        "summary_present": false,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "data_julgamento",
+          "document_url",
+          "id_documento",
+          "orgao_julgador",
+          "tipo_documento"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf5-jurisprudencia-document-12272",
+        "full_text_length": 9941,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 9941,
+        "sha256": "95a5891ee9e4b619690b6a2be5f2927789ead7ea7697f3c3bf5087019aa88085",
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true,
+        "quality": {
+          "status": "valid",
+          "byte_size": 9941,
+          "sha256": "95a5891ee9e4b619690b6a2be5f2927789ead7ea7697f3c3bf5087019aa88085",
+          "declared_content_type": "text/html",
+          "detected_content_type": "text/html",
+          "size_status": "within_limit",
+          "mime_status": "matched",
+          "pdf_status": null,
+          "warnings": []
+        }
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 1,
+    "search_returned": 1,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 1,
+    "public_url_reachable": 1,
+    "public_url_document_like": 1,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 0
+  }
+}

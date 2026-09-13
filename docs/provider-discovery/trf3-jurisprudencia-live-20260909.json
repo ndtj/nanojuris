@@ -1,0 +1,33 @@
+{
+  "schema_version": "live-evidence-v1",
+  "source": "trf3_jurisprudencia",
+  "provider": "trf3_jurisprudencia",
+  "checked_at": "2026-09-09",
+  "observed_at": "2026-09-09T00:00:00-03:00",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "method": "Trf3JurisprudenciaProvider.search",
+  "request": {
+    "method": "GET",
+    "path": "/acordaos/Acordao/PesquisarDocumento",
+    "params": {"processo": "00079799120054036119"},
+    "timeout_seconds": 8,
+    "scope": {"branch": "federal", "degree": "second", "instance": "second"}
+  },
+  "classification": "transport_error",
+  "access_status": "source_unavailable",
+  "result_count": null,
+  "body_persisted": false,
+  "error": "provider request failed: timeout",
+  "decision": "keep_opt_in_pending_live",
+  "notes": [
+    "Timeout is not an empty result and was not converted to success.",
+    "No CAPTCHA, WAF, access-control or TLS bypass was attempted.",
+    "The exact-process adapter remains executable offline with sanitized fixtures."
+  ],
+  "official_urls": [
+    "https://web.trf3.jus.br/acordaos/Acordao/PesquisarDocumento",
+    "https://web.trf3.jus.br/acordaos/Acordao/BuscarDocumentoPje/346757387"
+  ]
+}

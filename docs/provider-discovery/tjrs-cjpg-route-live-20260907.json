@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "network_access": "public_bounded_one_request",
+  "source": "TJRS",
+  "surface": "CJPG",
+  "method": "GET",
+  "endpoint": "https://www.tjrs.jus.br/novo/busca/",
+  "query": {
+    "site": "sentencas",
+    "aba": "se",
+    "q": "dano",
+    "wc": 200
+  },
+  "status_code": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "classification": "public_search_shell_no_first_degree_corpus",
+  "evidence": "A página oficial denominada Banco de Sentenças carregou, mas a resposta apresentou resultados do índice geral do portal (links noticia_feeder) e não registros de sentenças com identificador, comarca, vara, classe ou texto decisório. Nenhum payload de primeira instância foi exposto.",
+  "result_count_text": "aproximadamente 1750",
+  "bypass_attempted": false,
+  "decision": "Não implementar CJPG com esta rota: resposta não é um corpus textual de decisões de primeiro grau e não há contrato de detalhe/paginação específico reproduzível. Manter TJRS/CJPG como lacuna e reavaliar apenas após fonte oficial fornecer endpoint de banco de sentenças com registros.",
+  "federation": "not_enabled"
+}

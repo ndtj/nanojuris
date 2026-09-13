@@ -1,0 +1,191 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjse_boletim_jurisprudencia",
+  "source_id": "tjse_boletim_jurisprudencia",
+  "checked_at": "2026-09-07",
+  "observed_at": "2026-09-07T22:30:37.212732+00:00",
+  "status": "valid",
+  "classification": "public_textual_second_degree",
+  "surface": "cjsg",
+  "http_status": 200,
+  "access_status": "public",
+  "extraction_status": "complete",
+  "record_count_observed": 10,
+  "reported_total": null,
+  "pagination_mode": "edition_section",
+  "content_type": "text/html;charset=iso-8859-1",
+  "response_bytes": 6788554,
+  "latency": 18532.84,
+  "latency_ms": 18532.84,
+  "query": {
+    "text": "responsabilidade",
+    "degree": "second",
+    "instance": "second",
+    "branch": "state",
+    "authority": "TJSE",
+    "page": 1,
+    "page_size": 10
+  },
+  "page": {
+    "returned": 10,
+    "total": 420,
+    "total_known": false,
+    "is_complete": false,
+    "pagination_mode": "edition_section",
+    "filters_applied": {
+      "text": "native",
+      "number": "native_as_keyword",
+      "degree": "validated_scope",
+      "instance": "validated_scope",
+      "branch": "validated_scope"
+    },
+    "access_status": "public",
+    "extraction_status": "complete",
+    "latency_ms": 18532.84
+  },
+  "trace": {
+    "provider": "tjse_boletim_jurisprudencia",
+    "endpoint": "POST /revista/internet/principal.wsp",
+    "retrieved_at": "2026-09-07T22:30:36+00:00",
+    "query": {
+      "text": "responsabilidade",
+      "number": "",
+      "page": 1,
+      "page_size": 10,
+      "edition": "161",
+      "section": "8"
+    },
+    "source_url": "https://diario.tjse.jus.br/revista/internet/principal.wsp",
+    "limitations": [
+      "O total entre edições/seções não é informado pela fonte.",
+      "A publicação fornece ementas e links públicos de acórdãos."
+    ],
+    "http_status": 200,
+    "final_url": "https://diario.tjse.jus.br/revista/internet/principal.wsp",
+    "content_type": "text/html;charset=iso-8859-1",
+    "content_sha256": "87de2ac23bf0eff3106c5b4fc818d0326229f6f346571c670e75a7caeb14f211",
+    "response_bytes": 6788554,
+    "elapsed_ms": null,
+    "retrieval_status": "ok",
+    "transformations": []
+  },
+  "records": [
+    {
+      "id": "tjse-boletim-161-8-202567661",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202569392",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202566825",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202566921",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202568692",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202565243",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202565278",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202563767",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202563770",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    },
+    {
+      "id": "tjse-boletim-161-8-202563774",
+      "authority": "TJSE",
+      "degree": "second",
+      "instance": "second",
+      "collection": "CJSG",
+      "document_type": "acordao",
+      "summary_present": true,
+      "document_url_present": true
+    }
+  ],
+  "limitations": [
+    "Boletim organizado por edição/seção; total global desconhecido.",
+    "A resposta comprova ementa pública de segundo grau, não voto completo.",
+    "Nenhuma rota protegida ou desafio foi contornado."
+  ],
+  "detail": {
+    "status": "valid",
+    "document_id": "tjse-boletim-161-8-202567661",
+    "url": "https://www.tjse.jus.br/tjnet/jurisprudencia/relatorio.wsp?tmp.numprocesso=202500361302&tmp.numacordao=202567661",
+    "http_status": 200,
+    "content_type": "text/plain",
+    "text_length": 59565,
+    "content_sha256": "dd72577fe446d02b9431e18194ac8742fdbe9dbc2f754e7d38769e81b2a4e52c",
+    "retrieval_status": "ok",
+    "extraction_status": "complete",
+    "latency_including_search_and_detail_ms": 16784.71
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": "nanojuris-external-action-package-v1",
+  "generated_at": "2026-09-09",
+  "send_automatically": false,
+  "owner": "NanoJuris maintainer",
+  "governance": {
+    "no_bypass": true,
+    "no_credentials": true,
+    "bounded_frequency_seconds": 2,
+    "requested_response": "official public contract or documented alternative"
+  },
+  "packages": [
+    {
+      "source": "falcao_jt",
+      "recipient": "TRT9/CSJT technical maintainer",
+      "ask": ["official public search URL", "API/export contract", "pagination and rate limits", "stable identifier and detail route", "automation and retention policy", "sanitized fixture or sandbox"]
+    },
+    {
+      "source": "tjap_tucujuris",
+      "recipient": "TJAP portal technical support",
+      "ask": ["public jurisprudence search and detail route", "degree/instance semantics", "pagination and limits", "low-frequency automation policy", "official alternative to Turnstile", "sanitized example or fixture"]
+    },
+    {
+      "source": "tjma_jurisconsult",
+      "recipient": "TJMA portal technical support",
+      "ask": ["public CJSG/CJPG result contract", "payload and filters", "detail/document MIME", "frequency policy", "official CAPTCHA-free public route", "test fixture"]
+    },
+    {
+      "source": "tjrj_cjpg",
+      "recipient": "TJRJ jurisprudence support",
+      "ask": ["official first-instance jurisprudence route", "degree enum", "pagination and filters", "detail/document contract", "public low-frequency automation policy"]
+    },
+    {
+      "source": "tjsc_cjpg",
+      "recipient": "TJSC jurisprudence support",
+      "ask": ["official first-instance jurisprudence route", "degree enum", "pagination and filters", "detail/document contract", "public alternative when CAPTCHA is presented"]
+    },
+    {
+      "source": "tjmmg_jurisprudencia_api",
+      "recipient": "TJMMG jurisprudence technical support",
+      "ask": ["bounded public search contract", "supported request fields and exact-number semantics", "pagination or server-side limit", "detail/document route and MIME", "low-frequency automation policy", "official alternative if reCAPTCHA is required"]
+    },
+    {
+      "source": "tjmsp_jurisprudencia",
+      "recipient": "TJMSP jurisprudence technical support",
+      "ask": ["public API or allowlist for the jurisprudence portal", "search fields and pagination", "detail/document route and MIME", "low-frequency automation policy", "official alternative to HTTP 403 access control"]
+    },
+    {
+      "source": "trt6_jurisprudencia",
+      "recipient": "TRT6/CSJT jurisprudence technical maintainer",
+      "ask": ["public API or export for the PJe jurisprudence search", "authorized non-CAPTCHA access flow", "supported filters, pagination and stable identifiers", "detail/full-text route and MIME", "low-frequency automation and retention policy", "sanitized fixture or documented sandbox"]
+    },
+    {
+      "source": "tre_sjur_jurisprudencia",
+      "recipient": "TSE/SJUR technical maintainer",
+      "ask": ["official pagination contract for each TRE route", "stable detail/download route returning valid PDF or documented inline full text", "degree/decision-type semantics for regional records", "low-frequency automation and retention policy"]
+    },
+    {
+      "source": "eproc_jurisprudencia_federal",
+      "recipient": "TNU/TRF2/TRF4/TRF6 technical maintainers",
+      "ask": ["confirm the public search and detail contracts for each installation", "provide documented pagination and result-total semantics", "confirm allowed low-frequency automation and document retention", "publish stable full-text/download behavior for representative records"]
+    }
+  ],
+  "follow_up_sources": [
+    "cjf_jurisprudencia", "stf_juris", "tjce_cjsg", "tjpe_jurisprudencia",
+    "tjsp_cjsg", "tjsp_eproc_jurisprudencia", "tjrr_juris", "trt3_jurisprudencia",
+    "trt4_jurisprudencia", "trt8_pje_jurisprudencia"
+  ],
+  "reference_package": "docs/coverage/external-action-requests-20260907.md",
+  "human_decision_required": true
+}

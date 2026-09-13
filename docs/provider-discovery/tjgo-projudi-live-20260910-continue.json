@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjgo_projudi_jurisprudencia",
+  "source_id": "tjgo_projudi_jurisprudencia",
+  "authority": "TJGO",
+  "surface": "cjsg",
+  "degree": "second",
+  "instance": "second",
+  "observed_at": "2026-09-10",
+  "mode": "bounded_public_live_check",
+  "credentials_used": false,
+  "bypass_used": false,
+  "endpoint": "POST /ConsultaJurisprudencia",
+  "query": {
+    "text": "dano moral",
+    "page": 1,
+    "page_size": 1,
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG"
+  },
+  "classification": "reachable_valid_data",
+  "record_count_observed": 1,
+  "reported_total": 19743,
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 107685,
+  "latency_ms": 4957.34,
+  "pagination_mode": "page",
+  "is_complete": false,
+  "decision": "keep_runtime_and_federation_enabled; prior timeout was transient and not treated as empty",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "cookies_or_tokens_used": false,
+    "raw_response_persisted": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

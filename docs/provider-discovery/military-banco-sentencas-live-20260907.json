@@ -1,0 +1,56 @@
+{
+  "schema_version": "provider-live-probe-v1",
+  "observed_at": "2026-09-07",
+  "authority": "JUSTICA_MILITAR_NACIONAL",
+  "surface": "BANCO_SENTENCAS_CJPG",
+  "endpoint": "https://gateway.cloud.pje.jus.br/banco-sentencas/api/sentencas/buscar",
+  "source_url": "https://bancosentencas.pdpj.jus.br/pesquisa",
+  "official_reference": "https://bancosentencas.pdpj.jus.br/assets/docs/ManualdeOpercacoesSentencaMilitares.pdf",
+  "method": "POST",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "request": {
+    "pageOffset": 1,
+    "pageSize": 10,
+    "searchAfterValue": null,
+    "order": "asc",
+    "searchFilters": [
+      {
+        "ids_assuntos": [],
+        "ids_classes": [],
+        "ids_orgaos": [],
+        "texto": null,
+        "data_inicio": "2025-01-31",
+        "data_fim": "2025-12-31"
+      }
+    ]
+  },
+  "manual_contract": {
+    "search_endpoint": "POST /api/sentencas/buscar",
+    "page_sizes": [10, 20, 30],
+    "page_offset_max": 3,
+    "cursor": "searchAfterValue",
+    "filters": ["texto", "ids_assuntos", "ids_classes", "ids_orgaos", "data_inicio", "data_fim"],
+    "document_endpoint": "GET /api/sentencas/download?num_processo=<cnj>&id_sentenca=<uuid>",
+    "document_scope": "sentencas_de_primeiro_grau"
+  },
+  "observations": [
+    {
+      "method": "GET",
+      "url": "https://bancosentencas.pdpj.jus.br/pesquisa",
+      "http_status": 200,
+      "content_type": "text/html",
+      "classification": "public_frontend_only"
+    },
+    {
+      "method": "POST",
+      "url": "https://gateway.cloud.pje.jus.br/banco-sentencas/api/sentencas/buscar",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "result": "Gateway rejected the unauthenticated search request; no result payload was returned."
+    }
+  ],
+  "decision": "Do not implement or promote an automated provider from this route until the official service documents an anonymous search contract or supplies an authorized integration path. The route is a first-degree military-sentences corpus, not a state-TJ CJPG surface.",
+  "safety": "Only ordinary HTTPS GET/POST requests were used. The indexation endpoint was not called because it is state-changing. No CAPTCHA, token, cookie replay, proxy rotation, TLS disablement, or WAF circumvention was attempted."
+}

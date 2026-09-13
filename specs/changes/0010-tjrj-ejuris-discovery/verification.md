@@ -12,4 +12,5 @@
 
 O candidato é rastreado por `docs/providers/tjrj_ejuris/README.md`,
 `docs/source-contracts/tjrj_ejuris.md`, `docs/registry/providers.json` e pelo
-catálogo gerado. A promoção futura está vinculada a T006.
+catálogo gerado. A avaliação de T006 foi encerrada; promoção futura depende de
+contrato público reproduzível sem desafio.

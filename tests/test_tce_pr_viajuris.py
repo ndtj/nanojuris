@@ -40,6 +40,10 @@ class FakeSession:
         self.calls.append({"url": url, "kwargs": kwargs})
         return self.responses.pop(0)
 
+    def request(self, method: str, url: str, **kwargs: Any) -> FakeResponse:
+        self.calls.append({"method": method, "url": url, "kwargs": kwargs})
+        return self.responses.pop(0)
+
 
 def test_viajuris_parser_preserves_csv_and_normalizes_fields() -> None:
     page = TcePrViaJurisProvider(
@@ -71,6 +75,24 @@ def test_viajuris_parser_still_accepts_the_legacy_id_schema() -> None:
     assert rows[0]["ID"] == "acordao-1"
 
 
+def test_viajuris_fetches_official_pdf_url_explicitly() -> None:
+    response = FakeResponse(
+        b"%PDF-1.4 invalid fixture",
+        url="https://viajuris.tce.pr.gov.br/Documentos/acordao-1.pdf",
+    )
+    response.headers = {"Content-Type": "application/pdf"}
+    provider = TcePrViaJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([response]),
+    )
+
+    document = provider.get_document("https://viajuris.tce.pr.gov.br/Documentos/acordao-1.pdf")
+
+    assert document.source == "tce_pr_viajuris"
+    assert document.content_type == "application/pdf"
+    assert document.raw_bytes == b"%PDF-1.4 invalid fixture"
+
+
 def test_viajuris_catalog_is_read_only_and_year_selectable() -> None:
     provider = TcePrViaJurisProvider(NanoJurisConfig(rate_limit_interval=0))
     catalog = provider.get_catalog(year=2026)
@@ -86,6 +108,15 @@ def test_viajuris_rejects_missing_term_and_bad_schema() -> None:
         provider.search(JurisprudenceQuery())
     with pytest.raises(ParserContractChangedError, match="stable identifier"):
         parse_viajuris_csv(b"nome;ementa\nfoo;bar\n")
+
+
+def test_viajuris_empty_and_invalid_fixtures_keep_states_distinct() -> None:
+    empty = (FIXTURE.parent / "tce_pr_viajuris_empty.csv").read_bytes()
+    invalid = (FIXTURE.parent / "tce_pr_viajuris_invalid.csv").read_bytes()
+
+    assert parse_viajuris_csv(empty) == []
+    with pytest.raises(ParserContractChangedError):
+        parse_viajuris_csv(invalid)
 
 
 def test_viajuris_maps_http_failure() -> None:

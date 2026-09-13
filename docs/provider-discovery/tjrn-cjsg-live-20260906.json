@@ -1,0 +1,56 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-06",
+  "audit_mode": "bounded_public_cjsg_recheck",
+  "credentials_used": false,
+  "source": "tjrn_jurisprudencia",
+  "source_id": "tjrn_jurisprudencia",
+  "status": "valid",
+  "surface": "cjsg",
+  "scope": "cjsg",
+  "returned": 2,
+  "reported_total": 73909,
+  "http_status": 200,
+  "record_count_observed": 2,
+  "pagination_mode": "page",
+  "endpoint": "POST https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+  "query_shape": {
+    "jurisprudencia.ementa": "responsabilidade",
+    "page_size": 2,
+    "pages": [1, 2],
+    "usuario": "empty_public_context"
+  },
+  "pages": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "record_count_observed": 2,
+      "reported_total": 73909,
+      "start": 1,
+      "end": 2,
+      "degree_values": ["second"],
+      "instance_values": ["second"],
+      "collection_values": ["JURISPRUDENCIA"],
+      "textual_fields": ["summary", "full_text"]
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "record_count_observed": 2,
+      "reported_total": 73909,
+      "start": 3,
+      "end": 4,
+      "degree_values": ["second"],
+      "instance_values": ["second"],
+      "collection_values": ["JURISPRUDENCIA"],
+      "textual_fields": ["summary", "full_text"]
+    }
+  ],
+  "overlap": false,
+  "contract_decision": "explicit_cjsg_binding",
+  "notes": [
+    "A rota nativa chama-se JURISPRUDENCIA, mas todos os registros observados declararam degree=second e instance=second.",
+    "O binding CJSG da matriz representa esta superfície de segundo grau; a superfície CJPG permanece não comprovada.",
+    "O teste foi bounded, público e sem contorno de CAPTCHA, WAF, login ou limite de frequência."
+  ]
+}

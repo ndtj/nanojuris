@@ -1,0 +1,146 @@
+{
+  "schema_version": "blocked-route-recheck-v1",
+  "observed_at": "2026-09-07",
+  "audit_mode": "bounded_public_official_routes",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "policy": "Only ordinary HTTPS requests and source-documented public routes were tried. No CAPTCHA solving, token generation, cookie replay, proxy rotation, TLS verification disablement, or WAF/Turnstile circumvention was used.",
+  "routes": [
+    {
+      "authority": "TJAP",
+      "surface": "CJSG",
+      "endpoint": "https://pje.tjap.jus.br/2g/ConsultaPublica/listView.seam",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "out_of_scope_process_consultation",
+      "result": "Public process lookup only; no general jurisprudence corpus."
+    },
+    {
+      "authority": "TJAP",
+      "surface": "CJSG",
+      "endpoint": "https://tucujuris.tjap.jus.br/",
+      "method": "GET",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "result": "Cloudflare challenge/Turnstile (Cf-Mitigated: challenge)."
+    },
+    {
+      "authority": "TJMA",
+      "surface": "CJSG",
+      "endpoint": "https://apijuris.tjma.jus.br/v1/sg/jurisprudencias/processos",
+      "method": "GET",
+      "http_status": 400,
+      "classification": "blocked_access_control",
+      "result": "Official API returned captcha_not_provided; no result request was submitted."
+    },
+    {
+      "authority": "TJSE",
+      "surface": "CJSG",
+      "endpoint": "https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "blocked_access_control",
+      "result": "Official form exposes second-degree filters, but result submit requires Cloudflare Turnstile token."
+    },
+    {
+      "authority": "TJTO",
+      "surface": "CJSG/CJPG",
+      "endpoint": "https://jurisprudencia.tjto.jus.br/",
+      "method": "GET",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "result": "Official route returned ALB/WAF access denial. Diário route is publication-only, not a general jurisprudence search."
+    },
+    {
+      "authority": "STF",
+      "surface": "PORTAL",
+      "endpoint": "https://jurisprudencia.stf.jus.br/api/search/search",
+      "method": "POST",
+      "http_status": 202,
+      "classification": "blocked_access_control",
+      "result": "Clean public API session returned empty AWS WAF challenge response."
+    },
+    {
+      "authority": "STF",
+      "surface": "PORTAL",
+      "endpoint": "https://portal.stf.jus.br/jurisprudencia/",
+      "method": "GET",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "result": "Official portal denied the clean request."
+    },
+    {
+      "authority": "STJ",
+      "surface": "SCON",
+      "endpoint": "https://scon.stj.jus.br/SCON/",
+      "method": "GET",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "result": "Cloudflare challenge on the public SCON host."
+    },
+    {
+      "authority": "STJ",
+      "surface": "SCON",
+      "endpoint": "https://processo.stj.jus.br/SCON/",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "alternate_route_insufficient",
+      "result": "Official process host loads the form, but search actions redirect to blocked scon.stj.jus.br and no result payload is exposed."
+    },
+    {
+      "authority": "CJF",
+      "surface": "JURISPRUDENCIA",
+      "endpoint": "https://jurisprudencia.cjf.jus.br/",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "blocked_access_control",
+      "result": "Official JSF forms load but all decision-search alternatives expose reCAPTCHA; no tokenless result route was found."
+    },
+    {
+      "authority": "CJF",
+      "surface": "JURISPRUDENCIA",
+      "endpoint": "https://jurisprudencia.cjf.jus.br/unificada/index.xhtml",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "blocked_access_control",
+      "result": "Official unified form requires reCAPTCHA before search."
+    },
+    {
+      "authority": "TJMG",
+      "surface": "CJSG",
+      "endpoint": "https://www.tjmg.jus.br/portal-tjmg/jurisprudencia",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "blocked_access_control",
+      "result": "Official decision search requires numeric CAPTCHA; the public DSpace collection is curated and not a general searchable CJSG corpus."
+    },
+    {
+      "authority": "TJMG",
+      "surface": "CJPG",
+      "endpoint": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavraSentenca.do",
+      "method": "GET",
+      "http_status": 401,
+      "classification": "blocked_access_control",
+      "result": "The official Sentenças form is public, but a normal bounded submission for 'dano moral' returns the numeric CAPTCHA page. No first-degree result payload is exposed without human validation. See tjmg-cjpg-route-live-20260907.json."
+    },
+    {
+      "authority": "JUSTICA_MILITAR_NACIONAL",
+      "surface": "BANCO_SENTENCAS_CJPG",
+      "endpoint": "https://gateway.cloud.pje.jus.br/banco-sentencas/api/sentencas/buscar",
+      "method": "POST",
+      "http_status": 403,
+      "classification": "blocked_access_control",
+      "result": "The official public frontend loads, but its documented search API rejects an unauthenticated bounded request. The indexation endpoint was not called because it is state-changing. See military-banco-sentencas-live-20260907.json."
+    },
+    {
+      "authority": "TJBA",
+      "surface": "CJPG",
+      "endpoint": "https://projudi.tjba.jus.br/projudi/buscas/ConclusoesRealizadas?instancia=1",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "access_controlled",
+      "result": "The historical Banco de Sentenças link now resolves to a Projudi session-expired/login surface; no public first-degree judgment payload is exposed. See tjba-banco-sentencas-live-20260907.json."
+    }
+  ],
+  "decision": "No legitimate tokenless alternate route was found for the listed blocked surfaces. Keep explicit blocked/access-controlled states and retry only on a scheduled, low-frequency recheck or after the source removes the challenge."
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nanojuris://schemas/0091/promotion-gate",
+  "title": "NanoJuris technical promotion gate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["provider", "surface_id", "runtime", "degree_contract", "fixtures", "live_status", "quality_gate", "access_status", "federation_status", "promotion_decision"],
+  "properties": {
+    "provider": {"type": "string"},
+    "surface_id": {"type": "string"},
+    "runtime": {"type": "boolean"},
+    "degree_contract": {"enum": ["valid", "pending", "invalid", "blocked"]},
+    "fixtures": {"enum": ["complete", "pending", "incomplete"]},
+    "live_status": {"enum": ["valid", "pending", "blocked", "partial", "source_unavailable"]},
+    "quality_gate": {"enum": ["passed", "pending", "failed"]},
+    "access_status": {"enum": ["public", "challenge_incidental", "access_blocked", "authentication_required", "source_unavailable"]},
+    "federation_status": {"enum": ["enabled", "opt_in", "disabled", "blocked"]},
+    "promotion_decision": {"enum": ["automatic_technical_approval", "pending", "rejected", "human_review"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "last_checked_at": {"type": ["string", "null"], "format": "date-time"},
+    "legal_status": {"enum": ["not_reviewed", "human_review", "approved", "rejected"]}
+  }
+}

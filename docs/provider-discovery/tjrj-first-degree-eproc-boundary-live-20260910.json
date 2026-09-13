@@ -1,0 +1,41 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjrj_eproc_jurisprudencia",
+  "source_id": "tjrj_eproc_jurisprudencia",
+  "authority": "TJRJ",
+  "branch": "state",
+  "surface": "cjpg_boundary",
+  "collection": "CJPG",
+  "observed_at": "2026-09-10",
+  "method": "GET public eproc form + POST public result request through SharedHttpClient",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "first",
+    "instance": "first",
+    "source_origin": "primeiro_grau",
+    "page_size": 2,
+    "timeout_seconds": 30
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "text/html; charset=iso-8859-1",
+    "response_bytes": 37498,
+    "elapsed_ms": 935.49,
+    "content_sha256": "90f75e53e478102c2eab9d71645e3bf25c94cecc105becb1bffd05c0dec7d200",
+    "retrieval_status": "ok"
+  },
+  "classification": "degree_mismatch",
+  "result": {
+    "records_returned": "not accepted",
+    "reason": "A resposta continha registros sem identidade comprovada de primeiro grau; o parser rejeitou a página em vez de classificá-la como CJPG."
+  },
+  "decision": "do_not_promote_cjpg; keep_tjrj_eproc_as_second_degree_only",
+  "raw_body_persisted": false,
+  "limitations": [
+    "A sonda confirma apenas a fronteira de identidade desta rota e não prova que o acervo de primeiro grau inexista.",
+    "Uma superfície oficial distinta ou resposta com identidade explícita de primeiro grau ainda é necessária para cobertura CJPG."
+  ]
+}

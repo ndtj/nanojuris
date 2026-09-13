@@ -1,0 +1,23 @@
+{
+  "schema_version": "provider-catalog-live-v1",
+  "provider": "tst_jurisprudencia",
+  "authority": "TST",
+  "checked_at": "2026-09-07T20:37:54.176412+00:00",
+  "status": "valid",
+  "groups": {
+    "orgaos-judicantes": 16,
+    "ministros": 0,
+    "convocados": 0,
+    "classes-processuais": 0,
+    "indicadores": 0,
+    "assuntos": 6
+  },
+  "courts": [
+    "TST"
+  ],
+  "trace": {
+    "http_status": 200,
+    "endpoint": "GET /rest/{orgaos-judicantes|ministros|convocados|classes-processuais|indicadores|assuntos}"
+  },
+  "bodies_persisted": false
+}

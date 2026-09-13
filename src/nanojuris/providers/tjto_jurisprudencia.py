@@ -2,22 +2,21 @@
 
 from __future__ import annotations
 
-import hashlib
 import html
 import re
-import time
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
 
-from nanojuris.adaptive_selectors import resilient_find_all
+from nanojuris.adaptive_selectors import USE_DEFAULT_MEMORY, resilient_find_all
 from nanojuris.canonical import normalize_date
-from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.config import NanoJurisConfig
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
+    NanoJurisError,
     ParserContractChangedError,
     QueryRejectedError,
     RateLimitDetectedError,
@@ -35,6 +34,7 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient, TransportPolicy, TransportRequest, TransportStatus
 
 PROCESS_NUMBER_RE = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
 UUID_RE = re.compile(r"uuid=([0-9a-f]{16,})", re.IGNORECASE)
@@ -56,9 +56,21 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
         session: requests.Session | None = None,
     ) -> None:
         self.config = config or NanoJurisConfig()
-        self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        self.session = session or requests.Session()
+        host = urlparse(self.config.tjto_jurisprudencia_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_retries=2,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_http_metadata: dict[str, Any] = {}
+        self._last_search_method = "POST"
 
     @property
     def base_url(self) -> str:
@@ -68,12 +80,25 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
         term = query.text or query.exact_phrase or query.number
         if not term:
             raise ValueError("TJTO jurisprudence search requires text, exact_phrase or number")
+        degree = _validate_tjto_degree_scope(query)
         page_size = _page_size(query.page_size)
         form = build_tjto_search_parameters(query, page_size=page_size)
-        content, source_url = self._request_html("POST", "/consulta.php", data=form)
+        self._last_search_method = "POST"
+        try:
+            content, source_url = self._request_html("POST", "/consulta.php", data=form)
+        except AccessControlRequiredError as exc:
+            # The official site also exposes the same public search as a GET
+            # route.  When the state-changing form is challenged, try that
+            # documented, cacheable representation once.  This is ordinary
+            # source navigation, not challenge solving or WAF evasion.
+            self._last_search_method = "GET"
+            try:
+                content, source_url = self._request_html("GET", "/consulta.php", params=form)
+            except (AccessControlRequiredError, SourceUnavailableError):
+                raise exc from exc
         trace = SourceTrace(
             provider=self.name,
-            endpoint="POST /consulta.php",
+            endpoint=f"{self._last_search_method} /consulta.php",
             query={
                 "text": query.text,
                 "exact_phrase": query.exact_phrase,
@@ -85,31 +110,61 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
             source_url=source_url,
             limitations=[
                 "A fonte exige User-Agent de navegador como parte do contrato HTTP publico.",
+                "O POST e tentado primeiro; quando a fonte retorna um desafio WAF, "
+                "o GET publico equivalente e tentado uma vez, sem gerar ou reutilizar token.",
                 "Filtros de classe, assunto e competencia sao expostos pelo formulario, mas "
                 "a query comum ainda nao possui campos tipados para esses valores.",
                 "O link visualizado como 'Inteiro Teor' redireciona para documento.php e foi "
                 "validado como HTML completo, nao como PDF.",
+                "A rota tip_criterio_inst="
+                f"{1 if degree == 'first' else 2} fixa o grau da consulta.",
             ],
             **self._last_http_metadata,
         )
-        page = parse_tjto_search_response(content, query=query, trace=trace)
+        page = parse_tjto_search_response(content, query=query, trace=trace, source=self.name)
         if query.fetch_details:
             for result in page.results:
-                document_url = result.raw.get("document_url")
-                document_id = result.raw.get("document_uuid")
-                if not document_id:
-                    result.extraction_status = ExtractionStatus.PARTIAL
-                    continue
-                document = self.get_document(str(document_id))
-                result.full_text = document.text
-                result.raw["full_text"] = document.text
-                result.raw["full_text_status"] = "loaded" if document.text else "empty"
-                result.raw["content_sha256"] = document.sha256
-                result.raw["response_bytes"] = document.byte_size
-                result.raw["document_content_type"] = document.content_type
-                result.raw["document_url"] = document.url or document_url
-                result.extraction_status = document.extraction_status
+                self._enrich_with_detail(result)
         return page
+
+    def _enrich_with_detail(self, result: JurisprudenceResult) -> None:
+        """Load one detail lazily without losing the base search result.
+
+        Detail access is an enrichment, not a prerequisite for search.  A
+        public-source access error, timeout or schema change is recorded on the
+        result and leaves the list item available with an explicit partial
+        extraction state.
+        """
+
+        document_url = result.raw.get("document_url")
+        document_id = result.raw.get("document_uuid")
+        if not document_id:
+            result.extraction_status = ExtractionStatus.PARTIAL
+            result.raw["detail_status"] = "missing_document_id"
+            return
+        try:
+            document = self.get_document(str(document_id))
+        except (
+            AccessControlRequiredError,
+            NanoJurisError,
+            ParserContractChangedError,
+            QueryRejectedError,
+            RateLimitDetectedError,
+        ) as exc:
+            result.extraction_status = ExtractionStatus.PARTIAL
+            result.raw["detail_status"] = "error"
+            result.raw["detail_error_type"] = type(exc).__name__
+            result.raw["detail_error"] = str(exc)
+            return
+        result.full_text = document.text
+        result.raw["full_text"] = document.text
+        result.raw["full_text_status"] = "loaded" if document.text else "empty"
+        result.raw["content_sha256"] = document.sha256
+        result.raw["response_bytes"] = document.byte_size
+        result.raw["document_content_type"] = document.content_type
+        result.raw["document_url"] = document.url or document_url
+        result.raw["detail_status"] = "loaded"
+        result.extraction_status = document.extraction_status
 
     def get_document(self, document_id: str):
         uuid = document_id.removeprefix("tjto-jurisprudencia-")
@@ -144,8 +199,24 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
-        raise NotImplementedError(
-            "TJTO expoe o inteiro teor como CanonicalDocument; nao ha DecisionBundle separado."
+        try:
+            document = self.get_document(precedent_id)
+        except ValueError as exc:
+            raise SourceUnavailableError(
+                "TJTO detail requires a public document UUID observed from search"
+            ) from exc
+        return DecisionBundle(
+            precedent_id=precedent_id,
+            source=self.name,
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/html",
+                }
+            ],
+            source_trace=document.source_trace,
+            raw=document.raw_metadata,
+            raw_bytes=document.raw_bytes,
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -158,6 +229,7 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
             document_types=["acordao", "decisao_monocratica", "sentenca"],
             content_formats=["html"],
             canonical_records=["CanonicalDecision"],
+            semantic_discriminator="degree_scope=tip_criterio_inst;collection=degree_specific",
             extracted_fields=[
                 "case_number",
                 "case_class",
@@ -171,7 +243,11 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
                 "document_url",
                 "document_uuid",
             ],
-            access_statuses=[AccessStatus.PUBLIC, AccessStatus.ACCESS_CONTROL_REQUIRED],
+            access_statuses=[
+                AccessStatus.PUBLIC,
+                AccessStatus.ACCESS_CONTROL_REQUIRED,
+                AccessStatus.SOURCE_UNAVAILABLE,
+            ],
             endpoints=[
                 "GET /consulta.php",
                 "POST /consulta.php",
@@ -194,11 +270,76 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
                 "number",
                 "rapporteur",
                 "source_origin",
+                "degree",
+                "instance",
                 "types",
                 "order_by",
                 "page",
                 "fetch_details",
             ],
+            unsupported_filters=[
+                "courts",
+                "all_words",
+                "any_words",
+                "without_words",
+                "case_class",
+                "judging_body",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origins",
+                "published_from",
+                "published_to",
+                "updated_from",
+                "updated_to",
+            ],
+            filter_semantics={
+                "text": "native",
+                "exact_phrase": "translated",
+                "number": "translated",
+                "rapporteur": "translated",
+                "source_origin": "translated",
+                "degree": "translated",
+                "instance": "translated",
+                "types": "translated",
+                "order_by": "translated",
+                "page": "translated",
+                "fetch_details": "translated",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origins": "unsupported",
+                "published_from": "unsupported",
+                "published_to": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+            },
             limitations=[
                 "A busca textual e os metadados sao HTML e dependem do layout publico.",
                 "O total remoto e lido do contador textual da pagina quando presente.",
@@ -213,57 +354,68 @@ class TjtoJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_html(self, method: str, path: str, **kwargs: Any) -> tuple[bytes, str]:
-        self._respect_rate_limit()
         url = urljoin(self.base_url + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": TJTO_BROWSER_USER_AGENT,
         }
-        try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
-            )
-        except requests.RequestException as exc:
-            raise SourceUnavailableError(f"TJTO jurisprudence request failed: {exc}") from exc
-        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
-        response_url = str(getattr(response, "url", url) or url)
+        request = TransportRequest(
+            source=self.name,
+            operation="document" if path.lstrip("/") == "documento.php" else "search",
+            method=method,
+            url=url,
+            params=kwargs.pop("params", {}) or {},
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            headers=headers,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport kwargs: {', '.join(sorted(kwargs))}")
+        response = self.transport.request(request)
+        content = response.body
+        response_url = response.final_url or url
         self._last_http_metadata = {
             "http_status": response.status_code,
             "final_url": response_url,
-            "content_type": (getattr(response, "headers", {}) or {}).get("Content-Type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
-            "response_bytes": len(content),
-            "retrieval_status": "ok" if response.status_code < 400 else "error",
+            "content_type": response.content_type,
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": response.status.value,
         }
-        if response.status_code == 429:
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError("TJTO jurisprudence transport unavailable")
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError("TJTO jurisprudence returned no HTTP status")
+        if status_code == 429:
             raise RateLimitDetectedError("TJTO jurisprudence returned HTTP 429")
-        if response.status_code in {401, 403}:
-            raise AccessControlRequiredError("TJTO jurisprudence requires access validation")
-        if response.status_code in {400, 422}:
-            raise QueryRejectedError(
-                f"TJTO jurisprudence rejected the query with HTTP {response.status_code}"
-            )
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJTO jurisprudence returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        if status_code == 202:
+            if str(response.headers.get("x-amzn-waf-action", "")).casefold() == "challenge":
+                raise AccessControlRequiredError(
+                    "TJTO jurisprudence WAF challenge blocked the requested page"
+                )
+            # The public endpoint occasionally accepts a paginated request for
+            # asynchronous processing and returns no body.  It is not an
+            # authoritative empty page and must never be exposed as zero
+            # results to the federated client.
             raise SourceUnavailableError(
-                f"TJTO jurisprudence rejected request with HTTP {response.status_code}"
+                "TJTO jurisprudence returned HTTP 202 without a completed page"
+            )
+        if status_code in {401, 403}:
+            raise AccessControlRequiredError("TJTO jurisprudence requires access validation")
+        if status_code in {400, 422}:
+            raise QueryRejectedError(
+                f"TJTO jurisprudence rejected the query with HTTP {status_code}"
+            )
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TJTO jurisprudence returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(
+                f"TJTO jurisprudence rejected request with HTTP {status_code}"
             )
         return content, response_url
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def build_tjto_search_parameters(
@@ -272,6 +424,7 @@ def build_tjto_search_parameters(
     """Build the form fields observed in the public TJTO search form."""
 
     size = _page_size(page_size or query.page_size)
+    _validate_tjto_degree_scope(query)
     term = query.text or query.exact_phrase or query.number
     form: dict[str, str] = {
         "q": term,
@@ -283,15 +436,20 @@ def build_tjto_search_parameters(
         form["soementa"] = "on"
     if query.number:
         form["numero_processo"] = query.number
-    if query.source_origin:
-        form["tip_criterio_inst"] = query.source_origin
+    # The official form uses ``2`` for second-degree decisions.  Keep this
+    # explicit even when the caller did not provide a provider-specific
+    # origin, so federation cannot accidentally query the mixed corpus.
+    degree = _validate_tjto_degree_scope(query)
+    form["tip_criterio_inst"] = "1" if degree == "first" else "2"
     if query.order_by:
         form["tip_criterio_data"] = _order_value(query.order_by)
     selected_types = {item.lower() for item in query.types}
     if not selected_types or "acordao" in selected_types or "acórdão" in selected_types:
         form["tipo_decisao_acordao"] = "true"
     if "sentenca" in selected_types or "sentença" in selected_types:
-        form["tipo_decisao_sentenca"] = "true"
+        if degree != "first":
+            raise QueryRejectedError("TJTO CJSG does not accept first-degree sentenca documents")
+        form["type_minuta_selected"] = "3"
     if (
         "decisao" in selected_types
         or "decisão" in selected_types
@@ -304,33 +462,73 @@ def build_tjto_search_parameters(
 
 
 def parse_tjto_search_response(
-    content: bytes, *, query: JurisprudenceQuery, trace: SourceTrace
+    content: bytes,
+    *,
+    query: JurisprudenceQuery,
+    trace: SourceTrace,
+    source: str = "tjto_jurisprudencia",
+    memory: Any = USE_DEFAULT_MEMORY,
 ) -> SearchPage:
     """Parse one public TJTO HTML window without discarding the card HTML."""
 
+    degree = _validate_tjto_degree_scope(query)
+    collection = "CJPG" if degree == "first" else "CJSG"
     soup = BeautifulSoup(content, "html.parser")
-    cards = resilient_find_all(
-        soup,
-        "div.container.align-self-center.panel.panel-default",
-        name="result_card",
-        source="tjto_jurisprudencia",
-        trace=trace,
+    page_text = soup.get_text(" ", strip=True)
+    total = _parse_total(page_text)
+    explicit_empty = _is_explicit_empty(page_text)
+    cards = (
+        []
+        if explicit_empty
+        else resilient_find_all(
+            soup,
+            "div.container.align-self-center.panel.panel-default",
+            name="result_card",
+            source=source,
+            memory=memory,
+            trace=trace,
+        )
     )
-    total = _parse_total(soup.get_text(" ", strip=True))
+    if explicit_empty:
+        return SearchPage(
+            source=source,
+            total=total if total is not None else 0,
+            start=0,
+            end=0,
+            page=query.page,
+            page_size=_page_size(query.page_size),
+            results=[],
+            source_trace=trace,
+            pagination_mode="offset",
+            is_complete=True,
+            completeness_reason="A fonte declarou explicitamente que nao ha resultados.",
+            total_known=total is not None,
+            access_status=AccessStatus.PUBLIC,
+            extraction_status=ExtractionStatus.EMPTY,
+        )
     if not cards and total:
         raise ParserContractChangedError("TJTO result total exists but result cards were not found")
-    results = [_card_to_result(card, trace=trace) for card in cards]
+    results = [
+        _card_to_result(
+            card,
+            trace=trace,
+            source=source,
+            degree=degree,
+            collection=collection,
+        )
+        for card in cards
+    ]
     page_size = _page_size(query.page_size)
     start = (max(query.page - 1, 0) * page_size) + 1 if results else 0
     complete, reason = page_completeness(
-        reported_total=total or len(results),
+        reported_total=total,
         start=start,
         returned=len(results),
         total_is_authoritative=total is not None,
     )
     return SearchPage(
-        source="tjto_jurisprudencia",
-        total=total or len(results),
+        source=source,
+        total=total if total is not None else len(results),
         start=start,
         end=start + len(results) - 1 if results else 0,
         page=query.page,
@@ -340,10 +538,20 @@ def parse_tjto_search_response(
         pagination_mode="offset",
         is_complete=complete,
         completeness_reason=reason,
+        total_known=total is not None,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY,
     )
 
 
-def _card_to_result(card: Any, *, trace: SourceTrace) -> JurisprudenceResult:
+def _card_to_result(
+    card: Any,
+    *,
+    trace: SourceTrace,
+    source: str = "tjto_jurisprudencia",
+    degree: str = "second",
+    collection: str = "CJSG",
+) -> JurisprudenceResult:
     heading_node = card.select_one(".panel_doc")
     heading = _clean_text(heading_node.get_text(" ", strip=True)) if heading_node else ""
     body = card.select_one(".panel-body")
@@ -360,11 +568,18 @@ def _card_to_result(card: Any, *, trace: SourceTrace) -> JurisprudenceResult:
         raise ParserContractChangedError("TJTO result card has no stable uuid or process number")
     values = _extract_labeled_fields(body_text)
     summary = values.get("summary") or None
+    decision_type = values.get("decision_type") or "jurisprudencia"
+    document_type = _canonical_document_type(decision_type)
+    document_url = (
+        urljoin(trace.source_url or "", f"/documento.php?uuid={uuid_match.group(1)}")
+        if uuid_match
+        else None
+    )
     result = JurisprudenceResult(
-        id=f"tjto-jurisprudencia-{stable_id}",
-        source="tjto_jurisprudencia",
+        id=f"{source.replace('_', '-')}-{stable_id}",
+        source=source,
         court="TJTO",
-        type=values.get("decision_type") or "jurisprudencia",
+        type=decision_type,
         number=number,
         summary=summary,
         rapporteur=values.get("rapporteur") or None,
@@ -372,6 +587,30 @@ def _card_to_result(card: Any, *, trace: SourceTrace) -> JurisprudenceResult:
         access_status=AccessStatus.PUBLIC,
         extraction_status=ExtractionStatus.COMPLETE if summary else ExtractionStatus.PARTIAL,
         source_trace=trace,
+        case_class=values.get("case_class") or None,
+        judging_body=values.get("competence") or None,
+        branch="state",
+        authority="TJTO",
+        degree=degree,
+        instance=degree,
+        collection=collection,
+        document_type=document_type,
+        source_origin="1" if degree == "first" else "2",
+        document_url=document_url,
+        field_provenance={
+            "degree": {
+                "value": degree,
+                "method": "query_scope",
+                "source": f"tip_criterio_inst={'1' if degree == 'first' else '2'}",
+            },
+            "instance": {
+                "value": degree,
+                "method": "query_scope",
+                "source": f"tip_criterio_inst={'1' if degree == 'first' else '2'}",
+            },
+            "collection": {"value": collection, "method": "query_scope"},
+            "document_type": {"value": document_type, "method": "type_filter"},
+        },
         raw={
             "card_html": str(card),
             "case_class": values.get("case_class"),
@@ -380,11 +619,14 @@ def _card_to_result(card: Any, *, trace: SourceTrace) -> JurisprudenceResult:
             "filing_date": values.get("filing_date"),
             "judgment_date": values.get("judgment_date"),
             "document_uuid": uuid_match.group(1) if uuid_match else None,
-            "document_url": (
-                urljoin(trace.source_url or "", f"/documento.php?uuid={uuid_match.group(1)}")
-                if uuid_match
-                else None
-            ),
+            "document_url": document_url,
+            "authority": "TJTO",
+            "branch": "state",
+            "collection": collection,
+            "document_type": document_type,
+            "degree": degree,
+            "instance": degree,
+            "source_origin": "1" if degree == "first" else "2",
         },
     )
     return result
@@ -420,6 +662,18 @@ def _parse_total(text: str) -> int | None:
         return None
 
 
+def _is_explicit_empty(text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text).casefold()
+    return any(
+        marker in normalized
+        for marker in (
+            "nenhum resultado",
+            "sem resultados",
+            "nenhum registro encontrado",
+        )
+    )
+
+
 def _order_value(value: str) -> str:
     normalized = value.lower()
     if "old" in normalized or normalized.endswith("asc"):
@@ -435,3 +689,49 @@ def _clean_text(value: str) -> str:
 
 def _page_size(value: int) -> int:
     return max(1, min(int(value or 10), 100))
+
+
+def _validate_tjto_degree_scope(query: JurisprudenceQuery) -> str:
+    """Validate and return the explicit first/second-degree route scope."""
+
+    degree = query.degree.strip().casefold()
+    instance = query.instance.strip().casefold()
+    source_origin = query.source_origin.strip().casefold()
+    collection = query.collection.strip().casefold()
+    second_degree = {"second", "second_degree", "segundo", "segundo grau", "2", "2g", "cjsg"}
+    first_degree = {"first", "first_degree", "primeiro", "primeiro grau", "1", "1g", "cjpg"}
+    scope_values = {value for value in (degree, instance, source_origin) if value}
+    if scope_values & first_degree and scope_values & second_degree:
+        raise QueryRejectedError("TJTO query mixes first- and second-degree scope")
+    if degree and degree not in first_degree | second_degree:
+        raise QueryRejectedError("TJTO jurisprudence accepts only first- or second-degree queries")
+    if instance and instance not in first_degree | second_degree:
+        raise QueryRejectedError("TJTO jurisprudence accepts only first- or second-degree queries")
+    if source_origin and source_origin not in first_degree | second_degree:
+        raise QueryRejectedError("TJTO jurisprudence requires a supported degree scope")
+    if collection and collection not in {
+        "cjpg",
+        "cjsg",
+        "first_degree",
+        "second_degree",
+        "jurisprudencia",
+    }:
+        raise QueryRejectedError("TJTO jurisprudence collection is not supported")
+    if collection in {"cjpg", "first_degree"}:
+        scope_values.add("first")
+    if collection in {"cjsg", "second_degree"}:
+        scope_values.add("second")
+    result = "first" if scope_values & first_degree or "first" in scope_values else "second"
+    selected_types = {item.strip().casefold() for item in query.types}
+    if selected_types & {"sentenca", "sentença", "sentence"} and result != "first":
+        raise QueryRejectedError("TJTO CJSG does not accept first-degree sentenca documents")
+    return result
+
+
+def _canonical_document_type(value: str) -> str:
+    normalized = value.casefold()
+    if "senten" in normalized:
+        return "sentenca"
+    if "monocr" in normalized or "individual" in normalized:
+        return "decisao_monocratica"
+    return "acordao"

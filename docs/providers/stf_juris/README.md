@@ -165,6 +165,14 @@ Conclusao: o contrato da API existe e foi observado por HAR, mas o acesso
 automatizado limpo pode exigir validacao AWS WAF. A NanoJuris deve reportar esse
 estado sem contorno.
 
+### Rechecagem bounded (2026-09-01, ciclo 9)
+
+Uma nova chamada POST publica para `/api/search/search`, com timeout de 8 s e
+`verify_ssl=true`, falhou antes de receber HTTP por `SSLError`. A fotografia
+foi classificada como `blocked_transport`; nao houve corpo JSON, resultado ou
+alteracao do adapter. Os metadados estao em
+`docs/provider-discovery/stf-juris-live-recheck-20260901-cycle9.json`.
+
 ## Inteiro teor e portal STF
 
 O campo `inteiro_teor_url` observado no HAR apontou para:
@@ -218,6 +226,8 @@ alto. O agente deve:
 - [x] Declarar capabilities e integrar ao cliente padrao.
 - [x] Cobrir pagina vazia e resposta AWS WAF com fixtures offline.
 - [ ] Validar bases adicionais do frontend.
+- [x] Rechecagem bounded 2026-09-01 registrada como `blocked_transport`, sem
+  desabilitar TLS no runtime.
 - [ ] Criar teste live opt-in para registrar `AccessControlRequiredError` quando
   a origem exigir WAF.
 - [ ] Promover inteiro teor apenas se houver resposta publica limpa sem HTTP

@@ -1,0 +1,35 @@
+{
+  "schema_version": "live-evidence-v1",
+  "source": "tse_sjur_jurisprudencia",
+  "provider": "tse_sjur_jurisprudencia",
+  "checked_at": "2026-09-09",
+  "observed_at": "2026-09-09T02:22:06-03:00",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "method": "TseSjurJurisprudenciaProvider.search",
+  "request": {
+    "method": "POST",
+    "path": "/tse/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+    "query_shape": "exact decision identifier outside observed catalog",
+    "identifier": "999999999999",
+    "page": 1,
+    "page_size": 3,
+    "scope": {"authority": "TSE", "branch": "electoral", "degree": "superior"},
+    "timeout_seconds": 12
+  },
+  "classification": "authoritative_empty",
+  "http_status": 200,
+  "total": 0,
+  "returned": 0,
+  "total_known": true,
+  "is_explicit_empty": true,
+  "elapsed_ms": 1052.25,
+  "body_persisted": false,
+  "decision": "retain_candidate; empty_semantics_gate_passed",
+  "notes": [
+    "The public API returned a valid response with totalRegistros=0 and no content.",
+    "This proves empty-result classification only; it does not validate pagination or document retrieval.",
+    "No CAPTCHA, WAF, access-control or transport bypass was attempted."
+  ]
+}

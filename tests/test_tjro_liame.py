@@ -23,10 +23,16 @@ from nanojuris.providers.tjro_liame import (
 )
 
 FIXTURE = Path(__file__).parent / "fixtures" / "tjro_liame_results.json"
+EMPTY_FIXTURE = Path(__file__).parent / "fixtures" / "tjro_liame_empty.json"
+SCHEMA_DRIFT_FIXTURE = Path(__file__).parent / "fixtures" / "tjro_liame_schema_drift.json"
 
 
 def fixture_data() -> dict:
     return json.loads(FIXTURE.read_text(encoding="utf-8"))
+
+
+def fixture_payload(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 class FakeResponse:
@@ -65,6 +71,11 @@ def test_tjro_maps_qualified_precedent_to_canonical_search_shape() -> None:
     assert result.thesis == "Tese pública de fixture."
     assert result.paradigm_cases[0].number == "08029144420258220000"
     assert result.updated_at == "2026-08-13"
+    assert page.total_known is True
+    assert page.access_status.value == "public"
+    assert page.extraction_status.value == "complete"
+    assert result.collection == "LIAME"
+    assert result.document_type == "qualified_precedent"
 
 
 def test_tjro_builds_public_payload() -> None:
@@ -92,11 +103,33 @@ def test_tjro_provider_search_and_capabilities_are_explicit() -> None:
     assert page.source_trace is not None
     assert page.source_trace.http_status == 200
     capabilities = provider.get_capabilities()
-    assert capabilities.supports_unified_search is False
+    assert capabilities.supports_unified_search is True
     assert capabilities.supports_full_text is False
+    assert capabilities.full_text_access == "not_offered_by_source"
     assert capabilities.max_remote_page_size == 100
     with pytest.raises(NotImplementedError):
         provider.get_decisions("tjro-liame-id")
+
+
+def test_tjro_accepts_explicit_empty_page() -> None:
+    page = parse_tjro_search_response(
+        fixture_payload(EMPTY_FIXTURE),
+        query=JurisprudenceQuery(text="termo"),
+        trace=SourceTrace(provider="tjro_liame", endpoint="search"),
+    )
+    assert page.results == []
+    assert page.total == 0
+    assert page.total_known is True
+    assert page.is_explicit_empty is True
+
+
+def test_tjro_rejects_schema_drift_fixture() -> None:
+    with pytest.raises(ParserContractChangedError):
+        parse_tjro_search_response(
+            fixture_payload(SCHEMA_DRIFT_FIXTURE),
+            query=JurisprudenceQuery(text="termo"),
+            trace=SourceTrace(provider="tjro_liame", endpoint="search"),
+        )
 
 
 @pytest.mark.parametrize(

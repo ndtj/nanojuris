@@ -195,5 +195,15 @@ Recomendacao: fonte estrategica, mas ainda inicial. O agente deve:
   `ActionSelecionaDocumento`.
 - [x] Implementar `get_document()` com hash, tamanho, content-type e bytes
   originais preservados.
-- [ ] Criar teste live opt-in para registrar `AccessControlRequiredError` quando
+- [x] Implementar `get_decisions()` como envelope do documento público
+  observado, preservando texto, bytes, metadados e `SourceTrace`.
+- [x] Criar teste live opt-in para registrar `AccessControlRequiredError` quando
   a origem exigir verificacao automatica.
+
+## Transporte compartilhado (2026-09-08)
+
+Busca e inteiro teor usam o `SharedHttpClient`, com allowlist do host oficial,
+limite de 16 MB, timeout, rate limit e circuit breaker. A política não repete
+automaticamente chamadas quando a sessão recebe controle de acesso; 401/403,
+429, timeout, TLS, redirecionamento fora da allowlist, HTML de desafio e schema
+inválido continuam estados explícitos, nunca resultados vazios.

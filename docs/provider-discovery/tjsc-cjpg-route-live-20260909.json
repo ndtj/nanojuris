@@ -1,0 +1,65 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJSC",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-09",
+  "source": {
+    "official_entry_point": "https://www.tjsc.jus.br/pesquisa-jurisprudencia",
+    "candidate_routes": [
+      "https://www.tjsc.jus.br/pesquisa-jurisprudencia",
+      "https://www.tjsc.jus.br/jurisprudencia"
+    ],
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "pesquisa_jurisprudencia": {
+      "http_status": 200,
+      "final_url": "https://www.tjsc.jus.br/pesquisa-jurisprudencia",
+      "content_type": "text/html",
+      "response_bytes": 78741,
+      "response_sha256": "8cd844712461679e0c702e2c4aa3ce88c9c02782947685717a37fedf926428de",
+      "title": "",
+      "forms": 0,
+      "captcha_marker_present": true,
+      "decision_records_observed": 0,
+      "document_download_routes_observed": 0,
+      "pagination_contract_observed": false,
+      "api_or_graphql_route_observed": false,
+      "classification": "portal_shell_access_controlled"
+    },
+    "jurisprudencia": {
+      "http_status": 200,
+      "final_url": "https://www.tjsc.jus.br/jurisprudencia",
+      "content_type": "text/html",
+      "response_bytes": 79101,
+      "response_sha256": "3d235723deb71623d2fb8f0eaec489a84ae2e73195d20ac67d3c96803168dad4",
+      "title": "",
+      "forms": 0,
+      "captcha_marker_present": true,
+      "decision_records_observed": 0,
+      "document_download_routes_observed": 0,
+      "pagination_contract_observed": false,
+      "api_or_graphql_route_observed": false,
+      "classification": "portal_shell_access_controlled"
+    }
+  },
+  "classification": {
+    "status": "candidate_access_controlled",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "as duas entradas oficiais observadas retornam apenas shell de portal sem registros, formulários, paginação ou rota de documento; há marcador de CAPTCHA e nenhum corpus CJPG reproduzível foi exposto sem submissão controlada"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "monitorar o portal oficial por rota pública decisória ou exportação de sentenças; não implementar adapter CJPG a partir destas entradas"
+}

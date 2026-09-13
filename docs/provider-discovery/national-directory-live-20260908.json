@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "kind": "official_directory_live_check",
+  "checked_at": "2026-09-08",
+  "method": "bounded GET with normal redirect handling; no credentials or challenge bypass",
+  "scope": "directory discovery only; this does not prove a jurisprudence endpoint",
+  "results": [
+    {
+      "url": "https://www.cnj.jus.br/tribunais-de-justica-estaduais/",
+      "http_status": 200,
+      "final_url": "https://www.cnj.jus.br/tribunais-de-justica-estaduais/",
+      "bytes": 263545,
+      "latency_ms": 1761,
+      "status": "valid_directory"
+    },
+    {
+      "url": "https://www.cnj.jus.br/justica-do-trabalho/",
+      "http_status": 200,
+      "final_url": "https://www.cnj.jus.br/justica-do-trabalho/",
+      "bytes": 532527,
+      "latency_ms": 3284,
+      "status": "valid_directory"
+    },
+    {
+      "url": "https://www.cnj.jus.br/justica-eleitoral-/",
+      "http_status": 200,
+      "final_url": "https://www.cnj.jus.br/justica-eleitoral-/",
+      "bytes": 504644,
+      "latency_ms": 3084,
+      "status": "valid_directory"
+    },
+    {
+      "url": "https://www.cnj.jus.br/tribunais-de-justica-militar/",
+      "http_status": 200,
+      "final_url": "https://www.cnj.jus.br/tribunais-de-justica-militar/",
+      "bytes": 257846,
+      "latency_ms": 1781,
+      "status": "valid_directory"
+    },
+    {
+      "url": "https://www.cnj.jus.br/relatorio-por-tribunal/",
+      "http_status": 200,
+      "final_url": "https://www.cnj.jus.br/relatorio-por-tribunal/",
+      "bytes": 291365,
+      "latency_ms": 1357,
+      "status": "valid_directory"
+    }
+  ]
+}

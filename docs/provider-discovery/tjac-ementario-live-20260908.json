@@ -1,0 +1,59 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjac_ementario_jurisprudencia",
+  "source_id": "tjac_ementario_jurisprudencia",
+  "surface": "cjsg",
+  "authority": "TJAC",
+  "branch": "state",
+  "degree": "second",
+  "instance": "second",
+  "collection": "TJAC_EMENTARIO",
+  "observed_at": "2026-09-08T09:58:01-03:00",
+  "checked_at": "2026-09-08T09:58:01-03:00",
+  "classification": "public_textual_second_degree",
+  "status": "valid",
+  "access_status": "public",
+  "extraction_status": "complete",
+  "query": {
+    "text": "constitucional",
+    "degree": "second",
+    "instance": "second",
+    "branch": "state",
+    "authority": "TJAC",
+    "collection": "CJSG",
+    "page": 1,
+    "page_size": 10
+  },
+  "endpoint": "GET https://www.tjac.jus.br/wp-content/uploads/2026/07/Ementario_TJAC_Vol_XXX_2026.pdf",
+  "http_status": 200,
+  "final_url": "https://www.tjac.jus.br/wp-content/uploads/2026/07/Ementario_TJAC_Vol_XXX_2026.pdf",
+  "content_type": "application/pdf",
+  "response_bytes": 593570,
+  "content_sha256": "7d46f40422d10a9bd80e73a51e7fde8ad0b81c312244e1708d915c21c1e1915c",
+  "latency_ms": 1328.10,
+  "record_count_observed": 7,
+  "reported_total": null,
+  "total_state": "unknown",
+  "pagination_mode": "local_pdf_window",
+  "is_complete": false,
+  "evidence_limits": [
+    "O volume e uma janela editorial estatica; nao representa o acervo integral.",
+    "O PDF publica ementas, nao o voto integral de cada decisao.",
+    "A ausencia de um termo neste volume nao prova ausencia no TJAC."
+  ],
+  "promotion": {
+    "runtime": true,
+    "degree_contract": "valid",
+    "fixtures": "complete",
+    "live_status": "valid",
+    "quality_gate": "passed_for_partial_volume",
+    "promotion_decision": "automatic_technical_approval",
+    "federation_status": "enabled_partial",
+    "default_federation": true
+  },
+  "trace": {
+    "provider": "tjac_ementario_jurisprudencia",
+    "endpoint": "GET /wp-content/uploads/.../Ementario_TJAC_Vol_XXX_2026.pdf",
+    "retrieval_status": "ok"
+  }
+}

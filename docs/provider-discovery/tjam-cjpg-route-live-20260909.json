@@ -1,0 +1,50 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": null,
+  "authority": "TJAM",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-09",
+  "source": {
+    "official_entry_point": "https://www.tjam.jus.br/index.php/jurisprudencia",
+    "request_method": "GET",
+    "credentials_used": false,
+    "bounded": true
+  },
+  "observations": {
+    "http_status": 200,
+    "content_type": "text/html; charset=utf-8",
+    "response_bytes": 173696,
+    "response_sha256": "c5488b7db9700b0541bc34ea8cb9526e8e90c91c00a260e54525e8a38c69fbb3",
+    "title": "Jurisprudência - TJAM",
+    "forms": 3,
+    "form_actions": [
+      "/index.php/jurisprudencia",
+      "/index.php/jurisprudencia",
+      "/index.php/jurisprudencia"
+    ],
+    "form_kind": "site_search_and_navigation",
+    "first_degree_routes_referenced": [
+      "https://consultasaj.tjam.jus.br/cpopg/open.do",
+      "https://projudi.tjam.jus.br/projudi/processo/consultaPublicaNova.do?actionType=iniciar"
+    ],
+    "decision_records_observed": 0,
+    "document_download_routes_observed": 0,
+    "pagination_contract_observed": false
+  },
+  "classification": {
+    "status": "discovery_only",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "página oficial de jurisprudência expõe busca do site e links de consulta processual, mas não expõe corpus textual CJPG nem contrato de resultados"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "response_body_persisted": false
+  },
+  "next_action": "localizar rota oficial de jurisprudência decisória ou exportação antes de criar adapter CJPG"
+}

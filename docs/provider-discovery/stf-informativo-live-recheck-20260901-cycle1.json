@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T22:46:45Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "stf_informativo",
+  "endpoint": "GET https://www.stf.jus.br/arquivo/cms/informativoSTF/anexo/Informativo_Dados/Dados_InformativosSTF.xlsx",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "attempts": [
+    {
+      "verify_ssl": true,
+      "http_status": null,
+      "classification": "blocked_transport",
+      "error_type": "SSLError",
+      "response_bytes": 0,
+      "timeout_seconds": 8
+    },
+    {
+      "verify_ssl": false,
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 118,
+      "content_sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4",
+      "classification": "blocked_access",
+      "timeout_seconds": 8
+    }
+  ],
+  "promotion_decision": "runtime_unchanged",
+  "promotion_blockers": [
+    "A rota nao entregou XLSX nesta rodada: SSL padrao falhou e a tentativa diagnostica sem verificacao recebeu HTTP 403.",
+    "O bloqueio e especifico do ambiente e nao prova indisponibilidade permanente da fonte.",
+    "Nenhum corpo live foi persistido; a fixture local permanece apenas replay sintetico."
+  ],
+  "limitations": [
+    "Rechecagem limitada a duas tentativas publicas, sem credenciais e sem retry em escala.",
+    "verify_ssl=false foi usado somente para diagnostico explicitamente bounded; nao altera o padrao do provider.",
+    "Nenhum bypass de WAF, rate limit ou controle de acesso foi realizado."
+  ]
+}

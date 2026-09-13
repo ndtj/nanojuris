@@ -1,0 +1,42 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "provider": "trt8_pje_jurisprudencia",
+  "authority": "TRT8",
+  "checked_at": "2026-09-09",
+  "mode": "live_bounded",
+  "query": {
+    "text": "dano moral",
+    "degree": "second",
+    "instance": "second",
+    "document_type": "acordao",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "timeout_seconds": 30,
+    "max_pages": 1,
+    "bodies_persisted": false,
+    "challenge_bypass": false,
+    "credentials_used": false
+  },
+  "result": {
+    "http_status": 200,
+    "content_type": "application/json",
+    "response_bytes": 46004,
+    "content_sha256": "15d4515c9c04d02c90211a34d534f6b2621e5a9e8bb9da3b71ab7682754fc1dd",
+    "elapsed_ms": 12728.45,
+    "returned": 1,
+    "reported_total": 46181,
+    "total_known": true,
+    "complete": false,
+    "source_id": "trt8-pje2_15349541",
+    "access_status": "public",
+    "extraction_status": "complete"
+  },
+  "decision": "technical_live_gate_passed",
+  "limitations": [
+    "A fonte tem latencia acima do timeout padrao de 8 segundos; o smoke precisou de timeout bounded de 30 segundos.",
+    "A chamada foi unica e nao constitui garantia de disponibilidade continua.",
+    "O detalhe, a pagina 2 e os filtros adicionais permanecem cobertos pela evidencia principal trt8-pje-jurisprudencia-live-20260909.json."
+  ]
+}

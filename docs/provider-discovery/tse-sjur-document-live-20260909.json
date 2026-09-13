@@ -1,0 +1,35 @@
+{
+  "schema_version": "live-evidence-v1",
+  "source": "tse_sjur_jurisprudencia",
+  "provider": "tse_sjur_jurisprudencia",
+  "checked_at": "2026-09-09",
+  "observed_at": "2026-09-09T02:24:00-03:00",
+  "bounded": true,
+  "credentials_used": false,
+  "bypass_used": false,
+  "method": "official frontend route discovery plus bounded GET",
+  "request": {
+    "method": "GET",
+    "url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/504401",
+    "timeout_seconds": 15,
+    "source_record": "tse-sjur-504401"
+  },
+  "classification": "success_with_document",
+  "http_status": 200,
+  "final_url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/504401",
+  "content_type": "application/pdf",
+  "response_bytes": 57680,
+  "extraction_status": "complete",
+  "extracted_text_length": 14518,
+  "adapter_call": true,
+  "elapsed_ms": 742.47,
+  "magic_bytes": "255044462d312e34",
+  "sha256": "49a476439bc7163025c96fb5290e495cea9b50e8287948b3ab2e36723c82e963",
+  "body_persisted": false,
+  "decision": "document_route_gate_passed; pagination_gate_still_pending",
+  "notes": [
+    "The route was identified in the public TSE frontend bundle as download/pdf/<codigoDecisao>.",
+    "The PDF was fetched directly from the official service without credentials, tokens or challenge bypass.",
+    "The adapter remains candidate-only until the API pagination behavior is proven."
+  ]
+}

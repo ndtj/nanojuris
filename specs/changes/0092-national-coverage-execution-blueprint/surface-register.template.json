@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "surface_id": "AUTHORITY/BRANCH/DEGREE/INSTANCE/COLLECTION/PROVIDER",
+  "authority": "TJXX",
+  "branch": "state",
+  "degree": "first|second|unknown",
+  "instance": "first|second|unknown",
+  "collection": "CJPG|CJSG|SJUR|EPROC|JURIS|PORTAL|INFORMATIVOS|unknown",
+  "provider": "provider_id",
+  "lifecycle": "cataloged|candidate|implemented|rejected|source_unavailable",
+  "maturity": "mapped|bronze|silver|gold|blocked|family",
+  "live_status": "not_checked|valid|authoritative_empty|unconfirmed_empty|access_blocked|rate_limited|timeout|transport_error|schema_invalid|source_unavailable",
+  "contract_status": "pending|partial|valid|invalid",
+  "federation_status": "disabled|opt_in|enabled|blocked",
+  "legal_status": "unknown|pending|approved|rejected",
+  "document_capability": "full_text|document_link|curated_summary|not_available|unknown",
+  "last_live_check": "YYYY-MM-DD",
+  "evidence_ids": [],
+  "next_action": "",
+  "notes": "Generated records must be produced by the repository tools; this is a template only."
+}

@@ -59,6 +59,7 @@ A interface/superficie foi identificada, mas nenhum metodo, payload, filtro, pag
 ## Dados E MCP
 
 Nao ha resposta decisoria fixtureada. Os campos que deverao ser confirmados sao identificador, tipo, processo, orgao, ementa, inteiro teor e ponte de movimentacao. O MCP deve manter a fonte fora da busca automatica e diferenciar shell HTML, desafio e resposta juridica real.
+
 ## Contrato
 
 A interface foi identificada, mas metodo, payload, filtros, paginacao,
@@ -76,3 +77,67 @@ sessao publica reproduzivel.
 
 Manter fora da busca automatica e diferenciar shell HTML, desafio e resposta
 juridica real.
+
+## Diagnostico NanoJuris 2026-09-06
+
+O adapter independente `tjap_tucujuris` agora reproduz o endpoint observado
+no Juscraper (`POST /api/publico/consultar-jurisprudencia`) em modo opt-in. Ele
+preserva o payload de filtros e converte a resposta de erro de "nenhum
+resultado" em vazio autoritativo somente quando a própria fonte informa isso.
+Respostas Turnstile/WAF continuam como `access_controlled`, sem bypass. A
+evidência bounded está em
+`docs/provider-discovery/juscraper-captcha-boundary-live-20260906.json`.
+Fixtures sanitizadas: `tests/fixtures/tjap_tucujuris_empty.json` e
+`tests/fixtures/tjap_tucujuris_access_control.json`.
+
+### Rechecagem legítima (2026-09-06)
+
+O portal e a rota REST continuam acessíveis apenas até a camada de aplicação:
+uma requisição sem token recebeu envelope de erro e as tentativas seguintes
+receberam página gerenciada do Cloudflare (`Just a moment...`). A busca exige
+Turnstile validado no servidor. O estado permanece `access_controlled`; nenhum
+token, cookie de desafio ou técnica de evasão foi utilizado.
+
+### Alternativas oficiais rechecadas (2026-09-07)
+
+A entrada oficial sem o prefixo legado respondeu HTTP 200 e confirmou que a
+interface oferece consulta de acórdãos com filtros de órgão, número, classe,
+origem, relator, secretaria e votação. A submissão pública bounded ao endpoint
+documentado, porém, respondeu o envelope `A verificação de segurança falhou`;
+isso é `access_controlled`, não vazio. A entrada legada também retornou apenas
+o shell Angular, e o host `services.tjap.jus.br` não resolveu por DNS.
+
+Evidência: `docs/provider-discovery/tjap-official-alternatives-live-20260907.json`.
+Nenhum token, cookie de desafio, automação de navegador ou técnica de bypass foi
+utilizado. O provider continua fora da federação até existir uma rota pública
+reproduzível sem validação de desafio.
+
+### Caminho autorizado com passe humano (2026-09-10)
+
+O frontend oficial confirma que a rota `POST /api/publico/consultar-jurisprudencia`
+recebe o passe Turnstile no campo JSON `captcha`. O adapter agora oferece
+`search_authorized(query, turnstile_token=...)` para uma única chamada bounded
+quando o passe for obtido pelo usuário no próprio portal. O passe não é gerado,
+armazenado, renovado, reutilizado ou incluído em `SourceTrace`/`raw`.
+Resultados autorizados observados ficam disponíveis em memória para
+`get_decisions()` durante a mesma sessão; nenhuma rota de detalhe é presumida.
+
+Isso não altera o estado de promoção: sem uma resposta autorizada reproduzível,
+fixture de sucesso/detalhe e validação de inteiro teor, TJAP permanece
+`candidate` e fora da federação padrão.
+
+Rechecagem adicional de 2026-09-10: a API respondeu HTTP 200 com envelope
+`ERRO` de verificacao de seguranca. O contrato autorizado observado no frontend
+e o campo `captcha`, a lista `dados`, `offset` e as rotas de detalhe/exportacao;
+isso nao constitui resultado live sem passe humano. Evidencia:
+`docs/provider-discovery/candidate-live-recheck-20260910-continue.json`.
+### Metadados pÃºblicos (2026-09-10)
+
+Foram confirmadas duas rotas sem desafio no frontend oficial:
+`GET /api/publico/carregar-filtros-combo-jurisprudencia`, que fornece
+relatores, classes, origens e secretarias, e
+`GET /api/publico/buscar-data-banco-dados-jurisprudencia`, que informa a data de
+atualizaÃ§Ã£o do banco. O adapter expÃµe essas rotas via `get_catalog`,
+`get_filter_catalog` e `get_last_update`; elas sÃ£o metadados e nÃ£o sÃ£o
+consideradas resultados de busca.
+EvidÃªncia bounded: `docs/provider-discovery/tjap-public-metadata-live-20260910.json`.

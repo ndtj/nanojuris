@@ -1,5 +1,9 @@
 # TJPE - Consulta Jurisprudencia
 
+Revalidacao JSF de 2026-09-07: evidencia em
+`docs/provider-discovery/tjpe-cjsg-jsf-live-20260907.json`; fallback publico
+validado quando a rota REST apresentou falha TLS, sem bypass.
+
 Status atual: `implemented` com parser offline e contrato REST reproduzido.
 
 ## Identidade Da Fonte
@@ -178,6 +182,39 @@ trace, sem apresentar a fonte como consulta processual geral.
 
 O provider `tjpe_jurisprudencia` foi implementado com o contrato observado:
 
+## Paridade Juscraper - transporte JSF (2026-09)
+
+O transporte padrao do provider e `auto`: REST e tentado primeiro, com fallback
+para o fluxo JSF/RichFaces publico quando a falha for de transporte.
+
+Além do REST estável, o provider possui o transporte público JSF/RichFaces
+observado no Juscraper. Ele pode ser selecionado explicitamente:
+
+```python
+TjpeJurisprudenciaProvider(config, transport="jsf")
+```
+
+`transport="auto"` mantém REST como primeira tentativa e só usa JSF quando a
+requisição REST falha no transporte (por exemplo, handshake TLS), sem fallback
+após HTTP 4xx/5xx ou controle de acesso. O fluxo JSF é:
+
+```text
+GET consulta.xhtml -> POST consulta.xhtml
+  -> POST escolhaResultado.xhtml (se a fonte pedir o tipo)
+  -> POST AJAX resultado.xhtml (página > 1)
+```
+
+ViewState, IDs RichFaces e cookies ficam apenas na sessão em memória. A resposta
+é validada por marcadores de resultado; CAPTCHA, WAF, login, timeout e mudança
+de schema continuam erros explícitos, nunca uma lista vazia. A fonte entrega
+cinco documentos por página nesse transporte, e os campos de ementa/acórdão,
+datas e processo são preservados em `raw`.
+
+Quando `case_class` ou `rapporteur` é informado, `transport="auto"` escolhe
+diretamente o fluxo JSF, pois esses filtros só possuem campos observados nessa
+forma. Assim a consulta não retorna HTTP 200 ignorando silenciosamente uma
+restrição canônica.
+
 - `GET /api/v1/jurisprudencias`;
 - paginacao HTTP zero-based traduzida para a pagina publica 1-based;
 - `X-Total-Count` preservado no `SearchPage.total`;
@@ -193,5 +230,27 @@ observou erro de cadeia TLS neste ambiente; a leitura usada para confirmar o
 formato da resposta nao altera a politica de seguranca do runtime. A evidencia
 live deve ser renovada em ambiente com cadeia de certificacao atualizada.
 
+### Rechecagem bounded (2026-09-01, ciclo 10)
+
+Uma chamada GET publica para `/api/v1/jurisprudencias`, com timeout de 8 s e
+`verify_ssl=true`, falhou antes de HTTP por `SSLCertVerificationError`. O
+estado foi registrado como `blocked_transport`; nenhum corpo ou resultado foi
+persistido e o adapter permaneceu inalterado. Metadados:
+`docs/provider-discovery/tjpe-live-recheck-20260901-cycle10.json`.
+
 Fixture e regressao offline: `tests/fixtures/tjpe_jurisprudencia_results.json`
 e `tests/test_tjpe_jurisprudencia.py`.
+Fixtures complementares: `tests/fixtures/tjpe_juscraper_search.html`,
+`tests/fixtures/tjpe_juscraper_results_ascii.html`,
+`tests/fixtures/tjpe_juscraper_empty.html`,
+`tests/fixtures/tjpe_juscraper_choice_ascii.html`.
+
+O smoke consolidado de 2026-09-06 confirmou novamente HTTP 200, registro de
+segundo grau e detalhe público (`valid`) usando a sessão pública normal. A
+evidência redigida está em
+`docs/provider-discovery/cjsg-live-legitimate-recheck-20260906.json`.
+
+Smoke bounded de 2026-09-06 confirmou uma resposta textual pública para
+`responsabilidade civil`; o resultado está registrado em
+`docs/provider-discovery/cjsg-live-recheck-20260906.json`. As fixtures JSON e
+HTML acima cobrem sucesso, vazio, fallback JSF, paginação e erros classificados.

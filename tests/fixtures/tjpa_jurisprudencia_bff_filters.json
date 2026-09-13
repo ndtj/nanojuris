@@ -1,0 +1,11 @@
+{
+  "message": "ok",
+  "data": {
+    "tipos": [{"id": "A", "descricao": "Acordao"}],
+    "classes": [{"id": "1", "descricao": "Apelacao"}],
+    "assuntos": [{"id": "10", "descricao": "Responsabilidade civil"}],
+    "origens": [{"origem": "segundo_grau", "descricao": "Segundo grau"}],
+    "relatores": [{"id": "20", "nome": "Relator de Fixture"}],
+    "orgaosJulgadoresColegiados": [{"id": "O", "descricao": "Camara de Fixture"}]
+  }
+}

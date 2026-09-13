@@ -1,0 +1,12 @@
+{
+  "regional": "TRT da 2a Regiao",
+  "pjeConsultaUrl": "https://pje.trt2.jus.br/consultaprocessual/detalhe-processo/",
+  "linkLogoUrl": "https://ww2.trt2.jus.br/",
+  "captchaOption": "2",
+  "recaptchaSiteKey": "[redacted-public-key]",
+  "recaptchaSecretKey": null,
+  "recaptchaUrl": null,
+  "habilitaPsiu": "false",
+  "chavePsiu": "[redacted]",
+  "version": "1.5.0-i1"
+}

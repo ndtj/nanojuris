@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "kind": "lawful_public_access_pointer",
+  "canonical": "specs/changes/0098-national-jurisprudence-gold-coverage/lawful-access-playbook.md",
+  "allowed": ["documented_api", "official_export", "official_rss_sitemap_dataset", "normal_public_browser", "allowlisted_redirect", "published_pagination", "etag_last_modified", "retry_after", "transient_retry", "formal_allowlist"],
+  "prohibited": ["captcha_solver", "waf_evasion", "stealth", "ip_rotation", "token_replay", "private_endpoint_fuzzing", "tls_downgrade", "rate_limit_exhaustion"],
+  "challenge_policy": "passive_only_if_normal_public_journey_continues; otherwise access_blocked"
+}

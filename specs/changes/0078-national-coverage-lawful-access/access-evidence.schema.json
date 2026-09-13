@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NanoJuris AccessEvidence",
+  "type": "object",
+  "required": ["evidence_id", "observed_at", "url", "classification", "credentials_used"],
+  "properties": {
+    "evidence_id": {"type": "string"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "url": {"type": "string", "format": "uri"},
+    "method": {"type": "string"},
+    "http_status": {"type": ["integer", "null"]},
+    "classification": {"type": "string"},
+    "response_fingerprint": {"type": ["string", "null"]},
+    "credentials_used": {"const": false},
+    "tokens_persisted": {"const": false},
+    "cookies_replayed": {"const": false}
+  }
+}

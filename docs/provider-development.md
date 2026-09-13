@@ -158,6 +158,18 @@ Um provider so deve entrar no core quando:
 - gera modelos canonicos quando houver mapeamento confiavel;
 - atualiza roadmap, providers docs e matriz de casos se necessario.
 
+Antes de solicitar revisão, execute também o scorecard offline de qualidade:
+
+```text
+python tools/build_provider_quality.py --write
+python tools/build_provider_quality.py --check
+```
+
+O relatório em `docs/quality/provider-quality.json` pontua contrato, identidade,
+conteúdo, datas, proveniência, paginação, fixtures e documentação. O tier não
+substitui a validação live nem o aceite humano; respostas bloqueadas, timeout e
+mudança de schema devem permanecer estados explícitos.
+
 ## Ordem recomendada para novas fontes
 
 1. Registrar entrada manual feita no navegador.

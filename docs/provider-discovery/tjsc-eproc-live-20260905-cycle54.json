@@ -1,0 +1,71 @@
+{
+  "schema_version": "tjsc-eproc-live-v1",
+  "generated_at": "2026-09-05T19:57:30.215424+00:00",
+  "mode": "live_bounded",
+  "provider": "tjsc_eproc_jurisprudencia",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 785591,
+      "total_known": null,
+      "ids": [
+        "tjsc-eproc-jurisprudencia-4870937",
+        "tjsc-eproc-jurisprudencia-311788615235952956559944372975"
+      ],
+      "case_numbers": [
+        null,
+        "5004644-92.2026.8.24.0082"
+      ],
+      "has_summary": true,
+      "access_status": null,
+      "extraction_status": null
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 785591,
+      "total_known": null,
+      "ids": [
+        "tjsc-eproc-jurisprudencia-321788610358758333589883632476",
+        "tjsc-eproc-jurisprudencia-311788615235952956559945031283"
+      ],
+      "case_numbers": [
+        "5082409-94.2026.8.24.0000",
+        "5002034-92.2026.8.24.0910"
+      ],
+      "has_summary": true,
+      "access_status": null,
+      "extraction_status": null
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    },
+    "error": {
+      "type": "AccessControlRequiredError",
+      "message": "TJSC/eproc jurisprudence returned access-control HTML"
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "detail_valid": false,
+    "errors": 1
+  }
+}

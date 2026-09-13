@@ -1,0 +1,18 @@
+{
+  "provider": "tce_pr_viajuris",
+  "checked_at": "2026-09-08",
+  "transport": {
+    "client": "SharedHttpClient",
+    "allowlist": ["viajuris.tce.pr.gov.br"],
+    "max_bytes": 80000000,
+    "max_retries": 0,
+    "redirects": "bounded",
+    "tls": "verified",
+    "body_persistence": false
+  },
+  "classification": "transport_hardened",
+  "limitations": [
+    "The annual CSV remains a public snapshot and is filtered locally.",
+    "This evidence does not promote an unavailable or blocked source."
+  ]
+}

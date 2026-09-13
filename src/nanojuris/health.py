@@ -29,6 +29,7 @@ class ProviderHealthStatus(str, Enum):
 
     HEALTHY = "healthy"
     EMPTY = "empty"
+    EMPTY_UNCONFIRMED = "empty_unconfirmed"
     BLOCKED = "blocked"
     RATE_LIMITED = "rate_limited"
     SOURCE_UNAVAILABLE = "source_unavailable"
@@ -48,10 +49,14 @@ class ProviderHealthReport:
     query_text: str = ""
     returned: int = 0
     reported_total: int | None = None
+    total_known: bool | None = None
     pagination_mode: str | None = None
     completeness: bool | None = None
     completeness_reason: str | None = None
     source_url: str | None = None
+    access_status: str | None = None
+    extraction_status: str | None = None
+    retrieval_status: str | None = None
     error_type: str | None = None
     message: str | None = None
     details: dict[str, Any] = field(default_factory=dict)
@@ -90,22 +95,64 @@ def check_provider(
             error=exc,
         )
 
+    retrieval_status = page.source_trace.retrieval_status if page.source_trace else None
+    access_status = _enum_value(page.access_status)
+    extraction_status = _enum_value(page.extraction_status)
+    if access_status in {"access_control_required", "login_required", "secret_or_restricted"}:
+        status = ProviderHealthStatus.BLOCKED
+    elif retrieval_status in {"rate_limited", "http_429"}:
+        status = ProviderHealthStatus.RATE_LIMITED
+    elif retrieval_status in {"timeout", "timed_out"}:
+        status = ProviderHealthStatus.TIMEOUT
+    elif retrieval_status in {
+        "source_unavailable",
+        "unavailable",
+        "tls_error",
+        "ssl_error",
+        "http_5xx",
+    }:
+        status = ProviderHealthStatus.SOURCE_UNAVAILABLE
+    elif extraction_status in {"failed", "parser_contract_changed", "unsupported_format"}:
+        status = ProviderHealthStatus.SOURCE_CHANGED
+    else:
+        if page.results:
+            status = ProviderHealthStatus.HEALTHY
+        elif page.is_explicit_empty:
+            status = ProviderHealthStatus.EMPTY
+        else:
+            # A provider can return a valid HTTP response without proving that
+            # the remote query was exhausted. Keep that state visible instead
+            # of claiming an operationally healthy empty result.
+            status = ProviderHealthStatus.EMPTY_UNCONFIRMED
     return ProviderHealthReport(
         source=provider.name,
-        status=(ProviderHealthStatus.HEALTHY if page.results else ProviderHealthStatus.EMPTY),
+        status=status,
         checked_at=checked_at,
         elapsed_ms=_elapsed_ms(started),
         query_text=text,
         returned=len(page.results),
-        reported_total=page.total,
+        reported_total=page.total if page.total_known is True else None,
+        total_known=page.total_known,
         pagination_mode=page.pagination_mode,
         completeness=page.is_complete,
         completeness_reason=page.completeness_reason,
         source_url=page.source_trace.source_url if page.source_trace else None,
+        access_status=access_status,
+        extraction_status=extraction_status,
+        retrieval_status=retrieval_status,
         details={
             "source_trace": page.source_trace.to_dict() if page.source_trace else None,
         },
     )
+
+
+def _enum_value(value: object) -> str | None:
+    """Serialize optional string enums without coupling health to model types."""
+
+    if value is None:
+        return None
+    raw = getattr(value, "value", value)
+    return str(raw)
 
 
 def check_sources(

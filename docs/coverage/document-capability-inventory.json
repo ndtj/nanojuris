@@ -1,0 +1,4179 @@
+{
+  "schema_version": "1.0",
+  "generated_by": "python tools/build_document_capability_inventory.py --write",
+  "network_access": "not_used",
+  "scope": "declared runtime and opt-in candidate capabilities; not live availability",
+  "summary": {
+    "sources": 85,
+    "runtime": 80,
+    "runtime_with_full_text": 66,
+    "candidates": 5,
+    "opt_in_runtime": 5,
+    "declared_document_routes": 85
+  },
+  "providers": [
+    {
+      "source_id": "bnp_pangea",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "precedent",
+        "linked_decision_metadata"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "not_available",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /parametros",
+        "GET /sugestoes",
+        "POST /precedentes",
+        "GET /precedentes/{id}/decisoes"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "court",
+        "precedent_type",
+        "number",
+        "question",
+        "thesis",
+        "status",
+        "updated_at",
+        "paradigm_cases",
+        "aggregations"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "sumula",
+        "arguicao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /trf1/index.xhtml",
+        "POST /trf1/index.xhtml"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "origin",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "publication_source",
+        "summary",
+        "decision",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "cnj_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "informativo_jurisprudencia"
+      ],
+      "content_formats": [
+        "html",
+        "pdf"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudencia",
+        "GET /files/<official-pdf>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "edition_number",
+        "publication_date",
+        "summary",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "eproc_jurisprudencia_federal",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao",
+        "despacho"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "falcao_jt",
+      "lifecycle": "candidate",
+      "runtime": false,
+      "opt_in_runtime": true,
+      "document_types": [
+        "sentenca",
+        "acordao",
+        "decisao_monocratica",
+        "precedent"
+      ],
+      "content_formats": [
+        "html",
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "unknown",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /",
+        "GET /no-auth/pesquisa",
+        "GET /no-auth/informacao/versao",
+        "GET /no-auth/informacao/dataIndexacaoDados",
+        "GET /no-auth/informacao/dataPublicacaoDados",
+        "GET /no-auth/informacao/tribunais/codigosTrt"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "authority",
+        "degree",
+        "case_number",
+        "case_class",
+        "decision_type",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "justica_eleitoral_sjur",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "catalog_metadata"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "not_available",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/classes",
+        "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/relatorias",
+        "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/eleicoes",
+        "POST /{tribunal}/sjur-pesquisa-backend/rest/public/pesquisa/normas"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "classes",
+        "relatorias",
+        "eleicoes",
+        "normas"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "stf_informativo",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "informativo",
+        "acordao_resumido",
+        "tese_informativo"
+      ],
+      "content_formats": [
+        "xlsx"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "not_available",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /arquivo/cms/informativoSTF/anexo/Informativo_Dados/Dados_InformativosSTF.xlsx"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "informativo",
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "redator_acordao",
+        "judging_body",
+        "judgment_date",
+        "title",
+        "thesis",
+        "summary",
+        "news",
+        "law_branch",
+        "matter",
+        "is_repercussao_geral",
+        "tema_rg",
+        "legislation",
+        "ods"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "stf_juris",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "link_only",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /api/search/search"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "registry_id",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "source_updated_at",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "process_url",
+        "is_repercussao_geral",
+        "highlights"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "stj_dados_abertos_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao_espelho",
+        "integra_decisao",
+        "acordao_dje"
+      ],
+      "content_formats": [
+        "json",
+        "csv",
+        "zip"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /api/3/action/package_search",
+        "GET /api/3/action/package_show",
+        "GET /resource/{resource_id} (explicit local sync)",
+        "GET /resource/{metadata_resource_id} + /resource/{text_resource_id} (integral pair)"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "dataset_id",
+        "dataset_title",
+        "resource_id",
+        "resource_url",
+        "format",
+        "checksum",
+        "size",
+        "last_modified",
+        "license",
+        "records_seen",
+        "records_saved",
+        "duplicate_records",
+        "invalid_records",
+        "content_sha256",
+        "source_hash",
+        "run_id",
+        "skipped",
+        "integral_text_resource_id",
+        "document_url",
+        "case_number",
+        "summary",
+        "full_text",
+        "judgment_date",
+        "publication_date",
+        "source_updated_at",
+        "document_type",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection",
+        "source_trace"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "stj_informativo",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "informativo",
+        "nota_jurisprudencia"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudencia/externo/informativo/"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "informativo",
+        "period",
+        "case_number",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "title",
+        "summary",
+        "document_url",
+        "cnot_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "stj_scon",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "html",
+        "pdf"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [
+        "full_text"
+      ],
+      "document_endpoints": [
+        "GET /SCON/pesquisar.jsp",
+        "GET /SCON/SearchFiltroBRS",
+        "GET /SCON/jurisprudencia/pesquisaAjax.jsp",
+        "POST /SCON/ActionSelecionaDocumento",
+        "GET /SCON/GetInteiroTeorDoAcordao"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "registry_number",
+        "decision_type",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "stm_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /consulta.php?search_filter_option=jurisprudencia&...",
+        "GET https://eproc2g.stm.jus.br/eproc_2g_prod/externo_controlador.php?acao=visualizar_acordao&uuid=<uuid>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "subject",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "uuid"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tce_pr_viajuris",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "csv",
+        "pdf_link"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /DadosAbertos/DadosAbertos/DownloadArquivo?nomeArquivo={year}_acordaos_base_de_dados.csv"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "registry_id",
+        "case_number",
+        "summary",
+        "judgment_date",
+        "publication_date",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tce_sp_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sumula",
+        "boletim_jurisprudencia",
+        "indice_remissivo"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /boletim-de-jurisprudencia/sumulas",
+        "GET /boletim-de-jurisprudencia/publicacoes",
+        "GET /boletim-de-jurisprudencia/indice-alfabetico-remissivo"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "summary_number",
+        "statement",
+        "history",
+        "foundation",
+        "bulletin_edition",
+        "bulletin_url",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tcu_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "jurisprudencia_selecionada",
+        "sumula",
+        "boletim"
+      ],
+      "content_formats": [
+        "csv",
+        "text/html"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "inline_summary",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /dados-abertos/jurisprudencia/arquivos/jurisprudencia-arquivos.csv",
+        "GET /dados-abertos/jurisprudencia/arquivos/acordao-completo/acordao-completo-resumo.csv",
+        "GET /dados-abertos/jurisprudencia/arquivos/jurisprudencia-selecionada/jurisprudencia-selecionada.csv",
+        "GET /dados-abertos/jurisprudencia/arquivos/boletim-jurisprudencia/boletim-jurisprudencia.csv",
+        "GET /dados-abertos/jurisprudencia/arquivos/resposta-consulta/resposta-consulta.csv",
+        "GET /dados-abertos/jurisprudencia/arquivos/sumula/sumula.csv"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "dataset_key",
+        "id",
+        "number",
+        "summary",
+        "full_text",
+        "thesis",
+        "legal_references",
+        "case_class",
+        "judging_body",
+        "authority",
+        "branch",
+        "collection",
+        "judgment_date",
+        "publication_date",
+        "published_at",
+        "source_trace"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjac_banco_sentencas",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sentenca"
+      ],
+      "content_formats": [
+        "html",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "linked_official_pdf"
+      ],
+      "document_endpoints": [
+        "GET /coger/banco-de-sentencas/",
+        "GET /wp-content/uploads/...pdf"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "judging_body",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection",
+        "document_type"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjac_cjsg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "homologation",
+        "decision"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /resultadoCompleta.do",
+        "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
+        "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "document_url",
+        "cd_acordao",
+        "cd_foro"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjac_ementario_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao_ementa"
+      ],
+      "content_formats": [
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "summary_only",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET official TJAC Ementario PDF"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "source_record_id",
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjal_cjsg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "homologation",
+        "decision"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /resultadoCompleta.do",
+        "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
+        "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "document_url",
+        "cd_acordao",
+        "cd_foro"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjal_esmal_banco_sentencas",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sentenca"
+      ],
+      "content_formats": [
+        "html",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "linked_official_pdf"
+      ],
+      "document_endpoints": [
+        "GET /indexS.php?pag=ler&cat=<category>&text=<term>&p=<page>",
+        "GET intranetlegado.tjal.jus.br/bancodesentencas/arquivos/<id>.pdf"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "source_record_id",
+        "summary",
+        "judgment_date",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection",
+        "document_type"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjal_turma_recursal_ementario",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao_ementa",
+        "recurso_inominado",
+        "decisao"
+      ],
+      "content_formats": [
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "summary_only",
+      "detail_modes": [
+        "inline_ementa"
+      ],
+      "document_endpoints": [
+        "GET /?pag=juizados_jurisprudencias",
+        "GET /juizados/relatorios/Ementas-3.pdf"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "summary",
+        "judgment_date",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjam_cjsg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "homologation",
+        "decision"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /resultadoCompleta.do",
+        "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
+        "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "document_url",
+        "cd_acordao",
+        "cd_foro"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjap_banco_sentencas",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "decisao",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "reader_html"
+      ],
+      "document_endpoints": [
+        "GET /",
+        "POST /livewire-53cc04b2/update",
+        "GET /reader/TUCUJURIS/<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "subject",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "collection",
+        "decision_type"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "lifecycle": "candidate",
+      "runtime": false,
+      "opt_in_runtime": true,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "access_blocked",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /api/publico/consultar-jurisprudencia",
+        "GET /api/publico/carregar-filtros-combo-jurisprudencia",
+        "GET /api/publico/buscar-data-banco-dados-jurisprudencia"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjba_graphql",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "json",
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /graphql (filter)",
+        "POST /graphql (catalogs)",
+        "GET /inteiroTeor/<uuid>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "registry_number",
+        "judging_body",
+        "rapporteur",
+        "case_class",
+        "decision_type",
+        "judgment_date",
+        "publication_date",
+        "source_updated_at",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjce_cjsg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "homologation",
+        "decision"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /resultadoCompleta.do",
+        "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
+        "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "document_url",
+        "cd_acordao",
+        "cd_foro"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjce_informativos",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "informativo_item"
+      ],
+      "content_formats": [
+        "html",
+        "pdf"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "not_available",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /informativo-jurisprudencia/"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "edition_number",
+        "edition_date",
+        "case_number",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "law_branch",
+        "subject",
+        "summary",
+        "document_url",
+        "case_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjce_sjuris",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sumula"
+      ],
+      "content_formats": [
+        "json",
+        "text",
+        "pdf"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /jurisprudencia/?page={zero_based_page}&size={page_size}",
+        "GET /jurisprudencia/buscaListaCampos/{field}"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "inline_pdf_base64",
+        "pdf_content_sha256",
+        "pdf_response_bytes"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjdf_juris",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "turma_recursal",
+        "tema",
+        "informativo"
+      ],
+      "content_formats": [
+        "html",
+        "json"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST https://jurisdf.tjdft.jus.br/api/v1/pesquisa",
+        "GET /IndexadorAcordaos-web/sistj?nomeDaPagina=buscaLivre",
+        "GET /IndexadorAcordaos-web/sistj?nomeDaPagina=buscaLivre2",
+        "GET /IndexadorAcordaos-web/sistj?comando=abrirDadosDoAcordao"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "registry_number",
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "decision_outcome",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjes_cjpg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "decisao_1g",
+        "sentenca"
+      ],
+      "content_formats": [
+        "json",
+        "text",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_full_text"
+      ],
+      "document_endpoints": [
+        "GET /api/search?core=pje1g"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "judging_body",
+        "origin_county",
+        "judgment_date",
+        "summary",
+        "full_text",
+        "source_id",
+        "source_trace",
+        "document_url",
+        "core"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "json",
+        "text",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_full_text"
+      ],
+      "document_endpoints": [
+        "GET /api/search?core=pje2g"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "judging_body",
+        "summary",
+        "full_text",
+        "judgment_date",
+        "source_trace",
+        "document_url",
+        "core"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "recurso_inominado"
+      ],
+      "content_formats": [
+        "json",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_full_text"
+      ],
+      "document_endpoints": [
+        "GET /api/search?core=turma_recursal_legado"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "summary",
+        "full_text",
+        "judgment_date",
+        "source_trace",
+        "document_url",
+        "core"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "decisao",
+        "sentenca",
+        "acordao"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline_result_text",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /ConsultaJurisprudencia",
+        "POST /ConsultaJurisprudencia",
+        "POST /ConsultaJurisprudencia?PaginaAtual=1&Id_Arquivo=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "rapporteur",
+        "judging_body",
+        "publication_date",
+        "updated_at",
+        "summary",
+        "full_text",
+        "file_id",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjma_informativos",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "informativo_jurisprudencia"
+      ],
+      "content_formats": [
+        "html",
+        "pdf"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /midia/pje/pagina/hotsite/509874",
+        "GET novogerenciador.tjma.jus.br/*.pdf"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "source_record_id",
+        "edition_period",
+        "title",
+        "publication_date",
+        "document_url",
+        "authority",
+        "branch",
+        "degree",
+        "instance",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sentenca",
+        "sumula"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "access_blocked",
+      "detail_modes": [
+        "authorized_search_inline"
+      ],
+      "document_endpoints": [
+        "GET /jurisprudencia/lista_relatorios",
+        "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>",
+        "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>",
+        "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>",
+        "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>",
+        "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>",
+        "GET /jurisprudencia/links_pesquisa_sumulas",
+        "GET /sg/jurisprudencias/processos",
+        "GET /jurisprudencia/processos/pesquisa_acordaos_tr",
+        "GET /jurisprudencia/processos/pesquisa_monocraticas",
+        "GET /jurisprudencia/processos/pesquisa_monocraticas_tr"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "report_type",
+        "search_type",
+        "case_class",
+        "rapporteur",
+        "chamber",
+        "county",
+        "precedent_links",
+        "id",
+        "case_number",
+        "summary",
+        "full_text",
+        "document_url",
+        "judgment_date",
+        "publication_date",
+        "degree",
+        "instance",
+        "branch",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmg_dspace_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "ementa"
+      ],
+      "content_formats": [
+        "json",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /server/api/discover/search/objects",
+        "GET /server/api/core/items/{uuid}",
+        "GET /server/api/core/items/{uuid}/bundles",
+        "GET /server/api/core/bitstreams/{uuid}/content"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmg_ejef_boletim_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "ementa",
+        "boletim"
+      ],
+      "content_formats": [
+        "json",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "lazy_document"
+      ],
+      "document_endpoints": [
+        "GET /server/api/core/collections/{uuid}",
+        "GET /server/api/discover/search/objects",
+        "GET /server/api/core/items/{uuid}/bundles",
+        "GET /server/api/core/bitstreams/{uuid}/content"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "uuid",
+        "source_record_id",
+        "title",
+        "subject",
+        "publication_date",
+        "summary",
+        "document_url",
+        "collection",
+        "degree",
+        "instance"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "decisao_turma_recursal"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [
+        "document_html",
+        "decision_bundle"
+      ],
+      "document_endpoints": [
+        "POST /jurisprudencias/filter?size={size}&page={page}&sort={field},{order}",
+        "POST /jurisprudencias/document",
+        "POST /dominio/{field}",
+        "GET /jurisprudencia/formEspelhoAcordao.do (legado, CAPTCHA)"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmmg_jurisprudencia_api",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "content_formats": [
+        "json",
+        "pdf"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudencia-api/api/jurisprudencia/get",
+        "POST /jurisprudencia-api/api/jurisprudencia/search"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "authority",
+        "degree",
+        "instance",
+        "case_number",
+        "case_class",
+        "decision_type",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmrs_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "html_full_text"
+      ],
+      "document_endpoints": [
+        "GET /abreJurisprudencia.php?processo=<20 dígitos CNJ>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "decision_type",
+        "rapporteur",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjms_cjpg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "decisao_1g",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_full_text"
+      ],
+      "document_endpoints": [
+        "GET /cjpg/pesquisar.do",
+        "GET /cjpg/trocarDePagina.do?pagina=<n>&conversationId="
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "availability_date",
+        "updated_at",
+        "summary",
+        "full_text",
+        "source_id",
+        "cd_processo"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjms_cjsg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "homologation",
+        "decision"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /resultadoCompleta.do",
+        "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
+        "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "document_url",
+        "cd_acordao",
+        "cd_foro"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "lifecycle": "candidate",
+      "runtime": false,
+      "opt_in_runtime": true,
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "content_formats": [
+        "html",
+        "pdf"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "unknown",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /",
+        "GET /v1/tema/retornaRegistrosAtivos",
+        "GET https://ww2.tjmsp.jus.br/Jurisprudencia"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "authority",
+        "degree",
+        "instance",
+        "case_number",
+        "case_class",
+        "decision_type",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "json",
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /assets/config/config.json",
+        "GET /jurisprudencia/api/consulta/{tipoConsulta}",
+        "GET /jurisprudencia/VisualizaRelatorio/RetornaDocumentoAcordao"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_html"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjpa_jurisprudencia_bff",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /bff/api/decisoes/buscar",
+        "GET /bff/api/decisoes/filtros",
+        "GET /bff/api/decisoes/recentes",
+        "POST /bff/api/decisoes/pesquisar-por-classe-assunto"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjpb_pje_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "jurisprudencia_pje",
+        "acordao",
+        "decisao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /",
+        "GET /api/pje/origens/list",
+        "GET /api/pje/classes/list/{id_origem}",
+        "GET /api/pje/orgaosJulgadores/list/{id_origem}",
+        "GET /api/pje/relatores/list/{id_orgao_julgador}",
+        "POST /api/jurisprudencia/pesquisar",
+        "GET /jurisprudencia/view/{id}?words={termos}"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "summary",
+        "judgment_date",
+        "document_url",
+        "search_score"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /api/v1/jurisprudencias",
+        "GET /api/v1/classes",
+        "GET /api/v1/assuntos",
+        "GET /api/v1/relatores",
+        "GET /api/v1/unidades-judiciais",
+        "GET /consultajurisprudenciaweb/xhtml/consulta/consulta.xhtml",
+        "POST /consultajurisprudenciaweb/xhtml/consulta/consulta.xhtml",
+        "POST /consultajurisprudenciaweb/xhtml/consulta/escolhaResultado.xhtml",
+        "POST /consultajurisprudenciaweb/xhtml/consulta/resultado.xhtml"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "source_key"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_terminativa"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudences/search?q=<termo>",
+        "GET /jurisprudences/search?page=<n>&q=<termo>",
+        "GET /jurisprudences/<id>/public"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "public_id",
+        "case_number",
+        "decision_type",
+        "subject",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "decisao"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true",
+        "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
+        "GET /jurisprudencia/publico/pesquisa.do?actionType=exibirTextoCompleto"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "source_record_id",
+        "case_number",
+        "decision_type",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "summary",
+        "document_url",
+        "secret_or_pending_content"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjrj_banco_sentencas",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sentenca"
+      ],
+      "content_formats": [
+        "pdf",
+        "doc",
+        "docx",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "linked_official_document"
+      ],
+      "document_endpoints": [
+        "GET official banco-sentencas.pdf",
+        "GET linked .doc/.docx"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "source_record_id",
+        "case_number",
+        "summary",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection",
+        "document_type"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "html",
+        "json"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline_result_text",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /ejuris/ConsultarJurisprudencia.aspx",
+        "POST /ejuris/ConsultarJurisprudencia.aspx",
+        "POST /EJURIS/ProcessarConsJurisES.aspx/ExecutarConsultarJurisprudencia"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "decision_type",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjrj_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sumula",
+        "despacho",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sentenca"
+      ],
+      "content_formats": [
+        "json",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_full_text"
+      ],
+      "document_endpoints": [
+        "POST /api/pesquisar"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "updated_at",
+        "summary",
+        "full_text",
+        "document_url",
+        "system",
+        "degree"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "decision",
+        "sentence",
+        "vote",
+        "acordao"
+      ],
+      "content_formats": [
+        "json",
+        "html",
+        "text",
+        "pdf",
+        "docx"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [
+        "pdf_or_docx_download"
+      ],
+      "document_endpoints": [
+        "POST /search/varios_parametros/",
+        "GET /search/documentos_relacionados/<id_documento_principal>",
+        "GET /pje/buscar_pdf_ou_docx/<sistema>/<id>/<pdf|docx>/"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text",
+          "json_utf8",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "full_text_url",
+        "degree",
+        "source_system"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjro_liame",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "irdr",
+        "iac"
+      ],
+      "content_formats": [
+        "json"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "not_offered_by_source",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /api/pesquisa/precedentes",
+        "GET /pesquisa/precedentes"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "precedent_type",
+        "number",
+        "status",
+        "question",
+        "thesis",
+        "rapporteur",
+        "paradigm_cases",
+        "updated_at",
+        "admission_date",
+        "document_links"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjrr_juris",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "monocratic_decision"
+      ],
+      "content_formats": [
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /index.xhtml",
+        "POST /index.xhtml (ViewState da sessao publica)",
+        "POST AJAX formPesquisa (paginacao PrimeFaces)",
+        "GET /inteiroTeor.xhtml?id=<id>",
+        "GET /pdf?id=<id> (link oficial exposto pelo visualizador)"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjrs_solr",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao",
+        "informativo",
+        "inteiro_teor_tiff"
+      ],
+      "content_formats": [
+        "json",
+        "tiff"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /buscas/jurisprudencia/",
+        "POST /buscas/jurisprudencia/ajax.php"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjsc_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sumula",
+        "despacho",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjse_boletim_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "ementa"
+      ],
+      "content_formats": [
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /revista/internet/pesquisar.wsp",
+        "POST /revista/internet/principal.wsp",
+        "GET /tjnet/jurisprudencia/relatorio.wsp"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "lifecycle": "candidate",
+      "runtime": false,
+      "opt_in_runtime": true,
+      "document_types": [
+        "acordao",
+        "monocratic_decision"
+      ],
+      "content_formats": [
+        "html",
+        "jsf"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "access_blocked",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+        "POST /Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "decisao_1g",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_full_text"
+      ],
+      "document_endpoints": [
+        "GET /cjpg/pesquisar.do",
+        "GET /cjpg/trocarDePagina.do?pagina=<n>&conversationId="
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "availability_date",
+        "updated_at",
+        "summary",
+        "full_text",
+        "source_id",
+        "cd_processo"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "monocratic_decision",
+        "homologation"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /resultadoCompleta.do",
+        "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
+        "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "subject",
+        "rapporteur",
+        "origin_county",
+        "judging_body",
+        "publication_date",
+        "summary",
+        "document_url",
+        "cd_acordao",
+        "cd_foro",
+        "access_diagnostic_flags"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjsp_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sentenca",
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjsp_nugepnac",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "irdr",
+        "iac"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "link_only",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /NugepNac/Irdr",
+        "GET /NugepNac/Iac",
+        "GET /NugepNac/(Irdr|Iac)/DetalheTema?codigoNoticia=<id>&pagina=1"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "theme_number",
+        "id",
+        "precedent_type",
+        "status",
+        "case_number",
+        "subject",
+        "judging_body",
+        "rapporteur",
+        "admission_date",
+        "admissibility_publication_date",
+        "merit_judgment_date",
+        "merit_publication_date",
+        "judgment_date",
+        "publication_date",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection",
+        "document_type",
+        "question",
+        "thesis",
+        "related_decision_links"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /consulta.php",
+        "POST /consulta.php",
+        "GET /documento.php?uuid=<uuid>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "decision_type",
+        "subject",
+        "competence",
+        "rapporteur",
+        "judgment_date",
+        "filing_date",
+        "summary",
+        "document_url",
+        "document_uuid"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tnu_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "decisao_presidente"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tre_sjur_first_degree",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sentenca"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_decision_field"
+      ],
+      "document_endpoints": [
+        "POST /tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+        "GET /sjur-servicos/rest/download/pdf/<codigoDecisao>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "temInteiroTeorPDF"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tre_sjur_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao",
+        "resolucao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_decision_field"
+      ],
+      "document_endpoints": [
+        "POST /tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+        "GET /sjur-servicos/rest/download/pdf/<codigoDecisao>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "temInteiroTeorPDF"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tre_sp_temas",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "tema_selecionado"
+      ],
+      "content_formats": [
+        "html",
+        "pdf"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudencia/temas-selecionados-1",
+        "GET /jurisprudencia/arquivos-da-secao-de-jurisprudencia-sp/temas-selecionados/<slug>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "theme",
+        "summary",
+        "selected_decisions",
+        "document_links"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trf2_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sumula",
+        "despacho",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trf3_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [
+        "html_full_text"
+      ],
+      "document_endpoints": [
+        "GET /acordaos/Acordao/PesquisarDocumento?processo=<CNJ>",
+        "GET /acordaos/Acordao/BuscarDocumentoPje/<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "judgment_date",
+        "document_url",
+        "summary",
+        "full_text",
+        "degree",
+        "instance",
+        "branch",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao",
+        "despacho"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trf5_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "informativo",
+        "sumula"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /jurisprudencia/pesquisa.wsp",
+        "POST /jurisprudencia/resultado_pesquisa.wsp",
+        "GET /jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "judging_body",
+        "judgment_date",
+        "summary",
+        "document_url",
+        "id_documento"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trf6_eproc_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao_monocratica",
+        "sumula",
+        "despacho",
+        "sentenca"
+      ],
+      "content_formats": [
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "document_url",
+        "full_text_url",
+        "id_jurisprudencia",
+        "source_origin"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt15_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao_ementa",
+        "acordao_full_text"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [
+        "visualizarDocumento",
+        "official_link"
+      ],
+      "document_endpoints": [
+        "GET /backend/listarOpcoes",
+        "POST /backend/pesquisar",
+        "POST /backend/irParaPagina",
+        "POST /backend/filtrarFacet",
+        "POST /backend/visualizarDocumento"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "case_class",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "facets"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt2_basis_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao_ementa",
+        "boletim_jurisprudencia"
+      ],
+      "content_formats": [
+        "html",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /discover",
+        "GET /handle/123456789/16181/browse",
+        "GET /bitstream/handle/{handle}/document.pdf"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt2_ementario_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao_ementa"
+      ],
+      "content_formats": [
+        "html",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "document_link",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /geral/tribunal2/Ementario/Tribunal_Pleno.html",
+        "GET /geral/tribunal2/Ementario/Corregedoria.html",
+        "GET /geral/tribunal2/Ementario/{collection}/{topic}.html",
+        "GET /geral/tribunal2/Ementario/{collection}/Acordaos/{document}.pdf"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "topic",
+        "summary",
+        "full_text",
+        "case_number",
+        "publication_date",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "lifecycle": "candidate",
+      "runtime": false,
+      "opt_in_runtime": true,
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "access_blocked",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /juris-backend/api/opcoes",
+        "POST /juris-backend/api/filtros",
+        "POST /juris-backend/api/documentos"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt3_ementario_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "ementario",
+        "acordao_ementa"
+      ],
+      "content_formats": [
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "volume_pdf"
+      ],
+      "document_endpoints": [
+        "GET official TRT3 ementario PDF"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt4_sumulas_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "sumula",
+        "orientacao_jurisprudencial",
+        "acordao"
+      ],
+      "content_formats": [
+        "html",
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "official_document_link"
+      ],
+      "document_endpoints": [
+        "GET official TRT4 súmulas HTML"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "html_visible_text",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "summary",
+        "document_url",
+        "document_type",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline_result_text",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /juris-backend/api/opcoes",
+        "POST /juris-backend/api/filtros",
+        "POST /juris-backend/api/documentos",
+        "GET /acordaos/",
+        "POST /acordaos/pesquisar"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "authority",
+        "branch",
+        "degree",
+        "instance",
+        "case_number",
+        "case_class",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt8_pje_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [
+        "POST /juris-backend/api/documentos/{id}"
+      ],
+      "document_endpoints": [
+        "GET /juris-backend/api/opcoes",
+        "POST /juris-backend/api/filtros",
+        "POST /juris-backend/api/documentos",
+        "POST /juris-backend/api/documentos/{id}"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "case_class",
+        "judging_body",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "trt9_nugepnac_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "precedente_qualificado",
+        "ementa"
+      ],
+      "content_formats": [
+        "pdf",
+        "text"
+      ],
+      "supports_full_text": false,
+      "full_text_access": "document_link",
+      "detail_modes": [
+        "compilation_pdf"
+      ],
+      "document_endpoints": [
+        "GET official TRT9 NUGEP jurisprudence PDF"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "pypdf",
+          "ocr_optional",
+          "utf8_text"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "summary",
+        "full_text",
+        "document_url",
+        "degree",
+        "instance",
+        "branch",
+        "authority",
+        "collection"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tse_sjur_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "inline",
+      "detail_modes": [
+        "inline_decision_field"
+      ],
+      "document_endpoints": [
+        "POST /tse/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+        "GET /sjur-servicos/rest/download/pdf/<codigoDecisao>"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "id",
+        "case_number",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "full_text",
+        "document_url",
+        "temInteiroTeorPDF"
+      ],
+      "status": "declared"
+    },
+    {
+      "source_id": "tst_jurisprudencia",
+      "lifecycle": "implemented",
+      "runtime": true,
+      "opt_in_runtime": false,
+      "document_types": [
+        "acordao",
+        "decisao",
+        "sumula",
+        "precedente_normativo"
+      ],
+      "content_formats": [
+        "json",
+        "html"
+      ],
+      "supports_full_text": true,
+      "full_text_access": "detail_call",
+      "detail_modes": [],
+      "document_endpoints": [
+        "GET /config.json",
+        "POST /rest/pesquisa-textual/{inicio}/{limite}",
+        "GET /rest/documentos/{id}",
+        "GET /rest/orgaos-judicantes",
+        "GET /rest/ministros",
+        "GET /rest/convocados",
+        "GET /rest/classes-processuais",
+        "GET /rest/indicadores",
+        "GET /rest/assuntos"
+      ],
+      "pipeline_policy": {
+        "max_bytes": 4000000,
+        "redirect_policy": "https_allowlisted",
+        "mime_policy": "declared_header_plus_magic_validation",
+        "text_extractors": [
+          "html_visible_text",
+          "json_utf8"
+        ],
+        "pdf_page_count": "structural_when_pdf",
+        "ocr_policy": "opt_in_with_page_time_budget",
+        "hash": "sha256"
+      },
+      "extracted_fields": [
+        "case_number",
+        "registry_id",
+        "decision_type",
+        "case_class",
+        "rapporteur",
+        "judging_body",
+        "judgment_date",
+        "publication_date",
+        "summary",
+        "disposition",
+        "document_url"
+      ],
+      "status": "declared"
+    }
+  ]
+}

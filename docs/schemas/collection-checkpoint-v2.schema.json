@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.dev/schemas/collection-checkpoint-v2.json",
+  "title": "NanoJuris collection checkpoint v2",
+  "type": "object",
+  "required": [
+    "schema_version", "source", "query", "next_page", "run_id",
+    "query_fingerprint", "contract_fingerprint", "page_fingerprints",
+    "attempts", "outcome", "started_at", "updated_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 2},
+    "source": {"type": "string", "minLength": 1},
+    "query": {"type": "object"},
+    "next_page": {"type": "integer", "minimum": 1},
+    "seen_ids": {"type": "array", "items": {"type": "string"}},
+    "pages_fetched": {"type": "integer", "minimum": 0},
+    "records_seen": {"type": "integer", "minimum": 0},
+    "records_saved": {"type": "integer", "minimum": 0},
+    "duplicate_records": {"type": "integer", "minimum": 0},
+    "invalid_records": {"type": "integer", "minimum": 0},
+    "last_error": {"type": ["object", "null"]},
+    "run_id": {"type": "string", "minLength": 1},
+    "query_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "contract_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "page_fingerprints": {
+      "type": "array",
+      "items": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    },
+    "attempts": {"type": "integer", "minimum": 0},
+    "outcome": {"enum": ["running", "paused", "complete", "failed"]},
+    "started_at": {"type": "string", "minLength": 1},
+    "updated_at": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "network_access": "public_bounded_one_request_per_route",
+  "source": "tjap_tucujuris",
+  "surface": "cjsg",
+  "routes": [
+    {
+      "method": "GET",
+      "url": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "status_code": 200,
+      "content_type": "text/html",
+      "classification": "public_shell_accessible",
+      "evidence": "A página oficial exibe consulta de acórdãos, órgão julgador, número, classe, origem, relator, secretaria e votação, mas carrega o desafio de segurança para submeter a pesquisa.",
+      "bypass_attempted": false
+    },
+    {
+      "method": "POST",
+      "url": "https://tucujuris.tjap.jus.br/api/publico/consultar-jurisprudencia",
+      "query": {
+        "orgao": "0",
+        "ementa": "dano moral",
+        "votacao": "0",
+        "tipo_jurisprudencia": null,
+        "offset": 0
+      },
+      "status_code": 200,
+      "content_type": "application/json",
+      "classification": "access_controlled",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "O envelope HTTP-200 informa falha de verificação de segurança; o backend exige token Turnstile validado no servidor.",
+      "bypass_attempted": false
+    },
+    {
+      "method": "GET",
+      "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "status_code": 200,
+      "content_type": "text/html",
+      "classification": "javascript_shell_accessible",
+      "evidence": "A entrada legada retorna apenas o shell Angular; os scripts de aplicação continuam protegidos por controle de acesso.",
+      "bypass_attempted": false
+    },
+    {
+      "method": "GET",
+      "url": "https://services.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "classification": "transport_unavailable",
+      "error_type": "DNSResolutionError",
+      "evidence": "O host alternativo não resolveu no ambiente de execução; nenhuma tentativa adicional foi feita.",
+      "bypass_attempted": false
+    }
+  ],
+  "decision": "A rota oficial alternativa é acessível apenas até o shell. Sem submissão de pesquisa reproduzível sem Turnstile, TJAP/CJSG permanece access_controlled e fora da federação.",
+  "federation": "not_enabled"
+}

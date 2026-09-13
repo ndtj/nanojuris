@@ -46,6 +46,9 @@ class FakeSession:
             raise response
         return response
 
+    def request(self, method, url, **kwargs):
+        return self.get(url, **kwargs)
+
 
 def load_fixture() -> str:
     return (FIXTURES / "tjce_informativos_results.html").read_text(encoding="utf-8")
@@ -107,6 +110,7 @@ def test_client_registers_tjce_provider_with_curated_scope():
     assert "tjce_informativos" in {item.source for item in client.list_sources()}
     capabilities = TjceInformativosProvider(session=FakeSession([])).get_capabilities()
     assert capabilities.category == "curated_jurisprudence"
+    assert "id" in capabilities.extracted_fields
     assert capabilities.supports_full_text is False
 
 

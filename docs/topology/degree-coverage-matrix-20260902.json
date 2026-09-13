@@ -1,0 +1,4562 @@
+{
+  "schema_version": "national-degree-coverage-matrix-v1",
+  "version": "2026-09-02",
+  "generated_at": "2026-09-06",
+  "source_artifacts": [
+    "src/nanojuris/brazil.py",
+    "docs/registry/providers.json",
+    "docs/registry/provider-catalog.full.json"
+  ],
+  "summary": {
+    "surface_count": 150,
+    "required_surface_count": 125,
+    "gap_count": 101,
+    "by_collection": {
+      "CJPG": {
+        "implemented": 2,
+        "expected": 27,
+        "ratio": 0.07407407407407407
+      },
+      "CJSG": {
+        "implemented": 15,
+        "expected": 27,
+        "ratio": 0.5555555555555556
+      },
+      "EPROC": {
+        "implemented": 4,
+        "expected": 5,
+        "ratio": 0.8
+      },
+      "JURISPRUDENCIA": {
+        "implemented": 1,
+        "expected": 27,
+        "ratio": 0.037037037037037035
+      },
+      "PORTAL": {
+        "implemented": 2,
+        "expected": 9,
+        "ratio": 0.2222222222222222
+      },
+      "SJUR": {
+        "implemented": 0,
+        "expected": 30,
+        "ratio": 0.0
+      }
+    },
+    "by_degree": {
+      "first": 31,
+      "second": 88,
+      "superior": 6
+    },
+    "by_branch": {
+      "constitutional": 1,
+      "electoral": 30,
+      "federal": 8,
+      "labor": 26,
+      "military": 5,
+      "state": 54,
+      "superior": 1
+    },
+    "by_status": {
+      "blocked_access": 2,
+      "blocked_transport": 4,
+      "candidate": 57,
+      "implemented": 43,
+      "pending_contract": 43,
+      "source_unavailable": 1
+    },
+    "queryable_count": 43,
+    "scope_note": "Ratios medem linhas esperadas mapeadas; nao afirmam acervo temporal integral nem disponibilidade live permanente."
+  },
+  "surfaces": [
+    {
+      "authority": "STF",
+      "branch": "constitutional",
+      "degree": "superior",
+      "collection": "PORTAL",
+      "status": "blocked_transport",
+      "provider": "stf_juris",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:stf_juris",
+        "docs/providers/stf_juris/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:stf:portal:superior:stf-juris"
+    },
+    {
+      "authority": "ELECTORAL_FIRST_DEGREE_UNITS",
+      "branch": "electoral",
+      "degree": "first",
+      "collection": "SJUR",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "zonas eleitorais",
+      "surface_id": "surface:electoral-first-degree-units:sjur:first:gap"
+    },
+    {
+      "authority": "TREAC",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treac:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREAL",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treal:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREAM",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tream:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREAP",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treap:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREBA",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treba:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRECE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trece:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREDF",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tredf:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREES",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trees:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREGO",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trego:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMA",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trema:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMG",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tremg:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMS",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trems:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMT",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tremt:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPA",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepa:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPB",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepb:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepe:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPI",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepi:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPR",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepr:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERJ",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trerj:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERN",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trern:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERO",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trero:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERR",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trerr:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERS",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trers:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESC",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tresc:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trese:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESP",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tresp:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESP",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "TEMAS",
+      "status": "source_unavailable",
+      "provider": "tre_sp_temas",
+      "queryable": false,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "tema"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tre_sp_temas",
+        "docs/providers/tre_sp_temas/README.md"
+      ],
+      "notes": "temas/curadoria; nao e busca geral de decisoes",
+      "surface_id": "surface:tresp:temas:second:tre-sp-temas"
+    },
+    {
+      "authority": "TRES_AGGREGATE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "agregador TREs; busca decisoria ainda pendente",
+      "surface_id": "surface:tres-aggregate:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRETO",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treto:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TSE",
+      "branch": "electoral",
+      "degree": "superior",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo/metadata; busca decisoria pendente",
+      "surface_id": "surface:tse:sjur:superior:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "FEDERAL_FIRST_DEGREE_UNITS",
+      "branch": "federal",
+      "degree": "first",
+      "collection": "EPROC",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "varas federais e JEFs",
+      "surface_id": "surface:federal-first-degree-units:eproc:first:gap"
+    },
+    {
+      "authority": "TNU",
+      "branch": "federal",
+      "degree": "superior",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "tnu_eproc_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tnu_eproc_jurisprudencia",
+        "docs/providers/tnu_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tnu:eproc:superior:tnu-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TRF1",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRF regional sem provider runtime reconciliado",
+      "surface_id": "surface:trf1:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRF2",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "trf2_eproc_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:trf2_eproc_jurisprudencia",
+        "docs/providers/trf2_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:trf2:eproc:second:trf2-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TRF3",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": "trf3_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:trf3_jurisprudencia",
+        "docs/providers/trf3_jurisprudencia/README.md"
+      ],
+      "notes": "TRF regional sem provider runtime reconciliado",
+      "surface_id": "surface:trf3:jurisprudencia:second:trf3-jurisprudencia"
+    },
+    {
+      "authority": "TRF4",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "trf4_eproc_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:trf4_eproc_jurisprudencia",
+        "docs/providers/trf4_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:trf4:eproc:second:trf4-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TRF5",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "trf5_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:trf5_jurisprudencia",
+        "docs/providers/trf5_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:trf5:jurisprudencia:second:trf5-jurisprudencia"
+    },
+    {
+      "authority": "TRF6",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "trf6_eproc_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:trf6_eproc_jurisprudencia",
+        "docs/providers/trf6_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:trf6:eproc:second:trf6-eproc-jurisprudencia"
+    },
+    {
+      "authority": "LABOR_FIRST_DEGREE_UNITS",
+      "branch": "labor",
+      "degree": "first",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "varas do trabalho",
+      "surface_id": "surface:labor-first-degree-units:portal:first:gap"
+    },
+    {
+      "authority": "TRT1",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt1:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT10",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt10:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT11",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt11:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT12",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt12:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT13",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt13:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT14",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt14:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT15",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt15:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT16",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt16:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT17",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt17:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT18",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt18:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT19",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt19:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT2",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": "trt2_pje_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:trt2_pje_jurisprudencia",
+        "docs/providers/trt2_pje_jurisprudencia/README.md"
+      ],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt2:jurisprudencia:second:trt2-pje-jurisprudencia"
+    },
+    {
+      "authority": "TRT20",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt20:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT21",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt21:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT22",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt22:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT23",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt23:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT24",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt24:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT3",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt3:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT4",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt4:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT5",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt5:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT6",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt6:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT7",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt7:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT8",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt8:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT9",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt9:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TST",
+      "branch": "labor",
+      "degree": "superior",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "tst_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tst_jurisprudencia",
+        "docs/providers/tst_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tst:portal:superior:tst-jurisprudencia"
+    },
+    {
+      "authority": "MILITARY_FIRST_DEGREE_UNITS",
+      "branch": "military",
+      "degree": "first",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "auditorias, varas ou conselhos militares",
+      "surface_id": "surface:military-first-degree-units:portal:first:gap"
+    },
+    {
+      "authority": "STM",
+      "branch": "military",
+      "degree": "superior",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "stm_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:stm_jurisprudencia",
+        "docs/providers/stm_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:stm:portal:superior:stm-jurisprudencia"
+    },
+    {
+      "authority": "TJMMG",
+      "branch": "military",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TJM estadual sem provider runtime",
+      "surface_id": "surface:tjmmg:portal:second:gap"
+    },
+    {
+      "authority": "TJMRS",
+      "branch": "military",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TJM estadual sem provider runtime",
+      "surface_id": "surface:tjmrs:portal:second:gap"
+    },
+    {
+      "authority": "TJMSP",
+      "branch": "military",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TJM estadual sem provider runtime",
+      "surface_id": "surface:tjmsp:portal:second:gap"
+    },
+    {
+      "authority": "TJAC",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjac:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAC",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjac_cjsg",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjac_cjsg",
+        "docs/providers/tjac_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjac:cjsg:second:tjac-cjsg"
+    },
+    {
+      "authority": "TJAL",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjal:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAL",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjal_cjsg",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjal_cjsg",
+        "docs/providers/tjal_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjal:cjsg:second:tjal-cjsg"
+    },
+    {
+      "authority": "TJAM",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjam:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAM",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjam_cjsg",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjam_cjsg",
+        "docs/providers/tjam_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjam:cjsg:second:tjam-cjsg"
+    },
+    {
+      "authority": "TJAP",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjap:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAP",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_access",
+      "provider": "tjap_tucujuris",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjap_tucujuris",
+        "docs/providers/tjap_tucujuris/README.md"
+      ],
+      "notes": "fonte upstream reporta Turnstile/CAPTCHA; sem bypass",
+      "surface_id": "surface:tjap:cjsg:second:tjap-tucujuris"
+    },
+    {
+      "authority": "TJBA",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjba:cjpg:first:gap"
+    },
+    {
+      "authority": "TJBA",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjba_graphql",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjba_graphql",
+        "docs/providers/tjba_graphql/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjba:cjsg:second:tjba-graphql"
+    },
+    {
+      "authority": "TJBA",
+      "branch": "state",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "tjba_graphql",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjba_graphql",
+        "docs/providers/tjba_graphql/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjba:jurisprudencia:second:tjba-graphql"
+    },
+    {
+      "authority": "TJCE",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjce:cjpg:first:gap"
+    },
+    {
+      "authority": "TJCE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_transport",
+      "provider": "tjce_cjsg",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjce_cjsg",
+        "docs/providers/tjce_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjce:cjsg:second:tjce-cjsg"
+    },
+    {
+      "authority": "TJCE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "implemented",
+      "provider": "tjce_sjuris",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjce_sjuris",
+        "docs/providers/tjce_sjuris/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjce:sjur:second:tjce-sjuris"
+    },
+    {
+      "authority": "TJDFT",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjdft:cjpg:first:gap"
+    },
+    {
+      "authority": "TJDFT",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjdf_juris",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjdf_juris",
+        "docs/providers/tjdf_juris/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjdft:cjsg:second:tjdf-juris"
+    },
+    {
+      "authority": "TJDFT",
+      "branch": "state",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "tjdf_juris",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "turma_recursal"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjdf_juris",
+        "docs/providers/tjdf_juris/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjdft:portal:second:tjdf-juris"
+    },
+    {
+      "authority": "TJES",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "implemented",
+      "provider": "tjes_cjpg",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjes_cjpg",
+        "docs/providers/tjes_cjpg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjes:cjpg:first:tjes-cjpg"
+    },
+    {
+      "authority": "TJES",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjes_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjes_jurisprudencia",
+        "docs/providers/tjes_jurisprudencia/README.md",
+        "docs/provider-discovery/tjes-cjsg-live-20260901.json"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjes:cjsg:second:tjes-jurisprudencia"
+    },
+    {
+      "authority": "TJES",
+      "branch": "state",
+      "degree": "recursal",
+      "collection": "TURMA_RECURSAL",
+      "status": "implemented",
+      "provider": "tjes_turma_recursal",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "recurso_inominado"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjes_turma_recursal",
+        "docs/providers/tjes_turma_recursal/README.md"
+      ],
+      "notes": "collection publica separada de CJPG e CJSG",
+      "surface_id": "surface:tjes:turma-recursal:recursal:tjes-turma-recursal"
+    },
+    {
+      "authority": "TJGO",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjgo_projudi_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjgo_projudi_jurisprudencia",
+        "docs/providers/tjgo_projudi_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjgo:cjpg:first:tjgo-projudi-jurisprudencia"
+    },
+    {
+      "authority": "TJGO",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjgo_projudi_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjgo_projudi_jurisprudencia",
+        "docs/providers/tjgo_projudi_jurisprudencia/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjgo:cjsg:second:tjgo-projudi-jurisprudencia"
+    },
+    {
+      "authority": "TJGO",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "PJE",
+      "status": "implemented",
+      "provider": "tjgo_projudi_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "decisao",
+        "sentenca",
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjgo_projudi_jurisprudencia",
+        "docs/providers/tjgo_projudi_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjgo:pje:mixed:tjgo-projudi-jurisprudencia"
+    },
+    {
+      "authority": "TJMA",
+      "branch": "state",
+      "degree": "unknown",
+      "collection": "CATALOG",
+      "status": "pending_contract",
+      "provider": "tjma_jurisconsult",
+      "queryable": false,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjma_jurisconsult",
+        "docs/providers/tjma_jurisconsult/README.md"
+      ],
+      "notes": "catalogo de metadados; sem busca decisoria promovida",
+      "surface_id": "surface:tjma:catalog:unknown:tjma-jurisconsult"
+    },
+    {
+      "authority": "TJMA",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjma:cjpg:first:gap"
+    },
+    {
+      "authority": "TJMA",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjma:cjsg:second:gap"
+    },
+    {
+      "authority": "TJMG",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": "tjmg_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjmg_jurisprudencia",
+        "docs/providers/tjmg_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjmg:cjpg:first:tjmg-jurisprudencia"
+    },
+    {
+      "authority": "TJMG",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "candidate",
+      "provider": "tjmg_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjmg_jurisprudencia",
+        "docs/providers/tjmg_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjmg:cjsg:second:tjmg-jurisprudencia"
+    },
+    {
+      "authority": "TJMG",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": "tjmg_jurisprudencia",
+      "queryable": false,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:tjmg_jurisprudencia",
+        "docs/providers/tjmg_jurisprudencia/README.md"
+      ],
+      "notes": "provider candidato; contrato pendente",
+      "surface_id": "surface:tjmg:jurisprudencia:mixed:tjmg-jurisprudencia"
+    },
+    {
+      "authority": "TJMS",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjms:cjpg:first:gap"
+    },
+    {
+      "authority": "TJMS",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjms_cjsg",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjms_cjsg",
+        "docs/providers/tjms_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjms:cjsg:second:tjms-cjsg"
+    },
+    {
+      "authority": "TJMT",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjmt:cjpg:first:gap"
+    },
+    {
+      "authority": "TJMT",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjmt_jurisprudencia_api",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjmt_jurisprudencia_api",
+        "docs/providers/tjmt_jurisprudencia_api/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjmt:cjsg:second:tjmt-jurisprudencia-api"
+    },
+    {
+      "authority": "TJMT",
+      "branch": "state",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "tjmt_jurisprudencia_api",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjmt_jurisprudencia_api",
+        "docs/providers/tjmt_jurisprudencia_api/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjmt:jurisprudencia:second:tjmt-jurisprudencia-api"
+    },
+    {
+      "authority": "TJPA",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpa:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPA",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjpa_jurisprudencia_bff",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpa_jurisprudencia_bff",
+        "docs/providers/tjpa_jurisprudencia_bff/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjpa:cjsg:second:tjpa-jurisprudencia-bff"
+    },
+    {
+      "authority": "TJPA",
+      "branch": "state",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "tjpa_jurisprudencia_bff",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpa_jurisprudencia_bff",
+        "docs/providers/tjpa_jurisprudencia_bff/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjpa:jurisprudencia:second:tjpa-jurisprudencia-bff"
+    },
+    {
+      "authority": "TJPB",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpb:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPB",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjpb_pje_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpb_pje_jurisprudencia",
+        "docs/providers/tjpb_pje_jurisprudencia/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjpb:cjsg:second:tjpb-pje-jurisprudencia"
+    },
+    {
+      "authority": "TJPB",
+      "branch": "state",
+      "degree": "second",
+      "collection": "PJE",
+      "status": "implemented",
+      "provider": "tjpb_pje_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpb_pje_jurisprudencia",
+        "docs/providers/tjpb_pje_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjpb:pje:second:tjpb-pje-jurisprudencia"
+    },
+    {
+      "authority": "TJPE",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpe:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_transport",
+      "provider": "tjpe_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpe_jurisprudencia",
+        "docs/providers/tjpe_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjpe:cjsg:second:tjpe-jurisprudencia"
+    },
+    {
+      "authority": "TJPE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "blocked_transport",
+      "provider": "tjpe_jurisprudencia",
+      "queryable": false,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpe_jurisprudencia",
+        "docs/providers/tjpe_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjpe:jurisprudencia:second:tjpe-jurisprudencia"
+    },
+    {
+      "authority": "TJPI",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpi:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPI",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjpi_juspi",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpi_juspi",
+        "docs/providers/tjpi_juspi/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjpi:cjsg:second:tjpi-juspi"
+    },
+    {
+      "authority": "TJPI",
+      "branch": "state",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "tjpi_juspi",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "sumula"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpi_juspi",
+        "docs/providers/tjpi_juspi/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjpi:portal:second:tjpi-juspi"
+    },
+    {
+      "authority": "TJPR",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpr:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPR",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjpr_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpr_jurisprudencia",
+        "docs/providers/tjpr_jurisprudencia/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjpr:cjsg:second:tjpr-jurisprudencia"
+    },
+    {
+      "authority": "TJPR",
+      "branch": "state",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "tjpr_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpr_jurisprudencia",
+        "docs/providers/tjpr_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjpr:jurisprudencia:second:tjpr-jurisprudencia"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrj_eproc_jurisprudencia",
+        "docs/providers/tjrj_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjrj:cjpg:first:tjrj-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrj_eproc_jurisprudencia",
+        "docs/providers/tjrj_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjrj:cjsg:second:tjrj-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrj_eproc_jurisprudencia",
+        "docs/providers/tjrj_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjrj:eproc:mixed:tjrj-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": "tjrj_ejuris",
+      "queryable": false,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:tjrj_ejuris",
+        "docs/providers/tjrj_ejuris/README.md"
+      ],
+      "notes": "provider candidato; contrato pendente",
+      "surface_id": "surface:tjrj:jurisprudencia:mixed:tjrj-ejuris"
+    },
+    {
+      "authority": "TJRN",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjrn_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrn_jurisprudencia",
+        "docs/providers/tjrn_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjrn:cjpg:first:tjrn-jurisprudencia"
+    },
+    {
+      "authority": "TJRN",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjrn_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrn_jurisprudencia",
+        "docs/providers/tjrn_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjrn:cjsg:second:tjrn-jurisprudencia"
+    },
+    {
+      "authority": "TJRN",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "tjrn_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:tjrn_jurisprudencia",
+        "docs/providers/tjrn_jurisprudencia/README.md"
+      ],
+      "notes": "provider candidato; contrato pendente",
+      "surface_id": "surface:tjrn:jurisprudencia:mixed:tjrn-jurisprudencia"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjro_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjro_jurisprudencia",
+        "docs/providers/tjro_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjro:cjpg:first:tjro-jurisprudencia"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjro_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjro_jurisprudencia",
+        "docs/providers/tjro_jurisprudencia/README.md"
+      ],
+      "notes": "provider textual separado; contrato especifico CJSG pendente",
+      "surface_id": "surface:tjro:cjsg:second:tjro-jurisprudencia"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "JURISPRUDENCIA",
+      "status": "implemented",
+      "provider": "tjro_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjro_jurisprudencia",
+        "docs/providers/tjro_jurisprudencia/README.md"
+      ],
+      "notes": "busca textual geral; nao substitui bindings especificos CJPG/CJSG",
+      "surface_id": "surface:tjro:jurisprudencia:mixed:tjro-jurisprudencia"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "degree": "second",
+      "collection": "PRECEDENT",
+      "status": "implemented",
+      "provider": "tjro_liame",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "irdr",
+        "iac"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjro_liame",
+        "docs/providers/tjro_liame/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjro:precedent:second:tjro-liame"
+    },
+    {
+      "authority": "TJRR",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjrr:cjpg:first:gap"
+    },
+    {
+      "authority": "TJRR",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjrr_juris",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrr_juris",
+        "docs/providers/tjrr_juris/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjrr:cjsg:second:tjrr-juris"
+    },
+    {
+      "authority": "TJRR",
+      "branch": "state",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "tjrr_juris",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao_monocratica"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrr_juris",
+        "docs/providers/tjrr_juris/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjrr:portal:second:tjrr-juris"
+    },
+    {
+      "authority": "TJRS",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjrs:cjpg:first:gap"
+    },
+    {
+      "authority": "TJRS",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjrs_solr",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrs_solr",
+        "docs/providers/tjrs_solr/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjrs:cjsg:second:tjrs-solr"
+    },
+    {
+      "authority": "TJRS",
+      "branch": "state",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "tjrs_solr",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrs_solr",
+        "docs/providers/tjrs_solr/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjrs:portal:second:tjrs-solr"
+    },
+    {
+      "authority": "TJSC",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsc_eproc_jurisprudencia",
+        "docs/providers/tjsc_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjsc:cjpg:first:tjsc-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJSC",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsc_eproc_jurisprudencia",
+        "docs/providers/tjsc_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjsc:cjsg:second:tjsc-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJSC",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsc_eproc_jurisprudencia",
+        "docs/providers/tjsc_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjsc:eproc:mixed:tjsc-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJSE",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjse:cjpg:first:gap"
+    },
+    {
+      "authority": "TJSE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjse:cjsg:second:gap"
+    },
+    {
+      "authority": "TJSP",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "implemented",
+      "provider": "tjsp_cjpg",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsp_cjpg",
+        "docs/providers/tjsp_cjpg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjsp:cjpg:first:tjsp-cjpg"
+    },
+    {
+      "authority": "TJSP",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_access",
+      "provider": "tjsp_cjsg",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsp_cjsg",
+        "docs/providers/tjsp_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjsp:cjsg:second:tjsp-cjsg"
+    },
+    {
+      "authority": "TJSP",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "EPROC",
+      "status": "implemented",
+      "provider": "tjsp_eproc_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca",
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsp_eproc_jurisprudencia",
+        "docs/providers/tjsp_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjsp:eproc:mixed:tjsp-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJTO",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjto_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjto_jurisprudencia",
+        "docs/providers/tjto_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjto:cjpg:first:tjto-jurisprudencia"
+    },
+    {
+      "authority": "TJTO",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "implemented",
+      "provider": "tjto_jurisprudencia",
+      "queryable": true,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjto_jurisprudencia",
+        "docs/providers/tjto_jurisprudencia/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjto:cjsg:second:tjto-jurisprudencia"
+    },
+    {
+      "authority": "TJTO",
+      "branch": "state",
+      "degree": "mixed",
+      "collection": "PORTAL",
+      "status": "implemented",
+      "provider": "tjto_jurisprudencia",
+      "queryable": true,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjto_jurisprudencia",
+        "docs/providers/tjto_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:tjto:portal:mixed:tjto-jurisprudencia"
+    },
+    {
+      "authority": "STJ",
+      "branch": "superior",
+      "degree": "superior",
+      "collection": "AGGREGATE",
+      "status": "pending_contract",
+      "provider": "stj_dados_abertos_jurisprudencia",
+      "queryable": false,
+      "required": false,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:stj_dados_abertos_jurisprudencia",
+        "docs/providers/stj_dados_abertos_jurisprudencia/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:stj:aggregate:superior:stj-dados-abertos-jurisprudencia"
+    },
+    {
+      "authority": "STJ",
+      "branch": "superior",
+      "degree": "superior",
+      "collection": "PORTAL",
+      "status": "pending_contract",
+      "provider": "stj_scon",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:stj_scon",
+        "docs/providers/stj_scon/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:stj:portal:superior:stj-scon"
+    }
+  ],
+  "gaps": [
+    {
+      "authority": "STF",
+      "branch": "constitutional",
+      "degree": "superior",
+      "collection": "PORTAL",
+      "status": "blocked_transport",
+      "provider": "stf_juris",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:stf_juris",
+        "docs/providers/stf_juris/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:stf:portal:superior:stf-juris"
+    },
+    {
+      "authority": "ELECTORAL_FIRST_DEGREE_UNITS",
+      "branch": "electoral",
+      "degree": "first",
+      "collection": "SJUR",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "zonas eleitorais",
+      "surface_id": "surface:electoral-first-degree-units:sjur:first:gap"
+    },
+    {
+      "authority": "TREAC",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treac:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREAL",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treal:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREAM",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tream:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREAP",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treap:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREBA",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treba:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRECE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trece:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREDF",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tredf:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREES",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trees:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREGO",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trego:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMA",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trema:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMG",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tremg:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMS",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trems:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREMT",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tremt:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPA",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepa:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPB",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepb:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepe:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPI",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepi:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TREPR",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trepr:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERJ",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trerj:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERN",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trern:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERO",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trero:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERR",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trerr:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRERS",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trers:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESC",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tresc:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:trese:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRESP",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:tresp:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRES_AGGREGATE",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "agregador TREs; busca decisoria ainda pendente",
+      "surface_id": "surface:tres-aggregate:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TRETO",
+      "branch": "electoral",
+      "degree": "second",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo SJUR publico; busca decisoria ainda pendente",
+      "surface_id": "surface:treto:sjur:second:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "TSE",
+      "branch": "electoral",
+      "degree": "superior",
+      "collection": "SJUR",
+      "status": "pending_contract",
+      "provider": "justica_eleitoral_sjur",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:justica_eleitoral_sjur",
+        "docs/providers/justica_eleitoral_sjur/README.md"
+      ],
+      "notes": "catalogo/metadata; busca decisoria pendente",
+      "surface_id": "surface:tse:sjur:superior:justica-eleitoral-sjur"
+    },
+    {
+      "authority": "FEDERAL_FIRST_DEGREE_UNITS",
+      "branch": "federal",
+      "degree": "first",
+      "collection": "EPROC",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "varas federais e JEFs",
+      "surface_id": "surface:federal-first-degree-units:eproc:first:gap"
+    },
+    {
+      "authority": "TRF1",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRF regional sem provider runtime reconciliado",
+      "surface_id": "surface:trf1:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRF3",
+      "branch": "federal",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": "trf3_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:trf3_jurisprudencia",
+        "docs/providers/trf3_jurisprudencia/README.md"
+      ],
+      "notes": "TRF regional sem provider runtime reconciliado",
+      "surface_id": "surface:trf3:jurisprudencia:second:trf3-jurisprudencia"
+    },
+    {
+      "authority": "LABOR_FIRST_DEGREE_UNITS",
+      "branch": "labor",
+      "degree": "first",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "varas do trabalho",
+      "surface_id": "surface:labor-first-degree-units:portal:first:gap"
+    },
+    {
+      "authority": "TRT1",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt1:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT10",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt10:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT11",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt11:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT12",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt12:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT13",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt13:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT14",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt14:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT15",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt15:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT16",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt16:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT17",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt17:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT18",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt18:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT19",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt19:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT2",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": "trt2_pje_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [
+        "provider-catalog:trt2_pje_jurisprudencia",
+        "docs/providers/trt2_pje_jurisprudencia/README.md"
+      ],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt2:jurisprudencia:second:trt2-pje-jurisprudencia"
+    },
+    {
+      "authority": "TRT20",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt20:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT21",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt21:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT22",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt22:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT23",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt23:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT24",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt24:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT3",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt3:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT4",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt4:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT5",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt5:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT6",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt6:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT7",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt7:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT8",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt8:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "TRT9",
+      "branch": "labor",
+      "degree": "second",
+      "collection": "JURISPRUDENCIA",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TRT regional; contrato de decisao ainda nao promovido",
+      "surface_id": "surface:trt9:jurisprudencia:second:gap"
+    },
+    {
+      "authority": "MILITARY_FIRST_DEGREE_UNITS",
+      "branch": "military",
+      "degree": "first",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "judicial_unit_gap",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "auditorias, varas ou conselhos militares",
+      "surface_id": "surface:military-first-degree-units:portal:first:gap"
+    },
+    {
+      "authority": "TJMMG",
+      "branch": "military",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TJM estadual sem provider runtime",
+      "surface_id": "surface:tjmmg:portal:second:gap"
+    },
+    {
+      "authority": "TJMRS",
+      "branch": "military",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TJM estadual sem provider runtime",
+      "surface_id": "surface:tjmrs:portal:second:gap"
+    },
+    {
+      "authority": "TJMSP",
+      "branch": "military",
+      "degree": "second",
+      "collection": "PORTAL",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [],
+      "evidence_ids": [],
+      "notes": "TJM estadual sem provider runtime",
+      "surface_id": "surface:tjmsp:portal:second:gap"
+    },
+    {
+      "authority": "TJAC",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjac:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAL",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjal:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAM",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjam:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAP",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjap:cjpg:first:gap"
+    },
+    {
+      "authority": "TJAP",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_access",
+      "provider": "tjap_tucujuris",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjap_tucujuris",
+        "docs/providers/tjap_tucujuris/README.md"
+      ],
+      "notes": "fonte upstream reporta Turnstile/CAPTCHA; sem bypass",
+      "surface_id": "surface:tjap:cjsg:second:tjap-tucujuris"
+    },
+    {
+      "authority": "TJBA",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjba:cjpg:first:gap"
+    },
+    {
+      "authority": "TJCE",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjce:cjpg:first:gap"
+    },
+    {
+      "authority": "TJCE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_transport",
+      "provider": "tjce_cjsg",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjce_cjsg",
+        "docs/providers/tjce_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjce:cjsg:second:tjce-cjsg"
+    },
+    {
+      "authority": "TJDFT",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjdft:cjpg:first:gap"
+    },
+    {
+      "authority": "TJGO",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjgo_projudi_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjgo_projudi_jurisprudencia",
+        "docs/providers/tjgo_projudi_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjgo:cjpg:first:tjgo-projudi-jurisprudencia"
+    },
+    {
+      "authority": "TJMA",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjma:cjpg:first:gap"
+    },
+    {
+      "authority": "TJMA",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjma:cjsg:second:gap"
+    },
+    {
+      "authority": "TJMG",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": "tjmg_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjmg_jurisprudencia",
+        "docs/providers/tjmg_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjmg:cjpg:first:tjmg-jurisprudencia"
+    },
+    {
+      "authority": "TJMG",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "candidate",
+      "provider": "tjmg_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjmg_jurisprudencia",
+        "docs/providers/tjmg_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjmg:cjsg:second:tjmg-jurisprudencia"
+    },
+    {
+      "authority": "TJMS",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjms:cjpg:first:gap"
+    },
+    {
+      "authority": "TJMT",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjmt:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPA",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpa:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPB",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpb:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPE",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpe:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_transport",
+      "provider": "tjpe_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjpe_jurisprudencia",
+        "docs/providers/tjpe_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjpe:cjsg:second:tjpe-jurisprudencia"
+    },
+    {
+      "authority": "TJPI",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpi:cjpg:first:gap"
+    },
+    {
+      "authority": "TJPR",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjpr:cjpg:first:gap"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrj_eproc_jurisprudencia",
+        "docs/providers/tjrj_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjrj:cjpg:first:tjrj-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJRJ",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjrj_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrj_eproc_jurisprudencia",
+        "docs/providers/tjrj_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjrj:cjsg:second:tjrj-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJRN",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjrn_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrn_jurisprudencia",
+        "docs/providers/tjrn_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjrn:cjpg:first:tjrn-jurisprudencia"
+    },
+    {
+      "authority": "TJRN",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjrn_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrn_jurisprudencia",
+        "docs/providers/tjrn_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjrn:cjsg:second:tjrn-jurisprudencia"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjro_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjro_jurisprudencia",
+        "docs/providers/tjro_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjro:cjpg:first:tjro-jurisprudencia"
+    },
+    {
+      "authority": "TJRO",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjro_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjro_jurisprudencia",
+        "docs/providers/tjro_jurisprudencia/README.md"
+      ],
+      "notes": "provider textual separado; contrato especifico CJSG pendente",
+      "surface_id": "surface:tjro:cjsg:second:tjro-jurisprudencia"
+    },
+    {
+      "authority": "TJRR",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjrr:cjpg:first:gap"
+    },
+    {
+      "authority": "TJRR",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjrr_juris",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjrr_juris",
+        "docs/providers/tjrr_juris/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjrr:cjsg:second:tjrr-juris"
+    },
+    {
+      "authority": "TJRS",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjrs:cjpg:first:gap"
+    },
+    {
+      "authority": "TJSC",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsc_eproc_jurisprudencia",
+        "docs/providers/tjsc_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjsc:cjpg:first:tjsc-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJSC",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "pending_contract",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsc_eproc_jurisprudencia",
+        "docs/providers/tjsc_eproc_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJSG",
+      "surface_id": "surface:tjsc:cjsg:second:tjsc-eproc-jurisprudencia"
+    },
+    {
+      "authority": "TJSE",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjse:cjpg:first:gap"
+    },
+    {
+      "authority": "TJSE",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "candidate",
+      "provider": null,
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [],
+      "notes": "nenhum provider especifico reconciliado",
+      "surface_id": "surface:tjse:cjsg:second:gap"
+    },
+    {
+      "authority": "TJSP",
+      "branch": "state",
+      "degree": "second",
+      "collection": "CJSG",
+      "status": "blocked_access",
+      "provider": "tjsp_cjsg",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjsp_cjsg",
+        "docs/providers/tjsp_cjsg/README.md"
+      ],
+      "notes": "colecao especifica com contrato proprio",
+      "surface_id": "surface:tjsp:cjsg:second:tjsp-cjsg"
+    },
+    {
+      "authority": "TJTO",
+      "branch": "state",
+      "degree": "first",
+      "collection": "CJPG",
+      "status": "pending_contract",
+      "provider": "tjto_jurisprudencia",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "sentenca"
+      ],
+      "evidence_ids": [
+        "provider-catalog:tjto_jurisprudencia",
+        "docs/providers/tjto_jurisprudencia/README.md"
+      ],
+      "notes": "provider equivalente nao prova contrato especifico de CJPG",
+      "surface_id": "surface:tjto:cjpg:first:tjto-jurisprudencia"
+    },
+    {
+      "authority": "STJ",
+      "branch": "superior",
+      "degree": "superior",
+      "collection": "PORTAL",
+      "status": "pending_contract",
+      "provider": "stj_scon",
+      "queryable": false,
+      "required": true,
+      "scope": "tribunal",
+      "document_types": [
+        "acordao",
+        "decisao"
+      ],
+      "evidence_ids": [
+        "provider-catalog:stj_scon",
+        "docs/providers/stj_scon/README.md"
+      ],
+      "notes": "",
+      "surface_id": "surface:stj:portal:superior:stj-scon"
+    }
+  ]
+}

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import sqlite3
 
+import pytest
+
 from nanojuris.models import (
     CanonicalDecision,
     CanonicalDocument,
@@ -10,7 +12,7 @@ from nanojuris.models import (
     ParadigmCase,
     SourceTrace,
 )
-from nanojuris.store import CanonicalStore, SQLiteStore
+from nanojuris.store import CanonicalStore, SQLiteStore, TombstoneEvidence
 
 
 def _accepts_store(store: CanonicalStore) -> int:
@@ -71,6 +73,10 @@ def test_sqlite_store_migrates_legacy_sync_manifest_schema():
         for row in connection.execute("PRAGMA table_info(source_sync_manifests)").fetchall()
     }
     assert "source_fingerprint" in columns
+    run_columns = {
+        str(row[1]) for row in connection.execute("PRAGMA table_info(research_runs)").fetchall()
+    }
+    assert "manifest_json" in run_columns
 
 
 def test_sqlite_store_saves_and_gets_canonical_decision():
@@ -96,6 +102,27 @@ def test_sqlite_store_saves_and_gets_canonical_decision():
     assert stored["source_trace"]["provider"] == "tjsp_cjsg"
     assert stored["extraction_trace"]["parser"] == "tjsp.parser"
     assert _accepts_store(store) == 1
+
+
+def test_sqlite_store_persists_explainable_legal_identity_without_breaking_fields():
+    store = SQLiteStore(":memory:")
+    decision = CanonicalDecision(
+        id="dec-identity",
+        source="tjsp_cjsg",
+        court="TJSP",
+        case_number="0003938-14.2017.8.26.0323",
+        decision_type="acordao",
+    )
+
+    store.save(decision)
+
+    stored = store.get("decision", "dec-identity")
+    identity = store.get_identity("decision", "dec-identity")
+    assert stored is not None
+    assert stored["id"] == "dec-identity"
+    assert stored["legal_identity"]["kind"] == "decision"
+    assert identity == stored["legal_identity"]
+    assert identity["key"] == 'decision:["tjsp_cjsg","dec-identity"]'
 
 
 def test_sqlite_store_saves_many_and_filters_by_source():
@@ -248,6 +275,91 @@ def test_sqlite_store_saves_and_lists_research_runs():
     assert stored_run["query"] == {"page": 1, "page_size": 10}
     assert [item["id"] for item in runs] == [run.id]
     assert [record["id"] for record in records] == ["dec-1"]
+
+
+def test_sqlite_store_roundtrips_collection_manifest():
+    store = SQLiteStore(":memory:")
+    decision = CanonicalDecision(
+        id="dec-manifest",
+        source="tjsp_cjsg",
+        court="TJSP",
+        case_number="0003938-14.2017.8.26.0323",
+        decision_type="acordao",
+    )
+    manifest = {
+        "schema_version": "nanojuris-collection-manifest-v1",
+        "run_id": "collection-test",
+        "complete": False,
+        "stop_reason": "max_pages",
+        "query_fingerprint": "qhash",
+    }
+
+    run = store.save_research_run(
+        source="tjsp_cjsg",
+        text="responsabilidade civil",
+        query={"text": "responsabilidade civil"},
+        records=[decision],
+        manifest=manifest,
+    )
+
+    stored = store.get_research_run(run.id)
+    assert stored is not None
+    assert stored["manifest"] == manifest
+    assert store.list_research_runs()[0]["manifest"] == manifest
+
+
+def test_tombstone_evidence_is_explicit_and_does_not_delete_records():
+    store = SQLiteStore(":memory:")
+    decision = CanonicalDecision(
+        id="dec-tombstone",
+        source="tjsp_cjsg",
+        court="TJSP",
+        case_number="0003938-14.2017.8.26.0323",
+        decision_type="acordao",
+    )
+    store.save(decision)
+    identity = store.get_identity("decision", decision.id)
+    assert identity is not None
+
+    evidence = TombstoneEvidence(
+        source="tjsp_cjsg",
+        canonical_key=identity["key"],
+        evidence_url="https://www.tjsp.jus.br/arquivo/remocao.csv",
+        evidence_sha256="a" * 64,
+        evidence_type="official_absence_manifest",
+        observed_at="2026-09-01T12:00:00Z",
+        reason="manifesto oficial informa remoção explícita",
+    )
+
+    saved = store.record_tombstone(evidence)
+    assert saved["schema_version"] == "nanojuris-tombstone-evidence-v1"
+    assert saved["evidence_sha256"] == f"sha256:{'a' * 64}"
+    assert store.count() == 1
+    assert store.get("decision", decision.id) is not None
+    assert store.list_tombstones(source="tjsp_cjsg") == [saved]
+
+
+def test_tombstone_evidence_rejects_unverifiable_provenance():
+    with pytest.raises(ValueError, match="HTTPS"):
+        TombstoneEvidence(
+            source="tjsp_cjsg",
+            canonical_key="decision|tjsp_cjsg|tjsp|x",
+            evidence_url="http://example.test/remocao",
+            evidence_sha256="b" * 64,
+            evidence_type="official_tombstone",
+            observed_at="2026-09-01T12:00:00Z",
+            reason="fonte oficial",
+        )
+    with pytest.raises(ValueError, match="SHA-256"):
+        TombstoneEvidence(
+            source="tjsp_cjsg",
+            canonical_key="decision|tjsp_cjsg|tjsp|x",
+            evidence_url="https://example.test/remocao",
+            evidence_sha256="not-a-hash",
+            evidence_type="official_tombstone",
+            observed_at="2026-09-01T12:00:00Z",
+            reason="fonte oficial",
+        )
 
 
 def test_sqlite_store_research_run_records_follow_canonical_deduplication():

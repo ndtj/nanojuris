@@ -1,0 +1,1584 @@
+{
+  "schema_version": "provider-certification-v1",
+  "generated_at": "2026-09-10T16:06:34+00:00",
+  "policy": {
+    "default_ttl_seconds": 86400,
+    "minimum_completeness": 0.8,
+    "daily_risk_levels": [
+      "critical",
+      "high"
+    ],
+    "weekly_risk_levels": [
+      "medium"
+    ]
+  },
+  "summary": {
+    "providers": 81,
+    "promotable": 0,
+    "blocked": 81,
+    "by_smoke_frequency": {
+      "daily": 21,
+      "weekly": 54,
+      "monthly": 6
+    }
+  },
+  "reports": [
+    {
+      "provider": "bnp_pangea",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "cjf_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "cnj_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "eproc_jurisprudencia_federal",
+      "freshness": "missing",
+      "alerts": [
+        {
+          "code": "evidence_missing",
+          "severity": "blocking",
+          "message": "no bounded evidence timestamp",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "falcao_jt",
+      "freshness": "missing",
+      "alerts": [
+        {
+          "code": "evidence_missing",
+          "severity": "blocking",
+          "message": "no bounded evidence timestamp",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "justica_eleitoral_sjur",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        },
+        {
+          "code": "access_or_contract_failure",
+          "severity": "blocking",
+          "message": "outcome=source_unavailable",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "stf_informativo",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        },
+        {
+          "code": "access_or_contract_failure",
+          "severity": "blocking",
+          "message": "outcome=source_unavailable",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "monthly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "stf_juris",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        },
+        {
+          "code": "access_or_contract_failure",
+          "severity": "blocking",
+          "message": "outcome=blocked_transport",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "stj_dados_abertos_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "stj_informativo",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "stj_scon",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "stm_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tce_pr_viajuris",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tce_sp_jurisprudencia",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tcu_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjac_cjsg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjac_ementario_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjal_cjsg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjal_esmal_banco_sentencas",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjal_turma_recursal_ementario",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjam_cjsg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjap_banco_sentencas",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjap_tucujuris",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        },
+        {
+          "code": "access_or_contract_failure",
+          "severity": "blocking",
+          "message": "outcome=access_blocked",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjba_graphql",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjce_cjsg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjce_informativos",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjce_sjuris",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjdf_juris",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "monthly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjes_cjpg",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjes_jurisprudencia",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjes_turma_recursal",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjgo_projudi_jurisprudencia",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjma_informativos",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjma_jurisconsult",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        },
+        {
+          "code": "access_or_contract_failure",
+          "severity": "blocking",
+          "message": "outcome=access_blocked",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmg_dspace_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmg_ejef_boletim_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmg_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmmg_jurisprudencia_api",
+      "freshness": "invalid",
+      "alerts": [
+        {
+          "code": "evidence_timestamp_invalid",
+          "severity": "blocking",
+          "message": "evidence timestamp is invalid",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmrs_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjms_cjpg",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjms_cjsg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmsp_jurisprudencia",
+      "freshness": "invalid",
+      "alerts": [
+        {
+          "code": "evidence_timestamp_invalid",
+          "severity": "blocking",
+          "message": "evidence timestamp is invalid",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjmt_jurisprudencia_api",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjpa_jurisprudencia_bff",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjpb_pje_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjpe_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjpi_juspi",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjpr_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjrj_banco_sentencas",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjrj_ejuris",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjrj_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjrn_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjro_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjro_liame",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjrr_juris",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjrs_solr",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjsc_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjse_boletim_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjse_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjsp_cjpg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjsp_cjsg",
+      "freshness": "stale",
+      "alerts": [
+        {
+          "code": "evidence_expired",
+          "severity": "blocking",
+          "message": "bounded evidence exceeded its TTL",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjsp_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjsp_nugepnac",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tjto_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tnu_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "monthly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tre_sjur_jurisprudencia",
+      "freshness": "missing",
+      "alerts": [
+        {
+          "code": "evidence_missing",
+          "severity": "blocking",
+          "message": "no bounded evidence timestamp",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tre_sp_temas",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        },
+        {
+          "code": "access_or_contract_failure",
+          "severity": "blocking",
+          "message": "outcome=source_unavailable",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trf2_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "monthly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trf3_jurisprudencia",
+      "freshness": "invalid",
+      "alerts": [
+        {
+          "code": "evidence_timestamp_invalid",
+          "severity": "blocking",
+          "message": "evidence timestamp is invalid",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trf4_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "monthly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trf5_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trf6_eproc_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "monthly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt15_jurisprudencia",
+      "freshness": "missing",
+      "alerts": [
+        {
+          "code": "evidence_missing",
+          "severity": "blocking",
+          "message": "no bounded evidence timestamp",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt2_basis_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt2_ementario_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt2_pje_jurisprudencia",
+      "freshness": "missing",
+      "alerts": [
+        {
+          "code": "evidence_missing",
+          "severity": "blocking",
+          "message": "no bounded evidence timestamp",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt3_ementario_jurisprudencia",
+      "freshness": "invalid",
+      "alerts": [
+        {
+          "code": "evidence_timestamp_invalid",
+          "severity": "blocking",
+          "message": "evidence timestamp is invalid",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt6_jurisprudencia",
+      "freshness": "invalid",
+      "alerts": [
+        {
+          "code": "evidence_timestamp_invalid",
+          "severity": "blocking",
+          "message": "evidence timestamp is invalid",
+          "blocks_promotion": true
+        },
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "daily",
+      "parser_version": null,
+      "technical_gate": false,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "trt8_pje_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tse_sjur_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    },
+    {
+      "provider": "tst_jurisprudencia",
+      "freshness": "fresh",
+      "alerts": [
+        {
+          "code": "completeness_unknown",
+          "severity": "blocking",
+          "message": "completeness was not measured",
+          "blocks_promotion": true
+        }
+      ],
+      "can_promote": false,
+      "recommended_smoke": "weekly",
+      "parser_version": null,
+      "technical_gate": true,
+      "technical_promotion_eligible": false
+    }
+  ]
+}

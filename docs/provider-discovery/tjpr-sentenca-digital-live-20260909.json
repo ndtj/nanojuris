@@ -1,0 +1,67 @@
+{
+  "schema_version": "provider-surface-live-v1",
+  "observed_at": "2026-09-09",
+  "authority": "TJPR",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "surface": "sentenca_digital",
+  "source": {
+    "official_entry_point": "https://www.tjpr.jus.br/sentenca-digital",
+    "embedded_route": "/pesquisa_sentenca/publico/sentenca.do",
+    "method": "POST",
+    "credentials_used": false,
+    "bypass_used": false
+  },
+  "observations": [
+    {
+      "kind": "bootstrap",
+      "method": "GET",
+      "http_status": 200,
+      "classification": "reachable_public_entry",
+      "response_bodies_persisted": false
+    },
+    {
+      "kind": "bounded_search",
+      "method": "POST",
+      "http_status": 200,
+      "classification": "authoritative_empty_for_submitted_identifier",
+      "candidate_count": 0,
+      "total_state": "known_zero_for_query",
+      "decision_text_observed": false,
+      "response_bodies_persisted": false
+    }
+  ],
+  "observed_contract": {
+    "degree_contract": "first_degree_surface_only",
+    "filters_observed": [
+      "numeroAutos",
+      "comarca",
+      "vara",
+      "juiz",
+      "dataInicioFiltro",
+      "dataFimFiltro"
+    ],
+    "pagination": {
+      "page_number_field": "pageNumber",
+      "page_size_field": "pageSize",
+      "default_page_size": 20,
+      "sort_field": "dataPublicacao",
+      "sort_order": "DESC"
+    },
+    "textual_decision_search": false,
+    "full_text": "not_observed"
+  },
+  "classification": {
+    "promotion": "discovery_only",
+    "federation_status": "not_enabled",
+    "reason": "A rota pÃºblica foi reproduzida, mas uma consulta por identificador nÃ£o produziu registro textual; nÃ£o hÃ¡ prova de corpus geral pesquisÃ¡vel nem de detalhe/documento retornado."
+  },
+  "security": {
+    "captcha_or_waf_bypass": false,
+    "session_or_token_replayed": false,
+    "request_bound": true
+  },
+  "next_action": "Obter uma consulta pÃºblica reproduzÃ­vel com registro de sentenÃ§a e detalhe/documento antes de implementar ou promover um adapter."
+}

@@ -6,11 +6,13 @@ import hashlib
 import re
 import unicodedata
 from typing import Any
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -19,6 +21,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -27,6 +30,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import TransportPolicy
 
 STF_SEARCH_FIELDS = [
     "processo_codigo_completo.plural",
@@ -101,6 +105,16 @@ class StfJurisProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_http_metadata: dict[str, Any] = {}
+        api_host = urlparse(self.config.stf_juris_url).hostname or ""
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(api_host, "portal.stf.jus.br"),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/api/search/search"
@@ -124,10 +138,50 @@ class StfJurisProvider(JurisprudenceProvider):
             ],
             **self._last_http_metadata,
         )
-        return parse_stf_search_response(
+        page = parse_stf_search_response(
             response_json,
             query=query,
             trace=trace,
+        )
+        for result in page.results:
+            document_url = result.document_url or result.raw.get("document_url")
+            if isinstance(document_url, str) and document_url:
+                self._document_urls[result.id] = document_url
+        return page
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch a public STF inteiro-teor URL through the shared pipeline.
+
+        The URL must either be an HTTPS URL supplied by the official API or an
+        identifier observed during the current search.  WAF/403 responses are
+        surfaced by the shared transport and are never represented as empty
+        documents.
+        """
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "STF document_id must be an observed official HTTPS URL or a result id"
+            )
+        parsed = urlparse(document_url)
+        allowed_hosts = {"portal.stf.jus.br", urlparse(self.config.stf_juris_url).hostname}
+        if parsed.hostname not in allowed_hosts:
+            raise ValueError("STF document URL is outside the official host allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            expected_content_types=("application/pdf", "text/html", "text/plain"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title=f"STF inteiro teor {document_id.rsplit('/', 1)[-1]}",
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -149,6 +203,7 @@ class StfJurisProvider(JurisprudenceProvider):
             content_formats=["json"],
             canonical_records=["CanonicalDecision"],
             extracted_fields=[
+                "id",
                 "case_number",
                 "registry_id",
                 "decision_type",
@@ -157,7 +212,9 @@ class StfJurisProvider(JurisprudenceProvider):
                 "judging_body",
                 "judgment_date",
                 "publication_date",
+                "source_updated_at",
                 "summary",
+                "document_url",
                 "full_text_url",
                 "process_url",
                 "is_repercussao_geral",
@@ -175,7 +232,8 @@ class StfJurisProvider(JurisprudenceProvider):
             completeness_contract="reported_total_and_offset_window",
             full_text_access="link_only",
             supports_cli=True,
-            supports_unified_search=True,
+            # The official API currently requires an access-control flow.
+            supports_unified_search=False,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=False,
@@ -184,11 +242,78 @@ class StfJurisProvider(JurisprudenceProvider):
             supported_filters=[
                 "text",
                 "number",
+                "all_words",
+                "any_words",
+                "without_words",
                 "published_from",
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "order_by",
             ],
+            unsupported_filters=[
+                "courts",
+                "types",
+                "exact_phrase",
+                "rapporteur",
+                "case_class",
+                "judging_body",
+                "degree",
+                "instance",
+                "document_type",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origin",
+                "source_origins",
+                "fetch_details",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "translated",
+                "all_words": "translated",
+                "any_words": "translated",
+                "without_words": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "updated_from": "translated",
+                "updated_to": "translated",
+                "order_by": "translated",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "unsupported",
+                "degree": "unsupported",
+                "instance": "unsupported",
+                "courts": "unsupported",
+                "types": "unsupported",
+                "exact_phrase": "unsupported",
+                "rapporteur": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+                "fetch_details": "unsupported",
+            },
             limitations=[
                 "Endpoint observado por HAR em 06/08/2026.",
                 "Chamadas automatizadas limpas podem receber AWS WAF challenge HTTP 202.",
@@ -268,7 +393,7 @@ class StfJurisProvider(JurisprudenceProvider):
 def build_stf_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
     """Build the public STF search body observed from the frontend API."""
 
-    text = query.number or query.text
+    text = _build_stf_query_text(query)
     offset = max(query.page - 1, 0) * query.page_size
     query_string = {
         "query": text or "*",
@@ -298,6 +423,25 @@ def build_stf_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
         },
         "track_total_hits": True,
     }
+
+
+def _build_stf_query_text(query: JurisprudenceQuery) -> str:
+    """Translate canonical text filters to the STF query-string DSL."""
+
+    if query.text.strip():
+        return query.text.strip()
+    if query.number.strip():
+        return query.number.strip()
+    clauses: list[str] = []
+    if query.all_words.strip():
+        clauses.extend(query.all_words.split())
+    if query.any_words.strip():
+        words = [word for word in query.any_words.split() if word]
+        if words:
+            clauses.append("(" + " OR ".join(words) + ")")
+    if query.without_words.strip():
+        clauses.extend(f"NOT {word}" for word in query.without_words.split() if word)
+    return " AND ".join(clauses)
 
 
 def parse_stf_search_response(

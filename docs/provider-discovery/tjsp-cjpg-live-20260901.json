@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01",
+  "audit_mode": "bounded_public_http_contract_check",
+  "frequency": "one request",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjsp_cjpg",
+      "surface": "cjpg",
+      "endpoint": "GET https://esaj.tjsp.jus.br/cjpg/pesquisar.do",
+      "query_shape": {
+        "dadosConsulta.pesquisaLivre": "responsabilidade",
+        "tipoNumero": "UNIFICADO",
+        "dadosConsulta.ordenacao": "DESC"
+      },
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 254336,
+      "content_sha256": "ece6269039db814a83d38f3ffa5dd0e080e5510567ea9d2a8a52cd1ea9362f45",
+      "record_count_observed": 10,
+      "reported_total": 4658921,
+      "classification": "reachable_valid_data",
+      "fields_observed": [
+        "id_processo",
+        "cd_processo",
+        "classe",
+        "assunto",
+        "magistrado",
+        "comarca",
+        "foro",
+        "vara",
+        "data_de_disponibilizacao",
+        "decisao"
+      ]
+    }
+  ],
+  "promotion_decision": "implemented_opt_in_only",
+  "limitations": [
+    "A verificacao foi limitada a uma chamada publica e uma janela de 10 itens.",
+    "O corpo da resposta nao foi persistido; somente metadados e hash foram registrados.",
+    "A evidencia de acesso nao substitui revisao juridica de reuso ou coleta em escala."
+  ]
+}

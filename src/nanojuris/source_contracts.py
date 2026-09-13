@@ -97,7 +97,6 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         ),
         "risk_level": "medio",
         "gaps": [
-            "Adicionar fixtures de multiplas notas, zero resultado e links CNOT.",
             "Mapear filtros oficiais por ramo, orgao julgador e ministro.",
         ],
     },
@@ -322,6 +321,20 @@ SOURCE_OVERRIDES: dict[str, dict[str, Any]] = {
         "gaps": [
             "Validar live a rota de inteiro teor com id_jurisprudencia real.",
             "Aprofundar filtros de origem TRF6, TRU6, Turmas Recursais e Varas Federais.",
+        ],
+    },
+    "tse_sjur_jurisprudencia": {
+        "contract_level": 5,
+        "source_family": "api_json_jurisprudencia_eleitoral_superior",
+        "mcp_recommendation": (
+            "Use para jurisprudência textual do TSE; trate a resposta como janela única "
+            "e não afirme paginação ou completude de corpus."
+        ),
+        "jurimetry_fit": "alto para decisões eleitorais do TSE; não representa TREs.",
+        "risk_level": "médio",
+        "gaps": [
+            "A rota pública não oferece paginação remota: pagina e tamanho são ignorados.",
+            "Mapear filtros adicionais somente após evidência reproduzível.",
         ],
     },
 }

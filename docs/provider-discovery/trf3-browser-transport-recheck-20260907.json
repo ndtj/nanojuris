@@ -1,0 +1,18 @@
+{
+  "provider": "trf3_jurisprudencia",
+  "observed_at": "2026-09-07",
+  "method": "ordinary headless Chromium navigation; no credentials, proxy, TLS override or challenge handling",
+  "checks": [
+    {
+      "url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+      "result": "ERR_HTTP2_PROTOCOL_ERROR",
+      "classification": "blocked_transport"
+    },
+    {
+      "url": "https://www.trf3.jus.br/",
+      "result": "ERR_HTTP2_PROTOCOL_ERROR",
+      "classification": "blocked_transport"
+    }
+  ],
+  "decision": "The normal browser transport did not expose a public result route. Keep TRF3 candidate/blocked_transport and do not disable TLS or downgrade HTTP."
+}

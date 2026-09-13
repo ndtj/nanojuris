@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NanoJuris lawful access evidence",
+  "type": "object",
+  "required": ["provider", "authority", "surface", "url", "method", "observed_at", "classification", "challenge", "raw_body_persisted"],
+  "properties": {
+    "provider": {"type": "string"},
+    "authority": {"type": "string"},
+    "surface": {"type": "string"},
+    "url": {"type": "string", "format": "uri"},
+    "method": {"enum": ["GET", "POST", "HEAD"]},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "http_status": {"type": ["integer", "null"]},
+    "classification": {"enum": ["success_with_results", "authoritative_empty", "unconfirmed_empty", "access_blocked", "rate_limited", "timeout", "transport_error", "schema_invalid", "partial", "cancelled"]},
+    "challenge": {"enum": ["none", "passive", "required", "unknown"]},
+    "redirect_chain": {"type": "array", "items": {"type": "string", "format": "uri"}},
+    "bytes": {"type": ["integer", "null"], "minimum": 0},
+    "content_type": {"type": ["string", "null"]},
+    "page": {"type": ["integer", "null"], "minimum": 1},
+    "rate_limit": {"type": "object"},
+    "evidence_id": {"type": ["string", "null"]},
+    "raw_body_persisted": {"const": false}
+  },
+  "additionalProperties": false
+}

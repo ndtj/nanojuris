@@ -1,0 +1,1924 @@
+{
+  "schema_version": "provider-gold-evaluation-v1",
+  "generated_at": "2026-09-07T16:11:15+00:00",
+  "policy": {
+    "max_live_age_days": 30,
+    "engineering_axes": [
+      "contract",
+      "data",
+      "document"
+    ],
+    "provider_axes": [
+      "contract",
+      "data",
+      "document",
+      "live",
+      "federation"
+    ]
+  },
+  "summary": {
+    "providers": 64,
+    "engineering_gold": 58,
+    "provider_gold": 47,
+    "fresh": 59,
+    "expired": 0,
+    "missing_live": 5,
+    "blocked_by_unverified_filters": 0,
+    "blocked_by_unverified_fields": 0
+  },
+  "providers": [
+    {
+      "source_id": "bnp_pangea",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:O endpoint /precedentes passou a exigir 'orgaos' e 'tipos' nao vazios; o provider preenche ambos com o catalogo completo quando ausentes.",
+        "known_defect:gap:Documentar payload completo de filtros e agregacoes.",
+        "known_defect:gap:Cobrir heuristica de sugestoes/catalogo para consultas curtas."
+      ]
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=blocked_access, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "blocked_access",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:blocked_access",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:blocked_access",
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio."
+      ]
+    },
+    {
+      "source_id": "cnj_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "eproc_jurisprudencia_federal",
+      "axes": {
+        "contract": false,
+        "data": false,
+        "document": false,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "runtime/filter evidence incomplete",
+        "data": "canonical field classification incomplete",
+        "document": "document task pending",
+        "live": "status=not_checked_in_latest_focused_run, freshness=missing",
+        "federation": "not declared"
+      },
+      "engineering_gold": false,
+      "provider_gold": false,
+      "live_status": "not_checked_in_latest_focused_run",
+      "freshness": "missing",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "documents_pending",
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "missing_unified_contract_row",
+        "live_status:not_checked_in_latest_focused_run",
+        "full_text_capability_unverified",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:not_checked_in_latest_focused_run"
+      ]
+    },
+    {
+      "source_id": "falcao_jt",
+      "axes": {
+        "contract": false,
+        "data": false,
+        "document": false,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "runtime/filter evidence incomplete",
+        "data": "canonical field classification incomplete",
+        "document": "document task pending",
+        "live": "status=not_checked_in_latest_focused_run, freshness=missing",
+        "federation": "not declared"
+      },
+      "engineering_gold": false,
+      "provider_gold": false,
+      "live_status": "not_checked_in_latest_focused_run",
+      "freshness": "missing",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "documents_pending",
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "missing_unified_contract_row",
+        "live_status:not_checked_in_latest_focused_run",
+        "full_text_capability_unverified",
+        "known_defect:live:not_checked_in_latest_focused_run"
+      ]
+    },
+    {
+      "source_id": "justica_eleitoral_sjur",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=valid, freshness=missing",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "valid",
+      "freshness": "missing",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ]
+    },
+    {
+      "source_id": "stf_informativo",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=tls_verification_failed, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "tls_verification_failed",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:tls_verification_failed",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:tls_verification_failed",
+        "known_defect:gap:Adicionar amostras reais por ramo do direito e repercussao geral.",
+        "known_defect:gap:Versionar dicionario de colunas quando o STF alterar a planilha."
+      ]
+    },
+    {
+      "source_id": "stf_juris",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=blocked_transport, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "blocked_transport",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:blocked_transport",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:blocked_transport",
+        "known_defect:gap:Separar AWS WAF challenge, falha SSL local e ausencia de resultados.",
+        "known_defect:gap:Validar bases adicionais do frontend: decisoes, sumulas, informativos e noticias.",
+        "known_defect:gap:Promover inteiro teor do portal STF somente quando responder sem 403 em sessao limpa."
+      ]
+    },
+    {
+      "source_id": "stj_dados_abertos_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "stj_informativo",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Mapear filtros oficiais por ramo, orgao julgador e ministro."
+      ]
+    },
+    {
+      "source_id": "stj_scon",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=blocked, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "blocked",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:blocked",
+        "known_defect:live:blocked",
+        "known_defect:gap:Separar acesso bloqueado por verificacao automatica de ausencia de resultados.",
+        "known_defect:gap:Validar URL publica de inteiro teor em sessao limpa sem cookies.",
+        "known_defect:gap:Promover fixtures de monocraticas, sumulas e informativos."
+      ]
+    },
+    {
+      "source_id": "stm_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Documentar paginacao remota e facetas se forem estaveis.",
+        "known_defect:gap:Adicionar fixtures de pagina vazia, pagina com multiplos resultados e inteiro teor.",
+        "known_defect:gap:Mapear variacoes de labels acentuados no HTML."
+      ]
+    },
+    {
+      "source_id": "tce_pr_viajuris",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tce_sp_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tcu_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ]
+    },
+    {
+      "source_id": "tjac_cjsg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjal_cjsg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjam_cjsg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjap_banco_sentencas",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "axes": {
+        "contract": false,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "runtime/filter evidence incomplete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=access_controlled, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": false,
+      "provider_gold": false,
+      "live_status": "access_controlled",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "missing_unified_contract_row",
+        "live_status:access_controlled",
+        "known_defect:live:access_controlled",
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal."
+      ]
+    },
+    {
+      "source_id": "tjba_graphql",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Monitorar mudancas no schema GraphQL e nos catalogos de filtros.",
+        "known_defect:gap:Expandir a amostra live de pagina vazia e paginas posteriores."
+      ]
+    },
+    {
+      "source_id": "tjce_cjsg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjce_informativos",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=tls_verification_failed, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "tls_verification_failed",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:tls_verification_failed",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:tls_verification_failed",
+        "known_defect:gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ]
+    },
+    {
+      "source_id": "tjce_sjuris",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjdf_juris",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Completar dossie de parametros de detalhe e ordenacao.",
+        "known_defect:gap:Criar fixtures para zero resultado e mudancas de detalhe."
+      ]
+    },
+    {
+      "source_id": "tjes_cjpg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=access_controlled, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "access_controlled",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:access_controlled",
+        "known_defect:live:access_controlled",
+        "known_defect:gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ]
+    },
+    {
+      "source_id": "tjmg_dspace_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjms_cjpg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjms_cjsg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjpa_jurisprudencia_bff",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Completar fixtures de filtros, vazio e erro do BFF.",
+        "known_defect:gap:Validar uma rota publica de detalhe antes de anuncia-la."
+      ]
+    },
+    {
+      "source_id": "tjpb_pje_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Ampliar fixtures de token, vazio e desafio de acesso.",
+        "known_defect:gap:Validar live o detalhe HTML com identificador da busca em baixa frequencia."
+      ]
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Adicionar validacao live opt-in de detalhe e pagina posterior.",
+        "known_defect:gap:Catalogar valores textuais dos filtros publicados no formulario."
+      ]
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Ampliar fixtures por filtros e estados de conteudo pendente.",
+        "known_defect:gap:Validar se a rota de detalhe pode ser carregada por URL preservada."
+      ]
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjrj_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjro_liame",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ]
+    },
+    {
+      "source_id": "tjrr_juris",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Ampliar live controlado para vazio, estado expirado e detalhe.",
+        "known_defect:gap:Monitorar nomes dinamicos de campos JSF e limites PrimeFaces."
+      ]
+    },
+    {
+      "source_id": "tjrs_solr",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Validar pagina vazia e pagina posterior em monitoramento live controlado.",
+        "known_defect:gap:Mapear rotas publicas de detalhe e inteiro teor antes de anuncia-las."
+      ]
+    },
+    {
+      "source_id": "tjsc_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjse_boletim_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "axes": {
+        "contract": false,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "runtime/filter evidence incomplete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=blocked_access_control_no_reproducible_result, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": false,
+      "provider_gold": false,
+      "live_status": "blocked_access_control_no_reproducible_result",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "missing_unified_contract_row",
+        "live_status:blocked_access_control_no_reproducible_result",
+        "known_defect:live:blocked_access_control_no_reproducible_result",
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio."
+      ]
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Documentar criterios objetivos de captcha/access-control.",
+        "known_defect:gap:Separar rotas de pesquisa, detalhe e inteiro teor.",
+        "known_defect:gap:Aprofundar fixtures por classe, orgao julgador e documento indisponivel."
+      ]
+    },
+    {
+      "source_id": "tjsp_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Aprofundar contrato de source_origin.",
+        "known_defect:gap:Validar estrategia de inteiro teor/documentos quando disponivel.",
+        "known_defect:gap:Documentar limites por primeiro grau, segundo grau e colegio recursal."
+      ]
+    },
+    {
+      "source_id": "tjsp_nugepnac",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "known_defect:gap:Completar dossie com casos reais publicos, fixtures e criterios de estabilidade."
+      ]
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "tnu_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Validar live a rota de inteiro teor com id_jurisprudencia real.",
+        "known_defect:gap:Adicionar fixtures por tipo decisorio alem de acordaos."
+      ]
+    },
+    {
+      "source_id": "tre_sp_temas",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "status=source_unavailable, freshness=fresh",
+        "federation": "not declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": false,
+      "live_status": "source_unavailable",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "live_status:source_unavailable",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:source_unavailable",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "trf2_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Validar live a rota de inteiro teor com id_jurisprudencia real.",
+        "known_defect:gap:Aprofundar filtros de origem TRF2, TRU2 e Turmas Recursais."
+      ]
+    },
+    {
+      "source_id": "trf3_jurisprudencia",
+      "axes": {
+        "contract": false,
+        "data": false,
+        "document": false,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "runtime/filter evidence incomplete",
+        "data": "canonical field classification incomplete",
+        "document": "document task pending",
+        "live": "status=not_checked_in_latest_focused_run, freshness=missing",
+        "federation": "not declared"
+      },
+      "engineering_gold": false,
+      "provider_gold": false,
+      "live_status": "not_checked_in_latest_focused_run",
+      "freshness": "missing",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "documents_pending",
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "missing_unified_contract_row",
+        "live_status:not_checked_in_latest_focused_run",
+        "full_text_capability_unverified",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:not_checked_in_latest_focused_run"
+      ]
+    },
+    {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Expandir fixtures por tipo decisorio.",
+        "known_defect:gap:Documentar paginacao, ordenacao e limites de consulta."
+      ]
+    },
+    {
+      "source_id": "trf5_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Registrar como a fonte representa filtros, classes e tipos sem catalogo formal.",
+        "known_defect:gap:Validar formatos de data aceitos e comportamento por intervalo vazio.",
+        "known_defect:gap:Mapear indisponibilidade, hash e tamanho de inteiro teor."
+      ]
+    },
+    {
+      "source_id": "trf6_eproc_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Validar live a rota de inteiro teor com id_jurisprudencia real.",
+        "known_defect:gap:Aprofundar filtros de origem TRF6, TRU6, Turmas Recursais e Varas Federais."
+      ]
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "axes": {
+        "contract": false,
+        "data": false,
+        "document": false,
+        "live": false,
+        "federation": false
+      },
+      "axis_reasons": {
+        "contract": "runtime/filter evidence incomplete",
+        "data": "canonical field classification incomplete",
+        "document": "document task pending",
+        "live": "status=not_checked_in_latest_focused_run, freshness=missing",
+        "federation": "not declared"
+      },
+      "engineering_gold": false,
+      "provider_gold": false,
+      "live_status": "not_checked_in_latest_focused_run",
+      "freshness": "missing",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [
+        "documents_pending",
+        "live_not_fresh_valid",
+        "federation_not_declared"
+      ],
+      "gaps": [
+        "missing_unified_contract_row",
+        "live_status:not_checked_in_latest_focused_run",
+        "full_text_capability_unverified",
+        "known_defect:documentacao_com_pendencias_abertas",
+        "known_defect:live:not_checked_in_latest_focused_run"
+      ]
+    },
+    {
+      "source_id": "tst_jurisprudencia",
+      "axes": {
+        "contract": true,
+        "data": true,
+        "document": true,
+        "live": true,
+        "federation": true
+      },
+      "axis_reasons": {
+        "contract": "complete",
+        "data": "complete",
+        "document": "terminal",
+        "live": "fresh valid check",
+        "federation": "unified search declared"
+      },
+      "engineering_gold": true,
+      "provider_gold": true,
+      "live_status": "valid",
+      "freshness": "fresh",
+      "unverified_filters": [],
+      "unverified_fields": [],
+      "provider_gold_blocked_reasons": [],
+      "gaps": [
+        "known_defect:gap:Consultar config.json quando a base da API for alterada pelo frontend.",
+        "known_defect:gap:Ampliar fixtures por sumulas, precedentes normativos e filtros de catalogo.",
+        "known_defect:gap:Monitorar alteracoes no HTML de inteiro teor e nos campos removidos do backend."
+      ]
+    }
+  ]
+}

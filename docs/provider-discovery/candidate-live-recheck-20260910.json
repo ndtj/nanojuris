@@ -1,0 +1,57 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "audit_mode": "bounded_public_adapter_recheck",
+  "credentials_used": false,
+  "bypass_used": false,
+  "raw_response_persisted": false,
+  "checks": [
+    {
+      "provider": "tjap_tucujuris",
+      "surface": "cjsg",
+      "request": "POST /api/publico/consultar-jurisprudencia",
+      "query_shape": {"text": "responsabilidade civil", "degree": "second"},
+      "classification": "access_control_required",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "O envelope oficial respondeu HTTP 200 com falha de validação server-side do Turnstile; nenhum resultado reproduzível foi entregue.",
+      "federation": "not_enabled"
+    },
+    {
+      "provider": "tjse_jurisprudencia",
+      "surface": "cjsg",
+      "request": "GET /Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "query_shape": {"text": "responsabilidade civil", "degree": "second"},
+      "classification": "access_control_required",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "O formulário oficial foi carregado, mas a submissão exige Turnstile; a chamada não reutilizou token, cookie ou sessão humana.",
+      "federation": "not_enabled"
+    },
+    {
+      "provider": "trt2_pje_jurisprudencia",
+      "surface": "jurisprudencia",
+      "request": "POST /juris-backend/api/documentos",
+      "query_shape": {"text": "responsabilidade civil", "page_size": 5},
+      "classification": "access_control_required",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "A rota oficial respondeu HTTP 200 com tokenDesafio/imagem de desafio e zero documentos; isso não é vazio autoritativo.",
+      "federation": "not_enabled"
+    },
+    {
+      "provider": "falcao_jt",
+      "surface": "jurisprudencia",
+      "request": "GET /",
+      "query_shape": {"text": "responsabilidade civil"},
+      "classification": "access_control_required",
+      "error_type": "AccessControlRequiredError",
+      "evidence": "A entrada oficial respondeu HTTP 403; rotas /robots.txt, /api e /swagger-ui/index.html também não expuseram contrato público reproduzível.",
+      "federation": "not_enabled"
+    }
+  ],
+  "decision": "Os quatro adapters candidatos permanecem implementados para diagnóstico opt-in, mas bloqueados fora da federação até que a fonte forneça contrato público reproduzível sem desafio obrigatório.",
+  "safety": {
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "tokens_persisted": false,
+    "request_frequency_seconds_or_more": 2
+  }
+}

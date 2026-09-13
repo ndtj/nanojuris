@@ -1,0 +1,20 @@
+{
+  "schema_version": "tjsc-cjpg-eprocwebcon-recheck-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJSC",
+  "surface": "CJPG candidate route",
+  "endpoint": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
+  "method": "GET",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "http_status": 298,
+  "content_type": "text/html",
+  "classification": "temporary_portal_block",
+  "observed": {
+    "title": "Tribunal de Justiça de Santa Catarina - Bloqueio temporário do portal institucional",
+    "query_form_present": false,
+    "first_degree_contract_proven": false,
+    "response_bytes": 31573
+  },
+  "decision": "The official first-degree eprocwebcon route is currently a temporary institutional block. Do not retry repeatedly, infer an empty result, or promote TJSC/CJPG from the route name. Recheck only on a low-frequency scheduled run or after the source restores the portal."
+}

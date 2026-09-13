@@ -1,0 +1,18 @@
+{
+  "provider": "tjmg_dspace_jurisprudencia",
+  "checked_at": "2026-09-08",
+  "transport": {
+    "client": "SharedHttpClient",
+    "allowlist": ["bd.tjmg.jus.br"],
+    "max_bytes": 20000000,
+    "max_retries": 0,
+    "redirects": "bounded",
+    "tls": "verified",
+    "body_persistence": false
+  },
+  "classification": "transport_hardened",
+  "limitations": [
+    "The public DSpace collection remains distinct from the CAPTCHA-gated legacy form.",
+    "Document content is fetched only for an item observed during the current search."
+  ]
+}

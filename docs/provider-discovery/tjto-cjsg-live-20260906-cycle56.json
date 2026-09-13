@@ -1,0 +1,68 @@
+{
+  "provider": "tjto_jurisprudencia",
+  "source": "tjto_jurisprudencia",
+  "authority": "TJTO",
+  "collection": "CJSG",
+  "degree": "second",
+  "instance": "second",
+  "checked_at": "2026-09-06T01:24:08.7675398Z",
+  "observed_at": "2026-09-06T01:24:08.7675398Z",
+  "source_url": "https://jurisprudencia.tjto.jus.br/consulta.php",
+  "method": "POST",
+  "query": {
+    "text": "responsabilidade civil",
+    "tip_criterio_inst": "2",
+    "rows": 2,
+    "pages": [1, 2]
+  },
+  "pages": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "total": 137589,
+      "result_count": 2,
+      "ids": [
+        "tjto-jurisprudencia-babd056794098393c00a78d45e3b9477",
+        "tjto-jurisprudencia-594ea228ad8b60f82ebf414c17ebcfe8"
+      ],
+      "degree_values": ["second"],
+      "instance_values": ["second"],
+      "collection_values": ["CJSG"],
+      "document_types": ["acordao"]
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "total": 137589,
+      "result_count": 2,
+      "ids": [
+        "tjto-jurisprudencia-a26a66902a4db6896252cae704b2f8f4",
+        "tjto-jurisprudencia-22341bcc54474b6ffecb336f6c1688b5"
+      ],
+      "degree_values": ["second"],
+      "instance_values": ["second"],
+      "collection_values": ["CJSG"],
+      "document_types": ["acordao"]
+    }
+  ],
+  "results": [
+    {
+      "source_id": "tjto_jurisprudencia",
+      "surface": "cjsg",
+      "classification": "reachable_valid_data",
+      "http_status": 200,
+      "record_count_observed": 4,
+      "reported_total": 137589,
+      "pagination_mode": "offset",
+      "content_type": "text/html"
+    }
+  ],
+  "unique_ids": 4,
+  "overlap": false,
+  "body_persisted": false,
+  "classification": "valid_public_second_degree_contract",
+  "limitations": [
+    "Evidence records metadata and hashes only; response bodies are not persisted.",
+    "The portal may apply intermittent access controls to other request shapes."
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-05",
+  "audit_mode": "bounded_public_pagination_recheck",
+  "frequency": "two sequential requests",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "source_id": "tjrn_jurisprudencia",
+  "endpoint": "POST https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+  "query_shape": {
+    "jurisprudencia.ementa": "responsabilidade",
+    "page_size": 2,
+    "usuario": "empty_public_context"
+  },
+  "pages": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "response_bytes": null,
+      "content_sha256": "baf5354a1a5ac02c6979ea91a64289a5a2f352f5e48ef9bc6560342cc4ff55ae",
+      "record_count_observed": 2,
+      "reported_total": 73895,
+      "start": 1,
+      "end": 2,
+      "is_complete": false,
+      "identity_ids": [
+        "tjrn-jurisprudencia-wjCYbaABYGx659SBZNwK",
+        "tjrn-jurisprudencia-rzCYbaABYGx659SBYdzq"
+      ]
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "response_bytes": null,
+      "content_sha256": "d1954080ce3086beaa17def361c9b8ac7ce2e87be64e0001b747b5d9f96a3618",
+      "record_count_observed": 2,
+      "reported_total": 73895,
+      "start": 3,
+      "end": 4,
+      "is_complete": false,
+      "identity_ids": [
+        "tjrn-jurisprudencia-NC5taKABYGx659SBn1Xl",
+        "tjrn-jurisprudencia-XS5taKABYGx659SBoVXN"
+      ]
+    }
+  ],
+  "overlap": false,
+  "promotion_decision": "candidate_opt_in",
+  "notes": [
+    "As duas páginas foram chamadas em sequência com page_size=2.",
+    "A ausência de sobreposição confirma apenas esta janela; não prova ordenação global.",
+    "Licença, retenção e promoção padrão continuam gates humanos."
+  ]
+}

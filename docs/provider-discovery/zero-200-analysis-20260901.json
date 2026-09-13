@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01",
+  "audit_mode": "bounded_public_http_diagnostic",
+  "scope": "Fontes que responderam HTTP 200 e aparentaram zero resultados",
+  "credentials_used": false,
+  "controls_bypassed": false,
+  "raw_content_persisted": false,
+  "cases": [
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "surface": "legacy_jsf",
+      "status": "source_explicit_empty",
+      "runtime": "implemented",
+      "live_evidence": {
+        "initial_get_status": 200,
+        "search_post_status": 200,
+        "search_post_response_bytes": 6426,
+        "queries_checked": ["dano moral", "habeas corpus"],
+        "reported_total": 0,
+        "records_returned": 0,
+        "source_marker": "Nenhum documento encontrado",
+        "nanojuris_completeness_reason": "explicit_zero_marker",
+        "juscraper_flow_parity": true
+      },
+      "diagnosis": "O transporte REST atual falha por TLS; o fallback JSF/RichFaces funciona e a propria fonte devolve uma pagina de zero explicito. O mesmo GET/ViewState/POST e o mesmo conjunto de campos observado no Juscraper produziram o mesmo marcador. Nao ha evidencia de que o parser esteja descartando registros.",
+      "quality_gap": "Nenhum gap de dados confirmado. O zero deve permanecer distinguido de falha REST/TLS.",
+      "next_actions": [
+        "Manter zero explicito como resultado valido e observavel.",
+        "Validar com um numero de processo/registro conhecido do TJPE antes de alterar payload ou parser.",
+        "Nao desabilitar verificacao TLS como correcao de dados."
+      ]
+    },
+    {
+      "source_id": "tjac_cjsg",
+      "surface": "esaj_cjsg",
+      "status": "source_explicit_empty",
+      "runtime": "implemented",
+      "live_evidence": {
+        "post_status": 200,
+        "post_response_bytes_range": [67595, 67617],
+        "page_get_status": 200,
+        "page_response_bytes": 352,
+        "queries_checked": ["responsabilidade civil", "habeas corpus", ""],
+        "reported_total": 0,
+        "records_returned": 0,
+        "source_markers": ["Acórdãos(0)", "Não foi encontrado nenhum resultado"],
+        "exact_dom_form_ab_test": true,
+        "upstream_esaj_form_ab_test": true
+      },
+      "diagnosis": "A rota POST resultadoCompleta.do seguida de GET trocaDePagina.do responde com o fragmento oficial de zero. O resultado se manteve usando o corpo atual, o corpo completo do formulario DOM e o corpo equivalente do Juscraper, inclusive para uma busca vazia. Isso aponta para acervo/indexacao indisponivel ou sem resultados na fonte nesta janela, nao para perda de linhas pelo parser.",
+      "quality_gap": "parse_cjsg_results reconhece o marcador, mas o SearchPage retornado nao preenche explicitamente completeness_reason/is_complete; a telemetria pode parecer ambigua.",
+      "next_actions": [
+        "Adicionar fixture de Acórdãos(0) e exigir completeness_reason=explicit_zero_marker em uma mudanca SDD separada.",
+        "Revalidar a fonte com um identificador conhecido e pela interface publica do TJAC.",
+        "Manter a resposta como zero valido enquanto o endpoint continuar emitindo o marcador oficial."
+      ]
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "juris-back_cjsg_candidate",
+      "status": "reachable_empty_data",
+      "runtime": "candidate_only",
+      "live_evidence": {
+        "status": 200,
+        "content_type": "application/json",
+        "queries_checked": ["responsabilidade civil", "dano moral", "mandado"],
+        "with_tipo_ementa_reported_total": 0,
+        "with_tipo_ementa_records_returned": 0,
+        "differential_query": "responsabilidade",
+        "without_tipo_reported_total": 676011,
+        "without_tipo_records_returned": 1,
+        "empty_tipo_list_reported_total": 676011,
+        "sample_metadata_only": {
+          "tipo": "SENTENÇA",
+          "grau_jurisdicao": 1
+        },
+        "tested_nonempty_tipo_values_all_zero": ["EMENTA", "SENTENÇA", "ACÓRDÃO", "DECISÃO", "VOTO"]
+      },
+      "diagnosis": "O filtro nao vazio fields.tipo restringe o indice a zero para os valores testados. Ao omitir tipo ou enviar lista vazia, o mesmo endpoint retorna dados reais. O default tipo=[EMENTA] do Juscraper esta desatualizado ou tem semantica diferente no backend atual; trocar o rotulo sem fixture nao e seguro.",
+      "quality_gap": "Nao existe ainda adapter geral TJRO/CJSG promovido no runtime; o provider tjro_liame e uma colecao distinta de precedentes qualificados.",
+      "next_actions": [
+        "Criar fixture diferencial sem tipo versus tipo restritivo, preservando apenas metadados sanitizados.",
+        "Fechar o contrato do campo tipo com valores observados no schema do backend antes de implementar.",
+        "Depois do contrato, implementar sem tipo por padrao somente com paginacao, limite, completude e testes de regressao."
+      ]
+    }
+  ],
+  "excluded_from_zero": [
+    {
+      "source_id": "tjce_cjsg",
+      "reason": "HTTP 200 com recaptcha/uuidCaptcha/rota de controle; e bloqueio de acesso, nao zero."
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "reason": "HTTP 200 com sinais de captcha/controle de acesso; nao converter em lista vazia."
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "reason": "HTTP 200 na pagina TRF1, mas HTML de captcha/recaptcha; nao houve busca de resultados."
+    },
+    {
+      "source_id": "tjpe_jurisprudencia_rest",
+      "reason": "Falha TLS sem HTTP 200; classificar como blocked_transport."
+    }
+  ],
+  "production_changed": false
+}

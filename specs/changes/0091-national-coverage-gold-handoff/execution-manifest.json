@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "change_id": "0091-national-coverage-gold-handoff",
+  "status": "proposed",
+  "observed_at": "2026-09-08",
+  "execution_mode": "local_inspect_plan_apply_no_release",
+  "production_mutations_allowed": false,
+  "commit_push_deploy_allowed": false,
+  "source_of_truth": {
+    "catalog": "docs/registry/provider-catalog.full.json",
+    "surface_registry": "docs/coverage/surface-state-registry-20260902.json",
+    "coverage_matrix": "docs/topology/degree-coverage-matrix-20260901.json",
+    "open_tasks": "docs/coverage/open-task-audit-20260907.json",
+    "promotion_manifest": "docs/coverage/technical-promotion-manifest-20260905.json",
+    "fixture_gate": "docs/coverage/fixture-completeness-20260908.json",
+    "local_gate_audit": "docs/coverage/0091-local-gates-20260908.json",
+    "lawful_access": "docs/coverage/public-access-boundary-playbook-20260908.json",
+    "next_model_handoff": "docs/coverage/national-coverage-model-handoff-20260908.json"
+  },
+  "known_snapshot": {
+    "documented_sources": 71,
+    "runtime_providers": 66,
+    "declared_unified_sources": 49,
+    "state_appellate_complete": "25/27",
+  "open_tasks_at_handoff": 57,
+    "open_task_classification": {
+      "local_evidence": 0,
+    "external_source": 44,
+      "human_review": 13
+    },
+    "note": "Regenerate before trusting; values are not completion claims."
+  },
+  "waves": [
+    {"id": "G0", "name": "baseline", "owner": "release", "depends_on": []},
+    {"id": "G1", "name": "surface-reconciliation", "owner": "data-quality", "depends_on": ["G0"]},
+    {"id": "G2", "name": "provider-contracts", "owner": "provider-engineering", "depends_on": ["G1"]},
+    {"id": "G3", "name": "official-discovery", "owner": "provider-research", "depends_on": ["G2"]},
+    {"id": "G4", "name": "adapters-and-fixtures", "owner": "provider-engineering", "depends_on": ["G3"]},
+    {"id": "G5", "name": "quality-and-documents", "owner": "data-quality", "depends_on": ["G4"]},
+    {"id": "G6", "name": "federation-and-ranking", "owner": "search", "depends_on": ["G5"]},
+    {"id": "G7", "name": "continuous-operation", "owner": "operations", "depends_on": ["G6"]},
+    {"id": "G8", "name": "human-review-and-release", "owner": "human", "depends_on": ["G7"]}
+  ],
+  "related_sdds": ["0070", "0077", "0078", "0081", "0082", "0083", "0084", "0089", "0090"],
+  "required_artifacts": [
+    "spec.md",
+    "design.md",
+    "tasks.md",
+    "verification.md",
+    "research.md",
+    "clarify.md",
+    "traceability.md",
+    "threat-model.md",
+    "implementation-plan.md",
+    "provider-workpack-template.md",
+    "lawful-access-decision-matrix.md",
+    "model-runbook.md",
+    "GOAT_EXECUTOR_PROMPT.md",
+    "handoff-artifact-manifest.json",
+    "CONTINUATION_BRIEF.md",
+    "baseline-20260908.json",
+    "surface-workpacks/manifest.json"
+  ],
+  "stop_conditions": [
+    "challenge_enforced",
+    "authentication_required",
+    "private_endpoint",
+    "persistent_rate_limit",
+    "unrecognized_schema",
+    "missing_source_evidence",
+    "human_decision_required"
+  ],
+  "final_claim_rule": "Never claim national coverage from adapter existence; require per-surface contract, fixture, bounded live evidence, quality and federation gates."
+}

@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-07T00:14:00Z",
+  "source_id": "tjpe_jurisprudencia",
+  "authority": "TJPE",
+  "branch": "state",
+  "collection": "CJSG",
+  "surface": "cjsg",
+  "degree": "second",
+  "instance": "second",
+  "endpoint": "POST /consulta.xhtml (public JSF/RichFaces flow)",
+  "method": "GET+POST",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "transport": "jsf",
+  "query": {
+    "text": "dano moral",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG",
+    "page_size": 5
+  },
+  "status": "valid",
+  "http_status": 200,
+  "content_type": "text/html; charset=UTF-8",
+  "response_bytes": 81854,
+  "content_sha256": "4b91d68764914b0478d182908542ec60972db561cd67c82886caed03d50ef514",
+  "result_count_observed": 5,
+  "record_count_observed": 5,
+  "reported_total": null,
+  "total_known": false,
+  "pagination_mode": "page",
+  "all_records_second_degree": true,
+  "all_records_textual": true,
+  "first_page": {
+    "http_status": 200,
+    "response_bytes": 81854,
+    "content_sha256": "4b91d68764914b0478d182908542ec60972db561cd67c82886caed03d50ef514",
+    "result_count": 5,
+    "stable_id_present": 5,
+    "summary_present": 5,
+    "case_number_present": 5,
+    "degree_values": ["second"],
+    "instance_values": ["second"],
+    "collection_values": ["CJSG"]
+  },
+  "pagination_probe": {
+    "requested_pages": [1, 2],
+    "page_size": 5,
+    "page_2": {
+      "http_status": 200,
+      "response_bytes": 53133,
+      "content_sha256": "8ff000f53810db7d2b5b41bcfda9d0bbac0bdaf7515547035f9dfe7166837cea",
+      "result_count": 5,
+      "all_records_second_degree": true,
+      "all_records_textual": true
+    },
+    "overlap": false
+  },
+  "fallback_reason": "REST endpoint transport failed TLS; public JSF flow succeeded",
+  "promotion_decision": "technical_revalidation_valid",
+  "limitations": [
+    "The REST hostname remains unavailable under certificate verification in this network; the official JSF flow is a supported public alternative.",
+    "The source reports five records for this bounded query; broader completeness requires periodic checks.",
+    "No CAPTCHA, WAF, login, proxy, TLS verification disablement or rate-limit bypass was attempted."
+  ]
+}

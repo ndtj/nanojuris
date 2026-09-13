@@ -64,3 +64,70 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
   retornou `tokenDesafio` e `imagem`, sem documentos.
 - Portanto, nao ha contrato reproduzivel de resultados para promover como
   `CanonicalDecision`; nenhuma implementacao foi adicionada nesta rodada.
+
+## Rechecagem bounded 2026-09-07
+
+- O shell e `/juris-backend/api/opcoes` continuaram publicos (HTTP 200).
+- As opcoes mantem `captchaOption=2`; a rota `/juris-backend/api/token` respondeu 200 sem corpo util.
+- Nenhum contrato de resultados foi obtido sem desafio; o candidato permanece fora do runtime.
+- Evidencia: `docs/provider-discovery/falcao-trt2-live-recheck-20260907.json`.
+
+## Descoberta de API e filtros - 2026-09-08
+
+O bundle oficial da versao `1.5.0-i1` confirmou o backend
+`https://pje.trt2.jus.br/juris-backend/api`. Uma chamada bounded a
+`POST /filtros` respondeu HTTP 200 com agregacoes publicas para assunto, ano,
+tipo documental, instancia, orgao julgador, colegiado, meio de tramitacao,
+magistrado e classe judicial. A chamada a `POST /documentos` respondeu com
+`tokenDesafio`, imagem e audio, sem documentos. O contrato de resultados
+continua bloqueado por desafio humano; a resposta nao pode ser tratada como
+lista vazia. Evidencia redigida:
+`docs/provider-discovery/trt2-jurisprudencia-api-live-20260908.json`.
+
+Fixtures sanitizadas da descoberta: `tests/fixtures/trt2_pje_opcoes.json`,
+`tests/fixtures/trt2_pje_filtros.json` e
+`tests/fixtures/trt2_pje_challenge.json`. Testes de classificação:
+`tests/test_trt2_route_evidence.py`.
+
+## Adapter opt-in de diagnostico — 2026-09-10
+
+Foi adicionada a classe `Trt2PjeJurisprudenciaProvider` para tornar executavel
+o contrato publico que pode ser comprovado sem desafio: `GET /opcoes` e
+`POST /filtros`. A rota `POST /documentos` tambem e transportada com limite de
+bytes, mas qualquer resposta com `tokenDesafio`, `imagem` ou `audio` gera
+`AccessControlRequiredError`; ela nunca e convertida em vazio e nenhum token,
+cookie ou sessao humana e reutilizado.
+
+O adapter esta disponivel somente em
+`NanoJurisClient(include_candidate_providers=True)`, com
+`supports_unified_search=false`. Isso implementa o diagnostico do provider sem
+afirmar que a busca de decisoes ou a paginacao estao disponiveis. Os testes
+sanitizados estao em `tests/test_trt2_pje_jurisprudencia.py`.
+
+## Rechecagem do contrato de filtros - 2026-09-10
+
+O bundle oficial `1.5.0-i1` foi usado somente para reproduzir o formato
+publico `QUERY_INICIAL`. O adapter agora envia esse formato para `/filtros` e
+`/documentos`, incluindo `andField`, `orField`, `notField`,
+`paginationPosition`, `paginationSize`, `tipoDocumento`, `classeJudicial` e
+as datas de publicacao. Uma sonda bounded a `/filtros` retornou HTTP 200 com
+agregacoes publicas. `/documentos` continua retornando `tokenDesafio`/imagem/
+audio; nenhum desafio foi resolvido ou reutilizado e o provider permanece
+opt-in. Evidencia: `docs/provider-discovery/trt2-pje-query-contract-live-20260910.json`.
+
+## Busca autorizada por interacao humana - 2026-09-11
+
+`search_authorized` aceita um `challenge_token` obtido pelo usuario no fluxo
+oficial e o envia somente no corpo da chamada bounded a `/documentos`. O token
+e removido do `SourceTrace`, nao e armazenado nem reutilizado. Quando o portal
+retorna `documents`, o parser preserva identidade de TRT2, ramo trabalhista,
+grau/instancia de segundo grau, ementa, datas, orgao, relator e campos `raw`.
+Sem token, ou se o desafio persistir, o estado continua
+`access_control_required`; o provider nao entra na federacao padrao.
+
+Fixture sanitizada adicional: `tests/fixtures/trt2_pje_authorized_success.json`.
+
+Uma resposta `documents=[]` sem `total` ou `hits` autoritativo representa
+apenas uma janela vazia não confirmada: `is_complete=false` e extração
+`partial`, tanto na busca pública quanto na chamada autorizada efêmera.
+Somente contador autoritativo igual a zero confirma ausência de resultados.

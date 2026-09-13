@@ -1,0 +1,74 @@
+{
+  "schema_version": "trf4-live-v1",
+  "generated_at": "2026-09-07T21:10:47.788679+00:00",
+  "mode": "live_bounded",
+  "source": "trf4_eproc_jurisprudencia",
+  "source_id": "trf4_eproc_jurisprudencia",
+  "surface": "search",
+  "classification": "valid",
+  "http_status": 200,
+  "content_type": "text/html; charset=iso-8859-1",
+  "record_count_observed": 2,
+  "reported_total": 477848,
+  "pagination_mode": "page",
+  "provider": "trf4_eproc_jurisprudencia",
+  "query": {
+    "text": "responsabilidade civil",
+    "page_size": 2
+  },
+  "limits": {
+    "pages": 2,
+    "documents": 1,
+    "bodies_persisted": false
+  },
+  "observations": {
+    "page_1": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 1411933,
+      "page": 1,
+      "page_size": 2,
+      "returned": 2,
+      "total": 477848,
+      "total_known": null,
+      "ids": [
+        "trf4-eproc-jurisprudencia-41788728069833672301983932819",
+        "trf4-eproc-jurisprudencia-41788698842177925768786756256"
+      ],
+      "has_summary": true
+    },
+    "page_2": {
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 1404918,
+      "page": 2,
+      "page_size": 2,
+      "returned": 2,
+      "total": 477848,
+      "total_known": null,
+      "ids": [
+        "trf4-eproc-jurisprudencia-41788727605436297931816607322",
+        "trf4-eproc-jurisprudencia-41788727083427364901876736806"
+      ],
+      "has_summary": true
+    },
+    "pagination": {
+      "status": "valid",
+      "disjoint_ids": true
+    },
+    "detail": {
+      "status": "valid",
+      "http_status": 200,
+      "content_type": "text/html",
+      "byte_size": null,
+      "sha256": null,
+      "has_text": true
+    }
+  },
+  "summary": {
+    "search_valid": true,
+    "pagination_valid": true,
+    "detail_valid": true,
+    "errors": 0
+  }
+}

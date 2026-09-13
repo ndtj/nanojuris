@@ -1,0 +1,63 @@
+{
+  "schema_version": "tjma-public-route-inventory-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJMA",
+  "provider": "tjma_jurisconsult",
+  "source": "https://apijuris.tjma.jus.br/v1",
+  "credentials_used": false,
+  "challenge_handling": "none",
+  "routes": [
+    {
+      "path": "/jurisprudencia/lista_relatorios",
+      "method": "GET",
+      "status": 200,
+      "classification": "public_catalog",
+      "items": [
+        {"id": "1", "title": "Acordaos", "surface": "CJSG"},
+        {"id": "6", "title": "Acordaos - Turma Recursal", "surface": "CJSG"},
+        {"id": "2", "title": "Decisoes Monocraticas", "surface": "CJSG"},
+        {"id": "5", "title": "Decisoes Monocraticas - Turma Recursal", "surface": "CJSG"},
+        {"id": "3", "title": "Sumulas e Precedentes", "surface": "SPECIALIZED"},
+        {"id": "4", "title": "Sentencas de 1 Grau", "surface": "CJPG"},
+        {"id": "7", "title": "Sentencas - Juizado Especial", "surface": "CJPG"}
+      ]
+    },
+    {
+      "path": "/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=1",
+      "method": "GET",
+      "status": 200,
+      "classification": "public_filter_catalog",
+      "items": ["Ementa", "Inteiro Teor", "Advogado(s)", "Classe", "Numero(s) do Acordao", "Numero(s) do Processo"]
+    },
+    {
+      "path": "/sg/jurisprudencias/processos",
+      "method": "GET",
+      "status": 400,
+      "classification": "captcha_required",
+      "result": "The official second-degree result route is exposed by the catalog but rejects a request without a fresh human captcha token."
+    },
+    {
+      "path": "/jurisprudencia/processos/pesquisa_acordaos_tr",
+      "method": "GET",
+      "status": 400,
+      "classification": "captcha_required",
+      "result": "The official Turma Recursal result route is exposed by the catalog but is challenge-gated."
+    },
+    {
+      "path": "/jurisprudencia/processos/sentencas_pg",
+      "method": "GET",
+      "status": 400,
+      "classification": "captcha_required",
+      "result": "The official first-degree route is exposed by the catalog but is challenge-gated."
+    }
+  ],
+  "decision": "Catalogs prove separate CJSG and CJPG surfaces and the availability of an Inteiro Teor filter, but they do not prove retrievable records. Keep the provider catalog-only and access_controlled until a human-approved public challenge flow or an official tokenless export is provided.",
+  "safety": {
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  }
+}

@@ -12,6 +12,7 @@ from nanojuris.providers.tjsp_cjsg import (
     decode_cjsg_response_text,
     diagnose_cjsg_access,
     extract_cjsg_document_text,
+    extract_cjsg_document_text_bytes,
     parse_cjsg_results,
 )
 
@@ -55,12 +56,31 @@ def _fixture_html() -> str:
     return (FIXTURES / "tjsp_cjsg_result.html").read_text(encoding="utf-8")
 
 
+def _fixture_page_one() -> str:
+    """First paginated response carrying the public e-SAJ conversation id."""
+
+    return _fixture_html().replace(
+        "</body>",
+        '<input type="hidden" name="conversationId" value="conv-page-1" /></body>',
+    )
+
+
 def _fixture(name: str) -> str:
     return (FIXTURES / name).read_text(encoding="utf-8")
 
 
+def test_tjsp_cjsg_capability_is_enabled_after_bounded_revalidation() -> None:
+    provider = TjspCjsgProvider()
+
+    capabilities = provider.get_capabilities()
+
+    assert capabilities.supports_unified_search is True
+    assert capabilities.source == "tjsp_cjsg"
+
+
 def _cjsg_page_fragment() -> str:
     return """
+    <input name="conversationId" value="conv-page-2" />
     <span style="display: none;" id="nomeAbaRetornoFiltro-A">Acordaos(858)</span>
     <input id="totalResultadoAbaRetornoFiltro-A" type="hidden" value="858" />
     <table>
@@ -122,6 +142,13 @@ def test_parse_cjsg_results_maps_fixture():
     first = page.results[0]
     assert first.id == "tjsp-cjsg-20787558-0"
     assert first.court == "TJSP"
+    assert (first.degree, first.instance, first.branch, first.authority, first.collection) == (
+        "second",
+        "second",
+        "state",
+        "TJSP",
+        "CJSG",
+    )
     assert first.type == "acordao"
     assert first.number == "0003938-14.2017.8.26.0323"
     assert first.rapporteur == "Airton Vieira"
@@ -133,6 +160,9 @@ def test_parse_cjsg_results_maps_fixture():
     assert first.raw["comarca"] == "Lorena"
     assert first.raw["orgao_julgador"] == "3a Camara de Direito Criminal"
     assert first.raw["full_text_url"].endswith("getArquivo.do?cdAcordao=20787558&cdForo=0")
+    assert page.total_known is True
+    assert page.access_status is AccessStatus.PUBLIC
+    assert page.extraction_status is ExtractionStatus.COMPLETE
 
 
 def test_parse_cjsg_results_relocates_rows_when_the_anchor_class_changes():
@@ -169,7 +199,12 @@ def test_parse_cjsg_results_relocates_rows_when_the_anchor_class_changes():
 
 
 def test_provider_search_posts_cjsg_payload_and_parses_results():
-    session = FakeSession([FakeResponse(_fixture_html())])
+    session = FakeSession(
+        [
+            FakeResponse(_fixture("tjsp_cjsg_ack.html")),
+            FakeResponse(_fixture_html()),
+        ]
+    )
     provider = TjspCjsgProvider(session=session)
 
     page = provider.search(
@@ -194,10 +229,59 @@ def test_provider_search_posts_cjsg_payload_and_parses_results():
     assert payload["dados.nuProcOrigem"] == "0003938-14.2017.8.26.0323"
     assert payload["tipoDecisaoSelecionados"] == ["A"]
     assert payload["dados.dtJulgamentoInicio"] == "01/01/2026"
+    assert session.calls[1]["method"] == "GET"
+    assert session.calls[1]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
+    assert session.calls[1]["kwargs"]["headers"]["Referer"].endswith("/cjsg/resultadoCompleta.do")
+
+
+def test_provider_search_carries_shared_transport_metadata_into_trace():
+    """Live page traces expose auditable transport facts, not only the URL."""
+
+    session = FakeSession(
+        [
+            FakeResponse(_fixture("tjsp_cjsg_ack.html")),
+            FakeResponse(_fixture_html()),
+        ]
+    )
+    page = TjspCjsgProvider(session=session).search(
+        JurisprudenceQuery(text="infanticidio", page_size=1)
+    )
+
+    trace = page.source_trace
+    assert trace is not None
+    assert trace.http_status == 200
+    assert trace.final_url and trace.final_url.endswith("pagina=1")
+    assert trace.content_sha256 and len(trace.content_sha256) == 64
+    assert trace.response_bytes and trace.response_bytes > 0
+    assert trace.elapsed_ms is not None and trace.elapsed_ms >= 0
+    assert trace.retrieval_status == "ok"
+
+
+def test_provider_ignores_access_flags_in_post_ack_when_get_has_results():
+    """TJSP e-SAJ exposes the result only on the follow-up page request."""
+
+    session = FakeSession(
+        [
+            FakeResponse("<html><div class='g-recaptcha'></div></html>"),
+            FakeResponse(_fixture_html()),
+        ]
+    )
+    provider = TjspCjsgProvider(session=session)
+
+    page = provider.search(JurisprudenceQuery(text="responsabilidade civil", page_size=2))
+
+    assert page.results
+    assert page.access_status is AccessStatus.PUBLIC
 
 
 def test_provider_search_uses_troca_de_pagina_after_public_result_session():
-    session = FakeSession([FakeResponse(_fixture_html()), FakeResponse(_cjsg_page_fragment())])
+    session = FakeSession(
+        [
+            FakeResponse(_fixture("tjsp_cjsg_ack.html")),
+            FakeResponse(_fixture_page_one()),
+            FakeResponse(_cjsg_page_fragment()),
+        ]
+    )
     provider = TjspCjsgProvider(session=session)
 
     page = provider.search(JurisprudenceQuery(text="infanticidio", page=2, page_size=5))
@@ -211,7 +295,10 @@ def test_provider_search_uses_troca_de_pagina_after_public_result_session():
     assert page.results[0].source_trace.endpoint == "/trocaDePagina.do"
     assert session.calls[0]["method"] == "POST"
     assert session.calls[1]["method"] == "GET"
-    assert session.calls[1]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=2")
+    assert session.calls[1]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
+    assert session.calls[2]["method"] == "GET"
+    assert "trocaDePagina.do?tipoDeDecisao=A&pagina=2" in session.calls[2]["url"]
+    assert "conversationId=conv-page-1" in session.calls[2]["url"]
 
 
 def test_provider_get_decisions_builds_getarquivo_url_and_extracts_text():
@@ -228,7 +315,9 @@ def test_provider_get_decisions_builds_getarquivo_url_and_extracts_text():
     assert bundle.raw["text_characters"] > 120
     assert bundle.raw["raw_content_sha256"]
     assert session.calls[0]["method"] == "GET"
-    assert session.calls[0]["url"].endswith("getArquivo.do?cdAcordao=20787558&cdForo=0")
+    assert session.calls[0]["url"].endswith(
+        "getArquivo.do?cdAcordao=20787558&cdForo=0&casChecked=true"
+    )
 
 
 def test_provider_get_document_returns_canonical_document():
@@ -260,6 +349,15 @@ def test_extract_cjsg_document_text_marks_pdf_as_unparsed():
     assert metadata["warnings"] == [
         "CJSG returned PDF bytes; NanoJuris preserves metadata but does not parse PDF text yet."
     ]
+
+
+def test_extract_cjsg_document_text_bytes_uses_shared_pdf_extractor():
+    text, metadata = extract_cjsg_document_text_bytes(b"%PDF-1.4 invalid fixture")
+
+    assert text == ""
+    assert metadata["source_content_type"] == "application/pdf"
+    assert metadata["extraction_status"] in {"failed", "unsupported_format"}
+    assert "transformations" in metadata
 
 
 def test_extract_cjsg_document_text_marks_short_access_control_text():
@@ -380,6 +478,33 @@ def test_parse_cjsg_results_accepts_empty_result_page():
     assert page.source == "tjsp_cjsg"
     assert page.total == 0
     assert page.results == []
+    assert page.is_explicit_empty is True
+    assert page.access_status is AccessStatus.PUBLIC
+    assert page.extraction_status is ExtractionStatus.EMPTY
+
+
+def test_cjsg_explicit_empty_wins_over_adaptive_selector_memory():
+    from nanojuris.adaptive_selectors import SelectorMemory
+
+    memory = SelectorMemory(":memory:", seed=False)
+    trace = SourceTrace(provider="tjsp_cjsg", endpoint="/resultadoCompleta.do")
+    parse_cjsg_results(
+        _fixture_html(),
+        query=JurisprudenceQuery(text="homicidio", page_size=2),
+        trace=trace,
+        base_url="https://esaj.tjsp.jus.br/cjsg",
+        memory=memory,
+    )
+    page = parse_cjsg_results(
+        _fixture("tjsp_cjsg_empty.html"),
+        query=JurisprudenceQuery(text="sem resultado"),
+        trace=trace,
+        base_url="https://esaj.tjsp.jus.br/cjsg",
+        memory=memory,
+    )
+
+    assert page.results == []
+    assert page.is_explicit_empty is True
 
 
 def test_diagnose_cjsg_access_does_not_flag_result_page_as_blocked():

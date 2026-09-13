@@ -1,0 +1,30 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "trt15_jurisprudencia",
+  "authority": "TRT15",
+  "surface": "jurisprudencia_options_catalog",
+  "observed_at": "2026-09-11T22:44:54-03:00",
+  "bounded": true,
+  "method": "GET",
+  "endpoint": "/backend/listarOpcoes",
+  "http_status": 200,
+  "retrieval_status": "ok",
+  "response_bytes": 12551,
+  "content_sha256": "fd9539bbc8efcca38ee89811c6448f28f5e9412eefcd94d477eaec80e3b1481f",
+  "catalog": {
+    "court_count": 1,
+    "organ_count": 44,
+    "rapporteur_count": 242,
+    "authority": "TRT15"
+  },
+  "classification": "public_options_catalog_only",
+  "search_result_contract": "not_proven",
+  "credentials_used": false,
+  "challenge_submitted": false,
+  "raw_body_persisted": false,
+  "limitations": [
+    "A busca /backend/pesquisar continua retornando o estado CAPTCHA sem token.",
+    "O catalogo publico nao prova grau, instancia, paginacao ou inteiro teor.",
+    "A evidencia nao habilita a federacao nem converte o provider em live_validated."
+  ]
+}

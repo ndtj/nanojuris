@@ -1,0 +1,253 @@
+{
+  "schema_version": "0091-local-gates-v1",
+  "generated_at": "2026-09-13T06:12:14+00:00",
+  "policy": {
+    "network_used": false,
+    "external_and_human_tasks_not_fabricated": true,
+    "no_bypass": true,
+    "no_release": true
+  },
+  "summary": {
+    "passed": 10,
+    "pending": 0,
+    "catalog_entries": 85,
+    "runtime_entries": 80,
+    "registered_entries": 80,
+    "open_tasks": 102,
+    "open_task_classification": {
+      "external_source": 75,
+      "human_review": 27
+    },
+    "fixture_summary": {
+      "runtime_providers": 80,
+      "complete": 80,
+      "incomplete": 0,
+      "source_fixture_evidence": 80,
+      "second_page_applicable": 52,
+      "incomplete_sources": []
+    }
+  },
+  "checks": [
+    {
+      "name": "handoff_artifacts",
+      "status": "passed",
+      "evidence": [
+        "specs/changes/0091-national-coverage-gold-handoff/spec-of-specs.md",
+        "specs/changes/0091-national-coverage-gold-handoff/spec.md",
+        "specs/changes/0091-national-coverage-gold-handoff/design.md",
+        "specs/changes/0091-national-coverage-gold-handoff/implementation-plan.md",
+        "specs/changes/0091-national-coverage-gold-handoff/clarify.md",
+        "specs/changes/0091-national-coverage-gold-handoff/research.md",
+        "specs/changes/0091-national-coverage-gold-handoff/traceability.md",
+        "specs/changes/0091-national-coverage-gold-handoff/tasks.md",
+        "specs/changes/0091-national-coverage-gold-handoff/verification.md",
+        "specs/changes/0091-national-coverage-gold-handoff/threat-model.md",
+        "specs/changes/0091-national-coverage-gold-handoff/provider-workpack-template.md",
+        "specs/changes/0091-national-coverage-gold-handoff/lawful-access-decision-matrix.md",
+        "specs/changes/0091-national-coverage-gold-handoff/model-runbook.md",
+        "specs/changes/0091-national-coverage-gold-handoff/execution-manifest.json",
+        "specs/changes/0091-national-coverage-gold-handoff/evidence-record.schema.json",
+        "specs/changes/0091-national-coverage-gold-handoff/promotion-gate.schema.json",
+        "specs/changes/0091-national-coverage-gold-handoff/human-decision-record.template.json",
+        "specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md",
+        "specs/changes/0091-national-coverage-gold-handoff/MODEL_HANDOFF.md",
+        "specs/changes/0091-national-coverage-gold-handoff/model-handoff-status.json",
+        "specs/changes/0091-national-coverage-gold-handoff/handoff-artifact-manifest.json",
+        "specs/changes/0091-national-coverage-gold-handoff/CONTINUATION_BRIEF.md"
+      ],
+      "note": ""
+    },
+    {
+      "name": "generated_inventory_set",
+      "status": "passed",
+      "evidence": [
+        "docs/registry/provider-catalog.full.json",
+        "docs/registry/providers.json",
+        "docs/coverage/surface-state-registry-20260902.json",
+        "docs/coverage/fixture-completeness-20260908.json",
+        "docs/operations/technical-promotion-manifest-20260905.json",
+        "docs/coverage/open-task-audit-current.json",
+        "docs/coverage/open-task-audit-20260907.json",
+        "docs/coverage/national-coverage-gold-handoff-20260908.json",
+        "docs/coverage/national-coverage-model-handoff-20260908.json",
+        "docs/provider-discovery/tjmg-modern-api-live-20260908.json",
+        "docs/provider-discovery/tjma-informativos-live-20260908.json",
+        "docs/provider-discovery/stm-live-20260908-cycle70.json",
+        "docs/provider-discovery/trf4-live-20260908-cycle71.json",
+        "docs/provider-discovery/trf4-second-degree-live-20260908.json",
+        "docs/provider-discovery/federal-eproc-degree-live-20260908.json",
+        "docs/provider-discovery/trf5-live-20260908-cycle72.json",
+        "docs/provider-discovery/eproc-detail-live-20260908-cycle73.json",
+        "docs/provider-discovery/stj-live-20260908-cycle74.json",
+        "docs/provider-discovery/eproc-detail-live-20260908-cycle75.json",
+        "docs/provider-discovery/tjrj-banco-sentencas-live-20260908.json",
+        "docs/provider-discovery/tjba-cjpg-banco-sentencas-live-20260907.json",
+        "docs/provider-discovery/tjpa-banco-sentencas-live-20260907.json",
+        "docs/provider-discovery/first-degree-secondary-probes-live-20260907.json",
+        "docs/provider-discovery/trf3-exact-process-live-20260908.json",
+        "docs/provider-discovery/tjal-turma-recursal-live-20260908.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle77.json",
+        "docs/provider-discovery/federated-promotion-optin-live-20260908-cycle78.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle79.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle80.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle81.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle82.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle83.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle84.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle85.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle87.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle88.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle89.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle90.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle91.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle92.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle93.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle94.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle95.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle96.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle97.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle98.json",
+        "docs/provider-discovery/federated-promotion-live-20260908-cycle100.json",
+        "docs/provider-discovery/tjpr-sentenca-digital-live-20260908.json",
+        "docs/provider-discovery/tjma-jurisprudence-route-live-20260908.json",
+        "docs/provider-discovery/tjsc-eproc-cjpg-live-20260908.json",
+        "docs/provider-discovery/tjrs-sentencas-live-20260908.json",
+        "docs/provider-discovery/trt2-jurisprudencia-api-live-20260908.json",
+        "docs/provider-discovery/trt3-jurisprudencia-route-live-20260909.json",
+        "docs/provider-discovery/trt4-jurisprudencia-route-live-20260909.json",
+        "docs/provider-discovery/tre-sjur-route-inventory-live-20260909.json",
+        "docs/provider-discovery/tre-sjur-gold-live-20260909.json",
+        "docs/coverage/0091-artifact-audit-20260908.json",
+        "specs/changes/0091-national-coverage-gold-handoff/surface-workpacks/manifest.json"
+      ],
+      "note": ""
+    },
+    {
+      "name": "catalog_identity_fields",
+      "status": "passed",
+      "evidence": [
+        "docs/registry/provider-catalog.full.json"
+      ],
+      "note": "Owner/TTL/evidence completeness is audited separately and is not inferred here."
+    },
+    {
+      "name": "runtime_catalog_reconciliation",
+      "status": "passed",
+      "evidence": [
+        "docs/registry/provider-catalog.full.json",
+        "docs/registry/providers.json"
+      ],
+      "note": "runtime_catalog=80 registered=80"
+    },
+    {
+      "name": "fixture_gate",
+      "status": "passed",
+      "evidence": [
+        "docs/coverage/fixture-completeness-20260908.json"
+      ],
+      "note": ""
+    },
+    {
+      "name": "surface_state_shape",
+      "status": "passed",
+      "evidence": [
+        "docs/coverage/surface-state-registry-20260902.json"
+      ],
+      "note": ""
+    },
+    {
+      "name": "technical_promotion_manifest",
+      "status": "passed",
+      "evidence": [
+        "docs/coverage/technical-promotion-manifest-20260905.json"
+      ],
+      "note": "Technical promotion is not legal approval."
+    },
+    {
+      "name": "open_task_classification",
+      "status": "passed",
+      "evidence": [
+        "docs/coverage/open-task-audit-current.json"
+      ],
+      "note": "External-source and human-review tasks remain open by policy."
+    },
+    {
+      "name": "juscraper_pinned_reference",
+      "status": "passed",
+      "evidence": [
+        "../.tmp-juscraper/.git/HEAD",
+        "../.tmp-juscraper/LICENSE or pyproject.toml"
+      ],
+      "note": "Reference-only; no third-party code is copied by this audit."
+    },
+    {
+      "name": "modern_tjmg_live_evidence",
+      "status": "passed",
+      "evidence": [
+        "docs/provider-discovery/tjmg-modern-api-live-20260908.json"
+      ],
+      "note": "Bounded public evidence; not a claim of permanent availability."
+    }
+  ],
+  "artifact_sha256": {
+    "docs/registry/provider-catalog.full.json": "8a1823d2d88c598385ad250a3c7e071d3ac93c3b5001774de9539b883ea64df5",
+    "docs/registry/providers.json": "db75875e73a5ac28a5b654fc4889435e34c3993d0d049782c7c1c94fc67d1796",
+    "docs/coverage/surface-state-registry-20260902.json": "1b4eb9fa91b44aa9c7730b2195918e7661830bda33a3dbdfc56787df9e594f25",
+    "docs/coverage/fixture-completeness-20260908.json": "aa878dd9db41a52559e786e459358438bdf7d1ef3acdfd6819d3e2e90f31043a",
+    "docs/operations/technical-promotion-manifest-20260905.json": "f2d88a8b6f03d35703e1e13a67b29ce850eb7d85c4aaca6ae0525fdb7a985416",
+    "docs/coverage/open-task-audit-current.json": "5ead282c49d528357650f244c275e75d55f9736d5837521151cc4269a6d60d71",
+    "docs/coverage/open-task-audit-20260907.json": "4088e20e6867395b6206e3bafbda68bcb6dd2edead784b3863cbf3e77dd526ce",
+    "docs/coverage/national-coverage-gold-handoff-20260908.json": "86ef5a93be85d37eebafd3d5760f0fdf83ed0797537b21a428da85d7f035e2e0",
+    "docs/coverage/national-coverage-model-handoff-20260908.json": "f7a03b3907239b575fc64b1f15a804dead83b2d58e812a7f6860cdffa20b223c",
+    "docs/provider-discovery/tjmg-modern-api-live-20260908.json": "effcc4f5963a5b60cba9f10ba01e5b7485d1e2058161177e02ab79954be99ab4",
+    "docs/provider-discovery/tjma-informativos-live-20260908.json": "6305816f9fd8e1a75e2a59a26fe690d60a932a50e2aceebf99cec49a70ed6294",
+    "docs/provider-discovery/stm-live-20260908-cycle70.json": "7824e139827f2c151aeda750b381a2f58b2c366c4e08540252fc5da5c5fa9168",
+    "docs/provider-discovery/trf4-live-20260908-cycle71.json": "555bb14e075f2a56085586a0cd081233a6a079c0879e7d820212a1eb9c7f2ee8",
+    "docs/provider-discovery/trf4-second-degree-live-20260908.json": "c291a7f4c118da8271205156106866c593c9abb679a6d026e75bf1e22adc7ab8",
+    "docs/provider-discovery/federal-eproc-degree-live-20260908.json": "ac1fd8a006bb95f1e2f9e497df47494587d81ff728c5cfe38addd17514f731c7",
+    "docs/provider-discovery/trf5-live-20260908-cycle72.json": "1e4a8213e130185b2d0bd7f3a492d2fd14abf7c285148d7225341d8719467641",
+    "docs/provider-discovery/eproc-detail-live-20260908-cycle73.json": "843811c8904c616d978cf561213ff69f9f708a6ebb85e838781d29370e0ef7ed",
+    "docs/provider-discovery/stj-live-20260908-cycle74.json": "e8e2e99c877c87f79a233ed781c08913f0a84fcd18aeeedfc46c6c404e1a3522",
+    "docs/provider-discovery/eproc-detail-live-20260908-cycle75.json": "0c9f8c84a3b2a7a50ae37473b85f0f3c0fc41be048338f2600b98e0748cd618c",
+    "docs/provider-discovery/tjrj-banco-sentencas-live-20260908.json": "c3ee14d8acf55fc21c63fb9a84c0d6f14a36ee58ecc1a71d81519d632f7cc7c4",
+    "docs/provider-discovery/tjba-cjpg-banco-sentencas-live-20260907.json": "ef58c057a7e6d02257ebc4d7d4698e56013fbdeefa29d1cf583f2a6096a7bede",
+    "docs/provider-discovery/tjpa-banco-sentencas-live-20260907.json": "4a4b73f9075eaae6c388c318147c04f1c2c67e20bcdbee301564f0af0b9ff7a5",
+    "docs/provider-discovery/first-degree-secondary-probes-live-20260907.json": "86d29bc510d86af95290bf58e7120300bc10465d51966c13c17a2bb6da63e772",
+    "docs/provider-discovery/trf3-exact-process-live-20260908.json": "a5a4dbc6215314b980a33d30a3a0e3db72a18f3cc2793e535826b64916f27855",
+    "docs/provider-discovery/tjal-turma-recursal-live-20260908.json": "04f581d9141f5ea2e37e8ab53d9e925560b5944cf1c917e6f69f742bb4cc51a1",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle77.json": "28d080d5cd6ec841bfa31d906a75404624b1ae2dfcf41a8cee38eea58be1932b",
+    "docs/provider-discovery/federated-promotion-optin-live-20260908-cycle78.json": "ddc4494a822a627303108374b607494442418a9a2675fc42950f55ec6743dcea",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle79.json": "fd20cd10fc63657ab210c8cbe065b01f3ed8930748402ad061ed3ad66c9a4671",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle80.json": "5b74d8446a0af9e9b9aaf904fa2a80549eabcf341c95ab7d9aa47e7f58dfc7ab",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle81.json": "f45957627ec01f436c2776d1d57d7c6df15e5f56fd61ecdec787877de503d926",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle82.json": "1c614c0f917ae2645b4b4342c0e3037134a474efb3acaf2b752dc51a78557f07",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle83.json": "eaf13fcc6d2ad3cdcde5add94ab67089ff3ce0e29990355326f1319cef236307",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle84.json": "1b1e174a90da4830a47a9173fc6691aec3eedae5ed6e4569fc28f8317dddba55",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle85.json": "c23fbab35adebac9da5d1bb6100ed09279cbdf0eb866f5e87b33c7e72ee9f228",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle87.json": "703c040ad177dcbd85f701646cae38a0f174a2a10bef3d7305f1c30f339e0b91",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle88.json": "cd811a201c08fbf1a2a8ef3e20fbf7cf2b34132aa59bfa1d5fb00b0973a37c57",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle89.json": "ee1b1167be42ddec90746cb542919b41541b6e809a0826bddb421ea03d7f57a4",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle90.json": "a7e497768d3a150e1f5507f689fe0df8155860227337ed41c959c3f864ac7b1f",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle91.json": "c71c2ca5b2019d06cab024cc8acc58d7a2becada940a81de824943081771f889",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle92.json": "6aed4ecde35321223c089ebf121e8e8be9b929e9c9fb4975cd4a019e77f445d4",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle93.json": "488e942046d1b20d71e2bc1a6e4fba00991f3024d8b21390dd214539cd5c90e6",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle94.json": "15d84b6a18e452e1abf612baf8a5ff24b93f52b05e92c934affa6d5e46becf92",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle95.json": "16d7f57bc78f76e19806dfc7cef0fdb00a363926535de29c9046535ea0ecc05f",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle96.json": "e076a4cdd9c7ecb39dd69e54f0fd8fc91e15d22ec87208f3cb52819f402ef05e",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle97.json": "11e7ce2c76a8014e66a9691cbf77cd2aeec56f91c4a728da7c3d55b8cc31d157",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle98.json": "c26d023933d4c08e4df1982c4eb86659527131fe505e011a9e359fdeff1f53eb",
+    "docs/provider-discovery/federated-promotion-live-20260908-cycle100.json": "b53ffaf8330cba844139db280e0e999b9dd42bd1b694a05681cc8e3eee8835e1",
+    "docs/provider-discovery/tjpr-sentenca-digital-live-20260908.json": "0a62f861f790442a8dab4ca8736ae2b14e5c68ea6c17b2949b4617789ee94651",
+    "docs/provider-discovery/tjma-jurisprudence-route-live-20260908.json": "f0432d2d0acae18442ce657965deced6299f3655617b0cc310bcc7d4598f408d",
+    "docs/provider-discovery/tjsc-eproc-cjpg-live-20260908.json": "75ceda1f1e46c90c4b62b0715afb8f9b834b8742c5f498dfb130f2b840903a9d",
+    "docs/provider-discovery/tjrs-sentencas-live-20260908.json": "c69c6ae48e37534ac31e20992e7ed6efdb7d97c3b90075a99e64c5338fdbd3df",
+    "docs/provider-discovery/trt2-jurisprudencia-api-live-20260908.json": "70c3e106ee8e4b2b4324af77369bf2d707a20cf610faf60ca44b1c630ed615e6",
+    "docs/provider-discovery/trt3-jurisprudencia-route-live-20260909.json": "76cca34bfc603567526b66e3dad202801ad49252ada1a012f9aa3f370ca578cb",
+    "docs/provider-discovery/trt4-jurisprudencia-route-live-20260909.json": "d9cce60121b2dc926ee973252b139b9cbac5fcd2a6b5916c7b1661c884835a2a",
+    "docs/provider-discovery/tre-sjur-route-inventory-live-20260909.json": "88785f1d370822e71fa74f152d37ac59605f6fbe2f2f299ecc9a53b26e54b0aa",
+    "docs/provider-discovery/tre-sjur-gold-live-20260909.json": "c966fea5bc2af9836edd582028c1046a02aea73961451901f1d36dd8d1c1e164",
+    "docs/coverage/0091-artifact-audit-20260908.json": "c16e644aad92c8130b27a3872342e54c438e2f6b25bdfcf1945655b453779189",
+    "specs/changes/0091-national-coverage-gold-handoff/surface-workpacks/manifest.json": "ea06723193c60062bb1448034a3aa1acd5dc96e73c72154ef5980fc32c99e56b"
+  },
+  "next_action": "Process external and human tasks with evidence; no local gate remains pending."
+}

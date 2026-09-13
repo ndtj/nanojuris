@@ -1,0 +1,29 @@
+{
+  "provider": "tre_sp_sjur_jurisprudencia",
+  "authority": "TRE-SP",
+  "collection": "SJUR",
+  "degree": "second",
+  "checked_at": "2026-09-12",
+  "endpoint": "POST /tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "method": "public bounded request via NanoJuris search_partitioned",
+  "request": {
+    "text": "direito",
+    "document_type": "acordao",
+    "judgment_date_from": "2020-01-01",
+    "judgment_date_to": "2020-12-31",
+    "partitions": 12
+  },
+  "http_status": 200,
+  "total": 203,
+  "returned": 203,
+  "total_known": true,
+  "complete": true,
+  "pagination_mode": "date_partition",
+  "body_persisted": false,
+  "classification": "bounded_date_partition_complete",
+  "limitations": [
+    "A evidencia cobre somente o intervalo solicitado e uma consulta textual.",
+    "A coleta particionada e opt-in; a pagina remota geral continua nao comprovada.",
+    "Nenhum CAPTCHA, WAF, token, cookie, proxy ou mecanismo de bypass foi usado."
+  ]
+}

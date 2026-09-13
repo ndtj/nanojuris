@@ -1,0 +1,28 @@
+{
+  "schema_version": "provider-discovery-live-v1",
+  "observed_at": "2026-09-10",
+  "provider": "trf3_jurisprudencia",
+  "surface": "exact_process_appellate_document",
+  "official_url": "https://web.trf3.jus.br/acordaos/Acordao/PesquisarDocumento",
+  "method": "GET",
+  "query_shape": "exact CNJ process, degree=second, instance=second, branch=federal",
+  "request": {"processo": "00079799120054036119"},
+  "bounded": true,
+  "timeout_seconds": 20,
+  "credentials_used": false,
+  "bypass_used": false,
+  "raw_content_persisted": false,
+  "classification": "transport_error",
+  "access_status": "source_unavailable",
+  "http_status": null,
+  "bytes_received": 0,
+  "elapsed_seconds": 20.010799,
+  "error": "curl operation timed out without response bytes",
+  "decision": "keep_opt_in_pending_live",
+  "next_action": "Do not retry this route in the current window; wait for an official availability change or support response.",
+  "notes": [
+    "Timeout is not an empty result and was not converted to success.",
+    "No CAPTCHA, WAF, access-control or TLS bypass was attempted.",
+    "The exact-process adapter remains executable offline with sanitized fixtures."
+  ]
+}

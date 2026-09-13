@@ -82,6 +82,14 @@ estiverem presentes.
 - [ ] PDF oficial de uma edicao para teste opt-in do extrator.
 - [ ] Parser HTML offline com testes de encoding e links.
 
+## Transporte compartilhado (2026-09-08)
+
+A pÃ¡gina pÃºblica de informativos agora usa `SharedHttpClient`, com allowlist
+TJCE, limite de 8 MB, timeout, rate limit e circuito. 401/403, 429, TLS,
+timeout, redirecionamento e HTML de desafio permanecem estados explÃ­citos e
+nÃ£o sÃ£o convertidos em ediÃ§Ã£o vazia; nÃ£o hÃ¡ retry automÃ¡tico apÃ³s desafio ou
+rate limit.
+
 ## MCP e agentes
 
 O MCP pode oferecer uma ferramenta de consulta aos informativos depois do

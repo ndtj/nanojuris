@@ -1,0 +1,157 @@
+{
+  "generated_at": "2026-09-06T09:30:46.841597+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "pending_documents",
+    "sources": [
+      "stf_juris",
+      "stj_dados_abertos_jurisprudencia",
+      "stj_informativo",
+      "tce_pr_viajuris",
+      "tce_sp_jurisprudencia"
+    ]
+  },
+  "sources": [
+    {
+      "source": "stf_juris",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "SourceUnavailableError",
+      "error": "STF jurisprudence API SSL verification failed in this environment."
+    },
+    {
+      "source": "stj_dados_abertos_jurisprudencia",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "UnsupportedQueryError",
+      "error": "STJ dados abertos nao oferece busca jurisprudencial online; sincronize um recurso e pesquise o indice local"
+    },
+    {
+      "source": "stj_informativo",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 1813,
+        "source": "stj_informativo"
+      },
+      "result": {
+        "id": "stj-informativo-899-djen-26",
+        "case_number": "DJEN 26/",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://processo.stj.jus.br/jurisprudencia/externo/informativo/?aplicacao=informativo&acao=pesquisar&livre=@CNOT='020032'",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "acordao_url",
+          "cnot_url",
+          "data_julgamento",
+          "document_url",
+          "informativo",
+          "judging_body",
+          "judgment_date",
+          "orgao_julgador",
+          "period",
+          "raw_text",
+          "title"
+        ]
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://processo.stj.jus.br/jurisprudencia/externo/informativo/?aplicacao=informativo&acao=pesquisar&livre=@CNOT='020032'",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 144515,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tce_pr_viajuris",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 149,
+        "source": "tce_pr_viajuris"
+      },
+      "result": {
+        "id": "tce-pr-viajuris-2026-17",
+        "case_number": "779844/2020",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://viajuris.tce.pr.gov.br/Arquivos/2026/2/000200518.pdf",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "AnoAto",
+          "AnoProcesso",
+          "DsClasseProcessual",
+          "DsColegiado",
+          "DsEntidade",
+          "DsInteressado",
+          "DsResumo",
+          "DsSubClasseProcessual",
+          "DsTema",
+          "DsTipoAto",
+          "DsTitulo",
+          "DsVeiculoPublicacao",
+          "DtPublicacaoDOE",
+          "DtSessao",
+          "NmAdvogados",
+          "NmCategoriaPublicacao",
+          "NmRelator",
+          "NrAto",
+          "NrDOE",
+          "NrProcesso",
+          "ReferenciaLegislativas",
+          "SgUnidAdm",
+          "Termos",
+          "UrlPDF",
+          "case_class",
+          "document_url",
+          "judging_body",
+          "registry_id",
+          "subject"
+        ]
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://viajuris.tce.pr.gov.br/Arquivos/2026/2/000200518.pdf",
+        "content_type": "application/pdf",
+        "response_bytes": 635766,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tce_sp_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 0,
+        "reported_total": 0,
+        "source": "tce_sp_jurisprudencia"
+      },
+      "status": "empty"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 2,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 0,
+    "public_url_reachable": 2,
+    "public_url_document_like": 1,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 2
+  }
+}

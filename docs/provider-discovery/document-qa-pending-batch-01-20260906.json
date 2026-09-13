@@ -1,0 +1,139 @@
+{
+  "generated_at": "2026-09-06T09:30:39.704451+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "pending_documents",
+    "sources": [
+      "bnp_pangea",
+      "cjf_jurisprudencia",
+      "cnj_jurisprudencia",
+      "justica_eleitoral_sjur",
+      "stf_informativo"
+    ]
+  },
+  "sources": [
+    {
+      "source": "bnp_pangea",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 431,
+        "source": "bnp_pangea"
+      },
+      "result": {
+        "id": "stj-rr-181",
+        "case_number": 181,
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://pangeabnp.pdpj.jus.br/api/v1/precedentes",
+        "access_status": null,
+        "extraction_status": "complete",
+        "raw_keys": [
+          "highlight",
+          "historico",
+          "id",
+          "nr",
+          "orgao",
+          "processosParadigma",
+          "questao",
+          "situacao",
+          "suspensoes",
+          "tese",
+          "tipo",
+          "ultimaAtualizacao"
+        ]
+      },
+      "public_url": {
+        "status": "http_error",
+        "http_status": 405,
+        "final_url": "https://pangeabnp.pdpj.jus.br/api/v1/precedentes",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes": 153,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": 405
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "cjf_jurisprudencia",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "AccessControlRequiredError",
+      "error": "CJF/TRF1 jurisprudence returned access-control HTML"
+    },
+    {
+      "source": "cnj_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 6,
+        "source": "cnj_jurisprudencia"
+      },
+      "result": {
+        "id": "cnj-informativo-36cf4ec10bbb210f465a",
+        "case_number": "11",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://atos.cnj.jus.br/files/original220357202608246a8cbfcd25262.pdf",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "curated_source",
+          "document_url",
+          "edition_number",
+          "publication_date",
+          "publication_date_raw",
+          "summary",
+          "type"
+        ]
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://atos.cnj.jus.br/files/original220357202608246a8cbfcd25262.pdf",
+        "content_type": "application/pdf",
+        "response_bytes": 388222,
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "justica_eleitoral_sjur",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "UnsupportedQueryError",
+      "error": "SJUR/TSE possui somente catalogo promovido; a busca decisoria aguarda contrato de resultados reproduzivel"
+    },
+    {
+      "source": "stf_informativo",
+      "query": "responsabilidade",
+      "status": "error",
+      "error_type": "SourceUnavailableError",
+      "error": "STF Informativo XLSX SSL verification failed in this environment."
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 2,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 0,
+    "public_url_reachable": 1,
+    "public_url_document_like": 1,
+    "document_probe_failures": 1,
+    "partial": 1,
+    "errors": 3
+  }
+}

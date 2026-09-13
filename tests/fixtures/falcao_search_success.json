@@ -1,0 +1,18 @@
+{
+  "quantidadeTotal": 1,
+  "documentos": [
+    {
+      "idDocumentoAcordao": "TRT9-42",
+      "tipoDocumento": "acordaos",
+      "tribunal": "TRT9",
+      "grau": "2",
+      "numeroProcesso": "0000001-23.2024.5.09.0001",
+      "nomeRelator": "Relator Exemplo",
+      "textoEmenta": "Responsabilidade civil. Dano moral.",
+      "textoAcordao": "Responsabilidade civil. Dano moral. Decisao colegiada.",
+      "dataJulgamento": "2024-06-10",
+      "dataPublicacao": "2024-06-20",
+      "documentUrl": "https://jurisprudencia.jt.jus.br/documentos/TRT9-42"
+    }
+  ]
+}

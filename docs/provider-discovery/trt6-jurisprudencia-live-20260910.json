@@ -1,0 +1,47 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "trt6_jurisprudencia",
+  "observed_at": "2026-09-10T00:00:00-03:00",
+  "authority": "TRT6",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "JURISPRUDENCIA",
+  "source_id": "trt6_jurisprudencia",
+  "status": "access_control_required",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "probes": [
+    {
+      "url": "https://pje.trt6.jus.br/jurisprudencia/",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "classification": "official_spa_reachable"
+    },
+    {
+      "url": "https://pje.trt6.jus.br/juris-backend/api/documentos",
+      "method": "POST",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response": "Erro na validação do Recaptcha",
+      "classification": "access_control_required"
+    },
+    {
+      "url": "https://apps.trt6.jus.br/acordaos/",
+      "method": "GET",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "classification": "official_legacy_form_reachable"
+    }
+  ],
+  "live_status": "access_control_required",
+  "contract_status": "pending",
+  "federation_status": "not_enabled",
+  "document_capability": "unknown_until_authorized_search",
+  "limitations": [
+    "A busca exige reCAPTCHA; nenhum desafio foi resolvido, enviado, reutilizado ou contornado.",
+    "Não há evidência pública reproduzível de resultados, paginação ou detalhe sem resposta legítima do desafio."
+  ],
+  "next_action": "Solicitar API/exportação oficial sem desafio e revalidar os oito gates"
+}

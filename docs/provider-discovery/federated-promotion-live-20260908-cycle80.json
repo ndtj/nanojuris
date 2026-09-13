@@ -1,0 +1,133 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "generated_at": "2026-09-08T16:43:54.961427+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "responsabilidade civil",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "max_pages_per_source": 1,
+    "bodies_persisted": false
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "manifest_enabled_sources": 6,
+  "manifest_sources": [
+    "tjac_cjsg",
+    "tjal_cjsg",
+    "tjam_cjsg",
+    "tjce_cjsg",
+    "tjms_cjsg",
+    "tjsp_cjsg"
+  ],
+  "default_capability_sources": 50,
+  "default_contains_manifest_sources": true,
+  "sources_searched": [
+    "tjac_cjsg",
+    "tjal_cjsg",
+    "tjam_cjsg",
+    "tjce_cjsg",
+    "tjms_cjsg",
+    "tjsp_cjsg"
+  ],
+  "source_completeness": {
+    "tjac_cjsg": {
+      "returned": 1,
+      "reported_total": 18299,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjal_cjsg": {
+      "returned": 1,
+      "reported_total": 159266,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjam_cjsg": {
+      "returned": 1,
+      "reported_total": 39557,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjce_cjsg": {
+      "returned": 1,
+      "reported_total": 107088,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjms_cjsg": {
+      "returned": 1,
+      "reported_total": 230539,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    },
+    "tjsp_cjsg": {
+      "returned": 1,
+      "reported_total": 2741901,
+      "pagination_mode": "unknown",
+      "complete": false,
+      "reason": "A resposta e uma janela parcial do total informado pela fonte.",
+      "pages_fetched": 1,
+      "invalid_records": 0
+    }
+  },
+  "source_totals": {
+    "tjac_cjsg": 18299,
+    "tjal_cjsg": 159266,
+    "tjam_cjsg": 39557,
+    "tjce_cjsg": 107088,
+    "tjms_cjsg": 230539,
+    "tjsp_cjsg": 2741901
+  },
+  "source_total_known": {
+    "tjac_cjsg": true,
+    "tjal_cjsg": true,
+    "tjam_cjsg": true,
+    "tjce_cjsg": true,
+    "tjms_cjsg": true,
+    "tjsp_cjsg": true
+  },
+  "source_access_status": {
+    "tjac_cjsg": "public",
+    "tjal_cjsg": "public",
+    "tjam_cjsg": "public",
+    "tjce_cjsg": "public",
+    "tjms_cjsg": "public",
+    "tjsp_cjsg": "public"
+  },
+  "source_extraction_status": {
+    "tjac_cjsg": "complete",
+    "tjal_cjsg": "complete",
+    "tjam_cjsg": "complete",
+    "tjce_cjsg": "complete",
+    "tjms_cjsg": "complete",
+    "tjsp_cjsg": "complete"
+  },
+  "errors": [],
+  "summary": {
+    "sources_requested": 6,
+    "sources_searched": 6,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "total_returned": 1,
+    "deduplicated_total": 6,
+    "collection_complete": false,
+    "unknown_total_sources": []
+  }
+}

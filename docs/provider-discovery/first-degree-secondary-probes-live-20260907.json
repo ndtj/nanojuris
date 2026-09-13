@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "scope": "bounded_followup_probe_of_first_degree_candidates",
+  "credentials_used": false,
+  "response_bodies_persisted": false,
+  "results": [
+    {
+      "authority": "TJRS",
+      "url": "https://www.tjrs.gov.br/sistemas/banco_sentencas/search.php",
+      "classification": "transport_error_dns",
+      "error_type": "NameResolutionError",
+      "decision": "Do not classify as empty; retry only after official host/DNS is restored."
+    },
+    {
+      "authority": "TJRS",
+      "url": "https://www.tjrs.jus.br/novo/busca/?site=sentencas&q=dano+moral",
+      "status": 200,
+      "classification": "institutional_search_mixed_corpus",
+      "reported_results": "approximately 1100",
+      "observed_content": "news and second-degree references; no explicit first-degree decision identity",
+      "decision": "Do not count as CJPG; retain as contextual search only until a dedicated sentence corpus is proven."
+    },
+    {
+      "authority": "TJAC",
+      "url": "https://www.tjac.jus.br/transparencia/relatorios-e-estatisticas/ementario-jurisprudencial/",
+      "status": 200,
+      "classification": "curated_ementario_pdf_repository",
+      "document_formats": ["pdf"],
+      "degree": "unconfirmed",
+      "first_degree_route": "not_proven",
+      "decision": "Keep as a possible document-ingestion source, not a searchable CJPG contract."
+    },
+    {
+      "authority": "TJPR",
+      "url": "https://www.tjpr.jus.br/sentenca-digital",
+      "status": 200,
+      "classification": "institutional_program_page",
+      "degree": "first_context_only",
+      "full_text_search": false,
+      "decision": "Do not count as CJPG; the public jurisprudence route remains separate."
+    },
+    {
+      "authority": "TJSP",
+      "url": "https://www.tjsp.jus.br/Jurisprudencia",
+      "status": 200,
+      "classification": "official_hub_with_cjpg_link",
+      "linked_surfaces": [
+        "https://esaj.tjsp.jus.br/cjpg/",
+        "https://eproc1g.tjsp.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar"
+      ],
+      "decision": "CJPG already has a dedicated provider; eproc remains a separate mixed-degree contract."
+    },
+    {
+      "authority": "TJPA",
+      "url": "https://tjpa.jus.br/PortalExterno/institucional/Central-de-Pesquisa-e-Apoio-a-Magistratura/1165-BANCO-DE-SENTENcAS.xhtml",
+      "status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes_observed": 151038,
+      "response_sha256": "6de1d4fee6d55c571c9dfe0d6542f7e67b863d2486fa84de3c5852894cef4e80",
+      "classification": "official_first_degree_repository_restricted_to_magistrates",
+      "observed_text": "O Banco de Sentenças é uma área de acesso restrita aos magistrados do Estado do Pará.",
+      "decision": "Do not count as public CJPG and do not automate the restricted area; recheck only after an official unauthenticated route or authorized public export exists.",
+      "evidence": "docs/provider-discovery/tjpa-banco-sentencas-live-20260907.json"
+    },
+    {
+      "authority": "TJBA",
+      "url": "https://projudi.tjba.jus.br/projudi/buscas/ConclusoesRealizadas?instancia=1",
+      "entrypoint": "https://www.tjba.jus.br/juizadosespeciais/saj/",
+      "status": 200,
+      "content_type": "text/html;charset=iso-8859-1",
+      "classification": "official_first_degree_sentence_search_captcha_required",
+      "fields_observed": ["numeroProcesso", "codVara", "loginJuiz", "codNatureza", "seqCategoriaClasse", "seqCategoriaAssunto", "dataInicio", "dataFim", "captcha"],
+      "captcha_required": true,
+      "missing_captcha_post_classification": "captcha_required",
+      "decision": "Do not count as live-valid CJPG and do not bypass CAPTCHA; recheck only after an official no-challenge API/export or authorized integration contract.",
+      "evidence": "docs/provider-discovery/tjba-cjpg-banco-sentencas-live-20260907.json"
+    }
+  ],
+  "interpretation": "The follow-up found no new promotion-ready public first-degree contract. TJPA exposes an official Banco de Sentenças page, but the page explicitly restricts access to Pará magistrates. TJBA exposes an official first-degree Banco de Sentenças form through Projudi, but its POST requires a CAPTCHA; without an authorized human challenge value there is no reproducible search result. Both remain external access blocks, not empty corpora. TJAC offers curated PDFs and TJSP confirms existing official CJPG/eproc links; TJRS was a DNS transport failure."
+}

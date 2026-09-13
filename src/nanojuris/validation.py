@@ -34,6 +34,7 @@ class ProviderValidationStatus(str, Enum):
 
     VALID = "valid"
     EMPTY = "empty"
+    EMPTY_UNCONFIRMED = "empty_unconfirmed"
     BLOCKED = "blocked"
     RATE_LIMITED = "rate_limited"
     SOURCE_UNAVAILABLE = "source_unavailable"
@@ -58,6 +59,7 @@ class ProviderValidationReport:
     query_text: str = ""
     returned: int = 0
     reported_total: int | None = None
+    total_known: bool | None = None
     pagination_mode: str | None = None
     completeness: bool | None = None
     completeness_reason: str | None = None
@@ -119,6 +121,23 @@ def validate_provider(
             "page_number": page.page == 1,
             "page_size": page.page_size >= page_size,
             "reported_total_nonnegative": page.total >= 0,
+            "access_not_restricted": page.access_status
+            not in {"access_control_required", "login_required", "secret_or_restricted"},
+            "extraction_not_failed": page.extraction_status
+            not in {"failed", "parser_contract_changed", "unsupported_format"},
+            "retrieval_not_failed": page.source_trace is None
+            or page.source_trace.retrieval_status
+            not in {
+                "timeout",
+                "timed_out",
+                "source_unavailable",
+                "unavailable",
+                "tls_error",
+                "ssl_error",
+                "rate_limited",
+                "http_429",
+                "http_5xx",
+            },
         }
         if page.results:
             checks.update(
@@ -141,10 +160,38 @@ def validate_provider(
             message=f"normalized provider response could not be validated: {exc}",
         )
     failed_checks = [name for name, passed in checks.items() if not passed]
-    if failed_checks:
+    if page.access_status in {"access_control_required", "login_required", "secret_or_restricted"}:
+        status = ProviderValidationStatus.BLOCKED
+    elif page.extraction_status in {"failed", "parser_contract_changed", "unsupported_format"}:
+        status = ProviderValidationStatus.SOURCE_CHANGED
+    elif page.source_trace and page.source_trace.retrieval_status in {
+        "rate_limited",
+        "http_429",
+    }:
+        status = ProviderValidationStatus.RATE_LIMITED
+    elif page.source_trace and page.source_trace.retrieval_status in {"timeout", "timed_out"}:
+        status = ProviderValidationStatus.TIMEOUT
+    elif page.source_trace and page.source_trace.retrieval_status in {
+        "source_unavailable",
+        "unavailable",
+        "tls_error",
+        "ssl_error",
+        "http_5xx",
+    }:
+        status = ProviderValidationStatus.SOURCE_UNAVAILABLE
+    elif failed_checks:
         status = ProviderValidationStatus.CONTRACT_INVALID
     else:
-        status = ProviderValidationStatus.VALID if page.results else ProviderValidationStatus.EMPTY
+        # A zero-length page is successful only when the provider explicitly
+        # proves it (``is_complete=True`` or ``total_known=True,total=0``).
+        # Legacy providers often use ``total=0`` as an unknown sentinel; keep
+        # that outcome visible instead of treating it as a real empty search.
+        if page.results:
+            status = ProviderValidationStatus.VALID
+        elif page.is_explicit_empty:
+            status = ProviderValidationStatus.EMPTY
+        else:
+            status = ProviderValidationStatus.EMPTY_UNCONFIRMED
     trace = page.source_trace
     return ProviderValidationReport(
         source=provider.name,
@@ -154,6 +201,7 @@ def validate_provider(
         query_text=text,
         returned=len(page.results),
         reported_total=page.total,
+        total_known=page.total_known,
         pagination_mode=page.pagination_mode,
         completeness=page.is_complete,
         completeness_reason=page.completeness_reason,

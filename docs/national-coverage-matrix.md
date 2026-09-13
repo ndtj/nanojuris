@@ -1,8 +1,8 @@
 # Matriz Nacional De Cobertura
 
-Atualizada em 2026-08-13. Esta matriz responde se cada Tribunal de Justica
-estadual possui ao menos uma superficie oficial investigada. Ela nao equivale
-a 37 providers implementados.
+Atualizada em 2026-09-01. Esta matriz separa a existência institucional de cada
+tribunal da disponibilidade de provider. O catálogo nacional individualiza 94
+autoridades de tribunal; isso não equivale a 94 providers implementados.
 
 ## Tribunais Estaduais
 
@@ -47,6 +47,24 @@ a 37 providers implementados.
   mas nao uma busca geral de acordaos confirmada;
 - `bloqueado/inconclusivo`: houve captcha, WAF, 401/403, timeout ou instabilidade.
 
+## Tribunais Regionais Eleitorais
+
+Os 27 TREs estão individualizados no catálogo nacional. O único provider
+eleitoral textual/temático atualmente registrado é `tre_sp_temas`, associado ao
+TRE-SP; os demais permanecem `planned` até contrato público, fixture e teste
+próprios.
+
+`TRE-AC`, `TRE-AL`, `TRE-AP`, `TRE-AM`, `TRE-BA`, `TRE-CE`, `TRE-DF`,
+`TRE-ES`, `TRE-GO`, `TRE-MA`, `TRE-MT`, `TRE-MS`, `TRE-MG`, `TRE-PA`,
+`TRE-PB`, `TRE-PR`, `TRE-PE`, `TRE-PI`, `TRE-RJ`, `TRE-RN`, `TRE-RS`,
+`TRE-RO`, `TRE-RR`, `TRE-SC`, `TRE-SP`, `TRE-SE`, `TRE-TO`.
+
+## Justiça Militar Estadual
+
+O catálogo também individualiza os três tribunais estaduais reconhecidos pelo
+CNJ: `TJM-MG`, `TJM-SP` e `TJM-RS`. Eles estão catalogados como `planned`; não
+há provider de jurisprudência textual promovido para eles nesta rodada.
+
 ## Cobertura Por Ramos Nacionais
 
 | Ramo | Fontes mapeadas | Situacao |
@@ -54,7 +72,8 @@ a 37 providers implementados.
 | Constitucional/superior | STF, STJ, TST, STM | providers iniciais e fontes curadas |
 | Federal | CJF/TNU, TRF1, TRF2, TRF3, TRF4, TRF5, TRF6 | familia eproc, contratos ou candidatos |
 | Trabalhista | TST, Falcao/JT, TRT2 e demais TRTs | TST implementado; Falcao/PJe em pesquisa |
-| Eleitoral | TSE, TRE-SP e SJUR/TREs | catalogos e curadoria; busca geral parcial |
+| Eleitoral | TSE e 27 TREs | TRE-SP com curadoria temática; demais autoridades catalogadas, sem provider geral |
+| Militar estadual | TJM-MG, TJM-SP e TJM-RS | autoridades catalogadas; providers de jurisprudência ainda não promovidos |
 | Controle externo | TCU e TCE-SP | datasets e jurisprudencia administrativa |
 | Conselho | CNJ | informativos e fontes estruturadas em expansao |
 

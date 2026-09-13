@@ -1,0 +1,25 @@
+{
+  "provider": "trt2_basis_jurisprudencia",
+  "checked_at": "2026-09-08T23:11:22Z",
+  "query": {
+    "text": "responsabilidade",
+    "degree": "second",
+    "instance": "second",
+    "branch": "labor",
+    "authority": "TRT2",
+    "page_size": 3
+  },
+  "classification": "authoritative_empty",
+  "http_status": 200,
+  "returned": 0,
+  "total_known": false,
+  "is_complete": true,
+  "response_bytes": 296960,
+  "content_type": "text/html;charset=utf-8",
+  "content_sha256": "20d24ae9899cf9e39181a153649cf45c38cf612a0a101554e01b8fb5091f3f48",
+  "body_persisted": false,
+  "notes": [
+    "The public DSpace route returned a valid page without challenge markers and no matching bulletin card.",
+    "The collection remains curated and opt-in; total_unknown is preserved."
+  ]
+}

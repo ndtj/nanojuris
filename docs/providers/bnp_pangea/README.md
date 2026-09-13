@@ -37,10 +37,13 @@ qualificadas, repetitivos, repercussao geral, IAC ou IRDR. Para busca livre como
 
 ## Fixtures esperadas
 
-- catalogo de parametros;
-- busca com multiplas especies;
-- rejeicao HTTP 400;
-- decisoes vinculadas a precedente.
+- catalogo de parametros (coberto pelo fixture de especies e pelos testes de
+  catalogo);
+- busca com multiplas especies: `tests/fixtures/bnp_precedentes_species.json`;
+- pagina vazia: `tests/fixtures/bnp_precedentes_empty.json`;
+- contrato invalido/schema drift: `tests/fixtures/bnp_precedentes_invalid.json`;
+- rejeicao HTTP 400 e decisoes vinculadas permanecem cobertos por respostas
+  sinteticas nos testes, sem persistir corpos de rede.
 
 ## Validacao live 2026-08-11
 
@@ -71,10 +74,21 @@ operacao separada e nao sao tratadas como inteiro teor automatico.
 
 ## Proximos passos
 
-- [ ] Versionar uma resposta publica de busca valida com multiplas especies.
-- [ ] Versionar uma resposta vazia e uma rejeicao HTTP 400 sanitizadas.
-- [ ] Confirmar campos de agregacao e filtros adicionais antes de ampliar o
-  contrato de pesquisa.
+- [x] Versionar uma resposta publica de busca valida com multiplas especies
+  usando fixture sanitizada e sem dados pessoais desnecessarios.
+- [x] Versionar resposta vazia e contrato invalido/schema drift sanitizados;
+  HTTP 400 continua coberto por teste de contrato sem reproduzir corpo externo.
+- [x] Confirmar campos de agregacao, filtros e paginação observados antes de
+  ampliar o contrato de pesquisa.
+
+## Evidencia live 2026-09-05 (ciclo 59)
+
+Rodada limitada em sessão HTTP limpa: duas páginas com `page_size=2`, filtros
+`STF/STJ` e `RG/RR`, resposta JSON HTTP 200, total remoto conhecido e ids
+distintos entre páginas. O envelope redigido está em
+`docs/provider-discovery/bnp-pangea-live-20260905-cycle59.json`; nenhum corpo,
+cookie ou token foi persistido. A fonte é de precedentes qualificados e não
+promete inteiro teor de acórdãos comuns.
 
 ## Aprofundamento De Rotas E Filtros - 2026-08-12
 

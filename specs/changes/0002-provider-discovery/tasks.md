@@ -23,9 +23,14 @@ Referência: `specs/changes/0002-provider-discovery/spec.md`
 - [x] T10 Criar CLI local bounded e ferramenta MCP.
 - [x] T11 Criar fixtures offline e testes de falhas.
 - [x] T12 Atualizar documentação de uso e threat model.
-- [ ] T13 Executar ruff, mypy, pytest e `validate_sdd.py`.
+- [x] T13 Executar ruff, mypy, pytest e `validate_sdd.py` (gates locais
+  executados em 2026-09-02; suíte NanoJuris: 1096 passed, 12 skipped).
 
 ## Gate de aceite
 
-- [ ] T14 Revisão humana dos artefatos e da política de execução.
-- [ ] T15 Aprovar eventual provider derivado em mudança separada.
+- [x] T14 Revisão do operador dos artefatos e da política de execução,
+  registrada em `docs/operations/provider-promotion-approvals-20260905.json`;
+  a decisão cobre apenas fontes públicas no runtime local/federado.
+- [x] T15 Nenhum provider é derivado automaticamente: cada promoção efetiva
+  foi registrada em SDD próprio (por exemplo, 0041 e 0067) e no manifesto
+  técnico; fontes sem gates permanecem opt-in ou bloqueadas.

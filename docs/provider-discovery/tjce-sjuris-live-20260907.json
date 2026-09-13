@@ -1,0 +1,23 @@
+{
+  "provider": "tjce_sjuris",
+  "authority": "TJCE",
+  "surface": "SJURIS",
+  "collection": "CJSG-compatible textual jurisprudence",
+  "observed_at": "2026-09-07",
+  "method": "single bounded public provider query",
+  "credentials_used": false,
+  "query": {
+    "text": "dano moral",
+    "page_size": 1
+  },
+  "http_status": 200,
+  "retrieval_status": "ok",
+  "result_count": 1,
+  "reported_total": 41488,
+  "is_complete": false,
+  "classification": "live_validated",
+  "limitations": [
+    "Only the first bounded page was requested.",
+    "The CJSG e-SAJ route remains separately access-controlled; SJURIS is the public alternative used here."
+  ]
+}

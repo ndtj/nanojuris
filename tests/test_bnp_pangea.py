@@ -23,7 +23,13 @@ class FakeResponse:
     def __init__(self, payload, status_code: int = 200, text: str = ""):
         self.payload = payload
         self.status_code = status_code
-        self.text = text
+        self.text = text or (
+            "" if isinstance(payload, Exception) else json.dumps(payload, ensure_ascii=False)
+        )
+        self.content = self.text.encode("utf-8")
+        self.headers = {"Content-Type": "application/json"}
+        self.url = "https://example.test/api/v1"
+        self.is_redirect = False
 
     def json(self):
         if isinstance(self.payload, Exception):
@@ -46,6 +52,14 @@ class FakeSession:
 class RaisingSession:
     def request(self, method, url, **kwargs):
         raise requests.RequestException("offline")
+
+
+def test_provider_capabilities_expose_v2_filter_contract():
+    capabilities = BnpPangeaProvider(session=FakeSession([])).get_capabilities()
+
+    assert capabilities.filter_status("text") == "native"
+    assert capabilities.filter_status("exact_phrase") == "native"
+    assert capabilities.filter_status("updated_to") == "native"
 
 
 def test_search_maps_bnp_response():
@@ -314,6 +328,42 @@ def test_search_maps_all_core_species_fixture():
     assert {result.type for result in page.results} == {"RG", "RR", "IAC", "IRDR", "SUM", "SV"}
     assert page.results[0].paradigm_cases[0].url == "https://example.test/stf"
     assert page.aggregations["species"][0]["tipo"] == "RG"
+
+
+def test_versioned_empty_fixture_is_explicitly_empty():
+    payload = json.loads((FIXTURES / "bnp_precedentes_empty.json").read_text(encoding="utf-8"))
+    provider = BnpPangeaProvider(session=FakeSession([FakeResponse(payload)]))
+
+    page = provider.search(JurisprudenceQuery(text="termo", courts=["STF"], types=["RG"]))
+
+    assert page.results == []
+    assert page.total == 0
+    assert page.total_known is True
+    assert page.is_explicit_empty is True
+
+
+def test_versioned_invalid_fixture_is_rejected():
+    payload = json.loads((FIXTURES / "bnp_precedentes_invalid.json").read_text(encoding="utf-8"))
+    provider = BnpPangeaProvider(session=FakeSession([FakeResponse(payload)]))
+
+    with pytest.raises(ParserContractChangedError):
+        provider.search(JurisprudenceQuery(text="termo", courts=["STF"], types=["RG"]))
+
+
+def test_search_trace_preserves_http_metadata():
+    payload = json.loads((FIXTURES / "bnp_precedentes_species.json").read_text(encoding="utf-8"))
+    response = FakeResponse(payload)
+    response.content = json.dumps(payload).encode("utf-8")
+    response.headers = {"Content-Type": "application/json"}
+    response.url = "https://example.test/api/v1/precedentes"
+    provider = BnpPangeaProvider(session=FakeSession([response]))
+
+    page = provider.search(JurisprudenceQuery(text="termo", courts=["STF"], types=["RG"]))
+
+    assert page.source_trace is not None
+    assert page.source_trace.http_status == 200
+    assert page.source_trace.content_type == "application/json"
+    assert page.source_trace.response_bytes is not None
 
 
 def test_list_suggestions_rejects_invalid_contract():

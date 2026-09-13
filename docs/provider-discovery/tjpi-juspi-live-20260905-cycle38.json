@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "provider": "tjpi_juspi",
+  "source": "https://jurisprudencia.tjpi.jus.br",
+  "checked_at": "2026-09-05T08:16:29Z",
+  "scope": "bounded_public_read_only",
+  "probes": [
+    {
+      "name": "search_page_1",
+      "request": "GET /jurisprudences/search?q=dano%20moral&page=1",
+      "http_status": 200,
+      "response_bytes": 305939,
+      "content_sha256": "b75a2f6c3eeb66aa8557bdc7bfaebd0a9e56f2a6b373395ea65308ddd0b6ac44",
+      "returned": 3,
+      "total": 193054,
+      "total_known": true,
+      "ids": ["tjpi-juspi-36164366", "tjpi-juspi-36140939", "tjpi-juspi-36068481"]
+    },
+    {
+      "name": "search_page_2",
+      "request": "GET /jurisprudences/search?q=dano%20moral&page=2",
+      "http_status": 200,
+      "response_bytes": 318385,
+      "content_sha256": "3feb62c778783b286f26788d6d548f028507204d14ecde200ee8fee888c49e9c",
+      "returned": 3,
+      "total": 193054,
+      "total_known": true,
+      "start": 26,
+      "end": 28,
+      "ids": ["tjpi-juspi-35510999", "tjpi-juspi-35523338", "tjpi-juspi-35492924"]
+    },
+    {
+      "name": "search_by_process_number",
+      "request": "GET /jurisprudences/search?q=0804974-54.2024.8.18.0026",
+      "http_status": 200,
+      "response_bytes": 38255,
+      "content_sha256": "c40f9482b004d6825dde59c42724880d6a23392ed2143da7bad96d6b07e70001",
+      "returned": 2,
+      "total": 2,
+      "total_known": true,
+      "matching_number": "0804974-54.2024.8.18.0026"
+    },
+    {
+      "name": "explicit_impossible_number",
+      "request": "GET /jurisprudences/search?q=9999999-99.9999.9.99.9999",
+      "http_status": 200,
+      "response_bytes": 23814,
+      "content_sha256": "c049cdc637944acb5df75e4087562029f48a7be7d8d8099fa8d4f56a5e65404b",
+      "returned": 0,
+      "total": 0,
+      "total_known": false,
+      "classification": "empty_without_authoritative_total"
+    }
+  ],
+  "promotion_decision": "technically_ready",
+  "notes": [
+    "All probes used public GET requests with bounded page_size=3 and no credentials.",
+    "The portal exposes a 25-record server window; NanoJuris materializes only the requested page_size.",
+    "The impossible-number response is not treated as proof of a globally empty corpus.",
+    "No CAPTCHA, WAF or access-control bypass was attempted."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.local/schemas/surface-state-registry-v1.schema.json",
+  "title": "NanoJuris surface state registry",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "source_artifacts", "summary", "surfaces"],
+  "properties": {
+    "schema_version": {"const": "surface-state-registry-v1"},
+    "generated_at": {"type": "string", "minLength": 1},
+    "source_artifacts": {"type": "array", "items": {"type": "string"}},
+    "summary": {
+      "type": "object",
+      "required": ["surface_count", "required_surface_count", "cjpg", "cjsg"],
+      "properties": {
+        "surface_count": {"type": "integer", "minimum": 0},
+        "required_surface_count": {"type": "integer", "minimum": 0},
+        "cjpg": {"$ref": "#/$defs/collectionSummary"},
+        "cjsg": {"$ref": "#/$defs/collectionSummary"}
+      },
+      "additionalProperties": true
+    },
+    "surfaces": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/surface"}
+    }
+  },
+  "$defs": {
+    "collectionSummary": {
+      "type": "object",
+      "required": ["implemented", "expected"],
+      "properties": {
+        "implemented": {"type": "integer", "minimum": 0},
+        "expected": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "surface": {
+      "type": "object",
+      "required": [
+        "surface_id", "authority", "branch", "degree", "instance", "collection",
+        "required", "lifecycle", "maturity", "live_status", "contract_status",
+        "federation_status", "legal_status", "document_capability", "queryable_direct"
+      ],
+      "properties": {
+        "surface_id": {"type": "string", "minLength": 1},
+        "authority": {"type": "string", "minLength": 1},
+        "branch": {"type": "string", "minLength": 1},
+        "degree": {"type": "string", "minLength": 1},
+        "instance": {"type": "string", "minLength": 1},
+        "collection": {"type": "string", "minLength": 1},
+        "required": {"type": "boolean"},
+        "provider": {"type": ["string", "null"]},
+        "diagnostic_provider": {"type": ["string", "null"]},
+        "lifecycle": {"type": "string", "minLength": 1},
+        "maturity": {"type": "string", "minLength": 1},
+        "live_status": {"type": "string", "minLength": 1},
+        "last_live_check": {"type": ["string", "null"]},
+        "contract_status": {"type": "string", "minLength": 1},
+        "federation_status": {"type": "string", "minLength": 1},
+        "legal_status": {"type": "string", "minLength": 1},
+        "document_capability": {"type": "object"},
+        "queryable_direct": {"type": "boolean"},
+        "interfaces": {"type": "object"},
+        "document_types": {"type": "array", "items": {"type": "string"}},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": true
+    }
+  }
+}

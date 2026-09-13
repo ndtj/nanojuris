@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "HD-YYYY-MM-DD-NNN",
+  "decision_type": "license_retention_relevance_promotion_release",
+  "surface_ids": [],
+  "decision": "",
+  "rationale": "",
+  "evidence_ids": [],
+  "decided_by": "",
+  "decided_at": "",
+  "review_expiry": "",
+  "conditions": [],
+  "signature_or_ticket": "",
+  "status": "pending"
+}

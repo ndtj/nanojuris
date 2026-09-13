@@ -1,75 +1,76 @@
-# TJRN - Pesquisa De Jurisprudencia
+# TJRN - Pesquisa de Jurisprudencia
 
-Status atual: `blocked_or_inconclusive` para replay HTTP limpo; a raiz do
-portal respondeu HTTP 200 em 2026-08-16, mas o contrato de busca ainda nao foi
-reproduzido.
+Status: `implemented`, `live_validated`, `federation_enabled`; binding CJSG
+explícito comprovado em 2026-09-06.
 
-## Identidade Da Fonte
+## Identidade da fonte
 
-- Tribunal: Tribunal de Justica do Estado do Rio Grande do Norte.
-- Portal oficial: `https://jurisprudencia.tjrn.jus.br/`.
-- Categoria: jurisprudencia estadual unificada.
-- Escopo anunciado: PJe e, progressivamente, acervo legado SAJ.
-
-## Contrato Minimo Observado
-
-Comunicacao institucional do TJRN descreve uma busca unificada para:
-
-- acordaos;
-- decisoes colegiadas;
-- decisoes monocraticas;
-- primeiro e segundo graus;
-- pesquisa livre, ementa, classe processual e numero de processo.
-
-O endpoint de consulta, metodo, payload, paginacao, detalhe e documento ainda
-nao foram reproduzidos de forma confiavel. O endpoint e-SAJ legado
-`https://esaj.tjrn.jus.br/cjsg/resultadoCompleta.do` respondeu HTTP 403 no
-mapeamento anterior, portanto nao deve ser confundido com o portal unificado.
-
-## Diagnostico De Acesso
-
-O portal apresentou comportamento variavel: HTTP 403 em uma janela e HTTP 200
-na raiz em 2026-08-16, com HTTP 403 nos scripts solicitados com referencia
-normal. Isso e evidencia de politica de acesso ou protecao da superficie, nao
-prova de que o acervo inexista. Nenhuma credencial ou bypass deve ser tentado.
-
-Classificacao: `blocked_or_inconclusive`, evidencia `B`.
-
-## Promocao Futura
-
-Capturar uma sessao publica normal e registrar somente o contrato necessario:
-rota de busca, payload, resposta JSON/HTML, campos, pagina, vazio, detalhe e
-inteiro teor. Reproduzir depois por HTTP limpo sem cookies pessoais e criar
-fixtures de sucesso, vazio e erro.
-
-## Validacao live 2026-08-16
-
-- A raiz respondeu HTTP 200 em uma sessao limpa, mas os bundles publicos
-  retornaram HTTP 403 e a rota de busca nao foi reproduzida.
-- O contrato de busca, paginacao, detalhe e documento continua pendente; nao
-  implementar com base no GET isolado.
-
-Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
-
-## Fontes Oficiais
-
-- [Portal de jurisprudencia do TJRN](https://jurisprudencia.tjrn.jus.br/)
-- [Noticia institucional sobre a busca unificada](https://glaucialima.com/2019/11/18/nova-versao-do-sistema-de-consulta-de-jurisprudencia-esta-a-disposicao-dos-usuarios/)
-## Contrato E Dados
-
-Filtros institucionais confirmados: texto livre, ementa, classe processual, numero, grau, tipo colegiado/monocratico e origem PJe/SAJ. Metodo, names, payload, catalogos, pagina, ordenacao, total, identificador, ementa e inteiro teor continuam nao observados em resposta reproduzida.
-
-## MCP
-
-O MCP deve manter TJRN fora da federacao automatica enquanto o portal responder 403 ou faltar contrato. O provider futuro deve separar PJe e SAJ e preservar qualquer indicacao de fonte, grau e tipo documental.
-## Dados
-
-Filtros institucionais confirmados: texto livre, ementa, classe processual,
-numero, grau, tipo colegiado/monocratico e origem PJe/SAJ. Nao ha schema de
-resultado reproduzido; identificador, ementa, total, paginacao e documento
-permanecem pendentes.
+Tribunal de Justica do Estado do Rio Grande do Norte. Portal oficial:
+`https://jurisprudencia.tjrn.jus.br/`. Categoria: jurisprudencia estadual
+unificada, com registros PJe e legado SAJ.
 
 ## Contrato
 
-O endpoint, metodo, payload, catalogos, pagina e ordenacao ainda nao foram
-confirmados. O 403 atual nao deve ser convertido em vazio.
+O provider usa `POST /api/pesquisar` com `jurisprudencia.ementa`, numero de
+processo opcional, `page` e contexto `usuario` vazio. O tamanho remoto e
+limitado a 10. O parser mapeia processo, tipo de decisao, classe, assunto,
+relator, orgao julgador, datas, ementa, inteiro teor, sistema e grau. Filtros
+nao comprovados permanecem explicitamente unsupported.
+
+## Dados Retornados
+
+O endpoint e uma superficie textual unificada. Grau, instancia, origem PJe/SAJ,
+tipo documental e valores nativos sao preservados em campos canonicos e em
+`raw`. A revalidação bounded de 2026-09-06 observou duas páginas exclusivamente
+com `degree=second`/`instance=second`; por isso o binding CJSG foi promovido na
+matriz. A superfície CJPG permanece não comprovada.
+
+## Estados e diagnostico
+
+Uma chamada live limitada em 2026-09-05 retornou HTTP 200, registros reais,
+total declarado, inteiro teor e identificadores estaveis. A segunda pagina
+retornou identificadores distintos. HTTP 401/403, 429, falhas de transporte,
+JSON invalido e schema drift produzem estados explicitos, nunca lista vazia.
+
+## Fixtures
+
+Fixtures sanitizadas e testes cobrem sucesso, vazio, erro, schema drift,
+pagina e promocao:
+
+- `tests/fixtures/tjrn_jurisprudencia_success.json`
+- `tests/fixtures/tjrn_jurisprudencia_empty.json`
+- `tests/fixtures/tjrn_jurisprudencia_invalid.json`
+- `tests/fixtures/tjrn_jurisprudencia_schema_drift.json`
+- `tests/test_tjrn_jurisprudencia.py`
+
+## MCP
+
+O provider pode ser exposto por MCP com rastros e limites preservados. A
+federacao padrao usa o mesmo adapter e nao oculta bloqueios ou filtros
+ignorados.
+
+## Proximos passos
+
+Manter smoke live bounded, observar mudancas de schema e ampliar filtros somente
+apos evidencia publica reproduzivel. O provider nao e automaticamente atribuido
+a uma superficie CJPG/CJSG.
+
+## Promocao
+
+TJRN esta habilitado na busca federada padrao porque runtime, contrato, fixtures,
+qualidade e evidencia live passaram o gate tecnico. O artefato
+`docs/operations/provider-promotion-approvals-20260905.json` autoriza operacao
+local/federada, sem autorizar deploy ou redistribuicao.
+
+## Evidencia live
+
+- `docs/provider-discovery/tjrn-jurisprudencia-live-20260905-cycle27.json`
+- `docs/provider-discovery/tjrn-jurisprudencia-live-20260905-cycle28.json`
+- `docs/provider-discovery/tjrn-jurisprudencia-pagination-live-20260905-cycle31.json`
+- `docs/provider-discovery/tjrn-cjsg-live-20260906.json`
+- `docs/provider-discovery/tjrn-first-degree-probe-live-20260907.json`
+
+## Fontes oficiais
+
+- https://jurisprudencia.tjrn.jus.br/
+- https://glaucialima.com/2019/11/18/nova-versao-do-sistema-de-consulta-de-jurisprudencia-esta-a-disposicao-dos-usuarios/

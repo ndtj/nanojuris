@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01",
+  "audit_mode": "bounded_public_http_contract_check",
+  "frequency": "one request",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjto_cjpg",
+      "surface": "cjpg",
+      "endpoint": "POST https://jurisprudencia.tjto.jus.br/consulta.php",
+      "query_shape": {
+        "q": "responsabilidade",
+        "start": 0,
+        "rows": 20,
+        "tip_criterio_inst": "1",
+        "type_minuta_selected": "1"
+      },
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 118,
+      "content_sha256": "58bf2215b395dcac74c009aa98701854e43cbe54a1cd3a95fee6a647ca9910d4",
+      "record_count_observed": 0,
+      "reported_total": null,
+      "classification": "blocked_access",
+      "fields_observed": []
+    }
+  ],
+  "promotion_decision": "blocked_access_no_runtime_adapter",
+  "limitations": [
+    "A verificacao foi limitada a uma chamada publica sem credenciais.",
+    "A fonte respondeu HTTP 403; nenhuma tentativa de bypass foi feita.",
+    "O corpo da resposta nao foi persistido; somente metadados e hash foram registrados."
+  ]
+}

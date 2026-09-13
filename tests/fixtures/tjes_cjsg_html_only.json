@@ -1,0 +1,19 @@
+{
+  "core_used": "pje2g",
+  "page": 1,
+  "per_page": 1,
+  "total": 1,
+  "docs": [
+    {
+      "id": 81000999,
+      "ementa": "",
+      "ementa_html": "<p><strong>EMENTA:</strong> Texto de ementa somente em HTML.</p>",
+      "acordao": null,
+      "acordao_html": "<div><p>Acordao somente em HTML.</p><p>Dispositivo preservado.</p></div>",
+      "tipo_decisao": "acordao",
+      "magistrado": "RELATOR DE FIXTURE HTML",
+      "orgao_julgador": "CAMARA DE FIXTURE HTML",
+      "dt_juntada": "2024-05-20"
+    }
+  ]
+}

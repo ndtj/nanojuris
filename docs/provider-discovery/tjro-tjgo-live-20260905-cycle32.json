@@ -1,0 +1,54 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-05",
+  "audit_mode": "bounded_public_live_check",
+  "frequency": "one request per source",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjro_jurisprudencia",
+      "surface": "jurisprudencia",
+      "endpoint": "POST https://juris-back.tjro.jus.br/search/varios_parametros/",
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 93148,
+      "content_sha256": "839a46f97824b67b08691f335d61405c996e956f716d43730a2625701479e0c6",
+      "record_count_observed": 1,
+      "reported_total": 676634,
+      "pagination_mode": "offset",
+      "identity_field_present": true,
+      "summary_field_present": true,
+      "full_text_field_present": false,
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "elapsed_ms": 2076.83,
+      "classification": "reachable_valid_data"
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "surface": "jurisprudencia",
+      "endpoint": "POST https://projudi.tjgo.jus.br/ConsultaJurisprudencia",
+      "http_status": 200,
+      "content_type": "text/html; charset=iso-8859-1",
+      "response_bytes": 114613,
+      "content_sha256": "e309c4df57b65fa5b613fd163043390fe26036b7ff31e9e19373d5c46fa3936e",
+      "record_count_observed": 1,
+      "reported_total": 39272,
+      "pagination_mode": "page",
+      "identity_field_present": true,
+      "summary_field_present": true,
+      "full_text_field_present": true,
+      "retrieval_status": "ok",
+      "extraction_status": "complete",
+      "elapsed_ms": 982.59,
+      "classification": "reachable_valid_data"
+    }
+  ],
+  "promotion_decision": "runtime_unchanged",
+  "notes": [
+    "As duas respostas são públicas e reproduzíveis nesta janela bounded.",
+    "Nenhuma rota autenticada, CAPTCHA, WAF ou bypass foi utilizado.",
+    "A evidência não altera automaticamente licença, retenção ou promoção."
+  ]
+}

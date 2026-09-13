@@ -1,0 +1,60 @@
+{
+  "provider": "tse_sjur_jurisprudencia",
+  "source": "TSE SJUR",
+  "observed_at": "2026-09-09",
+  "classification": "valid_transport_pagination_unsupported",
+  "endpoint": "POST https://sjur-pesquisa-api.tse.jus.br/tse/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "official_entrypoint": "https://jurisprudencia.tse.jus.br",
+  "scope": "public_bounded_text_query",
+  "credentials": false,
+  "bypass": false,
+  "request": {
+    "query": "div\u00f3rcio",
+    "page_size": 3,
+    "pages_requested": [1, 2, 3],
+    "tribunais": ["tse"]
+  },
+  "observations": [
+    {
+      "page_requested": 1,
+      "http_status": 200,
+      "reported_total": 132,
+      "returned": 132,
+      "response_bytes": 3478473,
+      "content_sha256": "7b59c622b7642ed3b876ea78425db3006e961c85382b76e5cb962b2c0474963d",
+      "first_id": "tse-sjur-504401",
+      "last_id": "tse-sjur-3275655"
+    },
+    {
+      "page_requested": 2,
+      "http_status": 200,
+      "reported_total": 132,
+      "returned": 132,
+      "response_bytes": 3478473,
+      "content_sha256": "7b59c622b7642ed3b876ea78425db3006e961c85382b76e5cb962b2c0474963d",
+      "first_id": "tse-sjur-504401",
+      "last_id": "tse-sjur-3275655"
+    },
+    {
+      "page_requested": 3,
+      "http_status": 200,
+      "reported_total": 132,
+      "returned": 132,
+      "first_id": "tse-sjur-504401",
+      "last_id": "tse-sjur-3275655"
+    }
+  ],
+  "conclusion": {
+    "pagination_mode": "none",
+    "page_and_size_parameters": "ignored_by_source",
+    "duplicate_response_hashes_for_pages_1_and_2": true,
+    "authoritative_empty": false,
+    "promotion": "candidate_only",
+    "reason": "The public endpoint returns a single complete response for the bounded query; no safe remote window was demonstrated. The adapter must not imply page traversal or claim corpus-wide completeness."
+  },
+  "limitations": [
+    "The probe was bounded to three pages and one generic query.",
+    "No CAPTCHA, WAF, token, proxy, session reuse, or access-control bypass was attempted.",
+    "The result does not represent TRE surfaces."
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-10",
+  "provider": "tjmsp_jurisprudencia",
+  "authority": "TJMSP",
+  "surface": "military_jurisprudencia_second_degree",
+  "official_entry": {
+    "url": "https://www.tjmsp.jus.br/jurisprudencia-do-tjmsp-pesquisa-avancada/",
+    "observed_iframe": "https://ww2.tjmsp.jus.br/Jurisprudencia",
+    "frontend": "https://jurisprudencia-client.tjmsp.jus.br/home/legado",
+    "api_base": "https://api-jurisprudencia.tjmsp.jus.br/v1/",
+    "observed_endpoint": "GET /v1/tema/retornaRegistrosAtivos",
+    "official_filters_reported": [
+      "keyword",
+      "npu",
+      "control_number",
+      "judging_body",
+      "rapporteur",
+      "species",
+      "theme_or_index"
+    ]
+  },
+  "probes": [
+    {
+      "method": "GET",
+      "url": "https://jurisprudencia-client.tjmsp.jus.br/home/legado",
+      "http_status": 403,
+      "classification": "access_control_required"
+    },
+    {
+      "method": "GET",
+      "url": "https://api-jurisprudencia.tjmsp.jus.br/v1/tema/retornaRegistrosAtivos",
+      "http_status": 403,
+      "classification": "access_control_required"
+    },
+    {
+      "method": "GET",
+      "url": "https://ww2.tjmsp.jus.br/Jurisprudencia",
+      "http_status": null,
+      "classification": "source_unavailable",
+      "transport_error": "dns_resolution_failure"
+    }
+  ],
+  "result_contract": {
+    "status": "not_replayable",
+    "json_observed": false,
+    "authoritative_empty": false,
+    "parser_implemented": false
+  },
+  "decision": {
+    "lifecycle": "candidate",
+    "runtime_status": "diagnostic_only",
+    "federation_status": "disabled",
+    "reason": "Official alternate API identified, but bounded public probes do not deliver a result schema."
+  },
+  "safety": {
+    "credentials_used": false,
+    "cookies_or_tokens_used": false,
+    "captcha_or_waf_bypassed": false,
+    "proxy_used": false,
+    "request_frequency_seconds_or_more": 2,
+    "raw_body_persisted": false
+  },
+  "next_action": "Request an official allowlist, public API access, or a documented export route before implementing a parser."
+}

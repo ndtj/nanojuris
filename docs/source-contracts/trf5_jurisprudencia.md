@@ -71,8 +71,9 @@ classificar todas as linhas como acordao do Plenario.
 - O contrato HTML e sensivel a mudancas de labels e codificacao.
 - A busca tem campos obrigatorios definidos pela propria pagina; o provider
   deve rejeitar consultas vazias antes do POST.
-- Nao foram promovidos nesta rodada pagina 2, ordenacao e download automatico
-  de inteiro teor.
+- A paginação por offset foi validada em duas janelas consecutivas; o provider
+  mantém `total_known=None` porque a fonte não expõe um total autoritativo.
+  Ordenação e download automático em lote continuam fora do escopo.
 
 ## MCP
 
@@ -101,9 +102,9 @@ como `CanonicalDocument` HTML.
 - [x] fixture HTML da pagina inicial/resultados com token normalizado;
 - [x] fixture HTML de resultado com acordao e metadados canonicos;
 - [x] fixture de resultado vazio, acesso controlado e contrato alterado;
-- [ ] teste de paginacao;
+- [x] teste de paginação por `grid.pesquisa.next`;
 - [x] parser offline e `ProviderCapabilities`;
-- [ ] teste live opt-in com limite pequeno.
+- [x] teste live opt-in com limite pequeno (ciclo 44).
 
 O provider so deve ser implementado depois que o parser offline reproduzir os
 campos canonicos e os estados vazio/erro.
@@ -116,8 +117,8 @@ campos canonicos e os estados vazio/erro.
    informativo, quando observados publicamente na mesma superficie.
 3. Criar fixture de resultado vazio para termo improvavel e classificar como
    `SearchPage` vazia, nao como erro.
-4. Mapear paginacao, ordenacao e quantidade maxima de registros sem assumir
-   parametros nao testados.
+4. Manter a paginação por offset limitada a janelas pequenas e revalidar a
+   estabilidade de `grid.pesquisa.next` quando o portal mudar.
 5. Validar `exibe_modelo.wsp` como rota de inteiro teor separada, preservando
    content type, bytes, hash e access status.
 6. Testar filtros por orgao julgador, classe, relator, numero de processo,
@@ -128,6 +129,15 @@ campos canonicos e os estados vazio/erro.
 
 - GET do formulario e POST de resultado com `dano moral` responderam HTTP 200 com processo, ementa e links de inteiro teor.
 - `wi.token` foi obtido somente da sessao corrente e nao deve ser persistido.
+
+## Validação live bounded — ciclo 44 (2026-09-05)
+
+- Duas páginas consecutivas com `dano moral` responderam HTTP 200, uma linha
+  por página e identificadores distintos; o offset `grid.pesquisa.next` foi
+  aceito pela fonte.
+- O inteiro teor do primeiro resultado respondeu HTML público com texto,
+  11.414 bytes e hash SHA-256 registrado no artefato, sem persistir o corpo.
+- Evidência estruturada: `docs/provider-discovery/trf5-live-20260905-cycle44.json`.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
@@ -181,3 +191,18 @@ detalhe HTML observado. O provider preserva os bytes da resposta, extrai o
 texto HTML e registra SHA-256, tamanho, content-type e URL final. A fonte
 continua com paginacao remota e ordenacao pendentes de contrato; a existencia
 de link nao e usada como prova de PDF.
+## Transporte compartilhado (2026-09-08)
+
+As etapas WebForms do `trf5_jurisprudencia` usam `SharedHttpClient` com
+allowlist do host oficial, TLS verificado, limite de 16 MB, timeout, intervalo
+por host e sem retry automático de POSTs com token de sessão. O corpo legado
+ISO-8859-1 é preservado em bytes e decodificado apenas no parser. CAPTCHA,
+401/403, 429, timeout, TLS, resposta excedente, redirecionamento fora da
+allowlist e schema inválido permanecem explícitos; nenhum é convertido em
+vazio.
+## Rechecagem live do transporte — 2026-09-08
+
+O smoke bounded de `dano moral` retornou um registro em cada uma de duas
+páginas, com IDs disjuntos, HTTP 200 e detalhe HTML público validado. O
+resultado foi classificado como válido; corpos não foram persistidos. Evidência:
+`docs/provider-discovery/trf5-jurisprudencia-live-20260908-transport-recheck.json`.

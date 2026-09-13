@@ -1,0 +1,73 @@
+{
+  "schema_version": "eproc-detail-live-v1",
+  "generated_at": "2026-09-08T06:47:26.376043+00:00",
+  "mode": "live_bounded",
+  "query": {
+    "text": "aposentadoria",
+    "page": 1,
+    "page_size": 1
+  },
+  "limits": {
+    "tribunals": 3,
+    "documents_per_tribunal": 1,
+    "bodies_persisted": false
+  },
+  "providers": [
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": true,
+        "id_jurisprudencia": "771786993513847664850135395543",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "byte_size": 137621,
+        "content_type": "text/html",
+        "sha256": "693da0fd86d7f1ed9b5c5b3c87b5a086e83dda858d59bcca5c36d7fbaab52b7a",
+        "has_text": true
+      }
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": true,
+        "id_jurisprudencia": "501787860726878989490819843300",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "byte_size": 345668,
+        "content_type": "text/html",
+        "sha256": "26fdfe75339962d4844045aa1b50f3a2052b420a029309e0afb7332cee2082d1",
+        "has_text": true
+      }
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "search": {
+        "http_status": 200,
+        "returned": 1,
+        "total_known": true,
+        "id_jurisprudencia": "381788542327575092772452783427",
+        "has_summary": true
+      },
+      "detail": {
+        "status": "valid",
+        "byte_size": 43387,
+        "content_type": "text/html",
+        "sha256": "f23c573c8ea55609cc9705539e93967c0f75f143655a083655c584fbe0aa4329",
+        "has_text": true
+      }
+    }
+  ],
+  "summary": {
+    "search_valid": 3,
+    "detail_valid": 3,
+    "detail_errors": 0
+  }
+}

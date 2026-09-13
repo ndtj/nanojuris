@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06",
+  "surface": "cjsg_search",
+  "query": "responsabilidade civil",
+  "page_size": 1,
+  "results": [
+    {
+      "source_id": "tjce_cjsg",
+      "surface": "cjsg",
+      "classification": "reachable_valid_data",
+      "record_count_observed": 1,
+      "reported_total": 107086,
+      "total_known": true,
+      "access_status": "public",
+      "extraction_status": "complete",
+      "http_status": 200,
+      "source_url": "https://esaj.tjce.jus.br/cjsg/trocaDePagina.do?tipoDeDecisao=A&pagina=1",
+      "response_bytes": 419564
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "surface": "cjsg",
+      "classification": "reachable_valid_data",
+      "record_count_observed": 1,
+      "reported_total": 5,
+      "total_known": false,
+      "access_status": "public",
+      "extraction_status": "complete",
+      "http_status": 200,
+      "source_url": "https://www.tjpe.jus.br/consultajurisprudenciaweb/xhtml/consulta/consulta.xhtml",
+      "response_bytes": 90027
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "surface": "cjsg",
+      "classification": "reachable_valid_data",
+      "record_count_observed": 1,
+      "reported_total": 2741879,
+      "total_known": true,
+      "access_status": "public",
+      "extraction_status": "complete",
+      "http_status": null,
+      "source_url": "https://esaj.tjsp.jus.br/cjsg/trocaDePagina.do?tipoDeDecisao=A&pagina=1",
+      "response_bytes": null
+    }
+  ],
+  "limitations": [
+    "Smoke bounded de uma pagina; nao prova cobertura total nem estabilidade futura.",
+    "Nenhum CAPTCHA, WAF ou controle de acesso foi contornado.",
+    "TJSP nao expoz status HTTP no wrapper legado, mas retornou pagina textual valida."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nanojuris://schemas/0091/evidence-record",
+  "title": "NanoJuris bounded public-source evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["evidence_id", "source_id", "observed_at", "method", "classification", "artifact_path"],
+  "properties": {
+    "evidence_id": {"type": "string", "pattern": "^[A-Za-z0-9._:-]+$"},
+    "source_id": {"type": "string"},
+    "surface_id": {"type": ["string", "null"]},
+    "url": {"type": ["string", "null"], "format": "uri"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "method": {"enum": ["GET", "POST", "HEAD", "browser_public_flow", "official_export", "official_api", "manual_review"]},
+    "classification": {"enum": ["success_with_results", "authoritative_empty", "unconfirmed_empty", "partial", "access_blocked", "challenge_incidental", "challenge_enforced", "rate_limited", "timeout", "transport_error", "tls_error", "schema_invalid", "source_unavailable", "cancelled"]},
+    "http_status": {"type": ["integer", "null"]},
+    "redacted_fingerprint": {"type": ["string", "null"]},
+    "artifact_path": {"type": "string"},
+    "alternative_evaluated": {"type": ["string", "null"]},
+    "external_action": {"type": ["string", "null"]},
+    "expires_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

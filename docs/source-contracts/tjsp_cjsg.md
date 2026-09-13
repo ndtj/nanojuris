@@ -26,17 +26,17 @@ Rotas declaradas:
 ```text
 POST /resultadoCompleta.do
 GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>
-GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>
+GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>&casChecked=true
 ```
 
 Status tecnico das rotas:
 
 | Rota | Conteudo juridico | Condicao segura de uso | Status no provider |
 | --- | --- | --- | --- |
-| `POST /resultadoCompleta.do` | Sim, quando retorna container de resultado | Rota principal; se voltar formulario/captcha, parar | Implementada |
+| `POST /resultadoCompleta.do` | Não; confirmação da submissão e criação da sessão | Enviar uma vez; interpretar o conteúdo somente no GET seguinte | Implementada |
 | `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>` | Sim, fragmentos paginados com ementas, processos e `cdAcordao` | Apenas depois de um `POST /resultadoCompleta.do` publico e valido na mesma sessao | Implementada como continuacao segura |
 | `GET /trocaDePagina.do?...` em sessao limpa | Nao | Retorna `emptySession.jsp`; tratar como sessao ausente | Diagnosticada como controle de acesso |
-| `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>` | Sim, quando o inteiro teor esta publico | Se redirecionar para CAS/login, marcar `login_required` | Implementada com diagnostico |
+| `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>&casChecked=true` | Sim, quando o inteiro teor esta publico | Continuacao oficial do fluxo anonimo; sem token ou login | Implementada com cabeçalhos de navegador e diagnóstico |
 | `POST /captchaControleAcesso.do` | Nao | Rota de controle; nunca usar para bypass | Apenas documentada |
 
 Payload principal da busca:
@@ -165,11 +165,32 @@ Decisao de produto:
 - Manter `tjsp_cjsg` como fonte de alto valor e risco operacional alto, com
   diagnosticos claros para CLI, Python e MCP.
 
+### Rechecagem bounded (2026-09-01, ciclo 11)
+
+Uma chamada POST publica para `resultadoCompleta.do` foi bloqueada pela
+superficie: o diagnostico encontrou formulario, reCAPTCHA, UUID de captcha,
+rota de controle e script de login. O estado foi registrado como
+`blocked_access`; nenhum desafio foi contornado e nenhum corpo live foi salvo.
+Metadados: `docs/provider-discovery/tjsp-cjsg-live-recheck-20260901-cycle11.json`.
+
 ## Pontos fortes
 
 - Fonte juridicamente muito relevante.
 - Padrao reutilizavel para a familia CJSG/e-SAJ de outros tribunais.
 - Suporta documentos publicos quando a rota de inteiro teor esta acessivel.
+
+### Alinhamento Juscraper (2026-09-01, ciclo 12)
+
+O POST de `resultadoCompleta.do` apenas cria a sessao publica; a resposta vem
+de `GET /trocaDePagina.do?...&pagina=1` e das paginas seguintes na mesma
+sessao. O `conversationId` da primeira pagina e propagado em memoria no TJSP.
+
+### Revalidação pública (2026-09-06)
+
+O fluxo público foi revalidado sem credenciais: HTTP 200, uma ementa textual de
+segundo grau, total reportado de 2741745 registros e detalhe público (`valid`).
+Evidência redigida:
+`docs/provider-discovery/cjsg-live-legitimate-recheck-20260906.json`.
 
 ## Lacunas a aprofundar
 
@@ -198,6 +219,7 @@ publica quando a consulta for bloqueada.
 - [x] Adicionar teste de fragmento `trocaDePagina.do`.
 - [x] Adicionar teste de `emptySession.jsp`.
 - [x] Marcar `getArquivo.do` redirecionado para login como `login_required`.
-- [ ] Documentar variacoes de `classe/assunto` por area.
-- [ ] Promover dossie da familia CJSG/e-SAJ para ser reutilizado por TJAC,
-  TJAL, TJAM e TJMS.
+- [x] Documentar variacoes de `classe/assunto` por area; o parser preserva os
+  dois campos separadamente e o fixture cobre classe criminal/assunto.
+- [x] Promover o dossie da familia CJSG/e-SAJ para TJAC, TJAL, TJAM e TJMS;
+  os adapters reutilizam o contrato comum sem compartilhar estado de sessão.

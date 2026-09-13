@@ -1,0 +1,25 @@
+{
+  "schema_version": "1",
+  "provider": "stj_dados_abertos_jurisprudencia",
+  "observed_at": "2026-09-06",
+  "source": "https://dadosabertos.web.stj.jus.br/",
+  "method": "GET",
+  "endpoint": "/api/3/action/package_show",
+  "query": {
+    "id": "espelhos-de-acordaos-primeira-turma"
+  },
+  "http_status": 200,
+  "success": true,
+  "zip_resources_observed": 1,
+  "resource": {
+    "format": "ZIP",
+    "size_bytes": 68235713,
+    "bounded_policy": "reject before download when size exceeds max_bytes",
+    "parser_policy": "only JSON/CSV members; no disk extraction; traversal, encryption, member count, expansion size and compression ratio checks"
+  },
+  "classification": "public_catalog_contract_validated",
+  "limitations": [
+    "The archive was not downloaded during live discovery because its published size exceeds the default 50 MB safety limit.",
+    "This evidence validates the official ZIP descriptor and bounded policy, not the archive contents."
+  ]
+}

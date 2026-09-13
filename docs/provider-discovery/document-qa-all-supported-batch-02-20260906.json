@@ -1,0 +1,329 @@
+{
+  "generated_at": "2026-09-06T09:27:48.909810+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "tjba_graphql",
+      "tjce_cjsg",
+      "tjce_sjuris",
+      "tjdf_juris",
+      "tjes_cjpg"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjba_graphql",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 916068,
+        "source": "tjba_graphql"
+      },
+      "result": {
+        "id": "tjba-graphql-8e8421bb-d541-3283-ab19-967128912860",
+        "case_number": "0505279-33.2017.8.05.0022",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 36721,
+        "document_url": "https://jurisprudenciaws.tjba.jus.br/inteiroTeor/8e8421bb-d541-3283-ab19-967128912860",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "authority",
+          "branch",
+          "case_class",
+          "classe",
+          "codigoProcesso",
+          "collection",
+          "contentType",
+          "conteudo",
+          "dataAtualizacao",
+          "dataJulgamento",
+          "dataPublicacao",
+          "degree",
+          "document_id",
+          "document_type",
+          "document_url",
+          "ementa",
+          "hash",
+          "id",
+          "instance",
+          "instancia",
+          "judging_body",
+          "numeroProcesso",
+          "orgaoJulgador",
+          "relator",
+          "score",
+          "source",
+          "sourceId",
+          "tipoDecisao"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjba-graphql-8e8421bb-d541-3283-ab19-967128912860",
+        "full_text_length": 36721
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudenciaws.tjba.jus.br/inteiroTeor/8e8421bb-d541-3283-ab19-967128912860",
+        "content_type": "text/html",
+        "response_bytes": 209922,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjce_cjsg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 128123,
+        "source": "tjce_cjsg"
+      },
+      "result": {
+        "id": "tjce-cjsg-3844988-0",
+        "case_number": "0050866-74.2020.8.06.0064",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://esaj.tjce.jus.br/cjsg/getArquivo.do?cdAcordao=3844988&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "empty_document",
+        "document_id": "tjce-cjsg-3844988-0",
+        "full_text_length": 0,
+        "content_type": "application/pdf",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "error",
+        "error_type": "SSLError",
+        "error": "HTTPSConnectionPool(host='esaj.tjce.jus.br', port=443): Max retries exceeded with url: /cjsg/getArquivo.do?cdAcordao=3844988&cdForo=0 (Caused by SSLError(SSLZeroReturnError(6, 'TLS/SSL connection has been closed (EOF) (_ssl.c:1010)')))"
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "empty_document"
+        },
+        {
+          "surface": "public_url",
+          "status": "SSLError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjce_sjuris",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 59245,
+        "source": "tjce_sjuris"
+      },
+      "result": {
+        "id": "tjce-sjuris-30006187120258060066_33703967",
+        "case_number": "30006187120258060066",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 36848,
+        "document_url": "https://gateway.tjce.jus.br/sjuris/api/v1/jurisprudencia/?page=0&size=1",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "assuntoCompleto",
+          "assuntoPrincipal",
+          "assuntos",
+          "case_class",
+          "classe",
+          "classeJudicial",
+          "conteudo",
+          "dataJulgamento",
+          "dataPrimeiraDistribuicao",
+          "dataProtocolo",
+          "dataPublicacao",
+          "ementa",
+          "full_text_status",
+          "id",
+          "idDocumento",
+          "idScpu",
+          "judging_body",
+          "judgment_date",
+          "listaConteudo",
+          "listaEmenta",
+          "magistrado",
+          "nomeDocumento",
+          "numeroProcesso",
+          "orgaoJulgador",
+          "orgaoJulgadorScpu",
+          "origem",
+          "partes",
+          "pdfAutenticadoBase64",
+          "pdf_status",
+          "precedentes",
+          "publication_date",
+          "referencias",
+          "siglaSistema",
+          "situacao",
+          "situacaoScpu"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjce-sjuris-30006187120258060066_33703967",
+        "full_text_length": 36848
+      },
+      "public_url": {
+        "status": "http_error",
+        "http_status": 500,
+        "final_url": "https://gateway.tjce.jus.br/sjuris/api/v1/jurisprudencia/?page=0&size=1",
+        "content_type": "application/json",
+        "response_bytes": 121,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "public_url",
+          "status": 500
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjdf_juris",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 176168,
+        "source": "tjdf_juris"
+      },
+      "result": {
+        "id": "tjdf-acordao-2165781",
+        "case_number": "2165781",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?visaoId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&controladorId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.ControladorBuscaAcordao&visaoAnterior=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&nomeDaPagina=resultado&comando=abrirDadosDoAcordao&enderecoDoServlet=sistj&historicoDePaginas=buscaLivre&quantidadeDeRegistros=20&baseSelecionada=BASE_ACORDAO_TODAS&numeroDaUltimaPagina=1&buscaIndexada=1&mostrarPaginaSelecaoTipoResultado=false&totalHits=1&internet=1&numeroDoDocumento=2165781",
+        "access_status": "public",
+        "extraction_status": "partial",
+        "raw_keys": [
+          "document_url",
+          "list_metadata_only",
+          "list_text",
+          "process_number",
+          "registry_number"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjdf-acordao-2165781",
+        "full_text_length": 43804,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?visaoId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&controladorId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.ControladorBuscaAcordao&visaoAnterior=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&nomeDaPagina=resultado&comando=abrirDadosDoAcordao&enderecoDoServlet=sistj&historicoDePaginas=buscaLivre&quantidadeDeRegistros=20&baseSelecionada=BASE_ACORDAO_TODAS&numeroDaUltimaPagina=1&buscaIndexada=1&mostrarPaginaSelecaoTipoResultado=false&totalHits=1&internet=1&numeroDoDocumento=2165781",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 74267,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjes_cjpg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 314831,
+        "source": "tjes_cjpg"
+      },
+      "result": {
+        "id": "tjes-cjpg-19852318",
+        "case_number": "5006087-26.2022.8.08.0030",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 7972,
+        "document_url": "https://sistemas.tjes.jus.br/consulta-jurisprudencia/api/search?core=pje1g&q=responsabilidade&page=1&per_page=1",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_version_",
+          "assunto_principal",
+          "case_class",
+          "cd_assunto_principal",
+          "cd_classe_judicial",
+          "classe_judicial",
+          "classe_judicial_sigla",
+          "comarca",
+          "competencia",
+          "core",
+          "dt_juntada",
+          "full_text",
+          "id",
+          "id_assunto_principal",
+          "id_bin",
+          "id_classe_judicial",
+          "id_comarca",
+          "id_localizacao",
+          "inteiro_teor",
+          "inteiro_teor_html",
+          "judging_body",
+          "judgment_date",
+          "lista_assunto",
+          "localizacao",
+          "magistrado",
+          "nr_processo",
+          "orgao_julgador",
+          "origin_county",
+          "source_id",
+          "subject",
+          "summary_source"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjes-cjpg-19852318",
+        "full_text_length": 7972
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 5,
+    "full_text_in_search": 3,
+    "provider_document_loaded": 4,
+    "public_url_reachable": 2,
+    "public_url_document_like": 0,
+    "document_probe_failures": 2,
+    "partial": 2,
+    "errors": 0
+  }
+}

@@ -12,10 +12,13 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT / "src") not in sys.path:
-    sys.path.insert(0, str(ROOT / "src"))
+SOURCE_ROOT = str(ROOT / "src")
+if SOURCE_ROOT in sys.path:
+    sys.path.remove(SOURCE_ROOT)
+sys.path.insert(0, SOURCE_ROOT)
 
 REGISTRY_PATH = ROOT / "docs" / "registry" / "providers.json"
+CATALOG_PATH = ROOT / "docs" / "registry" / "provider-catalog.full.json"
 PROVIDERS_DIR = ROOT / "docs" / "providers"
 LEGACY_DIR = ROOT / "docs" / "source-contracts"
 REPORT_PATH = ROOT / "docs" / "provider-documentation-audit.md"
@@ -267,6 +270,17 @@ def _snapshot_date() -> str:
     current local date.
     """
 
+    # The generated catalog is the canonical operational snapshot.  Prefer its
+    # date so the dossier audit cannot silently remain older than the catalog
+    # and its checked-in evidence.
+    if CATALOG_PATH.is_file():
+        try:
+            catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            catalog = {}
+        generated_at = catalog.get("generated_at")
+        if isinstance(generated_at, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", generated_at):
+            return generated_at
     if REPORT_PATH.is_file():
         match = re.search(
             r"Snapshot local:\s+`(?P<date>\d{4}-\d{2}-\d{2})`",

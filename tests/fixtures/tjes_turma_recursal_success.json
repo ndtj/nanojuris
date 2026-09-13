@@ -1,0 +1,32 @@
+{
+  "core_used": "turma_recursal_legado",
+  "total": 2,
+  "page": 1,
+  "per_page": 2,
+  "docs": [
+    {
+      "_version_": 1,
+      "classe_processo": "Recurso Inominado",
+      "codigo_recurso": 1000000000001,
+      "cont_ementa": "ACORDAO DE FIXTURE SOBRE RESPONSABILIDADE CIVIL E DANO MORAL.",
+      "data_julgamento": ["2024-03-10T12:00:00Z"],
+      "id": "fixture-tjes-turma-0001",
+      "nome_juiz": "RELATOR DE FIXTURE",
+      "num_processo": "0000001-00.2024.8.08.0001",
+      "orgao_julgador": "1a TURMA RECURSAL DE FIXTURE",
+      "tipo_arquivo": "html"
+    },
+    {
+      "_version_": 2,
+      "classe_processo": "Recurso Inominado",
+      "codigo_recurso": 1000000000002,
+      "cont_ementa": "ACORDAO DE FIXTURE SOBRE CONTRATO.",
+      "data_julgamento": ["2024-04-11T12:00:00Z"],
+      "id": "fixture-tjes-turma-0002",
+      "nome_juiz": "OUTRO RELATOR DE FIXTURE",
+      "num_processo": "0000002-00.2024.8.08.0002",
+      "orgao_julgador": "2a TURMA RECURSAL DE FIXTURE",
+      "tipo_arquivo": "html"
+    }
+  ]
+}

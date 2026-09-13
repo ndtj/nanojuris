@@ -1,0 +1,34 @@
+{
+  "schema_version": "stj-integral-pair-adapter-live-v1",
+  "observed_at": "2026-09-07",
+  "provider": "stj_dados_abertos_jurisprudencia",
+  "dataset_id": "integras-de-decisoes-terminativas-e-acordaos-do-diario-da-justica",
+  "mode": "provider_sync_integral_pair",
+  "credentials_used": false,
+  "bounded_max_bytes_per_resource": 2000000,
+  "result": {
+    "metadata_records": 108,
+    "text_records": 106,
+    "records_saved": 106,
+    "unmatched_metadata": 2,
+    "unmatched_text": 0,
+    "full_text_observed": true,
+    "semantic_scope": {
+      "authority": "STJ",
+      "branch": "superior",
+      "degree": "superior",
+      "instance": "superior",
+      "collection": "JURISPRUDENCIA"
+    }
+  },
+  "classification": "live_validated_local_integral_ingestion",
+  "decision": "The public pair is executable through the NanoJuris provider with bounded downloads and canonical full-text records. It remains an explicit local sync and is not routed through remote federation.",
+  "safety": {
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  }
+}

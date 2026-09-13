@@ -1,0 +1,13 @@
+{
+  "schema_version": "legal-live-ranking-performance-v1",
+  "candidates": 240,
+  "rounds": 25,
+  "latency_ms": {
+    "min": 47.64,
+    "median": 50.074,
+    "p95": 56.444,
+    "max": 60.384
+  },
+  "network_calls": 0,
+  "status": "passed"
+}

@@ -114,9 +114,10 @@ Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.co
 
 ## Proximos passos
 - [ ] Coletar HAR revisado sem cookies, tokens ou dados locais de navegador de uma busca manual autorizada para entender payload exato.
-- [ ] Verificar se existe endpoint documentado de busca sem token.
+- [x] Verificar se existe endpoint documentado de busca sem token; as rotas
+  publicas de decisao continuam exigindo antirrobo/token na evidencia live.
 - [x] Criar fixtures de `classes`, `relatorias`, `eleicoes` e `normas` para o adapter de catalogo.
-- [ ] Adicionar testes de diagnostico para `anti_robot`.
+- [x] Adicionar testes de diagnostico para `anti_robot`.
 - [ ] Capturar HAR limpo da nova SPA beta e confirmar endpoint de resultados,
   payload, paginacao e detalhe sem token privado.
 
@@ -165,3 +166,40 @@ O provider de decisoes somente deve ser promovido quando houver fixtures para
 busca valida, busca vazia, paginacao, erro de antirrobo, detalhe e download;
 cada resposta deve registrar `access_status`, URL final, status HTTP e se o
 inteiro teor foi realmente obtido.
+
+### Revalidacao live do catalogo — 2026-09-06
+
+Uma sessao HTTP limpa confirmou novamente as quatro rotas publicas de metadados
+do TSE (`POST /classes`, `/relatorias`, `/eleicoes` e `/normas`) com payload
+`["TSE"]`. Todas responderam HTTP 200 e retornaram, respectivamente, 137,
+231, 21 e 70 itens (459 itens no total). Esta evidencia e exclusivamente de
+catalogo: a busca decisoria continua sujeita ao controle antirrobo e permanece
+fora da federacao. Registro estruturado:
+`docs/provider-discovery/justica-eleitoral-sjur-catalog-live-20260906.json`.
+
+### Inventário bounded das rotas TRE (2026-09-09)
+
+O frontend oficial `https://jurisprudencia-tres.tse.jus.br/` revelou a rota
+por UF `POST /{tre}/sjur-pesquisa-backend/rest/public/pesquisa/simples`.
+Uma chamada pública, de baixa frequência e sem credenciais foi executada para
+cada um dos 27 TREs com o termo neutro `divórcio`: 26 retornaram registros com
+ementa ou decisão textual e TRE-RR informou total zero para esse termo. Os
+resultados estão em
+`docs/provider-discovery/tre-sjur-route-inventory-live-20260909.json`; corpos
+de resposta não foram persistidos.
+
+Isso é evidência de descoberta e não promoção. A classe opt-in
+`TreSjurJurisprudenciaProvider` em
+`src/nanojuris/providers/tse_sjur_jurisprudencia.py` restringe a consulta a uma
+UF, rejeita sentenças e rótulos de decisão desconhecidos e preserva o trace.
+Cada UF ainda precisa de paginação reproduzível, fixtures de bloqueio/schema,
+validação de inteiro teor e smoke federado antes de ser elegível.
+
+### Transporte compartilhado (2026-09-08)
+
+As quatro rotas de catálogo usam o `SharedHttpClient`, com allowlist do host
+oficial, limite de 4 MB, timeout, rate limit e circuit breaker. POST não é
+repetido automaticamente; respostas 401/403/429, timeout, TLS,
+redirecionamento fora da allowlist e schema inválido permanecem estados
+explícitos e nunca são tratados como catálogo vazio. A busca decisória continua
+fora do runtime até existir contrato público reproduzível.

@@ -1,0 +1,43 @@
+{
+  "schema_version": "tre-sjur-first-degree-live-v1",
+  "observed_at": "2026-09-11",
+  "official_frontend": "https://jurisprudencia-tres.tse.jus.br/",
+  "query": "sentença",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "tribunal": "TRE-MG",
+  "route": "https://sjur-pesquisa-api.tse.jus.br/tre-mg/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+  "page_probes": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 6495665,
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": ["Acórdão", "Sentença"],
+      "text_records": 1000,
+      "classification": "success_with_explicit_first_degree_label"
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_bytes": 6495665,
+      "reported_total": 10000,
+      "returned": 1000,
+      "decision_types": ["Acórdão", "Sentença"],
+      "text_records": 1000,
+      "classification": "remote_page_window_not_independent"
+    }
+  ],
+  "decision": "implement_first_degree_adapter_opt_in_only; reject second-degree and unknown labels; do not claim complete pagination",
+  "safety": {
+    "requests_per_page": 1,
+    "spacing_seconds": 2,
+    "cookies_replayed": false,
+    "tokens_used": false,
+    "captcha_or_waf_bypassed": false
+  }
+}

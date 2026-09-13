@@ -1,0 +1,162 @@
+{
+  "generated_at": "2026-09-07T22:01:59.526923+00:00",
+  "query": "responsabilidade civil",
+  "source_selection": {
+    "mode": "explicit",
+    "sources": [
+      "stj_scon",
+      "tnu_eproc_jurisprudencia",
+      "tjms_cjsg"
+    ]
+  },
+  "sources": [
+    {
+      "source": "stj_scon",
+      "query": "responsabilidade civil",
+      "status": "error",
+      "error_type": "AccessControlRequiredError",
+      "error": "STJ/SCON requires access-control validation"
+    },
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 886,
+        "source": "tnu_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "tnu-eproc-jurisprudencia-771786993513847664850135395543",
+        "case_number": "1094058-89.2023.4.01.3400",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eproctnu.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=771786993513847664850135395543&termosPesquisados=cmVzcG9uc2FiaWxpZGFkZXxjaXZpbHxjaXZpbHxyZXNwb25zYWJpbGlkYWRl",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tnu-eproc-jurisprudencia-document-771786993513847664850135395543",
+        "full_text_length": 29116,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eproctnu.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=771786993513847664850135395543&termosPesquisados=cmVzcG9uc2FiaWxpZGFkZXxjaXZpbHxjaXZpbHxyZXNwb25zYWJpbGlkYWRl",
+        "redirects": [],
+        "content_type": "text/html; charset= ISO-8859-1",
+        "response_bytes": 137833,
+        "sha256": "e4830cab8a0023eecedaaaa6f2d324252bf1939f7246ec73b693dd4f420481b4",
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true,
+        "quality": {
+          "status": "valid",
+          "byte_size": 137833,
+          "sha256": "e4830cab8a0023eecedaaaa6f2d324252bf1939f7246ec73b693dd4f420481b4",
+          "declared_content_type": "text/html",
+          "detected_content_type": "text/html",
+          "size_status": "within_limit",
+          "mime_status": "matched",
+          "pdf_status": null,
+          "warnings": []
+        }
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjms_cjsg",
+      "query": "responsabilidade civil",
+      "search": {
+        "returned": 1,
+        "reported_total": 230516,
+        "source": "tjms_cjsg"
+      },
+      "result": {
+        "id": "tjms-cjsg-1949907-0",
+        "case_number": "1407698-91.2025.8.12.0000",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://esaj.tjms.jus.br/cjsg/getArquivo.do?cdAcordao=1949907&cdForo=0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_acordao",
+          "cd_foro",
+          "classe",
+          "comarca",
+          "data_publicacao",
+          "full_text_url",
+          "labels",
+          "orgao_julgador"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjms-cjsg-1949907-0",
+        "full_text_length": 41313,
+        "content_type": "application/pdf",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://esaj.tjms.jus.br/cjsg/getArquivo.do?cdAcordao=1949907&cdForo=0",
+        "redirects": [],
+        "content_type": "application/pdf;charset=UTF-8",
+        "response_bytes": 475946,
+        "sha256": "0cd8057085a9b3fdcaff256451ffa59a7fcdd25c48a37afc2577572322d3b0b1",
+        "is_pdf": true,
+        "has_html": false,
+        "text_like": false,
+        "looks_like_document": true,
+        "quality": {
+          "status": "valid",
+          "byte_size": 475946,
+          "sha256": "0cd8057085a9b3fdcaff256451ffa59a7fcdd25c48a37afc2577572322d3b0b1",
+          "declared_content_type": "application/pdf",
+          "detected_content_type": "application/pdf",
+          "size_status": "within_limit",
+          "mime_status": "matched",
+          "pdf_status": "valid",
+          "warnings": [],
+          "page_count": 14
+        }
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 3,
+    "search_returned": 2,
+    "full_text_in_search": 0,
+    "provider_document_loaded": 2,
+    "public_url_reachable": 2,
+    "public_url_document_like": 2,
+    "document_probe_failures": 0,
+    "partial": 0,
+    "errors": 1
+  }
+}

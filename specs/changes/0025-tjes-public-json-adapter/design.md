@@ -13,22 +13,22 @@ Base pública: `https://sistemas.tjes.jus.br/consulta-jurisprudencia`
 
 ## Seleção de core (`REQ-002`)
 
-O adapter expõe um parâmetro de core. Default proposto: `pje2g` (2º grau), por
-ser o acervo de acórdãos mais comparável às outras fontes federadas. Uma busca
-sem core explícito não consulta todos os cores; consulta apenas o default e
-registra isso no `SourceTrace`. Consultas multi-core são uma extensão futura,
-fora deste pacote.
+O binding expõe somente `pje2g`, `pje2g_mono` e `legado`. Default proposto:
+`pje2g`, por ser o acervo de acórdãos mais comparável às outras fontes
+federadas. Uma busca sem core explícito consulta apenas o default e registra
+isso no `SourceTrace`. `pje1g` e `turma_recursal_legado` retornam erro de
+capability neste binding e pertencem a source IDs próprios.
 
 ## Mapeamento canônico (`REQ-004`)
 
-| Canônico | PJe (`pje1g`/`pje2g`) | Legado |
+| Canônico | PJe (`pje2g`/`pje2g_mono`) | Legado |
 | --- | --- | --- |
 | `identifier` | `nr_processo` | `numero_processo_legado` |
 | `court` | `"TJES"` | `"TJES"` |
 | `rapporteur` | `magistrado` | `nome_desembargador` |
 | `body` | `orgao_julgador` | órgão |
 | `judgment_date` / `publication_date` | datas do documento | datas de julgamento/publicação |
-| `summary` / `full_text` | `ementa`/`ementa_html`, `acordao`/`acordao_html`, `inteiro_teor`/`inteiro_teor_html` (1º grau) | conteúdo decisório HTML/RTF |
+| `summary` / `full_text` | `ementa`/`ementa_html`, `acordao`/`acordao_html` | conteúdo decisório HTML/RTF |
 | `raw` | documento completo | documento completo |
 
 Datas são normalizadas pelo utilitário existente; um formato não reconhecido é
@@ -56,6 +56,8 @@ pedido acima do limite é reduzido antes da requisição.
 - Somente requisições `GET` sem autenticação; nenhuma tentativa contra o Solr
   interno ou rotas não observadas.
 - `SourceTrace` registra rota, core e parâmetros.
+- `authority_id` e `collection_id` vêm da topologia; core é atributo da
+  superfície, não identidade jurídica.
 - Capability declara a fonte como opt-in até a revisão de condições de reuso.
 - Fixtures são sanitizadas: nomes de partes e dados pessoais reduzidos ao
   necessário para exercitar o parser.

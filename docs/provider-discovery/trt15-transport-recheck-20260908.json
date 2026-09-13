@@ -1,0 +1,23 @@
+{
+  "provider": "trt15_jurisprudencia",
+  "checked_at": "2026-09-08",
+  "transport": {
+    "client": "SharedHttpClient",
+    "allowlist": ["jurisprudencia.trt15.jus.br"],
+    "max_bytes": 8000000,
+    "max_retries": 0,
+    "redirects": "bounded",
+    "tls": "verified",
+    "body_persistence": false
+  },
+  "classification": "transport_hardened_access_control_preserved",
+  "tests": {
+    "focused": "tests/test_trt15_jurisprudencia.py",
+    "passed": 11
+  },
+  "limitations": [
+    "A busca oficial continua exigindo CAPTCHA; nenhuma resposta foi gerada, resolvida, extraída ou persistida.",
+    "O provider permanece fora da federação até existir chamada pública reproduzível e contrato de grau comprovado.",
+    "A migração apenas centraliza timeout, limite de bytes, allowlist, TLS, redirecionamento e classificação explícita de erros."
+  ]
+}

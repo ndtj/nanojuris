@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-09-01",
+  "scope": "bounded public HTTP checks after Juscraper parity changes",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "controls_bypassed": false,
+  "results": [
+    {
+      "source_id": "tjce_cjsg",
+      "transport": "eSAJ CJSG",
+      "classification": "blocked_access",
+      "error_type": "AccessControlRequiredError",
+      "http_status": 200,
+      "record_count_observed": 0,
+      "access_signals": ["has_search_form", "has_recaptcha_field", "has_uuid_captcha_field", "has_access_control_route", "has_login_script"]
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "transport": "rest",
+      "classification": "blocked_transport",
+      "error_type": "SourceUnavailableError",
+      "http_status": null,
+      "record_count_observed": 0,
+      "detail": "SSLCertVerificationError; verify_ssl remained true"
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "transport": "auto",
+      "classification": "empty_explicit",
+      "error_type": null,
+      "http_status": 200,
+      "endpoint": "POST /consulta.xhtml",
+      "record_count_observed": 0,
+      "total": 0
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "transport": "consulta.php",
+      "classification": "success",
+      "error_type": null,
+      "http_status": 200,
+      "record_count_observed": 1,
+      "total": 147796
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "transport": "eSAJ CJSG",
+      "classification": "blocked_access",
+      "error_type": "AccessControlRequiredError",
+      "http_status": 200,
+      "record_count_observed": 0,
+      "access_signals": ["has_search_form", "has_recaptcha_field", "has_uuid_captcha_field", "has_access_control_route", "has_login_script"]
+    }
+  ],
+  "promotion_decision": "runtime_changes_verified_locally; external_controls_remain",
+  "production_changed": false
+}

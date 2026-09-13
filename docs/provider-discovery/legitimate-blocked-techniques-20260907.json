@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "scope": "bounded_public_blocked_route_recheck",
+  "credentials_used": false,
+  "challenge_handling": "none",
+  "methods": [
+    "ordinary requests session with official browser user-agent",
+    "ordinary headless Chromium navigation",
+    "official alternate host and public shell discovery",
+    "source-supported HTTP/1.1 retry without TLS downgrade",
+    "official public JSON/catalog endpoint inspection",
+    "official modern backend when published by the source"
+  ],
+  "results": [
+    {
+      "authority": "TJAP",
+      "provider": "tjap_tucujuris",
+      "surface": "CJSG",
+      "result": "blocked",
+      "routes": [
+        {
+          "url": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "classification": "public_shell_accessible",
+          "status": 200
+        },
+        {
+          "url": "https://tucujuris.tjap.jus.br/api/publico/consultar-jurisprudencia",
+          "classification": "access_controlled_turnstile",
+          "status": 200
+        },
+        {
+          "url": "https://services.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "classification": "transport_unavailable_dns"
+        }
+      ],
+      "decision": "No public result route was reproducible without the server-validated Turnstile challenge.",
+      "evidence": "tjap-official-alternatives-live-20260907.json"
+    },
+    {
+      "authority": "TJMA",
+      "provider": "tjma_jurisconsult",
+      "surface": "CJSG",
+      "result": "blocked",
+      "routes": [
+        {
+          "url": "https://jurisconsult.tjma.jus.br/",
+          "classification": "official_application_shell",
+          "status": 200
+        },
+        {
+          "url": "https://apijuris.tjma.jus.br/v1/jurisprudencia/lista_relatorios",
+          "classification": "public_catalog_only",
+          "status": 200
+        },
+        {
+          "url": "https://apijuris.tjma.jus.br/v1/sg/jurisprudencias/processos",
+          "classification": "captcha_token_required",
+          "status": "not_submitted"
+        },
+        {
+          "url": "https://apijuris.tjma.jus.br/v1/openapi.json",
+          "classification": "no_public_openapi",
+          "status": 404
+        }
+      ],
+      "decision": "The official search requires a fresh Google reCAPTCHA token; catalogs do not provide jurisprudence records.",
+      "evidence": "tjma-official-alternatives-live-20260907.json; tjma-public-route-inventory-live-20260907.json"
+    },
+    {
+      "authority": "TRF3",
+      "provider": "trf3_jurisprudencia",
+      "surface": "official web jurisprudence search",
+      "result": "blocked_transport",
+      "routes": [
+        {
+          "url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+          "classification": "http2_protocol_error",
+          "method": "headless Chromium"
+        },
+        {
+          "url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+          "classification": "timeout",
+          "method": "ordinary HTTP/1.1"
+        },
+        {
+          "url": "https://pje1g.trf3.jus.br/pje/",
+          "classification": "different_process_consultation_surface",
+          "method": "Juscraper reference"
+        }
+      ],
+      "decision": "The Juscraper TRF3 module is a public first-degree process consultation (cpopg), not a general jurisprudence search. No CJSG contract was inferred from it.",
+      "evidence": "trf3-browser-transport-recheck-20260907.json"
+    },
+    {
+      "authority": "TJTO",
+      "provider": "tjto_jurisprudencia",
+      "surface": ["CJPG", "CJSG"],
+      "result": "intermittent_access_control",
+      "routes": [
+        {
+          "url": "https://jurisprudencia.tjto.jus.br/consulta.php",
+          "method": "GET",
+          "classification": "public_html_reachable_then_waf_challenge",
+          "status_sequence": [200, 202],
+          "decision": "A single official GET fallback is allowed after a challenged POST; repeated challenges remain explicit access control."
+        }
+      ],
+      "decision": "The source exposes a legitimate GET representation, but availability was intermittent in the bounded recheck. Keep the provider's last valid evidence and do not treat a challenge as empty.",
+      "evidence": "tjto-get-route-live-20260907.json"
+    },
+    {
+      "authority": "TJSC",
+      "provider": "tjsc_eproc_jurisprudencia",
+      "surface": "CJPG candidate route",
+      "result": "temporary_portal_block",
+      "routes": [
+        {
+          "url": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
+          "method": "GET",
+          "status": 298,
+          "classification": "temporary_portal_block"
+        }
+      ],
+      "decision": "The official first-degree candidate route returned the source's temporary portal block page. No query form or first-degree contract was exposed; do not infer empty results or promote CJPG.",
+      "evidence": "tjsc-cjpg-eprocwebcon-recheck-20260907.json"
+    },
+    {
+      "authority": "TJMG",
+      "provider": "tjmg_jurisprudencia",
+      "surface": "CJSG",
+      "result": "unblocked_by_official_alternative",
+      "routes": [
+        {
+          "url": "https://jurisprudencia-api.tjmg.jus.br/jurisprudencias/filter",
+          "classification": "public_json_search",
+          "status": 200,
+          "supports": ["text", "case_number", "class", "court_body", "rapporteur", "dates", "page"]
+        },
+        {
+          "url": "https://jurisprudencia-api.tjmg.jus.br/jurisprudencias/document",
+          "classification": "public_full_text_detail",
+          "status": 200
+        },
+        {
+          "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavraSentenca.do",
+          "classification": "legacy_captcha_boundary",
+          "status": 401
+        }
+      ],
+      "decision": "Use the official modern API for CJSG; retain the legacy form as access-controlled and do not submit or solve its CAPTCHA.",
+      "evidence": "tjmg-modern-api-live-20260907.json"
+    }
+  ],
+  "safety": {
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false
+  },
+  "conclusion": "Only TJMG exposed a legitimate public alternative in this pass. TJAP, TJMA and TRF3 remain explicitly blocked or transport-limited; no error was converted to an empty result."
+}

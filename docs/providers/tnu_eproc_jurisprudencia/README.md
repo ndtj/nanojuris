@@ -6,7 +6,7 @@
   e `trf6_eproc_jurisprudencia`.
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `eproc_jurisprudencia`.
-- URL inicial TNU: `https://eproctnu.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`.
+- URL inicial TNU: `https://eproctnu-jur.cjf.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`.
 - URL inicial TRF2: `https://eproc.trf2.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`.
 - URL inicial TRF6: `https://eproc-jur.trf6.jus.br/eproc/externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`.
 - Status de acesso: publico no probe limpo de 2026-08-07.
@@ -39,7 +39,9 @@
 - Campos canonicos: `CanonicalDecision`.
 - Campos opcionais: origem, tipo documental, id de jurisprudencia, URL de inteiro teor.
 - Campos instaveis: labels HTML e lista de origens variam por instancia.
-- Inteiro teor: link publico esperado pelo padrao eproc; fixture especifica ainda pendente para TNU/TRF2/TRF6.
+- Inteiro teor: link publico esperado pelo padrao eproc; a rota foi validada para TNU,
+  TRF2 e TRF6 em chamada live bounded (ciclo 43), com HTML textual e hash registrados
+  sem persistir o corpo.
 - Documentos vinculados: `id_jurisprudencia`.
 
 ## Comportamento observado
@@ -69,8 +71,8 @@
 - Vazio: coberto por parser eproc quando a fonte retorna formulario sem cards.
 - Erro/acesso: coberto por respostas fake em
   `tests/test_eproc_jurisprudencia_federal.py`.
-- Documento: coberto por resposta fake; rota live deve ser validada por
-  instancia antes de demonstracoes de inteiro teor em escala.
+- Documento: resposta fake cobre o parser offline; a disponibilidade live por
+  instancia está registrada em `docs/provider-discovery/eproc-detail-live-20260905-cycle43.json`.
 
 ## MCP e agentes
 - Quando usar: consultas federais/TNU/TRF2/TRF6 por tema, ementa, inteiro teor ou numero.
@@ -82,5 +84,6 @@
 - [x] Parametrizar provider eproc por base URL, tribunal e origens.
 - [x] Criar fixtures publicas representativas de TNU, TRF2 e TRF6.
 - [x] Reusar parser de `trf4_eproc_jurisprudencia`.
-- [ ] Validar rota de inteiro teor com `id_jurisprudencia` real de cada fonte.
+- [x] Validar rota de inteiro teor com `id_jurisprudencia` real de cada fonte
+  (TNU, TRF2 e TRF6; ciclo 43; corpos não persistidos).
 - [x] Adicionar testes de sucesso, vazio e acesso restrito.

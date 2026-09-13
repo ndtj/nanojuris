@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-07",
+  "source": "C:/Users/admin/Downloads/lib template",
+  "scope": "local component audit for legitimate public-source access",
+  "components": [
+    {
+      "path": "engines/toolbelt/navigation.py",
+      "classification": "usable",
+      "allowed_use": "bounded browser route observation, resource filtering and URL validation",
+      "nanojuris_action": "use only for diagnostics; do not alter challenge requests or access controls"
+    },
+    {
+      "path": "core/shell.py",
+      "classification": "usable_with_redaction",
+      "allowed_use": "parse a user-copied DevTools cURL request to reproduce a public request",
+      "nanojuris_action": "strip cookies, authorization, CSRF values and personal data before storing or replaying"
+    },
+    {
+      "path": "engines/toolbelt/fingerprints.py",
+      "classification": "not_allowed_for_blocked_sources",
+      "reason": "browser fingerprint generation is intended to alter client identity and can evade access controls",
+      "nanojuris_action": "do not import or use for provider access"
+    },
+    {
+      "path": "engines/toolbelt/proxy_rotation.py",
+      "classification": "not_allowed_for_blocked_sources",
+      "reason": "rotating proxies to evade rate limits, WAF or geographic controls is bypass behavior",
+      "nanojuris_action": "do not import or use"
+    },
+    {
+      "path": "engines/_browsers/_stealth.py",
+      "classification": "not_allowed_for_blocked_sources",
+      "reason": "stealth, fingerprint hiding and challenge solving are access-control bypass techniques",
+      "nanojuris_action": "do not import, enable challenge solving or replay persistent sessions"
+    },
+    {
+      "path": "engines/_browsers/_page.py",
+      "classification": "usable",
+      "allowed_use": "bounded page pooling and state tracking for ordinary public navigation",
+      "nanojuris_action": "respect per-source concurrency, timeout and rate limits"
+    },
+    {
+      "path": "core/translator.py",
+      "classification": "usable",
+      "allowed_use": "CSS/XPath selector translation for public HTML parsing",
+      "nanojuris_action": "use only after ordinary navigation succeeds; preserve schema-drift errors"
+    }
+  ],
+  "safe_techniques_to_apply": [
+    "ordinary browser rendering for JavaScript public pages",
+    "network observation without replaying credentials or challenge tokens",
+    "public DevTools request normalization with sensitive-header redaction",
+    "bounded page pooling with source-specific concurrency limits",
+    "CSS/XPath parsing and schema fingerprinting"
+  ],
+  "explicitly_not_applied": [
+    "CAPTCHA or Turnstile solving",
+    "fingerprint or canvas spoofing",
+    "proxy rotation",
+    "cookie or session replay",
+    "TLS verification disabling",
+    "rate-limit or WAF evasion",
+    "challenge token generation or reuse"
+  ],
+  "conclusion": "The template provides useful parsing and ordinary-browser diagnostics, but no component can legitimately turn TJAP or TJMA access-controlled routes into public result routes. TJMG's public modern API remains the valid alternative already recorded separately."
+}

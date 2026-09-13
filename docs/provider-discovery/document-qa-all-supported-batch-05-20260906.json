@@ -1,0 +1,277 @@
+{
+  "generated_at": "2026-09-06T09:28:42.008598+00:00",
+  "query": "responsabilidade",
+  "source_selection": {
+    "mode": "all_supported",
+    "sources": [
+      "tjrn_jurisprudencia",
+      "tjro_jurisprudencia",
+      "tjrr_juris",
+      "tjsc_eproc_jurisprudencia",
+      "tjsp_cjpg"
+    ]
+  },
+  "sources": [
+    {
+      "source": "tjrn_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 73909,
+        "source": "tjrn_jurisprudencia"
+      },
+      "result": {
+        "id": "tjrn-jurisprudencia-kjO6cqABYGx659SBP0F5",
+        "case_number": "08156354820268200000",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 28057,
+        "document_url": "https://jurisprudencia.tjrn.jus.br/api/pesquisar",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "classe_judicial",
+          "colegiado",
+          "degree",
+          "dt_assinatura_ementa",
+          "dt_assinatura_teor",
+          "dt_publicacao",
+          "ementa",
+          "grau",
+          "id_documento_ementa",
+          "id_documento_teor",
+          "instance",
+          "inteiro_teor",
+          "judging_body",
+          "judgment_date_raw",
+          "magistrado",
+          "native_id",
+          "numero_processo",
+          "orgao_julgador",
+          "publication_date_raw",
+          "sigiloso",
+          "sistema",
+          "source_fields",
+          "system",
+          "tipo_teor"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjrn-jurisprudencia-kjO6cqABYGx659SBP0F5",
+        "full_text_length": 28057
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjro_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 676606,
+        "source": "tjro_jurisprudencia"
+      },
+      "result": {
+        "id": "tjro-jurisprudencia-137613154-PJEPG",
+        "case_number": "0000930-36.2018.8.22.0022",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://juris-back.tjro.jus.br/pje/buscar_pdf_ou_docx/PJEPG/137613154/pdf/",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "degree",
+          "degree_canonical",
+          "document_url",
+          "full_text_url",
+          "highlight",
+          "instance_canonical",
+          "judging_body",
+          "judgment_date_raw",
+          "native_id",
+          "nr_processo",
+          "publication_date_raw",
+          "query_page",
+          "sistema_origem",
+          "source",
+          "source_sort",
+          "source_system",
+          "subject",
+          "tipo"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjro-jurisprudencia-document-137613154-PJEPG",
+        "full_text_length": 1830,
+        "content_type": "application/pdf",
+        "source_url": null
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjrr_juris",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 10,
+        "reported_total": 17417,
+        "source": "tjrr_juris"
+      },
+      "result": {
+        "id": "tjrr-juris-130978",
+        "case_number": "0843091-27.2024.8.23.0010",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.tjrr.jus.br/index.xhtml;jsessionid=qeaYr-SQcXZZROBk8gwOGurTnlAYIXucHfCIb4Eg.jurisprudencia-prd-5d84d75469-ctxr9",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "document_id",
+          "document_url",
+          "judging_body",
+          "print_url",
+          "process_url",
+          "source_query_page"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "SourceUnavailableError",
+        "error": "TJRR request failed: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.tjrr.jus.br/index.xhtml;jsessionid=qeaYr-SQcXZZROBk8gwOGurTnlAYIXucHfCIb4Eg.jurisprudencia-prd-5d84d75469-ctxr9",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 140860,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "SourceUnavailableError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjsc_eproc_jurisprudencia",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 885681,
+        "source": "tjsc_eproc_jurisprudencia"
+      },
+      "result": {
+        "id": "tjsc-eproc-jurisprudencia-4870937",
+        "case_number": null,
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=tj_sc@jurisprudenciaInteiroTeor/inteiroTeor&numero_processo=0014367872023&id_jurisprudencia=4870937",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "decision_type_label",
+          "degree",
+          "document_url",
+          "full_text_url",
+          "id_jurisprudencia",
+          "instance",
+          "judging_body",
+          "judgment_date",
+          "process_number_missing",
+          "publication_date",
+          "source_origin",
+          "source_url",
+          "state"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "AccessControlRequiredError",
+        "error": "TJSC/eproc jurisprudence returned access-control HTML"
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://eprocwebcon.tjsc.jus.br/consulta1g/externo_controlador.php?acao=tj_sc@jurisprudenciaInteiroTeor/inteiroTeor&numero_processo=0014367872023&id_jurisprudencia=4870937",
+        "content_type": "text/html; charset=ISO-8859-1",
+        "response_bytes": 13160,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "AccessControlRequiredError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjsp_cjpg",
+      "query": "responsabilidade",
+      "search": {
+        "returned": 1,
+        "reported_total": 4662895,
+        "source": "tjsp_cjpg"
+      },
+      "result": {
+        "id": "tjsp-cjpg-AT000181D0000",
+        "case_number": "1501618-92.2026.8.26.0389",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 22607,
+        "document_url": "https://esaj.tjsp.jus.br/cjpg/pesquisar.do?conversationId=&dadosConsulta.pesquisaLivre=responsabilidade&tipoNumero=UNIFICADO&numeroDigitoAnoUnificado=&foroNumeroUnificado=&dadosConsulta.nuProcesso=&classeTreeSelection.values=&assuntoTreeSelection.values=&dadosConsulta.dtInicio=&dadosConsulta.dtFim=&varasTreeSelection.values=&dadosConsulta.ordenacao=DESC",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "cd_processo",
+          "classe",
+          "comarca",
+          "data_disponibilizacao",
+          "decisao",
+          "foro",
+          "full_text",
+          "full_text_url",
+          "id_processo",
+          "labels",
+          "magistrado",
+          "source_id",
+          "vara"
+        ]
+      },
+      "provider_document": {
+        "status": "inline_text",
+        "document_id": "tjsp-cjpg-AT000181D0000",
+        "full_text_length": 22607
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 5,
+    "search_returned": 5,
+    "full_text_in_search": 2,
+    "provider_document_loaded": 3,
+    "public_url_reachable": 2,
+    "public_url_document_like": 0,
+    "document_probe_failures": 2,
+    "partial": 2,
+    "errors": 0
+  }
+}

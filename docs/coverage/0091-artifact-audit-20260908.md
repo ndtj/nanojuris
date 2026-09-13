@@ -1,0 +1,181 @@
+# 0091 artifact audit
+
+Offline audit; TODO/FIXME markers are reported, not deleted automatically.
+
+- Files scanned: **706**
+- TODO-like markers: **170**
+- Catalog/runtime divergence: **0**
+- Surface workpacks: **151**
+
+## Markers
+
+- `src/nanojuris/cli.py:315` — probe_rota.add_argument("--metodo", choices=["GET", "POST"], default="GET")
+- `src/nanojuris/cli.py:846` — method=args.metodo,
+- `src/nanojuris/config.py:102` — "https://www.tjac.jus.br/wp-content/uploads/2026/07/Ementario_TJAC_Vol_XXX_2026.pdf"
+- `src/nanojuris/route_probe.py:549` — return "Descartar rota ou revisar URL/metodo antes de novo probe."
+- `src/nanojuris/data/provider-catalog.full.json:44` — "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
+- `src/nanojuris/data/provider-catalog.full.json:46` — "Nem todo precedente possui textos de decisoes no endpoint publico."
+- `src/nanojuris/data/provider-catalog.full.json:179` — "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
+- `src/nanojuris/data/provider-catalog.full.json:181` — "Nem todo precedente possui textos de decisoes no endpoint publico."
+- `src/nanojuris/data/provider-catalog.full.json:293` — "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
+- `src/nanojuris/data/provider-catalog.full.json:295` — "Nem todo precedente possui textos de decisoes no endpoint publico."
+- `src/nanojuris/data/provider-catalog.full.json:345` — "O endpoint /precedentes exige 'orgaos' e 'tipos' nao vazios; quando a consulta nao os informa, o provider os preenche com o catalogo publico completo (todos os orgaos e especies).",
+- `src/nanojuris/data/provider-catalog.full.json:347` — "Nem todo precedente possui textos de decisoes no endpoint publico."
+- `src/nanojuris/data/provider-catalog.full.json:5384` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJAC.",
+- `src/nanojuris/data/provider-catalog.full.json:5518` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJAC.",
+- `src/nanojuris/data/provider-catalog.full.json:5627` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJAC.",
+- `src/nanojuris/data/provider-catalog.full.json:5678` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJAC.",
+- `src/nanojuris/data/provider-catalog.full.json:6839` — "Colecao curada de sentencas selecionadas; nao representa todo o CJPG do TJAL.",
+- `src/nanojuris/data/provider-catalog.full.json:6973` — "Colecao curada de sentencas selecionadas; nao representa todo o CJPG do TJAL.",
+- `src/nanojuris/data/provider-catalog.full.json:7086` — "Colecao curada de sentencas selecionadas; nao representa todo o CJPG do TJAL.",
+- `src/nanojuris/data/provider-catalog.full.json:7139` — "Colecao curada de sentencas selecionadas; nao representa todo o CJPG do TJAL.",
+- `src/nanojuris/data/provider-catalog.full.json:7941` — "O banco é uma coleção oficial de decisões/sentenças selecionadas, não garantia de todo o acervo do TJAP.",
+- `src/nanojuris/data/provider-catalog.full.json:8076` — "O banco é uma coleção oficial de decisões/sentenças selecionadas, não garantia de todo o acervo do TJAP.",
+- `src/nanojuris/data/provider-catalog.full.json:8197` — "O banco é uma coleção oficial de decisões/sentenças selecionadas, não garantia de todo o acervo do TJAP.",
+- `src/nanojuris/data/provider-catalog.full.json:8251` — "O banco é uma coleção oficial de decisões/sentenças selecionadas, não garantia de todo o acervo do TJAP.",
+- `src/nanojuris/data/provider-catalog.full.json:12544` — "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>",
+- `src/nanojuris/data/provider-catalog.full.json:12545` — "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>",
+- `src/nanojuris/data/provider-catalog.full.json:12546` — "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>",
+- `src/nanojuris/data/provider-catalog.full.json:12547` — "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>",
+- `src/nanojuris/data/provider-catalog.full.json:12548` — "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>",
+- `src/nanojuris/data/provider-catalog.full.json:17766` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJRJ.",
+- `src/nanojuris/data/provider-catalog.full.json:17901` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJRJ.",
+- `src/nanojuris/data/provider-catalog.full.json:18013` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJRJ.",
+- `src/nanojuris/data/provider-catalog.full.json:18065` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJRJ.",
+- `src/nanojuris/discovery/draft.py:34` — "clarify.md": """# Perguntas de esclarecimento\n\n- A rota candidata é oficial e pública?\n- O método, payload, filtros, paginação e ordenação foram confirmados?\n- Quais estados de vazio, query inválida, bloqueio e indisponibilidade foram 
+- `src/nanojuris/discovery/draft.py:35` — "spec.md": f"""# Rascunho de especificação de provider\n\nStatus: `draft`\nRun: `{run.run_id}`\n\n## Intenção\n\nTransformar as evidências abaixo em um contrato de provider revisado.\n\n## Rotas observadas\n\n{route_lines}\n\n## Requisitos 
+- `src/nanojuris/discovery/draft.py:41` — "selector-candidates.md": f"""# Candidatos de seletores\n\n{selector_lines}\n\nTodos os candidatos exigem revisão e validação em múltiplas fixtures.\n""",
+- `src/nanojuris/providers/bnp_pangea.py:193` — "completo (todos os orgaos e especies).",
+- `src/nanojuris/providers/bnp_pangea.py:195` — "Nem todo precedente possui textos de decisoes no endpoint publico.",
+- `src/nanojuris/providers/bnp_pangea.py:286` — "Nem todo precedente possui textos de decisoes no endpoint publico.",
+- `src/nanojuris/providers/cnj_jurisprudencia.py:348` — "Nenhum informativo do CNJ contem todos os termos da consulta."
+- `src/nanojuris/providers/tjac_banco_sentencas.py:113` — "nem busca geral de todo o CJPG"
+- `src/nanojuris/providers/tjac_banco_sentencas.py:259` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJAC.",
+- `src/nanojuris/providers/tjac_ementario_jurisprudencia.py:323` — endpoint="GET /wp-content/uploads/.../Ementario_TJAC_Vol_XXX_2026.pdf",
+- `src/nanojuris/providers/tjal_esmal_banco_sentencas.py:305` — "Colecao curada de sentencas selecionadas; nao representa todo o CJPG do TJAL.",
+- `src/nanojuris/providers/tjap_banco_sentencas.py:330` — "não garantia de todo o acervo do TJAP.",
+- `src/nanojuris/providers/tjba_graphql.py:69` — todos { id nome instancia }
+- `src/nanojuris/providers/tjba_graphql.py:72` — todos { id nome instancia }
+- `src/nanojuris/providers/tjba_graphql.py:272` — court_options = _catalog_options(grouped_organs.get("todos"), "nome", "instancia")
+- `src/nanojuris/providers/tjba_graphql.py:274` — rapporteurs = _catalog_options(grouped_rapporteurs.get("todos"), "nome", "instancia")
+- `src/nanojuris/providers/tjma_jurisconsult.py:155` — "types": "/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=1",
+- `src/nanojuris/providers/tjma_jurisconsult.py:156` — "classes": "/jurisprudencia/lista_todos_classes?tipoRelatorio=1",
+- `src/nanojuris/providers/tjma_jurisconsult.py:157` — "magistrates": "/jurisprudencia/lista_todos_magistrados?tipoRelatorio=1",
+- `src/nanojuris/providers/tjma_jurisconsult.py:158` — "chambers": "/jurisprudencia/lista_todos_camaras?tipoRelatorio=1",
+- `src/nanojuris/providers/tjma_jurisconsult.py:159` — "counties": "/jurisprudencia/lista_todos_comarcas?tipoRelatorio=1",
+- `src/nanojuris/providers/tjma_jurisconsult.py:214` — "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>",
+- `src/nanojuris/providers/tjma_jurisconsult.py:215` — "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>",
+- `src/nanojuris/providers/tjma_jurisconsult.py:216` — "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>",
+- `src/nanojuris/providers/tjma_jurisconsult.py:217` — "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>",
+- `src/nanojuris/providers/tjma_jurisconsult.py:218` — "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>",
+- `src/nanojuris/providers/tjpe_jurisprudencia.py:839` — if not normalized or "todos" in normalized or len(normalized) > 1:
+- `src/nanojuris/providers/tjpe_jurisprudencia.py:840` — return "todos" if len(normalized) > 1 or "todos" in normalized else "acordaos"
+- `src/nanojuris/providers/tjpe_jurisprudencia.py:861` — if tipo == "todos":
+- `src/nanojuris/providers/tjpe_jurisprudencia.py:865` — "formPesquisaJurisprudencia:tipoTodos": "on",
+- `src/nanojuris/providers/tjrj_banco_sentencas.py:277` — "Colecao curada de sentencas selecionadas, nao todo o CJPG do TJRJ.",
+- `src/nanojuris/providers/tjrs_solr.py:89` — "metodo": "buscar_resultados",
+- `src/nanojuris/providers/tjrs_solr.py:139` — "metodo": "retorna_tiff",
+- `src/nanojuris/providers/tse_sjur_jurisprudencia.py:1270` — "A particao temporal retornou todos os registros declarados "
+- `src/nanojuris/web/studio.py:92` — "O modo todas consulta todo o catalogo; fontes fora do escopo podem ser puladas "
+- `tools/audit_0091_artifacts.py:1` — """Audit generated artifacts and TODO markers for the 0091 handoff."""
+- `tools/audit_0091_artifacts.py:24` — todo_hits: list[dict[str, Any]] = []
+- `tools/audit_0091_artifacts.py:39` — if any(token in line.upper() for token in ("TODO", "FIXME", "XXX")):
+- `tools/audit_0091_artifacts.py:40` — todo_hits.append(
+- `tools/audit_0091_artifacts.py:56` — "todo_hits": todo_hits,
+- `tools/audit_0091_artifacts.py:57` — "todo_policy": "reported_not_silently_deleted",
+- `tools/audit_0091_artifacts.py:72` — "status": "audit_complete_with_reported_todos",
+- `tools/audit_0091_artifacts.py:84` — "Offline audit; TODO/FIXME markers are reported, not deleted automatically.",
+- `tools/audit_0091_artifacts.py:87` — f"- TODO-like markers: **{len(payload['todo_hits'])}**",
+- `tools/audit_0091_artifacts.py:94` — if payload["todo_hits"]:
+- `tools/audit_0091_artifacts.py:96` — f"- `{item['path']}:{item['line']}` — {item['text']}" for item in payload["todo_hits"]
+- `tools/audit_provider_docs.py:244` — "1. rota e metodo reproduzidos com sessao publica limpa;",
+- `tools/audit_unified_contract.py:225` — "todo_count": len(sweep.get("todo", []) or []),
+- `tools/audit_unified_contract.py:288` — "Todos os providers compartilham o envelope SearchPage/JurisprudenceResult, mas o perfil semantico e os campos preenchidos variam por fonte.",
+- `tools/build_degree_coverage.py:114` — "A matriz mede linhas esperadas mapeadas. Não afirma que todos os "
+- `tools/build_national_coverage_gap_map.py:587` — f"- Superfícies com todos os gates GOLD explícitos: **{summary['gold_gate_complete']}**.",
+- `tools/build_national_coverage_gap_map.py:623` — "`GOLD` exige todos os gates técnicos; `federated_live` indica fonte ativa, mas não substitui a auditoria de qualidade. `not_mapped` significa que ainda não há contrato de superfície, e não significa resultado vazio.",
+- `tools/build_provider_closure_ledger.py:1` — """Build an evidence ledger for discovery TODO closure.
+- `tools/build_provider_closure_ledger.py:5` — silences a TODO merely because a route was observed in HTML.
+- `tools/build_provider_closure_ledger.py:171` — def _classify_todo(
+- `tools/build_provider_closure_ledger.py:173` — todo: str,
+- `tools/build_provider_closure_ledger.py:244` — marker in todo.lower()
+- `tools/build_provider_closure_ledger.py:256` — # adapter TODO with the current local contract evidence.
+- `tools/build_provider_closure_ledger.py:258` — "criar adapter" in todo.lower()
+- `tools/build_provider_closure_ledger.py:267` — if "confirmar rotas, filtros, paginação e detalhe" in todo.lower() and local["has_tests"]:
+- `tools/build_provider_closure_ledger.py:274` — if "robots.txt" in todo.lower() and "robots_disallowed" in statuses and not current_live_valid:
+- `tools/build_provider_closure_ledger.py:282` — "controle de acesso" in todo.lower()
+- `tools/build_provider_closure_ledger.py:295` — "indisponibilidade" in todo.lower()
+- `tools/build_provider_closure_ledger.py:305` — if "sinais de jurisprudência" in todo.lower():
+- `tools/build_provider_closure_ledger.py:313` — if "GETs declarados" in todo:
+- `tools/build_provider_closure_ledger.py:332` — if "payload" in todo.lower() and "post" in todo.lower():
+- `tools/build_provider_closure_ledger.py:340` — "fixture" in todo.lower()
+- `tools/build_provider_closure_ledger.py:363` — for todo in provider.get("todo", []):
+- `tools/build_provider_closure_ledger.py:364` — closure = _classify_todo(source, todo, provider, local)
+- `tools/build_provider_closure_ledger.py:365` — rows.append({"source": source, "kind": "runtime", "todo": todo, **closure})
+- `tools/build_provider_closure_ledger.py:369` — for todo in candidate.get("todo", []):
+- `tools/build_provider_closure_ledger.py:371` — closure = _classify_todo(
+- `tools/build_provider_closure_ledger.py:373` — todo,
+- `tools/build_provider_closure_ledger.py:382` — "todo": todo,
+- `tools/build_provider_closure_ledger.py:405` — "# Ledger de fechamento de TODOs dos providers",
+- `tools/build_provider_closure_ledger.py:414` — "| Source | Tipo | Estado | TODO | Evidência | Próxima ação |",
+- `tools/build_provider_closure_ledger.py:420` — f"| `{item['source']}` | {item['kind']} | `{item['status']}` | {item['todo']} | {evidence} | {item['next_action']} |"
+- `tools/build_provider_sdd_workpacks.py:194` — gaps.append("candidate_todos_open")
+- `tools/build_provider_sdd_workpacks.py:242` — "confirmar fonte oficial, rota, método, payload e termos aplicáveis",
+- `tools/build_provider_sdd_workpacks.py:253` — "fechar todos os itens documentais objetivos",
+- `tools/build_state_appellate_program.py:25` — ("federation", "Habilitar federacao somente apos todos os gates"),
+- `tools/discover_all_providers.py:151` — "todo": [
+- `tools/discover_all_providers.py:165` — "todo": ["reproduzir a URL documentada com diagnóstico explícito antes de implementar"],
+- `tools/discover_all_providers.py:288` — "todo": _provider_todo(capabilities, evidences, declared_routes, filters),
+- `tools/discover_all_providers.py:309` — def _provider_todo(
+- `tools/discover_all_providers.py:316` — todos: list[str] = []
+- `tools/discover_all_providers.py:318` — todos.append("obter evidencia bounded da URL declarada")
+- `tools/discover_all_providers.py:320` — todos.append("revisar robots.txt e agendar nova coleta autorizada")
+- `tools/discover_all_providers.py:322` — todos.append("documentar controle de acesso/SSO e confirmar rota pública alternativa")
+- `tools/discover_all_providers.py:324` — todos.append("reproduzir indisponibilidade e criar teste de falha explícito")
+- `tools/discover_all_providers.py:326` — todos.append("confirmar payload, filtros e paginação dos endpoints POST com fixture")
+- `tools/discover_all_providers.py:331` — todos.append("capturar e validar GETs declarados ainda não observados")
+- `tools/discover_all_providers.py:333` — todos.append("capturar fixture de formulário/JSON para confirmar filtros")
+- `tools/discover_all_providers.py:335` — todos.append("validar sinais de jurisprudência e contrato canônico")
+- `tools/discover_all_providers.py:336` — return todos
+- `tools/discover_all_providers.py:342` — "# Sweep live de todos os providers",
+- `tools/discover_all_providers.py:355` — "| Provider | Observações | Status | Rotas | Filtros | TODO principal |",
+- `tools/discover_all_providers.py:364` — todo = (provider.get("todo") or ["nenhum TODO automático"])[0]
+- `tools/discover_all_providers.py:367` — f"{len(provider.get('observed_routes', []))} | {len(provider.get('observed_filters', []))} | {todo} |"
+- `tools/discover_all_providers.py:376` — "O JSON contém hashes, rotas, filtros, comparação de contrato e TODOs por provider.",
+- `tools/discover_all_providers.py:391` — f"{(candidate.get('todo') or ['revisar contrato'])[0]} |"
+- `tests/test_all_provider_discovery.py:8` — _provider_todo,
+- `tests/test_all_provider_discovery.py:31` — def test_provider_todo_does_not_convert_controlled_access_into_empty_results():
+- `tests/test_all_provider_discovery.py:38` — todos = _provider_todo(
+- `tests/test_all_provider_discovery.py:44` — assert "documentar controle de acesso/SSO e confirmar rota pública alternativa" in todos
+- `tests/test_all_provider_discovery.py:45` — assert "capturar fixture de formulário/JSON para confirmar filtros" in todos
+- `tests/test_cli.py:165` — "--metodo",
+- `tests/test_cli.py:256` — "--metodo",
+- `tests/test_cli.py:290` — "--metodo",
+- `tests/test_cnj_jurisprudencia.py:108` — assert "todos os termos" in (empty.completeness_reason or "")
+- `tests/test_provider_closure_ledger.py:24` — "todo": ["revisar robots.txt e agendar nova coleta autorizada"],
+- `tests/test_provider_closure_ledger.py:30` — {"source": "candidate_missing", "todo": ["criar adapter somente após contrato"]}
+- `tests/test_provider_closure_ledger.py:51` — "todo": [
+- `tests/test_provider_closure_ledger.py:73` — "todo": [
+- `tests/test_provider_closure_ledger.py:98` — "todo": ["criar adapter somente apÃ³s contrato"],
+- `tests/test_tjac_ementario_jurisprudencia.py:22` — endpoint="GET /Ementario_TJAC_Vol_XXX_2026.pdf",
+- `tests/test_tjac_ementario_jurisprudencia.py:23` — source_url="https://www.tjac.jus.br/wp-content/uploads/2026/07/Ementario_TJAC_Vol_XXX_2026.pdf",
+- `specs/changes/0091-national-coverage-gold-handoff/CONTINUATION_BRIEF.md:9` — `specs/README.md`, `docs/coverage/README.md` e todos os arquivos deste diretório.
+- `specs/changes/0091-national-coverage-gold-handoff/CONTINUATION_BRIEF.md:41` — bounded e, somente se válida, uma confirmação. Registre URL, método, payload
+- `specs/changes/0091-national-coverage-gold-handoff/design.md:36` — conhece apenas a semântica do tribunal: rota, método, payload, seletores,
+- `specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md:21` — 5. todos os arquivos deste pacote;
+- `specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md:57` — somente quando todos os gates estiverem provados.
+- `specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md:81` — 4. Registre rota, método, payload, limites, filtros, paginação, campos e erros.
+- `specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md:155` — data/método, classificação, evidência redigida, alternativa oficial e ação
+- `specs/changes/0091-national-coverage-gold-handoff/lawful-access-decision-matrix.md:32` — source_id, url, método, data/hora, status HTTP ou fingerprint redigido,
+- `specs/changes/0091-national-coverage-gold-handoff/MODEL_HANDOFF.md:32` — `docs/coverage/README.md` e todos os arquivos deste pacote.
+- `specs/changes/0091-national-coverage-gold-handoff/MODEL_HANDOFF.md:38` — 5. Para cada uma, confirme fonte, grau, metodo, payload, filtros, paginacao,
+- `specs/changes/0091-national-coverage-gold-handoff/MODEL_HANDOFF.md:83` — So habilite uma superficie na federacao quando todos forem verdadeiros:
+- `specs/changes/0091-national-coverage-gold-handoff/MODEL_HANDOFF.md:130` — tribunal, URL, data/metodo, classificacao, evidencia, alternativa oficial e
+- `specs/changes/0091-national-coverage-gold-handoff/provider-workpack-template.md:23` — - endpoint/método:
+- `specs/changes/0091-national-coverage-gold-handoff/provider-workpack-template.md:48` — | Evidência | Método | Resultado | Estado | ID/arquivo |
+- `specs/changes/0091-national-coverage-gold-handoff/research.md:25` — O executor deve registrar URL, data, método e hash/commit das referências que
+- `specs/changes/0091-national-coverage-gold-handoff/spec-of-specs.md:31` — 1. **G0 — baseline:** regenerar todos os inventários e congelar contagens.
+- `specs/changes/0091-national-coverage-gold-handoff/spec.md:69` — - **AC-004:** cada bloqueio tem URL, método, data, estado, evidência redigida e
+- `specs/changes/0091-national-coverage-gold-handoff/tasks.md:125` — - [x] **T043 [L]** manter modo “todos os tribunais” explícito e auditável.
+- `specs/changes/0091-national-coverage-gold-handoff/tasks.md:140` — - [x] **T048 [L]** regenerar todos os inventários e rodar suíte completa.
+- `specs/changes/0091-national-coverage-gold-handoff/tasks.md:141` — - [x] **T049 [L]** auditar TODOs, tarefas pendentes, artefatos desatualizados e

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T22:09:23Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "trf3_jurisprudencia",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "routes": [
+    {
+      "method": "GET",
+      "url": "https://web.trf3.jus.br/acordaos/Acordao",
+      "http_status": null,
+      "content_type": null,
+      "response_bytes": 0,
+      "classification": "blocked_transport",
+      "error_type": "ReadTimeout",
+      "timeout_seconds": 6
+    },
+    {
+      "method": "GET",
+      "url": "https://web.trf3.jus.br/jurisprudencia/Home/ResultadoTotais",
+      "http_status": null,
+      "content_type": null,
+      "response_bytes": 0,
+      "classification": "blocked_transport",
+      "error_type": "ReadTimeout",
+      "timeout_seconds": 6
+    },
+    {
+      "method": "GET",
+      "url": "https://web.trf3.jus.br/jurisprudencia/Home/BuscarSugestao?term=dano",
+      "http_status": null,
+      "content_type": null,
+      "response_bytes": 0,
+      "classification": "blocked_transport",
+      "error_type": "ReadTimeout",
+      "timeout_seconds": 6
+    }
+  ],
+  "promotion_decision": "candidate_only",
+  "promotion_blockers": [
+    "As tres rotas alternativas expiraram por timeout de leitura no ambiente desta rodada.",
+    "Nao foi possivel reproduzir o action/payload do formulario nem uma resposta de jurisprudencia.",
+    "Nao existe fixture de sucesso independente para um parser TRF3."
+  ],
+  "limitations": [
+    "Rechecagem limitada a tres GETs publicos e sem credenciais.",
+    "O timeout e bloqueio de transporte nesta rede, nao prova indisponibilidade permanente da fonte.",
+    "Nenhum corpo, cookie ou token foi persistido; nao foi feito bypass de controles."
+  ]
+}

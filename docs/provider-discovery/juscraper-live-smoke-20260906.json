@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-09-06",
+  "repository": "https://github.com/jtrecenti/juscraper",
+  "commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
+  "method": "one bounded page, public query 'responsabilidade civil', no credentials",
+  "upstream_test_suite": {
+    "command": "pytest --junitxml=juscraper-tests-20260906.xml",
+    "passed": 1795,
+    "skipped": 32,
+    "deselected_integration": 220,
+    "failed": 0,
+    "notes": [
+      "TJMG captcha integration is skipped by the upstream suite.",
+      "pytest-mock and responses were installed only in the temporary audit venv."
+    ]
+  },
+  "upstream_live": [
+    {"court": "TJAC", "status": "data", "rows": 20, "quality": "textual_appellate", "sample_field": "orgao_julgador=Primeira Câmara Cível"},
+    {"court": "TJAL", "status": "data", "rows": 20, "quality": "textual_appellate", "sample_field": "orgao_julgador=3ª Câmara Cível"},
+    {"court": "TJAM", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "orgao_julgador=Segunda Câmara Cível"},
+    {"court": "TJBA", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "ementa"},
+    {"court": "TJCE", "status": "data", "rows": 20, "quality": "textual_appellate", "sample_field": "orgao_julgador=2ª Câmara Criminal"},
+    {"court": "TJDFT", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "decisao/ementa"},
+    {"court": "TJES", "status": "data", "rows": 20, "quality": "textual_appellate", "sample_field": "classe=APELAÇÃO CÍVEL"},
+    {"court": "TJGO", "status": "empty_unconfirmed", "rows": 0, "quality": "not_promoted", "sample_field": "HTTP 200 sem registros"},
+    {"court": "TJMS", "status": "data", "rows": 100, "quality": "textual_appellate", "sample_field": "orgao_julgador=5ª Câmara Cível"},
+    {"court": "TJMT", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "classe=APELAÇÃO CÍVEL"},
+    {"court": "TJPA", "status": "data_quality_warning", "rows": 25, "quality": "identity_present_ementa_empty", "sample_field": "classe=Agravo de Instrumento"},
+    {"court": "TJPB", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "ementa"},
+    {"court": "TJPE", "status": "data", "rows": 5, "quality": "textual_appellate", "sample_field": "acordao/ementa"},
+    {"court": "TJPI", "status": "data", "rows": 25, "quality": "textual_appellate", "sample_field": "inteiro_teor/ementa"},
+    {"court": "TJPR", "status": "access_content", "rows": 50, "quality": "not_validated", "sample_field": "resposta contém ACESSO RESTRITO"},
+    {"court": "TJRN", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "tipo_decisao/ementa"},
+    {"court": "TJRO", "status": "empty_unconfirmed", "rows": 0, "quality": "not_promoted", "sample_field": "HTTP 200 sem registros"},
+    {"court": "TJRR", "status": "data", "rows": 20, "quality": "textual_appellate", "sample_field": "classe=AC - Apelação Cível"},
+    {"court": "TJRS", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "documento_text/ementa"},
+    {"court": "TJSC", "status": "data_quality_warning", "rows": 10, "quality": "textual_but_identity_incomplete", "sample_field": "processo=nan em amostra"},
+    {"court": "TJSP", "status": "data", "rows": 20, "quality": "textual_appellate", "sample_field": "orgao_julgador=10ª Câmara de Direito Criminal"},
+    {"court": "TJRJ", "status": "data", "rows": 10, "quality": "textual_appellate", "sample_field": "tipo_documento=Acórdão"},
+    {"court": "TJTO", "status": "access_blocked", "rows": null, "quality": "not_promoted", "sample_field": "HTTP 403 após 3 tentativas"}
+  ],
+  "nanojuris_live_retest": [
+    {"provider": "tjac_cjsg", "status": "data", "rows": 5, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjal_cjsg", "status": "data", "rows": 5, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjam_cjsg", "status": "data", "rows": 5, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjms_cjsg", "status": "data", "rows": 5, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjce_cjsg", "status": "data", "rows": 10, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjsp_cjsg", "status": "data", "rows": 10, "access_status": "public", "extraction_status": "complete"}
+  ],
+  "nanojuris_discrepancy_retest": [
+    {"provider": "tjgo_projudi_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjro_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjpr_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjpa_jurisprudencia_bff", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjpe_jurisprudencia", "status": "source_unavailable", "rows": null, "access_status": "not_observed", "extraction_status": "not_observed", "note": "REST pública indisponível nesta rede; não houve bypass do fallback JSF"},
+    {"provider": "tjrr_juris", "status": "data", "rows": 10, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjsc_eproc_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjto_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjrn_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjrj_eproc_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"}
+  ],
+  "nanojuris_remaining_retest": [
+    {"provider": "tjba_graphql", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjdf_juris", "status": "data", "rows": 3, "access_status": "not_observed", "extraction_status": "not_observed", "note": "provider retornou registros; SearchPage nÃ£o expÃµe status de acesso"},
+    {"provider": "tjes_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjmt_jurisprudencia_api", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjpb_pje_jurisprudencia", "status": "contract_error", "rows": null, "access_status": "public", "extraction_status": "invalid", "note": "ParserContractChangedError: resposta continha registro explicitamente de primeiro grau"},
+    {"provider": "tjpi_juspi", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"},
+    {"provider": "tjrs_solr", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete"}
+  ],
+  "comparison": {
+    "phase": "initial_retest_before_parity_fixes",
+    "courts_compared": 23,
+    "juscraper_strict_data": 17,
+    "nanojuris_strict_data": 15,
+    "juscraper_data_nanojuris_not_working": 2,
+    "mismatches": [
+      {"court": "TJPB", "juscraper": "data", "nanojuris": "contract_error", "reason": "registro explicitamente classificado como primeiro grau"},
+      {"court": "TJPE", "juscraper": "data", "nanojuris": "source_unavailable", "reason": "endpoint REST pÃºblico indisponÃ­vel nesta rede; fallback JSF nÃ£o contornado"}
+    ],
+    "nanojuris_works_where_juscraper_does_not": ["TJGO", "TJRO", "TJPR", "TJTO"]
+  },
+  "nanojuris_jsf_retest": [
+    {"provider": "tjpe_jurisprudencia", "transport": "jsf", "status": "data", "rows": 3, "note": "POST consulta.xhtml + ViewState/cookies; no bypass"},
+    {"provider": "tjpe_jurisprudencia", "transport": "auto", "status": "data", "rows": 3, "note": "fallback JSF acionado apos falha de transporte REST"}
+  ],
+  "nanojuris_parity_fix_retest": [
+    {"provider": "tjpb_pje_jurisprudencia", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete", "degree_values": ["second"], "collection": "CJSG"},
+    {"provider": "tjpe_jurisprudencia", "transport": "auto", "status": "data", "rows": 3, "access_status": "public", "extraction_status": "complete", "degree_values": ["second"], "collection": "CJSG", "note": "reteste com transporte padrao apos ajuste"}
+  ],
+  "comparison_after_parity_fix": {
+    "courts_compared": 23,
+    "juscraper_strict_data": 17,
+    "nanojuris_strict_data": 17,
+    "juscraper_data_nanojuris_not_working": 0,
+    "mismatches": []
+  },
+  "comparison_after_jsf_retest": {
+    "courts_compared": 23,
+    "juscraper_strict_data": 17,
+    "nanojuris_strict_data": 16,
+    "juscraper_data_nanojuris_not_working": 1,
+    "mismatches": [
+      {"court": "TJPB", "juscraper": "data", "nanojuris": "contract_error", "reason": "heuristica de sentenca rejeitou texto de ementa"}
+    ],
+    "nanojuris_works_where_juscraper_does_not": ["TJGO", "TJRO", "TJPR", "TJTO"]
+  },
+  "nanojuris_tjpb_contract_fix_retest": {
+    "provider": "tjpb_pje_jurisprudencia",
+    "query": "responsabilidade civil",
+    "status": "data",
+    "rows": 1,
+    "reported_total": 26092,
+    "total_known": true,
+    "access_status": "public",
+    "extraction_status": "complete",
+    "degree_values": ["second"],
+    "collection": "CJSG",
+    "note": "classe processual nao e usada como marcador de primeiro grau; marcadores de grau explicitos continuam protegidos"
+  },
+  "interpretation": {
+    "same_transport_technique": false,
+    "techniques": [
+      "e-SAJ POST resultadoCompleta.do + GET trocaDePagina.do",
+      "headers de sessão e UA compatíveis com a fonte",
+      "TJCE TLS legado apenas com verificação de certificado mantida",
+      "diagnóstico de acesso aplicado ao GET autoritativo, nunca ao ack POST",
+      "sem bypass de CAPTCHA, WAF, login ou controle de acesso"
+    ],
+    "transport_differences": {
+      "tjpe": "Juscraper usa JSF/RichFaces com ViewState; NanoJuris REST era o padrao, mas jsf/auto agora retornam dados",
+      "tjpb": "Juscraper fixa id_origem=8,2 e usa as chaves do backend; NanoJuris ainda tem validacao textual excessiva"
+    },
+    "promotion_claim": "none; live evidence alone does not change federation rollout",
+    "latest_fix": "TJPB aceita ementas de acórdãos mesmo quando mencionam sentença; somente campos estruturados de grau primeiro são rejeitados"
+  }
+}

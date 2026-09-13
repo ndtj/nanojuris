@@ -1,0 +1,43 @@
+{
+  "collection": [
+    {
+      "Cd_Jurisprudencia": "4880",
+      "Cd_Relator": "11",
+      "Cd_Relator_Acordao": "",
+      "Cd_Revisor": "",
+      "DataPublicacaoArquivo": null,
+      "Decisao": "Unânime",
+      "Ementa": "EMENTA sanitizada sobre responsabilidade administrativa.",
+      "Jme": "",
+      "Materia": "T",
+      "NomeArquivo": "acordao-sanitizado-2020.pdf",
+      "Numero": "0000000-00.2020.9.13.0000",
+      "NumeroAntigo": "",
+      "Referencia": "0000000-00.2020.9.13.0001",
+      "Relator": "Juiz Teste",
+      "Revisor": "",
+      "Sumario": "",
+      "Texto": "Processo sanitizado. Texto integral de teste.",
+      "TipoDecisao": "A",
+      "classe_nome": "Apelação Cível",
+      "cod_classe": "198",
+      "data_julgamento": "2020-01-02 00:00:00.000",
+      "data_julgamento_formatada": "02/01/2020",
+      "data_publicacao": null,
+      "data_publicacao_formatada": "",
+      "datajulgamentoalterada": null,
+      "datapublicacaoalterada": null,
+      "highlight": {},
+      "id_index": "4880",
+      "index": 1,
+      "nome_relator": "JUIZ TESTE",
+      "nome_relator_acordao": "",
+      "nome_revisor": "",
+      "paragrafos": [],
+      "pje": false,
+      "qtd_sumulas": 0,
+      "row_num": "3201",
+      "sigla": "ApCiv"
+    }
+  ]
+}

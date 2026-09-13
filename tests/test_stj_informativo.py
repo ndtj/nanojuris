@@ -21,10 +21,19 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 
 class FakeResponse:
-    def __init__(self, text: str, status_code: int = 200):
+    def __init__(self, text: str, status_code: int = 200, content_type: str = "text/html"):
         self.text = text
+        self.content = text.encode("utf-8")
         self.status_code = status_code
         self.encoding = "utf-8"
+        self.headers = {"Content-Type": content_type}
+        self.is_redirect = False
+
+    def iter_content(self, chunk_size: int = 65536):
+        yield self.content
+
+    def close(self):
+        return None
 
 
 class FakeSession:
@@ -40,6 +49,9 @@ class FakeSession:
         if isinstance(response, Exception):
             raise response
         return response
+
+    def request(self, method, url, **kwargs):
+        return self.get(url, **kwargs)
 
 
 def _fixture_html() -> str:
@@ -67,7 +79,30 @@ def test_parse_stj_informativo_results_maps_fixture():
     assert first.raw["period"] == "18 a 31 de outubro de 2012"
     assert first.raw["orgao_julgador"] == "Quinta Turma"
     assert first.raw["document_url"].endswith("livre=HC+228998")
+    assert first.raw["acordao_url"].endswith("livre=HC+228998")
+    assert first.raw["cnot_url"].endswith("livre=@CNOT=013685")
     assert "não há crime de aborto" in first.summary
+
+
+def test_parse_stj_informativo_separates_links_for_multiple_notes():
+    html = (FIXTURES / "stj_informativo_multiplas_notas.html").read_text(encoding="utf-8")
+
+    page = parse_stj_informativo_results(
+        html,
+        query=JurisprudenceQuery(page_size=10),
+        trace=SourceTrace(provider="stj_informativo", endpoint="GET informativo"),
+        base_url="https://processo.stj.jus.br",
+    )
+
+    assert len(page.results) == 2
+    assert [result.number for result in page.results] == [
+        "HC 123.456-SP",
+        "RMS 654.321-RJ",
+    ]
+    assert page.results[0].raw["acordao_url"].endswith("livre=HC+123456")
+    assert page.results[0].raw["cnot_url"].endswith("livre=@CNOT=090001")
+    assert page.results[1].raw["acordao_url"].endswith("livre=RMS+654321")
+    assert page.results[1].raw["cnot_url"].endswith("livre=@CNOT=090002")
 
 
 def test_parse_stj_informativo_results_filters_by_case_number():
@@ -111,6 +146,33 @@ def test_provider_get_decisions_reports_note_scope():
     assert bundle.source == "stj_informativo"
     assert bundle.texts == []
     assert "public note text" in bundle.raw["message"]
+
+
+def test_provider_fetches_observed_public_cnot_note():
+    session = FakeSession(
+        [
+            FakeResponse(_fixture_html()),
+            FakeResponse(
+                "<html><body><article>Nota pública integral do informativo.</article></body></html>"
+            ),
+        ]
+    )
+    provider = StjInformativoProvider(session=session)
+
+    page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=5))
+    document = provider.get_document(page.results[0].id)
+
+    assert document.access_status.value == "public"
+    assert document.extraction_status.value == "complete"
+    assert "Nota pública integral" in (document.text or "")
+    assert len(session.calls) == 2
+
+
+def test_provider_rejects_untrusted_document_url():
+    provider = StjInformativoProvider(session=FakeSession([]))
+
+    with pytest.raises(ValueError, match="allowlist"):
+        provider.get_document("https://example.invalid/cnot.html")
 
 
 def test_client_registers_stj_informativo_by_default():
@@ -176,6 +238,8 @@ def test_parse_stj_informativo_maps_live_like_title_fallback():
     first = page.results[0]
     assert first.raw["title"].startswith("DIREITO PENAL. CRIME DE ABORTO")
     assert first.raw["document_url"].endswith("livre=@CNOT=013685")
+    assert first.raw["acordao_url"] is None
+    assert first.raw["cnot_url"].endswith("livre=@CNOT=013685")
 
 
 def test_provider_detects_access_control_without_bypass():

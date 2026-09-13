@@ -1,0 +1,50 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-11T00:00:00Z",
+  "provider": "tjrs_banco_sentencas",
+  "source_id": "tjrs_banco_sentencas",
+  "authority": "TJRS",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "source_url": "https://www.tjrs.jus.br/novo/busca/?site=sentencas",
+  "requests": [
+    {
+      "method": "GET",
+      "url": "https://www.tjrs.jus.br/novo/jurisprudencia-e-legislacao/jurisprudencia/",
+      "status": 200,
+      "content_type": "text/html",
+      "scope": "official_entry_point",
+      "result_contract": false
+    },
+    {
+      "method": "GET",
+      "url": "https://www.tjrs.jus.br/novo/busca/?site=sentencas&q=divorcio",
+      "status": 200,
+      "content_type": "text/html",
+      "scope": "bounded_search_probe",
+      "result_contract": false,
+      "note": "A rota redireciona para a busca geral do portal; nenhum registro decisorio de sentenca foi exposto."
+    }
+  ],
+  "observations": {
+    "entry_page_text": "Pesquisa de acesso exclusivo do Poder Judiciario do RS.",
+    "public_results": false,
+    "pagination_observed": false,
+    "document_routes_observed": false
+  },
+  "classification": {
+    "status": "access_control_required",
+    "contract_status": "not_proven",
+    "promotion": "not_promoted",
+    "reason": "O proprio portal informa que o Banco de Sentencas e de acesso exclusivo ao Poder Judiciario do RS; a sonda publica nao expos resultados, filtros ou documentos."
+  },
+  "safety": {
+    "bypass_used": false,
+    "credentials_used": false,
+    "response_body_persisted": false,
+    "rate_limit_respected": true
+  },
+  "next_action": "Solicitar API ou exportacao oficial publica ao TJRS; nao repetir sondas nem contornar autenticacao."
+}

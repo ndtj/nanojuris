@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.local/schemas/provider-quality.schema.json",
+  "title": "NanoJuris provider quality scorecard",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "source_catalog",
+    "catalog_sha256",
+    "scope",
+    "dimensions",
+    "golden_set",
+    "summary",
+    "entries"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "generated_at": {"type": ["string", "null"]},
+    "source_catalog": {"type": "string"},
+    "catalog_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "scope": {
+      "type": "object",
+      "required": [
+        "network",
+        "runtime_scorecards",
+        "all_catalog_entries",
+        "live_health_is_separate",
+        "gold_requires_zero_critical_gaps"
+      ],
+      "properties": {
+        "network": {"const": false},
+        "runtime_scorecards": {"type": "integer", "minimum": 0},
+        "all_catalog_entries": {"type": "integer", "minimum": 0},
+        "live_health_is_separate": {"const": true},
+        "gold_requires_zero_critical_gaps": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "weight"],
+        "properties": {
+          "id": {"type": "string"},
+          "weight": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      },
+      "minItems": 9
+    },
+    "golden_set": {
+      "type": "object",
+      "required": ["path", "sha256", "schema_version", "scenarios"],
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "schema_version": {"type": "string"},
+        "scenarios": {"type": "array", "items": {"type": "string"}, "minItems": 8}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "providers",
+        "runtime",
+        "candidates_and_families",
+        "critical_gap_providers",
+        "by_quality_tier",
+        "by_live_status"
+      ],
+      "properties": {
+        "providers": {"type": "integer", "minimum": 0},
+        "runtime": {"type": "integer", "minimum": 0},
+        "candidates_and_families": {"type": "integer", "minimum": 0},
+        "critical_gap_providers": {"type": "integer", "minimum": 0},
+        "by_quality_tier": {"type": "object"},
+        "by_live_status": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "lifecycle",
+          "quality_tier",
+          "score",
+          "critical_gaps",
+          "live_status",
+          "dimensions",
+          "evidence_summary"
+        ],
+        "properties": {
+          "source_id": {"type": "string"},
+          "lifecycle": {"type": "string"},
+          "quality_tier": {
+            "enum": ["gold", "silver", "bronze", "blocked", "mapped"]
+          },
+          "score": {"type": "integer", "minimum": 0, "maximum": 100},
+          "critical_gaps": {"type": "array", "items": {"type": "string"}},
+          "live_status": {"type": "string"},
+          "dimensions": {"type": "object"},
+          "evidence_summary": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

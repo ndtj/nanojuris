@@ -85,6 +85,12 @@ def test_tjmt_parser_extracts_inline_full_text_and_separates_dates() -> None:
     )
     assert result.raw["document_content_type"] == "text/html"
     assert result.raw["full_text_status"] == "inline"
+    assert result.degree == "second"
+    assert result.instance == "second"
+    assert result.branch == "state"
+    assert result.authority == "TJMT"
+    assert result.collection == "CJSG"
+    assert result.document_type == "acordao"
 
 
 def test_tjmt_builds_public_query_contract() -> None:
@@ -108,6 +114,14 @@ def test_tjmt_builds_public_query_contract() -> None:
     assert params["filtro.periodoDataDe"] == "02/01/2026"
     assert params["filtro.periodoDataAte"] == "03/02/2026"
     assert params["filtro.ordenacao.ordenarPor"] == "DataDecrescente"
+
+
+def test_tjmt_rejects_first_degree_or_unrelated_collection() -> None:
+    provider = TjmtJurisprudenciaApiProvider(NanoJurisConfig(rate_limit_interval=0))
+    with pytest.raises(QueryRejectedError, match="segundo grau"):
+        provider.search(JurisprudenceQuery(text="dano moral", degree="first"))
+    with pytest.raises(QueryRejectedError, match="colecao"):
+        provider.search(JurisprudenceQuery(text="dano moral", collection="CJPG"))
 
 
 def test_tjmt_provider_reads_config_and_never_traces_runtime_token() -> None:
@@ -137,6 +151,26 @@ def test_tjmt_provider_reads_config_and_never_traces_runtime_token() -> None:
     assert "public-runtime-token" not in trace_text
     assert session.calls[1]["kwargs"]["params"]["filtro.indicePagina"] == "2"
     assert session.calls[1]["kwargs"]["params"]["token"] == "public-runtime-token"
+
+
+def test_tjmt_inline_document_is_exposed_after_search() -> None:
+    session = FakeSession(
+        [
+            FakeResponse(config_data()),
+            FakeResponse(fixture_data()),
+        ]
+    )
+    provider = TjmtJurisprudenciaApiProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
+    page = provider.search(JurisprudenceQuery(text="dano moral", page_size=5))
+    document = provider.get_document(page.results[0].id)
+    assert document.text == page.results[0].full_text
+    assert document.raw_metadata["inline"] is True
+    assert document.source_trace is not None
+    bundle = provider.get_decisions(page.results[0].id)
+    assert bundle.texts[0]["content"] == page.results[0].full_text
+    assert bundle.raw["inline"] is True
 
 
 def test_tjmt_rejects_contract_root_without_collection() -> None:

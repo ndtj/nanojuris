@@ -27,6 +27,10 @@ class FakeSession:
     def __init__(self, responses: list[Any]):
         self.responses = list(responses)
         self.calls: list[dict[str, Any]] = []
+        self.mounts: list[tuple[str, Any]] = []
+
+    def mount(self, prefix: str, adapter: Any) -> None:
+        self.mounts.append((prefix, adapter))
 
     def request(self, method: str, url: str, **kwargs: Any) -> FakeResponse:
         self.calls.append({"method": method, "url": url, "kwargs": kwargs})
@@ -37,11 +41,15 @@ class FakeSession:
 
 
 def _fixture_html() -> str:
-    return (FIXTURES / "tjsp_cjsg_result.html").read_text(encoding="utf-8")
+    return (FIXTURES / "tjce_cjsg_result.html").read_text(encoding="utf-8")
+
+
+def _ack_html() -> str:
+    return (FIXTURES / "tjsp_cjsg_ack.html").read_text(encoding="utf-8")
 
 
 def test_tjce_search_reuses_cjsg_contract_with_own_identity() -> None:
-    session = FakeSession([FakeResponse(_fixture_html())])
+    session = FakeSession([FakeResponse(_ack_html()), FakeResponse(_fixture_html())])
     provider = TjceCjsgProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
     page = provider.search(JurisprudenceQuery(text="responsabilidade civil", page_size=2))
@@ -49,20 +57,62 @@ def test_tjce_search_reuses_cjsg_contract_with_own_identity() -> None:
     assert page.source == "tjce_cjsg"
     assert page.results[0].source == "tjce_cjsg"
     assert page.results[0].court == "TJCE"
+    assert (page.results[0].degree, page.results[0].instance) == ("second", "second")
+    assert (page.results[0].branch, page.results[0].authority, page.results[0].collection) == (
+        "state",
+        "TJCE",
+        "CJSG",
+    )
     assert page.results[0].id.startswith("tjce-cjsg-")
     assert session.calls[0]["url"] == "https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do"
+    assert session.calls[1]["method"] == "GET"
+    assert session.calls[1]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
+    assert session.mounts and session.mounts[0][0] == "https://esaj.tjce.jus.br/"
+
+
+def test_tjce_ignores_access_flags_in_post_ack_when_get_has_results() -> None:
+    """The e-SAJ POST ack may contain captcha markup; GET is authoritative."""
+
+    session = FakeSession(
+        [
+            FakeResponse("<html><div class='g-recaptcha'></div></html>"),
+            FakeResponse(_fixture_html()),
+        ]
+    )
+    provider = TjceCjsgProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(JurisprudenceQuery(text="responsabilidade civil", page_size=2))
+
+    assert page.results
+    assert page.access_status.value == "public"
+
+
+def test_tjce_fixture_has_ceara_provenance_not_tjsp_records() -> None:
+    html = _fixture_html()
+
+    assert ".8.06." in html
+    assert "Fortaleza" in html
+    assert "tjsp" not in html.lower()
 
 
 def test_tjce_page_two_uses_public_session_route() -> None:
     fixture = _fixture_html()
-    session = FakeSession([FakeResponse(fixture), FakeResponse(fixture)])
+    session = FakeSession(
+        [
+            FakeResponse(_ack_html()),
+            FakeResponse(fixture),
+            FakeResponse(fixture),
+        ]
+    )
     provider = TjceCjsgProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
 
     provider.search(JurisprudenceQuery(text="responsabilidade civil", page=2))
 
-    assert len(session.calls) == 2
+    assert len(session.calls) == 3
     assert "/trocaDePagina.do?" in session.calls[1]["url"]
-    assert "pagina=2" in session.calls[1]["url"]
+    assert "pagina=1" in session.calls[1]["url"]
+    assert "/trocaDePagina.do?" in session.calls[2]["url"]
+    assert "pagina=2" in session.calls[2]["url"]
 
 
 def test_tjce_document_preserves_raw_bytes_and_source_identity() -> None:
@@ -109,3 +159,4 @@ def test_tjce_capabilities_use_official_host() -> None:
     assert capabilities.source == "tjce_cjsg"
     assert capabilities.source_url == "https://esaj.tjce.jus.br/cjsg"
     assert capabilities.supports_full_text
+    assert capabilities.supports_unified_search

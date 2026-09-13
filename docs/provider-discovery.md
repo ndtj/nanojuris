@@ -116,6 +116,55 @@ nova evidência; nenhum item é removido silenciosamente.
 python tools/build_provider_closure_ledger.py
 ```
 
+A rodada live bounded mais recente de todos os providers esta em
+[`all-provider-sweep-20260902-cycle24.json`](provider-discovery/all-provider-sweep-20260902-cycle24.json).
+
+## Descoberta nacional de primeiro grau
+
+Para mapear rotas públicas de sentenças/CJPG nos 27 TJs sem inferir cobertura,
+execute a sondagem bounded:
+
+```bash
+python tools/discover_first_degree_routes.py --probe-candidates
+```
+
+O resultado fica em
+[`first-degree-route-inventory-20260906.json`](provider-discovery/first-degree-route-inventory-20260906.json)
+e no respectivo Markdown. O comando consulta apenas páginas oficiais, registra
+metadados e hashes (nunca corpos), e classifica cada rota como processual,
+candidata a jurisprudência ou contextual. Rotas candidatas ainda exigem
+contrato, fixture, chamada live, qualidade e gate de federação próprios.
+Ela observou 50 providers, 146 rotas declaradas e 2.394 observacoes de rotas;
+os oito candidates tambem foram sondados em
+[`catalog-candidates-sweep-20260902-cycle25.md`](provider-discovery/catalog-candidates-sweep-20260902-cycle25.md)
+e no JSON correspondente. Dez fontes exibiram sinais de controle de acesso.
+Observacao de rota nao equivale a retorno de jurisprudencia e estados de
+robots, acesso, vazio e resposta valida continuam sendo diagnosticos, nao
+promocoes. O sweep anterior permanece como evidencia historica.
+
+Os contratos de dados publicos exercitados na mesma janela estao em
+[`public-contract-live-20260902-cycle21.md`](provider-discovery/public-contract-live-20260902-cycle21.md).
+Foram nove cenarios validos e dois bloqueios de acesso (STJ/SCON e TJSP/CJSG),
+sem converter bloqueios em resultados vazios.
+
+A rechecagem bounded de paginaÃ§Ã£o do TJRN (duas paginas, 20 registros e total
+53.366) estÃ¡ em
+[`tjrn-jurisprudencia-pagination-live-20260902-cycle22.md`](provider-discovery/tjrn-jurisprudencia-pagination-live-20260902-cycle22.md).
+Ela confirma apenas a janela page=1/page=2 e mantÃ©m o provider como opt-in.
+
+O ciclo 3 rechecóu as rotas alternativas oficiais do candidato TRF3 e registrou
+timeouts de transporte sem os converter em resultados vazios:
+[`trf3-live-recheck-20260901-cycle3.md`](provider-discovery/trf3-live-recheck-20260901-cycle3.md).
+
+## Rechecagem de bindings de grau
+
+A rechecagem bounded dos bindings de grau CJPG/CJSG está em
+[`degree-bindings-live-20260902-cycle26.md`](provider-discovery/degree-bindings-live-20260902-cycle26.md).
+TJES/CJPG, TJES/CJSG e TJSP/CJPG retornaram registros jurídicos reais com
+HTTP 200; TJSP/CJSG permaneceu bloqueado por CAPTCHA/WAF/login e não foi
+convertido em resultado vazio. O artefato registra apenas metadados e hashes,
+sem persistir corpos de resposta.
+
 ## Coleta longa e retomável
 
 Depois que o contrato e os fixtures forem aprovados, a coleta pode ser executada
@@ -131,7 +180,19 @@ nanojuris coletar "responsabilidade civil" \
   --checkpoint .tmp/tjgo.checkpoint.json
 ```
 
-O checkpoint é validado contra a fonte e a consulta, é gravado atomicamente e
-retoma na próxima página. Falhas de provider, canonicalização ou acesso ficam
-no relatório; uma página vazia não é confundida com bloqueio ou inexistência de
-dados. O mesmo fluxo está disponível no cliente Python e no MCP.
+O checkpoint v2 é validado contra a fonte, a intenção da consulta e o contrato
+declarado do provider. Ele guarda `run_id`, contadores, tentativas e hashes
+estruturais das páginas (sem persistir conteúdo bruto), é gravado com `fsync` e
+replace atômico e retoma na próxima página. Checkpoints legados v1 são
+recusados para retomada até que a coleta seja reiniciada explicitamente com
+`resume=False`. Falhas de provider, canonicalização ou acesso ficam no
+relatório; uma página vazia não é confundida com bloqueio ou inexistência de
+dados. O relatório também expõe freshness por coleta (`observed_at`), sem
+inferir uma data de atualização do tribunal. O mesmo fluxo está disponível no
+cliente Python e no MCP.
+
+O cache de discovery não é limpo automaticamente. Quando houver política local
+de retenção, use `DiscoveryCache.cleanup(max_age_seconds=..., max_bytes=...)`;
+ela atua apenas nos JSON diretos do diretório configurado, remove os mais
+antigos primeiro e devolve contadores/erros para auditoria. O limite é opt-in e
+não apaga artefatos fora desse diretório.

@@ -138,8 +138,11 @@ canonico completo e colunas indexaveis para filtros frequentes:
 - `updated_at`
 
 Buscas salvas ficam em `research_runs`, e seus vinculos com registros canonicos
-ficam em `research_run_records`. Isso permite retomar uma pesquisa por `run_id`
-sem duplicar os dados canonicos.
+ficam em `research_run_records`. A coluna opcional `manifest_json` preserva o
+manifesto versionado de uma coleta (completude, fingerprints, janela e
+falhas), sem armazenar bytes brutos. Isso permite auditar e retomar uma
+pesquisa por `run_id` sem duplicar os dados canonicos; bancos legados recebem a
+coluna automaticamente na inicialização.
 
 ## Exportacao de buscas salvas
 
@@ -154,6 +157,34 @@ sem duplicar os dados canonicos.
 data de publicacao, atualizacao e id, permitindo percorrer o mesmo run em paginas.
 
 Essa abordagem evita perda de dados enquanto o schema nacional ainda evolui.
+
+## Tombstones com prova de fonte
+
+Remoção não é inferida pela ausência em uma busca. Quando um tribunal publica
+um tombstone, manifesto de ausência explícita ou retratação, o chamador pode
+registrar a evidência de forma opt-in:
+
+```python
+from nanojuris import SQLiteStore, TombstoneEvidence
+
+with SQLiteStore("nanojuris.db") as store:
+    store.record_tombstone(
+        TombstoneEvidence(
+            source="tjsp_cjsg",
+            canonical_key="decision|tjsp_cjsg|tjsp|0003938-14.2017.8.26.0323|acordao",
+            evidence_url="https://www.tjsp.jus.br/arquivo/remocao.csv",
+            evidence_sha256="sha256:" + "a" * 64,
+            evidence_type="official_absence_manifest",
+            observed_at="2026-09-01T12:00:00Z",
+            reason="manifesto oficial informa remoção explícita",
+        )
+    )
+```
+
+O registro exige URL HTTPS pública, SHA-256 e tipo de evidência reconhecido.
+Ele preserva a decisão canônica e apenas acrescenta provenance consultável por
+`list_tombstones`; não oculta, remove ou rebaixa registros automaticamente.
+O contrato JSON está em `docs/schemas/tombstone-evidence-v1.schema.json`.
 
 ## Deduplicacao canonica
 

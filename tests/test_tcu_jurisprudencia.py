@@ -85,3 +85,34 @@ def test_manifest_fixture_preserves_official_dataset_metadata() -> None:
 def test_manifest_contract_change_fixture_is_explicit() -> None:
     with pytest.raises(ParserContractChangedError, match="header"):
         parse_tcu_manifest(fixture_bytes("tcu_manifest_contract_changed.txt").decode("utf-8"))
+
+
+def test_search_selected_dataset_maps_canonical_fields() -> None:
+    response = StreamResponse(
+        fixture_bytes("tcu_jurisprudencia_selecionada.csv"),
+        url="https://sites.tcu.gov.br/dados-abertos/jurisprudencia/jurisprudencia-selecionada.csv",
+    )
+    provider = TcuJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([response])
+    )
+
+    page = provider.search(
+        JurisprudenceQuery(
+            text="prescrição",
+            collection="jurisprudencia-selecionada",
+            published_from="2026-01-01",
+            published_to="2026-12-31",
+            page_size=1,
+        )
+    )
+
+    result = page.results[0]
+    assert result.id == "tcu-jurisprudencia-selecionada-SEL-1"
+    assert result.number == "2193"
+    assert result.summary and "prescrição" in result.summary
+    assert result.judgment_date == "2026-09-01"
+    assert result.judging_body == "Plenário"
+    assert result.branch == "control"
+    assert result.collection == "jurisprudencia_selecionada"
+    assert page.total_known is False
+    assert page.filters_applied["collection"] == "translated"

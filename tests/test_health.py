@@ -21,9 +21,16 @@ from nanojuris.models import JurisprudenceQuery, JurisprudenceResult, SearchPage
 
 
 class FakeProvider:
-    def __init__(self, name: str, *, results: list[JurisprudenceResult] | None = None):
+    def __init__(
+        self,
+        name: str,
+        *,
+        results: list[JurisprudenceResult] | None = None,
+        explicit_empty: bool = True,
+    ):
         self.name = name
         self.results = results or []
+        self.explicit_empty = explicit_empty
         self.error: Exception | None = None
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
@@ -40,8 +47,9 @@ class FakeProvider:
             page_size=query.page_size,
             results=self.results,
             pagination_mode="page",
-            is_complete=False if self.results else True,
+            is_complete=False if self.results else self.explicit_empty,
             completeness_reason="fixture",
+            total_known=self.explicit_empty,
         )
 
 
@@ -79,6 +87,14 @@ def test_check_provider_distinguishes_results_and_empty_success():
     assert healthy.returned == 1
     assert empty.status == ProviderHealthStatus.EMPTY
     assert empty.operational is True
+
+
+def test_check_provider_does_not_call_unknown_empty_healthy():
+    report = check_provider(FakeProvider("unknown-empty", explicit_empty=False))
+
+    assert report.status == ProviderHealthStatus.EMPTY_UNCONFIRMED
+    assert report.operational is False
+    assert report.total_known is False
 
 
 @pytest.mark.parametrize(

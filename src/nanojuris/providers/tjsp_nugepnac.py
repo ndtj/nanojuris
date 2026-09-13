@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import time
+from collections.abc import Iterable
 from typing import Any
 from urllib.parse import parse_qs, urljoin, urlparse
 
@@ -11,13 +12,16 @@ import requests
 from bs4 import BeautifulSoup, Tag
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
+    AccessControlRequiredError,
     ParserContractChangedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -27,6 +31,7 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import TransportPolicy
 
 PROCESS_NUMBER_RE = re.compile(r"\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}")
 
@@ -44,6 +49,16 @@ class TjspNugepnacProvider(JurisprudenceProvider):
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
+        tjsp_host = urlparse(self.config.tjsp_url).hostname or "www.tjsp.jus.br"
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(tjsp_host, "esaj.tjsp.jus.br"),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         precedent_types = _selected_precedent_types(query.types)
@@ -100,17 +115,72 @@ class TjspNugepnacProvider(JurisprudenceProvider):
 
         start_index = (query.page - 1) * query.page_size
         limited = results[start_index : start_index + query.page_size]
+        for result in results:
+            links = result.raw.get("related_links") if isinstance(result.raw, dict) else None
+            if isinstance(links, list):
+                document_link = _select_document_link(links)
+                if document_link is not None:
+                    self._document_urls[result.id] = document_link
         start = start_index + 1 if limited else 0
+        # The public catalog has a finite, observable link set when no
+        # content-dependent detail filter is requested.  For text searches,
+        # matching requires fetching detail pages and the complete total is
+        # intentionally unknown rather than being reported as zero.
+        total_known = not bool(normalized_query)
+        reported_total = len(candidates) if total_known else len(results)
         return SearchPage(
             source=self.name,
-            total=len(results),
+            total=reported_total,
             start=start,
             end=start + len(limited) - 1 if limited else 0,
             page=query.page,
             page_size=query.page_size,
             results=limited,
             source_trace=trace,
+            total_known=total_known,
+            is_complete=total_known and start_index + len(limited) >= reported_total,
         )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch an observed TJSP/NugepNac related decision document."""
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "TJSP/NugepNac document_id must be an observed official HTTPS URL or a result id"
+            )
+        parsed = urlparse(document_url)
+        allowed_hosts = {
+            urlparse(self.config.tjsp_url).hostname or "www.tjsp.jus.br",
+            "esaj.tjsp.jus.br",
+        }
+        if parsed.hostname not in allowed_hosts:
+            raise ValueError("TJSP/NugepNac document URL is outside the official host allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            document_type="acordao_relacionado",
+            expected_content_types=("application/pdf", "text/html", "text/plain"),
+        )
+        document = fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title="TJSP NugepNac Acordao Relacionado",
+        )
+        if not (document.text or "").strip():
+            body = (document.raw_bytes or b"").decode("utf-8", errors="ignore").casefold()
+            if "captcha" in body or "recaptcha" in body:
+                raise AccessControlRequiredError(
+                    "TJSP/NugepNac inteiro teor exige validacao de acesso"
+                )
+            raise ParserContractChangedError("TJSP/NugepNac document returned no extractable text")
+        return document
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         detail_path = _detail_path_from_id(precedent_id)
@@ -142,6 +212,7 @@ class TjspNugepnacProvider(JurisprudenceProvider):
             canonical_records=["CanonicalPrecedent"],
             extracted_fields=[
                 "theme_number",
+                "id",
                 "precedent_type",
                 "status",
                 "case_number",
@@ -149,7 +220,18 @@ class TjspNugepnacProvider(JurisprudenceProvider):
                 "judging_body",
                 "rapporteur",
                 "admission_date",
+                "admissibility_publication_date",
                 "merit_judgment_date",
+                "merit_publication_date",
+                "judgment_date",
+                "publication_date",
+                "document_url",
+                "degree",
+                "instance",
+                "branch",
+                "authority",
+                "collection",
+                "document_type",
                 "question",
                 "thesis",
                 "related_decision_links",
@@ -169,13 +251,85 @@ class TjspNugepnacProvider(JurisprudenceProvider):
             completeness_contract="observed_window_only",
             full_text_access="link_only",
             supports_cli=True,
-            supports_unified_search=True,
+            supports_unified_search=False,
+            opt_in_unified_search=True,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
             supported_filters=["text", "number", "types"],
+            unsupported_filters=[
+                "courts",
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "rapporteur",
+                "updated_from",
+                "updated_to",
+                "published_from",
+                "published_to",
+                "source_origin",
+                "source_origins",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "degree",
+                "instance",
+                "branch",
+                "authority",
+                "collection",
+                "document_type",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "types": "native",
+                "courts": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "exact_phrase": "unsupported",
+                "rapporteur": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+                "published_from": "unsupported",
+                "published_to": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+                "fetch_details": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "degree": "unsupported",
+                "instance": "unsupported",
+                "branch": "validated_scope",
+                "authority": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+            },
             limitations=[
                 "A pagina de detalhe contem tese e questao; inteiro teor CJSG pode exigir "
                 "verificacao.",
@@ -291,6 +445,11 @@ def parse_nugepnac_detail(
         ["Dispositivos normativos relacionados", "Observação", "Link"],
     )
     related_links = _related_links(article, source_url)
+    merit_judgment_date = _extract_labeled_value(text, "Data de Julgamento do M\u00e9rito")
+    merit_publication_date = _extract_labeled_value(
+        text, "Data de Publica\u00e7\u00e3o do Ac\u00f3rd\u00e3o de M\u00e9rito"
+    ) or _extract_labeled_value(text, "Publica\u00e7\u00e3o do Ac\u00f3rd\u00e3o de M\u00e9rito")
+    document_url = _select_document_link(related_links)
     paradigm_url = next(
         (item["url"] for item in related_links if case_number and case_number in item["label"]),
         None,
@@ -306,6 +465,17 @@ def parse_nugepnac_detail(
         thesis=thesis,
         summary=title,
         status=status,
+        judgment_date=merit_judgment_date,
+        publication_date=merit_publication_date,
+        access_status=AccessStatus.PUBLIC,
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJSP",
+        collection="NUGEP_NAC",
+        document_type=precedent_type,
+        source_origin=source_url,
+        document_url=document_url,
         rapporteur=_extract_labeled_value(text, "Relator(a)"),
         updated_at=_extract_labeled_value(text, "Data de Publicação do Acórdão de Mérito")
         or _extract_labeled_value(text, "Publicação do Acórdão de Mérito"),
@@ -336,6 +506,7 @@ def parse_nugepnac_detail(
             "stj_controversy": _extract_labeled_value(text, "Controvérsia STJ"),
             "stj_resource": _extract_labeled_value(text, "Número do recurso no STJ"),
             "related_links": related_links,
+            "document_url": document_url,
             "source_url": source_url,
         },
     )
@@ -346,6 +517,37 @@ def _selected_precedent_types(values: list[str]) -> list[str]:
         _normalize_type(value) for value in values if _normalize_type(value) in {"irdr", "iac"}
     ]
     return selected or ["irdr", "iac"]
+
+
+def _select_document_link(links: Iterable[object]) -> str | None:
+    """Choose an official decision URL instead of a process-search link."""
+
+    candidates: list[tuple[int, str]] = []
+    for link in links:
+        if not isinstance(link, dict):
+            continue
+        url = link.get("url")
+        label = str(link.get("label") or "").casefold()
+        if not isinstance(url, str) or not url.startswith("https://"):
+            continue
+        if "uuidcaptcha" in url.casefold() or "g-recaptcha-response" in url.casefold():
+            continue
+        parsed = urlparse(url)
+        if parsed.hostname not in {"esaj.tjsp.jus.br", "www.tjsp.jus.br"}:
+            continue
+        score = 0
+        if "/cjsg/getarquivo.do" in parsed.path.casefold():
+            score += 4
+        if "acórdão" in label or "acordao" in label:
+            score += 2
+        if "processo" in label or "/cposg/" in parsed.path.casefold():
+            score -= 3
+        candidates.append((score, url))
+    # A process-search URL is related context, not an observed decision
+    # document.  Do not cache it as ``get_document`` input: doing so would
+    # turn an unavailable related document into a misleading document fetch.
+    best_score, best_url = max(candidates, default=(0, None))
+    return best_url if best_score > 0 else None
 
 
 def _normalize_type(value: str) -> str:
@@ -414,18 +616,26 @@ def _extract_labeled_value(text: str, label: str) -> str | None:
         "Dispositivos normativos relacionados",
         "Observação",
     ]
-    following = [item for item in labels if item != label]
-    next_label_pattern = "|".join(re.escape(item) + r"\s*:" for item in following)
-    pattern = rf"{re.escape(label)}\s*:\s*(.*?)\s*(?={next_label_pattern}|$)"
-    match = re.search(pattern, text, flags=re.I)
-    return _clean_text(match.group(1)) if match else None
+    for label_variant in _text_variants(label):
+        following = [item for item in labels if item != label]
+        following_variants = [variant for item in following for variant in _text_variants(item)]
+        next_label_pattern = "|".join(re.escape(item) + r"\s*:" for item in following_variants)
+        pattern = rf"{re.escape(label_variant)}\s*:\s*(.*?)\s*(?={next_label_pattern}|$)"
+        match = re.search(pattern, text, flags=re.I)
+        if match:
+            return _clean_text(match.group(1))
+    return None
 
 
 def _extract_section(text: str, label: str, end_labels: list[str]) -> str | None:
-    end_label_pattern = "|".join(re.escape(item) + r"\s*:" for item in end_labels)
-    pattern = rf"{re.escape(label)}\s*:\s*(.*?)\s*(?={end_label_pattern}|$)"
-    match = re.search(pattern, text, flags=re.I)
-    return _clean_text(match.group(1)) if match else None
+    for label_variant in _text_variants(label):
+        end_label_variants = [variant for item in end_labels for variant in _text_variants(item)]
+        end_label_pattern = "|".join(re.escape(item) + r"\s*:" for item in end_label_variants)
+        pattern = rf"{re.escape(label_variant)}\s*:\s*(.*?)\s*(?={end_label_pattern}|$)"
+        match = re.search(pattern, text, flags=re.I)
+        if match:
+            return _clean_text(match.group(1))
+    return None
 
 
 def _related_links(article: Tag, source_url: str) -> list[dict[str, str]]:
@@ -465,6 +675,24 @@ def _digits(value: object) -> str:
 
 def _clean_text(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
+
+
+def _text_variants(value: str) -> tuple[str, ...]:
+    """Return the source spelling and a repaired UTF-8/Latin-1 variant.
+
+    Some archived TJSP pages were captured with an incorrect Latin-1 decode
+    (for example ``QuestÃ£o``), while current responses are valid UTF-8.  The
+    parser must accept both without rewriting the extracted value.
+    """
+
+    repaired = value
+    try:
+        candidate = value.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        candidate = value
+    if candidate != value:
+        repaired = candidate
+    return (value, repaired)
 
 
 def _normalize_text(value: str) -> str:

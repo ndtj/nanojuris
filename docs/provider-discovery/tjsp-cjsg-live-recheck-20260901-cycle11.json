@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-01T23:46:42.390170Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "source_id": "tjsp_cjsg",
+  "surface": "cjsg",
+  "endpoint": "POST https://esaj.tjsp.jus.br/cjsg/resultadoCompleta.do",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjsp_cjsg",
+      "surface": "cjsg",
+      "endpoint": "POST https://esaj.tjsp.jus.br/cjsg/resultadoCompleta.do",
+      "query_shape": {"text": "infanticidio", "page": 1, "page_size": 1},
+      "http_status": null,
+      "content_type": null,
+      "response_bytes": 0,
+      "content_sha256": null,
+      "record_count_observed": 0,
+      "reported_total": null,
+      "classification": "blocked_access",
+      "error_type": "AccessControlRequiredError",
+      "access_signals": [
+        "has_search_form",
+        "has_recaptcha_field",
+        "has_uuid_captcha_field",
+        "has_access_control_route",
+        "has_login_script"
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "verify_ssl": true,
+      "http_status": null,
+      "response_bytes": 0,
+      "classification": "blocked_access",
+      "error_type": "AccessControlRequiredError"
+    }
+  ],
+  "elapsed_ms": 313,
+  "promotion_decision": "runtime_unchanged",
+  "promotion_blockers": [
+    "A superficie retornou sinais de captcha e controle de acesso; nao ha resultados reproduziveis nesta rodada.",
+    "O provider nao deve contornar captcha, login, WAF ou sessao exigida pela fonte."
+  ],
+  "limitations": [
+    "Uma unica chamada POST publica, sem credenciais e sem retry em escala.",
+    "Nenhum corpo HTML, cookie, token ou payload completo foi persistido.",
+    "Nenhum controle de acesso foi contornado."
+  ]
+}

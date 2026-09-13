@@ -8,8 +8,12 @@ import requests
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import AccessControlRequiredError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
-from nanojuris.providers.tjsp_eproc_jurisprudencia import parse_eproc_jurisprudencia_results
+from nanojuris.providers.tjsp_eproc_jurisprudencia import (
+    _build_payload,
+    parse_eproc_jurisprudencia_results,
+)
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
+from nanojuris.transport import SharedHttpClient
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -87,6 +91,15 @@ def test_provider_search_posts_trf4_payload_and_parses_results():
     assert call["kwargs"]["data"]["txtProcesso"] == "50378983620254040000"
 
 
+def test_trf4_second_degree_maps_to_official_trf_origin():
+    payload = _build_payload(
+        JurisprudenceQuery(text="responsabilidade civil", degree="second"),
+        court="TRF4",
+    )
+
+    assert payload["selOrigem[]"] == ["1"]
+
+
 def test_provider_get_decisions_downloads_trf4_full_text():
     session = FakeSession([FakeResponse("<html>inteiro teor trf4</html>")])
     provider = Trf4EprocJurisprudenciaProvider(
@@ -147,3 +160,9 @@ def test_provider_capabilities_describe_trf4_contract():
     assert capabilities.source_url == "https://jurisprudencia.trf4.jus.br/eproc2trf4"
     assert capabilities.supports_full_text is True
     assert "CanonicalDocument" in capabilities.canonical_records
+
+
+def test_trf4_uses_shared_transport_boundary():
+    provider = Trf4EprocJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+    assert isinstance(provider.transport, SharedHttpClient)
+    assert "jurisprudencia.trf4.jus.br" in provider.transport.policy.allowed_hosts

@@ -53,6 +53,19 @@ class FakeResponse:
         self.url = url
         self.status_code = 200
         self.encoding = "utf-8"
+        self.headers = {"content-type": "text/html"}
+        self.content = text.encode("utf-8")
+        self.raw = None
+
+    def iter_content(self, chunk_size=65536):
+        yield self.content
+
+    def close(self):
+        return None
+
+    @property
+    def is_redirect(self):
+        return False
 
 
 class FakeSession:
@@ -77,6 +90,13 @@ def test_parse_cjf_trf1_result_tables() -> None:
     assert results[0].court == "TRF1"
     assert results[0].number == "1001321-42.2024.4.01.3300"
     assert results[0].rapporteur == "Relator Exemplo"
+    assert results[0].authority == "TRF1"
+    assert results[0].branch == "federal"
+    assert results[0].degree == "second"
+    assert results[0].instance == "second"
+    assert results[0].collection == "JURISPRUDENCIA"
+    assert results[0].document_type == "acordao"
+    assert results[0].field_provenance["degree"]["method"] == "official_route_scope"
     assert results[0].raw["judging_body"] == "Primeira Turma"
     assert results[0].raw["document_url"] == "https://pje2g.trf1.jus.br/publica"
 
@@ -150,6 +170,54 @@ def test_cjf_provider_posts_viewstate_and_type() -> None:
     assert payload["formulario:textoLivre"] == "dano moral"
     assert payload["formulario:selectTiposDocumento"] == ["ACORDAO"]
     assert payload["javax.faces.ViewState"] == "view-state"
+
+
+def test_cjf_fetches_observed_official_document():
+    document_html = (FIXTURES / "cjf_trf1_document.html").read_text(encoding="utf-8")
+    session = FakeSession(
+        [
+            FakeResponse(HTML, "https://jurisprudencia.cjf.jus.br/trf1/index.xhtml"),
+            FakeResponse(HTML, "https://jurisprudencia.cjf.jus.br/trf1/index.xhtml"),
+            FakeResponse(document_html, "https://pje2g.trf1.jus.br/publica/fixture"),
+        ]
+    )
+    provider = CjfJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(JurisprudenceQuery(text="dano moral", page_size=1))
+    document = provider.get_document(page.results[0].id)
+
+    assert document.content_type == "text/html"
+    assert "texto integral" in (document.text or "")
+    assert session.calls[-1]["url"].startswith("https://pje2g.trf1.jus.br/")
+
+
+def test_cjf_get_decisions_reuses_observed_document_contract():
+    document_html = (FIXTURES / "cjf_trf1_document.html").read_text(encoding="utf-8")
+    session = FakeSession(
+        [
+            FakeResponse(HTML, "https://jurisprudencia.cjf.jus.br/trf1/index.xhtml"),
+            FakeResponse(HTML, "https://jurisprudencia.cjf.jus.br/trf1/index.xhtml"),
+            FakeResponse(document_html, "https://pje2g.trf1.jus.br/publica/fixture"),
+        ]
+    )
+    provider = CjfJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(JurisprudenceQuery(text="dano moral", page_size=1))
+    bundle = provider.get_decisions(page.results[0].id)
+
+    assert bundle.source == "cjf_jurisprudencia"
+    assert bundle.texts[0]["content_type"] == "text/html"
+    assert "texto integral" in bundle.texts[0]["content"]
+    assert bundle.raw["document_url"].startswith("https://pje2g.trf1.jus.br/")
+
+
+def test_cjf_rejects_untrusted_document_url():
+    provider = CjfJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([])
+    )
+
+    with pytest.raises(ValueError, match="official host allowlist"):
+        provider.get_document("https://evil.example/document.pdf")
 
 
 def test_cjf_parser_rejects_unknown_shape() -> None:

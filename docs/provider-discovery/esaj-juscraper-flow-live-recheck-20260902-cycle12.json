@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-02T00:44:18.538833Z",
+  "audit_mode": "bounded_public_http_recheck",
+  "family": "esaj_cjsg",
+  "contract": "POST resultadoCompleta.do -> GET trocaDePagina.do pagina 1",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "query_shape": {"text": "responsabilidade civil", "page": 1, "page_size": 1},
+  "results": [
+    {
+      "source_id": "tjac_cjsg",
+      "endpoint": "GET https://esaj.tjac.jus.br/cjsg/trocaDePagina.do",
+      "http_status": 200,
+      "response_bytes": 352,
+      "record_count_observed": 0,
+      "reported_total": 0,
+      "content_sha256": "25602f953942807977b18921cda773c66e8aa245f6e174a93ce072c1e7acbfc9",
+      "classification": "implemented",
+      "note": "Resposta oficial de zero resultados; variante Acórdãos(0)/Não foi encontrado nenhum resultado reconhecida."
+    },
+    {
+      "source_id": "tjal_cjsg",
+      "endpoint": "GET https://www2.tjal.jus.br/cjsg/trocaDePagina.do",
+      "http_status": 200,
+      "response_bytes": 270474,
+      "record_count_observed": 1,
+      "reported_total": 159266,
+      "content_sha256": "12972056643d2250a35f9c8b0fadfe8dcdb348d8af9cc3dbcd0e920cd6dd0dcd",
+      "classification": "implemented"
+    },
+    {
+      "source_id": "tjam_cjsg",
+      "endpoint": "GET https://consultasaj.tjam.jus.br/cjsg/trocaDePagina.do",
+      "http_status": 200,
+      "response_bytes": 132585,
+      "record_count_observed": 1,
+      "reported_total": 39557,
+      "content_sha256": "9a211d5867e5a4f092bec65f5ea15ad775555cc0a8b14acd84eec681e8f372ba",
+      "classification": "implemented"
+    },
+    {
+      "source_id": "tjce_cjsg",
+      "endpoint": "POST https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do",
+      "http_status": null,
+      "response_bytes": 0,
+      "record_count_observed": 0,
+      "reported_total": null,
+      "content_sha256": null,
+      "classification": "blocked_transport",
+      "error_type": "SourceUnavailableError",
+      "note": "Conexao resetada pelo host remoto (Windows 10054)."
+    },
+    {
+      "source_id": "tjms_cjsg",
+      "endpoint": "GET https://esaj.tjms.jus.br/cjsg/trocaDePagina.do",
+      "http_status": 200,
+      "response_bytes": 833434,
+      "record_count_observed": 1,
+      "reported_total": 230568,
+      "content_sha256": "bd036c6c220e72b84ff7a7d837f3b4a8d575bfd912b2258663bd812610b28aae",
+      "classification": "implemented"
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "endpoint": "POST https://esaj.tjsp.jus.br/cjsg/resultadoCompleta.do",
+      "http_status": null,
+      "response_bytes": 0,
+      "record_count_observed": 0,
+      "reported_total": null,
+      "content_sha256": null,
+      "classification": "blocked_access",
+      "error_type": "AccessControlRequiredError",
+      "note": "Captcha/controle de acesso detectado; nenhum desafio foi contornado."
+    }
+  ],
+  "promotion_decision": "runtime_contract_fixed",
+  "limitations": [
+    "Uma consulta bounded por provider, sem retries em escala.",
+    "Hashes e tamanhos sao metadados; nenhum corpo HTML, cookie ou token foi salvo.",
+    "Resultados dependem da disponibilidade e do contrato atual de cada tribunal."
+  ]
+}

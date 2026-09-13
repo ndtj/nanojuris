@@ -10,6 +10,7 @@ from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -75,6 +76,11 @@ def test_parse_tjpi_results_maps_public_search_html():
     assert result.id == "tjpi-juspi-35510999"
     assert result.court == "TJPI"
     assert result.type == "decisao_terminativa"
+    assert result.degree == "second"
+    assert result.instance == "second"
+    assert result.branch == "state"
+    assert result.authority == "TJPI"
+    assert result.collection == "CJSG"
     assert result.number == "0804974-54.2024.8.18.0026"
     assert result.updated_at == "06/08/2026"
     assert result.rapporteur == "Desembargador DIOCLÉCIO SOUSA DA SILVA"
@@ -94,6 +100,62 @@ def test_parse_tjpi_empty_search_returns_empty_page():
 
     assert page.total == 0
     assert page.results == []
+    assert page.total_known is False
+    assert page.is_explicit_empty is True
+
+
+def test_tjpi_explicit_empty_wins_over_adaptive_selector_memory():
+    # Seed the selector memory with a successful page first.  A later empty
+    # response must not relocate those old cards and become inconclusive.
+    parse_tjpi_results(
+        load_fixture("tjpi_juspi_dano_moral.html"),
+        query=JurisprudenceQuery(text="dano moral", page_size=3),
+        trace=_trace(),
+        base_url="https://jurisprudencia.tjpi.jus.br",
+    )
+    page = parse_tjpi_results(
+        load_fixture("tjpi_juspi_empty.html"),
+        query=JurisprudenceQuery(text="zzznanojurissemresultado", page_size=5),
+        trace=_trace(),
+        base_url="https://jurisprudencia.tjpi.jus.br",
+    )
+
+    assert page.results == []
+    assert page.is_explicit_empty is True
+
+
+def test_parse_tjpi_page_range_remains_consistent_after_window_limit():
+    """A one-based remote range must not become ``start > end`` locally."""
+
+    html = load_fixture("tjpi_juspi_dano_moral.html").replace(
+        "Exibindo  <b>1&nbsp;-&nbsp;25</b>", "Exibindo  <b>26&nbsp;-&nbsp;50</b>"
+    )
+    page = parse_tjpi_results(
+        html,
+        query=JurisprudenceQuery(text="dano moral", page=2, page_size=3),
+        trace=_trace(),
+        base_url="https://jurisprudencia.tjpi.jus.br",
+    )
+
+    assert page.start == 26
+    assert page.end == 28
+    assert page.start <= page.end
+    assert len(page.results) == 3
+
+
+def test_parse_tjpi_missing_counter_is_unknown_not_empty_or_complete():
+    html = load_fixture("tjpi_juspi_dano_moral.html")
+    html = html.replace("Exibindo  <b>1&nbsp;-&nbsp;25</b>", "Resultados")
+    page = parse_tjpi_results(
+        html,
+        query=JurisprudenceQuery(text="dano moral", page_size=3),
+        trace=_trace(),
+        base_url="https://jurisprudencia.tjpi.jus.br",
+    )
+
+    assert page.results
+    assert page.total_known is False
+    assert page.is_complete is None
 
 
 def test_provider_search_sends_public_get_params():
@@ -140,6 +202,12 @@ def test_provider_maps_rapporteur_filter_to_public_relator_field():
     )
 
     assert provider.session.calls[0]["kwargs"]["params"]["relator"] == "DIOCLÉCIO"
+
+
+def test_provider_rejects_non_cjsg_document_scope_before_network():
+    provider = TjpiJuspiProvider(NanoJurisConfig(rate_limit_interval=0), session=FakeSession([]))
+    with pytest.raises(QueryRejectedError, match="only second-degree"):
+        provider.search(JurisprudenceQuery(text="dano moral", types=["sumula"]))
 
 
 def test_extract_tjpi_document_text_maps_public_detail():

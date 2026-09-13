@@ -1,0 +1,57 @@
+{
+  "schema_version": "tjma-informativos-live-v1",
+  "observed_at": "2026-09-08",
+  "source_id": "tjma_informativos",
+  "provider": "tjma_informativos",
+  "authority": "TJMA",
+  "surface": "search",
+  "collection": "curated_jurisprudence",
+  "classification": "success_with_results",
+  "record_count_observed": 8,
+  "reported_total": null,
+  "http_status": 200,
+  "content_type": "text/html",
+  "response_bytes": 103168,
+  "content_sha256": "73b94c65997b3a60e21ac6eee68b2b1cebe95dc1b03a4ece821a381131d072d7",
+  "pagination_mode": "local_window",
+  "official_listing": {
+    "url": "https://www.tjma.jus.br/midia/pje/pagina/hotsite/509874",
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "text/html",
+    "response_bytes": 103168,
+    "content_sha256": "73b94c65997b3a60e21ac6eee68b2b1cebe95dc1b03a4ece821a381131d072d7",
+    "pdf_editions_observed": 8,
+    "editable_rtf_links_excluded": true,
+    "classification": "success_with_results"
+  },
+  "document_probe": {
+    "url": "https://novogerenciador.tjma.jus.br/storage/arquivos/site_nugepnac/inf_jurisp_tjma_2026_08_04_09_2026_09_05_51.pdf",
+    "method": "GET",
+    "http_status": 200,
+    "final_url": "https://novogerenciador.tjma.jus.br/storage/arquivos/site_nugepnac/inf_jurisp_tjma_2026_08_04_09_2026_09_05_51.pdf",
+    "content_type": "application/pdf",
+    "magic_bytes": "255044462d312e37",
+    "response_bytes": 5756596,
+    "content_sha256": "4ff2ba9f1afaad9311605a54b7076173d629c2a35ac047ff8d0b0bea76b93225",
+    "page_count": 777,
+    "scope_markers": [
+      "TRIBUNAL DE JUSTIÇA DO ESTADO DO MARANHÃO",
+      "INFORMATIVO DE JURISPRUDÊNCIA",
+      "CÂMARAS DE DIREITO CRIMINAL",
+      "CÂMARAS DE DIREITO PRIVADO",
+      "CÂMARAS DE DIREITO PÚBLICO"
+    ],
+    "classification": "success_with_results"
+  },
+  "access": {
+    "credentials_used": false,
+    "bypass_used": false,
+    "captcha_solved": false,
+    "tokens_reused": false,
+    "proxy_rotation": false,
+    "tls_verification_disabled": false
+  },
+  "decision": "Implement as curated INFORMATIVO collection with second-degree scope evidence; do not count as complete CJSG or general acervo.",
+  "next_check": "Revalidate listing and one PDF with a low-frequency bounded request before promotion changes."
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NanoJuris CoverageSurface",
+  "type": "object",
+  "required": ["surface_id", "authority", "branch", "degree", "collection", "required", "coverage_state"],
+  "properties": {
+    "surface_id": {"type": "string"},
+    "authority": {"type": "string"},
+    "branch": {"type": "string"},
+    "degree": {"enum": ["first", "second", "superior"]},
+    "collection": {"type": "string"},
+    "required": {"type": "boolean"},
+    "temporal_interval": {"type": ["object", "null"]},
+    "provider_bindings": {"type": "array", "items": {"type": "string"}},
+    "coverage_state": {"type": "string"},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}}
+  }
+}

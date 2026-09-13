@@ -1,0 +1,17 @@
+{
+  "sucesso": 1,
+  "resultadosEncontrados": 3,
+  "documentos": [
+    {
+      "id": 2100003,
+      "nrProcesso": "0003456-78.2024.5.15.0003",
+      "classeJudicialSigla": "ROT",
+      "ementa": "Jornada de trabalho. Horas extras.",
+      "dataAssinatura": "2024-05-08",
+      "dataPublicacao": "2024-05-16",
+      "orgaoJulgador": "12a Camara",
+      "relator": "TERCEIRO RELATOR",
+      "link": "https://jurisprudencia.trt15.jus.br/documento/2100003"
+    }
+  ]
+}

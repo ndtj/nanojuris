@@ -1,0 +1,25 @@
+{
+  "schema_version": "official-alternative-recheck-v1",
+  "observed_at": "2026-09-07",
+  "authority": "TJAP",
+  "surface": "PJE_2G_PROCESS_QUERY",
+  "url": "https://hml.pje.stg.apps.tjap.jus.br/2g/ConsultaPublica/listView.seam",
+  "method": "GET",
+  "credentials_used": false,
+  "bounded": true,
+  "status": 200,
+  "content_type": "text/html;charset=ISO-8859-1",
+  "response_bytes": 46227,
+  "title": "Consulta pública · Tribunal de Justiça do Estado do Amapá - 2º Grau",
+  "classification": "official_process_query_only",
+  "decision": "The public 2nd-degree PJe page is reachable, but it is a process-query surface, not a general textual jurisprudence search. It does not satisfy the CJSG contract and must not be promoted as jurisprudence.",
+  "safety": {
+    "captcha_solved": false,
+    "turnstile_bypassed": false,
+    "cookies_replayed": false,
+    "tls_verification_disabled": false,
+    "proxy_rotation": false,
+    "rate_limit_bypass": false,
+    "response_body_persisted": false
+  }
+}

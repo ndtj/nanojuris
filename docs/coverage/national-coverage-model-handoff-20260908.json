@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.0",
+  "kind": "next_model_national_coverage_handoff",
+  "generated_at": "2026-09-08",
+  "entrypoint": "specs/changes/0091-national-coverage-gold-handoff/GOAT_EXECUTOR_PROMPT.md",
+  "normative_sdd": "specs/changes/0091-national-coverage-gold-handoff",
+  "snapshot_sources": [
+    "docs/registry/provider-catalog.full.json",
+    "docs/coverage/surface-state-registry-20260902.json",
+    "docs/coverage/state-appellate-program-20260905.json",
+    "docs/coverage/open-task-audit-current.json",
+    "docs/coverage/provider-capability-ledger.json",
+    "docs/coverage/document-capability-inventory.json",
+    "docs/coverage/fixture-completeness-20260908.json",
+    "docs/coverage/public-access-boundary-playbook-20260908.json",
+    "docs/coverage/0091-local-gates-20260908.json",
+    "docs/provider-discovery/tjro-jurisprudencia-fulltext-live-20260908.json",
+    "docs/provider-discovery/tjac-ementario-live-20260908.json",
+    "docs/provider-discovery/tjal-turma-recursal-live-20260908.json"
+    ,"docs/provider-discovery/tjmg-ejef-boletim-live-20260908.json"
+    ,"docs/provider-discovery/tjmg-ejef-boletim-federated-live-20260908.json"
+  ],
+  "latest_snapshot": {
+    "cataloged_providers": 73,
+    "runtime_providers": 68,
+    "unified_sources": 50,
+    "runtime_fixture_complete": 68,
+    "surfaces": 151,
+    "required_surfaces": 125,
+    "cjpg_proven": "8/27",
+    "cjsg_proven": "25/27",
+    "state_appellate_complete": "25/27",
+    "open_tasks": 60,
+    "local_tasks": 0,
+    "external_tasks": 44,
+    "human_tasks": 16
+  },
+  "required_artifacts_per_surface": [
+    "official_source_record",
+    "surface_contract",
+    "runtime_adapter",
+    "sanitized_fixtures",
+    "filter_matrix",
+    "pagination_evidence",
+    "bounded_live_evidence",
+    "canonical_quality_record",
+    "document_reference_or_explicit_not_offered",
+    "federated_smoke",
+    "verification_record"
+  ],
+  "gate_names": [
+    "official_source",
+    "degree_contract",
+    "runtime",
+    "fixtures",
+    "pagination_filters",
+    "bounded_live",
+    "canonical_quality",
+    "federation"
+  ],
+  "access_policy": {
+    "allowed": [
+      "documented_public_http",
+      "standard_browser_journey",
+      "ephemeral_session_cookie_csrf",
+      "official_redirect",
+      "published_pagination",
+      "cooperative_rate_limit",
+      "transient_retry",
+      "conditional_requests",
+      "official_export_or_dataset",
+      "official_alternative_surface",
+      "human_mediated_challenge_without_persistence",
+      "approved_institutional_egress",
+      "support_or_allowlist"
+    ],
+    "prohibited": [
+      "captcha_or_turnstile_solver",
+      "challenge_ocr",
+      "waf_or_bot_evasion",
+      "stealth_or_fingerprint_spoofing",
+      "ip_or_proxy_rotation",
+      "cookie_or_token_replay",
+      "tls_verification_disable",
+      "private_endpoint_fuzzing",
+      "credential_bypass",
+      "rate_limit_exhaustion",
+      "robots_or_terms_bypass"
+    ],
+    "challenge_required_action": "record_once_as_access_blocked_and_seek_official_alternative"
+  },
+  "execution_waves": [
+    {"id": "G0", "name": "baseline_reconciliation"},
+    {"id": "G1", "name": "canonical_contracts_and_filter_envelope"},
+    {"id": "G2", "name": "first_degree_cjpg"},
+    {"id": "G3", "name": "second_degree_cjsg"},
+    {"id": "G4", "name": "national_families"},
+    {"id": "G5", "name": "documents_and_field_quality"},
+    {"id": "G6", "name": "federation_and_web_search"},
+    {"id": "G7", "name": "continuous_operation"},
+    {"id": "G8", "name": "human_review_and_release"}
+  ],
+  "batch_policy": {"min": 1, "max": 3, "regenerate_after_batch": true},
+  "stop_conditions": [
+    "challenge_enforced",
+    "authentication_required",
+    "private_endpoint",
+    "persistent_rate_limit",
+    "unrecognized_schema",
+    "missing_official_evidence",
+    "human_decision_required"
+  ],
+  "completion_assertions": {
+    "authorities": 27,
+    "complete_8_of_8": 27,
+    "incomplete": 0,
+    "coverage_claim": "27/27",
+    "open_tasks": 0
+  },
+  "release_mutations_allowed": false,
+  "production_changed": false,
+  "no_bypass": true
+}

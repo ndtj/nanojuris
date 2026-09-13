@@ -157,3 +157,13 @@ mas nao implica que a fonte ofereca PDF.
   ser interpretados como inteiro teor.
 - `fetch_details=True` carrega o detalhe publico de cada resultado e habilita o
   preenchimento dos campos detalhados e do documento quando a fonte o fornece.
+## Contrato CJSG fechado - 2026-09-05
+
+- O SISTJ/IndexadorAcordaos e a API oficial `/api/v1/pesquisa` são superfícies
+  de acórdãos do TJDFT; resultados aceitos são normalizados como
+  `authority=TJDFT`, `branch=state`, `degree=second`, `instance=second` e
+  `collection=CJSG`.
+- O adapter preserva base/subbase, campos desconhecidos, URL e `SourceTrace`,
+  sem confundir agregações ou disponibilidade de inteiro teor com o texto.
+- As rotas HTML e JSON continuam públicas e bounded; registros de acórdão
+  recebem `document_type=acordao` e nenhuma rota de primeiro grau é usada.

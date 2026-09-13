@@ -13,6 +13,7 @@ import requests
 
 from nanojuris.canonical import normalize_date
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -22,6 +23,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
     JurisprudenceQuery,
@@ -34,6 +36,7 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient, TransportPolicy, TransportRequest, TransportStatus
 
 DOWNLOAD_PATH = "/DadosAbertos/DadosAbertos/DownloadArquivo"
 MAX_DOWNLOAD_BYTES = 80_000_000
@@ -51,6 +54,31 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
+        host = urlparse(self.config.tce_pr_viajuris_url).hostname or ""
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(host,),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=MAX_DOWNLOAD_BYTES,
+                # The annual snapshot is large; do not transparently replay
+                # a failed download.  Callers can retry the bounded operation
+                # explicitly and preserve the source failure state.
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
+        self._document_urls: dict[str, str] = {}
 
     @property
     def base_url(self) -> str:
@@ -93,7 +121,7 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
             returned=len(results),
             total_is_authoritative=True,
         )
-        return SearchPage(
+        page = SearchPage(
             source=self.name,
             total=len(matches),
             start=start_index + 1 if results else 0,
@@ -106,10 +134,42 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
             is_complete=complete,
             completeness_reason=reason,
         )
+        for result in page.results:
+            document_url = result.raw.get("document_url")
+            if isinstance(document_url, str) and document_url:
+                self._document_urls[result.id] = document_url
+        return page
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         raise UnsupportedQueryError(
             "ViaJuris publica links de PDF no CSV; use raw.document_url para o documento oficial"
+        )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch the official PDF linked by a ViaJuris CSV row."""
+
+        document_url = (
+            document_id
+            if document_id.startswith(("https://", "http://"))
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "TCE-PR document_id must be an observed official PDF URL or a result id"
+            )
+        if _official_pdf_url(document_url) != document_url:
+            raise ValueError("TCE-PR document URL is outside the official ViaJuris host")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            expected_content_types=("application/pdf", "text/html", "text/plain"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title=f"TCE-PR ViaJuris {document_id}",
         )
 
     def get_catalog(self, *, year: int | None = None) -> ProviderCatalog:
@@ -147,7 +207,7 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
             search_modes=["text", "case_number", "dataset", "catalog", "pagination"],
             document_types=["acordao"],
             content_formats=["csv", "pdf_link"],
-            canonical_records=["CanonicalDecision"],
+            canonical_records=["CanonicalDecision", "CanonicalDocument"],
             extracted_fields=[
                 "registry_id",
                 "case_number",
@@ -160,7 +220,7 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
             endpoints=[
                 f"GET {DOWNLOAD_PATH}?nomeArquivo={{year}}_acordaos_base_de_dados.csv",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             supports_catalog=True,
             supports_cli=True,
             supports_unified_search=True,
@@ -169,8 +229,50 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="local_window",
             completeness_contract="complete_local_snapshot_window",
-            full_text_access="link_only",
+            full_text_access="document_link",
             supported_filters=["text", "number", "published_from", "published_to"],
+            filter_semantics={
+                "text": "local_postfilter",
+                "exact_phrase": "local_postfilter",
+                "number": "local_postfilter",
+                "published_from": "local_postfilter",
+                "published_to": "local_postfilter",
+                "updated_from": "local_postfilter",
+                "updated_to": "local_postfilter",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "types",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "rapporteur",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                    )
+                },
+            },
             limitations=[
                 "A base e um snapshot anual/semanário e nao substitui a consulta interativa.",
                 "Inteiro teor depende de UrlPDF presente e valido na linha.",
@@ -191,32 +293,34 @@ class TcePrViaJurisProvider(JurisprudenceProvider):
 
     def _download(self, year: int) -> tuple[bytes, str, int, str | None]:
         url = self._archive_url(year)
-        try:
-            response = self.session.get(
-                url,
+        response = self._transport.request(
+            TransportRequest(
+                source=self.name,
+                operation="download_snapshot",
+                method="GET",
+                url=url,
                 headers={"Accept": "text/csv,application/octet-stream,*/*"},
-                timeout=self.config.timeout,
-                allow_redirects=True,
             )
-        except requests.RequestException as exc:
-            raise SourceUnavailableError(f"TCE-PR ViaJuris request failed: {exc}") from exc
-        status = int(response.status_code)
+        )
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                f"TCE-PR ViaJuris transport failed: {response.status.value}"
+            )
+        status = int(response.status_code or 0)
         if status == 429:
             raise RateLimitDetectedError("TCE-PR ViaJuris returned HTTP 429")
         if status in {401, 403}:
             raise AccessControlRequiredError("TCE-PR ViaJuris requires access validation")
         if status >= 500 or status >= 400:
             raise SourceUnavailableError(f"TCE-PR ViaJuris returned HTTP {status}")
-        content = bytes(getattr(response, "content", b""))
-        if len(content) > MAX_DOWNLOAD_BYTES:
-            raise SourceUnavailableError("TCE-PR ViaJuris CSV exceeds the local safety limit")
+        content = response.body
         if not content:
             raise ParserContractChangedError("TCE-PR ViaJuris CSV response is empty")
         return (
             content,
-            str(getattr(response, "url", url) or url),
+            str(response.final_url or url),
             status,
-            response.headers.get("Content-Type"),
+            response.content_type,
         )
 
 

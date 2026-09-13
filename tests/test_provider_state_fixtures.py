@@ -34,17 +34,23 @@ def test_provider_state_fixture_manifest_is_safe_and_complete(provider_contract_
         "tjac_cjsg",
         "tjal_cjsg",
         "tjam_cjsg",
+        "tjce_cjsg",
         "tjba_graphql",
         "tjgo_projudi_jurisprudencia",
         "tjms_cjsg",
         "tjpa_jurisprudencia_bff",
         "tjpb_pje_jurisprudencia",
         "tjpi_juspi",
+        "tjmt_jurisprudencia_api",
         "tjrj_eproc_jurisprudencia",
         "tjrr_juris",
         "tjsp_cjsg",
         "tjsp_eproc_jurisprudencia",
         "trf5_jurisprudencia",
+        "tjto_jurisprudencia",
+        "tjes_cjpg",
+        "tjes_jurisprudencia",
+        "tjsp_cjpg",
     } <= set(providers)
     assert set(scenarios) == {"success", "empty", "non_success"}
 

@@ -1,0 +1,65 @@
+{
+  "schema_version": "provider-route-evidence-v1",
+  "provider": "tjrs_sentencas_discovery",
+  "authority": "TJRS",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "checked_at": "2026-09-08",
+  "source": {
+    "official_entry_point": "https://www.tjrs.jus.br/novo/busca/",
+    "public": true,
+    "route": "GET /novo/busca/",
+    "query_profile": {
+      "site": "sentencas",
+      "client": "wp_index",
+      "proxystylsheet": "wp_index",
+      "filter": "0",
+      "get_fields": "*",
+      "output": "xml_no_dtd",
+      "aba": "se",
+      "wc": "200",
+      "wc_mc": "1",
+      "ud": "1",
+      "lr": "lang_pt",
+      "tipoProcesso": "z",
+      "sort": "date:D:S:d1",
+      "hash_busca": "d1148de996",
+      "q": "divorcio"
+    },
+    "ephemeral_parameters_omitted": ["_wp_http_referer"],
+    "method": "GET"
+  },
+  "observation": {
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "response_bytes": 483472,
+    "reported_search_tab": "site",
+    "jurisprudence_result_count": 0,
+    "sentence_record_observed": false,
+    "decision_text_observed": false,
+    "general_text_search_observed": false,
+    "interpretation": "A rota publica respondeu, mas a aba efetiva foi a busca geral do site. O parametro site=sentencas nao produziu uma colecao pesquisavel de sentencas nesta chamada bounded."
+  },
+  "classification": {
+    "status": "not_jurisprudence",
+    "degree_contract": "candidate_only",
+    "surface_role": "first_degree_route_candidate",
+    "promotion": "discovery_only",
+    "next_action": "reproduzir a submissao oficial do formulario com parametros de sessao atuais; somente criar adapter apos observar registros de sentenca, identificador estavel, texto e detalhe/documento"
+  },
+  "safety": {
+    "bypass_used": false,
+    "captcha_or_waf_bypassed": false,
+    "credentials_used": false,
+    "tokens_or_cookies_persisted": false,
+    "raw_response_persisted": false,
+    "bounded_request": true
+  },
+  "limitations": [
+    "A resposta HTTP 200 e o HTML da pagina nao provam uma superficie CJPG textual.",
+    "O formulario usa valores dinamicos de sessao/referer; eles foram omitidos da evidencia.",
+    "A rota antiga tjrs.gov.br/sistemas/banco_sentencas/search.php nao foi usada como prova porque o host nao resolveu na tentativa atual."
+  ]
+}

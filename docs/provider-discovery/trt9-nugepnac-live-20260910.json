@@ -1,0 +1,90 @@
+{
+  "schema_version": "provider-discovery-evidence-v1",
+  "provider": "trt9_nugepnac_jurisprudencia",
+  "authority": "TRT9",
+  "branch": "labor",
+  "degree": "second",
+  "instance": "second",
+  "collection": "TRT9_NUGEP_IRDR",
+  "checked_at": "2026-09-10",
+  "observed_at": "2026-09-10",
+  "status": "valid",
+  "surface": "curated_precedent_compilation",
+  "record_count_observed": 25,
+  "reported_total": 25,
+  "http_status": 200,
+  "content_type": "application/pdf",
+  "response_bytes": 51516,
+  "content_sha256": "7109491b203883bf953642b60204dfc91384d3a3a9ffcca598fbdf73d772df28",
+  "pagination_mode": "local_pdf_window",
+  "official_entry_point": "https://www.trt9.jus.br/bancojurisprudencia/publico/livrosDeJurisprudencia.xhtml",
+  "live_surface": {
+    "url": "https://www.trt9.jus.br/bancojurisprudencia/api/v1/jurisprudencia/pdf-completo?tribunal=TRT9&listaTipo=DECISOES_IRDR",
+    "method": "GET",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 51516,
+    "pages": 25,
+    "extraction": {
+      "engine": "pypdf",
+      "pages_sampled": 3,
+      "textual_marker": "DECISOES EM INCIDENTE DE RESOLUCAO DE DEMANDAS REPETITIVAS"
+    }
+  },
+  "alternate_surface": {
+    "url": "https://www.trt9.jus.br/bancojurisprudencia/api/v1/jurisprudencia/pdf-simplificado?tribunal=TRT9",
+    "http_status": 200,
+    "content_type": "application/pdf",
+    "response_bytes": 51999,
+    "pages": 23,
+    "content_sha256_prefix": "accfab3f870acfae"
+  },
+  "classification": "valid_curated_context",
+  "collection_classification": "curated_context",
+  "live_status": "valid_static_volume",
+  "contract_status": "candidate_nugepnac_pdf_only",
+  "federation_status": "disabled",
+  "adapter_replay": {
+    "checked_at": "2026-09-10",
+    "query": {
+      "text": "responsabilidade",
+      "collection": "TRT9_NUGEP_IRDR",
+      "page": 1,
+      "page_size": 3
+    },
+    "status": "success_with_results_and_document",
+    "result_count": 3,
+    "volume_total": 25,
+    "http_status": 200,
+    "response_bytes": 51516,
+    "document_replay": {
+      "content_type": "application/pdf",
+      "byte_size": 51516,
+      "page_count": 25,
+      "extraction_status": "complete"
+    },
+    "bounded_public_request": true,
+    "credentials_used": false,
+    "captcha_bypass": false,
+    "access_control_bypass": false
+  },
+  "document_capability": "pdf_text_curated_precedents",
+  "limitations": [
+    "A rota é uma compilação editorial estática e não uma busca geral parametrizada.",
+    "O total conhecido refere-se somente ao PDF observado; não há paginação remota.",
+    "Inteiro teor dos votos não foi demonstrado; o documento é uma compilação textual curada.",
+    "A fonte permanece contextual/opt-in e não fecha a cobertura geral TRT9."
+  ],
+  "next_action": "manter em descoberta contextual até existir contrato público de busca geral",
+  "evidence_ids": [
+    "trt9-nugepnac-entry-20260910",
+    "trt9-nugepnac-irdr-pdf-20260910"
+  ],
+  "safety": {
+    "bounded_public_request": true,
+    "captcha_bypass": false,
+    "access_control_bypass": false,
+    "credentials_used": false,
+    "raw_body_persisted": false
+  }
+}

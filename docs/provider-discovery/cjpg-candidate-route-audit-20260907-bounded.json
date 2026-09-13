@@ -1,0 +1,173 @@
+{
+  "schema_version": "cjpg-candidate-route-audit-v1",
+  "observed_at": "2026-09-07T12:44:51-03:00",
+  "scope": "bounded_public_first_degree_route_recheck",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "policy": "Only public official pages and their directly linked public assets were inspected. CAPTCHA, WAF, login, TLS and rate-limit controls were not bypassed.",
+  "results": [
+    {
+      "authority": "TJAM",
+      "official_routes": [
+        {
+          "method": "GET",
+          "url": "https://consultasaj.tjam.jus.br/esaj/portal.do?servico=789900",
+          "status": 200,
+          "content_type": "text/html;charset=ISO-8859-1",
+          "bytes": 21485,
+          "sha256": "a4b8255a32a8129eea197f3efb1a3352c42538c18c572fe55b5d5922d7a8ff8d",
+          "observed_markers": [
+            "Consulta de Processos do 1º Grau",
+            "Consulta de Processos do 2º Grau",
+            "Consulta de Jurisprudências do TJ, T.Recursais, J.Especiais e Conselho da Magistratura"
+          ],
+          "classification": "jurisprudence_portal_shell_not_first_degree_corpus"
+        },
+        {
+          "method": "GET",
+          "url": "https://consultasaj.tjam.jus.br/esaj/portal.do?servico=780000",
+          "status": 200,
+          "content_type": "text/html;charset=ISO-8859-1",
+          "bytes": 22103,
+          "sha256": "09ef398b26db5c02a85761d353d867d4685b4053d87be8f1fa8b99527b46abbd",
+          "observed_markers": [
+            "Consulta de Jurisprudências do TJ, T.Recursais, J.Especiais e Conselho da Magistratura"
+          ],
+          "classification": "appellate_or_specialized_jurisprudence_not_first_degree_corpus"
+        },
+        {
+          "method": "GET",
+          "url": "https://consultasaj.tjam.jus.br/cpopg/open.do",
+          "status": 200,
+          "content_type": "text/html;charset=UTF-8",
+          "bytes": 39278,
+          "sha256": "71bb5cfaa8ce67f0b2f83ca96b64bbc8d0b7bc8093f6a745bd693267db48f32c",
+          "observed_markers": ["Consulta processual do primeiro grau", "processo"],
+          "classification": "process_surface_not_jurisprudence"
+        }
+      ],
+      "decision": "no_cjpg_contract",
+      "reason": "The official e-SAJ routes expose first-degree process consultation, while the jurisprudence service identifies TJ/Turmas Recursais/Juizados/Conselho da Magistratura and does not expose a first-degree decision corpus or a degree=first filter."
+    },
+    {
+      "authority": "TJAL",
+      "official_routes": [
+        {
+          "method": "GET",
+          "url": "https://www.tjal.jus.br/assets/Jurisprudencia-CuKuItBM.js",
+          "status": 200,
+          "content_type": "application/javascript",
+          "bytes": 1862,
+          "sha256": "3c985dab9d39f4d0c11a8f9ce7635c8e13154744861c675ffe3288b112cb9f1e",
+          "observed_markers": [
+            "Consulta Jurisprudencial",
+            "Jurisprudências Atuais",
+            "Jurisprudências Históricas (em construção)",
+            "http://www2.tjal.jus.br/WebHelp/id_pesquisando_jurisprudencias_antiga.htm"
+          ],
+          "classification": "jurisprudence_frontend_without_first_degree_binding"
+        },
+        {
+          "method": "GET",
+          "url": "https://www2.tjal.jus.br/WebHelp/id_pesquisando_jurisprudencias_antiga.htm",
+          "status": 200,
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 8324,
+          "sha256": "780a23bbd8f6a9fe203ee975159c706cf5a29c01897e3173551040a08e2bda62",
+          "observed_markers": [
+            "Portal e-SAJ",
+            "Consultas de Jurisprudência",
+            "visualizar o conteúdo integral da ementa"
+          ],
+          "classification": "ementa_search_help_without_first_degree_identity"
+        },
+        {
+          "method": "GET",
+          "url": "https://www2.tjal.jus.br/cpopg/open.do",
+          "status": 200,
+          "content_type": "text/html;charset=UTF-8",
+          "bytes": 45231,
+          "sha256": "249ab932c3675092a6f416408d9b8db21c98e8581eeb6151f3ff6cfb44f2b11b",
+          "observed_markers": ["Consulta processual", "processo"],
+          "classification": "process_surface_not_jurisprudence"
+        },
+        {
+          "method": "GET",
+          "url": "https://documentos.tjal.jus.br/api/tipos-documentos/todos",
+          "status": 200,
+          "content_type": "application/json",
+          "bytes": 1265,
+          "sha256": "3fb1f4d3529b7f2c1b14abc495a07d556c7982eeeb9891a47e9a02fbf7a9608f",
+          "observed_markers": [
+            "Ato Normativo",
+            "Resolução",
+            "Súmula Administrativa",
+            "Portaria",
+            "Provimento",
+            "Regimento Interno e Emenda Regimental"
+          ],
+          "classification": "official_normative_document_catalog_not_jurisprudence"
+        },
+        {
+          "method": "GET",
+          "url": "https://documentos.tjal.jus.br/api/documentos/pesquisa-portal?numero=&ano=&texto_livre=jurisprudencia&id_tipo_documento=&id_situacao=&page=1",
+          "status": 200,
+          "content_type": "application/json",
+          "bytes": 173170,
+          "sha256": "720d951240d073c753b5ac4b7002eb36107dd9fa4a981bc279f95dbb0a2d7886",
+          "observed_markers": [
+            "tipo_documento_id=8",
+            "Portaria",
+            "texto normativo"
+          ],
+          "classification": "normative_document_search_not_first_degree_decisions"
+        }
+      ],
+      "decision": "no_cjpg_contract",
+      "reason": "The public frontend and official help document an ementa search but expose no first-degree filter, first-degree collection, or decision-document endpoint. The only explicit first-degree route is e-SAJ process consultation."
+    },
+    {
+      "authority": "TJPR",
+      "official_routes": [
+        {
+          "method": "GET",
+          "url": "https://www.tjpr.jus.br/sentenca-digital",
+          "status": 200,
+          "content_type": "text/html;charset=UTF-8",
+          "bytes": 289189,
+          "sha256": "276f378753af56670b91b285090a865aca76ac6c1a4c989363fd26d138848524",
+          "observed_markers": [
+            "Sentença Digital",
+            "Consulta Processual",
+            "Numeração Única de Processos",
+            "Pesquisa de Jurisprudência"
+          ],
+          "classification": "process_or_information_page_not_cjpg_corpus"
+        },
+        {
+          "method": "GET",
+          "url": "https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do",
+          "status": 200,
+          "content_type": "text/html;charset=UTF-8",
+          "bytes": 14309,
+          "sha256": "ce157d5d9626fe3ed5b0674a1780f014dfcad54425636ebca981d70ec4fbaf08",
+          "observed_markers": [
+            "Jurisprudência",
+            "Acesso restrito",
+            "Pesquisa pública sem first-degree/1º grau selector"
+          ],
+          "classification": "public_jurisprudence_shell_no_first_degree_contract"
+        }
+      ],
+      "decision": "no_cjpg_contract",
+      "reason": "The Sentença Digital page is an informational/process surface and the public jurisprudence portal exposes a restricted/private administration area. No public first-degree jurisprudence corpus, selector or reproducible document route was observed."
+    }
+  ],
+  "summary": {
+    "tribunals_checked": 3,
+    "cjpg_contracts_found": 0,
+    "process_surfaces_excluded": 3,
+    "captcha_or_waf_bypassed": false,
+    "next_action": "Keep TJAM, TJAL and TJPR first-degree surfaces as candidate gaps; do not register or federate an adapter without an official first-degree decision corpus."
+  }
+}

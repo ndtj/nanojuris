@@ -1,0 +1,93 @@
+{
+  "schema_version": "trf4-second-degree-live-v1",
+  "generated_at": "2026-09-08T20:31:43+00:00",
+  "mode": "live_bounded",
+  "source": "trf4_eproc_jurisprudencia",
+  "surface": {
+    "authority": "TRF4",
+    "branch": "federal",
+    "degree": "second",
+    "instance": "second",
+    "collection": "JURISPRUDENCIA"
+  },
+  "classification": "success_with_results",
+  "bypass": false,
+  "query": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "page_size": 2,
+    "remote_origin_filter": "1",
+    "remote_origin_meaning": "TRF4"
+  },
+  "request": {
+    "method": "POST",
+    "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+    "final_url": "https://jurisprudencia.trf4.jus.br/eproc2trf4/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+    "logical_page": 1,
+    "payload_fields": [
+      "txtPesquisa",
+      "rdoCampo",
+      "selOrigem[]",
+      "selTamanhoPagina",
+      "chkAgruparResultados"
+    ]
+  },
+  "response": {
+    "http_status": 200,
+    "content_type": "text/html; charset=iso-8859-1",
+    "response_bytes": 1166148,
+    "content_sha256": "12341138c073d1fc081116199c707dd678db1ed2ea4eab4033f0072820d3228a",
+    "retrieval_status": "ok",
+    "record_count": 2,
+    "total_state": "unknown_after_local_postfilter",
+    "total_after_postfilter": 339212
+  },
+  "records": [
+    {
+      "source_id": "trf4-eproc-jurisprudencia-41788869506107105396589012456",
+      "case_number": "5004244-23.2024.4.04.7201",
+      "document_type": "monocratica",
+      "authority": "TRF4",
+      "branch": "federal",
+      "degree": "second",
+      "instance": "second",
+      "collection": "JURISPRUDENCIA",
+      "source_origin": "SC",
+      "summary_present": true,
+      "official_document_url": true
+    },
+    {
+      "source_id": "trf4-eproc-jurisprudencia-41788869658464926246606708864",
+      "case_number": "5031196-40.2026.4.04.0000",
+      "document_type": "monocratica",
+      "authority": "TRF4",
+      "branch": "federal",
+      "degree": "second",
+      "instance": "second",
+      "collection": "JURISPRUDENCIA",
+      "source_origin": "RS",
+      "summary_present": true,
+      "official_document_url": true
+    }
+  ],
+  "filters_applied": {
+    "text": "native",
+    "degree": "remote_origin_plus_local_validation",
+    "instance": "local_validation"
+  },
+  "limitations": [
+    "The provider reports a broad source total; after degree validation the total is not authoritative.",
+    "The bounded probe persisted metadata only and no response body or full text.",
+    "The implementation does not bypass CAPTCHA, WAF, login, TLS or access controls."
+  ],
+  "promotion_evidence": {
+    "official_source": true,
+    "degree_contract": true,
+    "runtime": true,
+    "live_status": "valid",
+    "canonical_quality": true,
+    "federation_status": "enabled",
+    "coverage_alias_of": "surface:trf4:eproc:second:trf4-eproc-jurisprudencia"
+  }
+}

@@ -1,0 +1,1020 @@
+{
+  "schema_version": "national-jurisprudence-coverage-v1",
+  "epoch": {
+    "epoch_id": "2026-09-01@2026-09-01",
+    "topology_version": "2026-09-01",
+    "cutoff_date": "2026-09-01"
+  },
+  "claims": [
+    {
+      "epoch_id": "2026-09-01@2026-09-01",
+      "dimension": "collection",
+      "numerator": 19,
+      "denominator": 94,
+      "measured_at": "2026-09-01",
+      "notes": "Denominador institucional da topologia; nao representa cobertura temporal integral nem disponibilidade live.",
+      "ratio": 0.20212765957446807
+    },
+    {
+      "epoch_id": "2026-09-01@2026-09-01",
+      "dimension": "authority",
+      "numerator": 19,
+      "denominator": 94,
+      "measured_at": "2026-09-01",
+      "notes": "Denominador institucional da topologia; nao representa cobertura temporal integral nem disponibilidade live.",
+      "ratio": 0.20212765957446807
+    },
+    {
+      "epoch_id": "2026-09-01@2026-09-01",
+      "dimension": "branch",
+      "numerator": 7,
+      "denominator": 8,
+      "measured_at": "2026-09-01",
+      "notes": "Denominador institucional da topologia; nao representa cobertura temporal integral nem disponibilidade live.",
+      "ratio": 0.875
+    },
+    {
+      "epoch_id": "2026-09-01@2026-09-01",
+      "dimension": "surface",
+      "numerator": 19,
+      "denominator": 94,
+      "measured_at": "2026-09-01",
+      "notes": "Denominador institucional da topologia; nao representa cobertura temporal integral nem disponibilidade live.",
+      "ratio": 0.20212765957446807
+    },
+    {
+      "epoch_id": "2026-09-01@2026-09-01",
+      "dimension": "provider",
+      "numerator": 21,
+      "denominator": 85,
+      "measured_at": "2026-09-01",
+      "notes": "Denominador institucional da topologia; nao representa cobertura temporal integral nem disponibilidade live.",
+      "ratio": 0.24705882352941178
+    }
+  ],
+  "gaps": [
+    {
+      "collection_id": "collection:cnj:jurisprudence",
+      "authority_id": "authority:cnj",
+      "branch": "national_council",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjap:jurisprudence",
+      "authority_id": "authority:tjap",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjce:jurisprudence",
+      "authority_id": "authority:tjce",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjes:jurisprudence",
+      "authority_id": "authority:tjes",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjma:jurisprudence",
+      "authority_id": "authority:tjma",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjmg:jurisprudence",
+      "authority_id": "authority:tjmg",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjmmg:jurisprudence",
+      "authority_id": "authority:tjmmg",
+      "branch": "military",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjmrs:jurisprudence",
+      "authority_id": "authority:tjmrs",
+      "branch": "military",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjmsp:jurisprudence",
+      "authority_id": "authority:tjmsp",
+      "branch": "military",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjmt:jurisprudence",
+      "authority_id": "authority:tjmt",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjpa:jurisprudence",
+      "authority_id": "authority:tjpa",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjpb:jurisprudence",
+      "authority_id": "authority:tjpb",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjpe:jurisprudence",
+      "authority_id": "authority:tjpe",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjpr:jurisprudence",
+      "authority_id": "authority:tjpr",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjrj:jurisprudence",
+      "authority_id": "authority:tjrj",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjrn:jurisprudence",
+      "authority_id": "authority:tjrn",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjro:jurisprudence",
+      "authority_id": "authority:tjro",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjrs:jurisprudence",
+      "authority_id": "authority:tjrs",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjsc:jurisprudence",
+      "authority_id": "authority:tjsc",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjse:jurisprudence",
+      "authority_id": "authority:tjse",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tjto:jurisprudence",
+      "authority_id": "authority:tjto",
+      "branch": "state",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:treac:jurisprudence",
+      "authority_id": "authority:treac",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:treal:jurisprudence",
+      "authority_id": "authority:treal",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tream:jurisprudence",
+      "authority_id": "authority:tream",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:treap:jurisprudence",
+      "authority_id": "authority:treap",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:treba:jurisprudence",
+      "authority_id": "authority:treba",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trece:jurisprudence",
+      "authority_id": "authority:trece",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tredf:jurisprudence",
+      "authority_id": "authority:tredf",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trees:jurisprudence",
+      "authority_id": "authority:trees",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trego:jurisprudence",
+      "authority_id": "authority:trego",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trema:jurisprudence",
+      "authority_id": "authority:trema",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tremg:jurisprudence",
+      "authority_id": "authority:tremg",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trems:jurisprudence",
+      "authority_id": "authority:trems",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tremt:jurisprudence",
+      "authority_id": "authority:tremt",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trepa:jurisprudence",
+      "authority_id": "authority:trepa",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trepb:jurisprudence",
+      "authority_id": "authority:trepb",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trepe:jurisprudence",
+      "authority_id": "authority:trepe",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trepi:jurisprudence",
+      "authority_id": "authority:trepi",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trepr:jurisprudence",
+      "authority_id": "authority:trepr",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trerj:jurisprudence",
+      "authority_id": "authority:trerj",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trern:jurisprudence",
+      "authority_id": "authority:trern",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trero:jurisprudence",
+      "authority_id": "authority:trero",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trerr:jurisprudence",
+      "authority_id": "authority:trerr",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trers:jurisprudence",
+      "authority_id": "authority:trers",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tresc:jurisprudence",
+      "authority_id": "authority:tresc",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trese:jurisprudence",
+      "authority_id": "authority:trese",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:treto:jurisprudence",
+      "authority_id": "authority:treto",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trf1:jurisprudence",
+      "authority_id": "authority:trf1",
+      "branch": "federal",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trf3:jurisprudence",
+      "authority_id": "authority:trf3",
+      "branch": "federal",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trf5:jurisprudence",
+      "authority_id": "authority:trf5",
+      "branch": "federal",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt1:jurisprudence",
+      "authority_id": "authority:trt1",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt10:jurisprudence",
+      "authority_id": "authority:trt10",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt11:jurisprudence",
+      "authority_id": "authority:trt11",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt12:jurisprudence",
+      "authority_id": "authority:trt12",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt13:jurisprudence",
+      "authority_id": "authority:trt13",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt14:jurisprudence",
+      "authority_id": "authority:trt14",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt15:jurisprudence",
+      "authority_id": "authority:trt15",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt16:jurisprudence",
+      "authority_id": "authority:trt16",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt17:jurisprudence",
+      "authority_id": "authority:trt17",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt18:jurisprudence",
+      "authority_id": "authority:trt18",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt19:jurisprudence",
+      "authority_id": "authority:trt19",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt2:jurisprudence",
+      "authority_id": "authority:trt2",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt20:jurisprudence",
+      "authority_id": "authority:trt20",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt21:jurisprudence",
+      "authority_id": "authority:trt21",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt22:jurisprudence",
+      "authority_id": "authority:trt22",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt23:jurisprudence",
+      "authority_id": "authority:trt23",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt24:jurisprudence",
+      "authority_id": "authority:trt24",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt3:jurisprudence",
+      "authority_id": "authority:trt3",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt4:jurisprudence",
+      "authority_id": "authority:trt4",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt5:jurisprudence",
+      "authority_id": "authority:trt5",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt6:jurisprudence",
+      "authority_id": "authority:trt6",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt7:jurisprudence",
+      "authority_id": "authority:trt7",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt8:jurisprudence",
+      "authority_id": "authority:trt8",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:trt9:jurisprudence",
+      "authority_id": "authority:trt9",
+      "branch": "labor",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:tse:jurisprudence",
+      "authority_id": "authority:tse",
+      "branch": "electoral",
+      "status": "candidate",
+      "reason": "authority_cataloged_without_implemented_provider"
+    },
+    {
+      "collection_id": "collection:unattributed:bnp_pangea",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:cjf_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:cnj_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:eproc_jurisprudencia_federal",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:falcao_jt",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:justica_eleitoral_sjur",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:stf_informativo",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:stj_informativo",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tce_pr_viajuris",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tce_sp_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tcu_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjac_banco_sentencas",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjac_ementario_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjal_esmal_banco_sentencas",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjal_turma_recursal_ementario",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjap_banco_sentencas",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjap_tucujuris",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjce_cjsg",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjce_informativos",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjce_sjuris",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjma_informativos",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjma_jurisconsult",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmg_dspace_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmg_ejef_boletim_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmg_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmmg_jurisprudencia_api",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmrs_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjms_cjpg",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmsp_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjmt_jurisprudencia_api",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjpa_jurisprudencia_bff",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjpb_pje_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjpe_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjpr_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjrj_banco_sentencas",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjrj_ejuris",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjrj_eproc_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjrs_solr",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjsc_eproc_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjse_boletim_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjse_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjsp_cjpg",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjsp_nugepnac",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tjto_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tre_sjur_first_degree",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tre_sjur_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trf3_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trf5_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt15_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt2_basis_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt2_ementario_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt2_pje_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt3_ementario_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt4_sumulas_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt6_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt8_pje_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:trt9_nugepnac_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    },
+    {
+      "collection_id": "collection:unattributed:tse_sjur_jurisprudencia",
+      "authority_id": "authority:unknown",
+      "branch": "unknown",
+      "status": "unknown",
+      "reason": "provider_or_collection_not_reconciled_to_authority"
+    }
+  ],
+  "history": [
+    {
+      "epoch_id": "2026-09-01@2026-09-01",
+      "topology_version": "2026-09-01",
+      "cutoff_date": "2026-09-01"
+    }
+  ],
+  "summary": {
+    "source": "nanojuris.topology.project_coverage",
+    "network_access": "not_used",
+    "known_collection_count": 94,
+    "unreconciled_collection_count": 58,
+    "unreconciled_provider_count": 58,
+    "status_counts": {
+      "blocked": 0,
+      "candidate": 75,
+      "gap": 0,
+      "implemented": 19,
+      "retired": 0,
+      "unknown": 58
+    },
+    "gaps_by_branch": {
+      "electoral": 27,
+      "federal": 3,
+      "labor": 24,
+      "military": 3,
+      "national_council": 1,
+      "state": 17,
+      "unknown": 58
+    },
+    "scope_note": "Claims medem bindings institucionais implementados na epoca; nao afirmam que cada tribunal ou periodo possui acervo integral."
+  }
+}

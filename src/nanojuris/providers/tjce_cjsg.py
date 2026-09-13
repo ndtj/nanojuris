@@ -6,7 +6,7 @@ import hashlib
 import re
 from dataclasses import replace
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
@@ -36,6 +36,9 @@ from nanojuris.providers.tjsp_cjsg import (
     extract_cjsg_document_text_bytes,
     fetch_cjsg_page,
 )
+from nanojuris.tjce_tls import TjceTlsAdapter
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 
 class TjceCjsgProvider(TjacCjsgProvider):
@@ -54,9 +57,30 @@ class TjceCjsgProvider(TjacCjsgProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        # TJCE's public e-SAJ endpoint still negotiates a legacy cipher level.
+        # This adapter changes only cipher negotiation; certificate verification
+        # remains controlled by ``config.verify_ssl``.
+        host = urlparse(self.config.tjce_cjsg_url).hostname or ""
+        if callable(getattr(self.session, "mount", None)) and host:
+            # Scope the legacy-cipher compatibility adapter to TJCE's own
+            # origin.  A caller may inject a shared requests session; mounting
+            # it at ``https://`` would silently weaken TLS negotiation for
+            # unrelated providers using that session.
+            self.session.mount(f"https://{host}/", TjceTlsAdapter())
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_http_metadata: dict[str, Any] = {}
         self._last_response_content = b""
+        self._pending_access_diagnostic: str | None = None
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         return fetch_cjsg_page(
@@ -127,48 +151,83 @@ class TjceCjsgProvider(TjacCjsgProvider):
             source=self.name,
             display_name="TJCE Consulta de Jurisprudencia/CJSG",
             source_url=self.config.tjce_cjsg_url,
+            # A bounded public smoke on 2026-09-06 returned textual second-
+            # degree records.  Keep the provider in the normal federation;
+            # access failures are still surfaced by the transport contract.
+            supports_unified_search=True,
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> str:
-        self._respect_rate_limit()
         url = urljoin(self.config.tjce_cjsg_url.rstrip("/") + "/", path.lstrip("/"))
-        headers = {
+        skip_access_diagnostic = bool(kwargs.pop("skip_access_diagnostic", False))
+        request_headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        request_headers.update(kwargs.pop("headers", {}) or {})
+        request = TransportRequest(
+            source=self.name,
+            operation=f"cjsg_{method.lower()}",
+            method=method,
+            url=url,
+            headers=request_headers,
+            data=kwargs.pop("data", None),
+            params=kwargs.pop("params", {}),
+            json_body=kwargs.pop("json", None),
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport arguments: {', '.join(sorted(kwargs))}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                **kwargs,
-            )
+            response = self.transport.request(request)
+        except IndexError as exc:
+            # A test/dry-run session may expose only the POST acknowledgement.
+            # Preserve the deferred access-control classification instead of
+            # turning that missing follow-up into an empty result.
+            if self._pending_access_diagnostic:
+                raise AccessControlRequiredError(
+                    "TJCE/CJSG requires captcha or another access-control step "
+                    f"({self._pending_access_diagnostic})"
+                ) from exc
+            raise
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJCE/CJSG request failed: {exc}") from exc
-        if response.status_code == 429:
-            raise RateLimitDetectedError("TJCE/CJSG returned HTTP 429")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJCE/CJSG returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        except SourceUnavailableError as exc:
+            raise SourceUnavailableError(f"TJCE/CJSG request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
             raise SourceUnavailableError(
-                f"TJCE/CJSG rejected request with HTTP {response.status_code}"
+                f"TJCE/CJSG transport failed: {response.error_type or response.status.value}"
             )
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError("TJCE/CJSG transport returned no HTTP status")
+        if status_code == 429:
+            raise RateLimitDetectedError("TJCE/CJSG returned HTTP 429")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TJCE/CJSG returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(f"TJCE/CJSG rejected request with HTTP {status_code}")
         text = decode_cjsg_response_text(response)
         content = _response_bytes(response)
         self._last_response_content = content
         response_headers = getattr(response, "headers", {}) or {}
         self._last_http_metadata = {
-            "http_status": response.status_code,
+            "http_status": status_code,
             "final_url": str(getattr(response, "url", url) or url),
             "content_type": response_headers.get("Content-Type")
             or response_headers.get("content-type"),
             "content_sha256": hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
-            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+            "retrieval_status": "ok" if 200 <= status_code < 300 else "http_error",
         }
         diagnostic = diagnose_cjsg_access(text)
-        if diagnostic.access_control_required:
+        if skip_access_diagnostic:
+            self._pending_access_diagnostic = (
+                diagnostic.summary() if diagnostic.access_control_required else None
+            )
+        else:
+            self._pending_access_diagnostic = None
+        if diagnostic.access_control_required and not skip_access_diagnostic:
             raise AccessControlRequiredError(
                 "TJCE/CJSG requires captcha or another access-control step "
                 f"({diagnostic.summary()})"

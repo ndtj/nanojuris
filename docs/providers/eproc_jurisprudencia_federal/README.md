@@ -1,5 +1,16 @@
 # eproc_jurisprudencia_federal
 
+## Binding de família
+
+`FederalEprocJurisprudenciaFamilyProvider` agora expõe um dispatcher opt-in
+para `TNU`, `TRF2`, `TRF4` e `TRF6`. A consulta exige `authority` explícita e
+é encaminhada ao adapter específico já testado; não existe pesquisa agregada
+nem inferência de tribunal. Os contratos de paginação, filtros, acesso e
+inteiro teor continuam independentes por instalação.
+
+O binding de família não entra na federação padrão até que cada instância tenha
+evidência live, fixtures de detalhe e os gates de qualidade correspondentes.
+
 ## Identidade
 - Fonte oficial: TNU/eproc, TRF2/eproc e TRF6/eproc.
 - Providers implementados: `tnu_eproc_jurisprudencia`, `trf2_eproc_jurisprudencia`
@@ -39,7 +50,7 @@
 - Campos canonicos: `CanonicalDecision`.
 - Campos opcionais: origem, tipo documental, id de jurisprudencia, URL de inteiro teor.
 - Campos instaveis: labels HTML e lista de origens variam por instancia.
-- Inteiro teor: link publico esperado pelo padrao eproc; fixture especifica ainda pendente para TNU/TRF2/TRF6.
+- Inteiro teor: rota pública validada bounded para TNU, TRF2 e TRF6; cada instalação continua sujeita a validação de conteúdo e MIME por execução.
 - Documentos vinculados: `id_jurisprudencia`.
 
 ## Comportamento observado
@@ -69,8 +80,9 @@
 - Vazio: coberto por parser eproc quando a fonte retorna formulario sem cards.
 - Erro/acesso: coberto por respostas fake em
   `tests/test_eproc_jurisprudencia_federal.py`.
-- Documento: coberto por resposta fake; rota live deve ser validada por
-  instancia antes de demonstracoes de inteiro teor em escala.
+- Documento: fixture e smoke fake cobrem o parser; a rota live foi confirmada
+  para um identificador público bounded por instalação. Isso não autoriza
+  coleta em escala nem converte a família em uma fonte agregada.
 
 ## MCP e agentes
 - Quando usar: consultas federais/TNU/TRF2/TRF6 por tema, ementa, inteiro teor ou numero.
@@ -82,5 +94,5 @@
 - [x] Parametrizar provider eproc por base URL, tribunal e origens.
 - [x] Criar fixtures publicas representativas de TNU, TRF2 e TRF6.
 - [x] Reusar parser de `trf4_eproc_jurisprudencia`.
-- [ ] Validar rota de inteiro teor com `id_jurisprudencia` real de cada fonte.
+- [x] Validar rota de inteiro teor com `id_jurisprudencia` real de TNU, TRF2 e TRF6 em `docs/provider-discovery/federal-eproc-detail-live-20260910.json`.
 - [x] Adicionar testes de sucesso, vazio e acesso restrito.

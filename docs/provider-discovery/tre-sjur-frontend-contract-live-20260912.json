@@ -1,0 +1,29 @@
+{
+  "schema_version": "tre-sjur-frontend-contract-v1",
+  "observed_at": "2026-09-12T00:00:00+00:00",
+  "official_frontend": "https://jurisprudencia-tres.tse.jus.br/",
+  "javascript_asset": "https://jurisprudencia-tres.tse.jus.br/main.54a78eba13c2633cab1f.js",
+  "javascript_sha256": "491a7217145fc0a453bf9304d8a05ac1a0f8233a65d469e5058620205550c5ae",
+  "javascript_bytes": 1008000,
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "observed_client_contract": {
+    "method": "POST",
+    "path": "/public/pesquisa/simples",
+    "body_fields": ["termoPesquisa", "pagina", "tamanho", "tribunais"],
+    "page_base": 0,
+    "type_filter_field": "descricaoTipoDecisao.keyword",
+    "type_filter_values_are_utf8": true
+  },
+  "pagination": {
+    "ui_sends_page_and_size": true,
+    "remote_page_exhaustiveness": "not_proven",
+    "existing_bounded_evidence": "docs/provider-discovery/tre-sp-sjur-pagination-live-20260909.json",
+    "decision": "keep_explicit_page_gt_1_rejection_and_total_unknown"
+  },
+  "safety": {
+    "response_bodies_persisted": false,
+    "same_host_parallelism": 1,
+    "bounded_requests_only": true
+  }
+}

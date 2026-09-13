@@ -25,5 +25,10 @@ def test_live_tjsp_cjsg_search_or_access_control():
 
     assert page.source == "tjsp_cjsg"
     assert page.source_trace is not None
+    assert page.source_trace.http_status == 200
+    assert page.source_trace.content_sha256
+    assert page.source_trace.response_bytes and page.source_trace.response_bytes > 0
+    assert page.source_trace.elapsed_ms is not None
+    assert page.source_trace.retrieval_status == "ok"
     assert page.results
     assert page.results[0].raw["cd_acordao"]

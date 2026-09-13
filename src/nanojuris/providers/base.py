@@ -99,7 +99,9 @@ class JurisprudenceProvider(ABC):
                 break
             if stalled:
                 break
-            if page.is_complete is True or (page.total > 0 and len(seen) >= page.total):
+            if page.is_complete is True or (
+                page.total_known is True and page.total >= 0 and len(seen) >= page.total
+            ):
                 break
             page_number += 1
 

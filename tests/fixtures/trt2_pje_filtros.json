@@ -1,0 +1,17 @@
+{
+  "name": "result",
+  "hits": 40199552,
+  "documents": [],
+  "aggregation_fields": [
+    "assunto",
+    "anoProcesso",
+    "tipoDocumento",
+    "instancia",
+    "orgaoJulgadorColegiado",
+    "meioTramitacao",
+    "orgaoJulgador",
+    "magistrado",
+    "classeJudicial"
+  ],
+  "sanitized": true
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nanojuris.local/schemas/evidence-record-0092.json",
+  "type": "object",
+  "required": ["evidence_id", "source_id", "observed_at", "method", "classification", "request", "response"],
+  "properties": {
+    "evidence_id": {"type": "string", "minLength": 3},
+    "source_id": {"type": "string", "minLength": 1},
+    "surface_id": {"type": "string"},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "method": {"enum": ["GET", "POST", "HEAD", "browser_flow", "official_export"]},
+    "classification": {"enum": ["success_with_results", "authoritative_empty", "unconfirmed_empty", "timeout", "access_blocked", "rate_limited", "transport_error", "schema_invalid", "partial", "cancelled", "source_unavailable"]},
+    "request": {
+      "type": "object",
+      "required": ["url_host", "route_template"],
+      "properties": {
+        "url_host": {"type": "string"},
+        "route_template": {"type": "string"},
+        "query_hash": {"type": ["string", "null"]},
+        "body_redacted": {"type": ["object", "string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "response": {
+      "type": "object",
+      "required": ["http_status", "content_type"],
+      "properties": {
+        "http_status": {"type": ["integer", "null"]},
+        "content_type": {"type": ["string", "null"]},
+        "bytes": {"type": ["integer", "null"]},
+        "reported_total": {"type": ["integer", "null"]},
+        "returned": {"type": ["integer", "null"]},
+        "body_sha256": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "redaction": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

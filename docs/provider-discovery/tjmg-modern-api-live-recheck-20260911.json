@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-11",
+  "provider": "tjmg_jurisprudencia",
+  "authority": "TJMG",
+  "surface": "CJSG",
+  "source": "https://jurisprudencia-api.tjmg.jus.br",
+  "credentials_used": false,
+  "query": {
+    "text": "divorcio",
+    "page": 1,
+    "page_size": 1,
+    "fetch_details": false
+  },
+  "search": {
+    "method": "POST",
+    "path": "/jurisprudencias/filter",
+    "http_status": 200,
+    "access_status": "public",
+    "result_count": 1,
+    "total_known": true,
+    "reported_total": 1000,
+    "degree_contract": "second",
+    "raw_text_persisted": false
+  },
+  "detail": {
+    "method": "POST",
+    "path": "/jurisprudencias/document",
+    "http_status": 200,
+    "access_status": "public",
+    "result_count": 1,
+    "text_characters": 8434,
+    "raw_text_persisted": false
+  },
+  "safety": {
+    "captcha_solved": false,
+    "tokens_used": false,
+    "cookies_replayed": false,
+    "rate_limit_bypass": false
+  },
+  "classification": "success_with_results_and_public_full_text",
+  "decision": "TJMG permanece elegivel para busca federada; a evidencia confirma busca, identidade de segundo grau e detalhe publico bounded."
+}

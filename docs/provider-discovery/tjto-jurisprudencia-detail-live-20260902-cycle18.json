@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-02",
+  "audit_mode": "bounded_public_http_recheck",
+  "frequency": "one search plus one linked detail",
+  "credentials_used": false,
+  "raw_content_persisted": false,
+  "results": [
+    {
+      "source_id": "tjto_jurisprudencia",
+      "surface": "jurisprudencia",
+      "endpoint": "POST https://jurisprudencia.tjto.jus.br/consulta.php",
+      "query_shape": {
+        "q": "<juridical-term>",
+        "page": 1,
+        "rows": 1
+      },
+      "http_status": 200,
+      "record_count_observed": 1,
+      "reported_total": 54936,
+      "classification": "reachable_valid_data"
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "surface": "public_full_text",
+      "endpoint": "GET https://jurisprudencia.tjto.jus.br/documento.php?uuid=<uuid>",
+      "http_status": 200,
+      "content_type": "text/html",
+      "response_bytes": 381857,
+      "content_sha256": "eb3a80ca5afdb5c69bbaf72b4db7014de8c35406536f632dfbce494091734069",
+      "record_count_observed": 1,
+      "classification": "reachable_valid_data"
+    }
+  ],
+  "promotion_decision": "runtime_unchanged",
+  "limitations": [
+    "A amostra é uma fotografia bounded; não confirma disponibilidade permanente.",
+    "O corpo jurídico não foi persistido; apenas metadados e hash foram registrados.",
+    "A rota de detalhe é chamada apenas por fetch_details explícito."
+  ]
+}

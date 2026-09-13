@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import UnsupportedQueryError
+from nanojuris.errors import AccessControlRequiredError, UnsupportedQueryError
 from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.justica_eleitoral_sjur import JusticaEleitoralSjurProvider
 
@@ -30,7 +30,8 @@ class FakeSession:
         self.responses = responses
         self.calls: list[dict[str, object]] = []
 
-    def post(self, url: str, **kwargs: object) -> FakeResponse:
+    def request(self, method: str, url: str, **kwargs: object) -> FakeResponse:
+        assert method == "POST"
         self.calls.append({"url": url, "kwargs": kwargs})
         return self.responses.pop(0)
 
@@ -69,6 +70,16 @@ def test_catalog_capabilities_are_catalog_only():
     assert capabilities.supports_unified_search is False
     assert capabilities.canonical_records == ["ProviderCatalog"]
     assert capabilities.completeness_contract == "catalog_snapshot_only"
+
+
+def test_catalog_access_control_is_not_reported_as_empty():
+    provider = JusticaEleitoralSjurProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([FakeResponse({"mensagem": "anti_robot"}, status_code=403)]),
+    )
+
+    with pytest.raises(AccessControlRequiredError):
+        provider._request_catalog("classes", tribunal="TSE")
 
 
 def test_decision_search_is_not_promoted_without_result_contract():

@@ -53,6 +53,14 @@ def _records_to_markdown(run: dict[str, Any], records: list[dict[str, Any]]) -> 
     lines.append(f"- Texto: {run.get('text') or ''}")
     lines.append(f"- Criada em: `{run.get('created_at')}`")
     lines.append(f"- Registros: {len(records)}")
+    manifest = run.get("manifest") or {}
+    if manifest:
+        lines.append(f"- Completude: `{manifest.get('complete')}`")
+        lines.append(f"- Parada: `{manifest.get('stop_reason')}`")
+        lines.append(
+            f"- Janela da coleta: `{manifest.get('started_at')}` a `{manifest.get('finished_at')}`"
+        )
+        lines.append(f"- Manifesto: `{manifest.get('schema_version')}`")
     lines.append("")
     for index, record in enumerate(records, start=1):
         lines.extend(_record_markdown(index, record))
@@ -76,12 +84,16 @@ def _record_markdown(index: int, record: dict[str, Any]) -> list[str]:
     source_trace = record.get("source_trace") or {}
     if source_trace.get("source_url"):
         lines.append(f"- URL da fonte: {source_trace['source_url']}")
+    identity = record.get("legal_identity") or {}
+    if identity.get("key"):
+        lines.append(f"- Identidade juridica: `{identity['key']}`")
     return lines
 
 
 def _record_row(record: dict[str, Any]) -> dict[str, Any]:
     source_trace = record.get("source_trace") or {}
     extraction_trace = record.get("extraction_trace") or {}
+    identity = record.get("legal_identity") or {}
     return {
         "record_kind": _record_kind(record),
         "id": record.get("id"),
@@ -109,6 +121,9 @@ def _record_row(record: dict[str, Any]) -> dict[str, Any]:
         "source_url": source_trace.get("source_url"),
         "extraction_status": extraction_trace.get("status"),
         "access_status": extraction_trace.get("access_status") or record.get("access_status"),
+        "legal_identity_kind": identity.get("kind"),
+        "legal_identity_key": identity.get("key"),
+        "legal_identity_parent_key": identity.get("parent_key"),
     }
 
 
@@ -147,6 +162,9 @@ _CSV_FIELDS = [
     "source_url",
     "extraction_status",
     "access_status",
+    "legal_identity_kind",
+    "legal_identity_key",
+    "legal_identity_parent_key",
 ]
 
 _MARKDOWN_FIELDS = [

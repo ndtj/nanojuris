@@ -2,12 +2,10 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
-import time
 import unicodedata
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -24,6 +22,7 @@ from nanojuris.models import (
     AccessStatus,
     CanonicalDocument,
     DecisionBundle,
+    ExtractionStatus,
     JurisprudenceQuery,
     JurisprudenceResult,
     ProviderCapabilities,
@@ -34,6 +33,13 @@ from nanojuris.models import (
 )
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import (
+    TransportPolicy,
+    TransportRequest,
+    TransportResponse,
+    TransportStatus,
+)
 
 TST_ID_RE = re.compile(r"[a-f0-9]{32}", re.IGNORECASE)
 CNJ_RE = re.compile(r"^(\d{7})[-.]?(\d{2})[-.]?(\d{4})[-.]?(\d)[-.]?(\d{2})[-.]?(\d{4})$")
@@ -51,8 +57,23 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
+        host = (
+            urlparse(self.config.tst_jurisprudencia_api_url).hostname
+            or "jurisprudencia-backend2.tst.jus.br"
+        )
+        self._transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=16_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         payload = build_tst_search_payload(query)
@@ -64,7 +85,16 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             endpoint=endpoint,
             query={
                 "text": query.text,
+                "all_words": query.all_words,
+                "any_words": query.any_words,
+                "without_words": query.without_words,
+                "exact_phrase": query.exact_phrase,
                 "number": query.number,
+                "published_from": query.published_from,
+                "published_to": query.published_to,
+                "updated_from": query.updated_from,
+                "updated_to": query.updated_to,
+                "types": list(query.types),
                 "page": query.page,
                 "page_size": page_size,
                 "body_contract": "tst_pesquisa_textual_v1",
@@ -104,8 +134,8 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         endpoint = f"/rest/documentos/{external_id}"
         response = self._request("GET", endpoint)
         html = response.text
-        source_url = getattr(response, "url", self.api_url + endpoint)
-        content = bytes(getattr(response, "content", None) or html.encode("utf-8"))
+        source_url = str(response.final_url or response.url or self.api_url + endpoint)
+        content = response.body
         text = _clean_html(html)
         trace = SourceTrace(
             provider=self.name,
@@ -120,8 +150,7 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             source=self.name,
             document_type="acordao",
             content=content,
-            content_type=(getattr(response, "headers", None) or {}).get("Content-Type")
-            or "text/html",
+            content_type=response.content_type or "text/html",
             title="TST inteiro teor",
             text_override=text,
             url=source_url,
@@ -252,6 +281,49 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
                 "updated_to",
                 "types",
             ],
+            filter_semantics={
+                "text": "native",
+                "all_words": "native",
+                "any_words": "native",
+                "without_words": "native",
+                "exact_phrase": "native",
+                "number": "native",
+                "published_from": "native",
+                "published_to": "native",
+                "updated_from": "native",
+                "updated_to": "native",
+                "types": "native",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "translated",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "rapporteur",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                        "order_by",
+                    )
+                },
+            },
             limitations=[
                 "A busca deve ter termo, numero ou filtro explicito.",
                 "A base da API e publicada pelo config.json do frontend.",
@@ -278,17 +350,16 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             ) from exc
         if not isinstance(data, dict):
             raise ParserContractChangedError("TST jurisprudence API JSON root is not an object")
-        return data, getattr(response, "url", self.api_url + endpoint)
+        return data, str(response.final_url or response.url or self.api_url + endpoint)
 
     def _request_text(self, endpoint: str) -> tuple[str, str]:
         response = self._request("GET", endpoint)
         text = response.text
         if not text.strip():
             raise ParserContractChangedError("TST jurisprudence document response is empty")
-        return text, getattr(response, "url", self.api_url + endpoint)
+        return text, str(response.final_url or response.url or self.api_url + endpoint)
 
-    def _request(self, method: str, endpoint: str, **kwargs: Any) -> requests.Response:
-        self._respect_rate_limit()
+    def _request(self, method: str, endpoint: str, **kwargs: Any) -> TransportResponse:
         url = urljoin(self.api_url + "/", endpoint.lstrip("/"))
         headers = {
             "Accept": "application/json, text/html, */*",
@@ -297,18 +368,30 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         }
         if method == "POST":
             headers["Referer"] = self.config.tst_jurisprudencia_url.rstrip("/") + "/"
-        started = time.perf_counter()
+        request = TransportRequest(
+            source=self.name,
+            operation=f"{method.lower()}_{endpoint.lstrip('/').replace('/', '_')}",
+            method=method,
+            url=url,
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            params=kwargs.pop("params", {}),
+            headers=headers,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported TST transport arguments: {sorted(kwargs)}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
-            )
-        except requests.RequestException as exc:
+            response = self._transport.request(request)
+        except (requests.RequestException, SourceUnavailableError) as exc:
             raise SourceUnavailableError(f"TST jurisprudence request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                "TST jurisprudence transport failed: "
+                f"{response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("TST jurisprudence transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError("TST jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -323,26 +406,16 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             raise ParserContractChangedError(
                 "TST jurisprudence search returned HTML instead of JSON"
             )
-        content = bytes(getattr(response, "content", None) or response.text.encode("utf-8"))
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", None) or url),
-            "content_type": (getattr(response, "headers", None) or {}).get("Content-Type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
-            "response_bytes": len(content),
-            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
+            "final_url": str(response.final_url or response.url or url),
+            "content_type": response.content_type,
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
             "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
         }
         return response
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
 
 
 def _trace_with_http_metadata(trace: SourceTrace, metadata: dict[str, Any]) -> SourceTrace:
@@ -448,7 +521,52 @@ def parse_tst_search_response(
         pagination_mode="offset",
         is_complete=complete,
         completeness_reason=completeness_reason,
+        filters_applied=_tst_filters_applied(query),
+        total_known="totalRegistros" in data,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY,
     )
+
+
+def _tst_filters_applied(query: JurisprudenceQuery) -> dict[str, str]:
+    """Expose the exact native/translated/unsupported filter disposition."""
+
+    native = (
+        "text",
+        "all_words",
+        "any_words",
+        "without_words",
+        "exact_phrase",
+        "number",
+        "published_from",
+        "published_to",
+        "updated_from",
+        "updated_to",
+        "types",
+    )
+    applied = {
+        name: "native"
+        if (getattr(query, name) or (name == "types" and query.types))
+        else "not_requested"
+        for name in native
+    }
+    if query.document_type:
+        applied["document_type"] = "translated"
+    for name in (
+        "courts",
+        "rapporteur",
+        "case_class",
+        "judging_body",
+        "degree",
+        "instance",
+        "legal_area",
+        "decision_type",
+        "judgment_date_from",
+        "judgment_date_to",
+        "source_origin",
+    ):
+        applied[name] = "unsupported" if getattr(query, name) else "not_requested"
+    return applied
 
 
 def _record_to_result(

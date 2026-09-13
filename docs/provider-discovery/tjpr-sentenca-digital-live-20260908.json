@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-09-08",
+  "authority": "TJPR",
+  "branch": "state",
+  "degree": "first",
+  "instance": "first",
+  "collection": "CJPG",
+  "scope": "official_first_degree_sentence_surface_discovery",
+  "source_page": {
+    "url": "https://www.tjpr.jus.br/sentenca-digital",
+    "method": "GET",
+    "status": 200,
+    "content_type": "text/html;charset=UTF-8",
+    "response_bytes_observed": 289182,
+    "credentials_used": false,
+    "classification": "reachable"
+  },
+  "embedded_surface": {
+    "route_family": "/pesquisa_sentenca/publico/sentenca.do",
+    "method": "POST",
+    "action": "pesquisa",
+    "required_fields_observed": [
+      "numeroAutos",
+      "idComarca",
+      "idVara",
+      "numMatriculaJuiz",
+      "pageNumber",
+      "pageSize",
+      "sortColumn",
+      "sortOrder"
+    ],
+    "filters_observed": [
+      "numeroAutos",
+      "comarca",
+      "vara/órgão",
+      "juiz",
+      "dataInicioFiltro",
+      "dataFimFiltro"
+    ],
+    "pagination_observed": {
+      "page_size_default": 20,
+      "page_number_field": "pageNumber",
+      "sort_fields_observed": ["dataPublicacao"],
+      "sort_orders_observed": ["DESC"]
+    },
+    "bounded_probe": {
+      "method": "POST",
+      "status": 200,
+      "content_type": "text/html;charset=ISO-8859-1",
+      "response_bytes_observed": 14071,
+      "submitted_query": "empty required fields only",
+      "classification": "query_rejected",
+      "observed_message": "Erro detectado em sua pesquisa. Por favor, verifique os dados informados e tente novamente.",
+      "required_number_message_observed": true
+    }
+  },
+  "security": {
+    "credentials_used": false,
+    "captcha_or_waf_bypass": false,
+    "session_or_token_replayed": false,
+    "response_bodies_persisted": false,
+    "request_bound": true
+  },
+  "classification": {
+    "official_source": true,
+    "public_route": true,
+    "decision_text_observed": false,
+    "general_text_search_observed": false,
+    "degree_contract": "first_degree_surface_only",
+    "surface_role": "first_degree_process_or_sentence_lookup",
+    "promotion": "discovery_only",
+    "next_action": "obtain_one_publicly_reproducible_valid_numbered_query_before_adapter"
+  },
+  "limitations": [
+    "A rota exige número de processo CNJ e campos de unidade/magistrado; a tentativa sem número foi rejeitada.",
+    "A evidência não prova corpus geral pesquisável por tema nem inteiro teor retornado.",
+    "A superfície não deve ser contada como CJPG GOLD sem uma consulta válida e parser de decisão.",
+    "O token de URL é efêmero e não foi armazenado como credencial nem reutilizado fora da sessão bounded."
+  ]
+}

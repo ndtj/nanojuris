@@ -1,0 +1,2634 @@
+{
+  "generated_at": "2026-09-06T15:10:47+00:00",
+  "mode": "live_bounded",
+  "provider_count": 1,
+  "catalog_candidate_count": 6,
+  "unknown_sources": [
+    "tjap_tucujuris",
+    "tjmg_jurisprudencia",
+    "tjse_jurisprudencia"
+  ],
+  "limits": {
+    "max_pages": 1,
+    "max_depth": 0,
+    "timeout": 8.0,
+    "delay": 0.5
+  },
+  "providers": [
+    {
+      "source": "tjma_jurisconsult",
+      "status": "observed",
+      "declared": {
+        "source": "tjma_jurisconsult",
+        "display_name": "TJMA JurisConsult",
+        "source_url": "https://jurisconsult.tjma.jus.br/",
+        "category": "court_catalog",
+        "search_modes": [
+          "catalog",
+          "text_gated",
+          "precedent_links"
+        ],
+        "document_types": [
+          "acordao",
+          "decisao_monocratica",
+          "sentenca",
+          "sumula"
+        ],
+        "content_formats": [
+          "json"
+        ],
+        "canonical_records": [
+          "ProviderCatalog"
+        ],
+        "semantic_discriminator": null,
+        "extracted_fields": [
+          "report_type",
+          "search_type",
+          "case_class",
+          "rapporteur",
+          "chamber",
+          "county",
+          "precedent_links"
+        ],
+        "access_statuses": [
+          "public",
+          "access_control_required"
+        ],
+        "endpoints": [
+          "GET /jurisprudencia/lista_relatorios",
+          "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>",
+          "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>",
+          "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>",
+          "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>",
+          "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>",
+          "GET /jurisprudencia/links_pesquisa_sumulas"
+        ],
+        "supports_full_text": false,
+        "supports_catalog": true,
+        "supports_suggestions": false,
+        "supports_live_tests": true,
+        "supports_cli": true,
+        "supports_unified_search": false,
+        "opt_in_unified_search": false,
+        "supports_mcp": true,
+        "supports_studio": true,
+        "pagination_mode": "none",
+        "max_remote_page": null,
+        "max_remote_page_size": null,
+        "completeness_contract": "public_catalog_snapshot_only",
+        "full_text_access": "access_blocked",
+        "supported_filters": [
+          "types",
+          "catalog"
+        ],
+        "unsupported_filters": [],
+        "limitations": [
+          "A busca de acordaos, decisoes e sentencas exige captcha.",
+          "Catalogos sao snapshots de vocabulario e nao representam resultados coletados."
+        ],
+        "responsible_use": [
+          "Usar o catalogo para desenho amostral e preenchimento de filtros.",
+          "Nao interpretar o provider como acervo textual pesquisavel.",
+          "Nao enviar tokenG, keyId ou qualquer desafio de captcha."
+        ],
+        "filter_semantics": {
+          "types": "native",
+          "authority": "validated_scope",
+          "branch": "validated_scope",
+          "collection": "validated_scope",
+          "document_type": "validated_scope",
+          "text": "unsupported",
+          "courts": "unsupported",
+          "all_words": "unsupported",
+          "any_words": "unsupported",
+          "without_words": "unsupported",
+          "exact_phrase": "unsupported",
+          "rapporteur": "unsupported",
+          "updated_from": "unsupported",
+          "updated_to": "unsupported",
+          "published_from": "unsupported",
+          "published_to": "unsupported",
+          "number": "unsupported",
+          "party_name": "unsupported",
+          "party_document": "unsupported",
+          "lawyer_name": "unsupported",
+          "oab": "unsupported",
+          "precatory_number": "unsupported",
+          "police_document": "unsupported",
+          "cda": "unsupported",
+          "source_origin": "unsupported",
+          "source_origins": "unsupported",
+          "fetch_details": "unsupported",
+          "case_class": "unsupported",
+          "judging_body": "unsupported",
+          "degree": "unsupported",
+          "instance": "unsupported",
+          "legal_area": "unsupported",
+          "decision_type": "unsupported",
+          "judgment_date_from": "unsupported",
+          "judgment_date_to": "unsupported"
+        },
+        "ordering_modes": [],
+        "detail_modes": []
+      },
+      "declared_routes": [
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_relatorios",
+          "declaration": "GET /jurisprudencia/lista_relatorios"
+        },
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=sample",
+          "declaration": "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>"
+        },
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_classes?tipoRelatorio=sample",
+          "declaration": "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>"
+        },
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_magistrados?tipoRelatorio=sample",
+          "declaration": "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>"
+        },
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_camaras?tipoRelatorio=sample",
+          "declaration": "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>"
+        },
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_comarcas?tipoRelatorio=sample",
+          "declaration": "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>"
+        },
+        {
+          "method": "GET",
+          "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/links_pesquisa_sumulas",
+          "declaration": "GET /jurisprudencia/links_pesquisa_sumulas"
+        }
+      ],
+      "declared_filters": [
+        "types",
+        "catalog"
+      ],
+      "observations": [
+        {
+          "run_id": "f17fe22cf39746298bafa195fb1b7187",
+          "captured_at": "2026-09-06T15:10:32+00:00",
+          "seed_url": "https://jurisconsult.tjma.jus.br/",
+          "request": {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": 200,
+            "url": "https://jurisconsult.tjma.jus.br/",
+            "final_url": "https://jurisconsult.tjma.jus.br/",
+            "content_type": "text/html; charset=UTF-8",
+            "headers": {
+              "date": "Sun, 06 Sep 2026 15:10:32 GMT",
+              "server": "Apache",
+              "x-frame-options": "SAMEORIGIN",
+              "x-xss-protection": "1; mode=block",
+              "last-modified": "Thu, 04 Jul 2024 18:03:35 GMT",
+              "etag": "\"9b2-61c6fc4057c5f\"",
+              "accept-ranges": "bytes",
+              "content-length": "2482",
+              "content-type": "text/html; charset=UTF-8"
+            },
+            "response_bytes": 2482,
+            "content_sha256": "cce80b5d1314ed2d59dc268ba0f5f2f292cc07a109c9275609d16a9810fa8be3",
+            "elapsed_ms": 67.35160003881902,
+            "redirects": [],
+            "transport_status": "complete",
+            "error_type": null,
+            "error": null
+          },
+          "status": "candidate",
+          "access_status": "public",
+          "extraction_status": "complete",
+          "route_candidates": [
+            {
+              "url": "https://jurisconsult.tjma.jus.br/assets/icon/favicon.ico",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://jurisconsult.tjma.jus.br/manifest.json",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://jurisconsult.tjma.jus.br/build/main.css",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://jurisconsult.tjma.jus.br/cordova.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://jurisconsult.tjma.jus.br/build/polyfills.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://jurisconsult.tjma.jus.br/build/vendor.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://jurisconsult.tjma.jus.br/build/main.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            }
+          ],
+          "selector_candidates": [],
+          "filter_candidates": [],
+          "access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "legal_signals": {
+            "case_number": false,
+            "acordao": false,
+            "ementa": false,
+            "jurisprudencia": false,
+            "relator": false,
+            "judging_body": false,
+            "decision": false,
+            "precedent": false,
+            "full_text": false
+          },
+          "limitations": [
+            "Investigar contrato com HAR/DevTools e confirmar conteudo juridico objetivo."
+          ],
+          "source": "http"
+        }
+      ],
+      "observed_routes": [
+        {
+          "url": "https://jurisconsult.tjma.jus.br/assets/icon/favicon.ico",
+          "method": "GET",
+          "source": "asset",
+          "reason": "HTML resource link",
+          "content_type": "",
+          "confidence": 0.35,
+          "depth": 1
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/manifest.json",
+          "method": "GET",
+          "source": "asset",
+          "reason": "HTML resource link",
+          "content_type": "",
+          "confidence": 0.35,
+          "depth": 1
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/build/main.css",
+          "method": "GET",
+          "source": "asset",
+          "reason": "HTML resource link",
+          "content_type": "",
+          "confidence": 0.35,
+          "depth": 1
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/cordova.js",
+          "method": "GET",
+          "source": "script",
+          "reason": "script source",
+          "content_type": "",
+          "confidence": 0.4,
+          "depth": 1
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/build/polyfills.js",
+          "method": "GET",
+          "source": "script",
+          "reason": "script source",
+          "content_type": "",
+          "confidence": 0.4,
+          "depth": 1
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/build/vendor.js",
+          "method": "GET",
+          "source": "script",
+          "reason": "script source",
+          "content_type": "",
+          "confidence": 0.4,
+          "depth": 1
+        },
+        {
+          "url": "https://jurisconsult.tjma.jus.br/build/main.js",
+          "method": "GET",
+          "source": "script",
+          "reason": "script source",
+          "content_type": "",
+          "confidence": 0.4,
+          "depth": 1
+        }
+      ],
+      "observed_filters": [],
+      "contract_comparison": {
+        "declared_get_routes": [
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_relatorios",
+            "declaration": "GET /jurisprudencia/lista_relatorios"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_classes?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_magistrados?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_camaras?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_comarcas?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/links_pesquisa_sumulas",
+            "declaration": "GET /jurisprudencia/links_pesquisa_sumulas"
+          }
+        ],
+        "observed_declared_get_routes": [],
+        "unobserved_declared_get_routes": [
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_relatorios",
+            "declaration": "GET /jurisprudencia/lista_relatorios"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_classes?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_classes?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_magistrados?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_magistrados?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_camaras?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_camaras?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/lista_todos_comarcas?tipoRelatorio=sample",
+            "declaration": "GET /jurisprudencia/lista_todos_comarcas?tipoRelatorio=<id>"
+          },
+          {
+            "method": "GET",
+            "url": "https://jurisconsult.tjma.jus.br/jurisprudencia/links_pesquisa_sumulas",
+            "declaration": "GET /jurisprudencia/links_pesquisa_sumulas"
+          }
+        ],
+        "declared_post_routes": [],
+        "observed_filter_semantics": [],
+        "declared_filters_not_observed_semantically": [
+          "catalog",
+          "types"
+        ]
+      },
+      "todo": [
+        "capturar e validar GETs declarados ainda não observados",
+        "capturar fixture de formulário/JSON para confirmar filtros"
+      ],
+      "metrics": {
+        "observations": 1,
+        "statuses": {
+          "candidate": 1
+        },
+        "route_candidates": 7,
+        "filter_candidates": 0,
+        "public_observations": 1,
+        "access_controlled_observations": 0
+      },
+      "errors": [],
+      "interpretation": [
+        "Rotas declaradas com POST não foram submetidas automaticamente; exigem payload e revisão do contrato.",
+        "A ausência de observação não representa ausência de dados.",
+        "Bloqueios, login, rate limit, timeout e falhas TLS permanecem estados explícitos."
+      ]
+    }
+  ],
+  "catalog_candidates": [
+    {
+      "source": "falcao_jt",
+      "implementation_status": "none",
+      "status": "observed",
+      "urls": [
+        "https://jurisprudencia.jt.jus.br/",
+        "https://www.trt9.jus.br/portal/pagina.xhtml?pagina=FALCAO&secao=168",
+        "https://www.cnj.jus.br/conheca-o-falcao-o-repositorio-oficial-de-jurisprudencia-da-justica-do-trabalho/"
+      ],
+      "observations": [
+        {
+          "run_id": "38f746a9f0284fdf924f2be2467ded73",
+          "captured_at": "2026-09-06T15:10:33+00:00",
+          "seed_url": "https://jurisprudencia.jt.jus.br/",
+          "request": {
+            "method": "GET",
+            "url": "https://jurisprudencia.jt.jus.br/",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": null,
+            "url": "https://jurisprudencia.jt.jus.br/",
+            "final_url": "https://jurisprudencia.jt.jus.br/",
+            "content_type": "",
+            "headers": {},
+            "response_bytes": 0,
+            "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "elapsed_ms": null,
+            "redirects": [],
+            "transport_status": "robots_disallowed",
+            "error_type": null,
+            "error": null
+          },
+          "status": "robots_disallowed",
+          "access_status": "partial",
+          "extraction_status": "partial",
+          "route_candidates": [],
+          "selector_candidates": [],
+          "filter_candidates": [],
+          "access_signals": {},
+          "legal_signals": {},
+          "limitations": [
+            "robots.txt disallowed this URL"
+          ],
+          "source": "http"
+        }
+      ],
+      "metrics": {
+        "observations": 1,
+        "response_bytes": 0,
+        "statuses": {
+          "robots_disallowed": 1
+        },
+        "access_statuses": {
+          "partial": 1
+        },
+        "route_candidates": 0,
+        "selector_candidates": 0,
+        "filter_candidates": 0
+      },
+      "todo": [
+        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública"
+      ]
+    },
+    {
+      "source": "tjap_tucujuris",
+      "implementation_status": "none",
+      "status": "observed",
+      "urls": [
+        "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+        "https://services.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+        "https://www.cnj.jus.br/sistema-moderniza-busca-de-jurisprudencia-em-tribunal-do-amapa/"
+      ],
+      "observations": [
+        {
+          "run_id": "39c1400a2156439987d91d18a2a05c6f",
+          "captured_at": "2026-09-06T15:10:34+00:00",
+          "seed_url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+          "request": {
+            "method": "GET",
+            "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": 200,
+            "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+            "final_url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+            "content_type": "text/html",
+            "headers": {
+              "Date": "Sun, 06 Sep 2026 15:10:34 GMT",
+              "Content-Type": "text/html",
+              "Transfer-Encoding": "chunked",
+              "Connection": "keep-alive",
+              "last-modified": "Tue, 18 Nov 2025 12:27:56 GMT",
+              "Server": "cloudflare",
+              "cf-cache-status": "DYNAMIC",
+              "Content-Encoding": "gzip",
+              "CF-RAY": "a36e66b98805d249-GRU"
+            },
+            "response_bytes": 900,
+            "content_sha256": "28e84ae6ab60b588caa0a827d42c58a5ecd07330fdb2c32baa87ef863b8bde65",
+            "elapsed_ms": 64.19920001644641,
+            "redirects": [],
+            "transport_status": "complete",
+            "error_type": null,
+            "error": null
+          },
+          "status": "candidate",
+          "access_status": "public",
+          "extraction_status": "complete",
+          "route_candidates": [
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/favicon.ico",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/runtime-es2015.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/runtime-es5.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/polyfills-es5.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/polyfills-es2015.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/styles-es2015.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/styles-es5.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/scripts.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/vendor-es2015.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/vendor-es5.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/main-es2015.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/pages/consultar-jurisprudencia/main-es5.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://tucujuris.tjap.jus.br/tucujuris/",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            }
+          ],
+          "selector_candidates": [],
+          "filter_candidates": [],
+          "access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "legal_signals": {
+            "case_number": false,
+            "acordao": false,
+            "ementa": false,
+            "jurisprudencia": false,
+            "relator": false,
+            "judging_body": false,
+            "decision": false,
+            "precedent": false,
+            "full_text": false
+          },
+          "limitations": [
+            "Investigar contrato com HAR/DevTools e confirmar conteudo juridico objetivo."
+          ],
+          "source": "http"
+        }
+      ],
+      "metrics": {
+        "observations": 1,
+        "response_bytes": 900,
+        "statuses": {
+          "candidate": 1
+        },
+        "access_statuses": {
+          "public": 1
+        },
+        "route_candidates": 13,
+        "selector_candidates": 0,
+        "filter_candidates": 0
+      },
+      "todo": [
+        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública"
+      ]
+    },
+    {
+      "source": "tjmg_jurisprudencia",
+      "implementation_status": "none",
+      "status": "observed",
+      "urls": [
+        "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+        "https://www5.tjmg.jus.br/jurisprudencia/ajuda.do"
+      ],
+      "observations": [
+        {
+          "run_id": "8217f0deb30248fc9066ec76b2f64e32",
+          "captured_at": "2026-09-06T15:10:42+00:00",
+          "seed_url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+          "request": {
+            "method": "GET",
+            "url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": 200,
+            "url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+            "final_url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+            "content_type": "text/html",
+            "headers": {
+              "Set-Cookie": "<redacted>",
+              "Content-Type": "text/html",
+              "Date": "Sun, 06 Sep 2026 15:10:34 GMT",
+              "Vary": "Accept-Encoding",
+              "Content-Encoding": "gzip",
+              "Transfer-Encoding": "chunked"
+            },
+            "response_bytes": 828086,
+            "content_sha256": "82bba5edb5191c63a3d841b43874373dc4a17caf63576026f58841bfa671f856",
+            "elapsed_ms": 385.42050000978634,
+            "redirects": [],
+            "transport_status": "complete",
+            "error_type": null,
+            "error": null
+          },
+          "status": "access_controlled",
+          "access_status": "access_control_required",
+          "extraction_status": "partial",
+          "route_candidates": [
+            {
+              "url": "http://www.tjmg.jus.br",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/formEspelhoAcordao.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/decisao.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/decisaoVice.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/sumulas.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/decisaoTurmaRecursal.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/decisaoTurmaRecursalPJe.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/sentenca.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/ajuda.do",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/css/sistema_antigo.css",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/portaltjmg/css/screen.css",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/portaltjmg/css/alternativo.css",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/js/tjmg_ui.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/js/tjmg.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/js/valida_dv_nu.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/js/ea_util.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/dwr/engine.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/dwr/util.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/dwr/interface/ReferenciaLegislativaAction.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/dwr/interface/ValidacaoCaptchaAction.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2",
+              "method": "GET",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2",
+              "method": "GET",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://www5.tjmg.jus.br/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            }
+          ],
+          "selector_candidates": [
+            {
+              "field": "decision_text",
+              "selector": "#assunto > option:nth-of-type(3614)",
+              "label": "ementa",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:ementa; structural-match-count:1"
+            },
+            {
+              "field": "rapporteur",
+              "selector": "#panelPesquisaLivre > tr:nth-of-type(6) > td.corpo:nth-of-type(1) > b",
+              "label": "relator",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:relator; structural-match-count:1"
+            },
+            {
+              "field": "judging_body",
+              "selector": "#panelPesquisaLivre > tr:nth-of-type(4) > td.corpo:nth-of-type(1) > b",
+              "label": "órgão julgador",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:órgão julgador; structural-match-count:1"
+            },
+            {
+              "field": "full_text",
+              "selector": "#panelPesquisaLivre > tr:nth-of-type(2) > td.corpo:nth-of-type(2)",
+              "label": "inteiro teor",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:inteiro teor; structural-match-count:1"
+            }
+          ],
+          "filter_candidates": [
+            {
+              "name": "numeroRegistro",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:numeroRegistro"
+            },
+            {
+              "name": "totalLinhas",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:totalLinhas"
+            },
+            {
+              "name": "linhasPorPagina",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:linhasPorPagina"
+            },
+            {
+              "name": "numeroUnico",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:numeroUnico"
+            },
+            {
+              "name": "pesquisaNumeroCNJ",
+              "field_type": "submit",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaNumeroCNJEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:pesquisaNumeroCNJ"
+            },
+            {
+              "name": "palavras",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:palavras"
+            },
+            {
+              "name": "operadorE",
+              "field_type": "button",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:operadorE"
+            },
+            {
+              "name": "operadorOU",
+              "field_type": "button",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:operadorOU"
+            },
+            {
+              "name": "operadorNAO",
+              "field_type": "button",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:operadorNAO"
+            },
+            {
+              "name": "operador$",
+              "field_type": "button",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:operador$"
+            },
+            {
+              "name": "pesquisarPor",
+              "field_type": "radio",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:pesquisarPor"
+            },
+            {
+              "name": "pesquisaTesauro",
+              "field_type": "checkbox",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:pesquisaTesauro"
+            },
+            {
+              "name": "orderByData",
+              "field_type": "radio",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:orderByData"
+            },
+            {
+              "name": "codigoOrgaoJulgador",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "Selecione...",
+                "1-1",
+                "1-2",
+                "1-3",
+                "1-4",
+                "1-5",
+                "1-6",
+                "1-7",
+                "1-8",
+                "1-9",
+                "1-10",
+                "1-11",
+                "1-12",
+                "1-13",
+                "1-14",
+                "1-15",
+                "1-16",
+                "1-17",
+                "1-18",
+                "1-19",
+                "1-20",
+                "1-21",
+                "1-50",
+                "1-51",
+                "1-52",
+                "1-53",
+                "1-54",
+                "1-55",
+                "1-56",
+                "1-57",
+                "2-1",
+                "2-2",
+                "2-3",
+                "2-4",
+                "2-5",
+                "2-6",
+                "2-7",
+                "2-8",
+                "2-9",
+                "3-0",
+                "6-1",
+                "6-2",
+                "6-3",
+                "6-4",
+                "6-5",
+                "6-6",
+                "6-7",
+                "6-8",
+                "6-9",
+                "7-1"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:codigoOrgaoJulgador"
+            },
+            {
+              "name": "listaOrgaoJulgador",
+              "field_type": "select",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:listaOrgaoJulgador"
+            },
+            {
+              "name": "codigoCompostoRelator",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "Selecione...",
+                "2-1232313",
+                "2-1528561",
+                "0-25213",
+                "0-82560",
+                "2-2607893",
+                "0-33639",
+                "0-12070",
+                "0-73395",
+                "2-1040039",
+                "0-11007",
+                "2-2708550",
+                "0-25312",
+                "0-27839",
+                "2-2345361",
+                "2-2220622",
+                "2-3176898",
+                "0-12047",
+                "2-3271988",
+                "0-34207",
+                "0-28126",
+                "0-33225",
+                "0-59865",
+                "0-27052",
+                "0-20222",
+                "0-7534",
+                "0-73437",
+                "0-34181",
+                "0-89920",
+                "3-141",
+                "2-1515030",
+                "0-19737",
+                "3-125",
+                "2-2102465",
+                "2-2609816",
+                "0-11908",
+                "0-26955",
+                "0-8870",
+                "0-23564",
+                "2-1387067",
+                "0-20131",
+                "0-23788",
+                "0-20016",
+                "0-12005",
+                "0-54676",
+                "0-11957",
+                "0-23614",
+                "0-12989",
+                "2-752121",
+                "2-2849990"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:codigoCompostoRelator"
+            },
+            {
+              "name": "listaRelator",
+              "field_type": "select",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:listaRelator"
+            },
+            {
+              "name": "classe",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "Selecione...",
+                "345",
+                "537",
+                "538",
+                "443",
+                "321",
+                "43",
+                "262",
+                "263",
+                "297",
+                "504",
+                "612",
+                "9",
+                "8",
+                "232",
+                "254",
+                "434",
+                "330",
+                "427",
+                "519",
+                "242",
+                "175",
+                "230",
+                "417",
+                "1",
+                "513",
+                "515",
+                "514",
+                "407",
+                "244",
+                "2",
+                "415",
+                "260",
+                "323",
+                "16",
+                "259",
+                "333",
+                "300",
+                "71",
+                "505",
+                "17",
+                "18",
+                "213",
+                "506",
+                "280",
+                "281",
+                "21",
+                "521",
+                "502",
+                "410"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:classe"
+            },
+            {
+              "name": "listaClasse",
+              "field_type": "select",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:listaClasse"
+            },
+            {
+              "name": "codigoAssunto",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:codigoAssunto"
+            },
+            {
+              "name": "descricaoAssunto",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:descricaoAssunto"
+            },
+            {
+              "name": "listaAssunto",
+              "field_type": "select",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:listaAssunto"
+            },
+            {
+              "name": "dataPublicacaoInicial",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:dataPublicacaoInicial"
+            },
+            {
+              "name": "dataPublicacaoFinal",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:dataPublicacaoFinal"
+            },
+            {
+              "name": "dataJulgamentoInicial",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:dataJulgamentoInicial"
+            },
+            {
+              "name": "dataJulgamentoFinal",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:dataJulgamentoFinal"
+            },
+            {
+              "name": "siglaLegislativa",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:siglaLegislativa"
+            },
+            {
+              "name": "referenciaLegislativa",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:referenciaLegislativa"
+            },
+            {
+              "name": "numeroRefLegislativa",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:numeroRefLegislativa"
+            },
+            {
+              "name": "anoRefLegislativa",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:anoRefLegislativa"
+            },
+            {
+              "name": "legislacao",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:legislacao"
+            },
+            {
+              "name": "norma",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:norma"
+            },
+            {
+              "name": "descNorma",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:descNorma"
+            },
+            {
+              "name": "complemento_1",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:complemento_1"
+            },
+            {
+              "name": "texto_legal_2",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "ART",
+                "C/C",
+                "CAP",
+                "PU",
+                "PAR",
+                "INC",
+                "ALI",
+                "LET",
+                "ITE"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:texto_legal_2"
+            },
+            {
+              "name": "complemento_2",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:complemento_2"
+            },
+            {
+              "name": "texto_legal_3",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "ART",
+                "C/C",
+                "CAP",
+                "PU",
+                "PAR",
+                "INC",
+                "ALI",
+                "LET",
+                "ITE"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:texto_legal_3"
+            },
+            {
+              "name": "complemento_3",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:complemento_3"
+            },
+            {
+              "name": "texto_legal_4",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "ART",
+                "C/C",
+                "CAP",
+                "PU",
+                "PAR",
+                "INC",
+                "ALI",
+                "LET",
+                "ITE"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:texto_legal_4"
+            },
+            {
+              "name": "complemento_4",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:complemento_4"
+            },
+            {
+              "name": "texto_legal_5",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "ART",
+                "C/C",
+                "CAP",
+                "PU",
+                "PAR",
+                "INC",
+                "ALI",
+                "LET",
+                "ITE"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:texto_legal_5"
+            },
+            {
+              "name": "complemento_5",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:complemento_5"
+            },
+            {
+              "name": "listaTextoLegal",
+              "field_type": "select",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:listaTextoLegal"
+            },
+            {
+              "name": "listaPesquisa",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:listaPesquisa"
+            },
+            {
+              "name": "descricaoTextosLegais",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:descricaoTextosLegais"
+            },
+            {
+              "name": "observacoes",
+              "field_type": "textarea",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:observacoes"
+            },
+            {
+              "name": "pesquisaPalavras",
+              "field_type": "submit",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/pesquisaPalavrasEspelhoAcordao.do;jsessionid=A8357F60AC1674A93C03AF6CDFCA2170.juri_node2;name:pesquisaPalavras"
+            }
+          ],
+          "access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": true,
+            "request_blocked": false
+          },
+          "legal_signals": {
+            "case_number": false,
+            "acordao": false,
+            "ementa": true,
+            "jurisprudencia": true,
+            "relator": true,
+            "judging_body": true,
+            "decision": true,
+            "precedent": true,
+            "full_text": true
+          },
+          "limitations": [
+            "Documentar bloqueio; nao implementar bypass de captcha, login ou sessao."
+          ],
+          "source": "http"
+        }
+      ],
+      "metrics": {
+        "observations": 1,
+        "response_bytes": 828086,
+        "statuses": {
+          "access_controlled": 1
+        },
+        "access_statuses": {
+          "access_control_required": 1
+        },
+        "route_candidates": 24,
+        "selector_candidates": 4,
+        "filter_candidates": 47
+      },
+      "todo": [
+        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública"
+      ]
+    },
+    {
+      "source": "tjse_jurisprudencia",
+      "implementation_status": "none",
+      "status": "observed",
+      "urls": [
+        "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+        "https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+        "https://www.tjse.jus.br/portal/arquivos/documentos/publicacoes/legislacao/tjse/novo_regimento_interno_tjse.pdf?v=18032024"
+      ],
+      "observations": [
+        {
+          "run_id": "7ad313161efb468585caabc91818fbc9",
+          "captured_at": "2026-09-06T15:10:43+00:00",
+          "seed_url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+          "request": {
+            "method": "GET",
+            "url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": null,
+            "url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+            "final_url": "https://www.tjse.jus.br/portal/consultas/jurisprudencia/judicial",
+            "content_type": "",
+            "headers": {},
+            "response_bytes": 0,
+            "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "elapsed_ms": null,
+            "redirects": [],
+            "transport_status": "robots_disallowed",
+            "error_type": null,
+            "error": null
+          },
+          "status": "robots_disallowed",
+          "access_status": "partial",
+          "extraction_status": "partial",
+          "route_candidates": [],
+          "selector_candidates": [],
+          "filter_candidates": [],
+          "access_signals": {},
+          "legal_signals": {},
+          "limitations": [
+            "robots.txt disallowed this URL"
+          ],
+          "source": "http"
+        }
+      ],
+      "metrics": {
+        "observations": 1,
+        "response_bytes": 0,
+        "statuses": {
+          "robots_disallowed": 1
+        },
+        "access_statuses": {
+          "partial": 1
+        },
+        "route_candidates": 0,
+        "selector_candidates": 0,
+        "filter_candidates": 0
+      },
+      "todo": [
+        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública"
+      ]
+    },
+    {
+      "source": "trf3_jurisprudencia",
+      "implementation_status": "none",
+      "status": "observed",
+      "urls": [
+        "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+        "https://web.trf3.jus.br/acordaos/Acordao"
+      ],
+      "observations": [
+        {
+          "run_id": "df44cf25375542ed9b2f1678d5f09a04",
+          "captured_at": "2026-09-06T15:10:46+00:00",
+          "seed_url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+          "request": {
+            "method": "GET",
+            "url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": 200,
+            "url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+            "final_url": "https://web.trf3.jus.br/jurisprudencia/home/index/1",
+            "content_type": "text/html; charset=utf-8",
+            "headers": {
+              "Content-Type": "text/html; charset=utf-8",
+              "X-AspNetMvc-Version": "4.0",
+              "X-AspNet-Version": "4.0.30319",
+              "X-Akamai-Transformed": "0 - 0 -",
+              "Vary": "Accept-Encoding",
+              "Content-Encoding": "gzip",
+              "Expires": "Sun, 06 Sep 2026 15:10:46 GMT",
+              "Cache-Control": "max-age=0, no-cache, no-store",
+              "Pragma": "no-cache",
+              "Date": "Sun, 06 Sep 2026 15:10:46 GMT",
+              "Content-Length": "15815",
+              "Connection": "keep-alive",
+              "Set-Cookie": "<redacted>"
+            },
+            "response_bytes": 89952,
+            "content_sha256": "70200abe6676acb0f1a32070a78354cc51d9bdab47c516c23391fa755afa1b8f",
+            "elapsed_ms": 70.86859998526052,
+            "redirects": [],
+            "transport_status": "complete",
+            "error_type": null,
+            "error": null
+          },
+          "status": "valid",
+          "access_status": "public",
+          "extraction_status": "complete",
+          "route_candidates": [
+            {
+              "url": "https://www.trf3.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/home/index/0",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/home/index/2",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia-ajuda/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www2.cjf.jus.br/jurisprudencia/unificada/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.cjf.jus.br/jurisprudencia/tnu/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.trf3.jus.br/diretoria-geral/biblioteca/setor-de-apoio-a-jurisprudencia/sumulas-do-trf3",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.jfsp.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.jfms.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.cjf.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.stj.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://portal.stf.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://www.cnj.jus.br/",
+              "method": "GET",
+              "source": "link",
+              "reason": "HTML link",
+              "content_type": "",
+              "confidence": 0.55,
+              "depth": 1
+            },
+            {
+              "url": "https://fonts.googleapis.com",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://fonts.gstatic.com",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Content/Images/favicon.ico",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Content/Css/bootstrap-icons.css",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Content/Css/datepicker.min.css",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Content/Css/index.css?t=06/09/2026 12:10:46",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/cbzkfw1NHtLznSeHJbO4Jxu0/2Nuu/UnIcclc/SB5KL/QBxAnhY",
+              "method": "GET",
+              "source": "asset",
+              "reason": "HTML resource link",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/jquery-1.8.2.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/jquery.unobtrusive-ajax.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/jquery-1.9.1.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/jquery-ui.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/datepicker-full.min.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/init-acessibilidade.js?t=06/09/2026 12:10:46",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/Toast.js",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/index.js?t=06/09/2026 12:10:46",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/modal.js?t=06/09/2026 12:10:46",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/akam/13/7d5551d3",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/cbzkfw1NHtLznSeHJbO4Jxu0/2Nuu0VmfXtkLkLi5/XCItclc/DwZPH/1MHb1oB",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/cbzkfw1NHtLznSeHJbO4Jxu0/2Nuu/UnIcclc/e1hGA/lp2LWkp",
+              "method": "GET",
+              "source": "script",
+              "reason": "script source",
+              "content_type": "",
+              "confidence": 0.4,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Home/ResultadoTotais",
+              "method": "POST",
+              "source": "form",
+              "reason": "HTML form action",
+              "content_type": "",
+              "confidence": 0.7,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/init-acessibilidade.js?t=06/09/2026",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Content/Css/index.css?t=06/09/2026",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Home/BuscarSugestao",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/index.js?t=06/09/2026",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Scripts/modal.js?t=06/09/2026",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Content/Images/topo-site-logoTRF3.png",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            },
+            {
+              "url": "https://web.trf3.jus.br/jurisprudencia/Home/ResultadoTotais",
+              "method": "GET",
+              "source": "text",
+              "reason": "endpoint-like text",
+              "content_type": "",
+              "confidence": 0.35,
+              "depth": 1
+            }
+          ],
+          "selector_candidates": [
+            {
+              "field": "decision_text",
+              "selector": "#frm-pesquisa-avancada > div.campo-pesquisa:nth-of-type(6) > label",
+              "label": "ementa",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:ementa; structural-match-count:1"
+            },
+            {
+              "field": "rapporteur",
+              "selector": "#frm-pesquisa-avancada > div.campo-pesquisa:nth-of-type(2) > label",
+              "label": "relator",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:relator; structural-match-count:1"
+            },
+            {
+              "field": "judging_body",
+              "selector": "#frm-pesquisa-avancada > div.campo-pesquisa:nth-of-type(5) > label",
+              "label": "órgão julgador",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:órgão julgador; structural-match-count:1"
+            },
+            {
+              "field": "full_text",
+              "selector": "head > script:nth-of-type(12)",
+              "label": "documento",
+              "matches": 1,
+              "confidence": 0.75,
+              "evidence": "label:documento; structural-match-count:1"
+            }
+          ],
+          "filter_candidates": [
+            {
+              "name": "chkAcordaos",
+              "field_type": "checkbox",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:chkAcordaos"
+            },
+            {
+              "name": "chkMostrarLista",
+              "field_type": "checkbox",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:chkMostrarLista"
+            },
+            {
+              "name": "opcaoQtdePagina",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "10",
+                "30",
+                "50"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:opcaoQtdePagina"
+            },
+            {
+              "name": "txtPesquisaLivre",
+              "field_type": "textarea",
+              "label": "Digite sua Pesquisa",
+              "values": [],
+              "required": true,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:txtPesquisaLivre"
+            },
+            {
+              "name": "magistrado",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:magistrado"
+            },
+            {
+              "name": "classe",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:classe"
+            },
+            {
+              "name": "orgao",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:orgao"
+            },
+            {
+              "name": "hdnOrgao",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:hdnOrgao"
+            },
+            {
+              "name": "numero",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:numero"
+            },
+            {
+              "name": "data_inicial",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:data_inicial"
+            },
+            {
+              "name": "data_final",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:data_final"
+            },
+            {
+              "name": "data_tipo",
+              "field_type": "select",
+              "label": "",
+              "values": [
+                "0",
+                "1"
+              ],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:data_tipo"
+            },
+            {
+              "name": "ementa",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:ementa"
+            },
+            {
+              "name": "indexacao",
+              "field_type": "text",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:indexacao"
+            },
+            {
+              "name": "hdnMagistrado",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:hdnMagistrado"
+            },
+            {
+              "name": "hdnClasse",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:hdnClasse"
+            },
+            {
+              "name": "hdnOrgaoJef",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:hdnOrgaoJef"
+            },
+            {
+              "name": "hdnLegislacao",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:hdnLegislacao"
+            },
+            {
+              "name": "numclasse",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:numclasse"
+            },
+            {
+              "name": "legislacao",
+              "field_type": "hidden",
+              "label": "",
+              "values": [],
+              "required": false,
+              "source": "html_form",
+              "confidence": 0.85,
+              "evidence": "form:/jurisprudencia/Home/ResultadoTotais;name:legislacao"
+            }
+          ],
+          "access_signals": {
+            "captcha": false,
+            "recaptcha": false,
+            "turnstile": false,
+            "cloudflare": false,
+            "login": false,
+            "anti_robot": false,
+            "empty_session": false,
+            "access_denied": false,
+            "request_blocked": false
+          },
+          "legal_signals": {
+            "case_number": false,
+            "acordao": false,
+            "ementa": true,
+            "jurisprudencia": true,
+            "relator": true,
+            "judging_body": true,
+            "decision": true,
+            "precedent": false,
+            "full_text": false
+          },
+          "limitations": [
+            "Manter como candidato forte; aprofundar campos, paginacao e documento."
+          ],
+          "source": "http"
+        }
+      ],
+      "metrics": {
+        "observations": 1,
+        "response_bytes": 89952,
+        "statuses": {
+          "valid": 1
+        },
+        "access_statuses": {
+          "public": 1
+        },
+        "route_candidates": 42,
+        "selector_candidates": 4,
+        "filter_candidates": 20
+      },
+      "todo": [
+        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública"
+      ]
+    },
+    {
+      "source": "trt2_pje_jurisprudencia",
+      "implementation_status": "none",
+      "status": "observed",
+      "urls": [
+        "https://pje.trt2.jus.br/jurisprudencia/",
+        "https://pje.trt2.jus.br"
+      ],
+      "observations": [
+        {
+          "run_id": "f0602e25a4a74b0ab14e5d5302343c5f",
+          "captured_at": "2026-09-06T15:10:47+00:00",
+          "seed_url": "https://pje.trt2.jus.br/jurisprudencia/",
+          "request": {
+            "method": "GET",
+            "url": "https://pje.trt2.jus.br/jurisprudencia/",
+            "query": {},
+            "body": null,
+            "headers": {}
+          },
+          "response": {
+            "status_code": null,
+            "url": "https://pje.trt2.jus.br/jurisprudencia/",
+            "final_url": "https://pje.trt2.jus.br/jurisprudencia/",
+            "content_type": "",
+            "headers": {},
+            "response_bytes": 0,
+            "content_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "elapsed_ms": null,
+            "redirects": [],
+            "transport_status": "robots_disallowed",
+            "error_type": null,
+            "error": null
+          },
+          "status": "robots_disallowed",
+          "access_status": "partial",
+          "extraction_status": "partial",
+          "route_candidates": [],
+          "selector_candidates": [],
+          "filter_candidates": [],
+          "access_signals": {},
+          "legal_signals": {},
+          "limitations": [
+            "robots.txt disallowed this URL"
+          ],
+          "source": "http"
+        }
+      ],
+      "metrics": {
+        "observations": 1,
+        "response_bytes": 0,
+        "statuses": {
+          "robots_disallowed": 1
+        },
+        "access_statuses": {
+          "partial": 1
+        },
+        "route_candidates": 0,
+        "selector_candidates": 0,
+        "filter_candidates": 0
+      },
+      "todo": [
+        "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
+        "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública"
+      ]
+    }
+  ],
+  "summary": {
+    "observed": 1,
+    "no_observation": 0,
+    "access_controlled": 0,
+    "declared_routes": 7,
+    "observed_routes": 7,
+    "declared_filters": 2,
+    "observed_filters": 0,
+    "catalog_candidates_observed": 6
+  }
+}

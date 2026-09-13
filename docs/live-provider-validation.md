@@ -18,7 +18,9 @@ nanojuris validar --fontes tjdf_juris,tst_jurisprudencia \
 O comando retorna JSON com `status`, `checks`, `failed_checks`, quantidade,
 total informado pela fonte, paginacao, URL de origem e `source_trace`.
 
-`valid` e `empty` sao resultados aprovados. `contract_invalid` indica que a
+`valid` e `empty` (somente quando a fonte prova a janela vazia) sao resultados
+aprovados. `empty_unconfirmed` significa que a resposta veio sem registros,
+mas não provou total zero nem completude; ele não passa no gate. `contract_invalid` indica que a
 fonte respondeu, mas a normalizacao perdeu uma garantia minima. `blocked`,
 `rate_limited`, `source_unavailable`, `source_changed` e `timeout` sao falhas
 classificadas e devem orientar a investigacao, sem serem convertidas em

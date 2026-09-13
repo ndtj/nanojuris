@@ -1,0 +1,2832 @@
+{
+  "schema_version": "fixture-completeness-v1",
+  "generated_at": "2026-09-13T06:12:14+00:00",
+  "policy": {
+    "network_used": false,
+    "shared_contract_scenarios_are_not_source_responses": true,
+    "source_fixture_required": true,
+    "non_applicable_second_page_allowed": true
+  },
+  "summary": {
+    "runtime_providers": 80,
+    "complete": 80,
+    "incomplete": 0,
+    "source_fixture_evidence": 80,
+    "second_page_applicable": 52,
+    "incomplete_sources": []
+  },
+  "shared_scenarios": [
+    "authoritative_empty",
+    "external_failure",
+    "schema_invalid",
+    "second_page",
+    "success"
+  ],
+  "providers": [
+    {
+      "source": "bnp_pangea",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "bnp_precedentes_empty.json",
+        "bnp_precedentes_invalid.json",
+        "bnp_precedentes_species.json"
+      ],
+      "test_references": [
+        "tests/test_bnp_pangea.py",
+        "tests/test_bnp_pangea_live.py",
+        "tests/test_client_exporters.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "cjf_jurisprudencia",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "cjf_trf1_access_control.html",
+        "cjf_trf1_contract_changed.html",
+        "cjf_trf1_document.html",
+        "cjf_trf1_empty.html",
+        "cjf_trf1_success.html"
+      ],
+      "test_references": [
+        "tests/test_cjf_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "cnj_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "cnj_jurisprudencia_empty.html",
+        "cnj_jurisprudencia_results.html",
+        "cnj_jurisprudencia_schema_drift.html"
+      ],
+      "test_references": [
+        "tests/test_cnj_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "eproc_jurisprudencia_federal",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tnu_eproc_aposentadoria.html",
+        "trf2_eproc_aposentadoria.html",
+        "trf6_eproc_aposentadoria.html"
+      ],
+      "test_references": [
+        "tests/test_eproc_jurisprudencia_federal.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "justica_eleitoral_sjur",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "sjur_classes.json",
+        "sjur_eleicoes.json",
+        "sjur_normas.json",
+        "sjur_relatorias.json"
+      ],
+      "test_references": [
+        "tests/test_justica_eleitoral_sjur.py"
+      ],
+      "source_specific_scenarios": [],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "stf_informativo",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "stf_informativo_rows.json"
+      ],
+      "test_references": [
+        "tests/test_stf_informativo.py",
+        "tests/test_stf_informativo_live_recheck.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "stf_juris",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "stf_juris_empty.json",
+        "stf_juris_infanticidio.json",
+        "stf_juris_waf.html"
+      ],
+      "test_references": [
+        "tests/test_stf_juris.py",
+        "tests/test_stf_juris_live_recheck.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "stj_dados_abertos_jurisprudencia",
+      "pagination_mode": "catalog_offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "stj_ckan_package_empty.json",
+        "stj_ckan_package_resource_removed.json",
+        "stj_ckan_package_search.json",
+        "stj_ckan_package_show.json",
+        "stj_ckan_schema_changed.csv"
+      ],
+      "test_references": [
+        "tests/test_stj_dados_abertos_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "stj_informativo",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "stj_informativo_infanticidio.html",
+        "stj_informativo_multiplas_notas.html"
+      ],
+      "test_references": [
+        "tests/test_stj_informativo.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "stj_scon",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "stj_scon_access_control.html",
+        "stj_scon_acordaos_result.html",
+        "stj_scon_empty.html",
+        "stj_scon_real_documentos.html"
+      ],
+      "test_references": [
+        "tests/test_stf_juris.py",
+        "tests/test_stj_scon.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "stm_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "stm_jurisprudencia_results.html"
+      ],
+      "test_references": [
+        "tests/test_stm_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tce_pr_viajuris",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tce_pr_viajuris_acordaos.csv",
+        "tce_pr_viajuris_empty.csv",
+        "tce_pr_viajuris_invalid.csv"
+      ],
+      "test_references": [
+        "tests/test_tce_pr_viajuris.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tce_sp_jurisprudencia",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tce_sp_boletins.html",
+        "tce_sp_indice.html",
+        "tce_sp_sumulas.html"
+      ],
+      "test_references": [
+        "tests/test_tce_sp_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tcu_jurisprudencia",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tcu_acordao_resumo.csv",
+        "tcu_acordao_resumo_empty.csv",
+        "tcu_jurisprudencia_selecionada.csv",
+        "tcu_manifest.csv",
+        "tcu_manifest_contract_changed.txt"
+      ],
+      "test_references": [
+        "tests/test_initial_json_providers.py",
+        "tests/test_tcu_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjac_banco_sentencas",
+      "pagination_mode": "local_html_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjac_banco_sentencas_index.html"
+      ],
+      "test_references": [
+        "tests/test_tjac_banco_sentencas.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjac_cjsg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjac_cjsg_empty.html",
+        "tjsp_cjsg_ack.html",
+        "tjsp_cjsg_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjac_cjsg.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjac_ementario_jurisprudencia",
+      "pagination_mode": "local_pdf_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjac_ementario_empty.txt",
+        "tjac_ementario_schema_invalid.txt",
+        "tjac_ementario_success.txt"
+      ],
+      "test_references": [
+        "tests/test_tjac_ementario_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjal_cjsg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "provider_contracts.json",
+        "tjsp_cjsg_ack.html",
+        "tjsp_cjsg_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjal_cjsg.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjal_esmal_banco_sentencas",
+      "pagination_mode": "remote_page",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjal_esmal_empty.html",
+        "tjal_esmal_invalid.html",
+        "tjal_esmal_invalid.pdf",
+        "tjal_esmal_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjal_esmal_banco_sentencas.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjal_turma_recursal_ementario",
+      "pagination_mode": "local_pdf_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "provider_contracts.json",
+        "tjal_turma_recursal_empty.txt",
+        "tjal_turma_recursal_invalid.pdf",
+        "tjal_turma_recursal_success.txt"
+      ],
+      "test_references": [
+        "tests/test_tjal_turma_recursal_ementario.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjam_cjsg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "provider_contracts.json",
+        "tjsp_cjsg_ack.html",
+        "tjsp_cjsg_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjam_cjsg.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjap_banco_sentencas",
+      "pagination_mode": "livewire_page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjap_banco_sentencas_blocked.html",
+        "tjap_banco_sentencas_empty.html",
+        "tjap_banco_sentencas_sigiloso.html",
+        "tjap_banco_sentencas_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjap_banco_sentencas.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjba_graphql",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjba_graphql_catalog.json",
+        "tjba_graphql_detail.html",
+        "tjba_graphql_empty.json",
+        "tjba_graphql_success.json"
+      ],
+      "test_references": [
+        "tests/test_tjba_graphql.py",
+        "tests/test_tjba_graphql_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjce_cjsg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjce_cjsg_result.html",
+        "tjsp_cjsg_ack.html"
+      ],
+      "test_references": [
+        "tests/test_tjce_cjsg.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjce_informativos",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjce_informativos_results.html"
+      ],
+      "test_references": [
+        "tests/test_tjce_informativos.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjce_sjuris",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjce_sjuris_empty.json",
+        "tjce_sjuris_results.json",
+        "tjce_sjuris_schema_drift.json"
+      ],
+      "test_references": [
+        "tests/test_tjce_sjuris.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjdf_juris",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjdf_juris_api_contract_changed.json",
+        "tjdf_juris_api_empty.json",
+        "tjdf_juris_api_results.json",
+        "tjdf_juris_detail.html",
+        "tjdf_juris_initial.html",
+        "tjdf_juris_results.html"
+      ],
+      "test_references": [
+        "tests/test_tjdf_juris.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjes_cjpg",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjes_cjpg_empty.json",
+        "tjes_cjpg_invalid.json",
+        "tjes_cjpg_schema_drift.json",
+        "tjes_cjpg_success.json"
+      ],
+      "test_references": [
+        "tests/test_identity_provider_migration.py",
+        "tests/test_tjes_cjpg.py",
+        "tests/test_tjes_cjpg_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjes_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjes_cjsg_empty.json",
+        "tjes_cjsg_html_only.json",
+        "tjes_cjsg_invalid.json",
+        "tjes_cjsg_schema_drift.json",
+        "tjes_cjsg_success.json"
+      ],
+      "test_references": [
+        "tests/test_tjes_jurisprudencia.py",
+        "tests/test_tjes_jurisprudencia_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjes_turma_recursal",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjes_turma_recursal_empty.json",
+        "tjes_turma_recursal_invalid.json",
+        "tjes_turma_recursal_schema_drift.json",
+        "tjes_turma_recursal_success.json"
+      ],
+      "test_references": [
+        "tests/test_tjes_turma_recursal.py",
+        "tests/test_tjes_turma_recursal_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjgo_projudi_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjgo_projudi_dano_moral.html",
+        "tjgo_projudi_empty.html"
+      ],
+      "test_references": [
+        "tests/test_tjgo_contract.py",
+        "tests/test_tjgo_projudi_jurisprudencia.py",
+        "tests/test_tjro_tjgo_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjma_informativos",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjma_informativos_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjma_informativos.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjma_jurisconsult",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjma_jurisconsult_catalog.json"
+      ],
+      "test_references": [
+        "tests/test_tjma_jurisconsult.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjmg_dspace_jurisprudencia",
+      "pagination_mode": "merged_collection_page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjmg_dspace_empty.json",
+        "tjmg_dspace_schema_drift.json",
+        "tjmg_dspace_search.json"
+      ],
+      "test_references": [
+        "tests/test_tjmg_dspace_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjmg_ejef_boletim_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjmg_ejef_boletim_empty.json",
+        "tjmg_ejef_boletim_invalid.json",
+        "tjmg_ejef_boletim_search.json"
+      ],
+      "test_references": [
+        "tests/test_tjmg_ejef_boletim_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjmg_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjmg_jurisprudencia_captcha.html",
+        "tjmg_jurisprudencia_modern.json",
+        "tjmg_jurisprudencia_modern_empty.json",
+        "tjmg_jurisprudencia_modern_error.json",
+        "tjmg_jurisprudencia_modern_schema.json"
+      ],
+      "test_references": [
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_tjmg_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjmmg_jurisprudencia_api",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjmmg_metadata.json",
+        "tjmmg_search.json"
+      ],
+      "test_references": [
+        "tests/test_tjmmg_jurisprudencia_api.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjmrs_jurisprudencia",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjmrs_jurisprudencia_empty.html",
+        "tjmrs_jurisprudencia_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjmrs_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjms_cjpg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjms_cjpg_access_control.html",
+        "tjms_cjpg_empty.html",
+        "tjms_cjpg_schema_drift.html",
+        "tjms_cjpg_success.html"
+      ],
+      "test_references": [
+        "tests/test_tjms_cjpg.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjms_cjsg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "provider_contracts.json",
+        "tjsp_cjsg_ack.html",
+        "tjsp_cjsg_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjms_cjsg.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjmt_jurisprudencia_api",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjmt_jurisprudencia_results.json"
+      ],
+      "test_references": [
+        "tests/test_tjmt_jurisprudencia_api.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjpa_jurisprudencia_bff",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjpa_jurisprudencia_bff_empty.json",
+        "tjpa_jurisprudencia_bff_filters.json",
+        "tjpa_jurisprudencia_bff_invalid.json",
+        "tjpa_jurisprudencia_bff_results.json"
+      ],
+      "test_references": [
+        "tests/test_initial_json_providers.py",
+        "tests/test_tjpa_fixture_contract.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjpb_pje_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjpb_access_control.html",
+        "tjpb_pje_jurisprudencia_success.json"
+      ],
+      "test_references": [
+        "tests/test_initial_json_providers.py",
+        "tests/test_juscraper_runtime_parity.py"
+      ],
+      "source_specific_scenarios": [
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjpe_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjpe_jurisprudencia_results.json",
+        "tjpe_juscraper_choice_ascii.html",
+        "tjpe_juscraper_empty.html",
+        "tjpe_juscraper_results_ascii.html",
+        "tjpe_juscraper_search.html"
+      ],
+      "test_references": [
+        "tests/test_tjpe_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjpi_juspi",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjpi_juspi_dano_moral.html",
+        "tjpi_juspi_detail.html",
+        "tjpi_juspi_empty.html"
+      ],
+      "test_references": [
+        "tests/test_tjpi_contract.py",
+        "tests/test_tjpi_juspi.py",
+        "tests/test_tjpi_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjpr_jurisprudencia_results.html"
+      ],
+      "test_references": [
+        "tests/test_tjpr_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjrj_banco_sentencas",
+      "pagination_mode": "local_pdf_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjrj_banco_sentencas_index.json"
+      ],
+      "test_references": [
+        "tests/test_tjrj_banco_sentencas.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjrj_ejuris",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjrj_ejuris_empty.json",
+        "tjrj_ejuris_form.html",
+        "tjrj_ejuris_invalid.json",
+        "tjrj_ejuris_page.json",
+        "tjrj_ejuris_page2.json"
+      ],
+      "test_references": [
+        "tests/test_tjrj_ejuris.py",
+        "tests/test_tjrj_ejuris_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjrj_eproc_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjrj_eproc_jurisprudencia_access_control.html",
+        "tjrj_eproc_jurisprudencia_empty.html",
+        "tjrj_eproc_jurisprudencia_result.html",
+        "tjrj_eproc_jurisprudencia_second.html"
+      ],
+      "test_references": [
+        "tests/test_state_eproc_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjrn_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjrn_jurisprudencia_empty.json",
+        "tjrn_jurisprudencia_invalid.json",
+        "tjrn_jurisprudencia_schema_drift.json",
+        "tjrn_jurisprudencia_success.json"
+      ],
+      "test_references": [
+        "tests/test_tjrn_jurisprudencia.py",
+        "tests/test_tjrn_jurisprudencia_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjro_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjro_jurisprudencia_access_control.json",
+        "tjro_jurisprudencia_empty.json",
+        "tjro_jurisprudencia_error.json",
+        "tjro_jurisprudencia_invalid.json",
+        "tjro_jurisprudencia_related.json",
+        "tjro_jurisprudencia_results.json",
+        "tjro_jurisprudencia_schema_drift.json"
+      ],
+      "test_references": [
+        "tests/test_tjro_jurisprudencia.py",
+        "tests/test_tjro_tjgo_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjro_liame",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjro_liame_empty.json",
+        "tjro_liame_results.json",
+        "tjro_liame_schema_drift.json"
+      ],
+      "test_references": [
+        "tests/test_tjro_jurisprudencia.py",
+        "tests/test_tjro_liame.py",
+        "tests/test_tjro_liame_live_smoke.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjrr_juris",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjrr_juris_detail.html",
+        "tjrr_juris_form.html",
+        "tjrr_juris_result.html"
+      ],
+      "test_references": [
+        "tests/test_tjrr_juris.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjrs_solr",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "provider_contracts.json",
+        "tjrs_solr_results.json"
+      ],
+      "test_references": [
+        "tests/test_initial_json_providers.py",
+        "tests/test_tjrs_solr.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjsc_eproc_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjsc_eproc_jurisprudencia_access_control.html",
+        "tjsc_eproc_jurisprudencia_empty.html",
+        "tjsc_eproc_jurisprudencia_form.html",
+        "tjsc_eproc_jurisprudencia_result.html"
+      ],
+      "test_references": [
+        "tests/test_state_eproc_jurisprudencia.py",
+        "tests/test_tjsp_eproc_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjse_boletim_jurisprudencia",
+      "pagination_mode": "edition_section",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjse_boletim_detail.html",
+        "tjse_boletim_empty.html",
+        "tjse_boletim_empty.html.",
+        "tjse_boletim_principal.html",
+        "tjse_boletim_search.html"
+      ],
+      "test_references": [
+        "tests/test_tjse_boletim_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjsp_cjpg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjsp_cjpg_access_control.html",
+        "tjsp_cjpg_empty.html",
+        "tjsp_cjpg_schema_drift.html",
+        "tjsp_cjpg_success.html"
+      ],
+      "test_references": [
+        "tests/test_identity_provider_migration.py",
+        "tests/test_tjms_cjpg.py",
+        "tests/test_tjsp_cjpg.py",
+        "tests/test_tjsp_cjpg_live.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjsp_cjsg",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjsp_cjsg_access_control.html",
+        "tjsp_cjsg_ack.html",
+        "tjsp_cjsg_document.html",
+        "tjsp_cjsg_empty.html",
+        "tjsp_cjsg_result.html"
+      ],
+      "test_references": [
+        "tests/test_client_exporters.py",
+        "tests/test_tjac_cjsg.py",
+        "tests/test_tjal_cjsg.py",
+        "tests/test_tjam_cjsg.py",
+        "tests/test_tjce_cjsg.py",
+        "tests/test_tjms_cjsg.py",
+        "tests/test_tjsp_cjsg.py",
+        "tests/test_tjsp_cjsg_live.py",
+        "tests/test_tjsp_cjsg_live_recheck.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjsc_eproc_jurisprudencia_result.html",
+        "tjsp_eproc_jurisprudencia_result.html",
+        "tnu_eproc_aposentadoria.html"
+      ],
+      "test_references": [
+        "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_state_eproc_jurisprudencia.py",
+        "tests/test_stj_scon.py",
+        "tests/test_tjsp_eproc_jurisprudencia.py",
+        "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjsp_nugepnac",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tjsp_nugepnac_detail.html",
+        "tjsp_nugepnac_document.html",
+        "tjsp_nugepnac_iac_detail_no_thesis.html",
+        "tjsp_nugepnac_iac_list.html",
+        "tjsp_nugepnac_list.html"
+      ],
+      "test_references": [
+        "tests/test_tjsp_nugepnac.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tjto_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tjto_cjpg_results.html",
+        "tjto_jurisprudencia_results.json"
+      ],
+      "test_references": [
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_tjto_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tnu_eproc_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tnu_eproc_aposentadoria.html",
+        "trf2_eproc_aposentadoria.html",
+        "trf6_eproc_aposentadoria.html"
+      ],
+      "test_references": [
+        "tests/test_eproc_jurisprudencia_federal.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tre_sjur_first_degree",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tre_sjur_first_degree_success.json"
+      ],
+      "test_references": [
+        "tests/test_tre_sjur_first_degree_probe.py",
+        "tests/test_tre_sjur_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tre_sjur_jurisprudencia",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tre_sjur_first_degree_success.json",
+        "tre_sjur_pagination_duplicate.json",
+        "tse_sjur_empty.json",
+        "tse_sjur_success.json"
+      ],
+      "test_references": [
+        "tests/test_tre_sjur_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tre_sp_temas",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tre_sp_temas_detail.html",
+        "tre_sp_temas_index.html"
+      ],
+      "test_references": [
+        "tests/test_tre_sp_temas.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trf2_eproc_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tnu_eproc_aposentadoria.html",
+        "trf2_eproc_aposentadoria.html",
+        "trf6_eproc_aposentadoria.html"
+      ],
+      "test_references": [
+        "tests/test_eproc_jurisprudencia_federal.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trf3_jurisprudencia",
+      "pagination_mode": "detail_links",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "trf3_jurisprudencia_detail.html",
+        "trf3_jurisprudencia_process_empty.html",
+        "trf3_jurisprudencia_process_results.html"
+      ],
+      "test_references": [
+        "tests/test_trf3_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trf4_eproc_jurisprudencia",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "trf4_eproc_empty.html",
+        "trf4_eproc_pagination.html",
+        "trf4_eproc_results.html",
+        "trf4_eproc_schema_drift.html"
+      ],
+      "test_references": [
+        "tests/test_client_exporters.py",
+        "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_state_eproc_jurisprudencia.py",
+        "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trf5_jurisprudencia",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "trf5_jurisprudencia_access_control.html",
+        "trf5_jurisprudencia_contract_changed.html",
+        "trf5_jurisprudencia_empty.html",
+        "trf5_jurisprudencia_results.html"
+      ],
+      "test_references": [
+        "tests/test_trf5_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trf6_eproc_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tnu_eproc_aposentadoria.html",
+        "trf2_eproc_aposentadoria.html",
+        "trf6_eproc_aposentadoria.html"
+      ],
+      "test_references": [
+        "tests/test_eproc_jurisprudencia_federal.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt15_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "trt15_jurisprudencia_captcha.json",
+        "trt15_jurisprudencia_empty.json",
+        "trt15_jurisprudencia_options.json",
+        "trt15_jurisprudencia_page2.json",
+        "trt15_jurisprudencia_schema_drift.json",
+        "trt15_jurisprudencia_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt15_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt2_basis_jurisprudencia",
+      "pagination_mode": "dspace_page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "trt2_basis_search.html"
+      ],
+      "test_references": [
+        "tests/test_trt2_basis_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt2_ementario_jurisprudencia",
+      "pagination_mode": "local_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "trt2_ementario_index.html",
+        "trt2_ementario_topic.html"
+      ],
+      "test_references": [
+        "tests/test_trt2_ementario_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt3_ementario_jurisprudencia",
+      "pagination_mode": "remote_volume_search_local_pdf_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "trt3_ementario_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt3_ementario_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt4_sumulas_jurisprudencia",
+      "pagination_mode": "local_html_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "trt4_sumulas_success.html"
+      ],
+      "test_references": [
+        "tests/test_trt4_sumulas_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt6_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "trt6_legacy_search_success.html",
+        "trt6_pje_authorized_success.json",
+        "trt6_pje_options.json",
+        "trt6_pje_recaptcha_error.json"
+      ],
+      "test_references": [
+        "tests/test_trt6_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt8_pje_jurisprudencia",
+      "pagination_mode": "page",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "trt8_pje_blocked.json",
+        "trt8_pje_detail.json",
+        "trt8_pje_empty.json",
+        "trt8_pje_page2.json",
+        "trt8_pje_schema_invalid.json",
+        "trt8_pje_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt8_pje_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "trt9_nugepnac_jurisprudencia",
+      "pagination_mode": "local_pdf_window",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "trt9_nugepnac_success.json"
+      ],
+      "test_references": [
+        "tests/test_trt9_nugepnac_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tse_sjur_jurisprudencia",
+      "pagination_mode": "none",
+      "second_page_applicable": false,
+      "fixture_references": [
+        "tse_sjur_empty.json",
+        "tse_sjur_schema_drift.json",
+        "tse_sjur_success.json"
+      ],
+      "test_references": [
+        "tests/test_tre_sjur_jurisprudencia.py",
+        "tests/test_tse_sjur_jurisprudencia.py"
+      ],
+      "source_specific_scenarios": [
+        "authoritative_empty",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    },
+    {
+      "source": "tst_jurisprudencia",
+      "pagination_mode": "offset",
+      "second_page_applicable": true,
+      "fixture_references": [
+        "tst_jurisprudencia_responsabilidade.json"
+      ],
+      "test_references": [
+        "tests/test_initial_json_providers.py",
+        "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py"
+      ],
+      "source_specific_scenarios": [
+        "second_page"
+      ],
+      "shared_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "required_scenarios": [
+        "authoritative_empty",
+        "external_failure",
+        "schema_invalid",
+        "second_page",
+        "success"
+      ],
+      "source_fixture_present": true,
+      "complete": true,
+      "evidence_mode": "source_plus_shared_contract"
+    }
+  ],
+  "source_files": [
+    "docs\\registry\\provider-catalog.full.json",
+    "docs\\provider-discovery\\offline-audit.json",
+    "tests\\fixtures\\provider_runtime_scenarios.json"
+  ]
+}

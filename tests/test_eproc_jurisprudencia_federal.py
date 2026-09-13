@@ -10,11 +10,16 @@ from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import AccessControlRequiredError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.eproc_jurisprudencia_federal import (
-    TnuEprocJurisprudenciaProvider,
-    Trf2EprocJurisprudenciaProvider,
-    Trf6EprocJurisprudenciaProvider,
+    FederalEprocJurisprudenciaFamilyProvider,
 )
-from nanojuris.providers.tjsp_eproc_jurisprudencia import parse_eproc_jurisprudencia_results
+from nanojuris.providers.tjsp_eproc_jurisprudencia import (
+    _build_payload,
+    parse_eproc_jurisprudencia_results,
+)
+from nanojuris.providers.tnu_eproc_jurisprudencia import TnuEprocJurisprudenciaProvider
+from nanojuris.providers.trf2_eproc_jurisprudencia import Trf2EprocJurisprudenciaProvider
+from nanojuris.providers.trf6_eproc_jurisprudencia import Trf6EprocJurisprudenciaProvider
+from nanojuris.transport import SharedHttpClient
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -117,7 +122,7 @@ def test_parse_federal_eproc_real_fixtures(
             TnuEprocJurisprudenciaProvider,
             "tnu_eproc_aposentadoria.html",
             "tnu_eproc_jurisprudencia",
-            "https://eproctnu.cjf.jus.br/eproc",
+            "https://eproctnu-jur.cjf.jus.br/eproc",
         ),
         (
             Trf2EprocJurisprudenciaProvider,
@@ -161,6 +166,12 @@ def test_federal_eproc_provider_search_posts_payload_and_canonicalizes(
     assert call["url"].startswith(base_url)
     assert call["kwargs"]["data"]["txtPesquisa"] == "aposentadoria"
     assert call["kwargs"]["data"]["txtProcesso"] == "10948736620214013300"
+
+
+def test_federal_eproc_uses_shared_transport_boundary() -> None:
+    provider = Trf2EprocJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+    assert isinstance(provider.transport, SharedHttpClient)
+    assert "eproc.trf2.jus.br" in provider.transport.policy.allowed_hosts
 
 
 def test_federal_eproc_get_document_returns_public_html():
@@ -224,3 +235,34 @@ def test_federal_eproc_capabilities_describe_instances():
     assert trf2.get_capabilities().source_url == "https://eproc.trf2.jus.br/eproc"
     assert trf6.get_capabilities().supports_full_text is True
     assert "CanonicalDocument" in trf6.get_capabilities().canonical_records
+
+
+def test_federal_eproc_translates_second_degree_to_each_official_origin():
+    query = JurisprudenceQuery(text="responsabilidade civil", degree="second")
+    for court in ("TRF2", "TRF4", "TRF6"):
+        assert _build_payload(query, court=court)["selOrigem[]"] == ["1"]
+
+
+def test_federal_eproc_family_requires_explicit_authority():
+    family = FederalEprocJurisprudenciaFamilyProvider(NanoJurisConfig(rate_limit_interval=0))
+
+    with pytest.raises(Exception, match="authority"):
+        family.search(JurisprudenceQuery(text="aposentadoria"))
+
+
+def test_federal_eproc_family_routes_to_existing_binding():
+    fixture = _fixture("trf2_eproc_aposentadoria.html")
+    session = FakeSession([FakeResponse(fixture)])
+    family = FederalEprocJurisprudenciaFamilyProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
+
+    page = family.search(JurisprudenceQuery(text="aposentadoria", authority="TRF02", page_size=2))
+
+    assert page.source == "trf2_eproc_jurisprudencia"
+    assert len(page.results) == 2
+    assert family.get_parameters()["provider_bindings"]["TRF4"] == ("trf4_eproc_jurisprudencia")
+    capabilities = family.get_capabilities()
+    assert capabilities.source == "eproc_jurisprudencia_federal"
+    assert "authority" in capabilities.supported_filters
+    assert capabilities.opt_in_unified_search is True

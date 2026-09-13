@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import time
+import hashlib
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
-from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
     AccessControlRequiredError,
     RateLimitDetectedError,
@@ -27,11 +27,11 @@ from nanojuris.models import (
 )
 from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import (
-    _build_payload,
     _extract_document_id,
     _looks_like_access_control,
-    parse_eproc_jurisprudencia_results,
+    fetch_eproc_page,
 )
+from nanojuris.transport import SharedHttpClient, TransportPolicy, TransportRequest, TransportStatus
 
 
 class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
@@ -45,44 +45,34 @@ class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
         session: requests.Session | None = None,
     ) -> None:
         self.config = config or NanoJurisConfig()
-        self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        self.session = session or requests.Session()
+        host = urlparse(self.config.trf4_eproc_jurisprudencia_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_retries=2,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
+        self._last_http_metadata: dict[str, Any] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
-        endpoint = "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados"
-        payload = _build_payload(query)
-        html, source_url = self._request_text("POST", endpoint, data=payload)
-        trace = SourceTrace(
-            provider=self.name,
-            endpoint=endpoint,
-            query=payload,
-            source_url=source_url,
+        return fetch_eproc_page(
+            self,
+            query,
+            source=self.name,
+            court="TRF4",
+            id_prefix="trf4-eproc-jurisprudencia",
+            source_label="TRF4/eproc jurisprudence",
             limitations=[
                 "Jurisprudencia publica do eproc/TRF4 validada com sessao HTTP limpa.",
                 "Resultados podem conter acordaos, despachos e decisoes da Vice-Presidencia.",
                 "O provider nao tenta contornar captcha, login ou controle de acesso.",
             ],
-        )
-        results = parse_eproc_jurisprudencia_results(
-            html,
-            trace=trace,
-            source_url=source_url,
-            source=self.name,
-            court="TRF4",
-            id_prefix="trf4-eproc-jurisprudencia",
-            source_label="TRF4/eproc jurisprudence",
-        )
-        limited = results[: query.page_size]
-        start = ((query.page - 1) * query.page_size) + 1 if limited else 0
-        return SearchPage(
-            source=self.name,
-            total=len(results),
-            start=start,
-            end=start + len(limited) - 1 if limited else 0,
-            page=query.page,
-            page_size=query.page_size,
-            results=limited,
-            source_trace=trace,
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
@@ -98,6 +88,7 @@ class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
             query=params,
             source_url=source_url,
             limitations=["Inteiro teor publico da jurisprudencia eproc/TRF4."],
+            **self._last_http_metadata,
         )
         return DecisionBundle(
             precedent_id=precedent_id,
@@ -120,6 +111,7 @@ class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
             query=params,
             source_url=source_url,
             limitations=["Documento publico retornado pela rota de inteiro teor eproc/TRF4."],
+            **self._last_http_metadata,
         )
         return CanonicalDocument(
             id=f"trf4-eproc-jurisprudencia-document-{eproc_id}",
@@ -191,6 +183,61 @@ class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
             supports_suggestions=False,
             supports_live_tests=True,
             supported_filters=["text", "number"],
+            unsupported_filters=[
+                "courts",
+                "all_words",
+                "any_words",
+                "without_words",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origins",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "exact_phrase": "native",
+                "published_from": "native",
+                "published_to": "native",
+                "updated_from": "native",
+                "updated_to": "native",
+                "types": "translated",
+                "source_origin": "translated",
+                "degree": "local_postfilter",
+                "instance": "local_postfilter",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "rapporteur": "unsupported",
+                "fetch_details": "unsupported",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origins": "unsupported",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+            },
             limitations=[
                 "Rota publica descoberta e validada por requests limpo em 2026-08-03.",
                 "O provider parseia os cards HTML da primeira pagina retornada pela fonte.",
@@ -205,7 +252,6 @@ class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(
             self.config.trf4_eproc_jurisprudencia_url.rstrip("/") + "/",
             path.lstrip("/"),
@@ -215,42 +261,54 @@ class Trf4EprocJurisprudenciaProvider(JurisprudenceProvider):
             "User-Agent": self.config.user_agent,
         }
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
+            response = self.transport.request(
+                TransportRequest(
+                    source=self.name,
+                    operation="document_or_search",
+                    method=method,
+                    url=url,
+                    params=dict(kwargs.get("params") or {}),
+                    data=kwargs.get("data"),
+                    json_body=kwargs.get("json"),
+                    headers=headers,
+                    idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+                )
             )
-        except requests.RequestException as exc:
+        except (requests.RequestException, SourceUnavailableError) as exc:
             raise SourceUnavailableError(f"TRF4/eproc jurisprudence request failed: {exc}") from exc
 
-        response.encoding = response.encoding or "iso-8859-1"
-        text = response.text
-        if response.status_code == 429:
-            raise RateLimitDetectedError("TRF4/eproc jurisprudence returned HTTP 429")
-        if response.status_code in {401, 403}:
-            raise AccessControlRequiredError("TRF4/eproc jurisprudence requires access validation")
-        if response.status_code >= 500:
+        response_url = response.final_url or url
+        content = response.body
+        text = content.decode("iso-8859-1", errors="replace")
+        headers = response.headers
+        self._last_http_metadata = {
+            "http_status": response.status_code,
+            "final_url": response_url,
+            "content_type": headers.get("Content-Type") or headers.get("content-type"),
+            "content_sha256": response.content_sha256 or hashlib.sha256(content).hexdigest(),
+            "response_bytes": len(content),
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok"
+            if response.status_code is not None and 200 <= response.status_code < 300
+            else response.status.value,
+        }
+        if response.status is not TransportStatus.COMPLETE:
             raise SourceUnavailableError(
-                f"TRF4/eproc jurisprudence returned HTTP {response.status_code}"
+                f"TRF4/eproc jurisprudence transport failed: {response.status.value}"
             )
-        if response.status_code >= 400:
+        status_code = response.status_code or 0
+        if status_code == 429:
+            raise RateLimitDetectedError("TRF4/eproc jurisprudence returned HTTP 429")
+        if status_code in {401, 403}:
+            raise AccessControlRequiredError("TRF4/eproc jurisprudence requires access validation")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"TRF4/eproc jurisprudence returned HTTP {status_code}")
+        if status_code >= 400:
             raise SourceUnavailableError(
-                f"TRF4/eproc jurisprudence rejected request with HTTP {response.status_code}"
+                f"TRF4/eproc jurisprudence rejected request with HTTP {status_code}"
             )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError(
                 "TRF4/eproc jurisprudence returned access-control HTML"
             )
-        return text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return text, response_url

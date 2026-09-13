@@ -1,0 +1,19 @@
+{
+  "hits": 2,
+  "documents": [
+    {
+      "id": "pje2_1002",
+      "processo": "0000002-02.2024.5.08.0001",
+      "instancia": "2ª Instância",
+      "tipoDocumento": "Acórdão",
+      "classeJudicial": "Recurso Ordinário Trabalhista",
+      "orgaoJulgador": "2ª Turma",
+      "orgaoJulgadorColegiado": "2ª Turma",
+      "magistrado": "RELATORA DE TESTE",
+      "dataPublicacao": "2024-06-11",
+      "highlight": {"inteiroTeorHTML": ["Dano moral. Responsabilidade civil."]}
+    }
+  ],
+  "name": "result",
+  "aggregations": []
+}

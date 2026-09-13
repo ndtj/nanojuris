@@ -1,0 +1,57 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "provider": "tjgo_projudi_jurisprudencia",
+  "authority": "TJGO",
+  "surface": "CJSG",
+  "degree": "second",
+  "instance": "second",
+  "observed_at": "2026-09-07",
+  "mode": "bounded_public_live_check",
+  "credentials_used": false,
+  "endpoint": "POST https://projudi.tjgo.jus.br/ConsultaJurisprudencia",
+  "query_shape": {
+    "text": "responsabilidade civil",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG",
+    "page_size": 2,
+    "pages": [1, 2]
+  },
+  "pages": [
+    {
+      "page": 1,
+      "http_status": 200,
+      "reported_total": 14032,
+      "record_count_observed": 2,
+      "ids": [
+        "tjgo-projudi-5259964-59.2026.8.09.0051",
+        "tjgo-projudi-6037039-70.2025.8.09.0051"
+      ],
+      "degree_values": ["second", "second"],
+      "judging_body_markers": ["Câmara Cível", "Câmara Cível"]
+    },
+    {
+      "page": 2,
+      "http_status": 200,
+      "reported_total": 14032,
+      "record_count_observed": 2,
+      "ids": [
+        "tjgo-projudi-5608773-38.2025.8.09.0149",
+        "tjgo-projudi-5715223-94.2025.8.09.0087"
+      ],
+      "degree_values": ["second", "second"],
+      "judging_body_markers": ["Câmara Cível", "Câmara Cível"]
+    }
+  ],
+  "unique_ids": 4,
+  "overlap": false,
+  "classification": "reachable_valid_data",
+  "raw_content_persisted": false,
+  "promotion_decision": "existing_technical_candidate_revalidated",
+  "notes": [
+    "A seleção pública Id_Instancia=15 foi preservada.",
+    "Nenhum token, CAPTCHA, cookie ou corpo de resposta foi persistido.",
+    "Cards sem marcador inequívoco de segundo grau continuam rejeitados.",
+    "A evidência não altera aprovação legal nem autoriza deploy."
+  ]
+}

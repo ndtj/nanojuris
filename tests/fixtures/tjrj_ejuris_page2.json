@@ -1,0 +1,18 @@
+{
+  "d": {
+    "TotalDocs": 11,
+    "DocumentosConsulta": [
+      {
+        "CodDoc": "5988226",
+        "NumProcCnj": "0000002-02.2025.8.19.0001",
+        "Classe": "APELACAO CIVEL",
+        "DescrTipDoc": "Acordao",
+        "NomeOrgJulg": "Decima Camara Civel",
+        "NomeMagRel": "Relator Sanitizado",
+        "DtHrMov": "/Date(1735689600000)/",
+        "DtHrPubl": "/Date(1735776000000)/",
+        "TextoSemFormat": "APELACAO CIVEL. Texto integral publico."
+      }
+    ]
+  }
+}

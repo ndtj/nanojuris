@@ -1,0 +1,87 @@
+{
+  "schema_version": "provider-live-evidence-v1",
+  "observed_at": "2026-09-08T04:04:33Z",
+  "provider": "tjmg_jurisprudencia",
+  "source_id": "tjmg_jurisprudencia",
+  "authority": "TJMG",
+  "source_url": "https://consulta-jurisprudencia.tjmg.jus.br/",
+  "api_url": "https://jurisprudencia-api.tjmg.jus.br",
+  "collection": "CJSG",
+  "surface": "cjsg",
+  "degree": "second",
+  "instance": "second",
+  "branch": "state",
+  "access_status": "public",
+  "bypass_used": false,
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/jurisprudencias/filter?size=2&page=0&sort=relevancia,DESC",
+      "status": 200,
+      "total_records": 1000,
+      "returned": 2,
+      "range": [1, 2],
+      "response_sha256": "e986ca2cdccfe64a349cff8504814d92e86b471d65c11b23017362f65a059aa1",
+      "elapsed_ms": 375.0,
+      "query": "responsabilidade civil",
+      "text_scope": "INTEIRO_TEOR"
+    },
+    {
+      "method": "POST",
+      "path": "/jurisprudencias/filter?size=2&page=1&sort=relevancia,DESC",
+      "status": 200,
+      "total_records": 1000,
+      "returned": 2,
+      "range": [3, 4],
+      "response_sha256": "72e736382974a41a04b98c430f1b5f26e34bd5c57b73f8a49a417e7afc",
+      "elapsed_ms": 78.0,
+      "query": "responsabilidade civil",
+      "text_scope": "INTEIRO_TEOR",
+      "note": "Os quatro IDs foram distintos; não houve sobreposição entre páginas."
+    },
+    {
+      "method": "POST",
+      "path": "/jurisprudencias/filter?size=2&page=0&sort=relevancia,DESC",
+      "status": 200,
+      "total_records": 1000,
+      "returned": 2,
+      "filters": {"classes": ["Apelação"]},
+      "filter_application": {"text": "native", "case_class": "native", "types": "native"},
+      "returned_case_class": ["Apelação", "Apelação"],
+      "response_sha256": "d6c381b030842b46bd22b1978a61f4184edb4384e52f8154ed13e33d835936ce"
+    },
+    {
+      "method": "POST",
+      "path": "/jurisprudencias/document",
+      "status": 200,
+      "returned_text_chars": 12766,
+      "extraction_status": "complete",
+      "note": "Documento obtido sob demanda para um resultado da busca na mesma sessão."
+    }
+  ],
+  "canonical_assertions": {
+    "authority": "TJMG",
+    "branch": "state",
+    "degree": "second",
+    "instance": "second",
+    "collection": "CJSG",
+    "document_type": "Acórdão"
+  },
+  "classification": "success_with_results",
+  "record_count_observed": 2,
+  "reported_total": 1000,
+  "http_status": 200,
+  "content_type": "application/json",
+  "pagination_mode": "page",
+  "latency_ms": 375,
+  "limitations": [
+    "A API limita o total reportado a 1000 por consulta.",
+    "A evidência prova a rota e os filtros testados, não a disponibilidade permanente.",
+    "O formulário legado www5 continua separado e protegido por CAPTCHA."
+  ],
+  "evidence_is_not": [
+    "aprovação jurídica",
+    "declaração de cobertura integral do TJMG",
+    "autorização de deploy"
+  ]
+}

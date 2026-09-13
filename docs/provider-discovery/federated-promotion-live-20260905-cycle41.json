@@ -1,0 +1,148 @@
+{
+  "schema_version": "federated-promotion-live-v1",
+  "checked_at": "2026-09-05T18:05:20Z",
+  "mode": "bounded_public_live_check",
+  "query": {
+    "text": "responsabilidade",
+    "page": 1,
+    "page_size": 1,
+    "max_pages_per_source": 1
+  },
+  "manifest": "docs/operations/technical-promotion-manifest-20260905.json",
+  "sources": [
+    {
+      "source_id": "tjba_graphql",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": null,
+      "total_known": null,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjdf_juris",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": null,
+      "total_known": null,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjes_cjpg",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 314806,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 69451,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 23596,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 39272,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 74526,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 1252915,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 73906,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 676640,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjrs_solr",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": null,
+      "total_known": null,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "status": "searched",
+      "returned": 1,
+      "reported_total": 4662832,
+      "total_known": true,
+      "pages_fetched": 1,
+      "invalid_records": 0,
+      "complete": false
+    }
+  ],
+  "summary": {
+    "manifest_enabled_sources": 12,
+    "default_capability_sources": 48,
+    "manifest_sources_subset_of_default": true,
+    "sources_called": 12,
+    "sources_with_parseable_window": 12,
+    "sources_with_errors": 0,
+    "invalid_records": 0,
+    "default_federation_unchanged": true,
+    "bodies_persisted": false,
+    "access_control_bypassed": false,
+    "collection_complete": false,
+    "collection_note": "Uma página por fonte é uma janela parcial; não representa o acervo integral."
+  }
+}

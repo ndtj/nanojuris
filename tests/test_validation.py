@@ -100,6 +100,20 @@ def test_validate_provider_reports_empty_as_successful_validation():
     assert report.passed is True
 
 
+def test_validate_provider_does_not_call_unknown_empty_a_success() -> None:
+    class UnknownEmptyProvider(FakeProvider):
+        def search(self, query: JurisprudenceQuery) -> SearchPage:
+            page = super().search(query)
+            page.is_complete = None
+            page.completeness_reason = "total ausente"
+            return page
+
+    report = validate_provider(UnknownEmptyProvider("unknown-empty"))
+
+    assert report.status == ProviderValidationStatus.EMPTY_UNCONFIRMED
+    assert report.passed is False
+
+
 def test_validate_provider_detects_invalid_result_contract():
     report = validate_provider(FakeProvider("broken", results=[result("other", trace=False)]))
 

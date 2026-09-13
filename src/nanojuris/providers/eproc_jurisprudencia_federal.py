@@ -3,16 +3,17 @@
 from __future__ import annotations
 
 import hashlib
-import time
+from dataclasses import replace
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 
-from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.config import NanoJurisConfig
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -31,6 +32,8 @@ from nanojuris.providers.tjsp_eproc_jurisprudencia import (
     _looks_like_access_control,
     fetch_eproc_page,
 )
+from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
+from nanojuris.transport import SharedHttpClient, TransportPolicy, TransportRequest, TransportStatus
 
 
 class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
@@ -57,8 +60,19 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
         session: requests.Session | None = None,
     ) -> None:
         self.config = config or NanoJurisConfig()
-        self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        self.session = session or requests.Session()
+        host = urlparse(self.source_url).hostname or ""
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_retries=2,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_http_metadata: dict[str, Any] = {}
         self._last_response_content = b""
 
@@ -85,7 +99,7 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         document = self.get_document(precedent_id)
-        document_id = _extract_document_id(precedent_id)
+        document_id = self._extract_document_id(precedent_id)
         content = document.text or ""
         return DecisionBundle(
             precedent_id=precedent_id,
@@ -97,7 +111,7 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def get_document(self, document_id: str) -> CanonicalDocument:
-        eproc_id = _extract_document_id(document_id)
+        eproc_id = self._extract_document_id(document_id)
         endpoint = (
             "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor"
         )
@@ -127,6 +141,17 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
             raw_metadata={"id_jurisprudencia": eproc_id},
             parser=f"{self.name}.get_document",
         )
+
+    def _extract_document_id(self, precedent_id: str) -> str:
+        """Extract the source identifier from a canonical eproc result id.
+
+        State eproc installations use the same public route but do not all
+        allocate the long numeric identifiers used by TJSP.  Keeping the
+        extraction hook on the provider lets each installation enforce its
+        own identifier contract without weakening the TJSP parser.
+        """
+
+        return _extract_document_id(precedent_id)
 
     def get_capabilities(self) -> ProviderCapabilities:
         return ProviderCapabilities(
@@ -187,7 +212,74 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "source_origin",
+                "degree",
+                "instance",
             ],
+            unsupported_filters=[
+                "courts",
+                "types",
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "rapporteur",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "native",
+                "published_from": "native",
+                "published_to": "native",
+                "updated_from": "native",
+                "updated_to": "native",
+                "source_origin": "translated",
+                # eproc names the dimension ``selOrigem[]``. The shared
+                # adapter translates canonical values and validates cards
+                # locally so first/second degree records cannot be mixed.
+                "degree": "local_postfilter",
+                "instance": "local_postfilter",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "types": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "exact_phrase": "unsupported",
+                "rapporteur": "unsupported",
+                "fetch_details": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origins": "unsupported",
+            },
             limitations=[
                 "Rota publica validada por requests limpo em 2026-08-16.",
                 "A paginação usa a URL ajax_paginar_resultado e os campos ocultos "
@@ -205,63 +297,62 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(self.source_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
+            response = self.transport.request(
+                TransportRequest(
+                    source=self.name,
+                    operation="document_or_search",
+                    method=method,
+                    url=url,
+                    params=dict(kwargs.get("params") or {}),
+                    data=kwargs.get("data"),
+                    json_body=kwargs.get("json"),
+                    headers=headers,
+                    idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+                )
             )
-        except requests.RequestException as exc:
+        except (requests.RequestException, SourceUnavailableError) as exc:
             raise SourceUnavailableError(f"{self.source_label} request failed: {exc}") from exc
 
-        response.encoding = response.encoding or "iso-8859-1"
-        text = response.text
-        content = bytes(getattr(response, "content", b"") or b"")
-        if not content:
-            content = text.encode(response.encoding or "iso-8859-1", errors="replace")
-        headers = getattr(response, "headers", {}) or {}
+        response_url = response.final_url or url
+        content = response.body
+        text = content.decode("iso-8859-1", errors="replace")
+        headers = response.headers
         self._last_response_content = content
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", url) or url),
+            "final_url": response_url,
             "content_type": headers.get("Content-Type") or headers.get("content-type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
+            "content_sha256": response.content_sha256 or hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
-            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": "ok"
+            if response.status_code is not None and 200 <= response.status_code < 300
+            else response.status.value,
         }
-        if response.status_code == 429:
-            raise RateLimitDetectedError(f"{self.source_label} returned HTTP 429")
-        if response.status_code in {401, 403}:
-            raise AccessControlRequiredError(f"{self.source_label} requires access validation")
-        if response.status_code >= 500:
+        if response.status is not TransportStatus.COMPLETE:
             raise SourceUnavailableError(
-                f"{self.source_label} returned HTTP {response.status_code}"
+                f"{self.source_label} transport failed: {response.status.value}"
             )
-        if response.status_code >= 400:
+        status_code = response.status_code or 0
+        if status_code == 429:
+            raise RateLimitDetectedError(f"{self.source_label} returned HTTP 429")
+        if status_code in {401, 403}:
+            raise AccessControlRequiredError(f"{self.source_label} requires access validation")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"{self.source_label} returned HTTP {status_code}")
+        if status_code >= 400:
             raise SourceUnavailableError(
-                f"{self.source_label} rejected request with HTTP {response.status_code}"
+                f"{self.source_label} rejected request with HTTP {status_code}"
             )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError(f"{self.source_label} returned access-control HTML")
-        return text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return text, response_url
 
 
 class TnuEprocJurisprudenciaProvider(FederalEprocJurisprudenciaProvider):
@@ -293,3 +384,136 @@ class Trf6EprocJurisprudenciaProvider(FederalEprocJurisprudenciaProvider):
     id_prefix = "trf6-eproc-jurisprudencia"
     source_label = "TRF6/eproc jurisprudence"
     origins = ("TRF6", "TRU6", "Turmas Recursais", "Varas Federais")
+
+
+class FederalEprocJurisprudenciaFamilyProvider(JurisprudenceProvider):
+    """Explicit-authority dispatcher for the public federal eproc family.
+
+    The eproc installations share an HTML protocol but not a host or a
+    tribunal scope.  A family binding therefore requires ``authority`` and
+    delegates to the already tested, tribunal-specific implementation.  It
+    deliberately does not expose an aggregate search or claim that all
+    federal courts are covered.
+    """
+
+    name = "eproc_jurisprudencia_federal"
+    _AUTHORITY_ALIASES = {
+        "TNU": "TNU",
+        "TRF2": "TRF2",
+        "TRF02": "TRF2",
+        "TRF4": "TRF4",
+        "TRF04": "TRF4",
+        "TRF6": "TRF6",
+        "TRF06": "TRF6",
+    }
+
+    def __init__(
+        self,
+        config: NanoJurisConfig | None = None,
+        session: requests.Session | None = None,
+    ) -> None:
+        self.config = config or NanoJurisConfig()
+        self.session = session or requests.Session()
+        self._providers: dict[str, JurisprudenceProvider] = {}
+
+    @classmethod
+    def _normalize_authority(cls, value: str | None) -> str:
+        normalized = "".join(str(value or "").upper().split()).replace("-", "")
+        authority = cls._AUTHORITY_ALIASES.get(normalized)
+        if authority is None:
+            supported = ", ".join(cls._AUTHORITY_ALIASES.values())
+            raise QueryRejectedError(
+                f"eproc federal exige authority explícita; suportadas: {supported}"
+            )
+        return authority
+
+    def _provider_for(self, authority: str) -> JurisprudenceProvider:
+        normalized = self._normalize_authority(authority)
+        provider = self._providers.get(normalized)
+        if provider is not None:
+            return provider
+        provider_cls: type[JurisprudenceProvider]
+        if normalized == "TNU":
+            provider_cls = TnuEprocJurisprudenciaProvider
+        elif normalized == "TRF2":
+            provider_cls = Trf2EprocJurisprudenciaProvider
+        elif normalized == "TRF4":
+            provider_cls = Trf4EprocJurisprudenciaProvider
+        else:
+            provider_cls = Trf6EprocJurisprudenciaProvider
+        provider = provider_cls(self.config, session=self.session)
+        self._providers[normalized] = provider
+        return provider
+
+    def search(self, query: JurisprudenceQuery) -> SearchPage:
+        if not query.authority:
+            raise QueryRejectedError("eproc federal exige authority explícita (por exemplo, TRF4)")
+        provider = self._provider_for(query.authority)
+        # Child adapters do not forward ``authority`` to the remote form; it
+        # is consumed solely by this dispatcher to select the official host.
+        return provider.search(query)
+
+    def get_decisions(self, precedent_id: str) -> DecisionBundle:
+        provider = self._provider_for(self._authority_from_id(precedent_id))
+        return provider.get_decisions(precedent_id)
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        provider = self._provider_for(self._authority_from_id(document_id))
+        return provider.get_document(document_id)
+
+    @classmethod
+    def _authority_from_id(cls, identifier: str) -> str:
+        lowered = str(identifier or "").lower()
+        for prefix, authority in (
+            ("tnu-eproc-jurisprudencia-", "TNU"),
+            ("trf2-eproc-jurisprudencia-", "TRF2"),
+            ("trf4-eproc-jurisprudencia-", "TRF4"),
+            ("trf6-eproc-jurisprudencia-", "TRF6"),
+        ):
+            if lowered.startswith(prefix):
+                return authority
+        raise QueryRejectedError("identificador eproc federal deve conter o prefixo da autoridade")
+
+    def get_parameters(self) -> dict[str, Any]:
+        return {
+            "source_url": "https://www.cnj.jus.br/relatorio-por-tribunal/",
+            "authorities": ["TNU", "TRF2", "TRF4", "TRF6"],
+            "provider_bindings": {
+                authority: self._provider_for(authority).name
+                for authority in ("TNU", "TRF2", "TRF4", "TRF6")
+            },
+            "status": "opt_in_explicit_authority",
+        }
+
+    def get_capabilities(self) -> ProviderCapabilities:
+        base = self._provider_for("TRF4").get_capabilities()
+        semantics = dict(base.filter_semantics)
+        semantics["authority"] = "required_scope"
+        supported = list(base.supported_filters)
+        if "authority" not in supported:
+            supported.append("authority")
+        return replace(
+            base,
+            source=self.name,
+            display_name="eproc federal jurisprudência (família opt-in)",
+            source_url="https://www.cnj.jus.br/relatorio-por-tribunal/",
+            semantic_discriminator=("authority=TNU|TRF2|TRF4|TRF6;branch=federal;collection=EPROC"),
+            supported_filters=supported,
+            filter_semantics=semantics,
+            supports_unified_search=False,
+            opt_in_unified_search=True,
+            limitations=[
+                *base.limitations,
+                "A autoridade deve ser informada; não há escopo federal agregado.",
+                "Cada instalação mantém contrato, host e evidência próprios.",
+            ],
+        )
+
+
+__all__ = [
+    "FederalEprocJurisprudenciaFamilyProvider",
+    "FederalEprocJurisprudenciaProvider",
+    "TnuEprocJurisprudenciaProvider",
+    "Trf2EprocJurisprudenciaProvider",
+    "Trf6EprocJurisprudenciaProvider",
+]

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "provider": "tre_sjur_jurisprudencia",
+  "authority": "TRE-SP",
+  "classification": "public_textual_second_degree",
+  "status": "valid",
+  "attempt": {
+    "date": "2026-09-10",
+    "method": "POST",
+    "bounded": true,
+    "page": 1,
+    "page_size": 1,
+    "query_kind": "generic_legal_term",
+    "raw_body_persisted": false
+  },
+  "result": {
+    "source": "tre_sp_sjur_jurisprudencia",
+    "records": 1,
+    "total_known": false,
+    "access_status": "public",
+    "extraction_status": "complete",
+    "degree": "second",
+    "authority": "TRE-SP"
+  },
+  "limitations": [
+    "A paginação remota continua não comprovada; a família permanece opt-in.",
+    "Nenhum corpo de resposta ou identificador pessoal foi persistido."
+  ]
+}

@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-import hashlib
 import re
-import time
+import unicodedata
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -19,7 +18,6 @@ from nanojuris.errors import (
     ParserContractChangedError,
     RateLimitDetectedError,
     SourceUnavailableError,
-    UnsupportedQueryError,
 )
 from nanojuris.models import (
     AccessStatus,
@@ -33,6 +31,8 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import TransportPolicy, TransportRequest, TransportStatus
 
 SEARCH_PATH = "/jurisprudencia/pesquisa.wsp"
 RESULT_PATH = "/jurisprudencia/resultado_pesquisa.wsp"
@@ -54,29 +54,50 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
         self._last_response_content = b""
         self._last_response_content_type: str | None = None
         self._last_http_metadata: dict[str, Any] = {}
+        host = urlparse(self.base_url).hostname or "jurisprudencia.trf5.jus.br"
+        self._transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=16_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
 
     @property
     def base_url(self) -> str:
         return self.config.trf5_jurisprudencia_url.rstrip("/")
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
-        if query.page != 1:
-            raise UnsupportedQueryError(
-                "TRF5 ainda nao possui paginacao remota comprovada; use page=1."
-            )
         term = (query.text or query.exact_phrase or query.number).strip()
         if not term:
             raise ValueError("TRF5 jurisprudence search requires a term or number")
+        page = max(1, int(query.page or 1))
+        page_size = _page_size(query.page_size)
         initial_html, initial_url = self._request_text("GET", SEARCH_PATH)
         payload = _build_search_payload(query)
         token = _extract_token(initial_html)
         if token:
             payload["wi.token"] = token
         html, source_url = self._request_text("POST", RESULT_PATH, data=payload)
+        if page > 1:
+            # The result form carries the server-side search state.  Re-submit
+            # that state with the documented ``grid.pesquisa.next`` offset;
+            # tokens and hidden fields are always read from the current
+            # session and are never persisted.
+            page_payload = _extract_form_state(html)
+            page_payload.update(
+                {key: value for key, value in payload.items() if key not in page_payload}
+            )
+            page_payload["grid.pesquisa.next"] = str((page - 1) * page_size + 1)
+            html, source_url = self._request_text("POST", RESULT_PATH, data=page_payload)
         trace = SourceTrace(
             provider=self.name,
             endpoint=RESULT_PATH,
@@ -90,23 +111,22 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
             **self._last_http_metadata,
         )
         results = parse_trf5_results(html, trace=trace, base_url=self.base_url)
-        page_size = _page_size(query.page_size)
         limited = results[:page_size]
-        start = ((max(query.page, 1) - 1) * page_size) + 1 if limited else 0
+        start = ((page - 1) * page_size) + 1 if limited else 0
         return SearchPage(
             source=self.name,
             total=len(results),
             start=start,
             end=start + len(limited) - 1 if limited else 0,
-            page=max(query.page, 1),
+            page=page,
             page_size=page_size,
             results=limited,
             source_trace=trace,
-            pagination_mode="unknown",
+            pagination_mode="offset",
             is_complete=False,
             completeness_reason=(
-                "A resposta HTML observada representa a primeira pagina; o contrato "
-                "de paginação remota ainda não foi promovido."
+                "A fonte aceita offsets no campo grid.pesquisa.next; o total remoto "
+                "não é exposto de forma confiável e a completude permanece por janela."
             ),
         )
 
@@ -189,6 +209,73 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_live_tests=True,
             supported_filters=["text", "number", "published_from", "published_to", "types"],
+            unsupported_filters=[
+                "courts",
+                "all_words",
+                "any_words",
+                "without_words",
+                "rapporteur",
+                "updated_from",
+                "updated_to",
+                "fetch_details",
+                "case_class",
+                "judging_body",
+                "degree",
+                "instance",
+                "legal_area",
+                "authority",
+                "collection",
+                "document_type",
+                "decision_type",
+                "judgment_date_from",
+                "judgment_date_to",
+                "lawyer_name",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origin",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "number": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "types": "translated",
+                "courts": "unsupported",
+                "all_words": "unsupported",
+                "any_words": "unsupported",
+                "without_words": "unsupported",
+                "rapporteur": "unsupported",
+                "updated_from": "unsupported",
+                "updated_to": "unsupported",
+                "fetch_details": "unsupported",
+                "case_class": "unsupported",
+                "judging_body": "unsupported",
+                "degree": "unsupported",
+                "instance": "unsupported",
+                "legal_area": "unsupported",
+                "authority": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "decision_type": "unsupported",
+                "judgment_date_from": "unsupported",
+                "judgment_date_to": "unsupported",
+                "lawyer_name": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+                "source_origin": "unsupported",
+                "source_origins": "unsupported",
+                "exact_phrase": "translated",
+                "branch": "validated_scope",
+            },
             limitations=[
                 "O parser trabalha com a pagina retornada pela fonte e ainda nao promove "
                 "paginacao.",
@@ -203,23 +290,36 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(self.base_url + "/", path.lstrip("/"))
+        headers = {
+            "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
+            "User-Agent": self.config.user_agent,
+        }
+        headers.update(kwargs.pop("headers", {}))
+        request = TransportRequest(
+            source=self.name,
+            operation=f"{method.lower()}_{path.lstrip('/').replace('/', '_')}",
+            method=method,
+            url=url,
+            params=kwargs.pop("params", {}),
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            headers=headers,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported TRF5 transport arguments: {sorted(kwargs)}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers={
-                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                    "User-Agent": self.config.user_agent,
-                },
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                verify=self.config.verify_ssl,
-                **kwargs,
-            )
-        except requests.RequestException as exc:
+            response = self._transport.request(request)
+        except (requests.RequestException, SourceUnavailableError) as exc:
             raise SourceUnavailableError(f"TRF5 jurisprudence request failed: {exc}") from exc
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                "TRF5 jurisprudence transport failed: "
+                f"{response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("TRF5 jurisprudence transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError("TRF5 jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:
@@ -228,34 +328,21 @@ class Trf5JurisprudenciaProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"TRF5 jurisprudence returned HTTP {response.status_code}")
         if response.status_code >= 400:
             raise SourceUnavailableError(f"TRF5 jurisprudence rejected HTTP {response.status_code}")
-        response.encoding = response.encoding or "iso-8859-1"
-        self._last_response_content = bytes(
-            getattr(response, "content", None) or response.text.encode("utf-8")
-        )
-        self._last_response_content_type = (getattr(response, "headers", None) or {}).get(
-            "Content-Type"
-        )
+        self._last_response_content = response.body
+        self._last_response_content_type = response.content_type
         self._last_http_metadata = {
             "http_status": response.status_code,
-            "final_url": getattr(response, "url", url),
+            "final_url": response.final_url or url,
             "content_type": self._last_response_content_type,
-            "content_sha256": hashlib.sha256(self._last_response_content).hexdigest(),
-            "response_bytes": len(self._last_response_content),
+            "content_sha256": response.content_sha256,
+            "response_bytes": response.byte_size,
+            "elapsed_ms": response.elapsed_ms,
             "retrieval_status": "ok" if response.status_code < 400 else "error",
         }
-        text = response.text
+        text = response.body.decode("iso-8859-1", errors="replace")
         if "captcha" in text.lower() or "acesso negado" in text.lower():
             raise AccessControlRequiredError("TRF5 jurisprudence returned access-control HTML")
-        return text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return text, str(response.final_url or url)
 
 
 def parse_trf5_results(
@@ -284,12 +371,17 @@ def parse_trf5_results(
         document_id = document_match.group(1)
         metadata = _parse_metadata(text)
         summary = _extract_summary(text)
+        document_url = urljoin(
+            base_url + "/",
+            f"jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento={document_id}",
+        )
+        document_type = _normalize_type(metadata.get("tipo_documento"))
         results.append(
             JurisprudenceResult(
                 id=f"trf5-jurisprudencia-{document_id}",
                 source="trf5_jurisprudencia",
                 court="TRF5",
-                type=_normalize_type(metadata.get("tipo_documento")),
+                type=document_type,
                 number=number_match.group(0),
                 summary=summary,
                 updated_at=metadata.get("data_julgamento"),
@@ -297,13 +389,19 @@ def parse_trf5_results(
                 access_status=AccessStatus.PUBLIC,
                 extraction_status=ExtractionStatus.COMPLETE,
                 source_trace=trace,
+                judging_body=metadata.get("orgao_julgador"),
+                degree="second",
+                instance="second",
+                branch="federal",
+                authority="TRF5",
+                collection="JURISPRUDENCIA",
+                document_type=document_type,
+                source_origin=metadata.get("orgao_julgador"),
+                document_url=document_url,
                 raw={
                     **metadata,
                     "id_documento": document_id,
-                    "document_url": urljoin(
-                        base_url + "/",
-                        f"jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento={document_id}",
-                    ),
+                    "document_url": document_url,
                 },
             )
         )
@@ -323,6 +421,19 @@ def _build_search_payload(query: JurisprudenceQuery) -> dict[str, str]:
 
 
 def _parse_metadata(text: str) -> dict[str, str]:
+    folded = _ascii_fold(text)
+    folded_patterns = {
+        "orgao_julgador": r"Orgao Julgador:\s*(.*?)\s*/\s*Tipo de Documento:",
+        "tipo_documento": r"Tipo de Documento:\s*(.*?)\s*/\s*Data de Julgamento:",
+        "data_julgamento": r"Data de Julgamento:\s*(.*?)\s*/\s*Nr\. Processo:",
+    }
+    folded_values: dict[str, str] = {}
+    for key, pattern in folded_patterns.items():
+        match = re.search(pattern, folded, re.I)
+        if match:
+            folded_values[key] = _clean_text(match.group(1))
+    if folded_values:
+        return folded_values
     patterns = {
         "orgao_julgador": r"(?:Órgão|Orgao) Julgador:\s*(.*?)\s*/\s*Tipo de Documento:",
         "tipo_documento": r"Tipo de Documento:\s*(.*?)\s*/\s*Data de Julgamento:",
@@ -346,6 +457,29 @@ def _extract_token(html: str) -> str | None:
     return match.group(1) if match else None
 
 
+def _extract_form_state(html: str) -> dict[str, str]:
+    """Extract the current result form state for an offset pagination POST."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    form = soup.find("form")
+    if form is None:
+        return {}
+    values: dict[str, str] = {}
+    for element in form.select("input[name], textarea[name]"):
+        name = str(element.get("name") or "")
+        if not name or name in values:
+            continue
+        if element.name == "textarea":
+            value = element.get_text()
+        else:
+            input_type = str(element.get("type") or "hidden").lower()
+            if input_type in {"submit", "button", "image", "reset"}:
+                continue
+            value = str(element.get("value") or "")
+        values[name] = value
+    return values
+
+
 def _extract_document_id(value: str) -> str:
     match = re.search(r"(\d+)$", value.strip())
     if not match:
@@ -354,7 +488,7 @@ def _extract_document_id(value: str) -> str:
 
 
 def _normalize_type(value: str | None) -> str:
-    normalized = _clean_text(value or "").lower()
+    normalized = _ascii_fold(_clean_text(value or "")).lower()
     return {
         "acórdãos": "acordao",
         "acordaos": "acordao",
@@ -365,6 +499,12 @@ def _normalize_type(value: str | None) -> str:
 
 def _clean_text(value: str) -> str:
     return " ".join(value.replace("\xa0", " ").split())
+
+
+def _ascii_fold(value: str) -> str:
+    """Fold accents and mojibake variants for stable label matching."""
+
+    return unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
 
 
 def _page_size(value: int) -> int:

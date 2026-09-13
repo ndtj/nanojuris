@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "kind": "next_model_handoff_status",
+  "observed_at": "2026-09-08",
+  "change_id": "0091-national-coverage-gold-handoff",
+  "counts": {
+    "cataloged_sources": 71,
+    "runtime_providers": 66,
+    "unified_sources": 49,
+    "surfaces_mapped": 150,
+    "surfaces_required": 125,
+    "cjpg_proven": "7/27",
+    "cjsg_proven": "25/27",
+    "fixtures_complete_runtime": "66/66",
+    "open_tasks": 57,
+    "external_tasks": 44,
+    "human_tasks": 13,
+    "local_tasks": 0
+  },
+  "status": "locally_verified_with_external_pending",
+  "entrypoint": "GOAT_EXECUTOR_PROMPT.md",
+  "operator_entrypoint": "MODEL_HANDOFF.md",
+  "normative_package": "specs/changes/0091-national-coverage-gold-handoff",
+  "lawful_access_boundary": "docs/coverage/public-access-boundary-playbook-20260908.md",
+  "recent_live_evidence": [
+    "docs/provider-discovery/stm-live-20260908-cycle70.json",
+    "docs/provider-discovery/trf4-live-20260908-cycle71.json",
+    "docs/provider-discovery/trf5-live-20260908-cycle72.json",
+    "docs/provider-discovery/eproc-detail-live-20260908-cycle73.json",
+    "docs/provider-discovery/stj-live-20260908-cycle74.json",
+    "docs/provider-discovery/eproc-detail-live-20260908-cycle75.json",
+    "docs/provider-discovery/tjrj-banco-sentencas-live-20260908.json",
+    "docs/provider-discovery/tjba-cjpg-banco-sentencas-live-20260907.json",
+    "docs/provider-discovery/tjpa-banco-sentencas-live-20260907.json",
+    "docs/provider-discovery/first-degree-secondary-probes-live-20260907.json",
+    "docs/provider-discovery/trf3-exact-process-live-20260908.json",
+    "docs/provider-discovery/tjac-ementario-live-20260908.json",
+    "docs/provider-discovery/tjal-turma-recursal-live-20260908.json"
+  ],
+  "recent_technical_changes": [
+    "authoritative_total_reached pagination guard",
+    "canonical contract fields for TJSP/NugepNac, STF, CJF, TJCE and TJAP",
+    "first-degree bounded probes classified without bypass"
+  ],
+  "release_boundary": {
+    "commit": false,
+    "push": false,
+    "publish": false,
+    "deploy": false,
+    "production_change": false,
+    "credentials_in_repository": false,
+    "access_control_bypass": false
+  },
+  "warning": "Counts and evidence are a local snapshot; regenerate before acting and do not claim national completion from adapters alone. The executor packet is a scoped subset; the repository-wide audit currently has 57 open external/human tasks."
+}

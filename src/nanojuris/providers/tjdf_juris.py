@@ -3,13 +3,11 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import re
-import time
 import unicodedata
 from datetime import datetime
 from typing import Any
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode, urljoin, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -18,6 +16,7 @@ from nanojuris.adaptive_selectors import SelectorMemory, resilient_select
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
+    AccessControlRequiredError,
     ParserContractChangedError,
     RateLimitDetectedError,
     SourceUnavailableError,
@@ -37,6 +36,13 @@ from nanojuris.models import (
 from nanojuris.pagination import page_completeness
 from nanojuris.parsing import parse_html
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient
+from nanojuris.transport.models import (
+    TransportPolicy,
+    TransportRequest,
+    TransportResponse,
+    TransportStatus,
+)
 
 TJDF_JURIS_ENDPOINT = "/IndexadorAcordaos-web/sistj"
 TJDF_JURIS_API_ENDPOINT = "/api/v1/pesquisa"
@@ -55,7 +61,26 @@ class TjdfJurisProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        hosts = tuple(
+            host
+            for host in (
+                urlsplit(self.config.tjdf_juris_url).hostname,
+                urlsplit(self.config.tjdf_juris_api_url).hostname,
+            )
+            if host
+        )
+        self.transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=hosts,
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
         self._last_http_metadata: dict[str, Any] = {}
         self._last_response_content = b""
         self.use_api = self.config.tjdf_juris_api_enabled if use_api is None else use_api
@@ -119,6 +144,9 @@ class TjdfJurisProvider(JurisprudenceProvider):
             pagination_mode="page",
             is_complete=complete,
             completeness_reason=completeness_reason,
+            total_known=total is not None,
+            access_status=AccessStatus.PUBLIC,
+            extraction_status=(ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY),
         )
 
     def _search_api(self, query: JurisprudenceQuery) -> SearchPage:
@@ -219,7 +247,7 @@ class TjdfJurisProvider(JurisprudenceProvider):
             search_modes=["text", "summary", "date_range", "page", "document_id"],
             document_types=["acordao", "turma_recursal", "tema", "informativo"],
             # Keep the generated coverage catalog stable; the API JSON surface
-            # is documented in ``endpoints`` and remains an opt-in transport.
+            # is documented in ``endpoints`` and can be selected explicitly.
             content_formats=["html", "json"],
             canonical_records=["CanonicalDecision", "CanonicalDocument"],
             extracted_fields=[
@@ -258,14 +286,73 @@ class TjdfJurisProvider(JurisprudenceProvider):
                 "all_words",
                 "any_words",
                 "without_words",
+                "number",
                 "rapporteur",
+                "source_origin",
+                "source_origins",
+                "case_class",
+                "judging_body",
                 "published_from",
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "judgment_date_from",
+                "judgment_date_to",
             ],
+            unsupported_filters=[
+                "courts",
+                "types",
+                "fetch_details",
+                "decision_type",
+                "lawyer_name",
+                "legal_area",
+                "oab",
+                "party_document",
+                "party_name",
+                "police_document",
+                "precatory_number",
+                "cda",
+                "source_origins",
+            ],
+            filter_semantics={
+                "text": "native",
+                "exact_phrase": "translated",
+                "all_words": "translated",
+                "any_words": "translated",
+                "without_words": "translated",
+                "number": "translated",
+                "rapporteur": "translated",
+                "source_origin": "translated",
+                "source_origins": "translated",
+                "case_class": "translated",
+                "judging_body": "translated",
+                "published_from": "translated",
+                "published_to": "translated",
+                "updated_from": "translated",
+                "updated_to": "translated",
+                "judgment_date_from": "translated",
+                "judgment_date_to": "translated",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "degree": "validated_scope",
+                "instance": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                "courts": "unsupported",
+                "types": "unsupported",
+                "fetch_details": "unsupported",
+                "decision_type": "unsupported",
+                "lawyer_name": "unsupported",
+                "legal_area": "unsupported",
+                "oab": "unsupported",
+                "party_document": "unsupported",
+                "party_name": "unsupported",
+                "police_document": "unsupported",
+                "precatory_number": "unsupported",
+                "cda": "unsupported",
+            },
             limitations=[
-                "A superficie JSON permanece opt-in ate comparacao live com o fluxo HTML.",
+                "A superficie JSON permanece selecionavel para compatibilidade com o HTML legado.",
                 "Contrato HTML legado do SISTJ/TJDFT pode mudar sem aviso.",
                 "Inteiro teor PJe pode depender de link/documento externo.",
                 "Provider nao interpreta merito juridico nem substitui fonte oficial.",
@@ -277,53 +364,29 @@ class TjdfJurisProvider(JurisprudenceProvider):
         )
 
     def _request_json(self, path: str, payload: dict[str, Any]) -> dict[str, Any]:
-        self._respect_rate_limit()
         url = urljoin(self.config.tjdf_juris_api_url.rstrip("/") + "/", path.lstrip("/"))
-        headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-            "User-Agent": self.config.user_agent,
-        }
-        started = time.perf_counter()
+        request = TransportRequest(
+            source=self.name,
+            operation="jurisprudence_api",
+            method="POST",
+            url=url,
+            headers={
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": self.config.user_agent,
+            },
+            json_body=payload,
+            idempotent=False,
+        )
         try:
-            response = self.session.request(
-                "POST",
-                url,
-                headers=headers,
-                json=payload,
-                timeout=self.config.timeout,
-            )
+            response = self.transport.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJDFT API request failed: {exc}") from exc
-        if response.status_code == 429:
-            raise RateLimitDetectedError("TJDFT API returned HTTP 429")
-        if response.status_code in {400, 422}:
-            raise UnsupportedQueryError(
-                f"TJDFT API rejected query with HTTP {response.status_code}"
-            )
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJDFT API returned HTTP {response.status_code}")
-        if response.status_code >= 400:
-            raise SourceUnavailableError(
-                f"TJDFT API rejected request with HTTP {response.status_code}"
-            )
-        content = bytes(getattr(response, "content", None) or response.text.encode("utf-8"))
-        self._last_http_metadata = {
-            "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", None) or url),
-            "content_type": (getattr(response, "headers", None) or {}).get("Content-Type"),
-            "content_sha256": hashlib.sha256(content).hexdigest(),
-            "response_bytes": len(content),
-            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
-            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
-        }
-        self._last_response_content = content
+        self._raise_transport_error(response, "TJDFT API", unsupported_query=True)
+        content = bytes(response.body)
+        self._record_response(response, url, content)
         try:
-            data = (
-                response.json()
-                if callable(getattr(response, "json", None))
-                else json.loads(response.text)
-            )
+            data = response.json()
         except (TypeError, ValueError) as exc:
             raise ParserContractChangedError("TJDFT API returned invalid JSON") from exc
         if not isinstance(data, dict):
@@ -331,53 +394,94 @@ class TjdfJurisProvider(JurisprudenceProvider):
         return data
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> str:
-        self._respect_rate_limit()
         url = urljoin(self.config.tjdf_juris_url.rstrip("/") + "/", path.lstrip("/"))
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "User-Agent": self.config.user_agent,
-        }
-        started = time.perf_counter()
+        request = TransportRequest(
+            source=self.name,
+            operation="sistj_request",
+            method=method,
+            url=url,
+            headers={
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "User-Agent": self.config.user_agent,
+                **kwargs.pop("headers", {}),
+            },
+            params=kwargs.pop("params", {}),
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported transport arguments: {', '.join(sorted(kwargs))}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                **kwargs,
-            )
+            response = self.transport.request(request)
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJDFT/SISTJ request failed: {exc}") from exc
-        if response.status_code == 429:
-            raise RateLimitDetectedError("TJDFT/SISTJ returned HTTP 429")
-        if response.status_code >= 500:
-            raise SourceUnavailableError(f"TJDFT/SISTJ returned HTTP {response.status_code}")
-        if response.status_code >= 400:
+        self._raise_transport_error(response, "TJDFT/SISTJ")
+        content = bytes(response.body)
+        self._record_response(response, url, content)
+        return _decode_response_text(content, response.content_type)
+
+    @staticmethod
+    def _raise_transport_error(
+        response: TransportResponse,
+        label: str,
+        *,
+        unsupported_query: bool = False,
+    ) -> None:
+        if response.status is not TransportStatus.COMPLETE:
             raise SourceUnavailableError(
-                f"TJDFT/SISTJ rejected request with HTTP {response.status_code}"
+                f"{label} transport failed: {response.error_type or response.status.value}"
             )
-        content = bytes(getattr(response, "content", None) or response.text.encode("utf-8"))
+        status_code = response.status_code
+        if status_code is None:
+            raise SourceUnavailableError(f"{label} transport returned no HTTP status")
+        if status_code == 429:
+            raise RateLimitDetectedError(f"{label} returned HTTP 429")
+        if status_code in {401, 403, 407, 451}:
+            raise AccessControlRequiredError(
+                f"{label} requires access validation (HTTP {status_code})"
+            )
+        if unsupported_query and status_code in {400, 422}:
+            raise UnsupportedQueryError(f"{label} rejected query with HTTP {status_code}")
+        if status_code >= 500:
+            raise SourceUnavailableError(f"{label} returned HTTP {status_code}")
+        if status_code >= 400:
+            raise SourceUnavailableError(f"{label} rejected request with HTTP {status_code}")
+
+    def _record_response(
+        self, response: TransportResponse, request_url: str, content: bytes
+    ) -> None:
+        status_code = response.status_code
         self._last_http_metadata = {
-            "http_status": response.status_code,
-            "final_url": str(getattr(response, "url", None) or url),
-            "content_type": (getattr(response, "headers", None) or {}).get("Content-Type"),
+            "http_status": status_code,
+            "final_url": str(response.final_url or request_url),
+            "content_type": response.content_type,
             "content_sha256": hashlib.sha256(content).hexdigest(),
             "response_bytes": len(content),
-            "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
-            "retrieval_status": "ok" if 200 <= response.status_code < 300 else "http_error",
+            "elapsed_ms": response.elapsed_ms,
+            "retrieval_status": (
+                "ok" if status_code is not None and 200 <= status_code < 300 else "http_error"
+            ),
         }
         self._last_response_content = content
-        response.encoding = response.encoding or "ISO-8859-1"
-        return response.text
 
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+
+def _decode_response_text(content: bytes, content_type: str | None) -> str:
+    """Decode bounded transport bytes using an advertised charset when present."""
+
+    charset = None
+    if content_type:
+        match = re.search(r"charset\s*=\s*['\"]?([^;\s'\"]+)", content_type, re.I)
+        if match:
+            charset = match.group(1)
+    for encoding in (charset, "ISO-8859-1", "utf-8"):
+        if not encoding:
+            continue
+        try:
+            return content.decode(encoding)
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return content.decode("utf-8", errors="replace")
 
 
 def _trace_with_http_metadata(trace: SourceTrace, metadata: dict[str, Any]) -> SourceTrace:
@@ -408,24 +512,52 @@ def _build_api_payload(query: JurisprudenceQuery) -> dict[str, Any]:
         ("number", "processo"),
         ("rapporteur", "nomeRelator"),
         ("source_origin", "origem"),
+        ("case_class", "descricaoClasseCnj"),
+        ("judging_body", "descricaoOrgaoJulgador"),
         ("updated_from", "dataJulgamento"),
         ("updated_to", "dataJulgamento"),
         ("published_from", "dataPublicacao"),
         ("published_to", "dataPublicacao"),
+        ("judgment_date_from", "dataJulgamento"),
+        ("judgment_date_to", "dataJulgamento"),
     )
     for query_field, api_field in mappings:
         value = getattr(query, query_field, "")
         if value:
-            terms.append({"campo": api_field, "valor": str(value)})
+            terms.append({"campo": api_field, "valor": _api_date_or_text(value)})
+    for value in query.source_origins:
+        if value:
+            terms.append({"campo": "origem", "valor": str(value)})
     payload: dict[str, Any] = {
         "query": _build_search_expression(query),
         # API pages are zero-based; the public NanoJuris query remains one-based.
         "pagina": query.page - 1,
         "tamanho": query.page_size,
+        # These switches are published by the official JURISDF client. They
+        # make the response carry the ementa/decisao and inteiro teor when the
+        # source has it, while the parser still treats availability as
+        # record-specific rather than trusting a boolean flag.
+        "sinonimos": True,
+        "espelho": True,
+        "inteiroTeor": True,
+        "retornaInteiroTeor": True,
+        "retornaTotalizacao": True,
     }
     if terms:
         payload["termosAcessorios"] = terms
     return payload
+
+
+def _api_date_or_text(value: str) -> str:
+    """Normalize accepted public query dates without changing other filters."""
+
+    text = str(value).strip()
+    for pattern in ("%Y-%m-%d", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(text, pattern).date().isoformat()
+        except ValueError:
+            continue
+    return text
 
 
 def parse_tjdf_api_response(
@@ -479,6 +611,9 @@ def parse_tjdf_api_response(
         pagination_mode="page",
         is_complete=complete,
         completeness_reason=completeness_reason,
+        total_known=True,
+        access_status=AccessStatus.PUBLIC,
+        extraction_status=(ExtractionStatus.COMPLETE if results else ExtractionStatus.EMPTY),
     )
 
 
@@ -498,6 +633,8 @@ def _parse_tjdf_api_record(
     record_type = " / ".join(value for value in (base, subbase) if value) or "acordao"
     publication_date = _normalize_tjdf_api_date(record.get("dataPublicacao"))
     judgment_date = _normalize_tjdf_api_date(record.get("dataJulgamento"))
+    case_class = _as_text(record.get("descricaoClasseCnj") or record.get("classe"))
+    judging_body = _as_text(record.get("descricaoOrgaoJulgador") or record.get("descricaoOrgao"))
     return JurisprudenceResult(
         id=f"tjdf-api-{identifier}",
         source="tjdf_juris",
@@ -511,10 +648,28 @@ def _parse_tjdf_api_record(
         updated_at=publication_date,
         judgment_date=judgment_date,
         publication_date=publication_date,
+        source_updated_at=publication_date,
+        case_class=case_class,
+        judging_body=judging_body,
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJDFT",
+        collection="CJSG",
+        document_type="acordao",
+        source_origin=base or subbase,
+        document_url=_as_text(record.get("url") or record.get("documentUrl")),
         access_status=AccessStatus.PUBLIC,
         extraction_status=ExtractionStatus.COMPLETE,
         source_trace=trace,
         raw=dict(record),
+        field_provenance={
+            "degree": {"source": "source_contract:tjdft_sistj_acordaos"},
+            "instance": {"source": "source_contract:tjdft_sistj_acordaos"},
+            "branch": {"source": "source_contract:tjdft"},
+            "authority": {"source": "source_contract:tjdft"},
+            "collection": {"source": "source_contract:tjdft_sistj_acordaos"},
+        },
     )
 
 
@@ -673,6 +828,13 @@ def parse_tjdf_list_results(
                 number=document_id,
                 summary=summary,
                 rapporteur=rapporteur,
+                degree="second",
+                instance="second",
+                branch="state",
+                authority="TJDFT",
+                collection="CJSG",
+                document_type="acordao",
+                document_url=_tjdf_document_url(base_url, document_id),
                 access_status=AccessStatus.PUBLIC,
                 extraction_status=ExtractionStatus.PARTIAL,
                 source_trace=trace,
@@ -723,6 +885,13 @@ def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> Jur
         summary=summary,
         status=decision_outcome,
         rapporteur=fields.get("relatora"),
+        degree="second",
+        instance="second",
+        branch="state",
+        authority="TJDFT",
+        collection="CJSG",
+        document_type="acordao",
+        document_url=document_url,
         updated_at=publication_date or judgment_date,
         access_status=AccessStatus.PUBLIC if result_trace.http_status == 200 else None,
         source_trace=result_trace,

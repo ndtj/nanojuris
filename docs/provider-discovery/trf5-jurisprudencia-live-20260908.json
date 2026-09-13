@@ -1,0 +1,54 @@
+{
+  "provider": "trf5_jurisprudencia",
+  "query": "responsabilidade civil",
+  "attempted_at": "2026-09-08",
+  "status": "success_with_results",
+  "http_status": 200,
+  "result_count": 1,
+  "result": {
+    "id": "trf5-jurisprudencia-12272",
+    "number": "0532048-90.2009.4.05.8300",
+    "type": "acordao",
+    "authority": "TRF5",
+    "branch": "federal",
+    "degree": "second",
+    "instance": "second",
+    "collection": "JURISPRUDENCIA",
+    "document_type": "acordao",
+    "judging_body": "Segunda Turma - JFPE",
+    "judgment_date": "28/07/2011",
+    "document_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=12272",
+    "summary_present": false
+  },
+  "source_trace": {
+    "provider": "trf5_jurisprudencia",
+    "endpoint": "/jurisprudencia/resultado_pesquisa.wsp",
+    "retrieved_at": "2026-09-08T13:41:21+00:00",
+    "query": {
+      "tmp.search.query": "responsabilidade civil",
+      "tmp.search.query_complemento": "",
+      "tmp.ds_legislacao_2": "",
+      "tmp.search.qtdade_registros": "1",
+      "tmp.search.acao": "novapesquisa"
+    },
+    "source_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/resultado_pesquisa.wsp",
+    "limitations": [
+      "O token wi.token e obtido da sessao corrente e nao e persistido.",
+      "A resposta HTML pode alterar labels e codificacao sem aviso.",
+      "Paginacao e ordenacao ainda nao foram promovidas para coleta em escala."
+    ],
+    "http_status": 200,
+    "final_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/resultado_pesquisa.wsp",
+    "content_type": "text/html;charset=ISO-8859-1",
+    "content_sha256": "79ece41ec867b8b667f5a0baca849b203b8593c6332af656396a63777d6e7fdc",
+    "response_bytes": 7355,
+    "elapsed_ms": null,
+    "retrieval_status": "ok",
+    "transformations": []
+  },
+  "notes": [
+    "Bounded public GET/POST session flow.",
+    "No response body or full text persisted.",
+    "Canonical fields are populated from the observed TRF5 appellate result; the live result did not include an ementa in this response window."
+  ]
+}\n

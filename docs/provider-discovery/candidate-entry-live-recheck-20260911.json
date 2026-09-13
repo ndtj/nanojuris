@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "observed_at": "2026-09-11",
+  "scope": "bounded_public_entry_pages",
+  "request_policy": {
+    "user_agent": "browser_standard",
+    "redirects_followed": true,
+    "no_challenge_solving": true,
+    "no_cookie_or_token_persistence": true,
+    "two_second_spacing_per_host": true
+  },
+  "results": [
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "url": "https://jurisprudencia-client.tjmsp.jus.br/home/legado",
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 409,
+      "classification": "access_control_required",
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "url": "https://api-jurisprudencia.tjmsp.jus.br/v1/tema/retornaRegistrosAtivos",
+      "http_status": 403,
+      "content_type": "text/html",
+      "response_bytes": 429,
+      "classification": "access_control_or_rate_limit",
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "url": "https://www.tjse.jus.br/Dgorg/paginas/jurisprudencia/consultarJurisprudencia.tjse",
+      "http_status": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "response_bytes": 345426,
+      "classification": "entry_reachable_challenge_gated",
+      "challenge_markers": ["captcha", "turnstile"],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "url": "https://tucujuris.tjap.jus.br/pages/consultar-jurisprudencia/consultar-jurisprudencia.html",
+      "http_status": 200,
+      "content_type": "text/html",
+      "response_bytes": 23754,
+      "classification": "entry_reachable_challenge_gated",
+      "challenge_markers": ["captcha", "turnstile", "recaptcha"],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "url": "https://pje.trt2.jus.br/jurisprudencia/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "response_bytes": 1384,
+      "classification": "entry_shell_only",
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "url": "https://apps.trt6.jus.br/acordaos/",
+      "http_status": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "response_bytes": 23116,
+      "classification": "entry_reachable_challenge_gated",
+      "challenge_markers": ["captcha", "recaptcha"],
+      "search_contract_proven": false,
+      "federation_status": "blocked"
+    }
+  ]
+}

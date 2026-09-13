@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "batch_size": "1-3",
+  "ordering": [
+    {"wave": "A", "surfaces": ["TJAC/CJSG", "TJAL/CJSG", "TJAM/CJSG", "TJES/CJSG", "TJMS/CJSG"]},
+    {"wave": "B1", "surfaces": ["TJBA/CJSG", "TJDFT/CJSG", "TJMT/CJSG", "TJPA/CJSG", "TJPB/CJSG", "TJRN/CJSG"]},
+    {"wave": "B2", "surfaces": ["TJGO/CJSG", "TJPI/CJSG", "TJPR/CJSG", "TJRR/CJSG", "TJRS/CJSG", "TJTO/CJSG"]},
+    {"wave": "B3", "surfaces": ["TJRJ/CJSG", "TJSC/CJSG", "TJRO/CJSG"]},
+    {"wave": "C", "surfaces": ["TJAP/CJSG", "TJCE/CJSG", "TJPE/CJSG", "TJSP/CJSG"]},
+    {"wave": "D", "surfaces": ["TJMG/CJSG", "TJMA/CJSG", "TJSE/CJSG"]}
+  ],
+  "per_surface_gates": ["official_source", "degree_contract", "runtime", "fixtures", "pagination_filters", "bounded_live", "canonical_quality", "federation"],
+  "blocked_policy": "record_once_and_advance",
+  "no_bypass": true,
+  "human_review_after_technical_gates": true
+}

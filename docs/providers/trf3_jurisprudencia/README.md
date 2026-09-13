@@ -7,9 +7,11 @@
 - Familia tecnica: `trf_jurisprudencia_web`.
 - Pesquisa: `https://web.trf3.jus.br/jurisprudencia/home/index/1`.
 - Consulta de acordaos: `https://web.trf3.jus.br/acordaos/Acordao`.
-- Status de acesso: `candidate_needs_har`.
-- Nivel de evidencia: B, interface oficial confirmada; replay HTTP pendente.
-- Status no NanoJuris: candidato, sem provider implementado.
+- Status de acesso: `transport_unconfirmed` para o host de busca; rota
+  documental implementada, mas ainda não promovida.
+- Nível de evidência: B, interface e documento oficiais confirmados; replay
+  HTTP direto desta rede permanece sujeito a timeout.
+- Status no NanoJuris: provider executável opt-in, fora da federação padrão.
 
 ## Superficies oficiais encontradas
 
@@ -36,16 +38,17 @@ Tambem ha referencias para Jurisprudencia Unificada do CJF, Jurisprudencia
 Unificada da TNU e Sumulas do TRF3. Essas entradas devem ser tratadas como
 superficies relacionadas, mas nao misturadas no provider do TRF3.
 
-### Consulta de acordaos
+### Consulta de acórdãos por processo (contrato implementado)
 
 ```text
-GET https://web.trf3.jus.br/acordaos/Acordao
+GET https://web.trf3.jus.br/acordaos/Acordao/PesquisarDocumento?processo=<20 dígitos CNJ>
+GET https://web.trf3.jus.br/acordaos/Acordao/BuscarDocumentoPje/<id>
 ```
 
-A carta de servicos oficial descreve consulta por numero de processo e acesso
-ao inteiro teor, incluindo relatorio, voto e ementa quando o documento existe.
-Essa rota e uma consulta documental por processo, distinta da pesquisa textual
-da interface de jurisprudencia.
+A resposta pública lista cada data de acórdão para o processo e os links de
+documento abrem HTML com cabeçalho, relator, relatório, voto, ementa e
+dispositivo quando publicados. Essa rota é uma consulta documental por
+processo, distinta da pesquisa textual da interface de jurisprudência.
 
 ## Evidencia e tentativa registrada
 
@@ -65,9 +68,9 @@ Essa tentativa nao deve ser repetida com a mesma chave sem uma mudanca
 observavel. O timeout nao prova ausencia da fonte nem valida o contrato de
 busca; ele limita a evidencia disponivel neste ambiente.
 
-## Contrato pendente
+## Contrato de busca textual ainda pendente
 
-Ainda nao foram confirmados por replay HTTP:
+Ainda não foram confirmados por replay HTTP da interface textual:
 
 - action e metodo final do formulario;
 - nomes e valores de todos os campos;
@@ -95,22 +98,21 @@ rota oficial alternativa reproduzivel.
 | CJF/TNU/Sumulas | `discovered` | links na propria interface | criar fichas separadas |
 | erros/limites | `unknown` | replay pendente | registrar resposta do formulario |
 
-## Decisao de produto
+## Decisão de produto
 
-O TRF3 e candidato relevante para cobertura federal, mas ainda nao e
-`candidate_ready`. A evidencia atual permite mapear amplamente a entrada e as
-superficies, mas nao autoriza provider sem resposta juridica reproduzida e
-fixture offline.
+O TRF3 continua candidato para busca textual geral. A rota por processo já
+possui parser, fixture e testes offline, mas permanece opt-in porque a chamada
+HTTP direta ao host expirou nesta rede. Isso não é tratado como resultado vazio
+nem como validação live.
 
 ## Fixtures necessarias
 
-- [ ] HTML inicial da pesquisa.
+- [ ] HTML inicial e replay da pesquisa textual.
 - [ ] Captura de uma busca textual pequena.
-- [ ] Resultado com processo, classe, orgao, relator, data e ementa.
-- [ ] Resposta vazia.
-- [ ] Consulta documental por numero de processo.
-- [ ] Documento/inteiro teor publico, se acessivel.
-- [ ] Parser offline antes do fetcher live.
+- [x] Resultado documental por processo com datas e links.
+- [x] Resposta vazia do lookup por processo.
+- [x] Parser offline antes do fetcher live.
+- [x] Documento HTML de inteiro teor e preservação de bytes.
 
 ## MCP e agentes
 
@@ -119,23 +121,62 @@ estiver reproduzivel. Pode expor a fonte como indisponivel ou pendente, sem
 inventar resultados e sem confundir a consulta de acordaos por processo com
 uma busca geral de jurisprudencia.
 
-## Validacao live 2026-08-11
+## Validação live 2026-09-07
 
-- A pesquisa oficial sofreu timeout de leitura em 25 segundos nesta janela.
-- A superficie continua documentada como UI confirmada, mas sem contrato HTTP de resultados reproduzido.
+- A pesquisa textual oficial e as rotas de lookup foram tentadas com requests
+  HTTPS bounded, sem proxy, credenciais ou contorno de proteção; o host
+  expirou antes de fornecer uma resposta HTTP nesta rede.
+- A documentação oficial e a leitura pública do portal confirmam a rota de
+  processo e o documento textual; essa evidência não substitui uma validação
+  live direta do adapter.
+- Evidência estruturada: `docs/provider-discovery/trf3-jurisprudencia-live-20260907.json`.
 
 Evidencia detalhada: [candidate-live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/candidate-live-validation-2026-08-11.md).
 
 ## Proximos passos
 
-1. Usar captura automatica de rede em uma consulta publica simples.
-2. Extrair o contrato sem guardar cookies ou tokens privados.
-3. Testar a rota documental por processo separadamente da busca textual.
-4. Criar fixtures, parser e testes de contrato.
-5. Promover somente apos resposta juridica reproduzida por HTTP limpo.
+1. Revalidar a rota por processo quando o host responder em uma janela bounded.
+2. Usar captura automática de rede somente para descobrir o contrato textual,
+   sem guardar cookies ou tokens privados.
+3. Promover somente após resposta jurídica reproduzida pelo adapter e gate de
+   qualidade; até lá, manter `supports_unified_search=false`.
+
+## Rechecagem de transporte - ciclo 3 (2026-09-01)
+
+Para testar uma rota oficial alternativa sem repetir a mesma chave de timeout,
+foram feitas tres chamadas GET bounded, sem credenciais: `/acordaos/Acordao`,
+`/jurisprudencia/Home/ResultadoTotais` e
+`/jurisprudencia/Home/BuscarSugestao?term=dano`. As tres expiraram por
+`ReadTimeout` de 6 segundos nesta rede. O estado permanece `candidate` com
+`blocked_transport`; isso nao e zero resultados nem prova indisponibilidade
+permanente. Metadados: [trf3-live-recheck-20260901-cycle3.json](../../provider-discovery/trf3-live-recheck-20260901-cycle3.json).
+## Transporte compartilhado e limites (2026-09-08)
+
+O lookup exato por processo e a busca do inteiro teor agora usam o
+`SharedHttpClient` com allowlist do host oficial, HTTP/1.1, timeout configurado,
+limite de 8 MB por resposta, retry apenas para falhas idempotentes transitórias,
+rate limit e circuit breaker. Redirecionamentos fora da allowlist, respostas
+excessivas, timeout, TLS e HTTP 403/429 permanecem estados explícitos; nenhum é
+convertido em resultado vazio. A migração melhora a segurança do transporte,
+mas não altera o estado de promoção: a pesquisa textual geral continua sem
+contrato HTTP reproduzível e o provider permanece opt-in/candidato.
+
 ## Dados Canonicos E Limites
 
 A pesquisa textual deve mapear, quando publicados, processo, classe, orgao, relator, data, ementa, tipo documental, objeto, link de detalhe e inteiro teor. A consulta de acordao por processo deve ser um caminho separado, preservando relatorio, voto e ementa como documentos distintos quando a fonte os oferecer. Nenhum schema de resposta foi reproduzido no timeout atual.
+
+## Rechecagem bounded - 2026-09-09
+
+Foi repetida uma única chamada controlada ao lookup oficial por número de
+processo, usando o adapter NanoJuris e o transporte compartilhado, com timeout
+de 8 segundos, limite de uma página, sem credenciais, proxy ou contorno de
+proteções. A tentativa expirou em transporte antes de uma resposta HTTP
+completa. O resultado foi classificado como `transport_error` /
+`source_unavailable`, não como vazio autoritativo. Evidência redigida:
+`docs/provider-discovery/trf3-jurisprudencia-live-20260909.json`.
+
+O provider permanece `opt_in_pending_live`; não há base para promoção nem para
+repetir a mesma rota nesta rede sem mudança observável de disponibilidade.
 
 ## MCP
 

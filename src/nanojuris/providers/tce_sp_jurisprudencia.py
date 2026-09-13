@@ -3,21 +3,23 @@
 from __future__ import annotations
 
 import re
-import time
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup, Tag
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import DocumentReference, fetch_document_reference
 from nanojuris.errors import (
+    AccessControlRequiredError,
     ParserContractChangedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     JurisprudenceQuery,
     JurisprudenceResult,
@@ -28,6 +30,8 @@ from nanojuris.models import (
     SourceTrace,
 )
 from nanojuris.providers.base import JurisprudenceProvider
+from nanojuris.transport import SharedHttpClient, TransportPolicy
+from nanojuris.transport.models import TransportRequest, TransportStatus
 
 
 class TceSpJurisprudenciaProvider(JurisprudenceProvider):
@@ -42,7 +46,28 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
     ) -> None:
         self.config = config or NanoJurisConfig()
         self.session = configure_requests_session(session or requests.Session(), self.config)
-        self._last_request = 0.0
+        host = urlparse(self.config.tce_sp_url).hostname or ""
+        self._document_policy = TransportPolicy(
+            allowed_hosts=(host,),
+            timeout_seconds=self.config.timeout,
+            max_retries=2,
+            rate_limit_interval=self.config.rate_limit_interval,
+            user_agent=self.config.user_agent,
+            verify_ssl=self.config.verify_ssl,
+        )
+        self._listing_transport = SharedHttpClient(
+            TransportPolicy(
+                allowed_hosts=(host,),
+                timeout_seconds=self.config.timeout,
+                max_bytes=8_000_000,
+                max_retries=0,
+                rate_limit_interval=self.config.rate_limit_interval,
+                user_agent=self.config.user_agent,
+                verify_ssl=self.config.verify_ssl,
+            ),
+            session=self.session,
+        )
+        self._document_urls: dict[str, str] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         selected_types = _selected_types(query.types)
@@ -63,6 +88,13 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
         if "boletim" in selected_types:
             html, source_url = self._request_text("GET", "/boletim-de-jurisprudencia/publicacoes")
             results.extend(parse_tce_sp_boletins(html, source_url=source_url, trace=trace))
+        if "indice_remissivo" in selected_types:
+            results.extend(self.get_index())
+
+        for result in results:
+            document_url = result.document_url or str(result.raw.get("document_url") or "")
+            if document_url:
+                self._document_urls[result.id] = document_url
 
         normalized_query = _normalize_text(query.text or query.exact_phrase)
         if normalized_query:
@@ -95,14 +127,76 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
             page_size=query.page_size,
             results=limited,
             source_trace=trace,
+            pagination_mode="local_window",
+            is_complete=True,
+            completeness_reason=(
+                "Os catálogos públicos completos foram carregados e filtrados localmente."
+            ),
+            total_known=True,
+            access_status=AccessStatus.PUBLIC,
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
+        if not precedent_id.startswith("https://") and precedent_id not in self._document_urls:
+            return DecisionBundle(
+                precedent_id=precedent_id,
+                source=self.name,
+                texts=[],
+                raw={
+                    "message": (
+                        "TCE-SP sumulas possuem enunciado inline; somente boletins "
+                        "com URL observada oferecem documento separado."
+                    )
+                },
+            )
+        document = self.get_document(precedent_id)
         return DecisionBundle(
             precedent_id=precedent_id,
             source=self.name,
-            texts=[],
-            raw={"message": "TCE-SP catalog provider does not expose linked decision text."},
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/plain",
+                }
+            ],
+            source_trace=document.source_trace,
+            raw={"document": document.raw_metadata},
+            raw_bytes=document.raw_bytes,
+        )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        """Fetch a bulletin URL observed in the current public catalog.
+
+        The search result is the authority for the URL; opaque identifiers are
+        never expanded into guessed routes.  Direct HTTPS URLs are accepted
+        only when they belong to the configured TCE-SP host.
+        """
+
+        document_url = (
+            document_id
+            if document_id.startswith("https://")
+            else self._document_urls.get(document_id)
+        )
+        if not document_url:
+            raise ValueError(
+                "TCE-SP document_id must be an observed bulletin URL or a result id "
+                "from the current search"
+            )
+        parsed = urlparse(document_url)
+        expected_host = urlparse(self.config.tce_sp_url).hostname
+        if parsed.hostname != expected_host:
+            raise ValueError("TCE-SP document URL is outside the configured allowlist")
+        reference = DocumentReference(
+            id=document_id,
+            source=self.name,
+            url=document_url,
+            expected_content_types=("text/html", "text/plain", "application/pdf"),
+        )
+        return fetch_document_reference(
+            reference,
+            policy=self._document_policy,
+            session=self.session,
+            title=f"TCE-SP boletim {parsed.path.rsplit('/', 1)[-1]}",
         )
 
     def get_catalog(self) -> ProviderCatalog:
@@ -130,6 +224,10 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
         )
         sumulas = parse_tce_sp_sumulas(sumulas_html, source_url=sumulas_url, trace=trace)
         boletins = parse_tce_sp_boletins(boletins_html, source_url=boletins_url, trace=trace)
+        for result in boletins:
+            document_url = result.document_url or str(result.raw.get("document_url") or "")
+            if document_url:
+                self._document_urls[result.id] = document_url
         return ProviderCatalog(
             source=self.name,
             courts=[
@@ -156,23 +254,47 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
             },
         )
 
+    def get_index(self) -> list[JurisprudenceResult]:
+        """Return the official alphabetical/remissive index window.
+
+        The index is a public, read-only route distinct from the protected
+        dynamic search. Each topic is linked to the bulletin edition observed
+        by the source; no URL is guessed and the raw relationship is preserved.
+        """
+
+        source_path = "/boletim-de-jurisprudencia/indice-alfabetico-remissivo"
+        html, source_url = self._request_text("GET", source_path)
+        trace = SourceTrace(
+            provider=self.name,
+            endpoint=source_path,
+            query={"collection": "indice_remissivo"},
+            source_url=source_url,
+            limitations=[
+                "Indice remissivo oficial aponta para edicoes de boletins; "
+                "nao substitui a busca dinamica protegida por reCAPTCHA."
+            ],
+        )
+        return parse_tce_sp_indice(html, source_url=source_url, trace=trace)
+
     def get_capabilities(self) -> ProviderCapabilities:
         return ProviderCapabilities(
             source=self.name,
             display_name="TCE-SP Jurisprudencia",
             source_url=self.config.tce_sp_url.rstrip("/") + "/boletim-de-jurisprudencia",
             category="administrative_jurisprudence",
-            search_modes=["text", "catalog", "document_type"],
-            document_types=["sumula", "boletim_jurisprudencia"],
+            search_modes=["text", "catalog", "document_type", "indice_remissivo"],
+            document_types=["sumula", "boletim_jurisprudencia", "indice_remissivo"],
             content_formats=["html"],
-            canonical_records=["CanonicalPrecedent"],
+            canonical_records=["CanonicalPrecedent", "CanonicalDocument"],
             extracted_fields=[
+                "id",
                 "summary_number",
                 "statement",
                 "history",
                 "foundation",
                 "bulletin_edition",
                 "bulletin_url",
+                "document_url",
             ],
             access_statuses=[
                 AccessStatus.PUBLIC,
@@ -184,18 +306,61 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
                 "GET /boletim-de-jurisprudencia/publicacoes",
                 "GET /boletim-de-jurisprudencia/indice-alfabetico-remissivo",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             pagination_mode="local_window",
             completeness_contract="observed_window_only",
-            full_text_access="link_only",
+            full_text_access="document_link",
             supports_cli=True,
-            supports_unified_search=True,
+            supports_unified_search=False,
+            opt_in_unified_search=True,
             supports_mcp=True,
             supports_studio=True,
             supports_catalog=True,
             supports_suggestions=False,
             supports_live_tests=True,
             supported_filters=["text", "types"],
+            filter_semantics={
+                "text": "local_postfilter",
+                "exact_phrase": "local_postfilter",
+                "types": "translated",
+                "authority": "validated_scope",
+                "branch": "validated_scope",
+                "collection": "validated_scope",
+                "document_type": "validated_scope",
+                **{
+                    name: "unsupported"
+                    for name in (
+                        "courts",
+                        "all_words",
+                        "any_words",
+                        "without_words",
+                        "rapporteur",
+                        "updated_from",
+                        "updated_to",
+                        "published_from",
+                        "published_to",
+                        "number",
+                        "case_class",
+                        "judging_body",
+                        "degree",
+                        "instance",
+                        "legal_area",
+                        "decision_type",
+                        "judgment_date_from",
+                        "judgment_date_to",
+                        "source_origin",
+                        "source_origins",
+                        "fetch_details",
+                        "party_name",
+                        "party_document",
+                        "lawyer_name",
+                        "oab",
+                        "precatory_number",
+                        "police_document",
+                        "cda",
+                    )
+                },
+            },
             limitations=[
                 "Provider usa catalogos estaticos; busca dinamica com reCAPTCHA "
                 "nao e automatizada.",
@@ -208,27 +373,42 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
         )
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> tuple[str, str]:
-        self._respect_rate_limit()
         url = urljoin(self.config.tce_sp_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        headers.update(kwargs.pop("headers", {}))
+        request = TransportRequest(
+            source=self.name,
+            operation=f"{method.lower()}_{path.lstrip('/').replace('/', '_')}",
+            method=method,
+            url=url,
+            params=kwargs.pop("params", {}),
+            data=kwargs.pop("data", None),
+            json_body=kwargs.pop("json", None),
+            headers=headers,
+            idempotent=method.upper() in {"GET", "HEAD", "OPTIONS"},
+        )
+        if kwargs:
+            raise TypeError(f"unsupported TCE-SP transport arguments: {sorted(kwargs)}")
         try:
-            response = self.session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=self.config.timeout,
-                allow_redirects=True,
-                **kwargs,
-            )
-        except requests.RequestException as exc:
+            response = self._listing_transport.request(request)
+        except (requests.RequestException, SourceUnavailableError) as exc:
             raise SourceUnavailableError(f"TCE-SP jurisprudence request failed: {exc}") from exc
-
-        response.encoding = response.encoding or response.apparent_encoding or "utf-8"
+        if response.status is not TransportStatus.COMPLETE:
+            raise SourceUnavailableError(
+                "TCE-SP jurisprudence transport failed: "
+                f"{response.error_type or response.status.value}"
+            )
+        if response.status_code is None:
+            raise SourceUnavailableError("TCE-SP jurisprudence transport returned no HTTP status")
         if response.status_code == 429:
             raise RateLimitDetectedError("TCE-SP jurisprudence returned HTTP 429")
+        if response.status_code in {401, 403}:
+            raise AccessControlRequiredError(
+                f"TCE-SP jurisprudence requires access validation (HTTP {response.status_code})"
+            )
         if response.status_code >= 500:
             raise SourceUnavailableError(
                 f"TCE-SP jurisprudence returned HTTP {response.status_code}"
@@ -237,16 +417,7 @@ class TceSpJurisprudenciaProvider(JurisprudenceProvider):
             raise SourceUnavailableError(
                 f"TCE-SP jurisprudence rejected request with HTTP {response.status_code}"
             )
-        return response.text, getattr(response, "url", url)
-
-    def _respect_rate_limit(self) -> None:
-        interval = self.config.rate_limit_interval
-        if interval <= 0:
-            return
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < interval:
-            time.sleep(interval - elapsed)
-        self._last_request = time.monotonic()
+        return response.text, str(response.final_url or url)
 
 
 def parse_tce_sp_sumulas(
@@ -312,6 +483,11 @@ def parse_tce_sp_boletins(
             continue
         seen.add(url)
         edition = _extract_edition(title)
+        # Navigation links (including the collection landing page) can contain
+        # the same words but are not bulletin documents.  Only edition links
+        # are eligible for document fetch and canonicalization.
+        if edition is None:
+            continue
         result_trace = SourceTrace(
             provider=trace.provider,
             endpoint="/boletim-de-jurisprudencia/publicacoes",
@@ -336,11 +512,78 @@ def parse_tce_sp_boletins(
     return results
 
 
+def parse_tce_sp_indice(
+    html: str,
+    *,
+    source_url: str,
+    trace: SourceTrace,
+) -> list[JurisprudenceResult]:
+    """Parse the public alphabetical/remissive topic index."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    headings = soup.select("h2.sec-titulo-separador")
+    if not headings:
+        raise ParserContractChangedError("TCE-SP indice remissivo headings not found")
+    results: list[JurisprudenceResult] = []
+    for heading in headings:
+        topic = _clean_text(heading.get_text(" ", strip=True))
+        link = heading.find_next("a", href=True)
+        if not topic or not isinstance(link, Tag):
+            raise ParserContractChangedError(
+                "TCE-SP indice remissivo topic without official bulletin link"
+            )
+        title = _clean_text(link.get_text(" ", strip=True))
+        edition = _extract_edition(title)
+        if edition is None:
+            raise ParserContractChangedError(
+                "TCE-SP indice remissivo link without bulletin edition"
+            )
+        document_url = urljoin(source_url, str(link.get("href") or ""))
+        result_trace = SourceTrace(
+            provider=trace.provider,
+            endpoint="/boletim-de-jurisprudencia/indice-alfabetico-remissivo",
+            query={"topic": topic, "edition": edition},
+            source_url=document_url,
+            limitations=trace.limitations,
+        )
+        slug = re.sub(r"[^a-z0-9]+", "-", _normalize_text(topic)).strip("-")
+        results.append(
+            JurisprudenceResult(
+                id=f"tce-sp-indice-{slug}",
+                source="tce_sp_jurisprudencia",
+                court="TCE-SP",
+                type="indice_remissivo",
+                number=edition,
+                summary=topic,
+                thesis=topic,
+                document_url=document_url,
+                source_trace=result_trace,
+                raw={
+                    "topic": topic,
+                    "bulletin_title": title,
+                    "bulletin_edition": edition,
+                    "document_url": document_url,
+                    "source_url": source_url,
+                },
+            )
+        )
+    return results
+
+
 def _selected_types(values: list[str]) -> list[str]:
     selected: list[str] = []
     for value in values:
         normalized = _normalize_text(value).replace(" ", "_")
-        if normalized in {"sumula", "boletim", "boletim_jurisprudencia"}:
+        if normalized in {
+            "sumula",
+            "boletim",
+            "boletim_jurisprudencia",
+            "indice",
+            "indice_remissivo",
+        }:
+            if normalized.startswith("indice"):
+                selected.append("indice_remissivo")
+                continue
             selected.append("boletim" if normalized.startswith("boletim") else normalized)
     return selected or ["sumula", "boletim"]
 

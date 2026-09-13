@@ -1,0 +1,1739 @@
+{
+  "schema_version": "provider-completion-baseline-v2",
+  "generated_at": "2026-09-13T00:15:30+00:00",
+  "mode": "offline_only",
+  "network_access": "not_used",
+  "catalog": "docs/registry/provider-catalog.full.json",
+  "summary": {
+    "providers": 85,
+    "runtime": 80,
+    "candidates": 5,
+    "families": 0,
+    "by_priority": {
+      "P1": 33,
+      "P2": 14,
+      "P3": 33,
+      "P4": 5
+    },
+    "by_target": {
+      "gold": 47,
+      "context_verified": 33,
+      "candidate_contract_confirmed": 5
+    },
+    "providers_with_gaps": 85,
+    "completion_dispositions": {
+      "accepted_with_limitations": 53,
+      "deferred_with_review": 32
+    },
+    "completion_statuses": {
+      "ready_for_review": 53,
+      "waiting_evidence": 32
+    }
+  },
+  "topology": {
+    "schema_version": "national-jurisprudence-topology-v1",
+    "topology_version": "2026-09-01",
+    "collections": 152,
+    "providers_reconciled": 85,
+    "providers_unreconciled": 0,
+    "artifact": "docs/topology/national-topology.json"
+  },
+  "providers": [
+    {
+      "source_id": "stm_jurisprudencia",
+      "display_name": "STM Jurisprudencia JMU",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 88,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:stm:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/stm_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjac_cjsg",
+      "display_name": "TJAC Consulta de Jurisprudencia/CJSG",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 88,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjac:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjac_cjsg.md"
+    },
+    {
+      "source_id": "tjac_ementario_jurisprudencia",
+      "display_name": "TJAC Ementario de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 88,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjac_ementario_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjac_ementario_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjal_cjsg",
+      "display_name": "TJAL Consulta de Jurisprudencia/CJSG",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjal:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjal_cjsg.md"
+    },
+    {
+      "source_id": "tjal_esmal_banco_sentencas",
+      "display_name": "TJAL ESMAL Banco de Sentencas (CJPG curado)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 84,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjal_esmal_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjal_esmal_banco_sentencas.md"
+    },
+    {
+      "source_id": "tjam_cjsg",
+      "display_name": "TJAM Consulta de Jurisprudencia/CJSG",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "unified:live_status_source_unavailable",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjam:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjam_cjsg.md"
+    },
+    {
+      "source_id": "tjap_banco_sentencas",
+      "display_name": "TJAP Banco de Sentenças (CJPG)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjap_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjap_banco_sentencas.md"
+    },
+    {
+      "source_id": "tjce_cjsg",
+      "display_name": "TJCE Consulta de Jurisprudencia/CJSG",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "unified:live_status_source_unavailable",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjce_cjsg"
+      ],
+      "workpack": "provider-workpacks/tjce_cjsg.md"
+    },
+    {
+      "source_id": "tjce_sjuris",
+      "display_name": "TJCE SJURIS",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjce_sjuris"
+      ],
+      "workpack": "provider-workpacks/tjce_sjuris.md"
+    },
+    {
+      "source_id": "tjes_cjpg",
+      "display_name": "TJES CJPG Jurisprudencia (1o grau)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 88,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjes:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjes_cjpg.md"
+    },
+    {
+      "source_id": "tjes_jurisprudencia",
+      "display_name": "TJES Jurisprudencia/CJSG (2o grau)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 87,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjes:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjes_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjes_turma_recursal",
+      "display_name": "TJES Jurisprudencia/Turma Recursal",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 87,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjes:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjes_turma_recursal.md"
+    },
+    {
+      "source_id": "tjgo_projudi_jurisprudencia",
+      "display_name": "TJGO PROJUDI Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjgo:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjgo_projudi_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjmg_dspace_jurisprudencia",
+      "display_name": "TJMG Biblioteca Digital — Jurisprudência (CJSG)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 87,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmg_dspace_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmg_dspace_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjmg_ejef_boletim_jurisprudencia",
+      "display_name": "TJMG/EJEF Boletim de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 84,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmg_ejef_boletim_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmg_ejef_boletim_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjmg_jurisprudencia",
+      "display_name": "TJMG Jurisprudência API (CJSG)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 87,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmg_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmg_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjms_cjpg",
+      "display_name": "TJMS CJPG Jurisprudencia (1o grau)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 87,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjms_cjpg"
+      ],
+      "workpack": "provider-workpacks/tjms_cjpg.md"
+    },
+    {
+      "source_id": "tjms_cjsg",
+      "display_name": "TJMS Consulta de Jurisprudencia/CJSG",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjms:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjms_cjsg.md"
+    },
+    {
+      "source_id": "tjmt_jurisprudencia_api",
+      "display_name": "TJMT Jurisprudencia API",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmt_jurisprudencia_api"
+      ],
+      "workpack": "provider-workpacks/tjmt_jurisprudencia_api.md"
+    },
+    {
+      "source_id": "tjpe_jurisprudencia",
+      "display_name": "TJPE Consulta de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "unified:live_status_source_unavailable",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjpe_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjpe_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjrj_ejuris",
+      "display_name": "TJRJ EJURIS Jurisprudência (CJSG)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjrj_ejuris"
+      ],
+      "workpack": "provider-workpacks/tjrj_ejuris.md"
+    },
+    {
+      "source_id": "tjrj_eproc_jurisprudencia",
+      "display_name": "TJRJ eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjrj_eproc_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjrj_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjrn_jurisprudencia",
+      "display_name": "TJRN Jurisprudencia textual (portal unificado)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjrn:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjrn_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjro_jurisprudencia",
+      "display_name": "TJRO Jurisprudencia textual",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 82,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjro:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjro_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjsc_eproc_jurisprudencia",
+      "display_name": "TJSC eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjsc_eproc_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjsc_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjse_boletim_jurisprudencia",
+      "display_name": "TJSE Boletim Jurídico (CJSG)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjse_boletim_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjse_boletim_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjsp_cjpg",
+      "display_name": "TJSP CJPG Jurisprudencia (1o grau)",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 87,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjsp_cjpg"
+      ],
+      "workpack": "provider-workpacks/tjsp_cjpg.md"
+    },
+    {
+      "source_id": "tjsp_cjsg",
+      "display_name": "TJSP Consulta de Jurisprudencia/CJSG",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 88,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "maturity:risco operacional alto",
+        "unified:live_status_access_controlled",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjsp:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjsp_cjsg.md"
+    },
+    {
+      "source_id": "tjsp_eproc_jurisprudencia",
+      "display_name": "TJSP eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 90,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjsp:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjsp_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjto_jurisprudencia",
+      "display_name": "TJTO Jurisprudencia 4.0",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjto_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjto_jurisprudencia.md"
+    },
+    {
+      "source_id": "trf5_jurisprudencia",
+      "display_name": "TRF5 Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 89,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trf5_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trf5_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt2_ementario_jurisprudencia",
+      "display_name": "TRT2 Ementario de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 93,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt2_ementario_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt2_ementario_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt8_pje_jurisprudencia",
+      "display_name": "TRT8 PJe Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "silver",
+      "maturity_score": 91,
+      "target_tier": "gold",
+      "priority": 1,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt8_pje_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt8_pje_jurisprudencia.md"
+    },
+    {
+      "source_id": "stj_informativo",
+      "display_name": "STJ Informativo",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 90,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:stj_informativo"
+      ],
+      "workpack": "provider-workpacks/stj_informativo.md"
+    },
+    {
+      "source_id": "tjba_graphql",
+      "display_name": "TJBA Jurisprudencia GraphQL",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 94,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjba:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjba_graphql.md"
+    },
+    {
+      "source_id": "tjdf_juris",
+      "display_name": "TJDFT Jurisprudencia/SISTJ",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 94,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjdft:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjdf_juris.md"
+    },
+    {
+      "source_id": "tjpa_jurisprudencia_bff",
+      "display_name": "TJPA Jurisprudencia BFF",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 95,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjpa_jurisprudencia_bff"
+      ],
+      "workpack": "provider-workpacks/tjpa_jurisprudencia_bff.md"
+    },
+    {
+      "source_id": "tjpb_pje_jurisprudencia",
+      "display_name": "TJPB PJe Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 95,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjpb_pje_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjpb_pje_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjpi_juspi",
+      "display_name": "TJPI JusPI Jurisprudencias",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 93,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjpi:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjpi_juspi.md"
+    },
+    {
+      "source_id": "tjpr_jurisprudencia",
+      "display_name": "TJPR Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 93,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjpr_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjpr_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjrr_juris",
+      "display_name": "TJRR Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 92,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjrr:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjrr_juris.md"
+    },
+    {
+      "source_id": "tjrs_solr",
+      "display_name": "TJRS Jurisprudencia AJAX/SOLR",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 92,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjrs_solr"
+      ],
+      "workpack": "provider-workpacks/tjrs_solr.md"
+    },
+    {
+      "source_id": "tnu_eproc_jurisprudencia",
+      "display_name": "TNU eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 95,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tnu:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tnu_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "trf2_eproc_jurisprudencia",
+      "display_name": "TRF2 eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 94,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:trf2:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/trf2_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "trf4_eproc_jurisprudencia",
+      "display_name": "TRF4 eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 92,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:trf4:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/trf4_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "trf6_eproc_jurisprudencia",
+      "display_name": "TRF6 eproc Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 94,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:trf6:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/trf6_eproc_jurisprudencia.md"
+    },
+    {
+      "source_id": "tst_jurisprudencia",
+      "display_name": "TST Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "primary_textual_jurisprudence",
+      "maturity_tier": "gold",
+      "maturity_score": 94,
+      "target_tier": "gold",
+      "priority": 2,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tst:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tst_jurisprudencia.md"
+    },
+    {
+      "source_id": "bnp_pangea",
+      "display_name": "Banco Nacional de Precedentes/Pangea",
+      "implementation_status": "runtime",
+      "coverage_role": "precedent_context",
+      "maturity_tier": "context",
+      "maturity_score": 87,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "unified:live_status_query_contract_rejected",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:bnp_pangea"
+      ],
+      "workpack": "provider-workpacks/bnp_pangea.md"
+    },
+    {
+      "source_id": "cjf_jurisprudencia",
+      "display_name": "CJF Jurisprudencia TRF1",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 69,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:2",
+        "not_in_unified_search",
+        "live_status:access_control_required",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "unified:live_status_access_controlled",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:cjf_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/cjf_jurisprudencia.md"
+    },
+    {
+      "source_id": "cnj_jurisprudencia",
+      "display_name": "CNJ Informativos de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 83,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:cnj_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/cnj_jurisprudencia.md"
+    },
+    {
+      "source_id": "eproc_jurisprudencia_federal",
+      "display_name": "eproc federal jurisprudência (família opt-in)",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 76,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:not_checked_in_latest_focused_run",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:eproc_jurisprudencia_federal"
+      ],
+      "workpack": "provider-workpacks/eproc_jurisprudencia_federal.md"
+    },
+    {
+      "source_id": "justica_eleitoral_sjur",
+      "display_name": "SJUR - Justica Eleitoral",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 44,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:2",
+        "not_in_unified_search",
+        "live_status:source_unavailable",
+        "maturity:fora da busca unificada",
+        "maturity:live status: source_unavailable",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:justica_eleitoral_sjur"
+      ],
+      "workpack": "provider-workpacks/justica_eleitoral_sjur.md"
+    },
+    {
+      "source_id": "stf_informativo",
+      "display_name": "STF Informativo",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 73,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:3",
+        "not_in_unified_search",
+        "live_status:source_unavailable",
+        "maturity:fora da busca unificada",
+        "maturity:live status: source_unavailable",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "unified:live_status_source_unavailable",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:stf_informativo"
+      ],
+      "workpack": "provider-workpacks/stf_informativo.md"
+    },
+    {
+      "source_id": "stf_juris",
+      "display_name": "STF Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 69,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:3",
+        "not_in_unified_search",
+        "live_status:blocked_transport",
+        "maturity:fora da busca unificada",
+        "maturity:risco operacional alto",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "unified:live_status_source_unavailable",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:stf:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/stf_juris.md"
+    },
+    {
+      "source_id": "stj_dados_abertos_jurisprudencia",
+      "display_name": "STJ Dados Abertos de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "dataset_pipeline",
+      "maturity_tier": "context",
+      "maturity_score": 74,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "unified:live_status_query_contract_rejected",
+        "full_text_contract_unknown",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:stj:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/stj_dados_abertos_jurisprudencia.md"
+    },
+    {
+      "source_id": "stj_scon",
+      "display_name": "STJ SCON Acordaos",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 75,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:access_control_required",
+        "maturity:fora da busca unificada",
+        "maturity:risco operacional alto",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:stj:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/stj_scon.md"
+    },
+    {
+      "source_id": "tce_pr_viajuris",
+      "display_name": "TCE-PR ViaJuris Dados Abertos",
+      "implementation_status": "runtime",
+      "coverage_role": "administrative_context",
+      "maturity_tier": "silver",
+      "maturity_score": 90,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tce_pr_viajuris"
+      ],
+      "workpack": "provider-workpacks/tce_pr_viajuris.md"
+    },
+    {
+      "source_id": "tce_sp_jurisprudencia",
+      "display_name": "TCE-SP Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "administrative_context",
+      "maturity_tier": "context",
+      "maturity_score": 67,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "maturity:risco operacional alto",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tce_sp_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tce_sp_jurisprudencia.md"
+    },
+    {
+      "source_id": "tcu_jurisprudencia",
+      "display_name": "TCU Jurisprudencia e Dados Abertos",
+      "implementation_status": "runtime",
+      "coverage_role": "administrative_context",
+      "maturity_tier": "silver",
+      "maturity_score": 88,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tcu_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tcu_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjac_banco_sentencas",
+      "display_name": "TJAC Banco de Sentencas (CJPG curado)",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 75,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjac_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjac_banco_sentencas.md"
+    },
+    {
+      "source_id": "tjal_turma_recursal_ementario",
+      "display_name": "TJAL Ementario das Turmas Recursais",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 77,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:public_textual_recursal",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjal_turma_recursal_ementario"
+      ],
+      "workpack": "provider-workpacks/tjal_turma_recursal_ementario.md"
+    },
+    {
+      "source_id": "tjce_informativos",
+      "display_name": "TJCE Informativos de Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 70,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:5",
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjce_informativos"
+      ],
+      "workpack": "provider-workpacks/tjce_informativos.md"
+    },
+    {
+      "source_id": "tjma_informativos",
+      "display_name": "TJMA Informativos de Jurisprudência",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 68,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjma_informativos"
+      ],
+      "workpack": "provider-workpacks/tjma_informativos.md"
+    },
+    {
+      "source_id": "tjma_jurisconsult",
+      "display_name": "TJMA JurisConsult",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 63,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:access_controlled",
+        "maturity:fora da busca unificada",
+        "maturity:risco operacional alto",
+        "unified:excluded_from_unified_search",
+        "unified:live_status_access_controlled",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjma_jurisconsult"
+      ],
+      "workpack": "provider-workpacks/tjma_jurisconsult.md"
+    },
+    {
+      "source_id": "tjmmg_jurisprudencia_api",
+      "display_name": "TJMMG Jurisprudência",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 77,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmmg_jurisprudencia_api"
+      ],
+      "workpack": "provider-workpacks/tjmmg_jurisprudencia_api.md"
+    },
+    {
+      "source_id": "tjmrs_jurisprudencia",
+      "display_name": "TJMRS Jurisprudência (processo exato)",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 57,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmrs_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmrs_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjrj_banco_sentencas",
+      "display_name": "TJRJ Banco de Sentencas selecionadas (CJPG curado)",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 73,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:partial",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjrj_banco_sentencas"
+      ],
+      "workpack": "provider-workpacks/tjrj_banco_sentencas.md"
+    },
+    {
+      "source_id": "tjro_liame",
+      "display_name": "TJRO LIAME Precedentes Qualificados",
+      "implementation_status": "runtime",
+      "coverage_role": "precedent_context",
+      "maturity_tier": "context",
+      "maturity_score": 85,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:tjro:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tjro_liame.md"
+    },
+    {
+      "source_id": "tjsp_nugepnac",
+      "display_name": "TJSP NugepNac Precedentes",
+      "implementation_status": "runtime",
+      "coverage_role": "precedent_context",
+      "maturity_tier": "context",
+      "maturity_score": 73,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:reachable_empty_data",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjsp_nugepnac"
+      ],
+      "workpack": "provider-workpacks/tjsp_nugepnac.md"
+    },
+    {
+      "source_id": "tre_sjur_first_degree",
+      "display_name": "SJUR/TRE jurisprudencia de primeiro grau (família opt-in)",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 70,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:3",
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com pendencias abertas",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tre_sjur_first_degree"
+      ],
+      "workpack": "provider-workpacks/tre_sjur_first_degree.md"
+    },
+    {
+      "source_id": "tre_sjur_jurisprudencia",
+      "display_name": "SJUR/TRE jurisprudencia textual (família opt-in)",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 65,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "runtime_registration_not_proven",
+        "not_in_unified_search",
+        "live_status:partial",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tre_sjur_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tre_sjur_jurisprudencia.md"
+    },
+    {
+      "source_id": "tre_sp_temas",
+      "display_name": "TRE-SP Temas Selecionados",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 58,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:5",
+        "not_in_unified_search",
+        "live_status:source_unavailable",
+        "maturity:fora da busca unificada",
+        "maturity:live status: source_unavailable",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "unified:live_status_source_unavailable",
+        "full_text_contract_unknown",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:tresp:jurisprudence"
+      ],
+      "workpack": "provider-workpacks/tre_sp_temas.md"
+    },
+    {
+      "source_id": "trf3_jurisprudencia",
+      "display_name": "TRF3 Jurisprudência (processo exato)",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 63,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "documentation_open_items:2",
+        "not_in_unified_search",
+        "live_status:transport_error",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com pendencias abertas",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trf3_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trf3_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt15_jurisprudencia",
+      "display_name": "TRT15 Jurisprudência",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 80,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:not_checked_in_latest_focused_run",
+        "maturity:fora da busca unificada",
+        "maturity:risco operacional alto",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt15_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt15_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt2_basis_jurisprudencia",
+      "display_name": "TRT2 BASIS — Boletins de Jurisprudência",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 66,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:partial",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt2_basis_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt2_basis_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt3_ementario_jurisprudencia",
+      "display_name": "TRT3 Ementario de Jurisprudencia (volume curado)",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 61,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt3_ementario_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt3_ementario_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt4_sumulas_jurisprudencia",
+      "display_name": "TRT4 Súmulas e precedentes (coleção curada)",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 59,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:valid_curated_context",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt4_sumulas_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt4_sumulas_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt6_jurisprudencia",
+      "display_name": "TRT6 Jurisprudencia",
+      "implementation_status": "runtime",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "silver",
+      "maturity_score": 85,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt6_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt6_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt9_nugepnac_jurisprudencia",
+      "display_name": "TRT9 NUGEP/NUGEPNAC (compilacao curada)",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 59,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "live_status:valid_curated_context",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "unified:excluded_from_unified_search",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt9_nugepnac_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt9_nugepnac_jurisprudencia.md"
+    },
+    {
+      "source_id": "tse_sjur_jurisprudencia",
+      "display_name": "TSE SJUR jurisprudencia textual (janela unica opt-in)",
+      "implementation_status": "runtime",
+      "coverage_role": "curated_context",
+      "maturity_tier": "context",
+      "maturity_score": 78,
+      "target_tier": "context_verified",
+      "priority": 3,
+      "gaps": [
+        "not_in_unified_search",
+        "maturity:fora da busca unificada",
+        "unified:excluded_from_unified_search",
+        "full_text_contract_unknown",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tse_sjur_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tse_sjur_jurisprudencia.md"
+    },
+    {
+      "source_id": "falcao_jt",
+      "display_name": "Falcao JT (diagnostico opt-in)",
+      "implementation_status": "none",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 67,
+      "target_tier": "candidate_contract_confirmed",
+      "priority": 4,
+      "gaps": [
+        "candidate_without_runtime",
+        "candidate_without_local_fixture",
+        "maturity:sem provider runtime",
+        "maturity:fora da busca unificada",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:falcao_jt"
+      ],
+      "workpack": "provider-workpacks/falcao_jt.md"
+    },
+    {
+      "source_id": "tjap_tucujuris",
+      "display_name": "TJAP Tucujuris",
+      "implementation_status": "none",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 72,
+      "target_tier": "candidate_contract_confirmed",
+      "priority": 4,
+      "gaps": [
+        "candidate_without_runtime",
+        "candidate_without_local_fixture",
+        "maturity:sem provider runtime",
+        "maturity:fora da busca unificada",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjap_tucujuris"
+      ],
+      "workpack": "provider-workpacks/tjap_tucujuris.md"
+    },
+    {
+      "source_id": "tjmsp_jurisprudencia",
+      "display_name": "TJMSP Jurisprudência (diagnóstico opt-in)",
+      "implementation_status": "none",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 54,
+      "target_tier": "candidate_contract_confirmed",
+      "priority": 4,
+      "gaps": [
+        "candidate_without_runtime",
+        "candidate_without_local_fixture",
+        "maturity:sem provider runtime",
+        "maturity:fora da busca unificada",
+        "maturity:dossie com secoes faltantes",
+        "known_defects_open"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjmsp_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjmsp_jurisprudencia.md"
+    },
+    {
+      "source_id": "tjse_jurisprudencia",
+      "display_name": "TJSE Jurisprudência Judicial",
+      "implementation_status": "none",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "context",
+      "maturity_score": 70,
+      "target_tier": "candidate_contract_confirmed",
+      "priority": 4,
+      "gaps": [
+        "candidate_without_runtime",
+        "candidate_without_local_fixture",
+        "maturity:sem provider runtime",
+        "maturity:fora da busca unificada",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:tjse_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/tjse_jurisprudencia.md"
+    },
+    {
+      "source_id": "trt2_pje_jurisprudencia",
+      "display_name": "TRT2 PJe jurisprudencia (diagnostico opt-in)",
+      "implementation_status": "none",
+      "coverage_role": "specialized_context",
+      "maturity_tier": "blocked",
+      "maturity_score": 63,
+      "target_tier": "candidate_contract_confirmed",
+      "priority": 4,
+      "gaps": [
+        "documentation_open_items:4",
+        "candidate_without_runtime",
+        "candidate_without_local_fixture",
+        "maturity:sem provider runtime",
+        "maturity:fora da busca unificada",
+        "maturity:risco operacional alto",
+        "maturity:dossie com pendencias abertas",
+        "known_defects_open",
+        "external_block_recorded"
+      ],
+      "topology_collection_ids": [
+        "collection:unattributed:trt2_pje_jurisprudencia"
+      ],
+      "workpack": "provider-workpacks/trt2_pje_jurisprudencia.md"
+    }
+  ]
+}

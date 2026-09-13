@@ -1,0 +1,126 @@
+{
+  "schema_version": "tre-sjur-gold-live-v1",
+  "observed_at": "2026-09-09T05:11:54.387902-03:00",
+  "official_frontend": "https://jurisprudencia-tres.tse.jus.br/",
+  "scope": "bounded public text search plus observed PDF for TRE-SP/TRE-AC/TRE-AL",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "results": [
+    {
+      "tribunal": "TRE-SP",
+      "search_url": "https://sjur-pesquisa-api.tse.jus.br/tre-sp/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "search_http_status": 200,
+      "search_sha256": "990cc7592a681b8b821ef8723cbc2a4b2b6f7b25598cda681e2a52147d8607fe",
+      "search_response_bytes": 91325,
+      "search_elapsed_ms": 904.72,
+      "reported_total": 10,
+      "returned": 10,
+      "credentials_used": false,
+      "bypass_used": false,
+      "decision_type": "Decisão monocrática",
+      "text_lengths": {
+        "ementa": 0,
+        "decisao": 3130
+      },
+      "source_id": 1150998,
+      "document_url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/1150998",
+      "document_http_status": 200,
+      "document_content_type": "application/pdf;charset=UTF-8",
+      "document_response_bytes": 67,
+      "document_sha256": "5d40eef3cf0ce462635e76318564519960b276acfd092c4584e78321e975f663",
+      "document_elapsed_ms": 422.0,
+      "document_magic_bytes": "4572726f20616f20",
+      "classification": "document_invalid"
+    },
+    {
+      "tribunal": "TRE-AC",
+      "search_url": "https://sjur-pesquisa-api.tse.jus.br/tre-ac/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "search_http_status": 200,
+      "search_sha256": "c86500263754417bd5f812bf0cfcd7a9af3680333c9ece7d218d3997112718f9",
+      "search_response_bytes": 22497,
+      "search_elapsed_ms": 389.24,
+      "reported_total": 2,
+      "returned": 2,
+      "credentials_used": false,
+      "bypass_used": false,
+      "decision_type": "Decisão monocrática",
+      "text_lengths": {
+        "ementa": 0,
+        "decisao": 9088
+      },
+      "source_id": 3324926,
+      "document_url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/3324926",
+      "document_http_status": 200,
+      "document_content_type": "application/pdf;charset=UTF-8",
+      "document_response_bytes": 107,
+      "document_sha256": "3cbc6225e58ca50595bb27d01f4683651c7f5f5170bab04c431aeceb995c0798",
+      "document_elapsed_ms": 286.88,
+      "document_magic_bytes": "4572726f20616f20",
+      "classification": "document_invalid"
+    },
+    {
+      "tribunal": "TRE-AL",
+      "search_url": "https://sjur-pesquisa-api.tse.jus.br/tre-al/sjur-pesquisa-backend/rest/public/pesquisa/simples",
+      "search_http_status": 200,
+      "search_sha256": "caeef5ff85665e8ed9e3444d4450dd81c2cd80e3f6143f20a2d73c8ef02c7c4d",
+      "search_response_bytes": 116301,
+      "search_elapsed_ms": 635.05,
+      "reported_total": 6,
+      "returned": 6,
+      "credentials_used": false,
+      "bypass_used": false,
+      "decision_type": "Acórdão",
+      "text_lengths": {
+        "ementa": 1335,
+        "decisao": 219
+      },
+      "source_id": 1434007,
+      "document_url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/1434007",
+      "document_http_status": 200,
+      "document_content_type": "application/pdf;charset=UTF-8",
+      "document_response_bytes": 107,
+      "document_sha256": "3cbc6225e58ca50595bb27d01f4683651c7f5f5170bab04c431aeceb995c0798",
+      "document_elapsed_ms": 265.69,
+      "document_magic_bytes": "4572726f20616f20",
+      "classification": "document_invalid"
+    }
+  ],
+  "summary": {
+    "tribunals": 3,
+    "document_gate_passed": 0,
+    "follow_up_document_gate_passed": 1,
+    "follow_up_rate_limited": 2
+  },
+  "follow_up_document_probes": [
+    {
+      "tribunal": "TRE-SP",
+      "source_id": 617075,
+      "url": "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/download/pdf/617075",
+      "http_status": 200,
+      "content_type": "application/pdf",
+      "response_bytes": 199196,
+      "magic_bytes": "255044462d312e33",
+      "sha256": null,
+      "classification": "success_with_document"
+    },
+    {
+      "tribunal": "TRE-AC",
+      "source_id": 3323537,
+      "http_status": 200,
+      "content_type": "text/plain;charset=UTF-8",
+      "response_bytes": 107,
+      "classification": "rate_limited",
+      "reason": "official service returned an explicit excess-requests message; no retry attempted"
+    },
+    {
+      "tribunal": "TRE-AL",
+      "source_id": 1434007,
+      "http_status": 200,
+      "content_type": "text/plain;charset=UTF-8",
+      "response_bytes": 107,
+      "classification": "rate_limited",
+      "reason": "official service returned an explicit excess-requests message; no retry attempted"
+    }
+  ]
+}

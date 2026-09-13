@@ -1,0 +1,83 @@
+{
+  "schema_version": "electoral-sjur-inventory-v1",
+  "observed_at": "2026-09-08",
+  "authority_family": "TSE_TRE",
+  "collection": "SJUR",
+  "branch": "electoral",
+  "credentials_used": false,
+  "bypass_attempted": false,
+  "response_bodies_persisted": false,
+  "official_frontend": {
+    "url": "https://jurisprudencia.tse.jus.br/",
+    "http_status": 200,
+    "content_type": "text/html",
+    "bundle": "main.d45bd72fcca4177e066d.js",
+    "bundle_http_status": 200,
+    "bundle_bytes_observed": 1007925,
+    "bundle_evidence": [
+      "https://sjur-pesquisa-api.tse.jus.br/{tribunal}/sjur-pesquisa-backend/rest/",
+      "https://sjur-servicos.tse.jus.br/sjur-servicos/rest/",
+      "POST public/pesquisa/livre",
+      "POST public/pesquisa/simples",
+      "POST public/pesquisa",
+      "POST public/pesquisa/classes",
+      "POST public/pesquisa/relatorias",
+      "POST public/pesquisa/eleicoes",
+      "POST public/pesquisa/normas",
+      "POST public/pesquisa/download/"
+    ],
+    "decision_types_observed": [
+      "Acórdão",
+      "Decisão monocrática",
+      "Sentença (apenas TRE-MG)",
+      "Resolução",
+      "Decisão sem resolução"
+    ],
+    "tribunal_values_observed": [
+      "TSE", "TRE-AC", "TRE-AL", "TRE-AP", "TRE-AM", "TRE-BA",
+      "TRE-CE", "TRE-DF", "TRE-ES", "TRE-GO", "TRE-MA", "TRE-MG",
+      "TRE-MS", "TRE-MT", "TRE-PA", "TRE-PB", "TRE-PR", "TRE-PE",
+      "TRE-PI", "TRE-RJ", "TRE-RN", "TRE-RS", "TRE-RO", "TRE-RR",
+      "TRE-SC", "TRE-SP", "TRE-SE", "TRE-TO"
+    ]
+  },
+  "bounded_probes": [
+    {
+      "method": "POST",
+      "url": "https://sjur-pesquisa-api.tse.jus.br/tse/sjur-pesquisa-backend/rest/public/pesquisa/livre",
+      "request": "small legal term, TSE scope, ordinary JSON body",
+      "http_status": 404,
+      "response_marker": "No Mapping Rule matched",
+      "classification": "source_unavailable",
+      "result_rows": null
+    },
+    {
+      "method": "GET",
+      "url": "https://sjur-pesquisa-api.tse.jus.br/tse/sjur-pesquisa-backend/rest/public/pesquisa",
+      "http_status": 404,
+      "classification": "source_unavailable",
+      "result_rows": null
+    },
+    {
+      "method": "GET",
+      "url": "https://sjur-pesquisa.tse.jus.br/",
+      "http_status": 503,
+      "classification": "source_unavailable",
+      "result_rows": null
+    }
+  ],
+  "surface_classification": {
+    "tse": "official_sjur_contract_observed_backend_unavailable",
+    "tre": "official_sjur_contract_observed_backend_unavailable",
+    "bulletins": "not_substituted_for_decision_corpus",
+    "process_consultation": "not_counted_as_sjur"
+  },
+  "promotion_decision": "not_promoted",
+  "federation_status": "disabled",
+  "next_action": "Recheck the official backend on a low-frequency schedule or after TSE/TRE publishes an API/export/allowlist. Do not repeat requests against the unavailable route and do not classify it as an empty corpus.",
+  "limitations": [
+    "The public JavaScript bundle proves the intended route template and filters, not current data availability.",
+    "No result, pagination, detail or document contract was observed during the bounded probe.",
+    "No CAPTCHA, WAF, Turnstile, authentication, TLS or rate-limit bypass was attempted."
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "provider-route-live-v1",
+  "observed_at": "2026-09-08",
+  "authority": "TJMA",
+  "branch": "state",
+  "surfaces": ["CJSG", "CJPG"],
+  "source": {
+    "official_home": "https://www.tjma.jus.br/",
+    "application": "https://jurisconsult.tjma.jus.br/",
+    "api": "https://apijuris.tjma.jus.br/v1",
+    "route_discovered_from": "official TJMA portal and JurisConsult SPA bundle"
+  },
+  "network_access": "public_bounded",
+  "credentials_used": false,
+  "response_bodies_persisted": false,
+  "catalog_probes": [
+    {
+      "method": "GET",
+      "path": "/jurisprudencia/lista_relatorios",
+      "http_status": 200,
+      "content_type": "application/json",
+      "classification": "success_with_results"
+    },
+    {
+      "method": "GET",
+      "path": "/jurisprudencia/lista_todos_tipos_pesquisa?tipoRelatorio=1",
+      "http_status": 200,
+      "content_type": "application/json",
+      "classification": "success_with_results"
+    }
+  ],
+  "result_route_probes": [
+    {
+      "surface": "CJSG",
+      "kind": "acordaos",
+      "method": "GET",
+      "path": "/sg/jurisprudencias/processos",
+      "http_status": 400,
+      "response_bytes": 32,
+      "error": "captcha_not_provided",
+      "classification": "access_blocked"
+    },
+    {
+      "surface": "CJSG",
+      "kind": "acordaos_turma_recursal",
+      "method": "GET",
+      "path": "/jurisprudencia/processos/pesquisa_acordaos_tr",
+      "http_status": 400,
+      "response_bytes": 32,
+      "error": "captcha_not_provided",
+      "classification": "access_blocked"
+    },
+    {
+      "surface": "CJSG",
+      "kind": "decisoes_monocraticas",
+      "method": "GET",
+      "path": "/jurisprudencia/processos/pesquisa_monocraticas",
+      "http_status": 400,
+      "response_bytes": 32,
+      "error": "captcha_not_provided",
+      "classification": "access_blocked"
+    },
+    {
+      "surface": "CJPG",
+      "kind": "sentencas",
+      "method": "GET",
+      "path": "/jurisprudencia/processos/sentencas_pg",
+      "http_status": 400,
+      "response_bytes": 32,
+      "error": "captcha_not_provided",
+      "classification": "access_blocked"
+    },
+    {
+      "surface": "CJPG",
+      "kind": "sentencas_juizado_especial",
+      "method": "GET",
+      "path": "/jurisprudencia/processos/sentencas_je",
+      "http_status": 400,
+      "response_bytes": 32,
+      "error": "captcha_not_provided",
+      "classification": "access_blocked"
+    }
+  ],
+  "challenge_handling": {
+    "challenge": "mandatory CAPTCHA tokenG/keyId",
+    "action": "stopped_without_bypass",
+    "bypass_used": false,
+    "token_created_or_reused": false
+  },
+  "promotion_decision": "blocked_external_access",
+  "next_action": "Recheck only an official non-challenged route or obtain an authorized human-operated access path."
+}

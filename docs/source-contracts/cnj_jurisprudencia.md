@@ -9,6 +9,8 @@ Status atual: `implemented` para catalogo HTML e documento PDF sob demanda.
 - Documento: PDF oficial baixado somente por `get_document` com URL retornada
   em `raw.document_url`; os bytes, tamanho e SHA-256 sao preservados.
 - Fixture: `tests/fixtures/cnj_jurisprudencia_results.html`.
+- Fixtures de estados: `tests/fixtures/cnj_jurisprudencia_empty.html` e
+  `tests/fixtures/cnj_jurisprudencia_schema_drift.html`.
 - Testes: `tests/test_cnj_jurisprudencia.py`.
 - Validacao live em 2026-08-12: HTTP 200, tabela HTML com edicao, data,
   resumo e links oficiais para PDF.
@@ -128,13 +130,16 @@ documento oficial e citar o informativo correspondente.
 
 ## Promocao Para Provider
 
-- [ ] versionar fixture HTML pequena;
-- [ ] implementar parser offline;
-- [ ] implementar filtros e paginacao;
-- [ ] preservar URL e itens completos;
-- [ ] adicionar teste opt-in do HTML e de um PDF pequeno;
-- [ ] declarar a capacidade como conteudo curado, nao como busca geral de
-  acordaos.
+- [x] versionar fixture HTML pequena: `tests/fixtures/cnj_jurisprudencia_results.html`;
+- [x] versionar estados vazio e schema drift:
+  `tests/fixtures/cnj_jurisprudencia_empty.html` e
+  `tests/fixtures/cnj_jurisprudencia_schema_drift.html`;
+- [x] implementar parser offline com detecção de vazio e schema drift;
+- [x] implementar filtros e paginação por `page`;
+- [x] preservar URL e itens completos no registro bruto;
+- [x] adicionar testes opt-in de HTML e PDF sob demanda;
+- [x] declarar a capacidade como conteúdo curado, não como busca geral de
+  acórdãos.
 
 ## Validacao live 2026-08-11
 
@@ -173,9 +178,29 @@ resumo, URL oficial e, quando aberto, o hash/tamanho do PDF. Nao deve afirmar
 que o CNJ informou um acordao individual quando a fonte trouxe apenas sintese
 editorial.
 
+## Evidência live bounded (2026-09-08)
+
+O smoke público executou duas páginas com `cartorios`: HTTP 200, dois itens
+por página, dez itens reportados, links PDF e IDs sem sobreposição. O artefato
+redigido está em `docs/provider-discovery/cnj-live-20260908-transport-recheck.json`.
+
+## Transporte compartilhado (2026-09-08)
+
+As consultas HTML do catÃ¡logo e os downloads explÃ­citos de PDF agora passam
+por `SharedHttpClient`, com allowlist CNJ, limite de 16 MB, timeout, rate limit
+e circuito. Respostas 401/403/429, TLS, timeout, redirecionamento fora da
+allowlist e contrato invÃ¡lido continuam estados distintos de catÃ¡logo vazio;
+respostas de desafio nÃ£o sÃ£o repetidas automaticamente.
+
 ## Proximos Passos
 
-Criar fixtures HTML de pagina inicial, filtro por numero, argumento, intervalo,
-vazio e link PDF; implementar parser tolerante a tabela e paginacao; testar
-download sob demanda com limite de bytes; manter a capacidade como conteudo
-curado.
+Manter smoke live periódico de baixa frequência e revalidar o link PDF sob
+demanda. A fonte permanece deliberadamente curada e não será apresentada como
+busca geral de acórdãos.
+
+## Evidencia live 2026-09-05 (ciclo 64)
+
+Consulta limitada por `argumento=cartorios` em duas páginas retornou HTML HTTP
+200 com itens e links PDF oficiais, sem sobreposição observada. O envelope
+redigido está em `docs/provider-discovery/cnj-live-20260905-cycle64.json`; os
+PDFs não foram baixados nesta rodada.

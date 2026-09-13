@@ -1,16 +1,15 @@
 {
-  "generated_at": "2026-08-28T01:28:11+00:00",
+  "generated_at": "2026-09-13T04:00:13+00:00",
   "discovery_generated_at": "2026-08-20T06:35:41+00:00",
   "discovery_mode": "live_bounded",
   "summary": {
     "items": 109,
     "by_status": {
-      "implemented_with_local_evidence": 66,
-      "blocked_external": 27,
-      "candidate_pending_adapter": 16
+      "implemented_with_local_evidence": 96,
+      "blocked_external": 13
     },
-    "runtime_items": 93,
-    "candidate_items": 16
+    "runtime_items": 101,
+    "candidate_items": 8
   },
   "items": [
     {
@@ -28,7 +27,12 @@
         "tests/test_client_exporters.py",
         "tests/test_mcp_server.py",
         "tests/test_mcp_tools.py",
+        "tests/test_provider_capability_ledger.py",
+        "tests/test_provider_sdd_workpacks.py",
         "tests/test_store.py",
+        "tests/test_topology.py",
+        "tests/fixtures/bnp_precedentes_empty.json",
+        "tests/fixtures/bnp_precedentes_invalid.json",
         "tests/fixtures/bnp_precedentes_species.json",
         "POST implementation + provider test + fixture"
       ],
@@ -44,9 +48,15 @@
         "docs/providers/cjf_jurisprudencia/README.md",
         "docs/source-contracts/cjf_jurisprudencia.md",
         "tests/test_cjf_jurisprudencia.py",
+        "tests/test_cjf_trf1_live_recheck.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_promotion_manifest.py",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
+        "tests/test_surface_state_registry.py",
         "tests/fixtures/cjf_trf1_access_control.html",
         "tests/fixtures/cjf_trf1_contract_changed.html",
+        "tests/fixtures/cjf_trf1_document.html",
         "tests/fixtures/cjf_trf1_empty.html",
         "tests/fixtures/cjf_trf1_success.html",
         "tests/fixtures/provider_contracts.json",
@@ -63,10 +73,13 @@
         "src/nanojuris/providers/stf_informativo.py",
         "docs/providers/stf_informativo/README.md",
         "docs/source-contracts/stf_informativo.md",
+        "tests/test_fixture_quality_audit.py",
         "tests/test_provider_discovery_audit.py",
         "tests/test_stf_informativo.py",
+        "tests/test_stf_informativo_live_recheck.py",
         "tests/test_studio.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/stf_informativo_rows.json",
         "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
       ],
       "next_action": "revalidar somente após alteração autorizada da política pública/robots"
@@ -80,10 +93,13 @@
         "src/nanojuris/providers/stf_informativo.py",
         "docs/providers/stf_informativo/README.md",
         "docs/source-contracts/stf_informativo.md",
+        "tests/test_fixture_quality_audit.py",
         "tests/test_provider_discovery_audit.py",
         "tests/test_stf_informativo.py",
+        "tests/test_stf_informativo_live_recheck.py",
         "tests/test_studio.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/stf_informativo_rows.json",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -97,10 +113,13 @@
         "src/nanojuris/providers/stf_informativo.py",
         "docs/providers/stf_informativo/README.md",
         "docs/source-contracts/stf_informativo.md",
+        "tests/test_fixture_quality_audit.py",
         "tests/test_provider_discovery_audit.py",
         "tests/test_stf_informativo.py",
+        "tests/test_stf_informativo_live_recheck.py",
         "tests/test_studio.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/stf_informativo_rows.json",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
       "next_action": "manter fixture live/replay quando a fonte mudar"
@@ -115,8 +134,11 @@
         "docs/providers/stf_juris/README.md",
         "docs/source-contracts/stf_juris.md",
         "tests/test_brazil.py",
+        "tests/test_provider_contract_v2.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
+        "tests/test_stf_juris_live_recheck.py",
+        "tests/test_topology.py",
         "tests/test_validation.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stf_juris_empty.json",
@@ -136,8 +158,11 @@
         "docs/providers/stf_juris/README.md",
         "docs/source-contracts/stf_juris.md",
         "tests/test_brazil.py",
+        "tests/test_provider_contract_v2.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
+        "tests/test_stf_juris_live_recheck.py",
+        "tests/test_topology.py",
         "tests/test_validation.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stf_juris_empty.json",
@@ -157,8 +182,11 @@
         "docs/providers/stf_juris/README.md",
         "docs/source-contracts/stf_juris.md",
         "tests/test_brazil.py",
+        "tests/test_provider_contract_v2.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
+        "tests/test_stf_juris_live_recheck.py",
+        "tests/test_topology.py",
         "tests/test_validation.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stf_juris_empty.json",
@@ -178,8 +206,11 @@
         "docs/providers/stf_juris/README.md",
         "docs/source-contracts/stf_juris.md",
         "tests/test_brazil.py",
+        "tests/test_provider_contract_v2.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
+        "tests/test_stf_juris_live_recheck.py",
+        "tests/test_topology.py",
         "tests/test_validation.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stf_juris_empty.json",
@@ -202,8 +233,11 @@
         "tests/test_mcp_server.py",
         "tests/test_stj_dados_abertos_jurisprudencia.py",
         "tests/test_stj_dados_abertos_live.py",
+        "tests/fixtures/stj_ckan_package_empty.json",
+        "tests/fixtures/stj_ckan_package_resource_removed.json",
         "tests/fixtures/stj_ckan_package_search.json",
         "tests/fixtures/stj_ckan_package_show.json",
+        "tests/fixtures/stj_ckan_schema_changed.csv",
         "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
       ],
       "next_action": "revalidar somente após alteração autorizada da política pública/robots"
@@ -212,7 +246,7 @@
       "source": "stj_informativo",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/stj_informativo.py",
         "docs/providers/stj_informativo/README.md",
@@ -223,9 +257,10 @@
         "tests/test_stj_informativo.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stj_informativo_infanticidio.html",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "tests/fixtures/stj_informativo_multiplas_notas.html",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "stj_informativo",
@@ -242,6 +277,7 @@
         "tests/test_stj_informativo.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stj_informativo_infanticidio.html",
+        "tests/fixtures/stj_informativo_multiplas_notas.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -261,6 +297,7 @@
         "tests/test_stj_informativo.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stj_informativo_infanticidio.html",
+        "tests/fixtures/stj_informativo_multiplas_notas.html",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
       "next_action": "manter fixture live/replay quando a fonte mudar"
@@ -276,6 +313,7 @@
         "docs/source-contracts/stj_scon.md",
         "tests/test_brazil.py",
         "tests/test_mcp_server.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
@@ -305,6 +343,7 @@
         "docs/source-contracts/stj_scon.md",
         "tests/test_brazil.py",
         "tests/test_mcp_server.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
@@ -334,6 +373,7 @@
         "docs/source-contracts/stj_scon.md",
         "tests/test_brazil.py",
         "tests/test_mcp_server.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
@@ -363,6 +403,7 @@
         "docs/source-contracts/stj_scon.md",
         "tests/test_brazil.py",
         "tests/test_mcp_server.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stf_juris.py",
@@ -385,19 +426,20 @@
       "source": "stm_jurisprudencia",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/stm_jurisprudencia.py",
         "docs/providers/stm_jurisprudencia/README.md",
         "docs/source-contracts/stm_jurisprudencia.md",
         "tests/test_gold_maturity.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stm_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stm_jurisprudencia_results.html",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "stm_jurisprudencia",
@@ -409,6 +451,7 @@
         "docs/providers/stm_jurisprudencia/README.md",
         "docs/source-contracts/stm_jurisprudencia.md",
         "tests/test_gold_maturity.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_stm_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
@@ -421,7 +464,7 @@
       "source": "tcu_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tcu_jurisprudencia.py",
         "docs/providers/tcu_jurisprudencia/README.md",
@@ -433,11 +476,15 @@
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tcu_acordao_resumo.csv",
         "tests/fixtures/tcu_acordao_resumo_empty.csv",
+        "tests/fixtures/tcu_jurisprudencia_selecionada.csv",
         "tests/fixtures/tcu_manifest.csv",
         "tests/fixtures/tcu_manifest_contract_changed.txt",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tcu_jurisprudencia",
@@ -455,8 +502,12 @@
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tcu_acordao_resumo.csv",
         "tests/fixtures/tcu_acordao_resumo_empty.csv",
+        "tests/fixtures/tcu_jurisprudencia_selecionada.csv",
         "tests/fixtures/tcu_manifest.csv",
         "tests/fixtures/tcu_manifest_contract_changed.txt",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -473,6 +524,8 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjac_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjac_cjsg_empty.html",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
         "POST implementation + provider test + fixture"
       ],
@@ -490,6 +543,7 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjal_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
         "POST implementation + provider test + fixture"
       ],
@@ -499,7 +553,7 @@
       "source": "tjam_cjsg",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjam_cjsg.py",
         "docs/providers/tjam_cjsg/README.md",
@@ -507,10 +561,11 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjam_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjam_cjsg",
@@ -524,6 +579,7 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjam_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
         "POST implementation + provider test + fixture"
       ],
@@ -541,6 +597,7 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjam_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
         "provider tests and versioned fixture"
       ],
@@ -558,6 +615,7 @@
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjam_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
@@ -572,6 +630,7 @@
         "src/nanojuris/providers/tjba_graphql.py",
         "docs/providers/tjba_graphql/README.md",
         "docs/source-contracts/tjba_graphql.md",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjba_graphql.py",
         "tests/test_tjba_graphql_live.py",
@@ -593,6 +652,7 @@
         "src/nanojuris/providers/tjba_graphql.py",
         "docs/providers/tjba_graphql/README.md",
         "docs/source-contracts/tjba_graphql.md",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjba_graphql.py",
         "tests/test_tjba_graphql_live.py",
@@ -609,16 +669,19 @@
       "source": "tjce_cjsg",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjce_cjsg.py",
         "docs/providers/tjce_cjsg/README.md",
         "docs/source-contracts/tjce_cjsg.md",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjce_cjsg.py",
-        "tests/fixtures/tjsp_cjsg_result.html",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjce_cjsg_result.html",
+        "tests/fixtures/tjsp_cjsg_ack.html",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjce_cjsg",
@@ -629,8 +692,11 @@
         "src/nanojuris/providers/tjce_cjsg.py",
         "docs/providers/tjce_cjsg/README.md",
         "docs/source-contracts/tjce_cjsg.md",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjce_cjsg.py",
-        "tests/fixtures/tjsp_cjsg_result.html",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjce_cjsg_result.html",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -644,8 +710,11 @@
         "src/nanojuris/providers/tjce_cjsg.py",
         "docs/providers/tjce_cjsg/README.md",
         "docs/source-contracts/tjce_cjsg.md",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjce_cjsg.py",
-        "tests/fixtures/tjsp_cjsg_result.html",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjce_cjsg_result.html",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -659,8 +728,11 @@
         "src/nanojuris/providers/tjce_cjsg.py",
         "docs/providers/tjce_cjsg/README.md",
         "docs/source-contracts/tjce_cjsg.md",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjce_cjsg.py",
-        "tests/fixtures/tjsp_cjsg_result.html",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjce_cjsg_result.html",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
       "next_action": "manter fixture live/replay quando a fonte mudar"
@@ -675,7 +747,9 @@
         "docs/providers/tjce_sjuris/README.md",
         "docs/source-contracts/tjce_sjuris.md",
         "tests/test_tjce_sjuris.py",
+        "tests/fixtures/tjce_sjuris_empty.json",
         "tests/fixtures/tjce_sjuris_results.json",
+        "tests/fixtures/tjce_sjuris_schema_drift.json",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -690,7 +764,9 @@
         "docs/providers/tjce_sjuris/README.md",
         "docs/source-contracts/tjce_sjuris.md",
         "tests/test_tjce_sjuris.py",
+        "tests/fixtures/tjce_sjuris_empty.json",
         "tests/fixtures/tjce_sjuris_results.json",
+        "tests/fixtures/tjce_sjuris_schema_drift.json",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -704,15 +780,21 @@
         "src/nanojuris/providers/tjdf_juris.py",
         "docs/providers/tjdf_juris/README.md",
         "docs/source-contracts/tjdf_juris.md",
+        "tests/test_adaptive_selectors.py",
         "tests/test_cli.py",
         "tests/test_gold_maturity.py",
         "tests/test_health.py",
+        "tests/test_live_validation_workflow.py",
         "tests/test_mcp_server.py",
         "tests/test_provider_coverage.py",
+        "tests/test_search_telemetry.py",
         "tests/test_source_contracts.py",
         "tests/test_studio.py",
         "tests/test_tjdf_juris.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjdf_juris_api_contract_changed.json",
+        "tests/fixtures/tjdf_juris_api_empty.json",
+        "tests/fixtures/tjdf_juris_api_results.json",
         "tests/fixtures/tjdf_juris_detail.html",
         "tests/fixtures/tjdf_juris_initial.html",
         "tests/fixtures/tjdf_juris_results.html",
@@ -724,21 +806,24 @@
       "source": "tjgo_projudi_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjgo_projudi_jurisprudencia.py",
         "docs/providers/tjgo_projudi_jurisprudencia/README.md",
         "docs/source-contracts/tjgo_projudi_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_gold_maturity.py",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
+        "tests/test_tjgo_contract.py",
         "tests/test_tjgo_projudi_jurisprudencia.py",
+        "tests/test_tjro_tjgo_live.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tjgo_projudi_dano_moral.html",
         "tests/fixtures/tjgo_projudi_empty.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjgo_projudi_jurisprudencia",
@@ -751,8 +836,11 @@
         "docs/source-contracts/tjgo_projudi_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_gold_maturity.py",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
+        "tests/test_tjgo_contract.py",
         "tests/test_tjgo_projudi_jurisprudencia.py",
+        "tests/test_tjro_tjgo_live.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tjgo_projudi_dano_moral.html",
         "tests/fixtures/tjgo_projudi_empty.html",
@@ -769,6 +857,9 @@
         "src/nanojuris/providers/tjma_jurisconsult.py",
         "docs/providers/tjma_jurisconsult/README.md",
         "docs/source-contracts/tjma_jurisconsult.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_surface_state_registry.py",
         "tests/test_tjma_jurisconsult.py",
         "tests/fixtures/tjma_jurisconsult_catalog.json",
         "declared route referenced by module/docs/tests"
@@ -784,6 +875,9 @@
         "src/nanojuris/providers/tjma_jurisconsult.py",
         "docs/providers/tjma_jurisconsult/README.md",
         "docs/source-contracts/tjma_jurisconsult.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_surface_state_registry.py",
         "tests/test_tjma_jurisconsult.py",
         "tests/fixtures/tjma_jurisconsult_catalog.json",
         "provider tests and versioned fixture"
@@ -799,9 +893,11 @@
         "src/nanojuris/providers/tjac_cjsg.py",
         "docs/providers/tjms_cjsg/README.md",
         "docs/source-contracts/tjms_cjsg.md",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjms_cjsg.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_result.html",
         "POST implementation + provider test + fixture"
       ],
@@ -811,17 +907,19 @@
       "source": "tjmt_jurisprudencia_api",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjmt_jurisprudencia_api.py",
         "docs/providers/tjmt_jurisprudencia_api/README.md",
         "docs/source-contracts/tjmt_jurisprudencia_api.md",
         "tests/test_provider_documentation.py",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjmt_jurisprudencia_api.py",
+        "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tjmt_jurisprudencia_results.json",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjmt_jurisprudencia_api",
@@ -833,7 +931,9 @@
         "docs/providers/tjmt_jurisprudencia_api/README.md",
         "docs/source-contracts/tjmt_jurisprudencia_api.md",
         "tests/test_provider_documentation.py",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjmt_jurisprudencia_api.py",
+        "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tjmt_jurisprudencia_results.json",
         "provider tests and versioned fixture"
       ],
@@ -843,7 +943,7 @@
       "source": "tjpa_jurisprudencia_bff",
       "kind": "runtime",
       "todo": "reproduzir indisponibilidade e criar teste de falha explícito",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjpa_jurisprudencia_bff.py",
         "docs/providers/tjpa_jurisprudencia_bff/README.md",
@@ -853,10 +953,18 @@
         "tests/test_provider_discovery_audit.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
+        "tests/test_qa_jurisprudence_documents.py",
+        "tests/test_tjpa_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
-        "docs/provider-discovery/all-provider-sweep.json#source_unavailable"
+        "tests/fixtures/tjpa_jurisprudencia_bff_empty.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_filters.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_invalid.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "retestar em janela autorizada e preservar diagnóstico de falha"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjpa_jurisprudencia_bff",
@@ -872,7 +980,15 @@
         "tests/test_provider_discovery_audit.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
+        "tests/test_qa_jurisprudence_documents.py",
+        "tests/test_tjpa_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_empty.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_filters.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_invalid.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -881,19 +997,23 @@
       "source": "tjpb_pje_jurisprudencia",
       "kind": "runtime",
       "todo": "reproduzir indisponibilidade e criar teste de falha explícito",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjpb_pje_jurisprudencia.py",
         "docs/providers/tjpb_pje_jurisprudencia/README.md",
         "docs/source-contracts/tjpb_pje_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_initial_json_providers.py",
+        "tests/test_juscraper_runtime_parity.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/fixtures/provider_contracts.json",
-        "docs/provider-discovery/all-provider-sweep.json#source_unavailable"
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "retestar em janela autorizada e preservar diagnóstico de falha"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjpb_pje_jurisprudencia",
@@ -906,9 +1026,13 @@
         "docs/source-contracts/tjpb_pje_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_initial_json_providers.py",
+        "tests/test_juscraper_runtime_parity.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -924,9 +1048,13 @@
         "docs/source-contracts/tjpb_pje_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_initial_json_providers.py",
+        "tests/test_juscraper_runtime_parity.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "declared route referenced by module/docs/tests"
       ],
       "next_action": "replay local e promover observação live quando a fonte permitir"
@@ -935,16 +1063,22 @@
       "source": "tjpe_jurisprudencia",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjpe_jurisprudencia.py",
         "docs/providers/tjpe_jurisprudencia/README.md",
         "docs/source-contracts/tjpe_jurisprudencia.md",
+        "tests/test_provider_coverage.py",
         "tests/test_tjpe_jurisprudencia.py",
+        "tests/test_tjpe_live_recheck.py",
         "tests/fixtures/tjpe_jurisprudencia_results.json",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "tests/fixtures/tjpe_juscraper_choice_ascii.html",
+        "tests/fixtures/tjpe_juscraper_empty.html",
+        "tests/fixtures/tjpe_juscraper_results_ascii.html",
+        "tests/fixtures/tjpe_juscraper_search.html",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjpe_jurisprudencia",
@@ -955,8 +1089,14 @@
         "src/nanojuris/providers/tjpe_jurisprudencia.py",
         "docs/providers/tjpe_jurisprudencia/README.md",
         "docs/source-contracts/tjpe_jurisprudencia.md",
+        "tests/test_provider_coverage.py",
         "tests/test_tjpe_jurisprudencia.py",
+        "tests/test_tjpe_live_recheck.py",
         "tests/fixtures/tjpe_jurisprudencia_results.json",
+        "tests/fixtures/tjpe_juscraper_choice_ascii.html",
+        "tests/fixtures/tjpe_juscraper_empty.html",
+        "tests/fixtures/tjpe_juscraper_results_ascii.html",
+        "tests/fixtures/tjpe_juscraper_search.html",
         "declared route referenced by module/docs/tests"
       ],
       "next_action": "replay local e promover observação live quando a fonte permitir"
@@ -970,8 +1110,14 @@
         "src/nanojuris/providers/tjpe_jurisprudencia.py",
         "docs/providers/tjpe_jurisprudencia/README.md",
         "docs/source-contracts/tjpe_jurisprudencia.md",
+        "tests/test_provider_coverage.py",
         "tests/test_tjpe_jurisprudencia.py",
+        "tests/test_tjpe_live_recheck.py",
         "tests/fixtures/tjpe_jurisprudencia_results.json",
+        "tests/fixtures/tjpe_juscraper_choice_ascii.html",
+        "tests/fixtures/tjpe_juscraper_empty.html",
+        "tests/fixtures/tjpe_juscraper_results_ascii.html",
+        "tests/fixtures/tjpe_juscraper_search.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -985,8 +1131,14 @@
         "src/nanojuris/providers/tjpe_jurisprudencia.py",
         "docs/providers/tjpe_jurisprudencia/README.md",
         "docs/source-contracts/tjpe_jurisprudencia.md",
+        "tests/test_provider_coverage.py",
         "tests/test_tjpe_jurisprudencia.py",
+        "tests/test_tjpe_live_recheck.py",
         "tests/fixtures/tjpe_jurisprudencia_results.json",
+        "tests/fixtures/tjpe_juscraper_choice_ascii.html",
+        "tests/fixtures/tjpe_juscraper_empty.html",
+        "tests/fixtures/tjpe_juscraper_results_ascii.html",
+        "tests/fixtures/tjpe_juscraper_search.html",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
       "next_action": "manter fixture live/replay quando a fonte mudar"
@@ -1011,18 +1163,24 @@
       "source": "tjrj_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjrj_eproc_jurisprudencia.py",
         "docs/providers/tjrj_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tjrj_eproc_jurisprudencia.md",
+        "tests/test_juscraper_current_inventory.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjrj_eproc_jurisprudencia",
@@ -1033,10 +1191,16 @@
         "src/nanojuris/providers/tjrj_eproc_jurisprudencia.py",
         "docs/providers/tjrj_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tjrj_eproc_jurisprudencia.md",
+        "tests/test_juscraper_current_inventory.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -1050,10 +1214,16 @@
         "src/nanojuris/providers/tjrj_eproc_jurisprudencia.py",
         "docs/providers/tjrj_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tjrj_eproc_jurisprudencia.md",
+        "tests/test_juscraper_current_inventory.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -1067,10 +1237,16 @@
         "src/nanojuris/providers/tjrj_eproc_jurisprudencia.py",
         "docs/providers/tjrj_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tjrj_eproc_jurisprudencia.md",
+        "tests/test_juscraper_current_inventory.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
-        "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
       "next_action": "manter fixture live/replay quando a fonte mudar"
@@ -1079,17 +1255,30 @@
       "source": "tjro_liame",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjro_liame.py",
         "docs/providers/tjro_liame/README.md",
         "docs/source-contracts/tjro_liame.md",
+        "tests/test_brazil.py",
+        "tests/test_juscraper_court_inventory.py",
         "tests/test_provider_coverage.py",
+        "tests/test_tjro_jurisprudencia.py",
         "tests/test_tjro_liame.py",
+        "tests/test_tjro_liame_live_smoke.py",
+        "tests/fixtures/tjro_jurisprudencia_access_control.json",
+        "tests/fixtures/tjro_jurisprudencia_empty.json",
+        "tests/fixtures/tjro_jurisprudencia_error.json",
+        "tests/fixtures/tjro_jurisprudencia_invalid.json",
+        "tests/fixtures/tjro_jurisprudencia_related.json",
+        "tests/fixtures/tjro_jurisprudencia_results.json",
+        "tests/fixtures/tjro_jurisprudencia_schema_drift.json",
+        "tests/fixtures/tjro_liame_empty.json",
         "tests/fixtures/tjro_liame_results.json",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "tests/fixtures/tjro_liame_schema_drift.json",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjro_liame",
@@ -1100,9 +1289,22 @@
         "src/nanojuris/providers/tjro_liame.py",
         "docs/providers/tjro_liame/README.md",
         "docs/source-contracts/tjro_liame.md",
+        "tests/test_brazil.py",
+        "tests/test_juscraper_court_inventory.py",
         "tests/test_provider_coverage.py",
+        "tests/test_tjro_jurisprudencia.py",
         "tests/test_tjro_liame.py",
+        "tests/test_tjro_liame_live_smoke.py",
+        "tests/fixtures/tjro_jurisprudencia_access_control.json",
+        "tests/fixtures/tjro_jurisprudencia_empty.json",
+        "tests/fixtures/tjro_jurisprudencia_error.json",
+        "tests/fixtures/tjro_jurisprudencia_invalid.json",
+        "tests/fixtures/tjro_jurisprudencia_related.json",
+        "tests/fixtures/tjro_jurisprudencia_results.json",
+        "tests/fixtures/tjro_jurisprudencia_schema_drift.json",
+        "tests/fixtures/tjro_liame_empty.json",
         "tests/fixtures/tjro_liame_results.json",
+        "tests/fixtures/tjro_liame_schema_drift.json",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -1111,11 +1313,12 @@
       "source": "tjrr_juris",
       "kind": "runtime",
       "todo": "reproduzir indisponibilidade e criar teste de falha explícito",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjrr_juris.py",
         "docs/providers/tjrr_juris/README.md",
         "docs/source-contracts/tjrr_juris.md",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjrr_juris.py",
@@ -1123,9 +1326,9 @@
         "tests/fixtures/tjrr_juris_detail.html",
         "tests/fixtures/tjrr_juris_form.html",
         "tests/fixtures/tjrr_juris_result.html",
-        "docs/provider-discovery/all-provider-sweep.json#source_unavailable"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "retestar em janela autorizada e preservar diagnóstico de falha"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjrr_juris",
@@ -1136,6 +1339,7 @@
         "src/nanojuris/providers/tjrr_juris.py",
         "docs/providers/tjrr_juris/README.md",
         "docs/source-contracts/tjrr_juris.md",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_documentation.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_tjrr_juris.py",
@@ -1151,7 +1355,7 @@
       "source": "tjrs_solr",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjrs_solr.py",
         "docs/providers/tjrs_solr/README.md",
@@ -1160,10 +1364,13 @@
         "tests/test_initial_json_providers.py",
         "tests/test_tjrs_solr.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tjrs_solr_results.json",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjrs_solr",
@@ -1178,6 +1385,9 @@
         "tests/test_initial_json_providers.py",
         "tests/test_tjrs_solr.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tjrs_solr_results.json",
         "POST implementation + provider test + fixture"
       ],
@@ -1187,19 +1397,29 @@
       "source": "tjsc_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjsc_eproc_jurisprudencia.py",
         "docs/providers/tjsc_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tjsc_eproc_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_tjsp_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_form.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjsc_eproc_jurisprudencia",
@@ -1210,9 +1430,19 @@
         "src/nanojuris/providers/tjsc_eproc_jurisprudencia.py",
         "docs/providers/tjsc_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tjsc_eproc_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_provider_discovery_audit.py",
         "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_tjsp_eproc_jurisprudencia.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_form.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "POST implementation + provider test + fixture"
@@ -1233,6 +1463,8 @@
         "tests/test_client_exporters.py",
         "tests/test_mcp_server.py",
         "tests/test_mcp_tools.py",
+        "tests/test_observability_governance.py",
+        "tests/test_provider_coverage.py",
         "tests/test_provider_discovery_audit.py",
         "tests/test_provider_state_fixtures.py",
         "tests/test_store.py",
@@ -1243,8 +1475,12 @@
         "tests/test_tjms_cjsg.py",
         "tests/test_tjsp_cjsg.py",
         "tests/test_tjsp_cjsg_live.py",
+        "tests/test_tjsp_cjsg_live_recheck.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjac_cjsg_empty.html",
+        "tests/fixtures/tjce_cjsg_result.html",
         "tests/fixtures/tjsp_cjsg_access_control.html",
+        "tests/fixtures/tjsp_cjsg_ack.html",
         "tests/fixtures/tjsp_cjsg_document.html",
         "tests/fixtures/tjsp_cjsg_empty.html",
         "tests/fixtures/tjsp_cjsg_result.html",
@@ -1256,7 +1492,7 @@
       "source": "tjsp_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/tjsp_eproc_jurisprudencia/README.md",
@@ -1270,19 +1506,28 @@
         "tests/test_stj_scon.py",
         "tests/test_tjsp_eproc_jurisprudencia.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stj_scon_access_control.html",
         "tests/fixtures/stj_scon_acordaos_result.html",
         "tests/fixtures/stj_scon_empty.html",
         "tests/fixtures/stj_scon_real_documentos.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_empty.html",
+        "tests/fixtures/trf4_eproc_pagination.html",
         "tests/fixtures/trf4_eproc_results.html",
+        "tests/fixtures/trf4_eproc_schema_drift.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjsp_eproc_jurisprudencia",
@@ -1302,15 +1547,24 @@
         "tests/test_stj_scon.py",
         "tests/test_tjsp_eproc_jurisprudencia.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/stj_scon_access_control.html",
         "tests/fixtures/stj_scon_acordaos_result.html",
         "tests/fixtures/stj_scon_empty.html",
         "tests/fixtures/stj_scon_real_documentos.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
         "tests/fixtures/tjsp_eproc_jurisprudencia_result.html",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_empty.html",
+        "tests/fixtures/trf4_eproc_pagination.html",
         "tests/fixtures/trf4_eproc_results.html",
+        "tests/fixtures/trf4_eproc_schema_drift.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
         "POST implementation + provider test + fixture"
       ],
@@ -1325,9 +1579,13 @@
         "src/nanojuris/providers/tjsp_nugepnac.py",
         "docs/providers/tjsp_nugepnac/README.md",
         "docs/source-contracts/tjsp_nugepnac.md",
+        "tests/test_promotion_manifest.py",
         "tests/test_provider_discovery_audit.py",
         "tests/test_tjsp_nugepnac.py",
         "tests/fixtures/tjsp_nugepnac_detail.html",
+        "tests/fixtures/tjsp_nugepnac_document.html",
+        "tests/fixtures/tjsp_nugepnac_iac_detail_no_thesis.html",
+        "tests/fixtures/tjsp_nugepnac_iac_list.html",
         "tests/fixtures/tjsp_nugepnac_list.html",
         "provider tests and versioned fixture"
       ],
@@ -1337,16 +1595,21 @@
       "source": "tjto_jurisprudencia",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tjto_jurisprudencia.py",
         "docs/providers/tjto_jurisprudencia/README.md",
         "docs/source-contracts/tjto_jurisprudencia.md",
+        "tests/test_document_capability_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjto_jurisprudencia.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjto_cjpg_results.html",
         "tests/fixtures/tjto_jurisprudencia_results.json",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tjto_jurisprudencia",
@@ -1357,7 +1620,12 @@
         "src/nanojuris/providers/tjto_jurisprudencia.py",
         "docs/providers/tjto_jurisprudencia/README.md",
         "docs/source-contracts/tjto_jurisprudencia.md",
+        "tests/test_document_capability_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjto_jurisprudencia.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjto_cjpg_results.html",
         "tests/fixtures/tjto_jurisprudencia_results.json",
         "POST implementation + provider test + fixture"
       ],
@@ -1372,7 +1640,12 @@
         "src/nanojuris/providers/tjto_jurisprudencia.py",
         "docs/providers/tjto_jurisprudencia/README.md",
         "docs/source-contracts/tjto_jurisprudencia.md",
+        "tests/test_document_capability_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjto_jurisprudencia.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjto_cjpg_results.html",
         "tests/fixtures/tjto_jurisprudencia_results.json",
         "provider tests and versioned fixture"
       ],
@@ -1387,7 +1660,12 @@
         "src/nanojuris/providers/tjto_jurisprudencia.py",
         "docs/providers/tjto_jurisprudencia/README.md",
         "docs/source-contracts/tjto_jurisprudencia.md",
+        "tests/test_document_capability_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_state_fixtures.py",
         "tests/test_tjto_jurisprudencia.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjto_cjpg_results.html",
         "tests/fixtures/tjto_jurisprudencia_results.json",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
@@ -1397,20 +1675,22 @@
       "source": "tnu_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/tnu_eproc_jurisprudencia/README.md",
         "docs/source-contracts/tnu_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_provider_coverage.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tnu_eproc_jurisprudencia",
@@ -1423,6 +1703,8 @@
         "docs/source-contracts/tnu_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_provider_coverage.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
@@ -1442,6 +1724,8 @@
         "docs/source-contracts/tnu_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_provider_coverage.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
@@ -1459,6 +1743,7 @@
         "src/nanojuris/providers/tre_sp_temas.py",
         "docs/providers/tre_sp_temas/README.md",
         "docs/source-contracts/tre_sp_temas.md",
+        "tests/test_brazil.py",
         "tests/test_tre_sp_temas.py",
         "tests/fixtures/tre_sp_temas_detail.html",
         "tests/fixtures/tre_sp_temas_index.html",
@@ -1475,6 +1760,7 @@
         "src/nanojuris/providers/tre_sp_temas.py",
         "docs/providers/tre_sp_temas/README.md",
         "docs/source-contracts/tre_sp_temas.md",
+        "tests/test_brazil.py",
         "tests/test_tre_sp_temas.py",
         "tests/fixtures/tre_sp_temas_detail.html",
         "tests/fixtures/tre_sp_temas_index.html",
@@ -1486,19 +1772,21 @@
       "source": "trf2_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/trf2_eproc_jurisprudencia/README.md",
         "docs/source-contracts/trf2_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_provider_coverage.py",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "trf2_eproc_jurisprudencia",
@@ -1511,6 +1799,8 @@
         "docs/source-contracts/trf2_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_provider_coverage.py",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
@@ -1522,18 +1812,33 @@
       "source": "trf4_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
-        "src/nanojuris/providers/trf4_eproc_jurisprudencia.py",
+        "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/trf4_eproc_jurisprudencia/README.md",
         "docs/source-contracts/trf4_eproc_jurisprudencia.md",
         "tests/test_client_exporters.py",
+        "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tnu_eproc_aposentadoria.html",
+        "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_empty.html",
+        "tests/fixtures/trf4_eproc_pagination.html",
         "tests/fixtures/trf4_eproc_results.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "tests/fixtures/trf4_eproc_schema_drift.html",
+        "tests/fixtures/trf6_eproc_aposentadoria.html",
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "trf4_eproc_jurisprudencia",
@@ -1541,13 +1846,28 @@
       "todo": "confirmar payload, filtros e paginação dos endpoints POST com fixture",
       "status": "implemented_with_local_evidence",
       "evidence": [
-        "src/nanojuris/providers/trf4_eproc_jurisprudencia.py",
+        "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/trf4_eproc_jurisprudencia/README.md",
         "docs/source-contracts/trf4_eproc_jurisprudencia.md",
         "tests/test_client_exporters.py",
+        "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tnu_eproc_aposentadoria.html",
+        "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_empty.html",
+        "tests/fixtures/trf4_eproc_pagination.html",
         "tests/fixtures/trf4_eproc_results.html",
+        "tests/fixtures/trf4_eproc_schema_drift.html",
+        "tests/fixtures/trf6_eproc_aposentadoria.html",
         "POST implementation + provider test + fixture"
       ],
       "next_action": "não submeter payload especulativo; revalidar por replay/contrato aprovado"
@@ -1558,13 +1878,28 @@
       "todo": "capturar fixture de formulário/JSON para confirmar filtros",
       "status": "implemented_with_local_evidence",
       "evidence": [
-        "src/nanojuris/providers/trf4_eproc_jurisprudencia.py",
+        "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/trf4_eproc_jurisprudencia/README.md",
         "docs/source-contracts/trf4_eproc_jurisprudencia.md",
         "tests/test_client_exporters.py",
+        "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
+        "tests/test_state_eproc_jurisprudencia.py",
         "tests/test_trf4_eproc_jurisprudencia.py",
+        "tests/test_trf4_fixture_contract.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_access_control.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_empty.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tjrj_eproc_jurisprudencia_second.html",
+        "tests/fixtures/tjsc_eproc_jurisprudencia_result.html",
+        "tests/fixtures/tnu_eproc_aposentadoria.html",
+        "tests/fixtures/trf2_eproc_aposentadoria.html",
+        "tests/fixtures/trf4_eproc_empty.html",
+        "tests/fixtures/trf4_eproc_pagination.html",
         "tests/fixtures/trf4_eproc_results.html",
+        "tests/fixtures/trf4_eproc_schema_drift.html",
+        "tests/fixtures/trf6_eproc_aposentadoria.html",
         "provider tests and versioned fixture"
       ],
       "next_action": "expandir estados somente se o contrato da fonte mudar"
@@ -1580,6 +1915,7 @@
         "docs/source-contracts/trf5_jurisprudencia.md",
         "tests/test_provider_state_fixtures.py",
         "tests/test_trf5_jurisprudencia.py",
+        "tests/test_trf5_live_smoke.py",
         "tests/fixtures/provider_contracts.json",
         "tests/fixtures/trf5_jurisprudencia_access_control.html",
         "tests/fixtures/trf5_jurisprudencia_contract_changed.html",
@@ -1593,19 +1929,20 @@
       "source": "trf6_eproc_jurisprudencia",
       "kind": "runtime",
       "todo": "documentar controle de acesso/SSO e confirmar rota pública alternativa",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/eproc_jurisprudencia_federal.py",
         "docs/providers/trf6_eproc_jurisprudencia/README.md",
         "docs/source-contracts/trf6_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
-        "docs/provider-discovery/all-provider-sweep.json#access_controlled"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "usar rota pública alternativa documentada ou aguardar acesso autorizado"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "trf6_eproc_jurisprudencia",
@@ -1618,6 +1955,7 @@
         "docs/source-contracts/trf6_eproc_jurisprudencia.md",
         "tests/test_brazil.py",
         "tests/test_eproc_jurisprudencia_federal.py",
+        "tests/test_national_coverage_gap_map.py",
         "tests/fixtures/tnu_eproc_aposentadoria.html",
         "tests/fixtures/trf2_eproc_aposentadoria.html",
         "tests/fixtures/trf6_eproc_aposentadoria.html",
@@ -1629,19 +1967,25 @@
       "source": "tst_jurisprudencia",
       "kind": "runtime",
       "todo": "revisar robots.txt e agendar nova coleta autorizada",
-      "status": "blocked_external",
+      "status": "implemented_with_local_evidence",
       "evidence": [
         "src/nanojuris/providers/tst_jurisprudencia.py",
         "docs/providers/tst_jurisprudencia/README.md",
         "docs/source-contracts/tst_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_health.py",
+        "tests/test_initial_json_providers.py",
+        "tests/test_live_validation_workflow.py",
         "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
-        "docs/provider-discovery/all-provider-sweep.json#robots_disallowed"
+        "latest promotion manifest reports a valid bounded live check"
       ],
-      "next_action": "revalidar somente após alteração autorizada da política pública/robots"
+      "next_action": "manter o diagnostico historico e repetir o smoke bounded quando a fonte mudar"
     },
     {
       "source": "tst_jurisprudencia",
@@ -1654,8 +1998,14 @@
         "docs/source-contracts/tst_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_health.py",
+        "tests/test_initial_json_providers.py",
+        "tests/test_live_validation_workflow.py",
         "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
         "POST implementation + provider test + fixture"
       ],
@@ -1672,8 +2022,14 @@
         "docs/source-contracts/tst_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_health.py",
+        "tests/test_initial_json_providers.py",
+        "tests/test_live_validation_workflow.py",
         "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
         "declared route referenced by module/docs/tests"
       ],
@@ -1690,8 +2046,14 @@
         "docs/source-contracts/tst_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_health.py",
+        "tests/test_initial_json_providers.py",
+        "tests/test_live_validation_workflow.py",
         "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
         "provider tests and versioned fixture"
       ],
@@ -1708,8 +2070,14 @@
         "docs/source-contracts/tst_jurisprudencia.md",
         "tests/test_gold_maturity.py",
         "tests/test_health.py",
+        "tests/test_initial_json_providers.py",
+        "tests/test_live_validation_workflow.py",
         "tests/test_tst_jurisprudencia.py",
+        "tests/test_tst_jurisprudencia_live.py",
         "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjpa_jurisprudencia_bff_results.json",
+        "tests/fixtures/tjpb_access_control.html",
+        "tests/fixtures/tjpb_pje_jurisprudencia_success.json",
         "tests/fixtures/tst_jurisprudencia_responsabilidade.json",
         "ProviderCapabilities.canonical_records/extracted_fields"
       ],
@@ -1719,23 +2087,41 @@
       "source": "falcao_jt",
       "kind": "candidate",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/falcao_jt.py",
         "docs/providers/falcao_jt/README.md",
-        "docs/source-contracts/falcao_jt.md"
+        "docs/source-contracts/falcao_jt.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_falcao_jt.py",
+        "tests/test_provider_coverage.py",
+        "tests/fixtures/falcao_cloudfront.html",
+        "tests/fixtures/falcao_search_success.json",
+        "tests/fixtures/falcao_shell.html",
+        "tests/fixtures/falcao_trt_codes.json",
+        "candidate access/transport state: robots_disallowed"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "falcao_jt",
       "kind": "candidate",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/falcao_jt.py",
         "docs/providers/falcao_jt/README.md",
-        "docs/source-contracts/falcao_jt.md"
+        "docs/source-contracts/falcao_jt.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_falcao_jt.py",
+        "tests/test_provider_coverage.py",
+        "tests/fixtures/falcao_cloudfront.html",
+        "tests/fixtures/falcao_search_success.json",
+        "tests/fixtures/falcao_shell.html",
+        "tests/fixtures/falcao_trt_codes.json",
+        "candidate access/transport state: robots_disallowed"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "justica_eleitoral_sjur",
@@ -1779,155 +2165,313 @@
       "source": "tjap_tucujuris",
       "kind": "candidate",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/tjap_tucujuris.py",
         "docs/providers/tjap_tucujuris/README.md",
-        "docs/source-contracts/tjap_tucujuris.md"
+        "docs/source-contracts/tjap_tucujuris.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjap_tucujuris.py",
+        "tests/fixtures/tjap_tucujuris_access_control.json",
+        "tests/fixtures/tjap_tucujuris_empty.json",
+        "candidate access/transport state: catalog_live_status"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "tjap_tucujuris",
       "kind": "candidate",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/tjap_tucujuris.py",
         "docs/providers/tjap_tucujuris/README.md",
-        "docs/source-contracts/tjap_tucujuris.md"
+        "docs/source-contracts/tjap_tucujuris.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjap_tucujuris.py",
+        "tests/fixtures/tjap_tucujuris_access_control.json",
+        "tests/fixtures/tjap_tucujuris_empty.json",
+        "candidate access/transport state: catalog_live_status"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "tjes_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/tjes_cjpg.py",
         "docs/providers/tjes_jurisprudencia/README.md",
-        "docs/source-contracts/tjes_jurisprudencia.md"
+        "docs/source-contracts/tjes_jurisprudencia.md",
+        "tests/test_adapter_wave_board.py",
+        "tests/test_juriscraper_intake.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_provider_state_fixtures.py",
+        "tests/test_tjes_jurisprudencia.py",
+        "tests/test_tjes_jurisprudencia_live.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjes_cjsg_empty.json",
+        "tests/fixtures/tjes_cjsg_html_only.json",
+        "tests/fixtures/tjes_cjsg_invalid.json",
+        "tests/fixtures/tjes_cjsg_schema_drift.json",
+        "tests/fixtures/tjes_cjsg_success.json",
+        "runtime adapter + provider tests + fixtures"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "manter o escopo promovido e ampliar somente com novo contrato reproduzivel"
     },
     {
       "source": "tjes_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/tjes_cjpg.py",
         "docs/providers/tjes_jurisprudencia/README.md",
-        "docs/source-contracts/tjes_jurisprudencia.md"
+        "docs/source-contracts/tjes_jurisprudencia.md",
+        "tests/test_adapter_wave_board.py",
+        "tests/test_juriscraper_intake.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_provider_state_fixtures.py",
+        "tests/test_tjes_jurisprudencia.py",
+        "tests/test_tjes_jurisprudencia_live.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/tjes_cjsg_empty.json",
+        "tests/fixtures/tjes_cjsg_html_only.json",
+        "tests/fixtures/tjes_cjsg_invalid.json",
+        "tests/fixtures/tjes_cjsg_schema_drift.json",
+        "tests/fixtures/tjes_cjsg_success.json",
+        "runtime contract documented in module/docs/tests"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "preservar limites declarados; promover busca decisoria somente com contrato de resultados"
     },
     {
       "source": "tjmg_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/tjmg_jurisprudencia.py",
         "docs/providers/tjmg_jurisprudencia/README.md",
-        "docs/source-contracts/tjmg_jurisprudencia.md"
+        "docs/source-contracts/tjmg_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjmg_jurisprudencia.py",
+        "tests/fixtures/tjmg_jurisprudencia_captcha.html",
+        "tests/fixtures/tjmg_jurisprudencia_modern.json",
+        "tests/fixtures/tjmg_jurisprudencia_modern_empty.json",
+        "tests/fixtures/tjmg_jurisprudencia_modern_error.json",
+        "tests/fixtures/tjmg_jurisprudencia_modern_schema.json",
+        "runtime adapter + provider tests + fixtures"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "manter o escopo promovido e ampliar somente com novo contrato reproduzivel"
     },
     {
       "source": "tjmg_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/tjmg_jurisprudencia.py",
         "docs/providers/tjmg_jurisprudencia/README.md",
-        "docs/source-contracts/tjmg_jurisprudencia.md"
+        "docs/source-contracts/tjmg_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_juscraper_runtime_parity.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjmg_jurisprudencia.py",
+        "tests/fixtures/tjmg_jurisprudencia_captcha.html",
+        "tests/fixtures/tjmg_jurisprudencia_modern.json",
+        "tests/fixtures/tjmg_jurisprudencia_modern_empty.json",
+        "tests/fixtures/tjmg_jurisprudencia_modern_error.json",
+        "tests/fixtures/tjmg_jurisprudencia_modern_schema.json",
+        "runtime contract documented in module/docs/tests"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "preservar limites declarados; promover busca decisoria somente com contrato de resultados"
     },
     {
       "source": "tjrn_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/tjrn_jurisprudencia.py",
         "docs/providers/tjrn_jurisprudencia/README.md",
-        "docs/source-contracts/tjrn_jurisprudencia.md"
+        "docs/source-contracts/tjrn_jurisprudencia.md",
+        "tests/test_adapter_wave_board.py",
+        "tests/test_brazil.py",
+        "tests/test_document_capability_inventory.py",
+        "tests/test_interface_impact.py",
+        "tests/test_juriscraper_intake.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_observability_governance.py",
+        "tests/test_provider_closure_ledger.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjrn_jurisprudencia.py",
+        "tests/test_tjrn_jurisprudencia_live.py",
+        "tests/fixtures/tjrn_jurisprudencia_empty.json",
+        "tests/fixtures/tjrn_jurisprudencia_invalid.json",
+        "tests/fixtures/tjrn_jurisprudencia_schema_drift.json",
+        "tests/fixtures/tjrn_jurisprudencia_success.json",
+        "runtime adapter + provider tests + fixtures"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "manter o escopo promovido e ampliar somente com novo contrato reproduzivel"
     },
     {
       "source": "tjrn_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/tjrn_jurisprudencia.py",
         "docs/providers/tjrn_jurisprudencia/README.md",
-        "docs/source-contracts/tjrn_jurisprudencia.md"
+        "docs/source-contracts/tjrn_jurisprudencia.md",
+        "tests/test_adapter_wave_board.py",
+        "tests/test_brazil.py",
+        "tests/test_document_capability_inventory.py",
+        "tests/test_interface_impact.py",
+        "tests/test_juriscraper_intake.py",
+        "tests/test_juscraper_court_inventory.py",
+        "tests/test_observability_governance.py",
+        "tests/test_provider_closure_ledger.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjrn_jurisprudencia.py",
+        "tests/test_tjrn_jurisprudencia_live.py",
+        "tests/fixtures/tjrn_jurisprudencia_empty.json",
+        "tests/fixtures/tjrn_jurisprudencia_invalid.json",
+        "tests/fixtures/tjrn_jurisprudencia_schema_drift.json",
+        "tests/fixtures/tjrn_jurisprudencia_success.json",
+        "runtime contract documented in module/docs/tests"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "preservar limites declarados; promover busca decisoria somente com contrato de resultados"
     },
     {
       "source": "tjse_jurisprudencia",
       "kind": "candidate",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/tjse_jurisprudencia.py",
         "docs/providers/tjse_jurisprudencia/README.md",
-        "docs/source-contracts/tjse_jurisprudencia.md"
+        "docs/source-contracts/tjse_jurisprudencia.md",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjse_jurisprudencia.py",
+        "tests/test_tjse_jurisprudencia_live.py",
+        "tests/fixtures/tjse_jurisprudencia_authorized.html",
+        "tests/fixtures/tjse_jurisprudencia_catalog.html",
+        "tests/fixtures/tjse_jurisprudencia_form.html",
+        "candidate access/transport state: catalog_live_status, robots_disallowed"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "tjse_jurisprudencia",
       "kind": "candidate",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/tjse_jurisprudencia.py",
         "docs/providers/tjse_jurisprudencia/README.md",
-        "docs/source-contracts/tjse_jurisprudencia.md"
+        "docs/source-contracts/tjse_jurisprudencia.md",
+        "tests/test_provider_coverage.py",
+        "tests/test_tjse_jurisprudencia.py",
+        "tests/test_tjse_jurisprudencia_live.py",
+        "tests/fixtures/tjse_jurisprudencia_authorized.html",
+        "tests/fixtures/tjse_jurisprudencia_catalog.html",
+        "tests/fixtures/tjse_jurisprudencia_form.html",
+        "candidate access/transport state: catalog_live_status, robots_disallowed"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "trf3_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/trf3_jurisprudencia.py",
         "docs/providers/trf3_jurisprudencia/README.md",
-        "docs/source-contracts/trf3_jurisprudencia.md"
+        "docs/source-contracts/trf3_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_trf3_jurisprudencia.py",
+        "tests/test_trf3_transport_recheck.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/trf3_jurisprudencia_detail.html",
+        "tests/fixtures/trf3_jurisprudencia_process_empty.html",
+        "tests/fixtures/trf3_jurisprudencia_process_results.html",
+        "runtime adapter + provider tests + fixtures"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "manter o escopo promovido e ampliar somente com novo contrato reproduzivel"
     },
     {
       "source": "trf3_jurisprudencia",
-      "kind": "candidate",
+      "kind": "runtime",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "implemented_with_local_evidence",
       "evidence": [
+        "src/nanojuris/providers/trf3_jurisprudencia.py",
         "docs/providers/trf3_jurisprudencia/README.md",
-        "docs/source-contracts/trf3_jurisprudencia.md"
+        "docs/source-contracts/trf3_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_trf3_jurisprudencia.py",
+        "tests/test_trf3_transport_recheck.py",
+        "tests/fixtures/provider_contracts.json",
+        "tests/fixtures/trf3_jurisprudencia_detail.html",
+        "tests/fixtures/trf3_jurisprudencia_process_empty.html",
+        "tests/fixtures/trf3_jurisprudencia_process_results.html",
+        "runtime contract documented in module/docs/tests"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "preservar limites declarados; promover busca decisoria somente com contrato de resultados"
     },
     {
       "source": "trt2_pje_jurisprudencia",
       "kind": "candidate",
       "todo": "criar adapter somente após contrato, fixture de sucesso/vazio/erro e parser canônico",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/trt2_pje_jurisprudencia.py",
         "docs/providers/trt2_pje_jurisprudencia/README.md",
-        "docs/source-contracts/trt2_pje_jurisprudencia.md"
+        "docs/source-contracts/trt2_pje_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_trt2_pje_jurisprudencia.py",
+        "tests/fixtures/trt2_pje_authorized_success.json",
+        "tests/fixtures/trt2_pje_challenge.json",
+        "tests/fixtures/trt2_pje_filtros.json",
+        "tests/fixtures/trt2_pje_opcoes.json",
+        "candidate access/transport state: robots_disallowed"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     },
     {
       "source": "trt2_pje_jurisprudencia",
       "kind": "candidate",
       "todo": "confirmar rotas, filtros, paginação e detalhe a partir da evidência pública",
-      "status": "candidate_pending_adapter",
+      "status": "blocked_external",
       "evidence": [
+        "src/nanojuris/providers/trt2_pje_jurisprudencia.py",
         "docs/providers/trt2_pje_jurisprudencia/README.md",
-        "docs/source-contracts/trt2_pje_jurisprudencia.md"
+        "docs/source-contracts/trt2_pje_jurisprudencia.md",
+        "tests/test_blocked_techniques_audit.py",
+        "tests/test_provider_coverage.py",
+        "tests/test_trt2_pje_jurisprudencia.py",
+        "tests/fixtures/trt2_pje_authorized_success.json",
+        "tests/fixtures/trt2_pje_challenge.json",
+        "tests/fixtures/trt2_pje_filtros.json",
+        "tests/fixtures/trt2_pje_opcoes.json",
+        "candidate access/transport state: robots_disallowed"
       ],
-      "next_action": "aprovar contrato, fixtures de sucesso/vazio/erro e parser antes do adapter"
+      "next_action": "aguardar rota pÃºblica oficial reproduzÃ­vel ou alteraÃ§Ã£o observÃ¡vel da polÃ­tica de acesso antes de promover"
     }
   ]
 }

@@ -1,0 +1,91 @@
+{
+  "schema_version": "national-coverage-execution-handoff-v1",
+  "generated_at": "2026-09-08",
+  "status": "in_progress",
+  "scope": "national_public_jurisprudence_and_live_web_search",
+  "current_snapshot": {
+    "providers_cataloged": 67,
+    "providers_runtime": 62,
+    "federated_sources_declared": 47,
+    "surfaces_mapped": 150,
+    "surfaces_required": 125,
+    "state_authorities": 27,
+    "state_workpacks_complete": 25,
+    "cjpg": "7/27",
+    "cjsg": "25/27",
+    "tests_passed": 1531,
+    "tests_skipped_opt_in": 26,
+    "open_tasks": 44,
+    "open_external": 39,
+    "open_human": 5,
+    "open_local": 0
+  },
+  "source_of_truth": [
+    "docs/registry/provider-catalog.full.json",
+    "docs/coverage/surface-state-registry-20260902.json",
+    "docs/coverage/state-appellate-program-20260905.json",
+    "docs/coverage/open-task-audit-20260907.json",
+    "docs/operations/provider-certification-20260907.json",
+    "specs/changes/0090-tjrj-banco-sentencas/verification.md",
+    "docs/provider-discovery/tjrj-banco-sentencas-live-20260908.json",
+    "docs/coverage/first-degree-federation-gate-20260908.json"
+  ],
+  "waves": [
+    {"id": "W0", "name": "reconciliation", "type": "local"},
+    {"id": "W1", "name": "canonical_contract", "type": "local"},
+    {"id": "W2", "name": "state_first_degree", "type": "external"},
+    {"id": "W3", "name": "state_second_degree", "type": "external"},
+    {"id": "W4", "name": "labor_electoral_federal_superior", "type": "external"},
+    {"id": "W5", "name": "documents_and_filters", "type": "mixed"},
+    {"id": "W6", "name": "federation_and_web", "type": "local"},
+    {"id": "W7", "name": "continuous_operation", "type": "local"}
+  ],
+  "promotion_gates": [
+    "official_source",
+    "authority_degree_collection_contract",
+    "executable_adapter",
+    "complete_sanitized_fixtures",
+    "pagination_filter_identity_validation",
+    "bounded_live_valid_evidence",
+    "canonical_quality_document_validation",
+    "federation_enabled_with_trace"
+  ],
+  "allowed_access": [
+    "ordinary_official_navigation",
+    "source_issued_ephemeral_session_state",
+    "standard_chromium_without_stealth",
+    "observed_public_xhr_fetch_graphql_bff",
+    "allowlisted_official_redirects",
+    "http11_with_tls_verification",
+    "bounded_transient_retry_backoff_rate_limit",
+    "official_public_api_export_feed_catalog_download",
+    "bounded_document_fetch_with_mime_hash_size_validation"
+  ],
+  "prohibited_access": [
+    "captcha_solver_or_ocr",
+    "token_extraction_or_replay",
+    "imported_human_session_cookies",
+    "stealth_or_fingerprint_spoofing",
+    "proxy_ip_asn_user_agent_rotation_to_evade_controls",
+    "distributed_rate_limit_evasion",
+    "tls_verification_downgrade",
+    "unauthorized_credentials_or_private_endpoints",
+    "aggressive_enumeration_fuzzing_or_exploitation",
+    "authenticated_or_sealed_case_access"
+  ],
+  "non_authorizations": [
+    "commit",
+    "push",
+    "tag",
+    "release",
+    "oci_mutation",
+    "terraform_apply",
+    "secrets_or_iam_change",
+    "production_deploy"
+  ],
+  "stop_conditions": [
+    "all_local_tasks_closed_and_only_external_or_human_tasks_remain",
+    "27_of_27_only_when_all_eight_gates_are_proven"
+  ],
+  "next_read": "GOAT_EXECUTOR_PROMPT.md"
+}

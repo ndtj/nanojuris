@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "source_url": "https://www.cnj.jus.br/poder-judiciario/tribunais/",
+  "retrieved_date": "2026-09-01",
+  "response_status": 200,
+  "response_content_type": "text/html; charset=UTF-8",
+  "response_sha256": "96a3c7c3ea7c09e7a8b41d0e4a4b363421f9efb11893b5c76bd81c0506cdc728",
+  "request": {
+    "method": "GET",
+    "user_agent": "NanoJuris-research/1.0",
+    "credentials_used": false,
+    "raw_content_persisted": false
+  },
+  "counts_observed": {
+    "tribunais_regionais_eleitorais": 27,
+    "tribunais_de_justica_militar_estaduais": 3,
+    "tribunais_regionais_federais": 6,
+    "tribunais_regionais_do_trabalho": 24
+  },
+  "use": "institutional authority inventory only; does not prove jurisprudence API availability",
+  "limitations": [
+    "The directory is a dated web snapshot and must be refreshed per coverage epoch.",
+    "Counts are structural page observations, not a legal claim about every judicial unit.",
+    "No provider was promoted from this evidence alone."
+  ]
+}

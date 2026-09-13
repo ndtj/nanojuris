@@ -2,8 +2,9 @@
 
 Status: `runtime_live_validated` | papel: `qualified_precedents`
 
-Provider do catalogo de precedentes qualificados do TJRO. Ele nao representa
-o acervo geral de acordaos e permanece fora da busca textual unificada.
+Provider de precedentes qualificados do TJRO. Ele nao representa o acervo geral
+de acordaos, mas participa da busca unificada como colecao contextual LIAME,
+com o tipo documental preservado para nao confundir o resultado com acordao.
 
 ## Identidade E Escopo
 
@@ -40,8 +41,10 @@ aguardam extensao tipada da query comum.
 
 ## Inteiro Teor E Documentos
 
-O registro pode conter URLs externas de decisoes de admissao ou merito. Elas
-permanecem referencias observadas e nao sao anunciadas como documento carregado.
+O registro pode conter URLs externas de decisoes de admissao ou merito. Esta
+superficie publica apenas as referencias como metadado e nao oferece uma rota de
+inteiro teor sob o contrato LIAME (`full_text_access=not_offered_by_source`);
+elas nao sao anunciadas como documento carregado.
 
 ## Estados E Falhas
 
@@ -53,7 +56,9 @@ permanecem referencias observadas e nao sao anunciadas como documento carregado.
 
 ## Evidencias, Fixtures E Testes
 
-- Fixture: `tests/fixtures/tjro_liame_results.json`.
+- Fixtures: `tests/fixtures/tjro_liame_results.json`,
+  `tests/fixtures/tjro_liame_empty.json` e
+  `tests/fixtures/tjro_liame_schema_drift.json`.
 - Testes: `tests/test_tjro_liame.py`.
 - Evidencia live: `docs/validation/runs/20260816T125603Z-tjto-tjma-tjro-live.json`.
 - Rodada: consulta `empreitada` retornou um precedente qualificado.
@@ -63,7 +68,7 @@ permanecem referencias observadas e nao sao anunciadas como documento carregado.
 - Modulo: `src/nanojuris/providers/tjro_liame.py`.
 - Classe: `TjroLiameProvider`.
 - Registro canonico: `CanonicalPrecedent` por meio do mapeamento de resultados.
-- Interfaces: Python, CLI, Studio e MCP; nao participa da busca textual unificada.
+- Interfaces: Python, CLI, Studio, MCP e busca unificada (colecao contextual).
 
 ## MCP E Agentes
 
@@ -73,13 +78,14 @@ situacao, processo paradigma e links externos.
 
 ## Promocao
 
-Provider no maximo comprovado para precedentes qualificados. Gold contextual
-depende de rodadas live adicionais, testes dos filtros restantes e contrato
-documental separado para documentos vinculados.
+Provider tecnicamente promovido para precedentes qualificados. A busca
+unificada rotula a colecao `LIAME`; o inteiro teor dos documentos vinculados
+continua fora do contrato.
 
 ## Proximos Passos
 
 - validar filtros de situacao, assunto e processo paradigma;
 - repetir a consulta live com pagina 2;
 - documentar separadamente documentos vinculados quando forem reproduzidos;
-- manter o provider fora da busca textual geral.
+- manter a rotulagem `LIAME` e nao apresenta-lo como acervo geral de acordaos;
+- monitorar o contrato e repetir o smoke live bounded.
