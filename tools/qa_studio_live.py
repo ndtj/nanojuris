@@ -238,6 +238,9 @@ def _rendered_summary(page: Any) -> dict[str, Any]:
         else None,
         "reader_full_text": page.locator("#reader .reader-full-text").count(),
         "reader_official_link": page.locator("#reader .reader-source-link").count(),
+        "replacement_chars": page.evaluate(
+            "document.body.innerText.split('').filter(char => char === '\\ufffd').length"
+        ),
         "horizontal_overflow": page.evaluate(
             "document.documentElement.scrollWidth > document.documentElement.clientWidth"
         ),
