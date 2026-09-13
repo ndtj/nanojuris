@@ -133,6 +133,9 @@ def plan_live_search(
     active_filters = dict(filters or {})
     requested = tuple(dict.fromkeys(str(item) for item in (sources or ())))
     if selected_mode is SearchMode.SELECTED:
+        # Explicit selection is an observable user choice. Keep unknown names
+        # here so the router can return a classified, provider-level outcome
+        # instead of silently dropping the requested source.
         source_names = requested
     else:
         eligible = [
@@ -140,6 +143,16 @@ def plan_live_search(
             for capability in capabilities.values()
             if _eligible(capability, allow_context=selected_mode is SearchMode.ALL)
         ]
+        if requested:
+            # ``adaptive`` and ``all`` are planning strategies, not permission
+            # to replace an explicit source scope. This is especially
+            # important for the browser's recommended list and for its bounded
+            # source batches: ignoring the list would issue the same full
+            # federation once per batch. Unknown/restricted names remain
+            # observable through the normal routing summary, while eligible
+            # names are ranked deterministically within the requested scope.
+            requested_set = set(requested)
+            eligible = [item for item in eligible if item.source in requested_set]
         ranked = sorted(eligible, key=lambda item: _eligibility_key(item, active_filters))
         selected = (
             ranked

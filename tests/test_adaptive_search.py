@@ -66,6 +66,56 @@ def test_selected_plan_preserves_explicit_missing_source_for_observable_failure(
     assert plan.omitted_sources == ()
 
 
+def test_adaptive_plan_respects_explicit_scope_before_diversifying() -> None:
+    capabilities = {
+        **{f"tj{index:02d}": _capability(f"tj{index:02d}") for index in range(15)},
+        "restricted": ProviderCapabilities(
+            source="restricted",
+            display_name="restricted",
+            source_url="https://restricted.example",
+            category="court_jurisprudence",
+            supports_unified_search=True,
+            access_statuses=["login_required"],
+        ),
+    }
+
+    plan = plan_live_search(
+        capabilities=capabilities,
+        mode=SearchMode.ADAPTIVE,
+        sources=["tj09", "tj10", "tj11", "restricted"],
+    )
+
+    assert set(plan.sources) <= {"tj09", "tj10", "tj11"}
+    assert set(plan.omitted_sources) == {
+        "tj00",
+        "tj01",
+        "tj02",
+        "tj03",
+        "tj04",
+        "tj05",
+        "tj06",
+        "tj07",
+        "tj08",
+        "tj12",
+        "tj13",
+        "tj14",
+        "restricted",
+    }
+
+
+def test_all_plan_respects_explicit_scope_without_repeating_full_federation() -> None:
+    capabilities = {f"tj{index:02d}": _capability(f"tj{index:02d}") for index in range(6)}
+
+    plan = plan_live_search(
+        capabilities=capabilities,
+        mode=SearchMode.ALL,
+        sources=["tj04", "tj01"],
+    )
+
+    assert plan.sources == ("tj01", "tj04")
+    assert set(plan.omitted_sources) == {"tj00", "tj02", "tj03", "tj05"}
+
+
 def test_all_mode_can_include_context_only_when_explicit() -> None:
     capabilities = {
         "court": _capability("court"),
