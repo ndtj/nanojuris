@@ -51,6 +51,15 @@ CASES: list[dict[str, Any]] = [
         "sources": ["stf_juris", "cjf_jurisprudencia", "tjsp_cjsg", "tjsc_eproc_jurisprudencia"],
         "purpose": "verificacao de diagnosticos sem confundir bloqueio com vazio",
     },
+    {
+        "id": "tjpr-legado-inteiro-teor",
+        "query": "contrato",
+        "sources": ["tjpr_jurisprudencia"],
+        "mode": "legacy",
+        "fetch_details": True,
+        "filters": {"published_from": "2025-01-01"},
+        "purpose": "compatibilidade legada com filtro nativo e link de inteiro teor",
+    },
 ]
 
 
@@ -161,9 +170,20 @@ def _run_case(
         chosen = selected[0] if selected else next(iter(sorted(available)), "")
         if not chosen:
             raise RuntimeError("nenhuma fonte publica foi carregada")
-        page.locator("#search-mode").select_option("selected")
+        page.locator("#search-mode").select_option(case.get("mode", "selected"))
         page.locator("#source").select_option(chosen)
         page.locator("#page-size").select_option("5")
+        case_filters = case.get("filters") or {}
+        if case.get("fetch_details") or case_filters:
+            page.locator("#advanced-filters").click()
+        for name, value in case_filters.items():
+            field = page.locator(f'[data-search-filter="{name}"]')
+            if field.get_attribute("type") == "checkbox":
+                field.check(force=True)
+            else:
+                field.fill(str(value))
+        if case.get("fetch_details"):
+            page.locator('[data-search-filter="fetch_details"]').check(force=True)
         page.locator("#query").fill(case["query"])
         with page.expect_response(
             lambda response: response.url.endswith("/api/v1/search"),
