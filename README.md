@@ -69,6 +69,26 @@ Para usar a biblioteca:
 python -m pip install nanojuris
 ```
 
+As integrações opcionais seguem os extras padrão do Python:
+
+```bash
+python -m pip install "nanojuris[mcp]"
+python -m pip install "nanojuris[studio]"
+```
+
+As buscas federadas podem usar o reranker local, determinístico e explicável
+`legal-live-v1`:
+
+```python
+payload = client.search_many(
+    "responsabilidade civil administrativa",
+    mode="adaptive",
+    ranking_version="legal-live-v1",
+)
+print(payload["results"][0].id)
+print(payload["ranking"])
+```
+
 Para desenvolvimento local:
 
 ```bash

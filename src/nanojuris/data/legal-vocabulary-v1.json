@@ -1,0 +1,53 @@
+{
+  "version": "legal-vocabulary-v1",
+  "command_terms": [
+    "acordao",
+    "decisao",
+    "sentenca",
+    "jurisprudencia",
+    "precedente",
+    "sumula",
+    "ementa",
+    "sobre",
+    "relator"
+  ],
+  "document_types": {
+    "acordao": ["acordao", "acordaos"],
+    "sentenca": ["sentenca", "sentencas"],
+    "decisao_monocratica": ["decisao monocratica", "decisoes monocraticas"],
+    "precedente": ["precedente", "precedentes"],
+    "sumula": ["sumula", "sumulas"]
+  },
+  "concepts": [
+    {
+      "id": "responsabilidade_civil_administrativa",
+      "label": "responsabilidade civil administrativa",
+      "terms": ["responsabilidade civil administrativa"],
+      "expansions": ["responsabilidade civil", "responsabilidade administrativa"]
+    },
+    {
+      "id": "divorcio",
+      "label": "divórcio",
+      "terms": ["divorcio", "divorcios"],
+      "expansions": ["dissolucao do casamento", "dissolucao matrimonial"]
+    },
+    {
+      "id": "dano_moral_inscricao_indevida",
+      "label": "dano moral por inscrição indevida",
+      "terms": ["dano moral", "inscricao indevida"],
+      "expansions": ["cadastro de inadimplentes", "negativacao"]
+    },
+    {
+      "id": "acumulacao_cargos",
+      "label": "acumulação de cargos públicos",
+      "terms": ["acumulacao de cargos", "acumulacao de cargo"],
+      "expansions": ["servidor publico", "compatibilidade de horarios"]
+    },
+    {
+      "id": "prisao_preventiva_contemporaneidade",
+      "label": "contemporaneidade da prisão preventiva",
+      "terms": ["prisao preventiva", "contemporaneidade"],
+      "expansions": ["medida cautelar", "fundamentacao concreta"]
+    }
+  ]
+}

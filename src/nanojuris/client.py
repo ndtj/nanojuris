@@ -82,6 +82,7 @@ from nanojuris.providers.tre_sp_temas import TreSpTemasProvider
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
 from nanojuris.providers.trf5_jurisprudencia import Trf5JurisprudenciaProvider
 from nanojuris.providers.tst_jurisprudencia import TstJurisprudenciaProvider
+from nanojuris.relevance import BM25_VERSION, RANKING_VERSION, LegalLiveRanker
 from nanojuris.routing import (
     JURISPRUDENCE_CATEGORIES,
     _unsupported_refinement_filters,
@@ -89,6 +90,7 @@ from nanojuris.routing import (
     build_source_outcomes,
     route_unified_sources,
 )
+from nanojuris.search_intent import LegalQueryAnalyzer
 from nanojuris.source_contracts import (
     SourceContractAssessment,
     assess_source_contract,
@@ -340,9 +342,19 @@ class NanoJurisClient:
         page_size: int = 10,
         canonical: bool = True,
         continue_on_error: bool = True,
+        ranking_version: str | None = None,
+        mode: str | None = None,
         **filters: Any,
     ) -> dict[str, Any]:
         """Search multiple jurisprudence sources and return one aggregated payload."""
+
+        if ranking_version not in {None, "legacy", RANKING_VERSION}:
+            raise InvalidQueryError(f"versao de ranking desconhecida: {ranking_version}")
+        if mode is not None and mode not in {"legacy", "adaptive", "selected", "all"}:
+            raise InvalidQueryError(f"modo de busca desconhecido: {mode}")
+        effective_ranking_version = ranking_version
+        if mode is not None and mode != "legacy":
+            effective_ranking_version = ranking_version or RANKING_VERSION
 
         unknown_filters = set(filters).difference(self._KNOWN_FILTERS)
         if unknown_filters:
@@ -567,7 +579,39 @@ class NanoJurisClient:
                 }
         executor.shutdown(wait=False, cancel_futures=True)
 
+        native_ranks = {
+            str(getattr(record, "id", "")): index + 1
+            for index, record in enumerate(results)
+            if getattr(record, "id", None)
+        }
         results = _rank_and_deduplicate(results, text=text)
+        ranking_metadata: dict[str, dict[str, Any]] = {}
+        query_intent: dict[str, Any] | None = None
+        if effective_ranking_version == RANKING_VERSION:
+            query_intent_model = LegalQueryAnalyzer().analyze(text)
+            ranked = LegalLiveRanker().diversify_near_ties(
+                LegalLiveRanker().rank(
+                    query_intent_model,
+                    results,
+                    native_ranks=native_ranks,
+                )
+            )
+            results = [item.record for item in ranked]
+            ranking_metadata = {
+                _record_identity(item.record): {
+                    "relevance_score": item.relevance_score,
+                    "matched_terms": list(item.matched_terms),
+                    "matched_concepts": list(item.matched_concepts),
+                    "match_reasons": list(item.match_reasons),
+                    "bm25_score": item.bm25_score,
+                    "bm25_version": BM25_VERSION,
+                    "native_rank": item.native_rank,
+                    "deduplication_group": item.deduplication_group,
+                    "duplicate_sources": list(item.duplicate_sources),
+                }
+                for item in ranked
+            }
+            query_intent = query_intent_model.to_dict()
         offset = (page - 1) * page_size
         paged_results = results[offset : offset + page_size]
         sources_complete = [
@@ -592,7 +636,7 @@ class NanoJurisClient:
         # materialized safely. Only expose a next page when the current
         # in-memory collection actually contains one.
         has_more = page_end < len(results)
-        return {
+        payload = {
             "sources": selected_sources,
             "searched_sources": routing.searched,
             "skipped_sources": [skip.to_dict() for skip in routing.skipped],
@@ -640,6 +684,19 @@ class NanoJurisClient:
             "results": paged_results,
             "errors": errors,
         }
+        if mode is not None:
+            payload["mode"] = mode
+        if effective_ranking_version == RANKING_VERSION:
+            payload.update(
+                {
+                    "ranking_version": RANKING_VERSION,
+                    "bm25_version": BM25_VERSION,
+                    "ranking_complete": True,
+                    "ranking": ranking_metadata,
+                    "query_intent": query_intent,
+                }
+            )
+        return payload
 
     def search_and_store(
         self,

@@ -4,6 +4,17 @@ Todas as mudancas relevantes deste projeto serao documentadas aqui.
 
 ## Unreleased
 
+## 0.5.0 - 2026-09-13
+
+- Adicionado o ranking determinístico `legal-live-v1`, com análise de intenção,
+  BM25 por campos, explicações, deduplicação/diversificação e preservação do
+  ranking nativo da fonte.
+- `NanoJurisClient.search_many` aceita `ranking_version` e `mode`; o modo
+  moderno expõe metadados de ranking e mantém o modo legado compatível.
+- A distribuição foi reduzida para incluir somente runtime, exemplos e
+  documentação pública essencial; testes, fixtures, specs e evidências não
+  entram no wheel ou no sdist.
+
 ## 0.4.0 - 2026-08-30
 
 - Corrigida a rotulagem canonica: informativos, acordaos-resumo e itens de
