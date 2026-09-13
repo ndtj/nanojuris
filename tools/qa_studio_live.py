@@ -60,6 +60,15 @@ CASES: list[dict[str, Any]] = [
         "filters": {"published_from": "2025-01-01"},
         "purpose": "compatibilidade legada com filtro nativo e link de inteiro teor",
     },
+    {
+        "id": "tjpa-inteiro-teor-filtro",
+        "query": "improbidade",
+        "sources": ["tjpa_jurisprudencia_bff"],
+        "mode": "selected",
+        "fetch_details": True,
+        "filters": {"published_from": "2025-01-01"},
+        "purpose": "inteiro teor inline com filtro de publicacao traduzido para o BFF",
+    },
 ]
 
 
