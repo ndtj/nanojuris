@@ -1,6 +1,6 @@
 {
   "schema_version": "provider-capability-ledger-v1",
-  "generated_at": "2026-09-13T16:00:23+00:00",
+  "generated_at": "2026-09-13T20:26:03+00:00",
   "mode": "offline_reconciliation",
   "operational_policy": {
     "live_cache_ttl_seconds": 600.0,
@@ -25,7 +25,7 @@
   "inputs": {
     "catalog": {
       "path": "docs/registry/provider-catalog.full.json",
-      "sha256": "4ecb07b50adb98ff5ad523a8ecfa6195154ddc7cec4994f184eb4a58b59c1e09",
+      "sha256": "9a7261c445b0eb6714f8308383e308751e8150c15712fcbdf9890c3dd5cd5ec4",
       "record_count": 85,
       "generated_at": "2026-09-13"
     },
@@ -43,7 +43,7 @@
     },
     "quality": {
       "path": "docs/quality/provider-quality.json",
-      "sha256": "d7c5d9aac4fc83c3302f695f1802ec2f93a9d6b5589a8b0457dd5a9887edbf0e",
+      "sha256": "2ab119dc47d7332a589f4075de563aea93f42ed998ff537626395c2ac4e20833",
       "record_count": 85,
       "generated_at": "2026-09-13"
     },

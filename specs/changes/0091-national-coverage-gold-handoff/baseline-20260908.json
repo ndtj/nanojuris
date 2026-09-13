@@ -24,7 +24,7 @@
     "pending": 0
   },
   "artifact_sha256": {
-    "docs/registry/provider-catalog.full.json": "4ecb07b50adb98ff5ad523a8ecfa6195154ddc7cec4994f184eb4a58b59c1e09",
+    "docs/registry/provider-catalog.full.json": "9a7261c445b0eb6714f8308383e308751e8150c15712fcbdf9890c3dd5cd5ec4",
     "docs/registry/providers.json": "db75875e73a5ac28a5b654fc4889435e34c3993d0d049782c7c1c94fc67d1796",
     "docs/coverage/surface-state-registry-20260902.json": "09ed987c2ee4e470d46850ef06a407ed24501ccfb56f0fcddb173593f9f0ba64",
     "docs/coverage/fixture-completeness-20260908.json": "aa878dd9db41a52559e786e459358438bdf7d1ef3acdfd6819d3e2e90f31043a",

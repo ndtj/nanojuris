@@ -5,7 +5,7 @@ Gerado por o build_provider_quality.py --write; nao edite manualmente.
 Este scorecard e offline e independente da saude live. Um bloqueio de rede, WAF,
 CAPTCHA ou timeout permanece explicito em live_status e nunca e convertido em vazio.
 
-- Catalogo avaliado: docs/registry/provider-catalog.full.json (4ecb07b50adb...).
+- Catalogo avaliado: docs/registry/provider-catalog.full.json (9a7261c445b0...).
 - Providers runtime avaliados: **80** de **85** entradas.
 - Providers com lacuna critica: **0**.
 - Providers bloqueados ou sem live recente: **8**.
