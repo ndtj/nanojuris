@@ -546,6 +546,27 @@ class NanoJurisClient:
             raise InvalidQueryError(str(exc)) from exc
         provider = self._provider(source)
         capability = provider.get_capabilities()
+        missing_scopes = sorted(
+            name
+            for name, status in capability.filter_semantics.items()
+            if status == "required_scope"
+            and not str(
+                filters.get(name)
+                or {
+                    "authority": query.authority,
+                    "branch": query.branch,
+                    "degree": query.degree,
+                    "instance": query.instance,
+                    "collection": query.collection,
+                }.get(name)
+                or ""
+            ).strip()
+        )
+        if missing_scopes:
+            labels = ", ".join(missing_scopes)
+            raise UnsupportedQueryError(
+                f"A fonte {source!r} exige filtro de escopo explicito: {labels}."
+            )
         # A single-source search has the same safety contract as federation:
         # exact identifiers must not be sent to a provider that does not
         # declare support.  Returning a warning after the call is too late,

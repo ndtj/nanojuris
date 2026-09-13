@@ -160,6 +160,38 @@ def test_single_source_search_rejects_undeclared_identifier_before_provider_call
     assert provider.called is False
 
 
+def test_single_source_search_rejects_missing_required_scope_before_provider_call():
+    class ScopedProvider:
+        name = "scoped_spy"
+        called = False
+
+        def search(self, _query: JurisprudenceQuery) -> SearchPage:
+            self.called = True
+            raise AssertionError("provider must not receive an unscoped query")
+
+        def get_capabilities(self) -> ProviderCapabilities:
+            return ProviderCapabilities(
+                source=self.name,
+                display_name="Scoped spy",
+                source_url="https://example.test",
+                category="jurisprudence",
+                supports_unified_search=False,
+                supported_filters=["text", "authority"],
+                filter_semantics={"text": "native", "authority": "required_scope"},
+            )
+
+    provider = ScopedProvider()
+    client = NanoJurisClient(providers=[provider])
+    with pytest.raises(UnsupportedQueryError, match="authority"):
+        client.search("direito administrativo", source=provider.name)
+    assert provider.called is False
+
+    with pytest.raises(AssertionError):
+        # The scoped call reaches the provider; this assertion documents that
+        # the guard only rejects the missing precondition.
+        client.search("direito administrativo", source=provider.name, authority="TRF4")
+
+
 def test_unified_router_treats_empty_filter_declaration_as_unsupported_identifier():
     capability = ProviderCapabilities(
         source="fixture",
