@@ -759,6 +759,32 @@ _TJDF_LIST_ROW = re.compile(
     re.IGNORECASE | re.DOTALL,
 )
 
+# SISTJ appends the judgment date, publication date and the judging body to
+# the end of each list row.  The body label is not stable (for example,
+# ``7ª Turma Cível`` or ``2a Turma Civel``), so only the two dates are part of
+# the contract and the remaining suffix is treated as presentation metadata.
+_TJDF_LIST_DATE_SUFFIX = re.compile(
+    r"(?P<judgment_date>\d{2}/\d{2}/\d{4})\s+"
+    r"(?P<publication_date>\d{2}/\d{2}/\d{4})"
+    r"(?:\s+.*)?\s*$",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _extract_tjdf_list_dates(value: str) -> tuple[str | None, str | None, str]:
+    """Extract trailing SISTJ dates and return text without presentation suffix.
+
+    Dates are emitted only by the live HTML list contract; older fixtures and
+    alternate layouts may omit them.  In that case the original text is
+    returned unchanged so the parser remains lossless.
+    """
+
+    match = _TJDF_LIST_DATE_SUFFIX.search(value)
+    if not match:
+        return None, None, value
+    prefix = value[: match.start()].rstrip(" -;,.\t\r\n")
+    return match.group("judgment_date"), match.group("publication_date"), prefix
+
 
 def _split_tjdf_list_row(
     list_text: str, *, document_id: str
@@ -823,6 +849,10 @@ def parse_tjdf_list_results(
         summary, rapporteur, process_number = _split_tjdf_list_row(
             list_text, document_id=document_id
         )
+        judgment_date, publication_date, summary_without_dates = _extract_tjdf_list_dates(
+            summary or ""
+        )
+        summary = summary_without_dates or None
         results.append(
             JurisprudenceResult(
                 id=f"tjdf-acordao-{document_id}",
@@ -832,6 +862,10 @@ def parse_tjdf_list_results(
                 number=document_id,
                 summary=summary,
                 rapporteur=rapporteur,
+                updated_at=publication_date or judgment_date,
+                judgment_date=judgment_date,
+                publication_date=publication_date,
+                source_updated_at=publication_date or judgment_date,
                 degree="second",
                 instance="second",
                 branch="state",
@@ -845,6 +879,8 @@ def parse_tjdf_list_results(
                 raw={
                     "registry_number": document_id,
                     "process_number": process_number,
+                    "judgment_date": judgment_date,
+                    "publication_date": publication_date,
                     "document_url": _tjdf_document_url(base_url, document_id),
                     "list_metadata_only": True,
                     "list_text": list_text,

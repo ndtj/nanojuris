@@ -400,6 +400,31 @@ def test_list_results_extract_ementa_from_row_blob():
     assert result.id == "tjdf-acordao-2162430"
 
 
+def test_list_results_extract_trailing_dates_without_polluting_summary():
+    html = (
+        "<ul><li>"
+        '<span id="id_link_abrir_dados_acordao_0">2171882</span>'
+        " 1 2171882 1689 Relator(a): JANSEN FIALHO DE ALMEIDA "
+        "Processo: 07195792720248070018 Ementa: RESPONSABILIDADE CIVIL. "
+        "DANOS MORAIS. 02/09/2026 12/09/2026 7ª Turma Cível"
+        "</li></ul>"
+    )
+    trace = SourceTrace(provider="tjdf_juris", endpoint="/IndexadorAcordaos-web/sistj")
+
+    results = parse_tjdf_list_results(html, trace=trace)
+
+    assert len(results) == 1
+    result = results[0]
+    assert result.judgment_date == "02/09/2026"
+    assert result.publication_date == "12/09/2026"
+    assert result.updated_at == "12/09/2026"
+    assert result.source_updated_at == "12/09/2026"
+    assert result.raw["judgment_date"] == "02/09/2026"
+    assert result.raw["publication_date"] == "12/09/2026"
+    assert "02/09/2026" not in (result.summary or "")
+    assert "7ª Turma Cível" not in (result.summary or "")
+
+
 def test_list_results_relocate_rows_when_the_id_selector_breaks():
     """If SISTJ renames the acordao link id, the rows are relocated by structure
     and the recovery is recorded on the trace instead of returning nothing."""
