@@ -183,6 +183,7 @@ def route_unified_sources(
             capability,
             has_identifier=has_identifier,
             identifier_filters=identifier_filters,
+            filters=filters,
             opt_in_allowed=source in opt_in_sources,
             allow_non_unified=allow_non_unified,
         )
@@ -284,6 +285,7 @@ def _skip_reason(
     *,
     has_identifier: bool,
     identifier_filters: set[str],
+    filters: dict[str, Any],
     opt_in_allowed: bool = False,
     allow_non_unified: bool = False,
 ) -> SourceSkip | None:
@@ -307,6 +309,27 @@ def _skip_reason(
             message=(
                 "Consulta processual pertence ao NanoJud e nao participa da busca "
                 "textual de jurisprudencia do NanoJuris."
+            ),
+        )
+
+    # Some providers expose a unified endpoint but require an explicit scope
+    # (for example, authority/tribunal) before accepting a query.  Treat this
+    # as a routing precondition rather than calling the remote endpoint with an
+    # incomplete request that would only produce a noisy provider error.
+    missing_scopes = sorted(
+        name
+        for name, status in capability.filter_semantics.items()
+        if status == "required_scope" and not _has_value(filters.get(name))
+    )
+    if missing_scopes:
+        labels = ", ".join(missing_scopes)
+        return SourceSkip(
+            source=capability.source,
+            category=capability.category,
+            reason="required_scope_missing",
+            message=(
+                f"A fonte exige filtro de escopo explicito ({labels}); "
+                "informe-o para consultar esta fonte."
             ),
         )
 

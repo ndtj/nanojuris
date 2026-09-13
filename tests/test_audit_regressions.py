@@ -101,6 +101,39 @@ def test_unified_router_skips_source_without_on_demand_full_text():
     assert routed.skipped[0].reason == "filter_not_supported"
 
 
+def test_unified_router_skips_provider_when_required_scope_is_missing():
+    capability = ProviderCapabilities(
+        source="scoped_fixture",
+        display_name="Scoped fixture",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        supports_unified_search=True,
+        supported_filters=["text", "authority"],
+        filter_semantics={"text": "native", "authority": "required_scope"},
+    )
+
+    routed = route_unified_sources(
+        selected_sources=["scoped_fixture"],
+        capabilities={"scoped_fixture": capability},
+        text="direito administrativo",
+        filters={},
+    )
+
+    assert routed.searched == []
+    assert routed.warnings == []
+    assert routed.skipped[0].reason == "required_scope_missing"
+    assert "authority" in routed.skipped[0].message
+
+    scoped = route_unified_sources(
+        selected_sources=["scoped_fixture"],
+        capabilities={"scoped_fixture": capability},
+        text="direito administrativo",
+        filters={"authority": "TJSP"},
+    )
+    assert scoped.searched == ["scoped_fixture"]
+    assert scoped.skipped == []
+
+
 def test_single_source_search_rejects_undeclared_identifier_before_provider_call():
     class SpyProvider:
         name = "spy"
