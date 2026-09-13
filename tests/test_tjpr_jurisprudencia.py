@@ -281,8 +281,20 @@ def test_tjpr_payload_translates_public_native_selection_ids_and_judgment_dates(
     assert payload["idOrgaoJulgador"] == "78"
     assert payload["idClasseProcessual"] == "90"
     assert payload["idsTipoDecisaoSelecionadosString"] == "2,3"
-    assert payload["dataJulgamentoInicio"] == "2024-01-01"
-    assert payload["dataJulgamentoFim"] == "2024-12-31"
+    assert payload["dataJulgamentoInicio"] == "01/01/2024"
+    assert payload["dataJulgamentoFim"] == "31/12/2024"
+
+
+def test_tjpr_payload_translates_canonical_publication_dates():
+    payload = _query_payload(
+        JurisprudenceQuery(
+            text="responsabilidade civil",
+            published_from="2024-01-01",
+            published_to="2024-12-31",
+        )
+    )
+    assert payload["dataPublicacaoInicio"] == "01/01/2024"
+    assert payload["dataPublicacaoFim"] == "31/12/2024"
 
 
 @pytest.mark.parametrize(

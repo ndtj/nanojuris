@@ -665,10 +665,15 @@ def _query_payload(query: JurisprudenceQuery) -> dict[str, str]:
     payload = {
         "criterioPesquisa": query.text or query.exact_phrase or query.number,
         "processo": query.number,
-        "dataPublicacaoInicio": query.published_from,
-        "dataPublicacaoFim": query.published_to,
-        "dataJulgamentoInicio": judgment_from,
-        "dataJulgamentoFim": judgment_to,
+        # The canonical query contract uses ISO dates, while TJPR's public
+        # Struts form parses dates strictly as ``dd/MM/yyyy``.  Sending ISO
+        # values makes the portal return its intranet error shell (which the
+        # parser correctly classifies as a contract failure) instead of
+        # applying the requested range.
+        "dataPublicacaoInicio": _format_tjpr_date(query.published_from),
+        "dataPublicacaoFim": _format_tjpr_date(query.published_to),
+        "dataJulgamentoInicio": _format_tjpr_date(judgment_from),
+        "dataJulgamentoFim": _format_tjpr_date(judgment_to),
         "pageSize": str(min(query.page_size, 50)),
         "pageNumber": str(query.page),
         "page": str(query.page),
@@ -763,6 +768,23 @@ def _parse_br_date(value: str) -> str | None:
     if not match:
         return None
     return datetime.strptime(match.group(0), "%d/%m/%Y").date().isoformat()
+
+
+def _format_tjpr_date(value: str | None) -> str:
+    """Translate canonical ISO dates to the format accepted by TJPR's form."""
+
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    for input_format in ("%Y-%m-%d", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(text, input_format).strftime("%d/%m/%Y")
+        except ValueError:
+            continue
+    # JurisprudenceQuery validates normal date ranges, but preserving an
+    # unexpected value here keeps this translator non-destructive for custom
+    # callers and lets the source return its normal validation response.
+    return text
 
 
 def _first_match(pattern: re.Pattern[str], text: str) -> str | None:
