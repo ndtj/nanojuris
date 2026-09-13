@@ -41,6 +41,14 @@ def test_packaged_catalog_matches_documentation_catalog() -> None:
     assert get_provider_catalog_entry("tjdf_juris")["source_id"] == "tjdf_juris"
 
 
+def test_compact_runtime_catalog_has_no_replacement_characters() -> None:
+    compact = json.loads(
+        (ROOT / "src" / "nanojuris" / "data" / "provider-catalog.json").read_text(encoding="utf-8")
+    )
+
+    assert "\ufffd" not in json.dumps(compact, ensure_ascii=False)
+
+
 def test_provider_coverage_docs_are_current() -> None:
     catalog = build_catalog()
 
