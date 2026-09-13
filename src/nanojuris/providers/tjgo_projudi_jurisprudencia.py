@@ -15,6 +15,7 @@ from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -72,6 +73,7 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
         self._results: dict[str, JurisprudenceResult] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
+        _validate_fixed_scope(query)
         # The federated/default route is the appellate binding. Callers that
         # explicitly request first degree keep the historical provider
         # behaviour, while an unqualified search is pinned to PROJUDI's
@@ -273,6 +275,8 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
                 "decision_type",
                 "collection",
                 "document_type",
+                "branch",
+                "authority",
             ],
             unsupported_filters=[
                 "courts",
@@ -291,9 +295,7 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
                 "fetch_details",
                 "case_class",
                 "judging_body",
-                "branch",
                 "legal_area",
-                "authority",
                 "judgment_date_from",
                 "judgment_date_to",
             ],
@@ -326,9 +328,9 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
                 "fetch_details": "unsupported",
                 "case_class": "unsupported",
                 "judging_body": "unsupported",
-                "branch": "unsupported",
+                "branch": "validated_scope",
                 "legal_area": "unsupported",
-                "authority": "unsupported",
+                "authority": "validated_scope",
                 "collection": "translated",
                 "document_type": "translated",
                 "judgment_date_from": "unsupported",
@@ -631,6 +633,28 @@ def _build_payload(query: JurisprudenceQuery) -> dict[str, str]:
         "g-recaptcha-response": "",
         "Localizar": "Consultar",
     }
+
+
+def _validate_fixed_scope(query: JurisprudenceQuery) -> None:
+    """Validate filters represented by the provider's fixed TJGO scope.
+
+    Projudi is a TJGO/state-court endpoint, so these fields are not sent as
+    form parameters.  They are nevertheless real filters: a request for a
+    different authority or branch must be rejected instead of silently
+    returning TJGO records while the UI reports the filter as unsupported.
+    """
+
+    authority = _normalize_text(query.authority).casefold()
+    if authority and authority not in {"tjgo", "tribunal de justica de goias"}:
+        raise QueryRejectedError(
+            f"a autoridade solicitada nao corresponde ao TJGO Projudi: {query.authority!r}"
+        )
+
+    branch = _normalize_text(query.branch).casefold()
+    if branch and branch not in {"state", "estadual", "justica estadual"}:
+        raise QueryRejectedError(
+            f"TJGO Projudi pertence ao ramo estadual; recebido {query.branch!r}"
+        )
 
 
 def _map_instance(query: JurisprudenceQuery) -> str:

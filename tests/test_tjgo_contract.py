@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import pytest
+
 from nanojuris.config import NanoJurisConfig
+from nanojuris.errors import QueryRejectedError
 from nanojuris.models import JurisprudenceQuery
 from nanojuris.providers.tjgo_projudi_jurisprudencia import (
     TjgoProjudiJurisprudenciaProvider,
@@ -80,4 +83,17 @@ def test_tjgo_capability_classifies_every_common_filter() -> None:
     assert common <= set(capability.filter_semantics)
     assert all(capability.filter_status(name) != "unverified" for name in common)
     assert capability.filter_status("degree") == "translated"
+    assert capability.filter_status("authority") == "validated_scope"
+    assert capability.filter_status("branch") == "validated_scope"
     assert capability.filter_status("case_class") == "unsupported"
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [("authority", "TJSP"), ("branch", "federal")],
+)
+def test_tjgo_rejects_incompatible_fixed_scope(field: str, value: str) -> None:
+    provider = TjgoProjudiJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+
+    with pytest.raises(QueryRejectedError):
+        provider.search(JurisprudenceQuery(text="dano moral", **{field: value}))

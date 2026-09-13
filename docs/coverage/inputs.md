@@ -39,7 +39,7 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `tjes_cjpg` | sim | text, exact_phrase, number, rapporteur, updated_from, updated_to, order_by | `offset` | nao | nao |
 | `tjes_jurisprudencia` | sim | text, exact_phrase, number, page | `offset` | nao | nao |
 | `tjes_turma_recursal` | sim | text, exact_phrase, number, page | `offset` | nao | nao |
-| `tjgo_projudi_jurisprudencia` | sim | text, exact_phrase, number, types, updated_from, updated_to, published_from, published_to, degree, instance, source_origin, decision_type, collection, document_type | `page` | nao | nao |
+| `tjgo_projudi_jurisprudencia` | sim | text, exact_phrase, number, types, updated_from, updated_to, published_from, published_to, degree, instance, source_origin, decision_type, collection, document_type, branch, authority | `page` | nao | nao |
 | `tjma_informativos` | nao | page, authority, branch, degree, instance, collection | `local_window` | sim | nao |
 | `tjma_jurisconsult` | nao | types, catalog, text, exact_phrase, case_class, judging_body, rapporteur, published_from, published_to, page | `offset` | sim | nao |
 | `tjmg_dspace_jurisprudencia` | sim | text, exact_phrase, number, degree, instance, branch, page | `merged_collection_page` | nao | nao |
