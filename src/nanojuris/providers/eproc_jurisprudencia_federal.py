@@ -30,6 +30,7 @@ from nanojuris.providers.base import JurisprudenceProvider
 from nanojuris.providers.tjsp_eproc_jurisprudencia import (
     _extract_document_id,
     _looks_like_access_control,
+    _looks_like_source_unavailable,
     fetch_eproc_page,
 )
 from nanojuris.providers.trf4_eproc_jurisprudencia import Trf4EprocJurisprudenciaProvider
@@ -352,6 +353,8 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
             )
         if _looks_like_access_control(text):
             raise AccessControlRequiredError(f"{self.source_label} returned access-control HTML")
+        if _looks_like_source_unavailable(text):
+            raise SourceUnavailableError(f"{self.source_label} source is temporarily unavailable")
         return text, response_url
 
 

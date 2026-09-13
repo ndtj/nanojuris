@@ -7,7 +7,7 @@ import requests
 
 from nanojuris.canonical import search_page_to_canonical
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import AccessControlRequiredError
+from nanojuris.errors import AccessControlRequiredError, SourceUnavailableError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.eproc_jurisprudencia_federal import (
     FederalEprocJurisprudenciaFamilyProvider,
@@ -197,6 +197,20 @@ def test_federal_eproc_detects_access_control_without_bypass():
     )
 
     with pytest.raises(AccessControlRequiredError):
+        provider.search(JurisprudenceQuery(text="teste"))
+
+
+def test_federal_eproc_classifies_http_210_maintenance_page_as_source_unavailable():
+    maintenance = """
+    <html><head><title>Estamos indispon&iacute;veis</title></head>
+    <body>O servico sera restabelecido em breve.</body></html>
+    """
+    provider = TnuEprocJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([FakeResponse(maintenance, status_code=210)]),
+    )
+
+    with pytest.raises(SourceUnavailableError, match="temporarily unavailable"):
         provider.search(JurisprudenceQuery(text="teste"))
 
 

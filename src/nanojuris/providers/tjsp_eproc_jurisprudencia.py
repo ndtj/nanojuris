@@ -992,6 +992,24 @@ def _looks_like_access_control(html: str) -> bool:
     )
 
 
+def _looks_like_source_unavailable(html: str) -> bool:
+    """Recognize the eproc maintenance page returned with HTTP 210.
+
+    Some installations return a successful transport status for a plain
+    ``Estamos indisponíveis`` page.  It is an operational outage, not a
+    changed result-card contract, and must be surfaced as such to federation.
+    """
+
+    soup = BeautifulSoup(html, "html.parser")
+    title = _normalize_label(soup.title.get_text(" ", strip=True) if soup.title else "")
+    return title in {
+        "estamos indisponiveis",
+        "estamos indisponíveis",
+        "servico temporariamente indisponivel",
+        "serviço temporariamente indisponível",
+    }
+
+
 def _digits(value: object) -> str:
     return "".join(char for char in str(value or "") if char.isdigit())
 
