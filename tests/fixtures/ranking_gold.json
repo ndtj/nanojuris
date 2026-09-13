@@ -1,0 +1,9 @@
+{
+  "version": "legal-live-v1-gold-1",
+  "cases": [
+    {
+      "query": "responsabilidade civil administrativa",
+      "expected_top_id": "relevant"
+    }
+  ]
+}

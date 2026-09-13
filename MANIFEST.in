@@ -2,24 +2,20 @@ include README.md
 include LICENSE
 include CHANGELOG.md
 include CODE_OF_CONDUCT.md
-include CONTRIBUTING.md
 include SECURITY.md
-include SPECS.md
 include CITATION.cff
 include MAINTAINERS.md
 include GOVERNANCE.md
-recursive-include docs *.md
 recursive-include examples *.py
-recursive-include tests *.py
-recursive-include tests/fixtures *.json
-recursive-include tests/fixtures *.html
-recursive-include src/nanojuris/web/static *.html
-recursive-include src/nanojuris/web/static/assets *.css
-recursive-include src/nanojuris/web/static/assets *.js
-recursive-include src/nanojuris/web/static/assets *.svg
-recursive-include frontend *.html
-recursive-include frontend *.json
-recursive-include frontend/src *.tsx
-recursive-include frontend/src *.css
-prune frontend/node_modules
-prune frontend/node_modules.deno
+# Runtime data only. Tests, fixtures, specs, research reports and frontend
+# source are repository-only and are not part of the source distribution.
+recursive-include src/nanojuris/data *.json
+prune docs
+prune frontend
+prune specs
+prune tests
+prune tools
+prune artifacts
+prune test-results
+prune .artifacts
+prune .github

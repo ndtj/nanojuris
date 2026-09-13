@@ -23,6 +23,12 @@ site/
 .build-tmp/
 .tmp-prepush/
 .dist-prepush/
+.dist-release/
+dist-release/
+.release-extract*/
+.release-wheel.zip
+.release-install/
+.pytest-release/
 .smoke-venv/
 .build-temp-root/
 .pytest-basetemp-*/

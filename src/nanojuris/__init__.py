@@ -59,6 +59,14 @@ from nanojuris.normalization import (
     normalize_url,
 )
 from nanojuris.parsing import HtmlDocument, HtmlNode, HtmlNodes, parse_html
+from nanojuris.relevance import (
+    BM25_VERSION,
+    RANKING_VERSION,
+    BM25Scorer,
+    LegalLiveRanker,
+    RankedResult,
+)
+from nanojuris.search_intent import LegalConceptMatch, LegalQueryAnalyzer, QueryIntent
 from nanojuris.source_contracts import (
     SourceContractAssessment,
     assess_source_contract,
@@ -99,6 +107,8 @@ __all__ = [
     "HtmlDocument",
     "HtmlNode",
     "HtmlNodes",
+    "BM25Scorer",
+    "BM25_VERSION",
     "ImplementationStatus",
     "get_court",
     "JurisprudenceQuery",
@@ -106,6 +116,9 @@ __all__ = [
     "list_courts",
     "NanoJurisClient",
     "NanoJurisConfig",
+    "LegalConceptMatch",
+    "LegalLiveRanker",
+    "LegalQueryAnalyzer",
     "normalize_cnj_number",
     "normalize_date_value",
     "normalize_decision_type",
@@ -125,6 +138,9 @@ __all__ = [
     "ProviderCatalog",
     "ProviderOption",
     "QueryRejectedError",
+    "QueryIntent",
+    "RANKING_VERSION",
+    "RankedResult",
     "ResearchRun",
     "result_to_canonical_decision",
     "result_to_canonical_precedent",
@@ -143,4 +159,4 @@ __all__ = [
     "summarize_contracts",
 ]
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
