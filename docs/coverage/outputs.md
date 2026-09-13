@@ -48,7 +48,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `tjms_cjsg` | CanonicalDecision, CanonicalDocument | acordao, homologation, decision | html | 12 | sim | sim |
 | `tjmsp_jurisprudencia` | CanonicalDecision | acordao, decisao | html, pdf | 13 | nao | sim |
 | `tjmt_jurisprudencia_api` | CanonicalDecision | acordao, decisao_monocratica | json, html, text | 11 | sim | sim |
-| `tjpa_jurisprudencia_bff` | CanonicalDecision | acordao, decisao_monocratica | json | 10 | sim | sim |
+| `tjpa_jurisprudencia_bff` | CanonicalDecision | acordao, decisao_monocratica | json | 11 | sim | sim |
 | `tjpb_pje_jurisprudencia` | CanonicalDecision, CanonicalDocument | jurisprudencia_pje, acordao, decisao | json, html | 5 | sim | sim |
 | `tjpe_jurisprudencia` | CanonicalDecision | acordao, decisao | json, html | 9 | sim | sim |
 | `tjpi_juspi` | CanonicalDecision, CanonicalDocument | acordao, decisao_terminativa | html | 11 | sim | sim |

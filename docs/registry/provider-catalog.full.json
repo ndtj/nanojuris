@@ -16067,7 +16067,8 @@
           "published_to",
           "case_class",
           "subject",
-          "rapporteur"
+          "rapporteur",
+          "fetch_details"
         ],
         "supports_catalog": true,
         "supports_suggestions": false,
@@ -16188,6 +16189,7 @@
           "case_class",
           "subject",
           "rapporteur",
+          "fetch_details",
           "judging_body",
           "judgment_date",
           "publication_date",
@@ -16235,7 +16237,8 @@
           "published_to",
           "case_class",
           "subject",
-          "rapporteur"
+          "rapporteur",
+          "fetch_details"
         ],
         "supports_catalog": true,
         "supports_suggestions": false,
@@ -16267,6 +16270,7 @@
             "case_class",
             "subject",
             "rapporteur",
+            "fetch_details",
             "judging_body",
             "judgment_date",
             "publication_date",

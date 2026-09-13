@@ -51,7 +51,7 @@ semantica do campo; mede declaracao objetiva no contrato do provider.
 | `tjms_cjsg` | 1 | 4 | 3 | 1 | 1 | 12 |
 | `tjmsp_jurisprudencia` | 1 | 7 | 3 | 2 | 1 | 13 |
 | `tjmt_jurisprudencia_api` | 1 | 5 | 2 | 2 | 0 | 11 |
-| `tjpa_jurisprudencia_bff` | 1 | 5 | 2 | 2 | 0 | 10 |
+| `tjpa_jurisprudencia_bff` | 1 | 5 | 2 | 2 | 0 | 11 |
 | `tjpb_pje_jurisprudencia` | 1 | 1 | 0 | 1 | 1 | 5 |
 | `tjpe_jurisprudencia` | 1 | 3 | 2 | 2 | 0 | 9 |
 | `tjpi_juspi` | 1 | 5 | 2 | 1 | 1 | 11 |

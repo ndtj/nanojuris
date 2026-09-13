@@ -2216,6 +2216,7 @@
         "case_class",
         "subject",
         "rapporteur",
+        "fetch_details",
         "judging_body",
         "judgment_date",
         "publication_date",
