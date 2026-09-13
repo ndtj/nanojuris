@@ -474,7 +474,11 @@ def _decode_response_text(content: bytes, content_type: str | None) -> str:
         match = re.search(r"charset\s*=\s*['\"]?([^;\s'\"]+)", content_type, re.I)
         if match:
             charset = match.group(1)
-    for encoding in (charset, "ISO-8859-1", "utf-8"):
+    # SISTJ has historically omitted or misreported its charset while
+    # returning UTF-8 bytes. Prefer a strict UTF-8 decode first; genuine
+    # ISO-8859-1 pages fall through to the advertised/legacy encodings when
+    # their byte sequence is not valid UTF-8.
+    for encoding in ("utf-8", charset, "ISO-8859-1"):
         if not encoding:
             continue
         try:

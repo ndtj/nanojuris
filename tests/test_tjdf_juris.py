@@ -20,6 +20,7 @@ from nanojuris.providers.tjdf_juris import (
     _build_api_payload,
     _build_initial_params,
     _build_results_params,
+    _decode_response_text,
     parse_tjdf_api_response,
     parse_tjdf_detail,
     parse_tjdf_list_results,
@@ -70,6 +71,14 @@ def load_fixture(name: str) -> str:
 def test_parse_tjdf_search_contract():
     assert parse_tjdf_total(load_fixture("tjdf_juris_initial.html")) == 31
     assert parse_tjdf_result_ids(load_fixture("tjdf_juris_results.html")) == ["1917641", "1907747"]
+
+
+def test_decode_tjdf_prefers_utf8_when_server_omits_or_misreports_charset() -> None:
+    payload = "Ação civil pública — responsabilidade".encode()
+
+    assert _decode_response_text(payload, "text/html; charset=ISO-8859-1") == (
+        "Ação civil pública — responsabilidade"
+    )
 
 
 def test_search_maps_tjdf_jurisprudence_result():
