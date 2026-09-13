@@ -133,9 +133,9 @@ def test_rtf_unicode_escapes_are_decoded_without_visible_garbage() -> None:
     assert card is not None
     card["x-data"] = (
         r"textToCopy: '{\rtf1\ansi{\fonttbl{\f0 Futura-Light;}} "
-        r"Chamo o feito \u00e0 ordem. A\u0027e7\u0027e3o.}'"
+        r"Chamo o feito \u00e0 ordem. A\u0027e7\u0027e3o. \u0093ok\u0094}'"
     )
 
     text = _extract_rtf_text(card)
 
-    assert text == "Chamo o feito à ordem. Ação."
+    assert text == "Chamo o feito à ordem. Ação. “ok”"

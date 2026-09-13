@@ -54,7 +54,9 @@ packages = {find = {where = ["src"], include = ["nanojuris*"]}}
 [tool.setuptools.package-data]
 nanojuris = [
   "py.typed",
-  "data/*.json",
+  "data/provider-catalog.json",
+  "data/legal-vocabulary-v1.json",
+  "data/selector_fingerprints.json",
   "web/static/index.html",
   "web/static/assets/*"
 ]

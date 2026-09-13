@@ -1,4 +1,10 @@
-"""Read the generated provider catalog shipped with the NanoJuris package."""
+"""Read the provider capability catalog shipped with NanoJuris.
+
+The repository keeps the full evidence-rich registry under ``docs/`` and, for
+source-checkout compatibility, may also expose its generated copy under
+``src``. Published artifacts ship only the compact runtime projection so the
+library remains small without losing the provider identity/capability contract.
+"""
 
 from __future__ import annotations
 
@@ -13,12 +19,19 @@ def load_provider_catalog() -> dict[str, Any]:
     """Return the packaged machine-readable catalog, or an empty catalog in development."""
 
     try:
-        raw = (
-            resources.files("nanojuris")
-            .joinpath("data/provider-catalog.full.json")
-            .read_text(encoding="utf-8")
-        )
-    except (FileNotFoundError, ModuleNotFoundError):
+        package_data = resources.files("nanojuris").joinpath("data")
+        # Prefer the full registry in a development checkout so audit tooling
+        # retains its evidence-rich behavior.  Wheels/sdists include only the
+        # compact projection below.
+        for filename in ("provider-catalog.full.json", "provider-catalog.json"):
+            try:
+                raw = package_data.joinpath(filename).read_text(encoding="utf-8")
+                break
+            except FileNotFoundError:
+                continue
+        else:
+            return {"entries": []}
+    except ModuleNotFoundError:
         return {"entries": []}
     return json.loads(raw)
 

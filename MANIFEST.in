@@ -7,9 +7,11 @@ include CITATION.cff
 include MAINTAINERS.md
 include GOVERNANCE.md
 recursive-include examples *.py
-# Runtime data only. Tests, fixtures, specs, research reports and frontend
-# source are repository-only and are not part of the source distribution.
-recursive-include src/nanojuris/data *.json
+# Runtime data only. The full evidence-rich provider registry remains in the
+# repository docs; published artifacts carry the compact capability projection.
+include src/nanojuris/data/provider-catalog.json
+include src/nanojuris/data/legal-vocabulary-v1.json
+include src/nanojuris/data/selector_fingerprints.json
 prune docs
 prune frontend
 prune specs
