@@ -20,11 +20,11 @@ documentacao, QA, Studio, MCP e jurimetria.
 
 | Fonte | Total | Entrada | Saida | Confiabilidade | Docs | Produto | Grau |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `tjpa_jurisprudencia_bff` | 95 | 19 | 25 | 16 | 20 | 15 | `A` |
 | `tjpb_pje_jurisprudencia` | 95 | 19 | 25 | 16 | 20 | 15 | `A` |
 | `tnu_eproc_jurisprudencia` | 95 | 17 | 25 | 18 | 20 | 15 | `A` |
 | `tjba_graphql` | 94 | 19 | 25 | 16 | 19 | 15 | `A` |
 | `tjdf_juris` | 94 | 17 | 25 | 18 | 19 | 15 | `A` |
+| `tjpa_jurisprudencia_bff` | 94 | 18 | 25 | 16 | 20 | 15 | `A` |
 | `trf2_eproc_jurisprudencia` | 94 | 17 | 25 | 18 | 19 | 15 | `A` |
 | `trf6_eproc_jurisprudencia` | 94 | 17 | 25 | 18 | 19 | 15 | `A` |
 | `tst_jurisprudencia` | 94 | 19 | 25 | 16 | 19 | 15 | `A` |

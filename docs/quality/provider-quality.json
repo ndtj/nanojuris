@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "generated_at": "2026-09-13",
   "source_catalog": "docs/registry/provider-catalog.full.json",
-  "catalog_sha256": "2f040f12c3e211877f7116c27b4123d8c7437aba22180c88fc6c80501cbb3711",
+  "catalog_sha256": "3120fed4a209aea1ab0a9a62b10f8e236b9bce20b73bbe76f72d5e2b9703530c",
   "scope": {
     "network": false,
     "runtime_scorecards": 80,

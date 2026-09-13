@@ -51,7 +51,7 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `tjms_cjsg` | sim | text, number, exact_phrase, case_class, judging_body, updated_from, updated_to, published_from, published_to, types, order_by | `page` | nao | nao |
 | `tjmsp_jurisprudencia` | sim | - | `unknown_until_contract` | nao | nao |
 | `tjmt_jurisprudencia_api` | sim | text, exact_phrase, all_words, any_words, without_words, number, published_from, published_to, types, order_by | `page` | nao | nao |
-| `tjpa_jurisprudencia_bff` | sim | text, types, source_origins, published_from, published_to, case_class, subject, rapporteur, fetch_details | `page` | sim | nao |
+| `tjpa_jurisprudencia_bff` | sim | text, types, source_origins, published_from, published_to, fetch_details | `page` | sim | nao |
 | `tjpb_pje_jurisprudencia` | sim | text, number, case_class, judging_body, rapporteur, published_from, published_to, judgment_date_from, judgment_date_to, source_origin, degree, instance | `page` | sim | nao |
 | `tjpe_jurisprudencia` | sim | text, number, rapporteur, case_class, published_from, published_to, judgment_date_from, judgment_date_to, types, order_by | `offset` | nao | nao |
 | `tjpi_juspi` | sim | text, exact_phrase, number, types, rapporteur, source_origin, updated_from, updated_to, degree, instance, decision_type | `page` | nao | nao |

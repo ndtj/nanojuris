@@ -241,9 +241,6 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "source_origins",
                 "published_from",
                 "published_to",
-                "case_class",
-                "subject",
-                "rapporteur",
                 "fetch_details",
             ],
             filter_semantics={

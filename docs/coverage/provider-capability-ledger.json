@@ -1,6 +1,6 @@
 {
   "schema_version": "provider-capability-ledger-v1",
-  "generated_at": "2026-09-13T21:42:33+00:00",
+  "generated_at": "2026-09-13T22:07:08+00:00",
   "mode": "offline_reconciliation",
   "operational_policy": {
     "live_cache_ttl_seconds": 600.0,
@@ -25,7 +25,7 @@
   "inputs": {
     "catalog": {
       "path": "docs/registry/provider-catalog.full.json",
-      "sha256": "2f040f12c3e211877f7116c27b4123d8c7437aba22180c88fc6c80501cbb3711",
+      "sha256": "3120fed4a209aea1ab0a9a62b10f8e236b9bce20b73bbe76f72d5e2b9703530c",
       "record_count": 85,
       "generated_at": "2026-09-13"
     },
@@ -43,7 +43,7 @@
     },
     "quality": {
       "path": "docs/quality/provider-quality.json",
-      "sha256": "f9318b8cfd68d36e199bb1b61ef0b685eed8c9fd1115a540e89468fbb39e2c34",
+      "sha256": "4062eb92b48b990072f13384fba602f966f849f1a116f78c52a16602e14152fb",
       "record_count": 85,
       "generated_at": "2026-09-13"
     },
@@ -13484,7 +13484,7 @@
       },
       "maturity": {
         "tier": "gold",
-        "score": 95,
+        "score": 94,
         "quality_tier": "gold",
         "quality_score": 85
       },

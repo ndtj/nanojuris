@@ -49,10 +49,10 @@ que ja participam da busca unificada, mas ainda possuem lacunas objetivas.
 | 39 | `tjpr_jurisprudencia` | `P0_reference_provider` | 93 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 40 | `tjba_graphql` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 41 | `tjdf_juris` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 42 | `trf2_eproc_jurisprudencia` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 43 | `trf6_eproc_jurisprudencia` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 44 | `tst_jurisprudencia` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 45 | `tjpa_jurisprudencia_bff` | `P0_reference_provider` | 95 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
+| 42 | `tjpa_jurisprudencia_bff` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
+| 43 | `trf2_eproc_jurisprudencia` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
+| 44 | `trf6_eproc_jurisprudencia` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
+| 45 | `tst_jurisprudencia` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 46 | `tjpb_pje_jurisprudencia` | `P0_reference_provider` | 95 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 47 | `tnu_eproc_jurisprudencia` | `P0_reference_provider` | 95 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 48 | `stf_informativo` | `P1_access_diagnostics` | 73 | `specialized_context` | fechar checklist objetivo do dossie |

@@ -16065,9 +16065,6 @@
           "source_origins",
           "published_from",
           "published_to",
-          "case_class",
-          "subject",
-          "rapporteur",
           "fetch_details"
         ],
         "supports_catalog": true,
@@ -16148,7 +16145,7 @@
         "blockers": [],
         "dimensions": {
           "documentation": 20,
-          "input": 19,
+          "input": 18,
           "output": 25,
           "product": 15,
           "reliability": 16
@@ -16157,7 +16154,7 @@
         "next_actions": [
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 95
+        "total": 94
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -16235,9 +16232,6 @@
           "source_origins",
           "published_from",
           "published_to",
-          "case_class",
-          "subject",
-          "rapporteur",
           "fetch_details"
         ],
         "supports_catalog": true,
@@ -31350,11 +31344,11 @@
         "stm_jurisprudencia"
       ],
       "top": [
-        "tjpa_jurisprudencia_bff",
         "tjpb_pje_jurisprudencia",
         "tnu_eproc_jurisprudencia",
         "tjba_graphql",
-        "tjdf_juris"
+        "tjdf_juris",
+        "tjpa_jurisprudencia_bff"
       ]
     },
     "sources_with_full_text": 66,

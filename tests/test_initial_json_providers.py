@@ -495,6 +495,13 @@ def test_tjpa_parser_exposes_bff_filter_plan_and_scope_validation() -> None:
     assert page.filters_applied["degree"] == "validated_scope"
     assert page.filters_applied["published_from"] == "translated"
 
+    capabilities = TjpaJurisprudenciaBffProvider(
+        NanoJurisConfig(rate_limit_interval=0)
+    ).get_capabilities()
+    assert "case_class" not in capabilities.supported_filters
+    assert "rapporteur" not in capabilities.supported_filters
+    assert "subject" not in capabilities.supported_filters
+
     provider = TjpaJurisprudenciaBffProvider(NanoJurisConfig(rate_limit_interval=0))
     with pytest.raises(QueryRejectedError, match="ramo estadual"):
         provider.search(JurisprudenceQuery(text="teste", branch="federal"))
