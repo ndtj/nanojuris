@@ -14,6 +14,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api import sync_playwright
@@ -140,6 +141,21 @@ def _is_local_url(url: str) -> bool:
     return bool(re.match(r"^https?://(?:localhost|127\.0\.0\.1)(?::\d+)?(?:/|$)", url))
 
 
+def _e2e_login_url(url: str) -> str:
+    """Return the synthetic login route used by the local HTTPS harness.
+
+    The real Studio server has no ``/_test/login`` endpoint.  The bounded
+    HTTPS harness does, and each Playwright context starts without cookies, so
+    live QA must establish that session before loading the source catalog.
+    Keep the behavior opt-in by recognizing only the harness' default port.
+    """
+
+    parsed = urlparse(url)
+    if parsed.hostname not in {"localhost", "127.0.0.1"} or parsed.port != 8443:
+        return url
+    return f"{parsed.scheme}://{parsed.netloc}/_test/login"
+
+
 def _run_case(
     context: Any,
     base_url: str,
@@ -163,7 +179,7 @@ def _run_case(
         "browser_errors": errors,
     }
     try:
-        page.goto(base_url, wait_until="domcontentloaded", timeout=args.timeout)
+        page.goto(_e2e_login_url(base_url), wait_until="domcontentloaded", timeout=args.timeout)
         page.locator(".source-row-filter[data-source]").first.wait_for(
             state="visible", timeout=args.timeout
         )

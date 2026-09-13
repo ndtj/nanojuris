@@ -3,6 +3,7 @@ from __future__ import annotations
 import sys
 
 from tools.qa_jurisprudence_documents import _summary
+from tools.qa_studio_live import _e2e_login_url
 
 
 def test_document_qa_counts_probe_failures_as_partial_not_success() -> None:
@@ -58,3 +59,9 @@ def test_package_size_budget_rejects_oversized_static_assets(monkeypatch):
         assert size_check.main() == 1
     finally:
         sys.argv = previous
+
+
+def test_live_studio_qa_logs_into_local_https_harness_only() -> None:
+    assert _e2e_login_url("https://localhost:8443") == ("https://localhost:8443/_test/login")
+    assert _e2e_login_url("http://127.0.0.1:8766") == "http://127.0.0.1:8766"
+    assert _e2e_login_url("https://studio.example.test") == "https://studio.example.test"
