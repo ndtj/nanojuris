@@ -24,6 +24,7 @@ from nanojuris.providers.tjpa_jurisprudencia_bff import (
     TjpaJurisprudenciaBffProvider,
     _as_int,
     _date_br,
+    _date_iso,
     _nested_name,
     build_tjpa_search_payload,
     parse_tjpa_search_response,
@@ -386,7 +387,13 @@ def test_tjpa_payload_parser_and_catalog() -> None:
     payload = build_tjpa_search_payload(query)
     assert payload["query"] == "dano moral"
     assert payload["origens"] == ["1"]
-    assert payload["dataPublicacaoInicio"] == "01/01/2026"
+    assert payload["dataPublicacaoInicio"] == "2026-01-01"
+    assert payload["dataPublicacaoFim"] == "2026-08-11"
+
+    details_payload = build_tjpa_search_payload(
+        JurisprudenceQuery(text="dano moral", fetch_details=True)
+    )
+    assert details_payload["queryScope"] == "inteiroTeor"
 
     data = {
         "message": "ok",
@@ -601,6 +608,8 @@ def test_tjpa_missing_total_is_explicitly_unknown() -> None:
 
 def test_tjpa_normalization_helpers_keep_public_shapes() -> None:
     assert _date_br("2026-08-11") == "11/08/2026"
+    assert _date_iso("2026-08-11") == "2026-08-11"
+    assert _date_iso("11/08/2026") == "2026-08-11"
     assert _date_br("unknown") == "unknown"
     assert _nested_name({"name": "Relator"}) == "Relator"
     assert _nested_name("Relatora") == "Relatora"

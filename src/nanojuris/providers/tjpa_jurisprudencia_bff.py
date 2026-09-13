@@ -211,6 +211,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "case_class",
                 "subject",
                 "rapporteur",
+                "fetch_details",
                 "judging_body",
                 "judgment_date",
                 "publication_date",
@@ -243,6 +244,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "case_class",
                 "subject",
                 "rapporteur",
+                "fetch_details",
             ],
             filter_semantics={
                 "text": "translated",
@@ -276,7 +278,7 @@ class TjpaJurisprudenciaBffProvider(JurisprudenceProvider):
                 "collection": "validated_scope",
                 "branch": "validated_scope",
                 "authority": "validated_scope",
-                "fetch_details": "unsupported",
+                "fetch_details": "native",
                 "updated_from": "unsupported",
                 "updated_to": "unsupported",
                 "judgment_date_from": "unsupported",
@@ -365,15 +367,21 @@ def build_tjpa_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "query": query.text or query.exact_phrase or query.all_words,
         "queryType": "anywords" if query.any_words else "free",
-        "queryScope": "inteiroTeor" if query.all_words else "ementa",
+        # ``textopuro`` is returned by the same BFF endpoint when details are
+        # requested. Keep ``all_words``' historical full-text behavior, but
+        # make the on-demand reader flag authoritative too.
+        "queryScope": "inteiroTeor" if query.fetch_details or query.all_words else "ementa",
         "sortBy": "relevancia",
         "sortOrder": "desc",
     }
     optional = {
         "origens": query.source_origins or ([query.source_origin] if query.source_origin else []),
         "tipo": query.types,
-        "dataPublicacaoInicio": _date_br(query.published_from),
-        "dataPublicacaoFim": _date_br(query.published_to),
+        # The BFF is JSON/Elasticsearch-backed and accepts the canonical ISO
+        # date shape.  Unlike the older HTML forms used by some courts, it
+        # rejects ``dd/MM/yyyy`` with an opaque HTTP 400/all-shards error.
+        "dataPublicacaoInicio": _date_iso(query.published_from),
+        "dataPublicacaoFim": _date_iso(query.published_to),
     }
     payload.update({key: value for key, value in optional.items() if value})
     return payload
@@ -440,11 +448,12 @@ def _tjpa_filters_applied(query: JurisprudenceQuery) -> dict[str, str]:
         ("all_words", query.all_words),
         ("types", query.types),
         ("source_origins", query.source_origins or query.source_origin),
+        ("fetch_details", query.fetch_details),
         ("published_from", query.published_from),
         ("published_to", query.published_to),
     ):
         if value:
-            applied[name] = "translated"
+            applied[name] = "native" if name == "fetch_details" else "translated"
     for name, value in (
         ("case_class", query.case_class),
         ("rapporteur", query.rapporteur),
@@ -559,6 +568,20 @@ def _document_type(value: str) -> str:
 def _date_br(value: str) -> str:
     parts = value.split("-")
     return "/".join(reversed(parts)) if len(parts) == 3 else value
+
+
+def _date_iso(value: str) -> str:
+    """Normalize a caller date to the ISO shape required by the TJPA BFF."""
+
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    parts = text.split("/")
+    if len(parts) == 3 and all(part.isdigit() for part in parts):
+        day, month, year = parts
+        if len(day) == 2 and len(month) == 2 and len(year) == 4:
+            return f"{year}-{month}-{day}"
+    return text
 
 
 def _as_list(value: object) -> list[Any]:
