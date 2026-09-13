@@ -704,9 +704,38 @@ def _extract_rtf_text(card: Tag) -> str:
     if not match:
         return ""
     raw = html_module.unescape(match.group(1))
-    raw = raw.replace("\\'", "'").replace("\\n", "\n").replace("\\r", "\r")
-    raw = re.sub(r"\\[a-zA-Z]+\d* ?", " ", raw)
+    raw = raw.replace("\\'", "'")
+    # Only decode standalone escaped line breaks.  RTF control words such as
+    # ``\\rtf1`` and ``\\nowidctlpar`` begin with the same characters and must
+    # remain intact until the control-word cleanup below.
+    raw = re.sub(r"\\n(?![A-Za-z])", "\n", raw)
+    raw = re.sub(r"\\r(?![A-Za-z])", "\r", raw)
+
+    def decode_byte(match: re.Match[str]) -> str:
+        return bytes.fromhex(match.group(1)).decode("cp1252", errors="replace")
+
+    # Livewire serializes RTF twice. Decode Unicode and RTF hex escapes before
+    # stripping control words, otherwise ``\\u00e3`` becomes visible ``e3``.
+    raw = re.sub(r"\\+u0027([0-9a-fA-F]{2})", decode_byte, raw)
+
+    def decode_unicode(match: re.Match[str]) -> str:
+        codepoint = int(match.group(1), 16)
+        # RTF ``\\uN`` values in the C1 range represent Windows-1252
+        # punctuation in the TJAP payload (for example ``\\u0093`` is a
+        # left curly quote), not literal control characters.
+        if 0x80 <= codepoint <= 0xFF:
+            return bytes([codepoint]).decode("cp1252", errors="replace")
+        return chr(codepoint)
+
+    raw = re.sub(
+        r"\\+u([0-9a-fA-F]{4})",
+        decode_unicode,
+        raw,
+    )
+    raw = re.sub(r"\\+'([0-9a-fA-F]{2})", decode_byte, raw)
+    raw = re.sub(r"\\+[a-zA-Z]+\d* ?", " ", raw)
     raw = re.sub(r"[{}]", " ", raw)
+    raw = re.sub(r"^(?:\s*Futura-Light;\s*)+", "", raw)
     return _normalize_text(raw)
 
 

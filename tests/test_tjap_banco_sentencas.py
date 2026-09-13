@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
+from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import (
@@ -14,6 +15,7 @@ from nanojuris.errors import (
 from nanojuris.models import AccessStatus, JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjap_banco_sentencas import (
     TjapBancoSentencasProvider,
+    _extract_rtf_text,
     parse_tjap_banco_sentencas,
 )
 
@@ -124,3 +126,16 @@ def test_livewire_protocol_uses_public_dispatch() -> None:
     assert session.calls[0]["method"] == "GET"
     body = session.calls[1]["kwargs"]["json"]
     assert body["components"][0]["calls"][0]["params"][0] == "update-filters"
+
+
+def test_rtf_unicode_escapes_are_decoded_without_visible_garbage() -> None:
+    card = BeautifulSoup("<div></div>", "html.parser").div
+    assert card is not None
+    card["x-data"] = (
+        r"textToCopy: '{\rtf1\ansi{\fonttbl{\f0 Futura-Light;}} "
+        r"Chamo o feito \u00e0 ordem. A\u0027e7\u0027e3o.}'"
+    )
+
+    text = _extract_rtf_text(card)
+
+    assert text == "Chamo o feito à ordem. Ação."
