@@ -87,7 +87,11 @@ class NanoJurisConfig:
     # The structured API belongs to the same TJDFT provider. It remains
     # explicitly selectable so deployments can retain the legacy HTML route.
     tjdf_juris_api_url: str = "https://jurisdf.tjdft.jus.br"
-    tjdf_juris_api_enabled: bool = False
+    # The documented JSON surface returns bounded ementa plus inteiro teor
+    # when ``fetch_details`` is requested. Keep it as the default runtime
+    # path; the legacy SISTJ HTML flow remains available explicitly for
+    # compatibility and replay fixtures.
+    tjdf_juris_api_enabled: bool = True
     # Public TNU jurisprudence module announced by CJF.  Keep it separate
     # from the legacy eproc host, which redirects the public entry point to
     # SSO before the jurisprudence form can be reached.

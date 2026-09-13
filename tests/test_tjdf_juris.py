@@ -89,7 +89,9 @@ def test_search_maps_tjdf_jurisprudence_result():
             FakeResponse(load_fixture("tjdf_juris_detail.html")),
         ]
     )
-    provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+    provider = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session, use_api=False
+    )
 
     page = provider.search(
         JurisprudenceQuery(text="infanticidio", page=1, page_size=1, fetch_details=True)
@@ -125,6 +127,17 @@ def test_search_maps_tjdf_jurisprudence_result():
     assert session.calls[0]["kwargs"]["params"]["nomeDaPagina"] == "buscaLivre"
     assert session.calls[1]["kwargs"]["params"]["nomeDaPagina"] == "buscaLivre2"
     assert session.calls[2]["kwargs"]["params"]["numeroDoDocumento"] == "1917641"
+
+
+def test_tjdf_capabilities_advertise_native_full_text_fetch():
+    capabilities = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([])
+    ).get_capabilities()
+
+    assert capabilities.supports_full_text is True
+    assert capabilities.full_text_access == "detail_call"
+    assert "fetch_details" in capabilities.supported_filters
+    assert capabilities.filter_semantics["fetch_details"] == "native"
 
 
 def test_search_api_maps_zero_based_page_and_canonical_fields():
@@ -253,7 +266,9 @@ def test_search_sends_tjdf_summary_filter():
             FakeResponse(load_fixture("tjdf_juris_detail.html")),
         ]
     )
-    provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+    provider = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session, use_api=False
+    )
 
     provider.search(
         JurisprudenceQuery(
@@ -310,7 +325,9 @@ def test_search_page_maps_to_canonical_decision():
             FakeResponse(load_fixture("tjdf_juris_detail.html")),
         ]
     )
-    provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+    provider = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session, use_api=False
+    )
 
     page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=1, fetch_details=True))
     records = search_page_to_canonical(page)
@@ -353,7 +370,9 @@ def test_search_without_fetch_details_avoids_detail_requests():
             FakeResponse(load_fixture("tjdf_juris_results.html")),
         ]
     )
-    provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+    provider = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session, use_api=False
+    )
 
     page = provider.search(JurisprudenceQuery(text="infanticidio", page_size=2))
 
@@ -453,6 +472,7 @@ def test_get_document_rejects_detail_without_acordao_fields():
     provider = TjdfJurisProvider(
         NanoJurisConfig(rate_limit_interval=0),
         session=FakeSession([FakeResponse("<html><title>SISTJWEB</title></html>")]),
+        use_api=False,
     )
 
     with pytest.raises(ParserContractChangedError, match="returned no acórdão fields"):
@@ -463,6 +483,7 @@ def test_get_document_accepts_search_result_id_prefix():
     provider = TjdfJurisProvider(
         NanoJurisConfig(rate_limit_interval=0),
         session=FakeSession([FakeResponse(load_fixture("tjdf_juris_detail.html"))]),
+        use_api=False,
     )
 
     document = provider.get_document("tjdf-acordao-1917641")
@@ -482,7 +503,7 @@ def test_get_document_accepts_search_result_id_prefix():
 )
 def test_search_errors_are_normalized(response, expected_error):
     provider = TjdfJurisProvider(
-        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([response])
+        NanoJurisConfig(rate_limit_interval=0), session=FakeSession([response]), use_api=False
     )
 
     with pytest.raises(expected_error):
@@ -490,7 +511,9 @@ def test_search_errors_are_normalized(response, expected_error):
 
 
 def test_request_exception_is_normalized():
-    provider = TjdfJurisProvider(NanoJurisConfig(rate_limit_interval=0), session=RaisingSession())
+    provider = TjdfJurisProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=RaisingSession(), use_api=False
+    )
 
     with pytest.raises(SourceUnavailableError, match="offline"):
         provider.search(JurisprudenceQuery(text="infanticidio"))

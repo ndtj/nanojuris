@@ -35,7 +35,7 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `tjce_cjsg` | sim | text, number, exact_phrase, case_class, judging_body, updated_from, updated_to, published_from, published_to, types, order_by | `page` | nao | nao |
 | `tjce_informativos` | sim | text, number, types, published_from, published_to, page | `local_window` | sim | nao |
 | `tjce_sjuris` | sim | text, all_words, any_words, without_words, exact_phrase, types, source_origins | `page` | nao | nao |
-| `tjdf_juris` | sim | text, exact_phrase, all_words, any_words, without_words, number, rapporteur, source_origin, source_origins, case_class, judging_body, published_from, published_to, updated_from, updated_to, judgment_date_from, judgment_date_to | `page` | nao | nao |
+| `tjdf_juris` | sim | text, exact_phrase, all_words, any_words, without_words, number, rapporteur, source_origin, source_origins, case_class, judging_body, published_from, published_to, updated_from, updated_to, judgment_date_from, judgment_date_to, fetch_details | `page` | nao | nao |
 | `tjes_cjpg` | sim | text, exact_phrase, number, rapporteur, updated_from, updated_to, order_by | `offset` | nao | nao |
 | `tjes_jurisprudencia` | sim | text, exact_phrase, number, page | `offset` | nao | nao |
 | `tjes_turma_recursal` | sim | text, exact_phrase, number, page | `offset` | nao | nao |

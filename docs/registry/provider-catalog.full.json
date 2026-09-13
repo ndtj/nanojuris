@@ -10243,7 +10243,8 @@
           "updated_from",
           "updated_to",
           "judgment_date_from",
-          "judgment_date_to"
+          "judgment_date_to",
+          "fetch_details"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -10425,7 +10426,8 @@
           "updated_from",
           "updated_to",
           "judgment_date_from",
-          "judgment_date_to"
+          "judgment_date_to",
+          "fetch_details"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
