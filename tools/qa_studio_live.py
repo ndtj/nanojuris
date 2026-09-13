@@ -208,7 +208,14 @@ def _run_case(
             else:
                 field.fill(str(value))
         if case.get("fetch_details"):
-            page.locator('[data-search-filter="fetch_details"]').check(force=True)
+            fetch_control = page.locator('[data-search-filter="fetch_details"]')
+            # Link-only providers intentionally disable the inline control.
+            # Keep the case useful (and record that state) instead of forcing a
+            # browser click that can never change a disabled checkbox.
+            if fetch_control.is_disabled():
+                result["fetch_details_request_skipped"] = True
+            else:
+                fetch_control.check(force=True)
         page.locator("#query").fill(case["query"])
         with page.expect_response(
             lambda response: response.url.endswith("/api/v1/search"),
