@@ -283,6 +283,9 @@ def _rendered_summary(page: Any) -> dict[str, Any]:
         else None,
         "reader_full_text": page.locator("#reader .reader-full-text").count(),
         "reader_official_link": page.locator("#reader .reader-source-link").count(),
+        "fetch_details_disabled": page.locator(
+            '[data-search-filter="fetch_details"]'
+        ).is_disabled(),
         "replacement_chars": page.evaluate(
             "document.body.innerText.split('').filter(char => char === '\\ufffd').length"
         ),
