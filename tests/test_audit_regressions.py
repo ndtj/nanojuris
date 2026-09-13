@@ -80,6 +80,27 @@ def test_unified_router_warns_when_refinement_filters_are_not_declared():
     assert {warning.reason for warning in routed.warnings} == {"filter_not_supported"}
 
 
+def test_unified_router_skips_source_without_on_demand_full_text():
+    capability = ProviderCapabilities(
+        source="fixture",
+        display_name="Fixture",
+        source_url="https://example.test",
+        category="court_jurisprudence",
+        supports_unified_search=True,
+        supported_filters=["text"],
+        filter_semantics={"fetch_details": "unsupported"},
+    )
+    routed = route_unified_sources(
+        selected_sources=["fixture"],
+        capabilities={"fixture": capability},
+        text="dano moral",
+        filters={"fetch_details": True},
+    )
+    assert routed.searched == []
+    assert routed.warnings == []
+    assert routed.skipped[0].reason == "filter_not_supported"
+
+
 def test_single_source_search_rejects_undeclared_identifier_before_provider_call():
     class SpyProvider:
         name = "spy"

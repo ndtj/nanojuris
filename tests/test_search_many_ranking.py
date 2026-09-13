@@ -81,6 +81,7 @@ class RankingFixtureProvider:
                     court="TJSP",
                     type="decision",
                     summary="Divórcio e partilha de bens.",
+                    raw={"_score": 0.1},
                 ),
                 JurisprudenceResult(
                     id="relevant",
@@ -89,8 +90,10 @@ class RankingFixtureProvider:
                     type="decision",
                     summary="Responsabilidade civil administrativa por falha do serviço público.",
                     full_text="Responsabilidade civil administrativa e dano decorrente.",
+                    raw={"_score": 2.0},
                 ),
             ],
+            ordering="source_relevance",
             is_complete=True,
             total_known=True,
         )
@@ -126,6 +129,8 @@ def test_search_many_opt_in_ranking_orders_records_and_exposes_reasons() -> None
     )
     assert metadata["relevance_score"] > irrelevant["relevance_score"]
     assert metadata["match_reasons"]
+    assert metadata["native_rank"] == 1
+    assert irrelevant["native_rank"] == 2
     assert payload["query_intent"]["analyzer_version"] == "legal-intent-v1"
 
 

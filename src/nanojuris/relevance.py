@@ -494,6 +494,8 @@ class LegalLiveRanker:
     def _native_rank(record: Any, ranks: dict[str, int]) -> int | None:
         identifier = str(getattr(record, "id", ""))
         value = ranks.get(identifier)
+        if value is None:
+            value = getattr(record, "native_rank", None)
         return value if value is not None and value > 0 else None
 
     @staticmethod

@@ -90,6 +90,7 @@ def result_to_canonical_decision(
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
         raw=raw,
+        native_rank=result.native_rank,
     )
 
 
@@ -142,6 +143,7 @@ def result_to_canonical_precedent(
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
         raw=raw,
+        native_rank=result.native_rank,
     )
 
 

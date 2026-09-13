@@ -940,6 +940,14 @@ class NanoJurisClient:
                                 record_index=record_index,
                             )
                         )
+                native_ranks = _native_ranks_for_page(page_result)
+                if native_ranks:
+                    page_records = [
+                        replace(record, native_rank=native_ranks.get(record.id))
+                        if native_ranks.get(record.id) is not None
+                        else record
+                        for record in page_records
+                    ]
                 if not raw_results:
                     break
                 records.extend(page_records)
@@ -1691,6 +1699,61 @@ def _filter_value_present(value: Any) -> bool:
     if isinstance(value, list | tuple | set):
         return bool(value)
     return bool(value)
+
+
+def _native_ranks_for_page(page: SearchPage) -> dict[str, int]:
+    """Extract a provider's native ordering without manufacturing relevance.
+
+    Providers that expose an explicit rank/score are authoritative.  For a
+    provider that declares relevance ordering but only returns an ordered
+    window, the position in that window is the native rank.  Date/editorial
+    ordering is deliberately excluded so the lexical reranker cannot mistake
+    recency for source relevance.
+    """
+
+    rows = list(page.results)
+    if not rows:
+        return {}
+    explicit: dict[str, int] = {}
+    scores: list[tuple[str, float]] = []
+    for result in rows:
+        identifier_value = getattr(result, "id", None)
+        if identifier_value is None:
+            continue
+        raw = getattr(result, "raw", None) or {}
+        identifier = str(identifier_value)
+        for key in ("native_rank", "rank", "position", "order", "ordem"):
+            value = raw.get(key)
+            if value is None:
+                continue
+            try:
+                rank = int(value)
+            except (TypeError, ValueError):
+                continue
+            if rank > 0:
+                explicit[identifier] = rank
+                break
+        for key in ("score", "_score", "search_score", "relevance_score"):
+            value = raw.get(key)
+            if value is None:
+                continue
+            try:
+                score = float(value)
+            except (TypeError, ValueError):
+                continue
+            if score == score:
+                scores.append((identifier, score))
+                break
+    if explicit:
+        return explicit
+    if scores:
+        ordered = sorted(scores, key=lambda item: (-item[1], item[0]))
+        return {identifier: index + 1 for index, (identifier, _) in enumerate(ordered)}
+    ordering = str(page.ordering or "").casefold()
+    if "relev" not in ordering and "score" not in ordering and "rank" not in ordering:
+        return {}
+    base = max(0, (page.page - 1) * page.page_size)
+    return {str(result.id): base + index + 1 for index, result in enumerate(rows)}
 
 
 def _rank_and_deduplicate(

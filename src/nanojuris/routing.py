@@ -185,6 +185,22 @@ def route_unified_sources(
             opt_in_allowed=source in opt_in_sources,
         )
         if skip is None:
+            if filters.get("fetch_details") and capability.filter_status("fetch_details") in {
+                "unsupported",
+                "unverified",
+            }:
+                skipped.append(
+                    SourceSkip(
+                        source=source,
+                        category=capability.category,
+                        reason="filter_not_supported",
+                        message=(
+                            "A fonte nao declara suporte ao inteiro teor sob demanda; "
+                            "ela foi pulada para evitar uma consulta sem o refinamento solicitado."
+                        ),
+                    )
+                )
+                continue
             searched.append(source)
             for filter_name in _unsupported_refinement_filters(
                 capability,

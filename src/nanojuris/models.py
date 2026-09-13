@@ -227,6 +227,7 @@ class CanonicalDecision:
     document_type: str | None = None
     source_origin: str | None = None
     field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
+    native_rank: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -265,6 +266,7 @@ class CanonicalPrecedent:
     document_type: str | None = None
     source_origin: str | None = None
     field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
+    native_rank: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -430,6 +432,7 @@ class JurisprudenceResult:
     source_origin: str | None = None
     document_url: str | None = None
     field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
+    native_rank: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
