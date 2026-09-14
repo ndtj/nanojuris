@@ -75,7 +75,7 @@ class Trt6JurisprudenciaProvider(JurisprudenceProvider):
         # the newer PJe SPA, whose document endpoint remains challenge-gated.
         payload = _build_legacy_payload(query)
         response = self._request_legacy("POST", LEGACY_SEARCH_PATH, data=payload)
-        html = response.body.decode("iso-8859-1", errors="replace")
+        html = _decode_legacy_html(response)
         trace = _legacy_trace(response, payload)
         results = parse_trt6_legacy_results(
             html, trace=trace, base_url=self.config.trt6_acordaos_url
@@ -690,6 +690,27 @@ def _looks_like_legacy_empty(html: str) -> bool:
 
 def _clean_legacy_text(value: str) -> str:
     return " ".join(value.replace("\xa0", " ").split())
+
+
+def _decode_legacy_html(response: Any) -> str:
+    """Decode the legacy page without turning UTF-8 accents into mojibake."""
+
+    body = bytes(response.body)
+    content_type = str(getattr(response, "content_type", "") or "").casefold()
+    declared = re.search(r"charset\s*=\s*['\"]?([\w.-]+)", content_type)
+    candidates = [declared.group(1)] if declared else []
+    candidates.extend(["utf-8", "iso-8859-1"])
+    seen: set[str] = set()
+    for encoding in candidates:
+        normalized = encoding.casefold()
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        try:
+            return body.decode(encoding, errors="strict")
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return body.decode("iso-8859-1", errors="replace")
 
 
 def _ascii_fold(value: str) -> str:

@@ -312,9 +312,11 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
             raise SourceUnavailableError(
                 "TJSP/eproc jurisprudence transport returned no HTTP status"
             )
-        text = response.text
         content = response.body
         headers = getattr(response, "headers", {}) or {}
+        text = _decode_eproc_response_text(
+            content, headers.get("Content-Type") or headers.get("content-type")
+        )
         self._last_response_content = content
         self._last_http_metadata = {
             "http_status": response.status_code,
@@ -1012,6 +1014,30 @@ def _looks_like_source_unavailable(html: str) -> bool:
 
 def _digits(value: object) -> str:
     return "".join(char for char in str(value or "") if char.isdigit())
+
+
+def _decode_eproc_response_text(body: bytes, content_type: str | None = None) -> str:
+    """Decode eproc HTML using its declared charset, with safe fallbacks."""
+
+    declared = re.search(
+        r"charset\s*=\s*['\"]?([\w.-]+)", str(content_type or ""), flags=re.IGNORECASE
+    )
+    candidates = [declared.group(1)] if declared else []
+    # A number of eproc installations omit the charset while serving either
+    # UTF-8 or Windows-1252.  Strict decoding avoids silently injecting U+FFFD
+    # into legal text; the fallback preserves all byte values for legacy pages.
+    candidates.extend(["utf-8", "cp1252", "iso-8859-1"])
+    seen: set[str] = set()
+    for encoding in candidates:
+        normalized = encoding.casefold()
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        try:
+            return bytes(body).decode(encoding, errors="strict")
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return bytes(body).decode("iso-8859-1", errors="replace")
 
 
 def _text(node: Tag | None) -> str:

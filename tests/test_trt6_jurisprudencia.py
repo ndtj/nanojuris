@@ -56,6 +56,20 @@ def test_search_uses_public_legacy_contract() -> None:
     assert page.access_status is not None
 
 
+def test_legacy_search_preserves_utf8_accents() -> None:
+    provider = Trt6JurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+    html = (FIXTURES / "trt6_legacy_search_success.html").read_text(encoding="utf-8")
+    html = html.replace("Ementa sanitizada.", "Ementa com decisão.")
+    provider._legacy_transport.request = lambda request: _legacy_response(  # type: ignore[method-assign]
+        html.encode("utf-8")
+    )
+
+    page = provider.search(JurisprudenceQuery(text="responsabilidade civil"))
+
+    assert "decisão" in (page.results[0].summary or "")
+    assert "decisÃ" not in (page.results[0].summary or "")
+
+
 def test_legacy_search_translates_page_and_filters() -> None:
     provider = Trt6JurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
     captured: list[TransportRequest] = []

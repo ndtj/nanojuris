@@ -14,6 +14,7 @@ from nanojuris.errors import (
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjsp_eproc_jurisprudencia import (
     TjspEprocJurisprudenciaProvider,
+    _decode_eproc_response_text,
     _extract_form_payload,
     parse_eproc_jurisprudencia_results,
 )
@@ -35,6 +36,14 @@ def test_tjsp_eproc_uses_public_ajax_pagination_contract():
     assert "ajax_paginar_resultado" in session.calls[1]["url"]
     assert session.calls[1]["kwargs"]["data"]["hdnPaginaAtual"] == "2"
     assert session.calls[1]["kwargs"]["data"]["selTamanhoPagina"] == "50"
+
+
+def test_eproc_response_decoder_preserves_legacy_cp1252_accents():
+    body = "AÇÃO DE INDENIZAÇÃO — decisão pública".encode("cp1252")
+
+    assert _decode_eproc_response_text(body, "text/html") == (
+        "AÇÃO DE INDENIZAÇÃO — decisão pública"
+    )
 
 
 class FakeResponse:
