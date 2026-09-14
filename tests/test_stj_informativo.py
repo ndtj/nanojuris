@@ -14,6 +14,7 @@ from nanojuris.errors import (
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.stj_informativo import (
     StjInformativoProvider,
+    _decode_stj_html,
     parse_stj_informativo_results,
 )
 
@@ -56,6 +57,14 @@ class FakeSession:
 
 def _fixture_html() -> str:
     return (FIXTURES / "stj_informativo_infanticidio.html").read_text(encoding="utf-8")
+
+
+def test_stj_html_decoder_preserves_iso88591_accents():
+    body = "Ministro Raul Araújo, Seção pública".encode("iso-8859-1")
+
+    assert _decode_stj_html(body, "text/html;charset=ISO-8859-1") == (
+        "Ministro Raul Araújo, Seção pública"
+    )
 
 
 def test_parse_stj_informativo_results_maps_fixture():

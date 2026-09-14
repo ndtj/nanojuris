@@ -278,7 +278,7 @@ class StjInformativoProvider(JurisprudenceProvider):
             )
         except SourceUnavailableError as exc:
             raise SourceUnavailableError(f"STJ Informativo request failed: {exc}") from exc
-        text = response.text
+        text = _decode_stj_html(response.body, response.content_type)
         status_code = int(response.status_code or 0)
         self._last_http_metadata = {
             "http_status": status_code,
@@ -579,6 +579,27 @@ def _normalize_spaces(value: str) -> str:
     without_private_glyphs = re.sub(r"[\ue000-\uf8ff]", " ", value)
     normalized = re.sub(r"\s+", " ", without_private_glyphs).strip()
     return re.sub(r"\s+([,.;:!?])", r"\1", normalized)
+
+
+def _decode_stj_html(body: bytes, content_type: str | None = None) -> str:
+    """Decode STJ Informativo pages according to their declared charset."""
+
+    declared = re.search(
+        r"charset\s*=\s*['\"]?([\w.-]+)", str(content_type or ""), flags=re.IGNORECASE
+    )
+    candidates = [declared.group(1)] if declared else []
+    candidates.extend(["utf-8", "cp1252", "iso-8859-1"])
+    seen: set[str] = set()
+    for encoding in candidates:
+        normalized = encoding.casefold()
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        try:
+            return bytes(body).decode(encoding, errors="strict")
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return bytes(body).decode("iso-8859-1", errors="replace")
 
 
 def _normalize_search(value: str) -> str:
