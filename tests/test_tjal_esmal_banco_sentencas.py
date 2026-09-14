@@ -48,6 +48,22 @@ def test_parser_preserves_first_degree_identity_and_pdf_links() -> None:
     assert all("source_record_id" in record.field_provenance for record in records)
 
 
+def test_parser_prefers_utf8_when_legacy_meta_charset_is_stale() -> None:
+    html = (
+        '<html><head><meta charset="iso-8859-1"></head><body><table><tr>'
+        "<td>01/01/2026</td><td>01/01/2026</td>"
+        "<td>AÇÃO DE INDENIZAÇÃO</td>"
+        '<td><a href="https://intranetlegado.tjal.jus.br/bancodesentencas/arquivos/a.pdf">PDF</a></td>'
+        "</tr></table></body></html>"
+    ).encode()
+
+    records = parse_tjal_esmal_html(
+        html, query=JurisprudenceQuery(text="acao indenizacao"), trace=_trace()
+    )
+
+    assert records[0].summary == "AÇÃO DE INDENIZAÇÃO"
+
+
 def test_parser_applies_local_negative_terms_and_rejects_untrusted_links() -> None:
     html = (FIXTURES / "tjal_esmal_success.html").read_text(encoding="utf-8")
     excluded = parse_tjal_esmal_html(

@@ -393,7 +393,7 @@ def parse_tjal_esmal_html(
     raw = content.encode("utf-8") if isinstance(content, str) else content
     if len(raw) > MAX_HTML_BYTES or not _looks_like_html(raw):
         raise ParserContractChangedError("TJAL ESMAL resposta HTML invalida")
-    soup = BeautifulSoup(raw, "html.parser")
+    soup = BeautifulSoup(_decode_html(raw), "html.parser")
     if soup.find("table") is None:
         raise ParserContractChangedError("TJAL ESMAL resposta sem tabela de resultados")
     rows = _result_rows(soup)
@@ -526,6 +526,17 @@ def _validate_query(query: JurisprudenceQuery) -> str | None:
 def _looks_like_html(content: bytes) -> bool:
     sample = content[:4096].lower()
     return b"<html" in sample or b"<!doctype" in sample or b"<table" in sample
+
+
+def _decode_html(content: bytes) -> str:
+    """Prefer UTF-8 when the legacy page's meta charset is stale."""
+
+    for encoding in ("utf-8", "cp1252", "iso-8859-1"):
+        try:
+            return content.decode(encoding, errors="strict")
+        except UnicodeDecodeError:
+            continue
+    return content.decode("iso-8859-1", errors="replace")
 
 
 def _clean(value: str) -> str:
