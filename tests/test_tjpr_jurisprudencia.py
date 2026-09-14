@@ -117,6 +117,25 @@ def test_clean_tjpr_ementa_drops_headers_and_mid_sentence_fragments():
         )
         == ""
     )
+    # The live CJSG table may put the decision opening after the institutional
+    # header without an explicit EMENTA marker. Keep the useful excerpt.
+    assert (
+        _clean_tjpr_ementa(
+            "TRIBUNAL DE JUSTIÃ‡A DO ESTADO DO PARANÃ 6Âª TURMA RECURSAL "
+            "Recurso: 1 Classe Processual: Recurso Inominado Vistos. "
+            "1. A concessionÃ¡ria responde pelos danos comprovados."
+        )
+        == "1. A concessionÃ¡ria responde pelos danos comprovados."
+    )
+    # A body-level "ac\u00f3rd\u00e3o" must not be mistaken for the header marker.
+    assert (
+        _clean_tjpr_ementa(
+            "TRIBUNAL DE JUSTI\ufffdA DO ESTADO DO PARAN\ufffd 6 TURMA RECURSAL "
+            "O ac\ufffdrd\ufffdo anteriormente proferido nestes autos. Vistos. "
+            "1. O recurso deve ser conhecido."
+        )
+        == "1. O recurso deve ser conhecido."
+    )
     # The court-header prefix is stripped, keeping the ementa after the marker.
     assert (
         _clean_tjpr_ementa(

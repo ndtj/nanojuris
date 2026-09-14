@@ -815,8 +815,24 @@ def _clean_tjpr_ementa(summary: str) -> str:
     if not summary:
         return summary
     match = _TJPR_HEADER.match(summary)
-    if match:
+    vistos = re.search(r"\bVistos\.\s*", summary, flags=re.IGNORECASE)
+    # ``_TJPR_HEADER`` also recognizes mojibake variants of ACÓRDÃO. A
+    # decision body can contain that word before its ``Vistos.`` opening, so
+    # never let a late body marker consume the useful text up to the end of
+    # the cell.
+    if vistos and (match is None or match.end() > vistos.start()):
+        summary = summary[vistos.end() :].lstrip(" :.-").rstrip()
+    elif match:
         summary = summary[match.end() :].lstrip(" :.-").rstrip()
+    # The public CJSG table sometimes labels the cell as an ementa while
+    # embedding the beginning of the decision instead of an explicit
+    # ``EMENTA`` marker. In that shape the institutional block is followed by
+    # ``Vistos.`` and the substantive text. Preserve that text rather than
+    # turning an otherwise useful result into a metadata-only card. A cell
+    # containing only the header remains empty.
+    if summary.upper().startswith(("TRIBUNAL DE JUSTI", "PODER JUDICI")):
+        if vistos and summary[vistos.end() :].strip():
+            summary = summary[vistos.end() :].lstrip(" :.-").rstrip()
     upper = summary.upper()
     if upper.startswith(("TRIBUNAL DE JUSTI", "PODER JUDICI")):
         return ""
