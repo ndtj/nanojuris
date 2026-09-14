@@ -468,6 +468,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    _configure_stdio()
     parser = build_parser()
     args = parser.parse_args(argv)
     client = NanoJurisClient()
@@ -964,6 +965,21 @@ def main(argv: list[str] | None = None) -> int:
 
     parser.error("Comando invalido")
     return 2
+
+
+def _configure_stdio() -> None:
+    """Keep CLI output usable on Windows consoles with non-UTF-8 locales.
+
+    Provider names and public metadata can contain combining accents and other
+    valid Unicode that the legacy ``cp1252`` console codec cannot encode.  The
+    CLI must never turn a successful command (for example ``fontes``) into a
+    traceback solely while printing its response.
+    """
+
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if callable(reconfigure):
+            reconfigure(encoding="utf-8", errors="backslashreplace")
 
 
 def _split_csv(value: str) -> list[str]:
