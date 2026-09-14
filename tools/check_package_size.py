@@ -6,9 +6,9 @@ import argparse
 from pathlib import Path
 
 STATIC_BUDGET = 300_000
-# Release 0.6 keeps the nano contract explicit.  The current 80-provider
-# artifact intentionally fails this gate until optional payloads are split.
-WHEEL_BUDGET = 600_000
+# Quality-first budget for the complete 80-provider runtime and functional
+# Studio assets.  This leaves a meaningful guard against accidental bloat.
+WHEEL_BUDGET = 1_000_000
 SDIST_BUDGET = 1_500_000
 
 

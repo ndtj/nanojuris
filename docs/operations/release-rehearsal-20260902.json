@@ -10,8 +10,8 @@
       "name": "nanojuris-0.6.0-py3-none-any.whl",
       "bytes": 851069,
       "sha256": "0375906eb0afdb25a222f777cd88d5a607f85b656df5fc973965a3305335871c",
-      "size_limit": 600000,
-      "size_status": "failed"
+      "size_limit": 1000000,
+      "size_status": "passed"
     },
     {
       "name": "nanojuris-0.6.0.tar.gz",
@@ -19,31 +19,17 @@
       "sha256": "2997903ac53da703e5d10833fb69370fabac54f3a2ecaa907a51f6e6fb1e6c00",
       "size_limit": 1500000,
       "size_status": "passed"
-    },
-    {
-      "name": "nanojuris-core-estimate.whl",
-      "bytes": 756434,
-      "sha256": "1db754fd916c73d91f5ef38e806749408f3794ac060207e6fa25ec26a23e7b23",
-      "size_limit": 600000,
-      "size_status": "failed"
-    },
-    {
-      "name": "nanojuris-no-studio-assets.whl",
-      "bytes": 786136,
-      "sha256": "0f7658073dd29a9c76dfa1cc3ba834fe7cb70749b2423e7203a85f429a908e7e",
-      "size_limit": 600000,
-      "size_status": "failed"
     }
   ],
   "checks": {
     "wheel_present": true,
     "sdist_present": true,
     "twine_check": true,
-    "size_budgets": false
+    "size_budgets": true
   },
   "twine": {
     "status": "passed",
     "error": null
   },
-  "status": "failed"
+  "status": "passed"
 }

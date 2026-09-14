@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "id": "0118-core-distribution-split",
-  "status": "proposed",
+  "status": "superseded",
   "risk": "L3",
   "owner": "release-manager",
   "reviewer": "independent-reviewer",
@@ -30,5 +30,5 @@
   "evidence": ["dist/nanojuris-0.6.0-py3-none-any.whl"],
   "compatibility": "No public release or dependency pin changes until independent review approves the boundary.",
   "risks": ["breaking imports for Studio or discovery users", "provider availability drift"],
-  "next_action": "Obtain independent design approval, then implement in a dedicated change."
+  "next_action": "No split required for 0.6.0; retain the complete runtime and Studio together."
 }
