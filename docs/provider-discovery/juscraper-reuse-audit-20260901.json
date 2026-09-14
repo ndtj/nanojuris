@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-11T05:04:03.952410+00:00",
+  "generated_at": "2026-09-01T00:00:00+00:00",
   "audit_mode": "offline_reuse_security_preflight",
   "upstream": {
     "repository": "https://github.com/jtrecenti/juscraper",
     "commit": "604c1dd70d6f313011cc1079790febe6c71807e2",
     "license_declared": "MIT"
   },
-  "runtime_root": "C:\\Users\\admin\\Desktop\\Nanojuris\\repos\\nanojuris\\src\\nanojuris",
+  "runtime_root": "C:\\Users\\admin\\Desktop\\Nanojuris\\repos\\nanojuris-integrated-0.6.0\\src\\nanojuris",
   "checks": [
     {
       "name": "upstream_license_snapshot",
@@ -39,7 +39,7 @@
       "name": "candidate_promotion_guard",
       "status": "pass",
       "evidence": {
-        "board": "C:\\Users\\admin\\Desktop\\Nanojuris\\repos\\nanojuris\\docs\\provider-discovery\\adapter-wave-board-20260901.json",
+        "board": "C:\\Users\\admin\\Desktop\\Nanojuris\\repos\\nanojuris-integrated-0.6.0\\docs\\provider-discovery\\adapter-wave-board-20260901.json",
         "items": 8
       },
       "note": "Toda unidade da onda permanece bloqueada ate os gates de release e revisao humana."

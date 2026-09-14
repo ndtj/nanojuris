@@ -1,6 +1,6 @@
 {
   "schema_version": "0091-local-gates-v1",
-  "generated_at": "2026-09-13T06:12:14+00:00",
+  "generated_at": "2026-09-14T07:14:33+00:00",
   "policy": {
     "network_used": false,
     "external_and_human_tasks_not_fabricated": true,
@@ -190,13 +190,13 @@
     }
   ],
   "artifact_sha256": {
-    "docs/registry/provider-catalog.full.json": "8a1823d2d88c598385ad250a3c7e071d3ac93c3b5001774de9539b883ea64df5",
+    "docs/registry/provider-catalog.full.json": "2a86e5bbd84bcda1eec89c6910bac0ee9b70620083debec1ba8a352e5ea1098c",
     "docs/registry/providers.json": "db75875e73a5ac28a5b654fc4889435e34c3993d0d049782c7c1c94fc67d1796",
-    "docs/coverage/surface-state-registry-20260902.json": "1b4eb9fa91b44aa9c7730b2195918e7661830bda33a3dbdfc56787df9e594f25",
+    "docs/coverage/surface-state-registry-20260902.json": "09ed987c2ee4e470d46850ef06a407ed24501ccfb56f0fcddb173593f9f0ba64",
     "docs/coverage/fixture-completeness-20260908.json": "aa878dd9db41a52559e786e459358438bdf7d1ef3acdfd6819d3e2e90f31043a",
     "docs/operations/technical-promotion-manifest-20260905.json": "f2d88a8b6f03d35703e1e13a67b29ce850eb7d85c4aaca6ae0525fdb7a985416",
     "docs/coverage/open-task-audit-current.json": "5ead282c49d528357650f244c275e75d55f9736d5837521151cc4269a6d60d71",
-    "docs/coverage/open-task-audit-20260907.json": "4088e20e6867395b6206e3bafbda68bcb6dd2edead784b3863cbf3e77dd526ce",
+    "docs/coverage/open-task-audit-20260907.json": "cc13035a1b0033cfb4b4e3b6afb8eea999687c8e9a45fd37c45f3dff6059dbe1",
     "docs/coverage/national-coverage-gold-handoff-20260908.json": "86ef5a93be85d37eebafd3d5760f0fdf83ed0797537b21a428da85d7f035e2e0",
     "docs/coverage/national-coverage-model-handoff-20260908.json": "f7a03b3907239b575fc64b1f15a804dead83b2d58e812a7f6860cdffa20b223c",
     "docs/provider-discovery/tjmg-modern-api-live-20260908.json": "effcc4f5963a5b60cba9f10ba01e5b7485d1e2058161177e02ab79954be99ab4",
@@ -247,7 +247,7 @@
     "docs/provider-discovery/tre-sjur-route-inventory-live-20260909.json": "88785f1d370822e71fa74f152d37ac59605f6fbe2f2f299ecc9a53b26e54b0aa",
     "docs/provider-discovery/tre-sjur-gold-live-20260909.json": "c966fea5bc2af9836edd582028c1046a02aea73961451901f1d36dd8d1c1e164",
     "docs/coverage/0091-artifact-audit-20260908.json": "c16e644aad92c8130b27a3872342e54c438e2f6b25bdfcf1945655b453779189",
-    "specs/changes/0091-national-coverage-gold-handoff/surface-workpacks/manifest.json": "ea06723193c60062bb1448034a3aa1acd5dc96e73c72154ef5980fc32c99e56b"
+    "specs/changes/0091-national-coverage-gold-handoff/surface-workpacks/manifest.json": "e61f8aaeecb1774093c5c05af996acd6372872cba9a642c1fd7eda5a696a992d"
   },
   "next_action": "Process external and human tasks with evidence; no local gate remains pending."
 }

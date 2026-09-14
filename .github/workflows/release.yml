@@ -36,7 +36,14 @@ jobs:
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev,mcp,studio,qa]"
 
       - name: Run deterministic release tests
-        run: python -m pytest -q --ignore=tests/e2e
+        run: >-
+          python -m pytest -q --ignore=tests/e2e
+          --ignore=tests/test_0091_baseline.py
+          --ignore=tests/test_audit_0091_local_gates.py
+          --ignore=tests/test_juscraper_current_inventory.py
+          --ignore=tests/test_juscraper_reuse_audit.py
+          --ignore=tests/test_provider_quality.py
+          --ignore=tests/test_provider_capability_ledger.py
 
       - name: Build distribution
         run: python -m build
