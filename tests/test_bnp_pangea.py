@@ -127,6 +127,37 @@ def test_search_maps_bnp_response():
     assert call["kwargs"]["json"]["filtro"]["tipos"] == ["RG"]
 
 
+def test_search_sanitizes_precedent_markup():
+    payload = {
+        "total": 1,
+        "posicao_inicial": 1,
+        "posicao_final": 1,
+        "resultados": [
+            {
+                "id": "stf-rg-html",
+                "orgao": "STF",
+                "tipo": "RG",
+                "questao": "<p>Questao <em>publica</em></p>",
+                "tese": '<p>Tese publica</p><script>alert("drop")</script>',
+            }
+        ],
+    }
+    provider = BnpPangeaProvider(
+        NanoJurisConfig(),
+        session=FakeSession(
+            [
+                FakeResponse({"orgaos": [{"sigla": "STF"}], "especies": [{"sigla": "RG"}]}),
+                FakeResponse(payload),
+            ]
+        ),
+    )
+
+    result = provider.search(JurisprudenceQuery(text="ICMS")).results[0]
+
+    assert result.question == "Questao publica"
+    assert result.thesis == "Tese publica"
+
+
 def test_get_decisions_maps_response():
     session = FakeSession(
         [

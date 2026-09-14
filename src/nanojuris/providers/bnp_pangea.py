@@ -7,6 +7,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 import requests
+from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
@@ -374,8 +375,8 @@ class BnpPangeaProvider(JurisprudenceProvider):
             court=str(item.get("orgao") or ""),
             type=str(item.get("tipo") or ""),
             number=item.get("nr"),
-            question=item.get("questao"),
-            thesis=item.get("tese"),
+            question=_clean_result_text(item.get("questao")),
+            thesis=_clean_result_text(item.get("tese")),
             status=item.get("situacao"),
             updated_at=item.get("ultimaAtualizacao"),
             paradigm_cases=cases,
@@ -493,6 +494,17 @@ class BnpPangeaProvider(JurisprudenceProvider):
                 raise ParserContractChangedError(f"BNP parameters response missing {key!r}")
             if not isinstance(data.get(key), list):
                 raise ParserContractChangedError(f"BNP parameters {key!r} is not a list")
+
+
+def _clean_result_text(value: Any) -> str | None:
+    """Remove presentation markup from BNP precedent text fields."""
+
+    if value is None:
+        return None
+    text = BeautifulSoup(str(value), "html.parser")
+    for node in text.select("script, style, noscript"):
+        node.decompose()
+    return " ".join(text.get_text(" ", strip=True).split()) or None
 
 
 def _short_response_text(response: requests.Response) -> str:
