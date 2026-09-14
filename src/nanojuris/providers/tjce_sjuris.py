@@ -436,7 +436,7 @@ def _item_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudenc
     source_id = _first_value(item, "id", "idDocumento")
     if source_id is None:
         raise ParserContractChangedError("TJCE/SJURIS item missing stable id")
-    full_text = _string_value(item.get("conteudo"))
+    full_text = _clean_full_text(item.get("conteudo"))
     summary = _clean_snippet(item.get("ementa"))
     pdf_value = _string_value(item.get("pdfAutenticadoBase64"))
     pdf_metadata: dict[str, Any] = {}
@@ -575,6 +575,30 @@ def _clean_snippet(value: Any) -> str:
     text = html_module.unescape(text)
     text = _HTML_TAG.sub("", text)
     return " ".join(text.replace("\xa0", " ").split())
+
+
+def _clean_full_text(value: Any) -> str:
+    """Return inline document text without provider HTML markup.
+
+    SJURIS normally returns plain text, but some decisions contain HTML
+    fragments (and occasionally embedded presentation markup).  The raw item
+    remains available for provenance; the canonical field must stay readable
+    and safe for the browser reader.
+    """
+
+    text = _string_value(value)
+    if not text:
+        return ""
+    text = html_module.unescape(text)
+    text = re.sub(
+        r"<\s*(?:script|style|noscript)\b[^>]*>.*?<\s*/\s*(?:script|style|noscript)\s*>",
+        "",
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+    text = re.sub(r"<\s*br\s*/?\s*>", "\n", text, flags=re.IGNORECASE)
+    text = _HTML_TAG.sub("", text)
+    return "\n".join(" ".join(line.split()) for line in text.splitlines()).strip()
 
 
 def _as_int(value: Any, *, default: int) -> int:

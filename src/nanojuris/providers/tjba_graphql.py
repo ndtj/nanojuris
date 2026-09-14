@@ -526,6 +526,8 @@ def _decision_to_result(
     )
     if not external_id:
         raise ParserContractChangedError("TJBA decision missing stable identifier")
+    raw_content = _first_string(item, "conteudo")
+    full_text = _extract_document_text(raw_content)[0] if raw_content else ""
     return JurisprudenceResult(
         id=f"tjba-graphql-{external_id}",
         source="tjba_graphql",
@@ -533,7 +535,7 @@ def _decision_to_result(
         type=_first_string(item, "tipoDecisao") or "jurisprudencia",
         number=_first_string(item, "numeroProcesso", "codigoProcesso") or None,
         summary=_ementa_from_blob(_first_string(item, "ementa")) or None,
-        full_text=_first_string(item, "conteudo") or None,
+        full_text=full_text or None,
         rapporteur=_nested_string(item.get("relator"), "nome"),
         judgment_date=_date_iso(_first_string(item, "dataJulgamento")) or None,
         publication_date=_date_iso(_first_string(item, "dataPublicacao")) or None,

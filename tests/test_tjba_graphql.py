@@ -145,6 +145,19 @@ def test_search_accepts_empty_source_result():
     assert page.is_complete is True
 
 
+def test_search_sanitizes_html_from_inline_document_content():
+    payload = json.loads(fixture("tjba_graphql_success.json"))
+    payload["data"]["filter"]["decisoes"][0]["conteudo"] = (
+        '<p>Inteiro <strong>teor</strong> publico.</p><script>alert("drop")</script>'
+    )
+    response = FakeResponse(json.dumps(payload, ensure_ascii=False))
+    provider = TjbaGraphqlProvider(session=FakeSession([response]))
+
+    result = provider.search(JurisprudenceQuery(text="termo")).results[0]
+
+    assert result.full_text == "Inteiro teor publico."
+
+
 def test_provider_get_document_uses_public_uuid_and_hashes_content():
     session = FakeSession(
         [

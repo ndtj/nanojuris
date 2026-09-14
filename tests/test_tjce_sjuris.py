@@ -77,6 +77,21 @@ def test_sjuris_parser_preserves_inline_full_text_and_pdf_metadata() -> None:
     assert result.raw["pdf_content_sha256"]
 
 
+def test_sjuris_parser_strips_html_from_inline_full_text() -> None:
+    payload = fixture_data()
+    payload["pagina"]["content"][0]["conteudo"] = (
+        '<p>Inteiro <strong>teor</strong> publico.</p><script>alert("drop")</script>'
+    )
+
+    page = parse_tjce_sjuris_response(
+        payload,
+        query=JurisprudenceQuery(text="transporte aereo", page_size=5),
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    assert page.results[0].full_text == "Inteiro teor publico."
+
+
 def test_sjuris_builds_browser_payload_and_boolean_expression() -> None:
     payload = build_tjce_sjuris_search_payload(
         JurisprudenceQuery(
