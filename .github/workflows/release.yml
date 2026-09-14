@@ -55,8 +55,8 @@ jobs:
 
           wheel = next(Path("dist").glob("*.whl"))
           sdist = next(Path("dist").glob("*.tar.gz"))
-          # 0.6.0 includes the reviewed 80-provider runtime registry.
-          assert wheel.stat().st_size <= 1_100_000, wheel.stat().st_size
+          # 0.6.0 must meet the nano core budget before publication.
+          assert wheel.stat().st_size <= 600_000, wheel.stat().st_size
           assert sdist.stat().st_size <= 1_500_000, sdist.stat().st_size
           with zipfile.ZipFile(wheel) as archive:
               names = archive.namelist()

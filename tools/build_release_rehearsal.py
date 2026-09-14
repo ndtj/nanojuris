@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DISTRIBUTION = ROOT / ".artifacts" / "release-rehearsal-20260902"
 DEFAULT_OUTPUT = ROOT / "docs" / "operations" / "release-rehearsal-20260902.json"
 DEFAULT_MARKDOWN_OUTPUT = ROOT / "docs" / "operations" / "release-rehearsal-20260902.md"
-# The expanded 0.6 provider registry is intentionally public runtime payload.
-WHEEL_LIMIT = 1_100_000
+# The release contract is explicit; a failing rehearsal must block publication.
+WHEEL_LIMIT = 600_000
 SDIST_LIMIT = 1_500_000
 WHEEL_RE = re.compile(r"^nanojuris-(?P<version>[^-]+)-.*\.whl$")
 SDIST_RE = re.compile(r"^nanojuris-(?P<version>[^-]+)\.tar\.gz$")

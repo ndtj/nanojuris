@@ -6,10 +6,9 @@ import argparse
 from pathlib import Path
 
 STATIC_BUDGET = 300_000
-# 0.6 bundles the reviewed national provider registry (80 runtime adapters).
-# The 0.5 budget was calibrated for the 46-provider core and would reject the
-# expanded public API even though tests/fixtures remain excluded from wheels.
-WHEEL_BUDGET = 1_100_000
+# Release 0.6 keeps the nano contract explicit.  The current 80-provider
+# artifact intentionally fails this gate until optional payloads are split.
+WHEEL_BUDGET = 600_000
 SDIST_BUDGET = 1_500_000
 
 
