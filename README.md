@@ -89,6 +89,23 @@ print(payload["results"][0].id)
 print(payload["ranking"])
 ```
 
+### Estratégia de busca
+
+O modo `adaptive` é o padrão recomendado e não exige uma decisão técnica do
+usuário: o planejador seleciona fontes que declaram busca unificada, organiza
+ondas limitadas e preserva o estado de cada provider. Os demais modos são
+controles explícitos para casos de auditoria:
+
+- `selected`: consulta uma fonte unificada específica;
+- `all`: consulta todas as fontes unificadas elegíveis;
+- `legacy`: consulta explicitamente uma fonte que ainda não aderiu ao contrato
+  federado.
+
+`legal-live-v1` é aplicado no core da biblioteca depois da coleta. Ele combina
+intenção jurídica, BM25, termos/conceitos encontrados e `native_rank`, e expõe
+scores e razões em `ranking`. A plataforma apenas projeta esses metadados para
+a interface; não mantém uma segunda implementação do algoritmo.
+
 Para desenvolvimento local:
 
 ```bash
