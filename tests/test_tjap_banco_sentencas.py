@@ -139,3 +139,18 @@ def test_rtf_unicode_escapes_are_decoded_without_visible_garbage() -> None:
     text = _extract_rtf_text(card)
 
     assert text == "Chamo o feito à ordem. Ação. “ok”"
+
+
+def test_rtf_formatting_controls_and_embedded_html_do_not_leak() -> None:
+    card = BeautifulSoup("<div></div>", "html.parser").div
+    assert card is not None
+    card["x-data"] = (
+        r"textToCopy: '{\rtf1\ansi\f0\fs24 "
+        r"Converto o julgamento em dilig\f1\u0027eancia.\par "
+        r"\u003Cdiv\u003EInteiro teor público.\u003C/div\u003E}'"
+    )
+
+    text = _extract_rtf_text(card)
+
+    assert text == "Converto o julgamento em diligência. Inteiro teor público."
+    assert "<div" not in text

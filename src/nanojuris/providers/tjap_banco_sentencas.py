@@ -576,7 +576,12 @@ def _parse_card(card: Tag, *, trace: SourceTrace, base_url: str) -> Jurisprudenc
     identifier = reader_match.group("id")
     title = _normalize_text((card.select_one("h2") or card).get_text(" ", strip=True))
     decision_type = "sentenca" if "senten" in title.casefold() else "decisao"
-    full_text = values.get("teor do ato") or _extract_visible_teor(card) or _extract_rtf_text(card)
+    # ``textToCopy`` is the source's clean copy and avoids highlight spans
+    # inserted into the visible card. Prefer it, then fall back to an
+    # expanded block or the labeled field used by older templates.
+    full_text = (
+        _extract_rtf_text(card) or _extract_visible_teor(card) or values.get("teor do ato", "")
+    )
     sigiloso = "sigiloso" in full_text.casefold() and len(full_text) < 300
     extraction = (
         ExtractionStatus.PARTIAL
@@ -727,15 +732,50 @@ def _extract_rtf_text(card: Tag) -> str:
             return bytes([codepoint]).decode("cp1252", errors="replace")
         return chr(codepoint)
 
+    def decode_inline_unicode(match: re.Match[str]) -> str:
+        """Decode an uppercase escape and consume its RTF fallback blank."""
+
+        codepoint = int(match.group(2), 16)
+        decoded = (
+            bytes([codepoint]).decode("cp1252", errors="replace")
+            if 0x80 <= codepoint <= 0xFF
+            else chr(codepoint)
+        )
+        if not decoded.isupper():
+            return match.group(0)
+        return match.group(1) + decoded + match.group(3)
+
+    # This source occasionally appends one fallback blank after an uppercase
+    # Unicode escape (``Ç A`` in the serialized payload means ``ÇA``). Restrict
+    # the repair to an uppercase letter followed by another uppercase letter;
+    # a normal blank after ``está`` must remain a word separator.
+    raw = re.sub(
+        r"([A-Za-zÀ-ÿ])\\+u([0-9a-fA-F]{4}) ([A-ZÀ-Þ])",
+        decode_inline_unicode,
+        raw,
+    )
     raw = re.sub(
         r"\\+u([0-9a-fA-F]{4})",
         decode_unicode,
         raw,
     )
     raw = re.sub(r"\\+'([0-9a-fA-F]{2})", decode_byte, raw)
-    raw = re.sub(r"\\+[a-zA-Z]+\d* ?", " ", raw)
+    # Formatting controls do not delimit legal words. Replacing ``\\f1`` or
+    # ``\\f0`` with a blank turns ``dilig\\f1\\'eancia`` into ``dilig ência``;
+    # remove those controls instead. Paragraph/line controls intentionally
+    # create whitespace.
+    raw = re.sub(r"\\+(?:pard?|line|sect|row)\d* ?", "\n", raw, flags=re.I)
+    raw = re.sub(r"\\+tab\d* ?", "\t", raw, flags=re.I)
+    raw = re.sub(r"\\+[a-zA-Z]+\d* ?", "", raw)
     raw = re.sub(r"[{}]", " ", raw)
     raw = re.sub(r"^(?:\s*Futura-Light;\s*)+", "", raw)
+    # A few records embed an HTML fragment in ``textToCopy``. Strip markup so
+    # it cannot leak into the canonical summary or the browser card.
+    if re.search(r"<(?:div|p|span|br|table)\b", raw, re.I):
+        fragment = BeautifulSoup(raw, "html.parser")
+        for node in fragment(["script", "style", "noscript"]):
+            node.decompose()
+        raw = fragment.get_text(" ", strip=True)
     return _normalize_text(raw)
 
 
