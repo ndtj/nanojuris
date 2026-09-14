@@ -12,7 +12,6 @@ jobs:
   publish:
     name: Validate and publish to PyPI
     runs-on: ubuntu-latest
-    environment: pypi
     permissions:
       contents: read
       id-token: write
