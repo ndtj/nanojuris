@@ -1,3 +1,4 @@
+from nanojuris.canonical import result_to_canonical_decision
 from nanojuris.models import JurisprudenceResult
 from nanojuris.normalization import (
     first_nonempty,
@@ -30,6 +31,19 @@ def test_result_normalizes_display_fields_but_preserves_full_text_layout() -> No
     assert result.question == "Questão pública"
     assert result.thesis == "Tese completa"
     assert result.full_text == "Linha 1\n\nLinha  2"
+
+
+def test_canonical_subject_normalizes_provider_whitespace() -> None:
+    result = JurisprudenceResult(
+        id="r2",
+        source="fixture",
+        court="TJ",
+        type="acordao",
+        summary="Ementa",
+        raw={"subject": "Responsabilidade  civil\ncontratual"},
+    )
+
+    assert result_to_canonical_decision(result).subject == "Responsabilidade civil contratual"
 
 
 def test_normalize_dates_preserves_unknown_as_none() -> None:

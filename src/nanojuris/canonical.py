@@ -12,7 +12,7 @@ from nanojuris.models import (
     ParadigmCase,
     SearchPage,
 )
-from nanojuris.normalization import normalize_date_value
+from nanojuris.normalization import normalize_date_value, normalize_text
 
 DEFAULT_CANONICAL_PARSER_VERSION = "1"
 
@@ -52,7 +52,7 @@ def result_to_canonical_decision(
         registry_number=_optional_str(raw.get("nu_registro") or raw.get("registry_number")),
         decision_type=result.type or None,
         case_class=_optional_str(result.case_class or raw.get("classe") or raw.get("case_class")),
-        subject=_optional_str(raw.get("assunto") or raw.get("subject")),
+        subject=normalize_text(raw.get("assunto") or raw.get("subject")),
         rapporteur=result.rapporteur,
         judging_body=_optional_str(
             result.judging_body or raw.get("orgao_julgador") or raw.get("judging_body")
