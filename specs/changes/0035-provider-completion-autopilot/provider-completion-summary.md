@@ -1,6 +1,6 @@
 # Resumo de conclusão dos providers
 
-Gerado em: 2026-09-13T00:15:30+00:00
+Gerado em: 2026-09-14T06:04:18+00:00
 Modo: offline_only; nenhuma fonte externa foi chamada.
 
 ## Escopo
@@ -89,7 +89,7 @@ em sucesso implícito.
 | P3 | [stj_dados_abertos_jurisprudencia](provider-workpacks/stj_dados_abertos_jurisprudencia.md) | runtime | dataset_pipeline | context | context_verified | 7 |
 | P3 | [stj_scon](provider-workpacks/stj_scon.md) | runtime | specialized_context | blocked | context_verified | 8 |
 | P3 | [tce_pr_viajuris](provider-workpacks/tce_pr_viajuris.md) | runtime | administrative_context | silver | context_verified | 2 |
-| P3 | [tce_sp_jurisprudencia](provider-workpacks/tce_sp_jurisprudencia.md) | runtime | administrative_context | context | context_verified | 6 |
+| P3 | [tce_sp_jurisprudencia](provider-workpacks/tce_sp_jurisprudencia.md) | runtime | administrative_context | context | context_verified | 7 |
 | P3 | [tcu_jurisprudencia](provider-workpacks/tcu_jurisprudencia.md) | runtime | administrative_context | silver | context_verified | 1 |
 | P3 | [tjac_banco_sentencas](provider-workpacks/tjac_banco_sentencas.md) | runtime | specialized_context | context | context_verified | 4 |
 | P3 | [tjal_turma_recursal_ementario](provider-workpacks/tjal_turma_recursal_ementario.md) | runtime | specialized_context | context | context_verified | 5 |

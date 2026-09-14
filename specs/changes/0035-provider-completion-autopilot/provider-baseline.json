@@ -1,6 +1,6 @@
 {
   "schema_version": "provider-completion-baseline-v2",
-  "generated_at": "2026-09-13T00:15:30+00:00",
+  "generated_at": "2026-09-14T06:04:18+00:00",
   "mode": "offline_only",
   "network_access": "not_used",
   "catalog": "docs/registry/provider-catalog.full.json",
@@ -710,7 +710,7 @@
       "implementation_status": "runtime",
       "coverage_role": "primary_textual_jurisprudence",
       "maturity_tier": "gold",
-      "maturity_score": 95,
+      "maturity_score": 94,
       "target_tier": "gold",
       "priority": 2,
       "gaps": [
@@ -1132,11 +1132,12 @@
       "implementation_status": "runtime",
       "coverage_role": "administrative_context",
       "maturity_tier": "context",
-      "maturity_score": 67,
+      "maturity_score": 65,
       "target_tier": "context_verified",
       "priority": 3,
       "gaps": [
         "not_in_unified_search",
+        "live_status:empty_unconfirmed",
         "maturity:fora da busca unificada",
         "maturity:risco operacional alto",
         "unified:excluded_from_unified_search",

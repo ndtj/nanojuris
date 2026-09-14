@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -13,6 +14,9 @@ PACKAGE_ID = re.compile(r"^\d{4}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 STATUS = re.compile(r"^Status:\s*`?([a-z_]+)`?", re.MULTILINE)
 CRITERION = re.compile(r"\bAC-\d{3}\b")
 TASK = re.compile(r"\bT\d{1,3}\b")
+PACKAGE_NUMBER = re.compile(r"^(\d{4})-")
+READY_STATUSES = {"ready", "in_progress", "verified", "accepted"}
+RISK_LEVELS = {"L0", "L1", "L2", "L3", "L4"}
 
 
 def validate(root: Path) -> list[str]:
@@ -26,9 +30,30 @@ def validate(root: Path) -> list[str]:
     if not packages:
         return [f"no SDD change packages found in: {changes}"]
 
+    package_numbers: dict[str, list[str]] = {}
+    for package in packages:
+        match = PACKAGE_NUMBER.match(package.name)
+        if match:
+            package_numbers.setdefault(match.group(1), []).append(package.name)
+    for number, names in package_numbers.items():
+        if len(names) > 1:
+            errors.append(f"duplicate SDD id {number}: {', '.join(names)}")
+
     for package in packages:
         if not PACKAGE_ID.fullmatch(package.name):
             errors.append(f"{package}: package id must match NNNN-lowercase-name")
+        compact_path = package / "change.yaml"
+        # v2 packages are intentionally proportional: their single structured
+        # packet replaces the legacy four-document minimum for low-risk work.
+        if compact_path.is_file():
+            try:
+                compact = json.loads(compact_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                errors.append(f"{package}: invalid JSON-compatible YAML: {exc}")
+                continue
+            _validate_compact_change(package, compact, errors)
+            continue
+
         contents: dict[str, str] = {}
         for filename in REQUIRED_FILES:
             path = package / filename
@@ -57,6 +82,62 @@ def validate(root: Path) -> list[str]:
             errors.append(f"{package}: verification.md needs a Rastreabilidade section")
 
     return errors
+
+
+def _validate_compact_change(package: Path, change: dict[str, object], errors: list[str]) -> None:
+    required = {
+        "schema_version",
+        "id",
+        "status",
+        "risk",
+        "owner",
+        "reviewer",
+        "matrix_cells",
+        "requirements",
+        "tasks",
+        "tests",
+    }
+    missing = sorted(required - change.keys())
+    if missing:
+        errors.append(f"{package}: change.yaml missing {', '.join(missing)}")
+        return
+    if change["id"] != package.name:
+        errors.append(f"{package}: change.yaml id must equal directory name")
+    if change["risk"] not in RISK_LEVELS:
+        errors.append(f"{package}: invalid risk {change['risk']!r}")
+    status = str(change["status"])
+    if status in READY_STATUSES and any(
+        change.get(field) in {None, "", "TBD"} for field in ("owner", "reviewer")
+    ):
+        errors.append(f"{package}: ready change cannot have TBD owner/reviewer")
+    requirements = change.get("requirements")
+    tasks = change.get("tasks")
+    tests = change.get("tests")
+    if not isinstance(requirements, list) or not requirements:
+        errors.append(f"{package}: change.yaml needs requirements")
+        return
+    if not isinstance(tasks, list) or not tasks or not isinstance(tests, list) or not tests:
+        errors.append(f"{package}: change.yaml needs tasks and tests")
+        return
+    requirement_ids = {item.get("id") for item in requirements if isinstance(item, dict)}
+    acceptance_ids = {
+        acceptance
+        for item in requirements
+        if isinstance(item, dict)
+        for acceptance in item.get("acceptance", [])
+    }
+    for task in tasks:
+        if isinstance(task, dict) and not set(task.get("requirements", [])) <= requirement_ids:
+            errors.append(f"{package}: task references unknown requirement")
+    tested_acceptance = {
+        acceptance
+        for test in tests
+        if isinstance(test, dict)
+        for acceptance in test.get("acceptance", [])
+    }
+    missing_tests = sorted(acceptance_ids - tested_acceptance)
+    if missing_tests:
+        errors.append(f"{package}: acceptance without test: {', '.join(missing_tests)}")
 
 
 def main() -> int:

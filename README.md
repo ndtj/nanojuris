@@ -46,6 +46,25 @@ O projeto está evoluindo continuamente sua cobertura. “Implementado”, “va
 e “disponível em consulta live” são estados diferentes; a documentação de cada
 provider explicita essa distinção.
 
+<!-- coverage-summary:start -->
+## Cobertura por família
+
+| Família | Autoridades | Superfícies | Verificadas | Bloqueadas | Lacunas | Providers primários/contexto | Inteiro teor |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Justiça estadual | 27 | 84 | 57 | 2 | 19 | 37/9 | 39 |
+| Justiça federal | 7 | 9 | 5 | 1 | 1 | 5/3 | 8 |
+| Justiça do trabalho | 25 | 34 | 1 | 0 | 24 | 3/7 | 6 |
+| Justiça eleitoral | 28 | 32 | 0 | 1 | 1 | 0/5 | 4 |
+| Justiça militar | 4 | 6 | 2 | 0 | 3 | 1/2 | 3 |
+| Tribunais superiores | 2 | 5 | 1 | 3 | 0 | 1/4 | 3 |
+| Conselhos e contexto | 0 | 2 | 0 | 0 | 0 | 0/2 | 1 |
+| Controle externo | 0 | 3 | 0 | 0 | 0 | 0/3 | 2 |
+
+[Abra a matriz completa](docs/coverage/coverage-matrix.md).
+
+> **Leitura correta:** provider não equivale a tribunal coberto; implementação não equivale a validação live; informativo, precedente ou catálogo não substitui jurisprudência textual geral.
+<!-- coverage-summary:end -->
+
 ## Comece pelo seu objetivo
 
 | Você quer... | Comece por... |
@@ -209,17 +228,13 @@ blocos de configuração para clientes compatíveis e as regras de segurança.
 
 ## Cobertura atual
 
-O catálogo separa o que está implementado do que foi apenas mapeado para
-desenvolvimento:
+As contagens e estados são derivados exclusivamente da
+[matriz canônica de cobertura](docs/coverage/coverage-matrix.md). Ela vincula
+os providers de runtime, autoridades e superfícies, sem confundir adapter
+implementado, disponibilidade live e cobertura primária de jurisprudência.
 
-| Estado | Quantidade | Significado |
-| --- | ---: | --- |
-| Providers implementados | 44 | Há adapter registrado no pacote |
-| Fontes candidatas | 9 | Há evidência ou pesquisa, mas não são runtime |
-| Especificações de família | 1 | Contrato compartilhado aguardando adapters |
-
-Consulte o [catálogo machine-readable](docs/registry/providers.json), a
-[matriz de cobertura](docs/provider-coverage-map.md) e os
+Consulte o [catálogo machine-readable](docs/registry/provider-catalog.full.json), a
+[matriz de cobertura](docs/coverage/coverage-matrix.md) e os
 [dossiês individuais](docs/providers/README.md). Cada dossiê distingue rota
 observada, resposta reproduzida e provider pronto para uso.
 

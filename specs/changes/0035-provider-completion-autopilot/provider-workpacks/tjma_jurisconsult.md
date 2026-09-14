@@ -42,7 +42,7 @@ Priority: P3
 ## Evidência live versionada
 
 - status: access_controlled
-- data: 2026-09-06
+- data: 2026-09-13
 - esta fotografia não prova disponibilidade atual ou permanente
 
 ## Lacunas consolidadas

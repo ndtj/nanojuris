@@ -43,7 +43,7 @@ Priority: P2
 ## Evidência live versionada
 
 - status: valid
-- data: 2026-09-06
+- data: 2026-09-05T08:24:27+00:00
 - esta fotografia não prova disponibilidade atual ou permanente
 
 ## Lacunas consolidadas

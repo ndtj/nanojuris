@@ -1,6 +1,6 @@
 {
   "schema_version": "nanojuris-executor-packet-v1",
-  "generated_at": "2026-09-08",
+  "generated_at": "2026-09-14",
   "scope": {
     "library": "repos/nanojuris",
     "platform": "repos/nanojuris-platform",
@@ -41,379 +41,415 @@
       "package": "0069-state-appellate-national-coverage",
       "task_id": "T07",
       "class": "external_source",
-      "scope": "[blocked-external: TJAP/TJMA exigem CAPTCHA/Turnstile ou rota oficial alternativa; rechecagens 2026-09-07 registradas em docs/provider-discovery/legitimate-blocked-techniques-20260907.json e docs/provider-discovery/tjma-public-route-inventory-live-20260907.json]"
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0077-live-intelligent-federated-search",
       "task_id": "T62",
       "class": "human_review",
-      "scope": "medir/calibrar development, validar holdout e performance p95."
+      "scope": "Add independent relevance labels, calibrate on development, and evaluate holdout."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T012",
       "class": "external_source",
-      "scope": "close TJRJ/TJSC CJPG and priority CJSG gaps."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T013",
       "class": "external_source",
-      "scope": "prove Falcao by labor-court authority."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T015",
       "class": "external_source",
-      "scope": "implement the remaining state CJPG family surfaces."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T016",
       "class": "external_source",
-      "scope": "close federal, superior, and military surfaces."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T017",
       "class": "external_source",
-      "scope": "prove every provider filter differentially."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T019",
       "class": "external_source",
-      "scope": "locate and validate detail and document routes live."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T021",
       "class": "external_source",
-      "scope": "complete per-surface success, empty, error, blocked, and drift fixtures."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0078-national-coverage-lawful-access",
       "task_id": "T022",
       "class": "external_source",
-      "scope": "complete semantic validation of degree, authority, identity, dates,"
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0081-state-first-degree-expansion",
       "task_id": "T003",
       "class": "external_source",
-      "scope": "prove degree, class, filters, and pagination per court."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0081-state-first-degree-expansion",
       "task_id": "T004",
       "class": "external_source",
-      "scope": "implement fixtures and canonical parsers."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0081-state-first-degree-expansion",
       "task_id": "T005",
       "class": "external_source",
-      "scope": "validate documents and temporal ranges."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0081-state-first-degree-expansion",
       "task_id": "T006",
       "class": "external_source",
-      "scope": "promote only surfaces passing all eight gates."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0083-federal-superior-military-closure",
       "task_id": "T004",
       "class": "external_source",
-      "scope": "validate detail, document, and temporal-range routes live."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0084-fulltext-and-field-completeness",
       "task_id": "T002",
       "class": "external_source",
-      "scope": "prove filters and pagination differentially with provider evidence."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0084-fulltext-and-field-completeness",
       "task_id": "T004",
       "class": "external_source",
-      "scope": "locate and validate detail, download, and full-text routes live."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0084-fulltext-and-field-completeness",
       "task_id": "T005",
       "class": "external_source",
-      "scope": "run the complete live MIME, PDF, OCR, hash, and linkage QA matrix."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0086-trt2-basis-jurisprudencia",
       "task_id": "T009",
       "class": "human_review",
-      "scope": "Confirmar retenção e uso operacional com responsável humano."
+      "scope": "Add independent relevance labels, calibrate on development, and evaluate holdout."
     },
     {
       "package": "0087-trf3-jurisprudencia-exact-process",
       "task_id": "T008",
       "class": "external_source",
-      "scope": "Revalidar a rota com chamada live bounded que retorne registro parseado; a janela de 2026-09-07 expirou por timeout."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T007",
       "class": "external_source",
-      "scope": "[E]** descobrir a rota pública oficial por tribunal."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T008",
       "class": "external_source",
-      "scope": "[E]** provar `degree=first`, coleção e escopo textual."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T009",
       "class": "external_source",
-      "scope": "[E]** validar filtros, paginação e ordenação."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T010",
       "class": "external_source",
-      "scope": "[E]** implementar parser e fixtures sanitizadas."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T011",
       "class": "external_source",
-      "scope": "[E]** validar detalhe, PDF/HTML, MIME, hash e extração."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T021",
       "class": "external_source",
-      "scope": "[E]** fechar TRF, STJ, STF, STM e CJF com detalhe documental."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T025",
       "class": "external_source",
-      "scope": "[E]** validar datas de julgamento, publicação, atualização e"
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T026",
       "class": "external_source",
-      "scope": "[E]** validar links de detalhe e documentos bounded."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T036",
       "class": "human_review",
-      "scope": "[H]** obter decisão de licença, retenção e responsável por fonte."
+      "scope": "Add independent relevance labels, calibrate on development, and evaluate holdout."
     },
     {
       "package": "0089-national-coverage-execution-handoff",
       "task_id": "T037",
       "class": "human_review",
-      "scope": "[H]** aprovar rótulos humanos de relevância para o benchmark."
+      "scope": "Add independent relevance labels, calibrate on development, and evaluate holdout."
     },
     {
       "package": "0090-tjrj-banco-sentencas",
       "task_id": "T008",
       "class": "human_review",
-      "scope": "decidir promoção de coleção curada após revisão humana."
+      "scope": "Add independent relevance labels, calibrate on development, and evaluate holdout."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T011",
       "class": "external_source",
-      "scope": "[E]** confirmar fonte oficial e rota pública por superfície CJPG."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T012",
       "class": "external_source",
-      "scope": "[E]** confirmar fonte oficial e rota pública por superfície CJSG."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T013",
       "class": "external_source",
-      "scope": "[E]** fechar TRF/STJ/STF/STM/CJF com contratos documentais."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T014",
       "class": "external_source",
-      "scope": "[E]** fechar TRT/TST e TSE/TRE/SJUR sem misturar coleções."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T016",
       "class": "external_source",
-      "scope": "[E]** executar chamadas bounded e classificar bloqueios."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T018",
       "class": "external_source",
-      "scope": "[E]** registrar fixture sanitizada de sucesso e segunda página."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T019",
       "class": "external_source",
-      "scope": "[E]** registrar vazio autoritativo e vazio não confirmado separados."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T021",
       "class": "external_source",
-      "scope": "[E]** validar detalhe, PDF/HTML, MIME, hash e limites."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T027",
       "class": "human_review",
-      "scope": "[H]** aprovar rótulos de benchmark e holdout."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T029",
       "class": "human_review",
-      "scope": "[H]** aprovar licença, retenção, frequência e responsável."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0092-national-coverage-execution-blueprint",
       "task_id": "T030",
       "class": "human_review",
-      "scope": "[H]** autorizar promoção padrão, release ou mudança externa."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0093-trt15-jurisprudencia-surface",
       "task_id": "T006",
       "class": "external_source",
-      "scope": "[E]** obter API/export/fluxo público autorizado que retorne"
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0095-tjal-turma-recursal-ementario",
       "task_id": "T008",
       "class": "human_review",
-      "scope": "decidir promocao padrao apos revisao de qualidade e operacao."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0095-tjal-turma-recursal-ementario",
       "task_id": "T009",
       "class": "human_review",
-      "scope": "decidir politica de atualizacao dos volumes por responsavel humano."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0096-tjal-esmal-banco-sentencas",
       "task_id": "T010",
       "class": "human_review",
-      "scope": "aprovar retencao e politica de atualizacao dos PDFs."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0097-tjmg-ejef-boletim-jurisprudencia",
       "task_id": "T010",
       "class": "human_review",
-      "scope": "decidir retencao e politica de atualizacao da colecao curada."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0102-trt2-pje-diagnostic",
       "task_id": "T007",
       "class": "external_source",
-      "scope": "obter rota oficial de documentos sem desafio ou fluxo autorizado reproduzivel."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0103-falcao-jt-diagnostic",
       "task_id": "T006",
       "class": "external_source",
-      "scope": "obter API, exportacao ou allowlist oficial reproduzivel do Falcao."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0106-trt6-jurisprudencia-diagnostic",
       "task_id": "T007",
       "class": "external_source",
-      "scope": "obter rota oficial autorizada para busca TRT6 sem desafio automatizado."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0106-trt6-jurisprudencia-diagnostic",
       "task_id": "T008",
       "class": "external_source",
-      "scope": "confirmar contrato de segundo grau, paginação e filtros com o TRT6."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0106-trt6-jurisprudencia-diagnostic",
       "task_id": "T009",
       "class": "human_review",
-      "scope": "reavaliar promoção federada somente após os gates restantes."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0107-tre-sjur-family",
       "task_id": "T007",
       "class": "external_source",
-      "scope": "validar paginacao remota individual por UF."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0107-tre-sjur-family",
       "task_id": "T008",
       "class": "external_source",
-      "scope": "validar detalhe/PDF valido individual por UF."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0107-tre-sjur-family",
       "task_id": "T009",
       "class": "human_review",
-      "scope": "submeter promocao tecnica apos os gates pendentes."
-    },
-    {
-      "package": "0109-trt3-ementario-jurisprudencia",
-      "task_id": "T007",
-      "class": "external_source",
-      "scope": "obter contrato oficial de busca geral do TRT3, se publicado."
-    },
-    {
-      "package": "0109-trt3-ementario-jurisprudencia",
-      "task_id": "T008",
-      "class": "human_review",
-      "scope": "decidir retencao e promocao da colecao curada TRT3."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0108-federal-eproc-family-dispatcher",
       "task_id": "T010",
       "class": "human_review",
-      "scope": "aprovar promoção individual de cada superfície após os oito gates."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0110-trt9-nugepnac-jurisprudencia",
       "task_id": "T007",
       "class": "external_source",
-      "scope": "obter contrato oficial de busca geral TRT9, se publicado."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0110-trt9-nugepnac-jurisprudencia",
       "task_id": "T008",
       "class": "human_review",
-      "scope": "decidir retencao e promocao da colecao curada TRT9."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0111-trt4-sumulas-jurisprudencia",
       "task_id": "T008",
       "class": "external_source",
-      "scope": "obter contrato publico de busca geral TRT4, se publicado."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
     },
     {
       "package": "0111-trt4-sumulas-jurisprudencia",
       "task_id": "T009",
       "class": "human_review",
-      "scope": "decidir retencao e promocao da colecao curada TRT4."
+      "scope": "Record the responsible human decision before closing the task."
     },
     {
       "package": "0113-tjmg-modern-api-filter-contract",
       "task_id": "T006",
       "class": "external_source",
-      "scope": "revalidate the official API after upstream schema changes."
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T02",
+      "class": "local_evidence",
+      "scope": "Create the missing local artifact/test and rerun the relevant gates."
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T03",
+      "class": "local_evidence",
+      "scope": "Create the missing local artifact/test and rerun the relevant gates."
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T04",
+      "class": "local_evidence",
+      "scope": "Create the missing local artifact/test and rerun the relevant gates."
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T05",
+      "class": "local_evidence",
+      "scope": "Create the missing local artifact/test and rerun the relevant gates."
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T06",
+      "class": "local_evidence",
+      "scope": "Create the missing local artifact/test and rerun the relevant gates."
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T07",
+      "class": "local_evidence",
+      "scope": "Create the missing local artifact/test and rerun the relevant gates."
+    },
+    {
+      "package": "0117-trt3-ementario-jurisprudencia",
+      "task_id": "T007",
+      "class": "external_source",
+      "scope": "Run a bounded official-source check or record the terminal external blocker."
+    },
+    {
+      "package": "0117-trt3-ementario-jurisprudencia",
+      "task_id": "T008",
+      "class": "human_review",
+      "scope": "Record the responsible human decision before closing the task."
     }
   ],
   "promotion_gates": [

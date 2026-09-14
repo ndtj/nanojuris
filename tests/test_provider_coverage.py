@@ -6,7 +6,7 @@ from pathlib import Path
 from nanojuris.catalog import get_provider_catalog_entry, load_provider_catalog
 from nanojuris.client import NanoJurisClient
 from tools import build_provider_coverage as coverage_builder
-from tools.build_provider_coverage import build_catalog, render_docs
+from tools.build_provider_coverage import _compact_catalog, build_catalog, render_docs
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -32,12 +32,14 @@ def test_snapshot_date_advances_to_newer_checked_in_evidence(monkeypatch, tmp_pa
     assert coverage_builder._snapshot_date() == "2026-09-02"
 
 
-def test_packaged_catalog_matches_documentation_catalog() -> None:
-    documentation_catalog = json.loads(
-        (ROOT / "docs" / "registry" / "provider-catalog.full.json").read_text(encoding="utf-8")
+def test_packaged_catalog_is_the_compact_runtime_projection() -> None:
+    # Development tooling deliberately reads the rich documentation catalog
+    # from the checkout.  An installed package has only this compact file.
+    compact = json.loads(
+        (ROOT / "src" / "nanojuris" / "data" / "provider-catalog.json").read_text(encoding="utf-8")
     )
-
-    assert load_provider_catalog() == documentation_catalog
+    assert compact == _compact_catalog(build_catalog())
+    assert load_provider_catalog()["entries"]
     assert get_provider_catalog_entry("tjdf_juris")["source_id"] == "tjdf_juris"
 
 

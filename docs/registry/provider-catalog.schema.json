@@ -32,6 +32,7 @@
       ],
       "additionalProperties": true
     },
+    "quality_evaluation": {"type": "object"},
     "entries": {
       "type": "array",
       "items": {"$ref": "#/$defs/providerEntry"},
@@ -92,6 +93,11 @@
             "source_id": {"type": "string"},
             "display_name": {"type": "string"},
             "source_url": {"type": ["string", "null"], "format": "uri"},
+            "source_urls": {
+              "type": "array",
+              "items": {"type": "string", "format": "uri"},
+              "uniqueItems": true
+            },
             "category": {"type": "string"}
           },
           "additionalProperties": false
@@ -160,7 +166,18 @@
             {"type": "object"},
             {"type": "null"}
           ]
-        }
+        },
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "evidence_ttl": {"type": ["integer", "string", "null"], "minimum": 0},
+        "evidence_ttl_days": {"type": ["integer", "null"], "minimum": 0},
+        "live_dimensions": {"type": "object"},
+        "next_action": {"type": ["string", "null"]},
+        "owner": {"type": ["string", "null"]},
+        "runtime_binding": {"type": ["boolean", "object", "null"]},
+        "runtime_binding_status": {"type": ["string", "null"]},
+        "runtime_expansion": {"type": ["object", "null"]},
+        "surface_id": {"type": ["string", "null"]},
+        "surface_identity": {"type": ["object", "null"]}
       },
       "additionalProperties": false
     }

@@ -1,6 +1,6 @@
 # Open task audit - 2026-09-07
 
-Unchecked tasks: **106**.
+Unchecked tasks: **112**.
 
 | Package | Task | Classification | Next action |
 |---|---|---|---|
@@ -100,8 +100,6 @@ Unchecked tasks: **106**.
 | `0107-tre-sjur-family` | `T008` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
 | `0107-tre-sjur-family` | `T009` | `human_review` | Record the responsible human decision before closing the task. |
 | `0108-federal-eproc-family-dispatcher` | `T010` | `human_review` | Record the responsible human decision before closing the task. |
-| `0109-trt3-ementario-jurisprudencia` | `T007` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
-| `0109-trt3-ementario-jurisprudencia` | `T008` | `human_review` | Record the responsible human decision before closing the task. |
 | `0110-trt9-nugepnac-jurisprudencia` | `T007` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
 | `0110-trt9-nugepnac-jurisprudencia` | `T008` | `human_review` | Record the responsible human decision before closing the task. |
 | `0111-trt4-sumulas-jurisprudencia` | `T008` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
@@ -110,3 +108,11 @@ Unchecked tasks: **106**.
 | `0112-tre-sjur-first-degree` | `T007` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
 | `0112-tre-sjur-first-degree` | `T008` | `human_review` | Record the responsible human decision before closing the task. |
 | `0113-tjmg-modern-api-filter-contract` | `T006` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
+| `0114-canonical-coverage-matrix` | `T02` | `local_evidence` | Create the missing local artifact/test and rerun the relevant gates. |
+| `0114-canonical-coverage-matrix` | `T03` | `local_evidence` | Create the missing local artifact/test and rerun the relevant gates. |
+| `0114-canonical-coverage-matrix` | `T04` | `local_evidence` | Create the missing local artifact/test and rerun the relevant gates. |
+| `0114-canonical-coverage-matrix` | `T05` | `local_evidence` | Create the missing local artifact/test and rerun the relevant gates. |
+| `0114-canonical-coverage-matrix` | `T06` | `local_evidence` | Create the missing local artifact/test and rerun the relevant gates. |
+| `0114-canonical-coverage-matrix` | `T07` | `local_evidence` | Create the missing local artifact/test and rerun the relevant gates. |
+| `0117-trt3-ementario-jurisprudencia` | `T007` | `external_source` | Run a bounded official-source check or record the terminal external blocker. |
+| `0117-trt3-ementario-jurisprudencia` | `T008` | `human_review` | Record the responsible human decision before closing the task. |

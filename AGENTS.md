@@ -104,6 +104,22 @@ NanoJuris follows a spec-driven workflow. The canonical SDD artifacts live under
 `specs/` and are versioned with the code. Prompts and chat history are working
 inputs, not the source of truth.
 
+Before implementing a non-trivial change, the agent must begin from a coverage
+matrix cell and select an SDD level proportional to risk:
+
+- L0: documentation or generated projection — cell plus automated validation;
+- L1: internal correction — compact `change.yaml`;
+- L2: provider or contract — `change.yaml`, provider contract and verification;
+- L3: API, data model, federation or public behavior — L2 material plus design/ADR
+  and independent review;
+- L4: release, infrastructure or security — L3 material plus operational plan,
+  rollback and human approval (and a threat model where applicable).
+
+Legacy packages retain their four-document shape. New packages may use the
+machine-readable `change.yaml` packet, validated by `tools/validate_sdd.py`.
+Implementation agents should receive the generated executor packet, relevant
+contract, code and tests for their Ready cell—not the historical archive.
+
 Before implementing a non-trivial change, the agent must:
 
 1. read `specs/constitution.md` and `specs/README.md`;
@@ -113,7 +129,7 @@ Before implementing a non-trivial change, the agent must:
 5. implement only after the specification is internally consistent;
 6. run the required verification and record evidence in `verification.md`.
 
-Every change package must contain, at minimum:
+Legacy change packages contain, at minimum:
 
 - `spec.md`: intent, scope, behavior and acceptance criteria;
 - `design.md`: architecture, interfaces, data and security decisions;

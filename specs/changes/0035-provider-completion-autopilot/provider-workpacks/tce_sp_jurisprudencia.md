@@ -43,13 +43,14 @@ Priority: P3
 
 ## Evidência live versionada
 
-- status: valid
-- data: 2026-09-06
+- status: empty_unconfirmed
+- data: 2026-09-05T08:24:27+00:00
 - esta fotografia não prova disponibilidade atual ou permanente
 
 ## Lacunas consolidadas
 
 - not_in_unified_search
+- live_status:empty_unconfirmed
 - maturity:fora da busca unificada
 - maturity:risco operacional alto
 - unified:excluded_from_unified_search
@@ -58,6 +59,7 @@ Priority: P3
 
 ## Defeitos conhecidos
 
+- live:empty_unconfirmed
 - gap:Mapear indisponibilidade, hash e tamanho de inteiro teor.
 
 ## Tarefas obrigatórias

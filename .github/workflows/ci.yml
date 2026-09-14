@@ -36,6 +36,9 @@ jobs:
       - name: Validate SDD packages
         run: python tools/validate_sdd.py
 
+      - name: Validate canonical coverage projections
+        run: python tools/build_canonical_coverage.py --check
+
       - name: Format check
         run: python -m ruff format --check src tests examples tools
 

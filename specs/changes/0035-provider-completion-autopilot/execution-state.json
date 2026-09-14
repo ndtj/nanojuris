@@ -1,7 +1,7 @@
 {
   "schema_version": "provider-completion-state-v2",
   "objective": "Complete every provider to its evidence-based target or record a verified external blocker without masking it.",
-  "updated_at": "2026-09-13T00:15:30+00:00",
+  "updated_at": "2026-09-14T06:04:18+00:00",
   "terminal_states": [
     "accepted",
     "accepted_with_limitations",
@@ -468,7 +468,7 @@
       "disposition": "deferred_with_review",
       "review_after": "2026-10-12",
       "resume_when": "close the quality gate and rerun the promotion manifest",
-      "evidence_fingerprint": "9663b79149f8afce8f7de1ba0c978b69c9c0027357ae63f7d6dfbc1d6b95ddac",
+      "evidence_fingerprint": "d2b01af6678b32f8375aab107e342a9b61dfa69a629311187751f091c49be84b",
       "topology_collection_ids": [
         "collection:unattributed:tce_sp_jurisprudencia"
       ],
@@ -1408,7 +1408,7 @@
       "disposition": "accepted_with_limitations",
       "review_after": null,
       "resume_when": "rerun the promotion manifest after any contract, parser, or schema change",
-      "evidence_fingerprint": "bdbdde42501542796668d27e20e3ba0d18fd08e7605d904cae4b58f1bc412612",
+      "evidence_fingerprint": "fc51df5d31f2f3dfec3bb515bd187049fe3255a98dbea7db9a4820f976c8e793",
       "topology_collection_ids": [
         "collection:unattributed:tjpa_jurisprudencia_bff"
       ],

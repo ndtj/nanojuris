@@ -1,0 +1,31 @@
+{
+  "schema_version": "sdd-change-v2",
+  "id": "0114-canonical-coverage-matrix",
+  "status": "in_progress",
+  "risk": "L3",
+  "owner": "team:coverage-steward",
+  "reviewer": "team:legal-domain-owner",
+  "matrix_cells": ["*"],
+  "requirements": [
+    {"id": "REQ-001", "acceptance": ["AC-001", "AC-002", "AC-004"]},
+    {"id": "REQ-002", "acceptance": ["AC-003"]},
+    {"id": "REQ-003", "acceptance": ["AC-005", "AC-006"]},
+    {"id": "REQ-004", "acceptance": ["AC-007"]}
+  ],
+  "tasks": [
+    {"id": "T01", "requirements": ["REQ-001"]},
+    {"id": "T02", "requirements": ["REQ-001", "REQ-002"]},
+    {"id": "T03", "requirements": ["REQ-003"]},
+    {"id": "T04", "requirements": ["REQ-004"]}
+  ],
+  "tests": [
+    {"id": "canonical-schema", "acceptance": ["AC-003"]},
+    {"id": "runtime-provider-coverage", "acceptance": ["AC-001"]},
+    {"id": "authority-coverage", "acceptance": ["AC-002"]},
+    {"id": "tre-expansion", "acceptance": ["AC-004"]},
+    {"id": "state-separation", "acceptance": ["AC-005", "AC-006"]},
+    {"id": "sdd-v2", "acceptance": ["AC-007"]}
+  ],
+  "compatibility": "additive",
+  "approvals": {"release": false}
+}

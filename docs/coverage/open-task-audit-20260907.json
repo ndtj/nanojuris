@@ -1,10 +1,11 @@
 {
   "schema_version": "open-task-audit-v1",
   "generated_at": "2026-09-07",
-  "open_tasks": 106,
+  "open_tasks": 112,
   "by_classification": {
     "external_source": 78,
-    "human_review": 28
+    "human_review": 28,
+    "local_evidence": 6
   },
   "tasks": [
     {
@@ -968,26 +969,6 @@
       "line": 14
     },
     {
-      "package": "0109-trt3-ementario-jurisprudencia",
-      "task_id": "T007",
-      "description": "[E] obter contrato oficial de busca geral do TRT3, se publicado;",
-      "classification": "external_source",
-      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
-      "rationale": "The task depends on a source, route or external action not reproducible locally.",
-      "path": "specs/changes/0109-trt3-ementario-jurisprudencia/tasks.md",
-      "line": 12
-    },
-    {
-      "package": "0109-trt3-ementario-jurisprudencia",
-      "task_id": "T008",
-      "description": "[H] decidir retencao/promocao da colecao curada.",
-      "classification": "human_review",
-      "next_action": "Record the responsible human decision before closing the task.",
-      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
-      "path": "specs/changes/0109-trt3-ementario-jurisprudencia/tasks.md",
-      "line": 13
-    },
-    {
       "package": "0110-trt9-nugepnac-jurisprudencia",
       "task_id": "T007",
       "description": "[E] obter contrato de busca geral TRT9, se publicado;",
@@ -1066,6 +1047,86 @@
       "rationale": "The task depends on a source, route or external action not reproducible locally.",
       "path": "specs/changes/0113-tjmg-modern-api-filter-contract/tasks.md",
       "line": 8
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T02",
+      "description": "criar schemas e registros canônicos.",
+      "classification": "local_evidence",
+      "next_action": "Create the missing local artifact/test and rerun the relevant gates.",
+      "rationale": "This task is not classified as externally blocked by the current map.",
+      "path": "specs/changes/0114-canonical-coverage-matrix/tasks.md",
+      "line": 4
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T03",
+      "description": "reconciliar todos os providers e autoridades.",
+      "classification": "local_evidence",
+      "next_action": "Create the missing local artifact/test and rerun the relevant gates.",
+      "rationale": "This task is not classified as externally blocked by the current map.",
+      "path": "specs/changes/0114-canonical-coverage-matrix/tasks.md",
+      "line": 5
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T04",
+      "description": "gerar README, matriz detalhada e fila de trabalho.",
+      "classification": "local_evidence",
+      "next_action": "Create the missing local artifact/test and rerun the relevant gates.",
+      "rationale": "This task is not classified as externally blocked by the current map.",
+      "path": "specs/changes/0114-canonical-coverage-matrix/tasks.md",
+      "line": 6
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T05",
+      "description": "implementar invariantes e SDD v2.",
+      "classification": "local_evidence",
+      "next_action": "Create the missing local artifact/test and rerun the relevant gates.",
+      "rationale": "This task is not classified as externally blocked by the current map.",
+      "path": "specs/changes/0114-canonical-coverage-matrix/tasks.md",
+      "line": 7
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T06",
+      "description": "validar biblioteca e integração da plataforma.",
+      "classification": "local_evidence",
+      "next_action": "Create the missing local artifact/test and rerun the relevant gates.",
+      "rationale": "This task is not classified as externally blocked by the current map.",
+      "path": "specs/changes/0114-canonical-coverage-matrix/tasks.md",
+      "line": 8
+    },
+    {
+      "package": "0114-canonical-coverage-matrix",
+      "task_id": "T07",
+      "description": "registrar resultados e limitações.",
+      "classification": "local_evidence",
+      "next_action": "Create the missing local artifact/test and rerun the relevant gates.",
+      "rationale": "This task is not classified as externally blocked by the current map.",
+      "path": "specs/changes/0114-canonical-coverage-matrix/tasks.md",
+      "line": 9
+    },
+    {
+      "package": "0117-trt3-ementario-jurisprudencia",
+      "task_id": "T007",
+      "description": "[E] obter contrato oficial de busca geral do TRT3, se publicado;",
+      "classification": "external_source",
+      "next_action": "Run a bounded official-source check or record the terminal external blocker.",
+      "rationale": "The task depends on a source, route or external action not reproducible locally.",
+      "path": "specs/changes/0117-trt3-ementario-jurisprudencia/tasks.md",
+      "line": 12
+    },
+    {
+      "package": "0117-trt3-ementario-jurisprudencia",
+      "task_id": "T008",
+      "description": "[H] decidir retencao/promocao da colecao curada.",
+      "classification": "human_review",
+      "next_action": "Record the responsible human decision before closing the task.",
+      "rationale": "An agent must not fabricate legal, retention, relevance or promotion approval.",
+      "path": "specs/changes/0117-trt3-ementario-jurisprudencia/tasks.md",
+      "line": 13
     }
   ]
 }

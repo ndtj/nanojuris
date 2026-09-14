@@ -10,7 +10,7 @@ Priority: P2
 ## Contrato observado
 
 - busca textual: True
-- filtros: text, exact_phrase, all_words, any_words, without_words, number, rapporteur, source_origin, source_origins, case_class, judging_body, published_from, published_to, updated_from, updated_to, judgment_date_from, judgment_date_to
+- filtros: text, exact_phrase, all_words, any_words, without_words, number, rapporteur, source_origin, source_origins, case_class, judging_body, published_from, published_to, updated_from, updated_to, judgment_date_from, judgment_date_to, fetch_details
 - paginação: page
 - completude: unknown
 - inteiro teor: unknown

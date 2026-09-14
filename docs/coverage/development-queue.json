@@ -1,0 +1,768 @@
+{
+  "schema_version": "coverage-development-queue-v1",
+  "items": [
+    {
+      "surface_id": "surface:stf:portal:superior:stf-juris",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "",
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:electoral-first-degree-units:sjur:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "zonas eleitorais",
+      "next_action": "zonas eleitorais"
+    },
+    {
+      "surface_id": "surface:treac:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:treal:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tream:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:treap:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:treba:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trece:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tredf:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trees:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trego:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trema:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tremg:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trems:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tremt:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trepa:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trepb:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trepe:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trepi:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trepr:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trerj:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trern:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trero:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trerr:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trers:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tresc:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trese:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tresp:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tresp:temas:second:tre-sp-temas",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "temas/curadoria; nao e busca geral de decisoes",
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:tres-aggregate:sjur:second:justica-eleitoral-sjur",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "agregador TREs; busca decisoria ainda pendente",
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:treto:sjur:second:tre-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "rota SJUR/TRE publica observada; contrato por UF; janela temporal e texto de documento validados por UF; paginação remota geral permanece nao comprovada",
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tse:sjur:superior:tse-sjur-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": "catalogo/metadata; busca decisoria pendente",
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:federal-first-degree-units:eproc:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "varas federais e JEFs",
+      "next_action": "varas federais e JEFs"
+    },
+    {
+      "surface_id": "surface:trf1:jurisprudencia:second:cjf-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "TRF1/CJF rota publica JSF; rechecagem atual exige controle de acesso",
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:trf3:jurisprudencia:second:trf3-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "TRF regional sem contrato geral de jurisprudencia reconciliado",
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:labor-first-degree-units:portal:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "varas do trabalho",
+      "next_action": "varas do trabalho"
+    },
+    {
+      "surface_id": "surface:trt1:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt10:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt11:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt12:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt13:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt14:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt15:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt16:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt17:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt18:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt19:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt2:jurisprudencia:second:trt2-pje-jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
+    },
+    {
+      "surface_id": "surface:trt20:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt21:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt22:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt23:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt24:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt3:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt4:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt5:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt6:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt7:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt8:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:trt9:jurisprudencia:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TRT regional; contrato de decisao ainda nao promovido",
+      "next_action": "TRT regional; contrato de decisao ainda nao promovido"
+    },
+    {
+      "surface_id": "surface:military-first-degree-units:portal:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "auditorias, varas ou conselhos militares",
+      "next_action": "auditorias, varas ou conselhos militares"
+    },
+    {
+      "surface_id": "surface:tjmrs:portal:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TJM estadual sem provider runtime",
+      "next_action": "TJM estadual sem provider runtime"
+    },
+    {
+      "surface_id": "surface:tjmsp:portal:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "TJM estadual sem provider runtime",
+      "next_action": "TJM estadual sem provider runtime"
+    },
+    {
+      "surface_id": "surface:tjam:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "pagina oficial localizada; busca decisoria CJPG ainda nao reproduzivel",
+      "next_action": "pagina oficial localizada; busca decisoria CJPG ainda nao reproduzivel"
+    },
+    {
+      "surface_id": "surface:tjap:cjsg:second:tjap-tucujuris",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "fonte upstream reporta Turnstile/CAPTCHA; sem bypass",
+      "next_action": "aguardar rota publica/alternativa oficial ou autorizacao humana bounded; nao repetir nem contornar o bloqueio"
+    },
+    {
+      "surface_id": "surface:tjba:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "GraphQL oficial rechecado; amostra nao prova CJPG, apenas segundo grau ou turma recursal",
+      "next_action": "GraphQL oficial rechecado; amostra nao prova CJPG, apenas segundo grau ou turma recursal"
+    },
+    {
+      "surface_id": "surface:tjce:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjdft:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "entradas oficiais expõem busca contextual do portal; corpus CJPG ainda não reproduzível",
+      "next_action": "entradas oficiais expõem busca contextual do portal; corpus CJPG ainda não reproduzível"
+    },
+    {
+      "surface_id": "surface:tjma:catalog:unknown:tjma-jurisconsult",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "catalogo de metadados; sem busca decisoria promovida",
+      "next_action": "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
+    },
+    {
+      "surface_id": "surface:tjma:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "JurisConsult possui catalogo publico, mas resultados exigem CAPTCHA; contrato textual nao comprovado",
+      "next_action": "JurisConsult possui catalogo publico, mas resultados exigem CAPTCHA; contrato textual nao comprovado"
+    },
+    {
+      "surface_id": "surface:tjma:cjsg:second:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "JurisConsult possui catalogo publico, mas resultados exigem CAPTCHA; contrato textual nao comprovado",
+      "next_action": "JurisConsult possui catalogo publico, mas resultados exigem CAPTCHA; contrato textual nao comprovado"
+    },
+    {
+      "surface_id": "surface:tjmg:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "rota oficial localizada; consulta bloqueada por codigo/CAPTCHA",
+      "next_action": "rota oficial localizada; consulta bloqueada por codigo/CAPTCHA"
+    },
+    {
+      "surface_id": "surface:tjmt:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjpa:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjpb:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjpe:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjpi:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjpr:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "rota oficial de Sentenca Digital localizada; corpus CJPG ainda nao reproduzivel",
+      "next_action": "rota oficial de Sentenca Digital localizada; corpus CJPG ainda nao reproduzivel"
+    },
+    {
+      "surface_id": "surface:tjrj:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjrn:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjrr:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:tjrs:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "rotas oficiais de sentencas rechecadas; corpus CJPG ainda nao reproduzivel",
+      "next_action": "rotas oficiais de sentencas rechecadas; corpus CJPG ainda nao reproduzivel"
+    },
+    {
+      "surface_id": "surface:tjsc:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "entradas oficiais de jurisprudencia sao shell protegido; corpus CJPG ainda nao reproduzivel",
+      "next_action": "entradas oficiais de jurisprudencia sao shell protegido; corpus CJPG ainda nao reproduzivel"
+    },
+    {
+      "surface_id": "surface:tjse:cjpg:first:gap",
+      "owner": "team:coverage",
+      "priority": "normal",
+      "blocking_reason": "nenhum provider especifico reconciliado",
+      "next_action": "nenhum provider especifico reconciliado"
+    },
+    {
+      "surface_id": "surface:stj:portal:superior:stj-scon",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": "",
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:bnp:pangea:unknown:bnp_pangea",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "manter monitoramento e ampliar fixtures por variacao juridica"
+    },
+    {
+      "surface_id": "surface:cnj:curated_jurisprudence:unknown:cnj_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:eproc-federal:eproc:unknown:eproc_jurisprudencia_federal",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:stf:informativo:unknown:stf_informativo",
+      "owner": "team:provider-engineering",
+      "priority": "P1_access_diagnostics",
+      "blocking_reason": null,
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:stj:informativo:unknown:stj_informativo",
+      "owner": "team:provider-engineering",
+      "priority": "P0_reference_provider",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:tce-pr:administrative_jurisprudence:unknown:tce_pr_viajuris",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:tce-sp:administrative_jurisprudence:unknown:tce_sp_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:tcu:administrative_jurisprudence:unknown:tcu_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "manter monitoramento e ampliar fixtures por variacao juridica"
+    },
+    {
+      "surface_id": "surface:tjac:tjac_ementario:second:tjac_ementario_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P0_harden_for_unified_search",
+      "blocking_reason": null,
+      "next_action": "manter monitoramento e ampliar fixtures por variacao juridica"
+    },
+    {
+      "surface_id": "surface:tjal:tjal_turmas_recursais:recursal:tjal_turma_recursal_ementario",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "manter monitoramento e ampliar fixtures por variacao juridica"
+    },
+    {
+      "surface_id": "surface:tjce:informativo:unknown:tjce_informativos",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:tjma:informativo:unknown:tjma_informativos",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:tjmrs:tjmrs_jurisprudencia:second:tjmrs_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:tjrj:tjrj_banco_sentencas:first:tjrj_banco_sentencas",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:tjsp:nugep:unknown:tjsp_nugepnac",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "manter monitoramento e ampliar fixtures por variacao juridica"
+    },
+    {
+      "surface_id": "surface:tre:sjur:first:tre_sjur_first_degree",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "fechar checklist objetivo do dossie"
+    },
+    {
+      "surface_id": "surface:trt15:court_jurisprudence:unknown:trt15_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:trt2:cjsg_curated_bulletin:second:trt2_basis_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trt2:trt2_ementario:second:trt2_ementario_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P0_harden_for_unified_search",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:trt3:curated_jurisprudence:unknown:trt3_ementario_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trt4:curated_jurisprudence:unknown:trt4_sumulas_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "completar secoes faltantes do dossie"
+    },
+    {
+      "surface_id": "surface:trt6:court_jurisprudence:unknown:trt6_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P2_maintain",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:trt8:court_jurisprudence:unknown:trt8_pje_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P0_harden_for_unified_search",
+      "blocking_reason": null,
+      "next_action": "validar inteiro teor com hash, tamanho e access_status"
+    },
+    {
+      "surface_id": "surface:trt9:nugep:unknown:trt9_nugepnac_jurisprudencia",
+      "owner": "team:provider-engineering",
+      "priority": "P1_contextual_value",
+      "blocking_reason": null,
+      "next_action": "completar secoes faltantes do dossie"
+    }
+  ]
+}

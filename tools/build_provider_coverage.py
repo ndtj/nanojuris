@@ -27,7 +27,7 @@ from tools.audit_provider_docs import audit as audit_provider_docs  # noqa: E402
 
 REGISTRY_PATH = ROOT / "docs" / "registry" / "providers.json"
 CATALOG_PATH = ROOT / "docs" / "registry" / "provider-catalog.full.json"
-PACKAGE_CATALOG_PATH = ROOT / "src" / "nanojuris" / "data" / "provider-catalog.full.json"
+PACKAGE_CATALOG_PATH = ROOT / "src" / "nanojuris" / "data" / "provider-catalog.json"
 COVERAGE_DIR = ROOT / "docs" / "coverage"
 LATEST_LIVE_PATH = ROOT / "docs" / "live-validation-2026-08-15.md"
 VALIDATION_RUNS_DIR = ROOT / "docs" / "validation" / "runs"
@@ -2962,10 +2962,52 @@ def write_outputs(catalog: dict[str, Any]) -> None:
     )
     CATALOG_PATH.write_text(serialized, encoding="utf-8")
     PACKAGE_CATALOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    PACKAGE_CATALOG_PATH.write_text(serialized, encoding="utf-8")
+    PACKAGE_CATALOG_PATH.write_text(
+        json.dumps(
+            _compact_catalog(catalog), ensure_ascii=False, separators=(",", ":"), sort_keys=True
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     COVERAGE_DIR.mkdir(parents=True, exist_ok=True)
     for path, content in render_docs(catalog).items():
         path.write_text(content, encoding="utf-8")
+
+
+def _compact_catalog(catalog: dict[str, Any]) -> dict[str, Any]:
+    """Return the runtime projection shipped in the core wheel.
+
+    Evidence-rich history belongs to repository documentation. Runtime and
+    product consumers need stable identity, legal surface, capabilities and
+    access state — no duplicate dossiers, evidence payloads or SDD metadata.
+    """
+
+    fields = (
+        "source_id",
+        "display_name",
+        "category",
+        "lifecycle",
+        "implementation_status",
+        "runtime_binding",
+        "runtime_binding_status",
+        "coverage_role",
+        "live_status",
+        "surface_id",
+        "surface_identity",
+        "search_contract",
+        "document_contract",
+        "pagination_contract",
+        "interfaces",
+    )
+    return {
+        "schema_version": "provider-catalog-runtime-v1",
+        "generated_at": catalog["generated_at"],
+        "entries": [
+            {field: entry.get(field) for field in fields}
+            for entry in catalog["entries"]
+            if entry["lifecycle"] == "implemented"
+        ],
+    }
 
 
 def main() -> int:

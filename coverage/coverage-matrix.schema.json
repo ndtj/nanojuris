@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "coverage-matrix-v1",
+  "type": "object",
+  "required": ["schema_version", "cells"],
+  "properties": {
+    "schema_version": {"const": "coverage-matrix-v1"},
+    "cells": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["surface_id", "authority_id", "family", "branch", "degree", "instance", "collection", "document_scope", "role", "required", "scope", "states", "document_types", "evidence_ids", "owner", "priority"],
+        "properties": {
+          "surface_id": {"type": "string", "pattern": "^surface:"},
+          "authority_id": {"type": "string", "minLength": 2},
+          "family": {"enum": ["state", "federal", "labor", "electoral", "military", "superior", "context", "control"]},
+          "branch": {"type": "string"},
+          "degree": {"enum": ["first", "second", "recursal", "superior", "mixed", "unknown"]},
+          "instance": {"type": "string"},
+          "collection": {"type": "string"},
+          "document_scope": {"type": "string"},
+          "role": {"type": "string"},
+          "required": {"type": "boolean"},
+          "scope": {"enum": ["tribunal", "aggregator", "judicial_unit_gap"]},
+          "provider": {"type": ["string", "null"]},
+          "states": {
+            "type": "object",
+            "required": ["implementation", "verification", "promotion"],
+            "properties": {
+              "implementation": {"enum": ["gap", "discovered", "candidate", "implemented", "deprecated"]},
+              "verification": {"type": "string"},
+              "promotion": {"enum": ["excluded", "opt_in", "unified", "recommended"]}
+            },
+            "additionalProperties": false
+          },
+          "document_types": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "contract_ref": {"type": ["string", "null"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "owner": {"type": "string"},
+          "priority": {"type": ["string", "integer"]},
+          "blocking_reason": {"type": ["string", "null"]},
+          "next_action": {"type": ["string", "null"]},
+          "coverage_credit": {"enum": ["context_only"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

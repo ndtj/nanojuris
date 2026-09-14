@@ -10,7 +10,7 @@ Priority: P2
 ## Contrato observado
 
 - busca textual: True
-- filtros: text, types, source_origins, published_from, published_to, case_class, subject, rapporteur
+- filtros: text, types, source_origins, published_from, published_to, fetch_details
 - paginação: page
 - completude: unknown
 - inteiro teor: unknown

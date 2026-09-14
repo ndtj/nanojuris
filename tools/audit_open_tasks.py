@@ -61,7 +61,7 @@ EXTERNAL_IDS = {
     ("0089-national-coverage-execution-handoff", "T021"),
     ("0089-national-coverage-execution-handoff", "T025"),
     ("0089-national-coverage-execution-handoff", "T026"),
-    ("0094-trt8-pje-jurisprudencia", "T009"),
+    ("0116-trt8-pje-jurisprudencia", "T009"),
 }
 HUMAN_IDS = {
     ("0077-live-intelligent-federated-search", "T62"),

@@ -44,7 +44,7 @@ Priority: P1
 ## Evidência live versionada
 
 - status: valid
-- data: 2026-09-08
+- data: 2026-09-13
 - esta fotografia não prova disponibilidade atual ou permanente
 
 ## Lacunas consolidadas

@@ -33,6 +33,7 @@ Priority: P3
 
 ### Testes
 
+- tests/test_client_exporters.py
 - tests/test_trt4_sumulas_jurisprudencia.py
 
 ### Fixtures

@@ -44,7 +44,7 @@ Priority: P3
 ## Evidência live versionada
 
 - status: transport_error
-- data: 2026-09-10
+- data: 2026-09-09
 - esta fotografia não prova disponibilidade atual ou permanente
 
 ## Lacunas consolidadas

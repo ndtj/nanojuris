@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "authority-registry-v1",
+  "type": "object",
+  "required": ["schema_version", "authorities"],
+  "properties": {
+    "schema_version": {"const": "authority-registry-v1"},
+    "authorities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["authority_id", "name", "kind", "family", "branch", "jurisdiction", "aliases", "primary_judicial_denominator"],
+        "properties": {
+          "authority_id": {"type": "string", "minLength": 2},
+          "name": {"type": "string", "minLength": 3},
+          "kind": {"enum": ["court", "council", "aggregator", "provider_family", "control_body"]},
+          "family": {"enum": ["state", "federal", "labor", "electoral", "military", "superior", "context", "control"]},
+          "branch": {"type": "string", "minLength": 2},
+          "jurisdiction": {"type": "string", "minLength": 2},
+          "state": {"type": ["string", "null"]},
+          "region": {"type": ["string", "null"]},
+          "official_url": {"type": ["string", "null"]},
+          "aliases": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+          "primary_judicial_denominator": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

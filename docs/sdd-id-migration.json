@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "migrated_at": "2026-09-14",
+  "reason": "Resolve duplicate numeric SDD identifiers without changing package content or history.",
+  "migrations": [
+    {
+      "previous_id": "0070-tjse-boletim-jurisprudencia",
+      "current_id": "0115-tjse-boletim-jurisprudencia"
+    },
+    {
+      "previous_id": "0094-trt8-pje-jurisprudencia",
+      "current_id": "0116-trt8-pje-jurisprudencia"
+    },
+    {
+      "previous_id": "0109-trt3-ementario-jurisprudencia",
+      "current_id": "0117-trt3-ementario-jurisprudencia"
+    }
+  ]
+}

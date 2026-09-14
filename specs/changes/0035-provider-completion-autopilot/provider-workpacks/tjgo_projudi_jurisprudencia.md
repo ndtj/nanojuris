@@ -10,7 +10,7 @@ Priority: P1
 ## Contrato observado
 
 - busca textual: True
-- filtros: text, exact_phrase, number, types, updated_from, updated_to, published_from, published_to, degree, instance, source_origin, decision_type, collection, document_type
+- filtros: text, exact_phrase, number, types, updated_from, updated_to, published_from, published_to, degree, instance, source_origin, decision_type, collection, document_type, branch, authority
 - paginação: page
 - completude: unknown
 - inteiro teor: unknown
