@@ -1,3 +1,4 @@
+from nanojuris.models import JurisprudenceResult
 from nanojuris.normalization import (
     first_nonempty,
     normalize_cnj_number,
@@ -11,6 +12,24 @@ from nanojuris.normalization import (
 def test_normalize_text_and_first_nonempty() -> None:
     assert normalize_text("  Ementa\xa0\n sobre   tema ") == "Ementa sobre tema"
     assert first_nonempty("", None, "  valor ") == "valor"
+
+
+def test_result_normalizes_display_fields_but_preserves_full_text_layout() -> None:
+    result = JurisprudenceResult(
+        id="r1",
+        source="fixture",
+        court="TJ",
+        type="acordao",
+        summary=" Ementa\xa0  com\n espaços ",
+        question=" Questão  pública ",
+        thesis=" Tese\ncompleta ",
+        full_text="Linha 1\n\nLinha  2",
+    )
+
+    assert result.summary == "Ementa com espaços"
+    assert result.question == "Questão pública"
+    assert result.thesis == "Tese completa"
+    assert result.full_text == "Linha 1\n\nLinha  2"
 
 
 def test_normalize_dates_preserves_unknown_as_none() -> None:

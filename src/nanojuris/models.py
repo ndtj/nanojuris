@@ -8,6 +8,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any
 
+from nanojuris.normalization import normalize_text
+
 _FILTER_SUPPORT_VALUES = {
     "native",
     "translated",
@@ -439,6 +441,21 @@ class JurisprudenceResult:
     document_url: str | None = None
     field_provenance: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
     native_rank: int | None = None
+
+    def __post_init__(self) -> None:
+        """Keep display fields stable across heterogeneous provider parsers.
+
+        HTML portals frequently add line breaks or non-breaking spaces between
+        words in an ementa.  Those presentation artefacts must not leak into
+        the public result contract (CLI, MCP or web), while ``full_text`` is
+        intentionally left untouched so its document layout remains
+        auditable.
+        """
+
+        for field_name in ("question", "thesis", "summary"):
+            value = getattr(self, field_name)
+            if isinstance(value, str):
+                setattr(self, field_name, normalize_text(value))
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
