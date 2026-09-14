@@ -1,0 +1,34 @@
+{
+  "schema_version": 2,
+  "id": "0118-core-distribution-split",
+  "status": "proposed",
+  "risk": "L3",
+  "owner": "release-manager",
+  "reviewer": "independent-reviewer",
+  "matrix_cells": ["distribution/core", "distribution/studio", "distribution/providers"],
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "text": "Preserve the 80-provider runtime contract while separating optional payloads.",
+      "acceptance": ["AC-001"]
+    },
+    {
+      "id": "REQ-002",
+      "text": "Produce a reproducible core artifact at or below 600 KB without silently removing providers.",
+      "acceptance": ["AC-002"]
+    }
+  ],
+  "tasks": [
+    {"id": "T001", "text": "Measure provider, Studio and discovery payloads independently.", "requirements": ["REQ-001"]},
+    {"id": "T002", "text": "Design and review separate distribution boundaries and compatibility policy.", "requirements": ["REQ-001", "REQ-002"]},
+    {"id": "T003", "text": "Implement the approved split and test clean installations.", "requirements": ["REQ-001", "REQ-002"]}
+  ],
+  "tests": [
+    {"id": "TEST-001", "text": "Install core and optional distributions in isolated environments.", "acceptance": ["AC-001"]},
+    {"id": "TEST-002", "text": "Build artifacts and enforce the 600 KB core wheel budget.", "acceptance": ["AC-002"]}
+  ],
+  "evidence": ["dist/nanojuris-0.6.0-py3-none-any.whl"],
+  "compatibility": "No public release or dependency pin changes until independent review approves the boundary.",
+  "risks": ["breaking imports for Studio or discovery users", "provider availability drift"],
+  "next_action": "Obtain independent design approval, then implement in a dedicated change."
+}
