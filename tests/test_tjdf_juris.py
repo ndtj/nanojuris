@@ -108,6 +108,7 @@ def test_search_maps_tjdf_jurisprudence_result():
     assert result.court == "TJDFT"
     assert result.type == "acordao"
     assert result.number == "0722671-67.2024.8.07.0000"
+    assert result.full_text and "Ementa:" in result.full_text
     assert result.rapporteur == "SANDRA REVES"
     assert result.updated_at == "16/09/2024"
     assert result.status == "CONHECIDO. DESPROVIDO. UNANIME."

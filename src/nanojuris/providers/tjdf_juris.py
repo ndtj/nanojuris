@@ -898,6 +898,10 @@ def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> Jur
     publication_date = _extract_date(publication_text)
     summary = fields.get("ementa")
     decision_outcome = fields.get("decisao")
+    # The public detail page is the source's inteiro teor surface.  Preserve
+    # its bounded visible text in the explicit ``fetch_details`` path instead
+    # of returning only the ementa and silently dropping the decision body.
+    full_text = _normalize_spaces(BeautifulSoup(html, "html.parser").get_text(" ", strip=True))
     document_url = trace.source_url
     case_number = _extract_case_number(case_text)
     result_trace = SourceTrace(
@@ -922,6 +926,7 @@ def parse_tjdf_detail(html: str, *, document_id: str, trace: SourceTrace) -> Jur
         type="acordao",
         number=case_number or registry_number,
         summary=summary,
+        full_text=full_text or None,
         status=decision_outcome,
         rapporteur=fields.get("relatora"),
         degree="second",
