@@ -45,7 +45,7 @@ As fixtures sanitizadas estão em:
 tests/fixtures/tjse_boletim_search.html,
 tests/fixtures/tjse_boletim_principal.html e
 tests/fixtures/tjse_boletim_detail.html e
-tests/fixtures/tjse_boletim_empty.html. Elas cobrem formulário, seção com
+tests/fixtures/tjse_boletim_empty.html — elas cobrem formulário, seção com
 resultado e resposta sem seções.
 
 ## MCP

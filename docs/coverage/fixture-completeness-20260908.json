@@ -1,6 +1,6 @@
 {
   "schema_version": "fixture-completeness-v1",
-  "generated_at": "2026-09-13T06:12:14+00:00",
+  "generated_at": "2026-09-14T07:18:31+00:00",
   "policy": {
     "network_used": false,
     "shared_contract_scenarios_are_not_source_responses": true,
