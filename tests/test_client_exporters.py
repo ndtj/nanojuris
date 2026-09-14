@@ -1005,6 +1005,29 @@ def test_canonical_precedent_mapping_uses_extracted_provider_fields():
     assert precedent.extraction_trace.parser == "bnp_pangea.canonical_result_mapper"
 
 
+def test_canonical_precedent_mapping_preserves_curated_summary_and_document_url():
+    result = JurisprudenceResult(
+        id="trt4-sumula-1",
+        source="trt4_sumulas_jurisprudencia",
+        court="TRT4",
+        type="sumula",
+        number="1",
+        summary="Responsabilidade civil do empregador em acidente de trabalho.",
+        document_url="https://example.test/sumula/1",
+        source_trace=SourceTrace(provider="trt4_sumulas_jurisprudencia", endpoint="/sumulas"),
+    )
+
+    precedent = result_to_canonical_precedent(result)
+
+    assert precedent.summary == "Responsabilidade civil do empregador em acidente de trabalho."
+    assert precedent.document_url == "https://example.test/sumula/1"
+
+    csv_output = precedents_to_csv([precedent])
+    assert "summary" in csv_output.splitlines()[0]
+    assert "document_url" in csv_output.splitlines()[0]
+    assert "https://example.test/sumula/1" in csv_output
+
+
 def test_search_page_to_canonical_splits_decisions_and_precedents():
     page = SearchPage(
         source="mixed",

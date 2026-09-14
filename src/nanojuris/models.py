@@ -245,6 +245,11 @@ class CanonicalPrecedent:
     status: str | None = None
     question: str | None = None
     thesis: str | None = None
+    # Curated precedent collections (for example official súmulas pages) may
+    # expose a human-readable summary without a separate question/thesis.
+    # Preserve it instead of dropping the source's only display text during
+    # canonical mapping.
+    summary: str | None = None
     affected_cases: list[ParadigmCase] = field(default_factory=list)
     paradigm_cases: list[ParadigmCase] = field(default_factory=list)
     updated_at: str | None = None
@@ -256,6 +261,7 @@ class CanonicalPrecedent:
     extraction_status: ExtractionStatus = ExtractionStatus.PARTIAL
     source_trace: SourceTrace | None = None
     extraction_trace: ExtractionTrace | None = None
+    document_url: str | None = None
     raw: dict[str, Any] = field(default_factory=dict, repr=False)
     degree: str | None = None
     instance: str | None = None

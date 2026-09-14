@@ -116,6 +116,7 @@ def result_to_canonical_precedent(
         status=result.status,
         question=result.question,
         thesis=result.thesis,
+        summary=result.summary,
         affected_cases=_map_cases(raw.get("affected_cases") or raw.get("processosAfetados")),
         paradigm_cases=result.paradigm_cases,
         updated_at=normalize_date(updated_raw),
@@ -142,6 +143,9 @@ def result_to_canonical_precedent(
         field_provenance=_field_provenance(result),
         source_trace=result.source_trace,
         extraction_trace=_build_trace(result, parser_version=parser_version),
+        document_url=_optional_str(
+            result.document_url or raw.get("full_text_url") or raw.get("document_url")
+        ),
         raw=raw,
         native_rank=result.native_rank,
     )
