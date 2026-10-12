@@ -7,10 +7,11 @@ from pathlib import Path
 import pytest
 
 from nanojuris.config import NanoJurisConfig
-from nanojuris.errors import ParserContractChangedError, RateLimitDetectedError
+from nanojuris.errors import ParserContractChangedError, QueryRejectedError, RateLimitDetectedError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjrs_solr import (
     TjrsSolrProvider,
+    build_tjrs_search_parameters,
     parse_tjrs_search_response,
 )
 
@@ -118,3 +119,16 @@ def test_tjrs_classifies_rate_limit():
 
     with pytest.raises(RateLimitDetectedError):
         provider.search(JurisprudenceQuery(text="termo"))
+
+
+@pytest.mark.parametrize(
+    "query",
+    [
+        JurisprudenceQuery(),
+        JurisprudenceQuery(text="dano moral", number="70000000000"),
+        JurisprudenceQuery(text="dano moral", exact_phrase="dano moral"),
+    ],
+)
+def test_tjrs_rejects_missing_or_ambiguous_primary_terms(query: JurisprudenceQuery):
+    with pytest.raises(QueryRejectedError, match="TJRS"):
+        build_tjrs_search_parameters(query)

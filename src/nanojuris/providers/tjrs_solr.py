@@ -13,6 +13,7 @@ from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
+    QueryRejectedError,
     RateLimitDetectedError,
     SourceUnavailableError,
 )
@@ -50,8 +51,6 @@ class TjrsSolrProvider(JurisprudenceProvider):
         return self.config.tjrs_jurisprudencia_url.rstrip("/")
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
-        if not any([query.text, query.exact_phrase, query.number]):
-            raise ValueError("TJRS jurisprudence search requires text, exact_phrase or number")
         endpoint = "/buscas/jurisprudencia/ajax.php"
         params = build_tjrs_search_parameters(query)
         form = {
@@ -75,6 +74,8 @@ class TjrsSolrProvider(JurisprudenceProvider):
             limitations=[
                 "A resposta declara content-type legado text/html, mas o corpo e JSON.",
                 "O parser decodifica o envelope SOLR e preserva facets/highlighting.",
+                "O contrato observado aceita um termo primario por consulta; combinacoes "
+                "de text, exact_phrase e number sao rejeitadas para nao descartar filtros.",
                 "Rotas de detalhe e inteiro teor ainda nao foram promovidas.",
             ],
             **self._last_http_metadata,
@@ -205,7 +206,19 @@ class TjrsSolrProvider(JurisprudenceProvider):
 def build_tjrs_search_parameters(query: JurisprudenceQuery) -> dict[str, str | int]:
     """Build the nested query string consumed by the TJRS AJAX endpoint."""
 
-    term = query.text or query.exact_phrase or query.number
+    terms = [
+        value.strip()
+        for value in (query.text, query.exact_phrase, query.number)
+        if value and value.strip()
+    ]
+    if not terms:
+        raise QueryRejectedError("TJRS exige text, exact_phrase ou number")
+    if len(terms) > 1:
+        raise QueryRejectedError(
+            "TJRS aceita apenas um entre text, exact_phrase e number por consulta; "
+            "a combinacao nao possui contrato observado"
+        )
+    term = terms[0]
     parameters: dict[str, str | int] = {
         "aba": "jurisprudencia",
         "realizando_pesquisa": 1,
