@@ -396,11 +396,12 @@ def parse_tjrr_results(
     if not results:
         raise ParserContractChangedError("TJRR retornou containers sem campos juridicos")
     total = _reported_total(markup) or len(results)
-    actual_page_size = _reported_page_size(markup) or query.page_size
+    source_page_size = _reported_page_size(markup) or query.page_size
     # PrimeFaces can include more containers than the declared source window.
-    # Keep the source-reported page contract instead of leaking extra rows.
-    results = results[:actual_page_size]
-    start = (query.page - 1) * actual_page_size + 1
+    # Keep the remote window for the page offset, but honor the caller's
+    # requested page size instead of leaking the source default (usually 10).
+    results = results[: query.page_size]
+    start = (query.page - 1) * source_page_size + 1
     complete, reason = page_completeness(
         reported_total=total,
         start=start,
@@ -413,7 +414,7 @@ def parse_tjrr_results(
         start=start,
         end=start + len(results) - 1,
         page=query.page,
-        page_size=actual_page_size,
+        page_size=query.page_size,
         results=results,
         source_trace=trace,
         pagination_mode="page",
