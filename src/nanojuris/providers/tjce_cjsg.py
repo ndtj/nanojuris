@@ -9,6 +9,7 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
+from curl_cffi import requests as curl_requests
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
 from nanojuris.errors import (
@@ -57,6 +58,7 @@ class TjceCjsgProvider(TjacCjsgProvider):
         self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
         self._last_response_content = b""
+        self._curl_session: Any | None = None
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         return fetch_cjsg_page(
@@ -144,6 +146,15 @@ class TjceCjsgProvider(TjacCjsgProvider):
                 timeout=self.config.timeout,
                 **kwargs,
             )
+        except (requests.exceptions.SSLError, requests.exceptions.ConnectionError) as exc:
+            response = self._request_with_browser_tls(
+                method,
+                url,
+                headers=headers,
+                timeout=self.config.timeout,
+                original_error=exc,
+                **kwargs,
+            )
         except requests.RequestException as exc:
             raise SourceUnavailableError(f"TJCE/CJSG request failed: {exc}") from exc
         if response.status_code == 429:
@@ -174,6 +185,46 @@ class TjceCjsgProvider(TjacCjsgProvider):
                 f"({diagnostic.summary()})"
             )
         return text
+
+    def _request_with_browser_tls(
+        self,
+        method: str,
+        url: str,
+        *,
+        original_error: requests.RequestException,
+        **kwargs: Any,
+    ) -> Any:
+        """Retry only TLS-handshake failures with a browser-compatible client.
+
+        TJCE's public e-SAJ surface is reachable from a browser, while the
+        OpenSSL fingerprint used by ``requests`` can be rejected before HTTP
+        begins.  ``curl_cffi`` uses the platform's curl TLS stack and a Chrome
+        fingerprint, but certificate verification remains enabled.  Other
+        request failures are intentionally not retried here.
+        """
+
+        if self._curl_session is None:
+            try:
+                self._curl_session = curl_requests.Session(impersonate="chrome")
+                if hasattr(self._curl_session, "trust_env"):
+                    self._curl_session.trust_env = self.config.trust_env
+                if hasattr(self._curl_session, "verify"):
+                    self._curl_session.verify = self.config.verify_ssl
+            except Exception as exc:
+                raise SourceUnavailableError(
+                    "TJCE/CJSG TLS handshake failed and the browser-compatible "
+                    f"transport could not be initialized: {exc}"
+                ) from exc
+
+        fallback_kwargs = dict(kwargs)
+        fallback_kwargs.setdefault("verify", self.config.verify_ssl)
+        try:
+            return self._curl_session.request(method, url, **fallback_kwargs)
+        except Exception as exc:
+            raise SourceUnavailableError(
+                "TJCE/CJSG TLS handshake failed with the standard transport "
+                f"({original_error}) and the browser-compatible retry failed: {exc}"
+            ) from exc
 
     @staticmethod
     def _parse_precedent_id(precedent_id: str) -> tuple[str, str]:

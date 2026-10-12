@@ -36,6 +36,17 @@ class FakeSession:
         return response
 
 
+class FakeCurlSession:
+    def __init__(self, response: FakeResponse, calls: list[dict[str, Any]], **kwargs: Any):
+        self.response = response
+        self.calls = calls
+        self.init_kwargs = kwargs
+
+    def request(self, method: str, url: str, **kwargs: Any) -> FakeResponse:
+        self.calls.append({"method": method, "url": url, "kwargs": kwargs})
+        return self.response
+
+
 def _fixture_html() -> str:
     return (FIXTURES / "tjsp_cjsg_result.html").read_text(encoding="utf-8")
 
@@ -101,6 +112,36 @@ def test_tjce_transport_failure_is_not_empty_result() -> None:
 
     with pytest.raises(Exception, match="TJCE/CJSG request failed"):
         provider.search(JurisprudenceQuery(text="teste"))
+
+
+def test_tjce_tls_failure_retries_with_browser_compatible_transport(monkeypatch) -> None:
+    curl_calls: list[dict[str, Any]] = []
+    curl_response = FakeResponse(_fixture_html())
+
+    def build_curl_session(**kwargs: Any) -> FakeCurlSession:
+        session = FakeCurlSession(curl_response, curl_calls, **kwargs)
+        monkeypatch.setattr(
+            session,
+            "trust_env",
+            True,
+            raising=False,
+        )
+        return session
+
+    monkeypatch.setattr(
+        "nanojuris.providers.tjce_cjsg.curl_requests.Session",
+        build_curl_session,
+    )
+    provider = TjceCjsgProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([requests.exceptions.SSLError("handshake failed")]),
+    )
+
+    page = provider.search(JurisprudenceQuery(text="responsabilidade civil", page_size=2))
+
+    assert page.results
+    assert curl_calls[0]["method"] == "POST"
+    assert curl_calls[0]["kwargs"]["verify"] is True
 
 
 def test_tjce_capabilities_use_official_host() -> None:
