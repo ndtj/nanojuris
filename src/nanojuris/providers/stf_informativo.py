@@ -30,6 +30,9 @@ from nanojuris.models import (
 from nanojuris.providers.base import JurisprudenceProvider
 
 _XLSX_NS = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+_STF_PUBLIC_BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36"
+)
 _EXPECTED_HEADERS = [
     "Informativo",
     "Classe Processo",
@@ -170,7 +173,15 @@ class StfInformativoProvider(JurisprudenceProvider):
                 "application/octet-stream,*/*"
             ),
             "Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
-            "User-Agent": self.config.user_agent,
+            # The official IIS/WAF serves this public XLSX only to a normal
+            # browser-shaped User-Agent. This is compatibility with the
+            # public route, not a challenge or authentication bypass. Honor a
+            # caller-provided custom User-Agent when it is not NanoJuris' own.
+            "User-Agent": (
+                _STF_PUBLIC_BROWSER_USER_AGENT
+                if self.config.user_agent.startswith("NanoJuris/")
+                else self.config.user_agent
+            ),
         }
         try:
             response = self.session.get(

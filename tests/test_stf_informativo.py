@@ -109,6 +109,7 @@ def test_provider_search_downloads_xlsx_and_parses_results():
     call = session.calls[0]
     assert call["url"].endswith("Dados_InformativosSTF.xlsx")
     assert "spreadsheetml.sheet" in call["kwargs"]["headers"]["Accept"]
+    assert call["kwargs"]["headers"]["User-Agent"].startswith("Mozilla/")
     assert call["kwargs"]["verify"] is False
 
 
