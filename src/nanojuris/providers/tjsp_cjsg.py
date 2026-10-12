@@ -126,7 +126,6 @@ class TjspCjsgProvider(JurisprudenceProvider):
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         cd_acordao, cd_foro = self._parse_precedent_id(precedent_id)
-        endpoint = f"/getArquivo.do?cdAcordao={cd_acordao}&cdForo={cd_foro}"
         response, document_flow = self._request_cjsg_document(cd_acordao, cd_foro)
         raw_content = _response_bytes(response)
         content_type = response.headers.get("Content-Type", "")
