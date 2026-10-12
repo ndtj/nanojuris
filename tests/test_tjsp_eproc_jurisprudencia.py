@@ -159,6 +159,20 @@ def test_provider_search_posts_eproc_jurisprudencia_payload_and_parses_results()
     assert payload["dtDecisaoInicio"] == "01/07/2026"
     assert payload["dtPublicacaoFim"] == "31/07/2026"
     assert payload["selTamanhoPagina"] == "10"
+    assert payload["selOrdenacao"] == "1"
+
+
+def test_eproc_default_url_and_oldest_order_mapping_match_public_form():
+    session = FakeSession([FakeResponse(_fixture_html())])
+    provider = TjspEprocJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=session,
+    )
+
+    provider.search(JurisprudenceQuery(text="teste", order_by="oldest", page_size=1))
+
+    assert session.calls[0]["url"].startswith("https://eproc1g.tjsp.jus.br/eproc/")
+    assert session.calls[0]["kwargs"]["data"]["selOrdenacao"] == "2"
 
 
 def test_provider_search_uses_exact_phrase_as_summary_query_text():

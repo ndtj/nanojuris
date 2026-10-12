@@ -196,6 +196,34 @@ def test_provider_search_posts_cjsg_payload_and_parses_results():
     assert payload["dados.dtJulgamentoInicio"] == "01/01/2026"
 
 
+def test_provider_search_maps_publication_origin_and_relevance_filters():
+    session = FakeSession([FakeResponse(_fixture_html())])
+    provider = TjspCjsgProvider(session=session)
+
+    provider.search(
+        JurisprudenceQuery(
+            text="contrato",
+            published_from="01/02/2026",
+            published_to="28/02/2026",
+            source_origin="colegio_recursal",
+            order_by="relevance",
+        )
+    )
+
+    payload = session.calls[0]["kwargs"]["data"]
+    assert payload["dados.dtPublicacaoInicio"] == "01/02/2026"
+    assert payload["dados.dtPublicacaoFim"] == "28/02/2026"
+    assert payload["dados.origensSelecionadas"] == "R"
+    assert payload["dados.ordenarPor"] == "relevancia"
+
+
+def test_provider_rejects_unmapped_cjsg_origin_instead_of_sending_wrong_filter():
+    provider = TjspCjsgProvider(session=FakeSession([]))
+
+    with pytest.raises(ValueError, match="source_origin"):
+        provider.search(JurisprudenceQuery(text="teste", source_origin="primeiro_grau"))
+
+
 def test_provider_search_uses_troca_de_pagina_after_public_result_session():
     session = FakeSession([FakeResponse(_fixture_html()), FakeResponse(_cjsg_page_fragment())])
     provider = TjspCjsgProvider(session=session)
@@ -320,7 +348,13 @@ def test_provider_get_document_marks_login_verification_status():
       </script>
     </html>
     """
-    session = FakeSession([FakeResponse(html)])
+    session = FakeSession(
+        [
+            FakeResponse(html),
+            FakeResponse("<html><body>verification accepted</body></html>"),
+            FakeResponse(html),
+        ]
+    )
     provider = TjspCjsgProvider(session=session)
 
     document = provider.get_document("tjsp-cjsg-20787558-0")
@@ -329,6 +363,11 @@ def test_provider_get_document_marks_login_verification_status():
     assert document.extraction_trace is not None
     assert document.extraction_trace.access_status == AccessStatus.LOGIN_REQUIRED
     assert document.extraction_trace.status == ExtractionStatus.PARTIAL
+    assert len(session.calls) == 3
+    assert "verificarLoginArquivo.jsp" in session.calls[1]["url"]
+    assert session.calls[2]["url"].endswith(
+        "getArquivo.do?cdAcordao=20787558&cdForo=0&casChecked=true"
+    )
 
 
 def test_provider_detects_access_control_without_bypass():

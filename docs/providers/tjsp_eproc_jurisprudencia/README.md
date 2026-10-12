@@ -5,7 +5,7 @@
 - Fonte oficial: Jurisprudencia eproc/TJSP.
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `html_jurisprudencia_eproc`.
-- URL inicial: `https://eproc-consulta.tjsp.jus.br/consulta_1g`.
+- URL inicial: `https://eproc1g.tjsp.jus.br/eproc`.
 - Status de acesso: publico parcial, com risco de controle de acesso.
 - Status no NanoJuris: provider implementado.
 
@@ -13,16 +13,23 @@
 
 - Rotas conhecidas:
   - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados`
+  - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_paginar_resultado`
+  - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_listar_tipo_documento`
+  - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_gerar_pdf_documento`
   - `GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>`
-- Parametros: texto integral, ementa/resumo, numero CNJ, intervalo de datas e
-  origem.
+- Parametros: texto integral, ementa/resumo, numero CNJ, intervalos de datas,
+  origem, tipo documental e ordenacao.
 - `source_origin`: aceita `colegio_recursal`, `primeiro_grau` e `segundo_grau`.
 - Paginacao: o primeiro POST retorna `frmJurisprudenciaResultado` com
   `hdnPaginaAtual`, `hdnTotalResultado`, `selTamanhoPagina` (10, 25, 50 ou
   100) e `hdnUrlPaginar`. Paginas posteriores usam POST na rota AJAX indicada
   por `hdnUrlPaginar`, mantendo a sessao. A pagina 2 foi identificada na
   fixture, mas a reproducao live completa ainda depende da resposta publica da
-  fonte. Ordenacao nao foi anunciada sem contrato reproduzido.
+  fonte. Ordenacao observada: `selOrdenacao=1` para mais recentes e `2` para
+  mais antigos.
+- A rota `ajax_gerar_pdf_documento` recebe `ids=<id1,id2,...>` e retorna um blob
+  PDF para a acao de visualizacao selecionada; ela nao substitui o inteiro teor
+  individual.
 
 ## Dados retornados
 
@@ -75,8 +82,8 @@
 
 ## Proximos passos
 
-- [ ] Aprofundar contrato de `source_origin`.
+- [x] Aprofundar contrato de `source_origin`.
 - [x] Implementar carregamento documental com bytes, SHA-256 e trace.
 - [ ] Registrar validacao live datada de documento e resposta vazia.
 - [ ] Documentar limites por primeiro grau, segundo grau e colegio recursal.
-- [ ] Criar dicionario de filtros aceitos.
+- [x] Criar dicionario de filtros aceitos.

@@ -50,8 +50,8 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `tjrs_solr` | sim | text, exact_phrase, number, page, published_from, published_to | `offset` | nao | nao |
 | `tjsc_eproc_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to | `page` | nao | nao |
 | `tjse_jurisprudencia` | nao | - | `unknown` | nao | nao |
-| `tjsp_cjsg` | sim | text, number | `page` | nao | nao |
-| `tjsp_eproc_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to | `page` | nao | nao |
+| `tjsp_cjsg` | sim | text, number, exact_phrase, updated_from, updated_to, published_from, published_to, source_origin, types, order_by | `page` | nao | nao |
+| `tjsp_eproc_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to, source_origin, types, order_by | `page` | nao | nao |
 | `tjsp_nugepnac` | sim | text, number, types | `local_window` | sim | nao |
 | `tjto_jurisprudencia` | sim | text, exact_phrase, number, rapporteur, source_origin, types, order_by, page, fetch_details | `offset` | nao | nao |
 | `tnu_eproc_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to | `page` | nao | nao |

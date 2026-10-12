@@ -73,7 +73,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`tjsc_eproc_jurisprudencia`](providers/tjsc_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 2 | 4 |
 | [`tjse_jurisprudencia`](providers/tjse_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 0 | 0 |
 | [`tjsp_cjsg`](providers/tjsp_cjsg/README.md) | implemented | `needs_deepening` | 4 | alto | - | 2 | 7 |
-| [`tjsp_eproc_jurisprudencia`](providers/tjsp_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 3 |
+| [`tjsp_eproc_jurisprudencia`](providers/tjsp_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 4 | 3 |
 | [`tjsp_nugepnac`](providers/tjsp_nugepnac/README.md) | implemented | `needs_deepening` | 4 | medio | - | 6 | 2 |
 | [`tjto_jurisprudencia`](providers/tjto_jurisprudencia/README.md) | implemented | `implementation_ready` | 4 | medio | - | 0 | 1 |
 | [`tnu_eproc_jurisprudencia`](providers/tnu_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 1 | 6 |

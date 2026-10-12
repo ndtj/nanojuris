@@ -11,8 +11,9 @@
 
 ## Contrato conhecido
 
-O provider cobre busca textual, ementa/resumo, numero CNJ, intervalo de data,
-tipo de decisao e inteiro teor quando publico. A fonte pode exigir captcha,
+O provider cobre busca textual, ementa/resumo, numero CNJ, intervalos de
+julgamento e publicacao, origem, tipo de decisao, ordenacao e inteiro teor quando
+publico. A fonte pode exigir captcha,
 validacao de acesso ou rotas de controle; o NanoJuris deve reportar isso sem
 bypass.
 
@@ -27,6 +28,9 @@ Rotas declaradas:
 POST /resultadoCompleta.do
 GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>
 GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>
+GET /jsp/verificarLoginArquivo.jsp?cdAcordao=<id>&cdForo=<foro>
+GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>&casChecked=true
+POST /captchaControleAcesso.do (rota de controle, nao de extracao)
 ```
 
 Status tecnico das rotas:
@@ -36,7 +40,9 @@ Status tecnico das rotas:
 | `POST /resultadoCompleta.do` | Sim, quando retorna container de resultado | Rota principal; se voltar formulario/captcha, parar | Implementada |
 | `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>` | Sim, fragmentos paginados com ementas, processos e `cdAcordao` | Apenas depois de um `POST /resultadoCompleta.do` publico e valido na mesma sessao | Implementada como continuacao segura |
 | `GET /trocaDePagina.do?...` em sessao limpa | Nao | Retorna `emptySession.jsp`; tratar como sessao ausente | Diagnosticada como controle de acesso |
-| `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>` | Sim, quando o inteiro teor esta publico | Se redirecionar para CAS/login, marcar `login_required` | Implementada com diagnostico |
+| `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>` | Sim, quando o inteiro teor esta publico | Se retornar a verificacao publica, continuar a cadeia; sem credencial ou bypass | Implementada com diagnostico |
+| `GET /jsp/verificarLoginArquivo.jsp?...` | Nao, e uma etapa de verificacao | Apenas quando a primeira chamada retorna a tela observada | Implementada como transicao segura |
+| `GET /getArquivo.do?...&casChecked=true` | Sim, quando a fonte libera o documento | Nunca enviar credenciais, CAPTCHA ou token fabricado | Implementada com diagnostico |
 | `POST /captchaControleAcesso.do` | Nao | Rota de controle; nunca usar para bypass | Apenas documentada |
 
 Payload principal da busca:
@@ -47,8 +53,11 @@ dados.buscaEmenta=<trecho exato quando informado>
 dados.nuProcOrigem=<numero CNJ quando informado>
 dados.dtJulgamentoInicio=<data inicial>
 dados.dtJulgamentoFim=<data final>
+dados.dtPublicacaoInicio=<data inicial>
+dados.dtPublicacaoFim=<data final>
+dados.origensSelecionadas=<T|R>
 tipoDecisaoSelecionados=<A|M|H>
-dados.ordenarPor=dtPublicacao
+dados.ordenarPor=<dtPublicacao|relevancia>
 ```
 
 Mapeamento de tipo decisorio:
@@ -58,6 +67,10 @@ Mapeamento de tipo decisorio:
 | `A`, `acordao` | `A` |
 | `M`, `monocratica` | `M` |
 | `H`, `homologacao` | `H` |
+
+Origens observadas: `T`/`segundo_grau` e `R`/`colegio_recursal`. O provider nao
+inventa codigo para `primeiro_grau`; esse valor nao pertence ao formulario CJSG
+observado e e rejeitado explicitamente.
 
 Campos extraidos:
 
@@ -152,8 +165,9 @@ Achados:
 - `trocaDePagina.do` traz conteudo jurisprudencial valido em fragmento HTML,
   mas depende de sessao criada por uma busca publica anterior. Em sessao limpa,
   retorna `emptySession.jsp`.
-- `getArquivo.do` pode redirecionar para `verificarLoginArquivo.jsp` e CAS/login.
-  Nesse caso, o provider nao deve classificar o documento como publico.
+- `getArquivo.do` pode retornar `verificarLoginArquivo.jsp`; o provider reproduz
+  a sequencia publica observada e depois reavalia o ultimo retorno. Se a fonte
+  mantiver login/CAPTCHA, o documento continua parcial/bloqueado.
 - `captchaControleAcesso.do` retorna estado de controle de acesso, nao conteudo
   juridico; permanece fora do fluxo de extracao.
 
