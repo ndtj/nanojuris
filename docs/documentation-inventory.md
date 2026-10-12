@@ -2,7 +2,7 @@
 
 Gerado por `python tools/audit_documentation_inventory.py --write`. Este inventario orienta consolidacoes sem apagar contratos, evidencias ou caminhos de compatibilidade sem uma migracao explicita.
 
-Documentos inventariados: **245** (`active_guide`=51, `canonical`=76, `compatibility_copy`=56, `generated`=10, `historical_evidence`=52).
+Documentos inventariados: **247** (`active_guide`=53, `canonical`=76, `compatibility_copy`=56, `generated`=10, `historical_evidence`=52).
 
 ## Regra De Limpeza
 
@@ -65,10 +65,12 @@ Um item somente pode ser removido quando nao tiver referencias, conteudo unico, 
 | `docs/provider-discovery/all-provider-sweep.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/catalog-candidate-justica-eleitoral.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/catalog-candidates-sweep.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
+| `docs/provider-discovery/cjsg-provider-sweep-20261012.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/official-alternatives-2026-08-27.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/offline-audit.md` | `active_guide` | 1 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/provider-closure-ledger.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/route-research-2026-08-27.md` | `historical_evidence` | 0 | Registro de pesquisa, QA ou validacao. | `manter` |
+| `docs/provider-discovery/tj-provider-sweep-20261012-r2.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/tj-provider-sweep-20261012.md` | `active_guide` | 0 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-discovery/unified-contract-matrix.md` | `active_guide` | 2 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
 | `docs/provider-documentation-audit.md` | `active_guide` | 4 | Guia ativo; nao ha base automatica para remocao. | `revisar_periodicamente` |
