@@ -7,7 +7,7 @@ import re
 import time
 from dataclasses import asdict, dataclass, replace
 from typing import Any
-from urllib.parse import quote, urljoin
+from urllib.parse import quote, urljoin, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -92,7 +92,43 @@ class TjspCjsgProvider(JurisprudenceProvider):
     def search(self, query: JurisprudenceQuery) -> SearchPage:
         endpoint = "/resultadoCompleta.do"
         payload = self._build_payload(query)
-        html = self._request_text("POST", endpoint, data=payload)
+
+        # CJSG establishes the public search session while serving the form.
+        # Reusing only the abstract payload can make e-SAJ return a generic
+        # page or ignore the query, because hidden/session fields are omitted.
+        initial = self._request_response(
+            "GET",
+            endpoint,
+            _allow_access_control_form=True,
+        )
+        initial_html = decode_cjsg_response_text(initial)
+        form = _find_cjsg_search_form(initial_html)
+        if form is None:
+            diagnostic = diagnose_cjsg_access(initial_html)
+            if diagnostic.access_control_required:
+                raise AccessControlRequiredError(
+                    "TJSP/CJSG requires captcha or another access-control step "
+                    f"before the public search ({diagnostic.summary()})"
+                )
+            raise ParserContractChangedError(
+                "TJSP/CJSG public search form not found in the initial response"
+            )
+
+        destination = _validated_cjsg_form_action(
+            form,
+            initial_url=str(getattr(initial, "url", None) or "")
+            or urljoin(self.config.tjsp_cjsg_url.rstrip("/") + "/", endpoint.lstrip("/")),
+            expected_host=urlsplit(self.config.tjsp_cjsg_url).hostname,
+        )
+        payload = _merge_cjsg_form_payload(form, payload)
+        posted_endpoint = urlsplit(destination).path or endpoint
+        html = self._request_text(
+            "POST",
+            destination,
+            data=payload,
+            headers={"Referer": str(getattr(initial, "url", None) or destination)},
+        )
+        endpoint = posted_endpoint
         trace_query: dict[str, Any] = {"payload": payload}
         if query.page > 1 and _looks_like_cjsg_results(html):
             decision_type = self._first_decision_type(payload)
@@ -371,6 +407,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "User-Agent": self.config.user_agent,
         }
+        headers.update(kwargs.pop("headers", {}))
         try:
             response = self._request_response(method, path, headers=headers, **kwargs)
         except requests.RequestException as exc:
@@ -379,6 +416,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
         return decode_cjsg_response_text(response)
 
     def _request_response(self, method: str, path: str, **kwargs: Any) -> requests.Response:
+        allow_access_control_form = bool(kwargs.pop("_allow_access_control_form", False))
         self._respect_rate_limit()
         url = urljoin(self.config.tjsp_cjsg_url.rstrip("/") + "/", path.lstrip("/"))
         headers = {
@@ -415,7 +453,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
             raise SourceUnavailableError(
                 f"TJSP/CJSG rejected request with HTTP {response.status_code}"
             )
-        if diagnostic.access_control_required:
+        if diagnostic.access_control_required and not allow_access_control_form:
             raise AccessControlRequiredError(
                 "TJSP/CJSG requires captcha or another access-control step "
                 f"({diagnostic.summary()})"
@@ -477,6 +515,79 @@ class TjspCjsgProvider(JurisprudenceProvider):
         if isinstance(value, str) and value:
             return value
         return "A"
+
+
+def _find_cjsg_search_form(html: str) -> Any | None:
+    """Return the official CJSG form that posts the public search."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    return next(
+        (
+            form
+            for form in soup.select("form")
+            if "resultadoCompleta.do" in str(form.get("action", ""))
+        ),
+        None,
+    )
+
+
+def _validated_cjsg_form_action(
+    form: Any,
+    *,
+    initial_url: str,
+    expected_host: str | None,
+) -> str:
+    destination = urljoin(initial_url, str(form.get("action", "")))
+    if not destination or urlsplit(destination).hostname != expected_host:
+        raise ValueError("TJSP/CJSG form action does not belong to the official SAJ host")
+    return destination
+
+
+def _merge_cjsg_form_payload(
+    form: Any,
+    overrides: dict[str, str | list[str]],
+) -> dict[str, str | list[str]]:
+    """Hydrate the query with current hidden/default form fields.
+
+    e-SAJ changes session and hidden values between visits.  The query-specific
+    values are applied last, while repeated select values remain lists so
+    ``requests`` serializes them as repeated form fields.
+    """
+
+    data: dict[str, str | list[str]] = {}
+    for field in form.select("input[name], select[name], textarea[name]"):
+        name = str(field["name"])
+        field_type = str(field.get("type", "")).lower()
+        if field.has_attr("disabled") or field_type in {
+            "button",
+            "submit",
+            "reset",
+            "file",
+            "image",
+        }:
+            continue
+        if field_type in {"checkbox", "radio"} and not field.has_attr("checked"):
+            continue
+
+        if field.name == "select":
+            options = field.select("option[selected]") or field.select("option")[:1]
+            values = [str(option.get("value", option.get_text())) for option in options]
+        else:
+            values = [str(field.get("value", "") if field.name == "input" else field.get_text())]
+        if not values:
+            continue
+        previous = data.get(name)
+        if previous is None:
+            data[name] = values[0] if len(values) == 1 else values
+        else:
+            previous_values = previous if isinstance(previous, list) else [previous]
+            data[name] = previous_values + values
+
+    data.update(overrides)
+    submit = form.select_one('input[name="pbSubmit"]')
+    if submit is not None:
+        data["pbSubmit"] = str(submit.get("value", "Pesquisar"))
+    return data
 
 
 def parse_cjsg_results(

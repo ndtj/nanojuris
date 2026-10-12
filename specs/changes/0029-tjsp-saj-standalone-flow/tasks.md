@@ -6,4 +6,5 @@
 - [x] T04 - execute the example against the public TJSP form with low volume.
 - [x] T05 - update TJSP contract documentation.
 - [x] T06 - run full local verification; CI is pending on the isolated PR.
-- [ ] T07 - merge the isolated PR after checks pass.
+- [x] T07 - align the TJSP provider with the same-session hydrated-form flow.
+- [x] T08 - merge the isolated PR after checks pass (PR #36, merge `1d4c1b1`).
