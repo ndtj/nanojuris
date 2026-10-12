@@ -318,25 +318,24 @@ def test_provider_search_hydrates_public_form_and_keeps_control_explicit():
                 json_value={"uuidCaptcha": "refreshed-uuid"},
             ),
             FakeResponse(_fixture("tjsp_cjsg_access_control.html")),
-            FakeResponse(_cjsg_page_fragment()),
         ]
     )
     provider = TjspCjsgProvider(session=session)
 
-    page = provider.search(JurisprudenceQuery(text="teste"))
+    with pytest.raises(AccessControlRequiredError, match="captcha"):
+        provider.search(JurisprudenceQuery(text="teste"))
 
     assert session.calls[1]["url"].endswith("captchaControleAcesso.do")
     assert session.calls[2]["method"] == "POST"
-    assert session.calls[3]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
+    assert len(session.calls) == 3
     payload = session.calls[2]["kwargs"]["data"]
     assert payload["uuidCaptcha"] == "refreshed-uuid"
     assert payload["conversationId"] == "conversation-1"
     assert payload["dados.buscaInteiroTeor"] == "teste"
     assert payload["pbSubmit"] == "Pesquisar"
-    assert page.results[0].id == "tjsp-cjsg-20588041-0"
 
 
-def test_provider_stops_when_control_transition_stays_blocked():
+def test_provider_stops_when_post_returns_access_control():
     session = FakeSession(
         [
             FakeResponse(_search_form()),
@@ -344,7 +343,6 @@ def test_provider_stops_when_control_transition_stays_blocked():
                 '{"uuidCaptcha":"refreshed-uuid"}',
                 json_value={"uuidCaptcha": "refreshed-uuid"},
             ),
-            FakeResponse(_fixture("tjsp_cjsg_access_control.html")),
             FakeResponse(_fixture("tjsp_cjsg_access_control.html")),
         ]
     )
