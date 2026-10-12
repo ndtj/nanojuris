@@ -194,7 +194,7 @@ def test_tjro_payload_uses_explicit_types_and_safe_page_limits() -> None:
     payload = build_tjro_search_payload(
         JurisprudenceQuery(exact_phrase="tese", types=["iac"], page=1, page_size=100)
     )
-    assert payload["especies"] == ["iac"]
+    assert payload["especies"] == ["incidente_assuncao_competencia"]
     assert payload["texto"] == "tese"
     assert payload["page"] == 1
     assert payload["page_size"] == 100

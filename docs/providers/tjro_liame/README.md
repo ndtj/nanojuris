@@ -22,6 +22,8 @@ o acervo geral de acordaos e permanece fora da busca textual unificada.
   `situacao`, `ordenacao`, `page` e `page_size`.
 - Especies TJRO observadas: `incidente_assuncao_competencia` e
   `incidente_demanda_repetitiva`.
+- A query comum aceita também os aliases `iac` e `irdr`, convertidos para as
+  espécies oficiais antes do POST.
 - Resposta: `data.total`, `data.page`, `data.page_size`, `data.total_pages`,
   `data.has_next` e `data.results`.
 

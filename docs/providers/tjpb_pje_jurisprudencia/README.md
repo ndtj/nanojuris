@@ -6,7 +6,8 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `pje_jurisprudencia_estadual`.
 - URL inicial: `https://pje-jurisprudencia.tjpb.jus.br/`.
-- Status de acesso: `public` na busca observada; desafios de acesso continuam classificados.
+- Status de acesso: a API de catálogos permanece pública, mas a página e o POST
+  de busca atuais retornaram desafio Cloudflare/validação humana em 2026-10-12.
 - Status no NanoJuris: implementado para busca e detalhe HTML publico.
 
 ## Contrato HTTP
@@ -26,7 +27,7 @@
 - Detalhe: `GET /jurisprudencia/view/{id}?words={termos}`.
 - Paginacao: pagina baseada em um; a resposta live retornou dez hits por pagina.
 
-Se a aquisição do token receber uma página com marcadores de CAPTCHA/WAF, o
+Se a aquisição do token ou a resposta de busca receber uma página com marcadores de CAPTCHA/WAF, o
 provider levanta `AccessControlRequiredError`. Uma alteração HTML sem esses
 marcadores continua sendo `ParserContractChangedError`; nenhum desafio é
 resolvido automaticamente.

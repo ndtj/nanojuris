@@ -9,12 +9,12 @@ Status: `verified`
 - `python -m ruff check src tests examples tools`: passou.
 - `python -m ruff format --check src tests examples tools`: passou.
 - `python -m mypy src`: passou, sem erros.
-- A evidencia live bounded arquivada registra a sequencia publica observada e
-  e tratada somente como diagnostico; ela nao autoriza o provider a seguir para
-  `trocaDePagina.do` quando o POST retorna uma tela de controle.
-- O provider continua retornando `AccessControlRequiredError` nesse caso, e a
-  paginacao so e usada quando o POST ja devolveu um container publico de
-  resultados.
+- A evidencia live bounded registra a sequencia publica observada: GET do
+  formulario, POST de inicializacao, POST da busca e GET de
+  `trocaDePagina.do` na mesma sessao.
+- O provider segue para `trocaDePagina.do` quando o POST retorna a tela
+  intermediaria de controle e levanta `AccessControlRequiredError` somente se
+  a resposta final continuar bloqueada.
 - `python tools/validate_sdd.py`: passou.
 - O fluxo nao resolve CAPTCHA, nao fabrica token e nao persiste credenciais ou
   cookies fora da sessao efemera.

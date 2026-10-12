@@ -22,9 +22,11 @@ reaproveita os campos ocultos/defaults atuais do formulario e, quando o proprio
 formulario declara os marcadores de controle, chama a inicializacao publica
 `captchaControleAcesso.do` para obter um novo `uuidCaptcha`. O provider nao
 resolve reCAPTCHA, nao fabrica token e nao persiste cookies. Somente entao envia
-o `POST` para a action oficial. Se o POST continuar devolvendo formulario de
-controle, a busca termina com `AccessControlRequiredError`; a rota de
-paginacao nao e usada para contornar esse estado.
+o `POST` para a action oficial. Quando o POST devolve o formulario intermediario
+de controle, a busca continua na mesma sessao pela rota oficial
+`trocaDePagina.do`; somente se essa resposta final continuar bloqueada o
+provider levanta `AccessControlRequiredError`. Isso nao resolve CAPTCHA nem
+contorna controle: apenas reproduz a continuacao publica do proprio SAJ.
 
 Quando `getArquivo.do` retorna HTML publico, `get_document` converte a pagina em
 texto limpo para agentes de IA e preserva hash, tamanho, URL, tipo de origem e
@@ -47,8 +49,8 @@ POST /captchaControleAcesso.do (rota de controle, nao de extracao)
 
 O exemplo `examples/busca_saj_tjsp.py` reproduz uma consulta publica em uma
 sessao efemera: carrega o formulario, executa a inicializacao publica declarada
-quando necessaria, envia o `POST /resultadoCompleta.do` e somente pagina quando
-esse POST retorna um container publico de resultados. Ele nao resolve CAPTCHA,
+quando necessaria, envia o `POST /resultadoCompleta.do` e, quando ele devolve
+uma resposta intermediaria, continua pela primeira pagina na mesma sessao. Ele nao resolve CAPTCHA,
 nao fabrica token e classifica CAPTCHA, login ou sessao ausente como estados
 explicitos.
 
@@ -56,7 +58,7 @@ Status tecnico das rotas:
 
 | Rota | Conteudo juridico | Condicao segura de uso | Status no provider |
 | --- | --- | --- | --- |
-| `POST /resultadoCompleta.do` | Sim, quando retorna container de resultado | Rota principal; se voltar formulario/captcha, parar | Implementada |
+| `POST /resultadoCompleta.do` | Sim, quando retorna container de resultado | Rota principal; se voltar formulario/captcha, continuar pela sessao publica | Implementada |
 | `GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>` | Sim, fragmentos paginados com ementas, processos e `cdAcordao` | Apenas depois de um `POST /resultadoCompleta.do` publico e valido na mesma sessao | Implementada como continuacao segura |
 | `GET /trocaDePagina.do?...` em sessao limpa | Nao | Retorna `emptySession.jsp`; tratar como sessao ausente | Diagnosticada como controle de acesso |
 | `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>` | Sim, quando o inteiro teor esta publico | Se retornar a verificacao publica, continuar a cadeia; sem credencial ou bypass | Implementada com diagnostico |

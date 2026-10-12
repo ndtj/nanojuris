@@ -6,7 +6,8 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `projudi_jurisprudencia`.
 - URL inicial: `https://projudi.tjgo.jus.br/ConsultaJurisprudencia`.
-- Status de acesso: busca publica validada em sessao limpa em 2026-08-07.
+- Status de acesso: o portal atual devolveu formulário com Turnstile sem token
+  em smoke live de 2026-10-12; o provider classifica isso como acesso controlado.
 - Status no NanoJuris: provider implementado.
 
 ## Contrato HTTP
@@ -54,7 +55,9 @@
 - Busca com resultado: `Texto=dano moral`, HTTP 200, `1357644 resultados encontrados`, processo, decisao, sentenca e `Baixar Inteiro teor`.
 - Busca sem resultado: fixture real de `zzznanojurissemresultado` sem cards de resultado.
 - Erro HTTP esperado: normalizado em testes offline para HTTP 400/429/500 e falhas de rede.
-- Controle de acesso/captcha: scripts globais aparecem no HTML, mas nao bloquearam o resultado testado; o diagnostico diferencia asset global de desafio real.
+- Controle de acesso/captcha: o HTML atual contém widget Turnstile e o POST sem
+  token retorna ao formulário, sem cartões; o provider não confunde a regra CSS
+  `.search-result` com resultados reais e levanta `AccessControlRequiredError`.
 - Mudanca de layout: risco alto por HTML de sistema processual.
 
 ## Fixtures

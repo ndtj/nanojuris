@@ -33,7 +33,7 @@ GET /api/v1/jurisprudencias?page=0&size=20
 Filtros observados no frontend:
 
 ```text
-pesquisaLivre.contains
+q
 npuSemFormatacao.equals
 numAntigo.equals
 dataJulgamento.greaterThanOrEqual
@@ -74,9 +74,8 @@ tambem retornaram JSON real: classes, assuntos, relatores e unidades judiciais.
   contrato publico. Isso nunca deve ser usado no provider ou em producao.
 - A fixture e o teste live devem voltar a validar o certificado normalmente em
   ambiente com CA atualizada.
-- O filtro de texto livre apresentou erro 500 em algumas combinacoes isoladas;
-  o provider deve validar a combinacao de filtros e registrar erro de contrato,
-  sem transformar uma resposta 500 em busca vazia.
+- A implantação atual aceita o texto livre em `q`. O parâmetro legado
+  `pesquisaLivre.contains` passou a retornar HTTP 500 e não é mais enviado.
 - A API lista documentos recentes e pode devolver `textoEmenta` nulo em alguns
   registros, mantendo `textoAcordao` ou `textoDecisao`.
 - O endpoint de processo pode retornar um pacote vazio quando os identificadores

@@ -33,12 +33,17 @@ class FakeResponse:
         self.url = (
             url or "https://hellsgate-preview.tjmt.jus.br/jurisprudencia/api/consulta/Acordao"
         )
-        self.headers = {"Content-Type": "application/json"}
-        self.content = json.dumps(data, ensure_ascii=False).encode("utf-8")
+        content_type = "text/html" if isinstance(data, str) else "application/json"
+        self.headers = {"Content-Type": content_type}
+        self.content = (
+            data.encode("utf-8")
+            if isinstance(data, str)
+            else json.dumps(data, ensure_ascii=False).encode("utf-8")
+        )
         self.text = self.content.decode("utf-8")
 
     def json(self) -> Any:
-        if isinstance(self._data, BaseException):
+        if isinstance(self._data, (BaseException, str)):
             raise ValueError("not json")
         return self._data
 
@@ -120,13 +125,14 @@ def test_tjmt_builds_public_query_contract() -> None:
         page_size=25,
     )
 
-    assert params["filtro.indicePagina"] == "2"
-    assert params["filtro.quantidadePagina"] == "25"
-    assert params["filtro.tipoConsulta"] == "Acordao"
-    assert params["filtro.termoDeBusca"] == 'dano moral "transporte aereo"'
-    assert params["filtro.periodoDataDe"] == "02/01/2026"
-    assert params["filtro.periodoDataAte"] == "03/02/2026"
-    assert params["filtro.ordenacao.ordenarPor"] == "DataDecrescente"
+    assert params["indicePagina"] == "1"
+    assert params["quantidadePagina"] == "25"
+    assert params["tipoConsulta"] == "1"
+    assert params["termoDeBusca"] == 'dano moral "transporte aereo"'
+    assert params["periodoDataDe"] == "2026-01-02"
+    assert params["periodoDataAte"] == "2026-02-03"
+    assert params["OrdenarPor"] == "Julgamento"
+    assert params["Decrescente"] == "true"
 
 
 def test_tjmt_provider_reads_config_and_never_traces_runtime_token() -> None:
@@ -154,8 +160,72 @@ def test_tjmt_provider_reads_config_and_never_traces_runtime_token() -> None:
     assert page.source_trace is not None
     trace_text = json.dumps(page.source_trace.to_dict(), ensure_ascii=False)
     assert "public-runtime-token" not in trace_text
-    assert session.calls[1]["kwargs"]["params"]["filtro.indicePagina"] == "2"
-    assert session.calls[1]["kwargs"]["params"]["token"] == "public-runtime-token"
+    assert session.calls[1]["kwargs"]["params"]["indicePagina"] == "1"
+    assert session.calls[1]["kwargs"]["headers"]["token"] == "public-runtime-token"
+
+
+def test_tjmt_provider_reads_runtime_config_from_current_spa_bundle() -> None:
+    session = FakeSession(
+        [
+            FakeResponse(
+                "<html>SPA shell</html>",
+                url="https://jurisprudencia.tjmt.jus.br/assets/config/config.json",
+            ),
+            FakeResponse(
+                "<html><script src='/main.js'></script></html>",
+                url="https://jurisprudencia.tjmt.jus.br/",
+            ),
+            FakeResponse(
+                'const environment={api_url:"https://hellsgate.tjmt.jus.br/jurisprudencia",'
+                'api_hellsgate_token:"spa-runtime-token"};',
+                url="https://jurisprudencia.tjmt.jus.br/main.js",
+            ),
+            FakeResponse(
+                fixture_data(),
+                url="https://hellsgate.tjmt.jus.br/jurisprudencia/api/consulta/Acordao",
+            ),
+        ]
+    )
+    provider = TjmtJurisprudenciaApiProvider(
+        NanoJurisConfig(rate_limit_interval=0), session=session
+    )
+
+    page = provider.search(JurisprudenceQuery(text="dano moral", page_size=1))
+
+    assert page.results[0].number == "1008103-19.2025.8.11.0002"
+    assert session.calls[2]["url"].endswith("/main.js")
+    assert session.calls[3]["kwargs"]["headers"]["token"] == "spa-runtime-token"
+    trace_text = json.dumps(page.source_trace.to_dict(), ensure_ascii=False)
+    assert "spa-runtime-token" not in trace_text
+
+
+def test_tjmt_parser_accepts_current_spa_envelope_and_camel_case_fields() -> None:
+    legacy_item = fixture_data()["AcordaoCollection"][0]
+    process = legacy_item["Processo"]
+    current_item = {
+        "id": legacy_item["Id"],
+        "tipo": "Acordao",
+        "conteudo": legacy_item["Conteudo"],
+        "documentoHtml": legacy_item["Documento"],
+        "processo": {
+            "uid": process["UID"],
+            "numeroUnicoFormatado": process["NumeroUnicoFormatado"],
+            "nomeRelator": process["NomeRelator"],
+            "dataJulgamento": process["DataJulgamento"],
+            "dataPublicacao": process["DataPublicacao"],
+            "julgamento": process["Julgamento"],
+        },
+    }
+    page = parse_tjmt_response(
+        {"value": {"resultados": [current_item], "countAcordaoDocumento": 1}},
+        query=JurisprudenceQuery(text="dano moral", page=1, page_size=1),
+        trace=None,  # type: ignore[arg-type]
+        api_type="Acordao",
+    )
+
+    assert page.total == 1
+    assert page.results[0].number == "1008103-19.2025.8.11.0002"
+    assert page.results[0].full_text
 
 
 def test_tjmt_rejects_contract_root_without_collection() -> None:

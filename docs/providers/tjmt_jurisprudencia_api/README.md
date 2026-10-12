@@ -18,9 +18,10 @@ valor, não o persiste e não o trata como credencial de usuário.
 ## Contrato HTTP Observado
 
 - Portal oficial: <https://jurisprudencia.tjmt.jus.br/>
-- Configuração pública: `GET /assets/config/config.json`.
-- Busca: `GET {api_url}/api/consulta/Acordao`.
-- Tipo alternativo observado: `GET {api_url}/api/consulta/Decisao`.
+- Configuração pública legada: `GET /assets/config/config.json`.
+- Fallback atual: shell HTML e bundles same-origin da SPA.
+- Busca atual observada: `GET {api_url}/consulta`.
+- O token público do runtime é enviado no header `token`, como no frontend.
 - Inteiro teor inline: campo `Documento` HTML da coleção de resultados.
 - Rota de relatório observada: `/VisualizaRelatorio/RetornaDocumentoAcordao`;
   uma carga independente estável ainda não foi validada pelo provider.
@@ -41,8 +42,8 @@ filtro.ordenacao.ordenarDataPor=Julgamento
 filtro.thesaurus=false
 ```
 
-O valor público `api_hellsgate_token` é lido do JSON de configuração e enviado
-como parâmetro `token`, exatamente como o frontend observado. O seu valor não
+O valor público `api_hellsgate_token` é lido do JSON ou bundle público e enviado
+como header `token`, exatamente como o frontend observado. O seu valor não
 é gravado em código, fixtures, trace, evidência ou documentação.
 
 ## Dados Retornados

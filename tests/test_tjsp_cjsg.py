@@ -310,7 +310,7 @@ def test_provider_search_uses_troca_de_pagina_after_public_result_session():
     assert session.calls[3]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=2")
 
 
-def test_provider_search_hydrates_public_form_and_keeps_control_explicit():
+def test_provider_search_hydrates_public_form_and_follows_control_transition():
     session = FakeSession(
         [
             FakeResponse(_search_form()),
@@ -319,24 +319,25 @@ def test_provider_search_hydrates_public_form_and_keeps_control_explicit():
                 json_value={"uuidCaptcha": "refreshed-uuid"},
             ),
             FakeResponse(_fixture("tjsp_cjsg_access_control.html")),
+            FakeResponse(_cjsg_page_fragment()),
         ]
     )
     provider = TjspCjsgProvider(session=session)
 
-    with pytest.raises(AccessControlRequiredError, match="captcha"):
-        provider.search(JurisprudenceQuery(text="teste"))
+    page = provider.search(JurisprudenceQuery(text="teste"))
 
     assert session.calls[1]["url"].endswith("captchaControleAcesso.do")
     assert session.calls[2]["method"] == "POST"
-    assert len(session.calls) == 3
+    assert session.calls[3]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
     payload = session.calls[2]["kwargs"]["data"]
     assert payload["uuidCaptcha"] == "refreshed-uuid"
     assert payload["conversationId"] == "conversation-1"
     assert payload["dados.buscaInteiroTeor"] == "teste"
     assert payload["pbSubmit"] == "Pesquisar"
+    assert page.results[0].id == "tjsp-cjsg-20588041-0"
 
 
-def test_provider_stops_when_post_returns_access_control():
+def test_provider_stops_when_control_transition_stays_blocked():
     session = FakeSession(
         [
             FakeResponse(_search_form()),
@@ -345,12 +346,15 @@ def test_provider_stops_when_post_returns_access_control():
                 json_value={"uuidCaptcha": "refreshed-uuid"},
             ),
             FakeResponse(_fixture("tjsp_cjsg_access_control.html")),
+            FakeResponse(_fixture("tjsp_cjsg_access_control.html")),
         ]
     )
     provider = TjspCjsgProvider(session=session)
 
     with pytest.raises(AccessControlRequiredError, match="captcha"):
         provider.search(JurisprudenceQuery(text="teste"))
+
+    assert session.calls[3]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=1")
 
 
 def test_provider_get_decisions_builds_getarquivo_url_and_extracts_text():

@@ -262,6 +262,10 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
             "response_bytes": len(content),
             "retrieval_status": "ok" if response.status_code < 400 else "error",
         }
+        if _looks_like_access_control(response.text):
+            raise AccessControlRequiredError(
+                "TJPB jurisprudence returned a Cloudflare or human-validation challenge"
+            )
         if response.status_code == 429:
             raise RateLimitDetectedError("TJPB jurisprudence returned HTTP 429")
         if response.status_code in {401, 403}:

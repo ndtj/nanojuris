@@ -220,7 +220,10 @@ def build_tjpe_search_parameters(
     size = _page_size(page_size or query.page_size)
     params: dict[str, Any] = {"page": max(query.page - 1, 0), "size": size}
     if query.text:
-        params["pesquisaLivre.contains"] = query.text
+        # The current official REST deployment exposes the free-text search
+        # as ``q``. The former JHipster-style ``pesquisaLivre.contains``
+        # parameter now returns HTTP 500 instead of a validation error.
+        params["q"] = query.text
     if query.number:
         params["npuSemFormatacao.equals"] = re.sub(r"\D", "", query.number)
     if query.published_from:

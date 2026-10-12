@@ -7,6 +7,14 @@ from dataclasses import dataclass, field
 from functools import wraps
 from typing import Any
 
+try:
+    import truststore
+except ImportError:  # pragma: no cover - exercised only in minimal installations
+    truststore = None  # type: ignore[assignment]
+
+
+_TRUSTSTORE_INSTALLED = False
+
 
 @dataclass(slots=True)
 class NanoJurisConfig:
@@ -88,6 +96,7 @@ def configure_requests_session(session: Any, config: NanoJurisConfig) -> Any:
     behavior consistent without duplicating policy in every provider.
     """
 
+    _install_platform_trust_store(config.verify_ssl)
     if hasattr(session, "trust_env"):
         session.trust_env = config.trust_env
     if hasattr(session, "verify"):
@@ -112,6 +121,23 @@ def configure_requests_session(session: Any, config: NanoJurisConfig) -> Any:
         session.request = configured_request
         session._nanojuris_http_configured = True
     return session
+
+
+def _install_platform_trust_store(verify_ssl: bool) -> None:
+    """Use the operating system CA store when SSL verification is enabled.
+
+    Some Brazilian court domains are issued by authorities present in the
+    Windows trust store but absent from the bundled certifi store. The
+    truststore package lets requests keep certificate verification enabled
+    while using the platform roots. If it is unavailable, requests keeps its
+    normal certifi behavior.
+    """
+
+    global _TRUSTSTORE_INSTALLED
+    if not verify_ssl or _TRUSTSTORE_INSTALLED or truststore is None:
+        return
+    truststore.inject_into_ssl()
+    _TRUSTSTORE_INSTALLED = True
 
 
 def _env_bool(name: str, default: bool) -> bool:

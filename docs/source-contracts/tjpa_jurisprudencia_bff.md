@@ -17,6 +17,10 @@ publico atual. A rota de resultados exige `POST`; o `GET` simples em
 
 ## Contrato HTTP
 
+Os aliases canônicos `acordao` e `decisao_monocratica` são convertidos para os
+valores acentuados publicados pelo catálogo TJPA (`acórdão` e `decisão
+monocrática`). Enviar os aliases sem essa conversão produz resposta vazia.
+
 ### Busca textual
 
 ```text
