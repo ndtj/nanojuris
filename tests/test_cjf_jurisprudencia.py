@@ -8,7 +8,11 @@ from nanojuris.client import NanoJurisClient
 from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import AccessControlRequiredError, ParserContractChangedError
 from nanojuris.models import JurisprudenceQuery, SourceTrace
-from nanojuris.providers.cjf_jurisprudencia import CjfJurisprudenciaProvider, parse_cjf_results
+from nanojuris.providers.cjf_jurisprudencia import (
+    CjfJurisprudenciaProvider,
+    _looks_like_access_control,
+    parse_cjf_results,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -131,6 +135,13 @@ def test_cjf_provider_detects_access_control_fixture() -> None:
 
     with pytest.raises(AccessControlRequiredError, match="access-control"):
         provider.search(JurisprudenceQuery(text="teste"))
+
+
+def test_cjf_public_recaptcha_script_is_not_itself_an_access_challenge() -> None:
+    assert not _looks_like_access_control(
+        '<html><script src="https://www.google.com/recaptcha/api.js"></script>'
+        '<form id="formulario"><input name="formulario:textoLivre"></form></html>'
+    )
 
 
 def test_cjf_provider_posts_viewstate_and_type() -> None:

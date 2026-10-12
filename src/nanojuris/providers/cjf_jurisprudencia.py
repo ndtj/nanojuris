@@ -337,12 +337,15 @@ def _stable_cjf_id(number: str, fields: dict[str, str], document_url: str | None
 
 
 def _looks_like_access_control(html: str) -> bool:
-    lowered = html.lower()
+    lowered = unicodedata.normalize("NFKD", html.casefold())
+    lowered = "".join(char for char in lowered if not unicodedata.combining(char))
     markers = (
-        "captcha",
-        "recaptcha",
+        "captcha necessario",
+        "g-recaptcha-response",
+        "recaptcha_response_token",
         "acesso negado",
         "verificacao automatica",
         "enable javascript and cookies",
+        "challenge-error",
     )
     return any(marker in lowered for marker in markers) and "table_resultado" not in lowered
