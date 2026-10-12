@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 import requests
 
+from nanojuris.config import NanoJurisConfig
 from nanojuris.errors import AccessControlRequiredError, ParserContractChangedError
 from nanojuris.models import AccessStatus, ExtractionStatus, JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tjsp_cjsg import (
@@ -16,6 +17,12 @@ from nanojuris.providers.tjsp_cjsg import (
 )
 
 FIXTURES = Path(__file__).parent / "fixtures"
+
+
+def test_provider_capabilities_declare_public_form_route():
+    capabilities = TjspCjsgProvider(NanoJurisConfig(rate_limit_interval=0)).get_capabilities()
+
+    assert "GET /consultaCompleta.do" in capabilities.endpoints
 
 
 class FakeResponse:

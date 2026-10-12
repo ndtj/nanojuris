@@ -12,6 +12,7 @@
 ## Contrato HTTP
 
 - Rotas conhecidas:
+  - `GET /consultaCompleta.do`
   - `POST /resultadoCompleta.do`
   - `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>`
 - Metodos: `POST` para busca e `GET` para arquivo publico.

@@ -149,3 +149,4 @@ def test_provider_capabilities_describe_tjal_contract():
     assert capabilities.source_url == "https://www2.tjal.jus.br/cjsg"
     assert "CanonicalDecision" in capabilities.canonical_records
     assert "case_number" in capabilities.search_modes
+    assert "GET /consultaCompleta.do" in capabilities.endpoints

@@ -14,6 +14,12 @@ from nanojuris.providers.tjsp_cjsg import parse_cjsg_results
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
+def test_provider_capabilities_declare_public_form_route():
+    capabilities = TjmsCjsgProvider(NanoJurisConfig(rate_limit_interval=0)).get_capabilities()
+
+    assert "GET /consultaCompleta.do" in capabilities.endpoints
+
+
 class FakeResponse:
     def __init__(self, text: str, status_code: int = 200):
         self.text = text

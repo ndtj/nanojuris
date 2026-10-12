@@ -6,6 +6,8 @@
 - Categoria: `court_jurisprudence`.
 - Familia tecnica: `esaj_cjsg`.
 - URL de consulta: `https://esaj.tjce.jus.br/cjsg/resultadoCompleta.do`.
+- Formulario publico esperado: `GET /cjsg/consultaCompleta.do` (declarado por
+  heranca da familia CJSG; nao confirmado na ultima varredura por robots.txt).
 - Status de acesso: `source_unavailable` nesta validacao local; contrato live pendente.
 - Status no NanoJuris: provider implementado com contrato offline da familia CJSG.
 

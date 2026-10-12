@@ -4716,6 +4716,7 @@
             "decision"
           ],
           "endpoints": [
+            "GET /consultaCompleta.do",
             "POST /resultadoCompleta.do",
             "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
             "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
@@ -5072,6 +5073,7 @@
             "decision"
           ],
           "endpoints": [
+            "GET /consultaCompleta.do",
             "POST /resultadoCompleta.do",
             "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
             "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
@@ -6304,6 +6306,7 @@
             "decision"
           ],
           "endpoints": [
+            "GET /consultaCompleta.do",
             "POST /resultadoCompleta.do",
             "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
             "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
@@ -8625,6 +8628,7 @@
             "decision"
           ],
           "endpoints": [
+            "GET /consultaCompleta.do",
             "POST /resultadoCompleta.do",
             "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
             "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
@@ -13327,6 +13331,7 @@
             "homologation"
           ],
           "endpoints": [
+            "GET /consultaCompleta.do",
             "POST /resultadoCompleta.do",
             "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
             "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>",
