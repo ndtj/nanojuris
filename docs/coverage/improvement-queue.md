@@ -39,8 +39,8 @@ que ja participam da busca unificada, mas ainda possuem lacunas objetivas.
 | 29 | `tjba_graphql` | `P0_harden_for_unified_search` | 90 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 30 | `tnu_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 90 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 31 | `tst_jurisprudencia` | `P0_harden_for_unified_search` | 90 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 32 | `tjpr_jurisprudencia` | `P0_reference_provider` | 89 | `primary_textual_jurisprudence` | manter monitoramento e ampliar fixtures por variacao juridica |
-| 33 | `tjrs_solr` | `P0_reference_provider` | 89 | `primary_textual_jurisprudence` | manter monitoramento e ampliar fixtures por variacao juridica |
+| 32 | `tjrs_solr` | `P0_reference_provider` | 89 | `primary_textual_jurisprudence` | manter monitoramento e ampliar fixtures por variacao juridica |
+| 33 | `tjpr_jurisprudencia` | `P0_reference_provider` | 92 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 34 | `tjdf_juris` | `P0_reference_provider` | 94 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 35 | `tjrj_ejuris` | `P1_candidate_contract` | 11 | `mapped_candidate` | reproduzir contrato HTTP publico e criar fixture minima |
 | 36 | `trf3_jurisprudencia` | `P1_candidate_contract` | 11 | `mapped_candidate` | reproduzir contrato HTTP publico e criar fixture minima |

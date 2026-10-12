@@ -12,7 +12,7 @@ quais estao maduras para busca unificada e quais ainda exigem aprofundamento.
 - Providers implementados: **46**.
 - Fontes na busca unificada: **42**.
 - Fontes primarias de jurisprudencia textual: **34**.
-- Fontes com algum suporte a inteiro teor/documento: **27**.
+- Fontes com algum suporte a inteiro teor/documento: **28**.
 
 ## Como Usar
 

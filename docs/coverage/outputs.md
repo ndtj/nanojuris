@@ -38,7 +38,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | `tjpb_pje_jurisprudencia` | CanonicalDecision, CanonicalDocument | jurisprudencia_pje, acordao, decisao | json, html | 5 | sim | sim |
 | `tjpe_jurisprudencia` | CanonicalDecision | acordao, decisao | json, html | 9 | sim | sim |
 | `tjpi_juspi` | CanonicalDecision, CanonicalDocument | acordao, decisao_terminativa, sumula | html | 11 | sim | sim |
-| `tjpr_jurisprudencia` | CanonicalDecision | acordao, decisao_monocratica, decisao | html | 9 | nao | sim |
+| `tjpr_jurisprudencia` | CanonicalDecision, CanonicalDocument | acordao, decisao_monocratica, decisao | html | 10 | sim | sim |
 | `tjrj_ejuris` | - | - | - | 0 | nao | nao |
 | `tjrj_eproc_jurisprudencia` | CanonicalDecision, CanonicalDocument | acordao, decisao_monocratica, sumula, despacho, sentenca | html | 12 | sim | sim |
 | `tjrn_jurisprudencia` | - | - | - | 0 | nao | nao |
