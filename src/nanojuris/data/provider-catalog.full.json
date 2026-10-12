@@ -11242,6 +11242,7 @@
             "sentenca"
           ],
           "endpoints": [
+            "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
             "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
           ],
@@ -12795,6 +12796,7 @@
             "sentenca"
           ],
           "endpoints": [
+            "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
             "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
           ],
@@ -13695,6 +13697,7 @@
             "decisao_monocratica"
           ],
           "endpoints": [
+            "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_paginar_resultado",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_listar_tipo_documento",
@@ -14710,6 +14713,7 @@
             "decisao_presidente"
           ],
           "endpoints": [
+            "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
             "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
           ],
@@ -15350,6 +15354,7 @@
             "sentenca"
           ],
           "endpoints": [
+            "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
             "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
           ],
@@ -16568,6 +16573,7 @@
             "sentenca"
           ],
           "endpoints": [
+            "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar",
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
             "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
           ],

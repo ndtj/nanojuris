@@ -12,6 +12,7 @@
 ## Contrato HTTP
 
 - Rotas conhecidas:
+  - `GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar`
   - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados`
   - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_paginar_resultado`
   - `POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_listar_tipo_documento`

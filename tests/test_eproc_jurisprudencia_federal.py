@@ -224,3 +224,7 @@ def test_federal_eproc_capabilities_describe_instances():
     assert trf2.get_capabilities().source_url == "https://eproc.trf2.jus.br/eproc"
     assert trf6.get_capabilities().supports_full_text is True
     assert "CanonicalDocument" in trf6.get_capabilities().canonical_records
+    assert (
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar"
+        in tnu.get_capabilities().endpoints
+    )
