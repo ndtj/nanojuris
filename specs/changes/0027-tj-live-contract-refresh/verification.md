@@ -1,6 +1,6 @@
 # Verification
 
-Status: `in_progress`
+Status: `verified`
 
 ## Resultados
 
@@ -27,6 +27,11 @@ Status: `in_progress`
 - `python -m mypy src` — passed.
 - `python -m build` — sdist and wheel built successfully.
 - `python tools/validate_sdd.py` — passed.
+
+PR #34 foi aberto a partir do commit `0dd5d9b`; todos os checks remotos
+(Python 3.10–3.13, frontend, extras/wheel, CodeQL e análise Python) passaram.
+O merge permanece condicionado ao estado final do PR. Nenhum bypass de
+CAPTCHA, WAF, login, robots ou rate limit foi implementado.
 
 ## Rastreabilidade
 

@@ -6,4 +6,4 @@
 - [x] T04 — atualizar testes dos adapters e contratos eproc.
 - [x] T05 — regenerar auditoria documental e cobertura.
 - [x] T06 — executar testes, lint, type-check e validação SDD.
-- [ ] T07 — revisar diff e preparar PR separado.
+- [x] T07 — revisar diff e preparar PR separado.
