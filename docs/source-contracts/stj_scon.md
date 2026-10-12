@@ -12,7 +12,10 @@
 ## Contrato conhecido
 
 O HAR publico analisado em 06/08/2026 mostrou que a busca principal de acordaos
-usa `GET /SCON/pesquisar.jsp` com parametros na query string. O escopo atual
+usa `GET /SCON/pesquisar.jsp` com parametros na query string. Em 12/10/2026,
+uma captura REA da pagina oficial confirmou que a superficie publica atual e
+`https://processo.stj.jus.br/SCON/`; o hostname legado `scon.stj.jus.br`
+respondeu com verificacao de acesso. O escopo atual
 cobre lista de resultados, parser por fixture HTML publica representativa e parser da
 estrutura real `.documento` observada no HAR e carga sob demanda do documento
 oficial. `get_document()` aceita o id estavel `stj-scon-<numero_registro>` ou
@@ -136,7 +139,23 @@ de extracao. Os bytes originais permanecem preservados em
 `CanonicalDocument.raw_bytes`. Uma URL existente ou resposta HTTP 200 sem
 conteudo documental nao e promovida como texto integral.
 
-## Teste De Conexao Limpa
+## Validacao live atual
+
+Evidence REA: `ev_5999ec91a539f38c771f557f2e9b983fc18bb1e06d6a3b7d28101ab3c8dc2217`.
+
+Em 12/10/2026, a rota oficial atual respondeu HTTP 200 para uma busca por
+`dano moral` e renderizou resultados reais, incluindo total reportado de
+49.335 documentos, registros de acordaos, relator, orgao julgador, datas,
+ementa e links oficiais de inteiro teor. O provider tambem foi exercitado
+diretamente contra essa superficie: retornou 3 resultados em uma pagina e
+carregou o PDF oficial do primeiro documento, preservando bytes, hash e texto.
+
+O endpoint equivalente no hostname legado `https://scon.stj.jus.br` respondeu
+com controle de acesso. O provider agora usa `https://processo.stj.jus.br` por
+padrao e continua reportando `AccessControlRequiredError` quando a origem
+publica exigir verificacao, sem bypass.
+
+## Teste de conexao historico
 
 Em 06/08/2026, uma sessao limpa sem cookies foi testada contra:
 
@@ -144,10 +163,10 @@ Em 06/08/2026, uma sessao limpa sem cookies foi testada contra:
 GET /SCON/pesquisar.jsp?b=ACOR&p=true&l=10&i=1&ordenacao=-@DOCN&thesaurus=JURIDICO&livre=publicidade+alimentos+criancas&O=JT
 ```
 
-Resultado observado a partir deste ambiente: HTTP 403 com mensagem de
-verificacao automatica e exigencia de JavaScript/cookies. Esse estado e
-esperado em ambientes automatizados e deve ser reportado pelo provider sem
-contorno.
+Resultado observado naquela data a partir deste ambiente: HTTP 403 com
+mensagem de verificacao automatica e exigencia de JavaScript/cookies. Essa
+observacao se aplica ao hostname/estado entao testado; o host oficial atual
+esta documentado na validacao live acima.
 
 ## Pontos fortes
 
