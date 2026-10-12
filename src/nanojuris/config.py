@@ -35,7 +35,10 @@ class NanoJurisConfig:
     stf_informativo_url: str = "https://portal.stf.jus.br/textos/verTexto.asp"
     stf_portal_url: str = "https://portal.stf.jus.br"
     stj_url: str = "https://processo.stj.jus.br"
-    stj_scon_url: str = "https://scon.stj.jus.br"
+    # The public SCON application is currently served from the STJ process
+    # host. The legacy scon.stj.jus.br hostname responds with an access
+    # verification page instead of the public search results.
+    stj_scon_url: str = "https://processo.stj.jus.br"
     stj_dados_abertos_url: str = "https://dadosabertos.web.stj.jus.br"
     stm_jurisprudencia_url: str = "https://jurisprudencia.stm.jus.br"
     tst_jurisprudencia_url: str = "https://jurisprudencia.tst.jus.br"

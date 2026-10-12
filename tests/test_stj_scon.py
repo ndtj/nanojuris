@@ -138,7 +138,7 @@ def test_provider_search_gets_scon_params_and_parses_results():
     assert page.results[0].id == "stj-scon-202400123456"
     call = session.calls[0]
     assert call["method"] == "GET"
-    assert call["url"] == "https://scon.stj.jus.br/SCON/pesquisar.jsp"
+    assert call["url"] == "https://processo.stj.jus.br/SCON/pesquisar.jsp"
     assert call["kwargs"]["params"] == {
         "b": "ACOR",
         "p": "true",
