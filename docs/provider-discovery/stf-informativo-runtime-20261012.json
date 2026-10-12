@@ -1,0 +1,24 @@
+{
+  "captured_at": "2026-10-12",
+  "mode": "bounded_live_public_runtime_observation",
+  "provider": "stf_informativo",
+  "official_origin": "https://portal.stf.jus.br/textos/verTexto.asp?servico=informativoSTF",
+  "official_data_url": "https://www.stf.jus.br/arquivo/cms/informativoSTF/anexo/Informativo_Dados/Dados_InformativosSTF.xlsx",
+  "rea_evidence_id": "ev_b07d606aad86b38ab0fa3d7549ea5e35b62f3c430285a2825daf67598e0113cb",
+  "observed_contract": {
+    "content_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "status_with_browser_user_agent": 200,
+    "status_with_default_nanojuris_user_agent": 403,
+    "rows_parsed": 11626,
+    "query": "dano moral",
+    "matched_rows": 41,
+    "first_case": "RE 662055/SP"
+  },
+  "policy": {
+    "captcha_bypass": false,
+    "challenge_resolution": false,
+    "ssl_verification": true,
+    "credentials_persisted": false
+  },
+  "interpretation": "The public XLSX route is available with a browser-shaped User-Agent; the provider records HTTP errors instead of treating blocked responses as empty results."
+}

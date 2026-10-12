@@ -6,7 +6,8 @@
 - Categoria: jurisprudencia de tribunal superior.
 - Familia tecnica: XLSX publico estruturado.
 - URL inicial: `https://portal.stf.jus.br/textos/verTexto.asp?servico=informativoSTF`.
-- Status de acesso: publico para a planilha de dados do Informativo STF.
+- Status de acesso: publico; a rota oficial exige um User-Agent de navegador
+  comum e devolveu HTTP 200 no smoke live de 2026-10-12.
 
 ## Contrato HTTP
 
@@ -16,10 +17,15 @@ Rota publica usada:
 GET https://www.stf.jus.br/arquivo/cms/informativoSTF/anexo/Informativo_Dados/Dados_InformativosSTF.xlsx
 ```
 
-O arquivo foi validado em 07/08/2026 como XLSX publico com dimensao observada
-`A1:X11577`. O provider usa download direto e filtra localmente, sem depender
+O arquivo foi validado em 12/10/2026 como XLSX publico com 11.626 linhas de
+dados observadas. O provider usa download direto e filtra localmente, sem depender
 da API JSON `jurisprudencia.stf.jus.br/api/search/search`, que pode retornar
 AWS WAF em sessoes limpas.
+
+O IIS/WAF do arquivo rejeita o User-Agent padrao `NanoJuris/` com HTTP 403,
+mas entrega a mesma rota publica para um User-Agent de navegador comum. O
+provider usa esse formato apenas para compatibilidade da rota, sem resolver
+desafio, captcha ou autenticacao.
 
 ## Dados Retornados
 
@@ -62,9 +68,9 @@ O resultado e normalizado como `JurisprudenceResult` e depois
 - Data: serial Excel convertido para ISO date.
 - Inteiro teor: nao e baixado por este provider.
 - Risco conhecido: a planilha e fonte curada, nao a base integral de acordaos.
-- SSL: em alguns ambientes Windows, a cadeia local pode falhar. O padrao do
-  NanoJuris mantem `verify_ssl=True`; para diagnostico local explicito, use
-  `NanoJurisConfig(verify_ssl=False)`.
+- Acesso: User-Agent de navegador comum e necessario nesta rota publica; HTTP
+  403 continua sendo reportado como indisponibilidade quando a origem bloqueia.
+- SSL: o padrao do NanoJuris mantem `verify_ssl=True`.
 
 ## Fixtures
 
@@ -89,12 +95,11 @@ fonte oficial.
 - [ ] Mapear pagina HTML do Informativo para links por edicao.
 - [ ] Criar exemplos de jurimetria por ramo do direito, materia e relator.
 
-## Validacao live 2026-08-11
+## Validacao live 2026-10-12
 
-Com `trust_env=False` e SSL desabilitado somente para diagnostico local, o XLSX
-oficial foi lido e a busca `ICMS` retornou 394 linhas, com uma linha na pagina
-solicitada. Com SSL padrao habilitado, este ambiente apresentou falha de cadeia
-local. O projeto permanece com `verify_ssl=True` por padrao.
+Com SSL habilitado e User-Agent de navegador comum, o XLSX oficial respondeu
+HTTP 200, foi parseado em 11.626 linhas e a busca `dano moral` retornou 41
+ocorrencias, com o primeiro resultado `RE 662055/SP`.
 
 Veja a matriz completa em
 [live-validation-2026-08-11.md](https://github.com/ndtj/nanojuris/blob/main/docs/live-validation-2026-08-11.md).
