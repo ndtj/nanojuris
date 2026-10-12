@@ -69,7 +69,7 @@ def test_parse_tjpi_results_maps_public_search_html():
     assert page.source == "tjpi_juspi"
     assert page.total == 193029
     assert page.start == 1
-    assert page.end == 3
+    assert page.end == 25
     assert len(page.results) == 3
     result = page.results[0]
     assert result.id == "tjpi-juspi-35510999"
@@ -94,6 +94,21 @@ def test_parse_tjpi_empty_search_returns_empty_page():
 
     assert page.total == 0
     assert page.results == []
+
+
+def test_tjpi_preserves_absolute_result_window_on_later_page():
+    html = load_fixture("tjpi_juspi_dano_moral.html").replace(
+        "1&nbsp;-&nbsp;25", "4&nbsp;-&nbsp;28", 1
+    )
+    page = parse_tjpi_results(
+        html,
+        query=JurisprudenceQuery(text="dano moral", page=2, page_size=3),
+        trace=_trace(),
+        base_url="https://jurisprudencia.tjpi.jus.br",
+    )
+
+    assert page.start == 4
+    assert page.end == 28
 
 
 def test_provider_search_sends_public_get_params():

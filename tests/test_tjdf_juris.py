@@ -165,6 +165,20 @@ def test_search_api_maps_zero_based_page_and_canonical_fields():
     assert page.results[1].full_text is None
 
 
+def test_tjdf_api_parser_bounds_records_and_marks_unavailable_full_text_partial():
+    payload = json.loads(load_fixture("tjdf_juris_api_results.json"))
+    trace = SourceTrace(provider="tjdf_juris", endpoint=":memory:")
+
+    page = parse_tjdf_api_response(payload, trace=trace, page=1, page_size=1)
+
+    assert len(page.results) == 1
+    assert page.results[0].raw["external_id"] == "11111111-1111-4111-8111-111111111111"
+
+    second = parse_tjdf_api_response(payload, trace=trace, page=1, page_size=2).results[1]
+    assert second.full_text is None
+    assert second.extraction_status.value == "partial"
+
+
 def test_build_tjdf_api_payload_maps_documented_date_fields():
     payload = _build_api_payload(
         JurisprudenceQuery(

@@ -255,6 +255,7 @@ class JurisprudenceQuery:
     types: list[str] = field(default_factory=list)
     page: int = 1
     page_size: int = 10
+    judging_body: str = ""
 
     def __post_init__(self) -> None:
         if self.page < 1:

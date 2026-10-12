@@ -9473,7 +9473,7 @@
           "published_to",
           "source_origin"
         ],
-        "supports_catalog": true,
+        "supports_catalog": false,
         "supports_suggestions": false,
         "text_query": true
       },
@@ -9564,7 +9564,7 @@
         ],
         "dimensions": {
           "documentation": 12,
-          "input": 19,
+          "input": 17,
           "output": 25,
           "product": 15,
           "reliability": 16
@@ -9574,7 +9574,7 @@
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 87
+        "total": 85
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -9651,7 +9651,7 @@
           "published_to",
           "source_origin"
         ],
-        "supports_catalog": true,
+        "supports_catalog": false,
         "supports_suggestions": false,
         "text_query": true
       },
@@ -9705,7 +9705,7 @@
             "date_range",
             "catalog"
           ],
-          "supports_catalog": true,
+          "supports_catalog": false,
           "supports_full_text": true,
           "supports_live_tests": true,
           "supports_mcp": true,
@@ -9734,7 +9734,6 @@
           "Possui endpoints/rotas publicas declaradas.",
           "Declara campos extraidos para auditoria.",
           "Suporta algum fluxo de inteiro teor/documento publico.",
-          "Expoe catalogo ou parametros publicos.",
           "Possui teste live opcional para verificacao controlada."
         ]
       },
@@ -13087,7 +13086,7 @@
         "limitations": [
           "A fonte pode exigir captcha ou outro controle de acesso.",
           "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
-          "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login sem bypass."
+          "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login; quando o formulario declara a inicializacao publica, atualiza o UUID retornado pela propria fonte sem resolver CAPTCHA."
         ],
         "risk_level": "alto"
       },
@@ -13232,7 +13231,7 @@
         "limitations": [
           "A fonte pode exigir captcha ou outro controle de acesso.",
           "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
-          "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login sem bypass."
+          "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login; quando o formulario declara a inicializacao publica, atualiza o UUID retornado pela propria fonte sem resolver CAPTCHA."
         ],
         "status": "declared"
       },
@@ -13357,11 +13356,11 @@
           "limitations": [
             "A fonte pode exigir captcha ou outro controle de acesso.",
             "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
-            "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login sem bypass."
+            "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login; quando o formulario declara a inicializacao publica, atualiza o UUID retornado pela propria fonte sem resolver CAPTCHA."
           ],
           "pagination_mode": "page",
           "responsible_use": [
-            "Nao tentar contornar captcha, login ou controles de acesso.",
+            "Nao resolver CAPTCHA, fabricar tokens ou contornar login e controles de acesso.",
             "Usar testes live apenas quando explicitamente habilitados."
           ],
           "search_modes": [
@@ -13410,7 +13409,7 @@
         "limitations": [
           "A fonte pode exigir captcha ou outro controle de acesso.",
           "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
-          "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login sem bypass."
+          "O provider diagnostica sinais de formulario, reCAPTCHA, uuidCaptcha e login; quando o formulario declara a inicializacao publica, atualiza o UUID retornado pela propria fonte sem resolver CAPTCHA."
         ],
         "status": "declared"
       }
@@ -17255,7 +17254,7 @@
     "implemented_sources": 46,
     "primary_textual_sources": 34,
     "score": {
-      "average": 78.8,
+      "average": 78.7,
       "needs_attention": [
         "tjce_cjsg",
         "tjgo_projudi_jurisprudencia",

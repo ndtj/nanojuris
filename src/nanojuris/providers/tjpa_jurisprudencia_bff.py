@@ -315,7 +315,7 @@ def _decision_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurispru
     external_id = _first_string(item, "id", "hashstorage", "numeroprocesso")
     if not external_id:
         raise ParserContractChangedError("TJPA result missing stable id")
-    summary = _first_string(item, "ementatextopuro", "textoementa", "textopuro")
+    summary = _first_string(item, "ementatextopuro", "textoementa") or None
     full_text = _first_string(item, "textopuro", "textooriginal", "full_text", "conteudo")
     judgment_date = _first_string(item, "datajulgamento", "data_julgamento")
     publication_date = _first_string(item, "datapublicacao", "data_publicacao")

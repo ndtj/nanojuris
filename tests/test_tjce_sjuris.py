@@ -114,6 +114,25 @@ def test_sjuris_provider_uses_zero_based_page_and_clamps_size() -> None:
     assert page.page_size == 20
 
 
+def test_sjuris_parser_bounds_oversized_content_to_effective_page_size() -> None:
+    data = fixture_data()
+    data["pagina"]["content"] = [
+        *data["pagina"]["content"],
+        *data["pagina"]["content"],
+    ]
+    data["pagina"]["totalElements"] = 2
+
+    page = parse_tjce_sjuris_response(
+        data,
+        query=JurisprudenceQuery(text="teste", page_size=1),
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    assert page.page_size == 1
+    assert len(page.results) == 1
+    assert page.end == 1
+
+
 def test_sjuris_rejects_wrong_root_and_declares_no_detail_route() -> None:
     with pytest.raises(ParserContractChangedError, match="pagina.content"):
         parse_tjce_sjuris_response(

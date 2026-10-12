@@ -339,7 +339,7 @@ def parse_tjpi_results(
         source="tjpi_juspi",
         total=total or len(results),
         start=start or (1 if limited_results else 0),
-        end=end if end and end <= query.page_size else len(limited_results),
+        end=end or (start + len(limited_results) - 1 if limited_results else 0),
         page=query.page,
         page_size=query.page_size,
         results=limited_results,

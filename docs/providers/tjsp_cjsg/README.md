@@ -18,11 +18,12 @@ validacao de acesso ou rotas de controle; o NanoJuris deve reportar isso sem
 bypass.
 
 Na busca, o provider primeiro carrega `resultadoCompleta.do` na mesma sessao,
-reaproveita os campos ocultos/defaults atuais do formulario e somente entao
-envia o `POST` para a action oficial. Isso evita consultas sem estado de sessao
-ou com filtros silenciosamente ignorados. Se o POST retornar formulario de
-controle, a busca termina com `AccessControlRequiredError`; a rota
-`captchaControleAcesso.do` nao e chamada.
+reaproveita os campos ocultos/defaults atuais do formulario e, quando o proprio
+formulario declara os marcadores de controle, chama a inicializacao publica
+`captchaControleAcesso.do` para obter um novo `uuidCaptcha`. O provider nao
+resolve reCAPTCHA, nao fabrica token e nao persiste cookies. Somente entao envia
+o `POST` para a action oficial. Se o POST continuar retornando formulario de
+controle, a busca termina com `AccessControlRequiredError`.
 
 Quando `getArquivo.do` retorna HTML publico, `get_document` converte a pagina em
 texto limpo para agentes de IA e preserva hash, tamanho, URL, tipo de origem e
@@ -44,11 +45,11 @@ POST /captchaControleAcesso.do (rota de controle, nao de extracao)
 ## Script standalone seguro
 
 O exemplo `examples/busca_saj_tjsp.py` reproduz uma consulta publica em uma
-sessao efemera: carrega o formulario, envia o `POST /resultadoCompleta.do` e,
-quando a resposta intermediaria nao e uma tela de controle, tenta a primeira
-pagina em `GET /trocaDePagina.do`. Ele nao chama `captchaControleAcesso.do`,
-nao fabrica token e classifica CAPTCHA, login ou sessao ausente como estados
-explicitos.
+sessao efemera: carrega o formulario, executa a inicializacao publica declarada
+quando necessaria, envia o `POST /resultadoCompleta.do` e, quando a resposta
+intermediaria nao e uma tela de controle, tenta a primeira pagina em
+`GET /trocaDePagina.do`. Ele nao resolve CAPTCHA, nao fabrica token e classifica
+CAPTCHA, login ou sessao ausente como estados explicitos.
 
 Status tecnico das rotas:
 
@@ -60,7 +61,7 @@ Status tecnico das rotas:
 | `GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>` | Sim, quando o inteiro teor esta publico | Se retornar a verificacao publica, continuar a cadeia; sem credencial ou bypass | Implementada com diagnostico |
 | `GET /jsp/verificarLoginArquivo.jsp?...` | Nao, e uma etapa de verificacao | Apenas quando a primeira chamada retorna a tela observada | Implementada como transicao segura |
 | `GET /getArquivo.do?...&casChecked=true` | Sim, quando a fonte libera o documento | Nunca enviar credenciais, CAPTCHA ou token fabricado | Implementada com diagnostico |
-| `POST /captchaControleAcesso.do` | Nao | Rota de controle; nunca usar para bypass | Apenas documentada |
+| `POST /captchaControleAcesso.do` | Nao | Inicializacao publica do UUID quando declarada pelo formulario; nunca resolver CAPTCHA ou fabricar token | Implementada como etapa de sessao |
 
 Payload principal da busca:
 
@@ -119,8 +120,8 @@ O provider classifica sinais do HTML sem resolver nenhum controle:
 | Script de login/SAJ | `has_login_script` |
 | Sessao vazia do CJSG | `has_empty_session` |
 
-Se houver sinais de captcha/controle sem container de resultado, o provider
-levanta `AccessControlRequiredError`.
+Se houver sinais de captcha/controle sem container de resultado depois da
+inicializacao publica, o provider levanta `AccessControlRequiredError`.
 
 ## Dados
 
@@ -185,8 +186,9 @@ Achados:
 - `getArquivo.do` pode retornar `verificarLoginArquivo.jsp`; o provider reproduz
   a sequencia publica observada e depois reavalia o ultimo retorno. Se a fonte
   mantiver login/CAPTCHA, o documento continua parcial/bloqueado.
-- `captchaControleAcesso.do` retorna estado de controle de acesso, nao conteudo
-  juridico; permanece fora do fluxo de extracao.
+- `captchaControleAcesso.do` inicializa a sessao publica quando o formulario o
+  declara; a resposta e usada somente para atualizar `uuidCaptcha`, nao como
+  conteudo juridico nem como resolucao de CAPTCHA.
 
 Decisao de produto:
 

@@ -336,15 +336,37 @@ def _parse_tjpr_row(
     )
 
 
-def _form_payload(form: HtmlNode) -> dict[str, str]:
-    payload: dict[str, str] = {}
-    for field in form.select("input[name]"):
-        field_type = str(field.get("type") or "text").lower()
-        if field_type in {"button", "submit", "checkbox", "radio"}:
+def _form_payload(form: HtmlNode) -> dict[str, str | list[str]]:
+    """Serialize the successful controls declared by the public form."""
+
+    payload: dict[str, str | list[str]] = {}
+    for field in form.select("input[name], select[name], textarea[name]"):
+        if field.get("disabled") is not None:
             continue
         name = field.get("name")
-        if name:
-            payload[name] = str(field.get("value") or "")
+        if not name:
+            continue
+        field_type = str(field.get("type") or "text").lower()
+        if field_type in {"button", "reset", "file", "image"}:
+            continue
+        if field_type in {"checkbox", "radio"} and field.get("checked") is None:
+            continue
+
+        if field.tag == "select":
+            options = field.select("option[selected]") or field.select("option")[:1]
+            values = [str(option.get("value") or option.get_text()) for option in options]
+        elif field.tag == "textarea":
+            values = [field.get_text("", strip=False)]
+        else:
+            values = [str(field.get("value") or "")]
+        for value in values:
+            previous = payload.get(name)
+            if previous is None:
+                payload[name] = value
+            elif isinstance(previous, list):
+                previous.append(value)
+            else:
+                payload[name] = [previous, value]
     return payload
 
 

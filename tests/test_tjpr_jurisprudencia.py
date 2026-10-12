@@ -14,9 +14,11 @@ from nanojuris.errors import (
     SourceUnavailableError,
 )
 from nanojuris.models import JurisprudenceQuery, SourceTrace
+from nanojuris.parsing import parse_html
 from nanojuris.providers.tjpr_jurisprudencia import (
     TjprJurisprudenciaProvider,
     _clean_tjpr_ementa,
+    _form_payload,
     parse_tjpr_results,
 )
 
@@ -194,6 +196,33 @@ def test_provider_replays_public_form_and_preserves_query_contract():
 
 def test_client_registers_tjpr_provider():
     assert "tjpr_jurisprudencia" in {item.source for item in NanoJurisClient().list_sources()}
+
+
+def test_form_payload_preserves_successful_public_form_controls():
+    form = parse_html(
+        """
+        <form>
+          <input type="hidden" name="csrf" value="abc">
+          <input type="text" name="texto" value="pesquisa">
+          <input type="checkbox" name="tipo" value="A" checked>
+          <input type="checkbox" name="tipo" value="D">
+          <select name="orgao">
+            <option value="1" selected>Camara</option>
+          </select>
+          <textarea name="observacao">texto livre</textarea>
+          <input type="text" name="disabled" value="x" disabled>
+        </form>
+        """
+    ).select_one("form")
+
+    assert form is not None
+    assert _form_payload(form) == {
+        "csrf": "abc",
+        "texto": "pesquisa",
+        "tipo": "A",
+        "orgao": "1",
+        "observacao": "texto livre",
+    }
 
 
 def test_provider_capabilities_describe_partial_full_text_contract():
