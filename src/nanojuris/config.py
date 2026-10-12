@@ -56,7 +56,7 @@ class NanoJurisConfig:
     tjam_cjsg_url: str = "https://consultasaj.tjam.jus.br/cjsg"
     tjms_cjsg_url: str = "https://esaj.tjms.jus.br/cjsg"
     tjsp_cjsg_url: str = "https://esaj.tjsp.jus.br/cjsg"
-    tjsp_eproc_url: str = "https://eproc-consulta.tjsp.jus.br/consulta_1g"
+    tjsp_eproc_url: str = "https://eproc1g.tjsp.jus.br/eproc"
     tjrj_eproc_jurisprudencia_url: str = "https://eproc1g.tjrj.jus.br/eproc"
     tjsc_eproc_jurisprudencia_url: str = "https://eprocwebcon.tjsc.jus.br/consulta1g"
     tjgo_projudi_url: str = "https://projudi.tjgo.jus.br"

@@ -159,6 +159,18 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
                     "acao=jurisprudencia@jurisprudencia/listar_resultados"
                 ),
                 (
+                    "POST /externo_controlador.php?"
+                    "acao=jurisprudencia@jurisprudencia/ajax_paginar_resultado"
+                ),
+                (
+                    "POST /externo_controlador.php?"
+                    "acao=jurisprudencia@jurisprudencia/ajax_listar_tipo_documento"
+                ),
+                (
+                    "POST /externo_controlador.php?"
+                    "acao=jurisprudencia@jurisprudencia/ajax_gerar_pdf_documento"
+                ),
+                (
                     "GET /externo_controlador.php?"
                     "acao=jurisprudencia@jurisprudencia/download_inteiro_teor&"
                     "id_jurisprudencia=<id>"
@@ -182,6 +194,9 @@ class TjspEprocJurisprudenciaProvider(JurisprudenceProvider):
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "source_origin",
+                "types",
+                "order_by",
             ],
             limitations=[
                 "Rota publica descoberta e validada por requests limpo em 2026-08-02.",
@@ -533,6 +548,7 @@ def _build_payload(query: JurisprudenceQuery) -> dict[str, str | list[str]]:
         "hdnPublicacaoFim": query.published_to,
         "chkAgruparResultados": "on",
         "selTamanhoPagina": str(_remote_page_size(query.page_size)),
+        "selOrdenacao": _map_order_by(query.order_by),
     }
     document_types = _map_document_types(query.types)
     if document_types:
@@ -541,6 +557,25 @@ def _build_payload(query: JurisprudenceQuery) -> dict[str, str | list[str]]:
     if source_origins:
         payload["selOrigem[]"] = source_origins
     return payload
+
+
+def _map_order_by(value: str) -> str:
+    """Map the unified order names to the public eproc select values."""
+
+    normalized = value.strip().casefold()
+    mapping = {
+        "text": "1",
+        "relevance": "1",
+        "relevancia": "1",
+        "date": "1",
+        "publication": "1",
+        "recent": "1",
+        "recentes": "1",
+        "oldest": "2",
+        "old": "2",
+        "mais antigos": "2",
+    }
+    return mapping.get(normalized, value or "1")
 
 
 def _map_document_types(values: list[str]) -> list[str]:

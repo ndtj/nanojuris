@@ -42,13 +42,13 @@ documentacao, QA, Studio, MCP e jurimetria.
 | `stf_informativo` | 82 | 16 | 22 | 16 | 13 | 15 | `B` |
 | `stj_scon` | 82 | 14 | 25 | 12 | 16 | 15 | `B` |
 | `tjrj_eproc_jurisprudencia` | 82 | 16 | 25 | 14 | 12 | 15 | `B` |
+| `tjsp_cjsg` | 82 | 17 | 25 | 10 | 15 | 15 | `B` |
 | `stj_informativo` | 81 | 14 | 22 | 16 | 14 | 15 | `B` |
+| `tjsp_eproc_jurisprudencia` | 81 | 17 | 25 | 12 | 12 | 15 | `B` |
 | `tjac_cjsg` | 80 | 16 | 25 | 12 | 12 | 15 | `B` |
 | `tjal_cjsg` | 80 | 16 | 25 | 12 | 12 | 15 | `B` |
 | `tjms_cjsg` | 80 | 16 | 25 | 12 | 12 | 15 | `B` |
-| `tjsp_eproc_jurisprudencia` | 80 | 16 | 25 | 12 | 12 | 15 | `B` |
 | `stm_jurisprudencia` | 79 | 14 | 25 | 12 | 13 | 15 | `B` |
-| `tjsp_cjsg` | 79 | 14 | 25 | 10 | 15 | 15 | `B` |
 | `tjam_cjsg` | 78 | 16 | 25 | 10 | 12 | 15 | `B` |
 | `cjf_jurisprudencia` | 77 | 14 | 22 | 11 | 15 | 15 | `B` |
 | `stf_juris` | 77 | 16 | 22 | 10 | 14 | 15 | `B` |

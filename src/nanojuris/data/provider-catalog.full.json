@@ -13103,7 +13103,15 @@
         ],
         "supported_filters": [
           "text",
-          "number"
+          "number",
+          "exact_phrase",
+          "updated_from",
+          "updated_to",
+          "published_from",
+          "published_to",
+          "source_origin",
+          "types",
+          "order_by"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -13199,7 +13207,7 @@
         ],
         "dimensions": {
           "documentation": 15,
-          "input": 14,
+          "input": 17,
           "output": 25,
           "product": 15,
           "reliability": 10
@@ -13210,7 +13218,7 @@
           "validar inteiro teor com hash, tamanho e access_status",
           "classificar WAF, captcha, timeout e mudanca de contrato separadamente"
         ],
-        "total": 79
+        "total": 82
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -13286,7 +13294,15 @@
         ],
         "supported_filters": [
           "text",
-          "number"
+          "number",
+          "exact_phrase",
+          "updated_from",
+          "updated_to",
+          "published_from",
+          "published_to",
+          "source_origin",
+          "types",
+          "order_by"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -13311,7 +13327,10 @@
           "endpoints": [
             "POST /resultadoCompleta.do",
             "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
-            "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>"
+            "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>",
+            "GET /jsp/verificarLoginArquivo.jsp?cdAcordao=<id>&cdForo=<foro>",
+            "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>&casChecked=true",
+            "POST /captchaControleAcesso.do (control route only)"
           ],
           "extracted_fields": [
             "case_number",
@@ -13422,7 +13441,7 @@
         "human_doc": "docs/providers/tjsp_eproc_jurisprudencia/README.md",
         "legacy_doc": "docs/source-contracts/tjsp_eproc_jurisprudencia.md",
         "missing_sections": [],
-        "open_items": 6,
+        "open_items": 4,
         "readiness": "needs_deepening"
       },
       "error_contract": {
@@ -13445,7 +13464,7 @@
         "category": "court_jurisprudence",
         "display_name": "TJSP eproc Jurisprudencia",
         "source_id": "tjsp_eproc_jurisprudencia",
-        "source_url": "https://eproc-consulta.tjsp.jus.br/consulta_1g"
+        "source_url": "https://eproc1g.tjsp.jus.br/eproc"
       },
       "implementation_status": "runtime",
       "input_contract": {
@@ -13462,7 +13481,10 @@
           "published_from",
           "published_to",
           "updated_from",
-          "updated_to"
+          "updated_to",
+          "source_origin",
+          "types",
+          "order_by"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -13557,7 +13579,7 @@
         ],
         "dimensions": {
           "documentation": 12,
-          "input": 16,
+          "input": 17,
           "output": 25,
           "product": 15,
           "reliability": 12
@@ -13567,7 +13589,7 @@
           "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 80
+        "total": 81
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -13647,7 +13669,10 @@
           "published_from",
           "published_to",
           "updated_from",
-          "updated_to"
+          "updated_to",
+          "source_origin",
+          "types",
+          "order_by"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -13671,6 +13696,9 @@
           ],
           "endpoints": [
             "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados",
+            "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_paginar_resultado",
+            "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_listar_tipo_documento",
+            "POST /externo_controlador.php?acao=jurisprudencia@jurisprudencia/ajax_gerar_pdf_documento",
             "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/download_inteiro_teor&id_jurisprudencia=<id>"
           ],
           "extracted_fields": [
@@ -17216,7 +17244,7 @@
     "implemented_sources": 46,
     "primary_textual_sources": 34,
     "score": {
-      "average": 78.7,
+      "average": 78.8,
       "needs_attention": [
         "tjce_cjsg",
         "tjgo_projudi_jurisprudencia",
@@ -17224,10 +17252,10 @@
         "stf_juris",
         "tjam_cjsg",
         "stm_jurisprudencia",
-        "tjsp_cjsg",
         "tjac_cjsg",
         "tjal_cjsg",
-        "tjms_cjsg"
+        "tjms_cjsg",
+        "stj_informativo"
       ],
       "top": [
         "tjdf_juris",

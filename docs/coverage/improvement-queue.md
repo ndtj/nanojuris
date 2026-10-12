@@ -14,15 +14,15 @@ que ja participam da busca unificada, mas ainda possuem lacunas objetivas.
 | 4 | `stf_juris` | `P0_harden_for_unified_search` | 77 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 5 | `tjam_cjsg` | `P0_harden_for_unified_search` | 78 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 6 | `stm_jurisprudencia` | `P0_harden_for_unified_search` | 79 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 7 | `tjsp_cjsg` | `P0_harden_for_unified_search` | 79 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 8 | `tjac_cjsg` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 9 | `tjal_cjsg` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 10 | `tjms_cjsg` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 11 | `tjsp_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 12 | `stj_informativo` | `P0_harden_for_unified_search` | 81 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 13 | `stf_informativo` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 14 | `stj_scon` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 15 | `tjrj_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 7 | `tjac_cjsg` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 8 | `tjal_cjsg` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 9 | `tjms_cjsg` | `P0_harden_for_unified_search` | 80 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 10 | `stj_informativo` | `P0_harden_for_unified_search` | 81 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 11 | `tjsp_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 81 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 12 | `stf_informativo` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 13 | `stj_scon` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 14 | `tjrj_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 15 | `tjsp_cjsg` | `P0_harden_for_unified_search` | 82 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 16 | `tjpe_jurisprudencia` | `P0_harden_for_unified_search` | 84 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 17 | `tjrr_juris` | `P0_harden_for_unified_search` | 84 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 18 | `trf5_jurisprudencia` | `P0_harden_for_unified_search` | 84 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |

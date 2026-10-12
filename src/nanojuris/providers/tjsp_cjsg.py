@@ -126,8 +126,7 @@ class TjspCjsgProvider(JurisprudenceProvider):
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
         cd_acordao, cd_foro = self._parse_precedent_id(precedent_id)
-        endpoint = f"/getArquivo.do?cdAcordao={cd_acordao}&cdForo={cd_foro}"
-        response = self._request_response("GET", endpoint)
+        response, document_flow = self._request_cjsg_document(cd_acordao, cd_foro)
         raw_content = _response_bytes(response)
         content_type = response.headers.get("Content-Type", "")
         is_pdf = raw_content.startswith(b"%PDF") or "application/pdf" in content_type.lower()
@@ -140,8 +139,15 @@ class TjspCjsgProvider(JurisprudenceProvider):
         trace = SourceTrace(
             provider=self.name,
             endpoint="/getArquivo.do",
-            query={"cdAcordao": cd_acordao, "cdForo": cd_foro},
-            source_url=urljoin(self.config.tjsp_cjsg_url.rstrip("/") + "/", endpoint.lstrip("/")),
+            query={
+                "cdAcordao": cd_acordao,
+                "cdForo": cd_foro,
+                "document_flow": document_flow,
+            },
+            source_url=urljoin(
+                self.config.tjsp_cjsg_url.rstrip("/") + "/",
+                document_flow[-1].lstrip("/"),
+            ),
             limitations=[
                 "O retorno pode ser HTML, PDF ou uma tela de controle de acesso da propria fonte.",
             ],
@@ -173,6 +179,33 @@ class TjspCjsgProvider(JurisprudenceProvider):
             },
             raw_bytes=raw_content,
         )
+
+    def _request_cjsg_document(
+        self, cd_acordao: str, cd_foro: str
+    ) -> tuple[requests.Response, list[str]]:
+        """Follow the public CJSG document check without resolving access controls.
+
+        The browser flow observed by REA can return a verification page before
+        the source decides whether the document is public. Replaying the
+        documented page transition is safe; credentials, CAPTCHA solutions and
+        browser tokens are deliberately never supplied here.
+        """
+
+        initial_endpoint = f"/getArquivo.do?cdAcordao={cd_acordao}&cdForo={cd_foro}"
+        response = self._request_response("GET", initial_endpoint)
+        flow = [initial_endpoint]
+        if not _is_cjsg_login_verification_response(response):
+            return response, flow
+
+        verification_endpoint = (
+            f"/jsp/verificarLoginArquivo.jsp?cdAcordao={cd_acordao}&cdForo={cd_foro}"
+        )
+        self._request_response("GET", verification_endpoint)
+        flow.append(verification_endpoint)
+        checked_endpoint = f"/getArquivo.do?cdAcordao={cd_acordao}&cdForo={cd_foro}&casChecked=true"
+        response = self._request_response("GET", checked_endpoint)
+        flow.append(checked_endpoint)
+        return response, flow
 
     def get_document(self, document_id: str) -> CanonicalDocument:
         bundle = self.get_decisions(document_id)
@@ -219,6 +252,9 @@ class TjspCjsgProvider(JurisprudenceProvider):
                 "POST /resultadoCompleta.do",
                 "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
                 "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>",
+                "GET /jsp/verificarLoginArquivo.jsp?cdAcordao=<id>&cdForo=<foro>",
+                ("GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>&casChecked=true"),
+                "POST /captchaControleAcesso.do (control route only)",
             ],
             supports_full_text=True,
             pagination_mode="page",
@@ -231,7 +267,18 @@ class TjspCjsgProvider(JurisprudenceProvider):
             supports_catalog=False,
             supports_suggestions=False,
             supports_live_tests=True,
-            supported_filters=["text", "number"],
+            supported_filters=[
+                "text",
+                "number",
+                "exact_phrase",
+                "updated_from",
+                "updated_to",
+                "published_from",
+                "published_to",
+                "source_origin",
+                "types",
+                "order_by",
+            ],
             limitations=[
                 "A fonte pode exigir captcha ou outro controle de acesso.",
                 "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
@@ -281,12 +328,42 @@ class TjspCjsgProvider(JurisprudenceProvider):
             "secoesTreeSelection.text": "",
             "dados.dtJulgamentoInicio": query.updated_from,
             "dados.dtJulgamentoFim": query.updated_to,
-            "dados.dtPublicacaoInicio": "",
-            "dados.dtPublicacaoFim": "",
-            "dados.origensSelecionadas": "T",
+            "dados.dtPublicacaoInicio": query.published_from,
+            "dados.dtPublicacaoFim": query.published_to,
+            "dados.origensSelecionadas": self._map_origins(query),
             "tipoDecisaoSelecionados": mapped_types,
             "dados.ordenarPor": self._map_order_by(query.order_by),
         }
+
+    @staticmethod
+    def _map_origins(query: JurisprudenceQuery) -> str | list[str]:
+        requested = list(query.source_origins)
+        if query.source_origin and not requested:
+            requested = [query.source_origin]
+        if not requested:
+            # T is the source form's observed default (2nd degree).
+            return "T"
+        mapping = {
+            "t": "T",
+            "segundo_grau": "T",
+            "segundo grau": "T",
+            "2g": "T",
+            "2o grau": "T",
+            "2º grau": "T",
+            "r": "R",
+            "colegio_recursal": "R",
+            "colegio recursal": "R",
+            "colégio recursal": "R",
+        }
+        mapped: list[str] = []
+        for value in requested:
+            key = value.strip().casefold()
+            if key not in mapping:
+                raise ValueError("TJSP/CJSG source_origin must be segundo_grau or colegio_recursal")
+            code = mapping[key]
+            if code not in mapped:
+                mapped.append(code)
+        return mapped[0] if len(mapped) == 1 else mapped
 
     def _request_text(self, method: str, path: str, **kwargs: Any) -> str:
         headers = {
@@ -374,7 +451,8 @@ class TjspCjsgProvider(JurisprudenceProvider):
         normalized = value.strip().lower()
         mapping = {
             "text": "dtPublicacao",
-            "relevance": "dtPublicacao",
+            "relevance": "relevancia",
+            "relevancia": "relevancia",
             "dtpublicacao": "dtPublicacao",
             "publication": "dtPublicacao",
             "date": "dtPublicacao",
@@ -837,6 +915,16 @@ def _normalize_document_text(text: str) -> str:
 
 def _looks_like_access_control(html: str) -> bool:
     return diagnose_cjsg_access(html).access_control_required
+
+
+def _is_cjsg_login_verification_response(response: requests.Response) -> bool:
+    """Return whether a document response is the source's login check page."""
+
+    content = _response_bytes(response)
+    if content.startswith(b"%PDF"):
+        return False
+    text = decode_cjsg_response_text(response).lower()
+    return "verificarloginarquivo" in text or ("verificarlogin.js" in text and "sajcas" in text)
 
 
 def diagnose_cjsg_access(html: str) -> CjsgAccessDiagnostic:
