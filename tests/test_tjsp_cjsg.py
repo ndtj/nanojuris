@@ -66,6 +66,22 @@ def _fixture(name: str) -> str:
     return (FIXTURES / name).read_text(encoding="utf-8")
 
 
+def _search_form() -> str:
+    return """
+    <html><body>
+      <form action="/cjsg/resultadoCompleta.do" method="post">
+        <input type="hidden" name="uuidCaptcha" value="session-uuid" />
+        <input type="hidden" name="conversationId" value="conversation-1" />
+        <input type="text" name="dados.buscaInteiroTeor" value="" />
+        <select name="tipoDecisaoSelecionados">
+          <option value="A" selected>Acordaos</option>
+        </select>
+        <input type="submit" name="pbSubmit" value="Pesquisar" />
+      </form>
+    </body></html>
+    """
+
+
 def _cjsg_page_fragment() -> str:
     return """
     <span style="display: none;" id="nomeAbaRetornoFiltro-A">Acordaos(858)</span>
@@ -176,7 +192,7 @@ def test_parse_cjsg_results_relocates_rows_when_the_anchor_class_changes():
 
 
 def test_provider_search_posts_cjsg_payload_and_parses_results():
-    session = FakeSession([FakeResponse(_fixture_html())])
+    session = FakeSession([FakeResponse(_search_form()), FakeResponse(_fixture_html())])
     provider = TjspCjsgProvider(session=session)
 
     page = provider.search(
@@ -192,7 +208,9 @@ def test_provider_search_posts_cjsg_payload_and_parses_results():
     )
 
     assert page.results[0].id == "tjsp-cjsg-20787558-0"
-    call = session.calls[0]
+    assert session.calls[0]["method"] == "GET"
+    assert session.calls[0]["url"] == "https://esaj.tjsp.jus.br/cjsg/resultadoCompleta.do"
+    call = session.calls[1]
     payload = call["kwargs"]["data"]
     assert call["method"] == "POST"
     assert call["url"] == "https://esaj.tjsp.jus.br/cjsg/resultadoCompleta.do"
@@ -204,7 +222,7 @@ def test_provider_search_posts_cjsg_payload_and_parses_results():
 
 
 def test_provider_search_maps_publication_origin_and_relevance_filters():
-    session = FakeSession([FakeResponse(_fixture_html())])
+    session = FakeSession([FakeResponse(_search_form()), FakeResponse(_fixture_html())])
     provider = TjspCjsgProvider(session=session)
 
     provider.search(
@@ -217,7 +235,7 @@ def test_provider_search_maps_publication_origin_and_relevance_filters():
         )
     )
 
-    payload = session.calls[0]["kwargs"]["data"]
+    payload = session.calls[1]["kwargs"]["data"]
     assert payload["dados.dtPublicacaoInicio"] == "01/02/2026"
     assert payload["dados.dtPublicacaoFim"] == "28/02/2026"
     assert payload["dados.origensSelecionadas"] == "R"
@@ -232,7 +250,13 @@ def test_provider_rejects_unmapped_cjsg_origin_instead_of_sending_wrong_filter()
 
 
 def test_provider_search_uses_troca_de_pagina_after_public_result_session():
-    session = FakeSession([FakeResponse(_fixture_html()), FakeResponse(_cjsg_page_fragment())])
+    session = FakeSession(
+        [
+            FakeResponse(_search_form()),
+            FakeResponse(_fixture_html()),
+            FakeResponse(_cjsg_page_fragment()),
+        ]
+    )
     provider = TjspCjsgProvider(session=session)
 
     page = provider.search(JurisprudenceQuery(text="infanticidio", page=2, page_size=5))
@@ -244,9 +268,26 @@ def test_provider_search_uses_troca_de_pagina_after_public_result_session():
     assert page.results[0].id == "tjsp-cjsg-20588041-0"
     assert page.results[0].source_trace is not None
     assert page.results[0].source_trace.endpoint == "/trocaDePagina.do"
-    assert session.calls[0]["method"] == "POST"
-    assert session.calls[1]["method"] == "GET"
-    assert session.calls[1]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=2")
+    assert session.calls[0]["method"] == "GET"
+    assert session.calls[1]["method"] == "POST"
+    assert session.calls[2]["method"] == "GET"
+    assert session.calls[2]["url"].endswith("trocaDePagina.do?tipoDeDecisao=A&pagina=2")
+
+
+def test_provider_search_hydrates_public_form_and_keeps_control_explicit():
+    session = FakeSession(
+        [FakeResponse(_search_form()), FakeResponse(_fixture("tjsp_cjsg_access_control.html"))]
+    )
+    provider = TjspCjsgProvider(session=session)
+
+    with pytest.raises(AccessControlRequiredError, match="captcha"):
+        provider.search(JurisprudenceQuery(text="teste"))
+
+    payload = session.calls[1]["kwargs"]["data"]
+    assert payload["uuidCaptcha"] == "session-uuid"
+    assert payload["conversationId"] == ""
+    assert payload["dados.buscaInteiroTeor"] == "teste"
+    assert payload["pbSubmit"] == "Pesquisar"
 
 
 def test_provider_get_decisions_builds_getarquivo_url_and_extracts_text():

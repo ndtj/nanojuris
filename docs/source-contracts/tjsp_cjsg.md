@@ -17,6 +17,13 @@ publico. A fonte pode exigir captcha,
 validacao de acesso ou rotas de controle; o NanoJuris deve reportar isso sem
 bypass.
 
+Na busca, o provider primeiro carrega `resultadoCompleta.do` na mesma sessao,
+reaproveita os campos ocultos/defaults atuais do formulario e somente entao
+envia o `POST` para a action oficial. Isso evita consultas sem estado de sessao
+ou com filtros silenciosamente ignorados. Se o POST retornar formulario de
+controle, a busca termina com `AccessControlRequiredError`; a rota
+`captchaControleAcesso.do` nao e chamada.
+
 Quando `getArquivo.do` retorna HTML publico, `get_document` converte a pagina em
 texto limpo para agentes de IA e preserva hash, tamanho, URL, tipo de origem e
 warnings nos metadados. Se a fonte retornar PDF puro, o provider registra o
