@@ -22,8 +22,9 @@ reaproveita os campos ocultos/defaults atuais do formulario e, quando o proprio
 formulario declara os marcadores de controle, chama a inicializacao publica
 `captchaControleAcesso.do` para obter um novo `uuidCaptcha`. O provider nao
 resolve reCAPTCHA, nao fabrica token e nao persiste cookies. Somente entao envia
-o `POST` para a action oficial. Se o POST continuar retornando formulario de
-controle, a busca termina com `AccessControlRequiredError`.
+o `POST` para a action oficial. Se o POST continuar devolvendo formulario de
+controle, a busca termina com `AccessControlRequiredError`; a rota de
+paginacao nao e usada para contornar esse estado.
 
 Quando `getArquivo.do` retorna HTML publico, `get_document` converte a pagina em
 texto limpo para agentes de IA e preserva hash, tamanho, URL, tipo de origem e
@@ -46,10 +47,10 @@ POST /captchaControleAcesso.do (rota de controle, nao de extracao)
 
 O exemplo `examples/busca_saj_tjsp.py` reproduz uma consulta publica em uma
 sessao efemera: carrega o formulario, executa a inicializacao publica declarada
-quando necessaria, envia o `POST /resultadoCompleta.do` e, quando a resposta
-intermediaria nao e uma tela de controle, tenta a primeira pagina em
-`GET /trocaDePagina.do`. Ele nao resolve CAPTCHA, nao fabrica token e classifica
-CAPTCHA, login ou sessao ausente como estados explicitos.
+quando necessaria, envia o `POST /resultadoCompleta.do` e somente pagina quando
+esse POST retorna um container publico de resultados. Ele nao resolve CAPTCHA,
+nao fabrica token e classifica CAPTCHA, login ou sessao ausente como estados
+explicitos.
 
 Status tecnico das rotas:
 

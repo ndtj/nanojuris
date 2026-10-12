@@ -1,11 +1,11 @@
 # 0030 - TJSP SAJ public control-session initialization
 
-Status: `in_progress`
+Status: `verified`
 
 ## Intent
 
 Permitir que `tjsp_cjsg` reproduza a inicializacao publica de sessao usada pelo
-SAJ/TJSP e, assim, aceite buscas que atualmente funcionam no script standalone.
+SAJ/TJSP, sem transformar uma tela de controle em uma busca bem-sucedida.
 
 ## Scope
 
@@ -27,6 +27,7 @@ SAJ/TJSP e, assim, aceite buscas que atualmente funcionam no script standalone.
 ## Acceptance criteria
 
 - AC-001: testes offline comprovam a ordem GET -> controle -> busca.
-- AC-002: busca live bounded com `dano moral` retorna resultados ou erro de
-  controle explicito, nunca zero resultados enganoso.
+- AC-002: busca live bounded com `dano moral` retorna resultados publicos ou
+  erro de controle explicito; a paginacao nao e usada para atravessar uma
+  tela de controle.
 - AC-003: pytest direcionado, lint, type-check e validacao SDD passam.
