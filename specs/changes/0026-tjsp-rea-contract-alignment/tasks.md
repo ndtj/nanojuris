@@ -8,5 +8,5 @@
   bloqueios.
 - [x] `T06` executar geradores e auditorias documentais.
 - [x] `T07` executar suíte completa e validação live bounded sem bypass.
-- [ ] `T08` revisar diff, commitar, publicar branch/PR e somente então avaliar
+- [x] `T08` revisar diff, commitar, publicar branch/PR e somente então avaliar
   merge.

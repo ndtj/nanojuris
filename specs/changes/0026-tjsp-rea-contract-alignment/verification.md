@@ -24,5 +24,6 @@ classification and any deviations.
 ## Rastreabilidade
 
 The commands above prove `REQ-001` through `REQ-006` and `AC-001` through
-`AC-004`. `AC-005` remains open until the branch/PR review and merge flow is
-completed. No deviation was accepted; CAPTCHA/login bypass remains out of scope.
+`AC-005`. PR #33 was opened from commit `3be98f0`; its required CI, CodeQL,
+frontend and clean-wheel checks passed before merge. No deviation was accepted;
+CAPTCHA/login bypass remains out of scope.
