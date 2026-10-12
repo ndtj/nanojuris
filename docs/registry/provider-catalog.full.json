@@ -16859,7 +16859,7 @@
       },
       "category": "court_jurisprudence",
       "coverage_role": "primary_textual_jurisprudence",
-      "development_priority": "P0_harden_for_unified_search",
+      "development_priority": "P0_reference_provider",
       "display_name": "TST Jurisprudencia",
       "document_contract": {
         "content_formats": [
@@ -16882,8 +16882,8 @@
         "human_doc": "docs/providers/tst_jurisprudencia/README.md",
         "legacy_doc": "docs/source-contracts/tst_jurisprudencia.md",
         "missing_sections": [],
-        "open_items": 1,
-        "readiness": "needs_deepening"
+        "open_items": 0,
+        "readiness": "implementation_ready"
       },
       "error_contract": {
         "access_statuses": [
@@ -16917,11 +16917,17 @@
         ],
         "supported_filters": [
           "text",
+          "courts",
           "all_words",
           "any_words",
           "without_words",
           "exact_phrase",
           "number",
+          "rapporteur",
+          "judging_body",
+          "case_classes",
+          "indicators",
+          "subjects",
           "published_from",
           "published_to",
           "updated_from",
@@ -16951,7 +16957,6 @@
         ]
       },
       "known_defects": [
-        "documentacao_com_pendencias_abertas",
         "gap:Consultar config.json quando a base da API for alterada pelo frontend.",
         "gap:Ampliar fixtures por sumulas, precedentes normativos e filtros de catalogo.",
         "gap:Monitorar alteracoes no HTML de inteiro teor e nos campos removidos do backend."
@@ -17015,11 +17020,9 @@
         "url": null
       },
       "maturity_score": {
-        "blockers": [
-          "dossie com pendencias abertas"
-        ],
+        "blockers": [],
         "dimensions": {
-          "documentation": 15,
+          "documentation": 19,
           "input": 19,
           "output": 25,
           "product": 15,
@@ -17027,10 +17030,9 @@
         },
         "grade": "A",
         "next_actions": [
-          "fechar checklist objetivo do dossie",
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 90
+        "total": 94
       },
       "maturity_tier": "gold",
       "mcp": {
@@ -17082,12 +17084,10 @@
         "mode": "offset"
       },
       "quality_contract": {
-        "documentation_readiness": "needs_deepening",
+        "documentation_readiness": "implementation_ready",
         "fixture_references": 3,
         "latest_live_status": "valid",
-        "quality_flags": [
-          "open_documentation_items"
-        ]
+        "quality_flags": []
       },
       "recommended_for": [
         "agent_assisted_research",
@@ -17106,11 +17106,17 @@
         ],
         "supported_filters": [
           "text",
+          "courts",
           "all_words",
           "any_words",
           "without_words",
           "exact_phrase",
           "number",
+          "rapporteur",
+          "judging_body",
+          "case_classes",
+          "indicators",
+          "subjects",
           "published_from",
           "published_to",
           "updated_from",
@@ -17280,7 +17286,7 @@
     "implemented_sources": 46,
     "primary_textual_sources": 34,
     "score": {
-      "average": 78.8,
+      "average": 78.9,
       "needs_attention": [
         "tjce_cjsg",
         "tjgo_projudi_jurisprudencia",
@@ -17295,10 +17301,10 @@
       ],
       "top": [
         "tjdf_juris",
+        "tst_jurisprudencia",
         "tjpr_jurisprudencia",
         "tjba_graphql",
-        "tnu_eproc_jurisprudencia",
-        "tst_jurisprudencia"
+        "tnu_eproc_jurisprudencia"
       ]
     },
     "sources_with_full_text": 28,

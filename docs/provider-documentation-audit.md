@@ -17,7 +17,7 @@ nao afirma que uma rota nao observada exista nem que um provider esteja disponiv
 - Dossies auditados: **56** (46 implemented, 9 candidates, 1 family).
 - Dossies com secoes estruturais: **56/56**.
 - Canonical/legacy em paridade: **56/56**.
-- Prontidao: `family_spec`=1, `implementation_ready`=9, `needs_deepening`=37, `research_ready`=9.
+- Prontidao: `family_spec`=1, `implementation_ready`=10, `needs_deepening`=36, `research_ready`=9.
 
 A paridade confirma preservacao de informacao durante a migracao. Ela nao substitui a revisao
 do contrato: itens `[ ]`, estados `pendente` e rotas apenas observadas continuam sendo bloqueios reais.
@@ -84,7 +84,7 @@ A evidencia historica das 28 fontes candidatas esta em [candidate-live-validatio
 | [`trf5_jurisprudencia`](providers/trf5_jurisprudencia/README.md) | implemented | `needs_deepening` | 4 | medio | - | 2 | 7 |
 | [`trf6_eproc_jurisprudencia`](providers/trf6_eproc_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | baixo | - | 1 | 3 |
 | [`trt2_pje_jurisprudencia`](providers/trt2_pje_jurisprudencia/README.md) | candidate | `research_ready` | - | research | - | 4 | 0 |
-| [`tst_jurisprudencia`](providers/tst_jurisprudencia/README.md) | implemented | `needs_deepening` | 5 | medio | - | 1 | 3 |
+| [`tst_jurisprudencia`](providers/tst_jurisprudencia/README.md) | implemented | `implementation_ready` | 5 | medio | - | 0 | 3 |
 
 ## Gate De Desenvolvimento
 

@@ -62,4 +62,4 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `trf5_jurisprudencia` | sim | text, number, published_from, published_to, types | `none` | nao | nao |
 | `trf6_eproc_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to | `page` | nao | nao |
 | `trt2_pje_jurisprudencia` | nao | - | `unknown` | nao | nao |
-| `tst_jurisprudencia` | sim | text, all_words, any_words, without_words, exact_phrase, number, published_from, published_to, updated_from, updated_to, types | `offset` | sim | nao |
+| `tst_jurisprudencia` | sim | text, courts, all_words, any_words, without_words, exact_phrase, number, rapporteur, judging_body, case_classes, indicators, subjects, published_from, published_to, updated_from, updated_to, types | `offset` | sim | nao |

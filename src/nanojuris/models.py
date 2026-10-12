@@ -253,6 +253,9 @@ class JurisprudenceQuery:
     fetch_details: bool = False
     courts: list[str] = field(default_factory=list)
     types: list[str] = field(default_factory=list)
+    case_classes: list[str] = field(default_factory=list)
+    indicators: list[str] = field(default_factory=list)
+    subjects: list[str] = field(default_factory=list)
     page: int = 1
     page_size: int = 10
     judging_body: str = ""

@@ -11,6 +11,7 @@ from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
     RateLimitDetectedError,
+    UnsupportedQueryError,
 )
 from nanojuris.models import JurisprudenceQuery, SourceTrace
 from nanojuris.providers.tst_jurisprudencia import (
@@ -88,6 +89,65 @@ def test_build_tst_payload_maps_text_number_and_filters():
     assert payload["publicacaoInicial"] == "2026-01-01"
 
 
+def test_build_tst_payload_maps_official_catalog_filters():
+    query = JurisprudenceQuery(
+        text="responsabilidade",
+        courts=["CSJT"],
+        rapporteur="GMABB",
+        judging_body="405",
+    )
+
+    payload = build_tst_search_payload(
+        query,
+        catalog_options={
+            "orgaos-judicantes": [{"codigo": 405, "descricao": "Conselho", "sigla": "CSJT"}],
+            "ministros": [{"codMin": "GMABB", "nomMin": "Alberto Bastos Balazeiro"}],
+            "convocados": [],
+        },
+    )
+
+    assert payload["orgao"] == "CSJT"
+    assert payload["orgaosJudicantes"] == [
+        {"codigo": 405, "descricao": "Conselho", "sigla": "CSJT"}
+    ]
+    assert payload["ministros"] == [{"codMin": "GMABB", "nomMin": "Alberto Bastos Balazeiro"}]
+    assert payload["convocados"] == []
+
+
+def test_build_tst_payload_maps_all_catalog_filter_groups():
+    payload = build_tst_search_payload(
+        JurisprudenceQuery(
+            text="responsabilidade",
+            case_classes=["RR"],
+            indicators=["15"],
+            subjects=["6201"],
+        ),
+        catalog_options={
+            "classes-processuais": [{"codFase": "RR", "desFase": "Recurso de Revista"}],
+            "indicadores": [{"codIndicador": 15, "desIndicador": "Acidente de Trabalho"}],
+            "assuntos": [
+                {
+                    "id": 6191,
+                    "label": "DIREITO INTERNACIONAL",
+                    "children": [{"id": 6201, "label": "Trabalhador Migrante"}],
+                }
+            ],
+        },
+    )
+
+    assert payload["classesProcessuais"] == [{"codFase": "RR", "desFase": "Recurso de Revista"}]
+    assert payload["indicadores"] == [{"codIndicador": 15, "desIndicador": "Acidente de Trabalho"}]
+    assert payload["assuntos"] == [6201]
+
+
+def test_build_tst_payload_rejects_unknown_catalog_filter():
+    with pytest.raises(UnsupportedQueryError):
+        build_tst_search_payload(
+            JurisprudenceQuery(text="responsabilidade", judging_body="999"),
+            catalog_options={"orgaos-judicantes": [{"codigo": 405}]},
+        )
+
+
 def test_empty_tst_query_is_rejected():
     with pytest.raises(ValueError, match="requires a term"):
         build_tst_search_payload(JurisprudenceQuery())
@@ -146,6 +206,51 @@ def test_provider_search_posts_public_tst_payload():
     assert page.results[0].access_status.value == "public"
 
 
+def test_provider_search_resolves_filters_through_official_catalogs():
+    session = FakeSession(
+        [
+            FakeResponse(
+                [{"codigo": 405, "descricao": "Conselho", "sigla": "CSJT"}],
+                url="https://jurisprudencia-backend.tst.jus.br/rest/orgaos-judicantes",
+            ),
+            FakeResponse(
+                [{"codMin": "GMABB", "nomMin": "Alberto Bastos Balazeiro"}],
+                url="https://jurisprudencia-backend.tst.jus.br/rest/ministros",
+            ),
+            FakeResponse(
+                [],
+                url="https://jurisprudencia-backend.tst.jus.br/rest/convocados",
+            ),
+            FakeResponse(
+                _fixture(),
+                url="https://jurisprudencia-backend.tst.jus.br/rest/pesquisa-textual/1/1",
+            ),
+        ]
+    )
+    provider = TstJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    page = provider.search(
+        JurisprudenceQuery(
+            text="responsabilidade",
+            courts=["CSJT"],
+            rapporteur="GMABB",
+            judging_body="405",
+            page_size=1,
+        )
+    )
+
+    assert page.total == 1
+    call = session.calls[-1]
+    assert call["kwargs"]["json"]["orgao"] == "CSJT"
+    assert call["kwargs"]["json"]["orgaosJudicantes"] == [
+        {"codigo": 405, "descricao": "Conselho", "sigla": "CSJT"}
+    ]
+    assert call["kwargs"]["json"]["ministros"] == [
+        {"codMin": "GMABB", "nomMin": "Alberto Bastos Balazeiro"}
+    ]
+    assert call["kwargs"]["json"]["convocados"] == []
+
+
 def test_provider_get_document_returns_canonical_html_document():
     html = "<html><body><h1>Acordao</h1><p>Inteiro teor publico.</p></body></html>"
     session = FakeSession(
@@ -167,6 +272,17 @@ def test_provider_get_document_returns_canonical_html_document():
     assert document.sha256 is not None
     assert document.byte_size == len(html.encode("utf-8"))
     assert document.extraction_trace is not None
+
+
+def test_provider_accepts_current_31_character_document_id():
+    html = "<html><body><p>Inteiro teor atual.</p></body></html>"
+    session = FakeSession([FakeResponse(text=html)])
+    provider = TstJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0), session=session)
+
+    document = provider.get_document("tst-jurisprudencia-584d241245108fb30b7d04a337b47fe")
+
+    assert document.text == "Inteiro teor atual."
+    assert session.calls[0]["url"].endswith("/rest/documentos/584d241245108fb30b7d04a337b47fe")
 
 
 @pytest.mark.parametrize(
