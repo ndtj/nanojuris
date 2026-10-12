@@ -149,6 +149,7 @@ class TjalCjsgProvider(JurisprudenceProvider):
                 AccessStatus.SOURCE_UNAVAILABLE,
             ],
             endpoints=[
+                "GET /consultaCompleta.do",
                 "POST /resultadoCompleta.do",
                 "GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>",
                 "GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>",

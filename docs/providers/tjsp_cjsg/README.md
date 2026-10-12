@@ -25,6 +25,7 @@ estado como nao parseado em vez de fingir que leu o conteudo.
 Rotas declaradas:
 
 ```text
+GET /consultaCompleta.do
 POST /resultadoCompleta.do
 GET /trocaDePagina.do?tipoDeDecisao=<tipo>&pagina=<n>
 GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>

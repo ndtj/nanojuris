@@ -1,0 +1,57 @@
+{
+  "captured_at": "2026-10-12",
+  "mode": "bounded_live_search",
+  "query": {
+    "text": "contrato",
+    "page": 1,
+    "page_size": 1
+  },
+  "policy": {
+    "timeout_seconds": 8,
+    "rate_limit_interval_seconds": 0.5,
+    "fresh_sessions": true,
+    "captcha_bypass": false,
+    "control_route_submission": false
+  },
+  "results": [
+    {
+      "source": "tjac_cjsg",
+      "status": "valid",
+      "total": 25517,
+      "returned": 1,
+      "endpoint": "/resultadoCompleta.do"
+    },
+    {
+      "source": "tjal_cjsg",
+      "status": "valid",
+      "total": 186132,
+      "returned": 1,
+      "endpoint": "/resultadoCompleta.do"
+    },
+    {
+      "source": "tjms_cjsg",
+      "status": "valid",
+      "total": 351874,
+      "returned": 1,
+      "endpoint": "/resultadoCompleta.do"
+    },
+    {
+      "source": "tjsp_cjsg",
+      "status": "access_control_required",
+      "error_type": "AccessControlRequiredError",
+      "error": "TJSP/CJSG requires captcha or another access-control step"
+    },
+    {
+      "source": "tjsp_eproc_jurisprudencia",
+      "status": "valid",
+      "total": 513289,
+      "returned": 1,
+      "endpoint": "/externo_controlador.php?acao=jurisprudencia@jurisprudencia/listar_resultados"
+    }
+  ],
+  "interpretation": [
+    "Valid means the public provider returned a parsed page for this single bounded query.",
+    "The TJSP CJSG control response is not a zero-result page.",
+    "This smoke test is a dated observation, not a guarantee of permanent availability or completeness."
+  ]
+}

@@ -109,3 +109,4 @@ def test_tjce_capabilities_use_official_host() -> None:
     assert capabilities.source == "tjce_cjsg"
     assert capabilities.source_url == "https://esaj.tjce.jus.br/cjsg"
     assert capabilities.supports_full_text
+    assert "GET /consultaCompleta.do" in capabilities.endpoints
