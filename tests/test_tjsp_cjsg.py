@@ -157,6 +157,7 @@ def test_parse_cjsg_results_maps_fixture():
     assert first.updated_at == "30/07/2026"
     assert first.publication_date is None
     assert first.access_status.value == "public"
+    assert first.extraction_status.value == "partial"
     assert first.raw["classe"] == "Apelacao Criminal"
     assert first.raw["assunto"] == "Homicidio Qualificado"
     assert first.raw["comarca"] == "Lorena"

@@ -757,6 +757,9 @@ def parse_cjsg_results(
             updated_at=labels.get("data de registro") or labels.get("data de publicação"),
             publication_date=labels.get("data de publicação") or labels.get("data de publicacao"),
             access_status=AccessStatus.PUBLIC,
+            # Search rows expose a detail URL, not the integral text. The
+            # record becomes COMPLETE only after the detail/document call.
+            extraction_status=ExtractionStatus.PARTIAL,
             highlights={},
             source_trace=result_trace,
             raw={

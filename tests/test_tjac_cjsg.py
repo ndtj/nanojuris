@@ -56,6 +56,7 @@ def test_parse_cjsg_results_can_stamp_tjac_source_and_court():
     assert page.results[0].id == "tjac-cjsg-20787558-0"
     assert page.results[0].source == "tjac_cjsg"
     assert page.results[0].court == "TJAC"
+    assert page.results[0].extraction_status.value == "partial"
     assert page.results[0].raw["full_text_url"].startswith("https://esaj.tjac.jus.br/cjsg")
 
 
