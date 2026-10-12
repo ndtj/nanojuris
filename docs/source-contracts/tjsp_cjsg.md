@@ -34,6 +34,15 @@ GET /getArquivo.do?cdAcordao=<id>&cdForo=<foro>&casChecked=true
 POST /captchaControleAcesso.do (rota de controle, nao de extracao)
 ```
 
+## Script standalone seguro
+
+O exemplo `examples/busca_saj_tjsp.py` reproduz uma consulta publica em uma
+sessao efemera: carrega o formulario, envia o `POST /resultadoCompleta.do` e,
+quando a resposta intermediaria nao e uma tela de controle, tenta a primeira
+pagina em `GET /trocaDePagina.do`. Ele nao chama `captchaControleAcesso.do`,
+nao fabrica token e classifica CAPTCHA, login ou sessao ausente como estados
+explicitos.
+
 Status tecnico das rotas:
 
 | Rota | Conteudo juridico | Condicao segura de uso | Status no provider |

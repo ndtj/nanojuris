@@ -1,0 +1,24 @@
+{
+  "captured_at": "2026-10-12",
+  "mode": "bounded_live_public_form_and_post",
+  "script": "examples/busca_saj_tjsp.py",
+  "query": {
+    "text": "dano moral",
+    "origin": "T",
+    "decision_type": "A",
+    "profile": "courts"
+  },
+  "requests": [
+    "GET /cjsg/resultadoCompleta.do",
+    "POST /cjsg/resultadoCompleta.do;jsessionid=<ephemeral>"
+  ],
+  "control_route_called": false,
+  "result": {
+    "state": "access_control_required",
+    "http": 200,
+    "returned_search_form": true,
+    "captcha_present": true,
+    "results": 0
+  },
+  "interpretation": "The source returned an access-control form, not an empty result page. The script stopped without calling captchaControleAcesso.do or fabricating a token."
+}
