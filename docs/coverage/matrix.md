@@ -59,4 +59,4 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | [`trf5_jurisprudencia`](../providers/trf5_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 84 | `silver` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |
 | [`trf6_eproc_jurisprudencia`](../providers/trf6_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 89 | `gold` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |
 | [`trt2_pje_jurisprudencia`](../providers/trt2_pje_jurisprudencia/README.md) | candidate | `mapped_candidate` | 11 | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
-| [`tst_jurisprudencia`](../providers/tst_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 90 | `gold` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |
+| [`tst_jurisprudencia`](../providers/tst_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 94 | `gold` | `P0_reference_provider` | `valid` | sim | sim | `implementation_ready` |

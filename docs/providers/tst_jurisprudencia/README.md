@@ -7,16 +7,16 @@
 - Familia tecnica: SPA React + API REST JSON.
 - URL inicial: `https://jurisprudencia.tst.jus.br/`.
 - Status de acesso: publico, reproduzido em sessao HTTP limpa.
-- Status no NanoJuris: provider implementado com fixtures e testes offline.
+- Status no NanoJuris: provider implementado com fixtures e teste live opt-in.
 
 ## Contrato descoberto
 
 O frontend publica `GET /config.json`, que informa a base atual da API e as
-URLs oficiais de consulta. Na rodada de 2026-08-11, a configuracao respondeu:
+URLs oficiais de consulta. Na captura REA de 12/10/2026, a configuracao respondeu:
 
 ```json
 {
-  "base_url": "https://jurisprudencia-backend2.tst.jus.br",
+  "base_url": "https://jurisprudencia-backend.tst.jus.br",
   "consulta_acordao_url": "https://consultadocumento.tst.jus.br/consultaDocumento/acordao.do",
   "consulta_despacho_url": "https://consultadocumento.tst.jus.br/consultaDocumento/despacho.do",
   "consulta_proc_url": "https://consultaprocessual.tst.jus.br/consultaProcessual/resumoForm.do"
@@ -26,7 +26,7 @@ URLs oficiais de consulta. Na rodada de 2026-08-11, a configuracao respondeu:
 ### Busca textual
 
 ```text
-POST https://jurisprudencia-backend2.tst.jus.br/rest/pesquisa-textual/{inicio}/{limite}?a={cache_buster}
+POST https://jurisprudencia-backend.tst.jus.br/rest/pesquisa-textual/{inicio}/{limite}?a={cache_buster}
 Content-Type: application/json
 ```
 
@@ -60,6 +60,13 @@ O corpo observado pelo frontend possui estes grupos:
 `inicio` e 1-based. O frontend envia, por exemplo, `1/20` para a primeira
 pagina. O retorno observado e JSON com `totalRegistros`, `registros` e
 `agregacoes`.
+
+Quando selecionados, os filtros de orgao julgador, ministro, convocado, classe
+processual e indicador sao enviados como os objetos completos dos catalogos
+oficiais, e nao apenas como rotulos. Assuntos sao enviados como IDs oficiais
+aplanados da arvore do catalogo. O provider resolve esses filtros por codigo
+ou nome, com cache por instancia para evitar chamadas extras em consultas sem
+refinamento.
 
 ### Catalogos de filtros
 
@@ -157,7 +164,18 @@ jurisprudencia trabalhista do TST.
 - [x] Documento HTML por `GET /rest/documentos/{id}`.
 - [x] Catalogo de filtros pelas seis rotas REST publicas declaradas.
 - [x] HTTP 401/429 e contrato nao-JSON tratados explicitamente.
-- [ ] Teste live opt-in, com `page_size` pequeno e sem termo vazio.
+- [x] Teste live opt-in, com `page_size` pequeno e sem termo vazio.
+
+## Validacao live atual
+
+Evidence REA: `ev_387c43b12c2ad0547fdf87c3d2eb0b9a8c1bb445f6543243e2bee0bc560700ce`.
+
+Em 12/10/2026, a SPA oficial respondeu HTTP 200 e carregou os seis catalogos
+publicos. O provider local foi exercitado contra a API atual, retornando
+857.314 registros para `responsabilidade civil`, com resultados JSON reais e
+inteiro teor HTML publico recuperavel pela rota `/rest/documentos/{id}`.
+O teste live opt-in tambem verifica o registro e o documento, sem login ou
+contorno de controles.
 
 ## Uso pelo MCP
 

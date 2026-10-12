@@ -42,7 +42,9 @@ class NanoJurisConfig:
     stj_dados_abertos_url: str = "https://dadosabertos.web.stj.jus.br"
     stm_jurisprudencia_url: str = "https://jurisprudencia.stm.jus.br"
     tst_jurisprudencia_url: str = "https://jurisprudencia.tst.jus.br"
-    tst_jurisprudencia_api_url: str = "https://jurisprudencia-backend2.tst.jus.br"
+    # The TST frontend currently publishes jurisprudencia-backend.tst.jus.br
+    # in /config.json. Keep the API host aligned with that public contract.
+    tst_jurisprudencia_api_url: str = "https://jurisprudencia-backend.tst.jus.br"
     tce_sp_url: str = "https://www.tce.sp.gov.br"
     tce_pr_viajuris_url: str = "https://viajuris.tce.pr.gov.br"
     tre_sp_url: str = "https://www.tre-sp.jus.br"

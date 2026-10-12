@@ -19,6 +19,7 @@ from nanojuris.errors import (
     ParserContractChangedError,
     RateLimitDetectedError,
     SourceUnavailableError,
+    UnsupportedQueryError,
 )
 from nanojuris.models import (
     AccessStatus,
@@ -35,7 +36,9 @@ from nanojuris.models import (
 from nanojuris.pagination import page_completeness
 from nanojuris.providers.base import JurisprudenceProvider
 
-TST_ID_RE = re.compile(r"[a-f0-9]{32}", re.IGNORECASE)
+# The public TST backend currently emits both 31- and 32-character hex ids
+# (some records lose a leading zero). Both forms are accepted by /documentos.
+TST_ID_RE = re.compile(r"[a-f0-9]{31,32}", re.IGNORECASE)
 CNJ_RE = re.compile(r"^(\d{7})[-.]?(\d{2})[-.]?(\d{4})[-.]?(\d)[-.]?(\d{2})[-.]?(\d{4})$")
 
 
@@ -53,9 +56,10 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         self.session = configure_requests_session(session or requests.Session(), self.config)
         self._last_request = 0.0
         self._last_http_metadata: dict[str, Any] = {}
+        self._filter_catalog_cache: dict[str, list[dict[str, Any]]] = {}
 
     def search(self, query: JurisprudenceQuery) -> SearchPage:
-        payload = build_tst_search_payload(query)
+        payload = self._build_search_payload(query)
         page_size = _page_size(query.page_size)
         endpoint = f"/rest/pesquisa-textual/{_page_start(query.page, page_size)}/{page_size}"
         data, source_url = self._request_json(endpoint, payload)
@@ -68,6 +72,10 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
                 "page": query.page,
                 "page_size": page_size,
                 "body_contract": "tst_pesquisa_textual_v1",
+                "courts": query.courts,
+                "types": query.types,
+                "rapporteur": query.rapporteur,
+                "judging_body": query.judging_body,
             },
             source_url=source_url,
             limitations=[
@@ -241,11 +249,17 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
             completeness_contract="reported_total_and_offset_window",
             supported_filters=[
                 "text",
+                "courts",
                 "all_words",
                 "any_words",
                 "without_words",
                 "exact_phrase",
                 "number",
+                "rapporteur",
+                "judging_body",
+                "case_classes",
+                "indicators",
+                "subjects",
                 "published_from",
                 "published_to",
                 "updated_from",
@@ -279,6 +293,39 @@ class TstJurisprudenciaProvider(JurisprudenceProvider):
         if not isinstance(data, dict):
             raise ParserContractChangedError("TST jurisprudence API JSON root is not an object")
         return data, getattr(response, "url", self.api_url + endpoint)
+
+    def _build_search_payload(self, query: JurisprudenceQuery) -> dict[str, Any]:
+        """Build a payload, resolving human filters through official catalogs."""
+
+        catalogs: dict[str, list[dict[str, Any]]] = {}
+        if query.judging_body:
+            catalogs["orgaos-judicantes"] = self._load_filter_catalog("orgaos-judicantes")
+        if query.rapporteur:
+            catalogs["ministros"] = self._load_filter_catalog("ministros")
+            catalogs["convocados"] = self._load_filter_catalog("convocados")
+        if query.case_classes:
+            catalogs["classes-processuais"] = self._load_filter_catalog("classes-processuais")
+        if query.indicators:
+            catalogs["indicadores"] = self._load_filter_catalog("indicadores")
+        if query.subjects:
+            catalogs["assuntos"] = self._load_filter_catalog("assuntos")
+        return build_tst_search_payload(query, catalog_options=catalogs)
+
+    def _load_filter_catalog(self, route: str) -> list[dict[str, Any]]:
+        cached = self._filter_catalog_cache.get(route)
+        if cached is not None:
+            return cached
+        response = self._request("GET", f"/rest/{route}")
+        try:
+            payload = response.json()
+        except ValueError as exc:
+            raise ParserContractChangedError(
+                f"TST catalog {route} returned non-JSON content"
+            ) from exc
+        if not isinstance(payload, list) or not all(isinstance(item, dict) for item in payload):
+            raise ParserContractChangedError(f"TST catalog {route} has an invalid shape")
+        self._filter_catalog_cache[route] = payload
+        return payload
 
     def _request_text(self, endpoint: str) -> tuple[str, str]:
         response = self._request("GET", endpoint)
@@ -365,7 +412,11 @@ def _trace_with_http_metadata(trace: SourceTrace, metadata: dict[str, Any]) -> S
     )
 
 
-def build_tst_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
+def build_tst_search_payload(
+    query: JurisprudenceQuery,
+    *,
+    catalog_options: dict[str, list[dict[str, Any]]] | None = None,
+) -> dict[str, Any]:
     """Build the JSON body emitted by the official TST frontend."""
 
     if not any(
@@ -381,9 +432,43 @@ def build_tst_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
             query.updated_from,
             query.updated_to,
             query.types,
+            query.courts,
+            query.rapporteur,
+            query.judging_body,
+            query.case_classes,
+            query.indicators,
+            query.subjects,
         ]
     ):
         raise ValueError("TST jurisprudence search requires a term, number or filter")
+    catalogs = catalog_options or {}
+    ministers, convocados = _resolve_rapporteurs(
+        query.rapporteur,
+        ministers=catalogs.get("ministros", []),
+        convocados=catalogs.get("convocados", []),
+    )
+    judging_bodies = _resolve_catalog_filter(
+        query.judging_body,
+        catalogs.get("orgaos-judicantes", []),
+        code_keys=("codigo",),
+        text_keys=("sigla", "descricao"),
+        label="judging_body",
+    )
+    case_classes = _resolve_catalog_filter(
+        ",".join(query.case_classes),
+        catalogs.get("classes-processuais", []),
+        code_keys=("codFase",),
+        text_keys=("desFase",),
+        label="case_classes",
+    )
+    indicators = _resolve_catalog_filter(
+        ",".join(query.indicators),
+        catalogs.get("indicadores", []),
+        code_keys=("codIndicador",),
+        text_keys=("desIndicador",),
+        label="indicators",
+    )
+    subjects = _resolve_subject_ids(query.subjects, catalogs.get("assuntos", []))
     return {
         "ou": query.any_words,
         "e": query.all_words or query.text,
@@ -392,20 +477,175 @@ def build_tst_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
         "ementa": "",
         "dispositivo": "",
         "numeracaoUnica": _case_number_payload(query.number),
-        "orgaosJudicantes": [],
-        "ministros": [],
-        "convocados": [],
-        "classesProcessuais": [],
-        "indicadores": [],
-        "assuntos": [],
+        "orgaosJudicantes": judging_bodies,
+        "ministros": ministers,
+        "convocados": convocados,
+        "classesProcessuais": case_classes,
+        "indicadores": indicators,
+        "assuntos": subjects,
         "tipos": [_tst_type(value) for value in (query.types or ["ACORDAO"])],
-        "orgao": "TST",
+        "orgao": _tst_court(query.courts),
         "publicacaoInicial": query.published_from,
         "publicacaoFinal": query.published_to,
         "julgamentoInicial": query.updated_from,
         "julgamentoFinal": query.updated_to,
         "ordenacao": "numero" if query.order_by.strip().lower() in {"number", "numero"} else "data",
     }
+
+
+def _resolve_subject_ids(
+    values: list[str],
+    options: list[dict[str, Any]],
+) -> list[int]:
+    if not values:
+        return []
+    if not options:
+        raise UnsupportedQueryError("TST subjects require the official assuntos catalog")
+    flattened = list(_flatten_subject_options(options))
+    by_id: dict[str, int] = {}
+    by_label: dict[str, int] = {}
+    for item in flattened:
+        raw_id = item.get("id") or item.get("value")
+        raw_id_text = str(raw_id or "")
+        if not raw_id_text.isdigit():
+            continue
+        subject_id = int(raw_id_text)
+        by_id[raw_id_text] = subject_id
+        label = _without_accents(str(item.get("label") or "")).casefold()
+        if label:
+            by_label[label] = subject_id
+    selected: list[int] = []
+    unresolved: list[str] = []
+    for value in values:
+        for token in _split_filter_values(value):
+            normalized = _without_accents(token).casefold()
+            resolved_id: int | None = by_id.get(token) or by_label.get(normalized)
+            if resolved_id is None:
+                unresolved.append(token)
+            elif resolved_id not in selected:
+                selected.append(resolved_id)
+    if unresolved:
+        raise UnsupportedQueryError(
+            "TST subject value(s) not found in the official catalog: " + ", ".join(unresolved)
+        )
+    return selected
+
+
+def _flatten_subject_options(options: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    flattened: list[dict[str, Any]] = []
+    for option in options:
+        flattened.append(option)
+        children = option.get("children")
+        if isinstance(children, list):
+            flattened.extend(
+                _flatten_subject_options([child for child in children if isinstance(child, dict)])
+            )
+    return flattened
+
+
+def _resolve_rapporteurs(
+    value: str,
+    *,
+    ministers: list[dict[str, Any]],
+    convocados: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    if not value:
+        return [], []
+    minister_matches: list[dict[str, Any]] = []
+    convocado_matches: list[dict[str, Any]] = []
+    for token in _split_filter_values(value):
+        token_ministers = _resolve_catalog_filter(
+            token,
+            ministers,
+            code_keys=("codMin",),
+            text_keys=("nomMin",),
+            label="rapporteur",
+            allow_partial=True,
+        )
+        token_convocados = _resolve_catalog_filter(
+            token,
+            convocados,
+            code_keys=("codMin",),
+            text_keys=("nomMin",),
+            label="rapporteur",
+            allow_partial=True,
+        )
+        if not token_ministers and not token_convocados:
+            raise UnsupportedQueryError(
+                "TST rapporteur was not found in the official ministers/convocados catalogs: "
+                + token
+            )
+        for match in token_ministers:
+            if match not in minister_matches:
+                minister_matches.append(match)
+        for match in token_convocados:
+            if match not in convocado_matches:
+                convocado_matches.append(match)
+    return minister_matches, convocado_matches
+
+
+def _resolve_catalog_filter(
+    value: str,
+    options: list[dict[str, Any]],
+    *,
+    code_keys: tuple[str, ...],
+    text_keys: tuple[str, ...],
+    label: str,
+    allow_partial: bool = False,
+) -> list[dict[str, Any]]:
+    if not value:
+        return []
+    if not options:
+        if allow_partial:
+            return []
+        raise UnsupportedQueryError(f"TST {label} requires the corresponding official catalog")
+    selected: list[dict[str, Any]] = []
+    unresolved: list[str] = []
+    for token in _split_filter_values(value):
+        normalized_token = _without_accents(token).casefold()
+        matches = [
+            option
+            for option in options
+            if any(
+                _without_accents(str(option.get(key) or "")).casefold() == normalized_token
+                for key in (*code_keys, *text_keys)
+            )
+        ]
+        if not matches and allow_partial:
+            matches = [
+                option
+                for option in options
+                if any(
+                    normalized_token in _without_accents(str(option.get(key) or "")).casefold()
+                    for key in text_keys
+                )
+            ]
+        if not matches:
+            unresolved.append(token)
+            continue
+        for match in matches:
+            if match not in selected:
+                selected.append(match)
+    if unresolved and not allow_partial:
+        raise UnsupportedQueryError(
+            f"TST {label} value(s) not found in the official catalog: {', '.join(unresolved)}"
+        )
+    return selected
+
+
+def _split_filter_values(value: str) -> list[str]:
+    return [item.strip() for item in re.split(r"[,;|]", value) if item.strip()]
+
+
+def _tst_court(values: list[str]) -> str:
+    if not values:
+        return "TST"
+    normalized = {_without_accents(value).strip().upper() for value in values if value.strip()}
+    if not normalized:
+        return "TST"
+    if normalized <= {"TST", "CSJT"}:
+        return "CSJT" if "CSJT" in normalized else "TST"
+    raise UnsupportedQueryError("TST courts must contain only TST or CSJT")
 
 
 def parse_tst_search_response(
@@ -501,6 +741,9 @@ def _record_to_result(
         summary=summary or None,
         rapporteur=_optional_str(record.get("nomRelator")),
         updated_at=_optional_str(record.get("dtaPublicacao") or record.get("dtaJulgamento")),
+        source_updated_at=_optional_str(record.get("dtaAtualizacao")),
+        judgment_date=_optional_str(record.get("dtaJulgamento")),
+        publication_date=_optional_str(record.get("dtaPublicacao")),
         access_status=AccessStatus.PUBLIC if source_trace.http_status == 200 else None,
         source_trace=source_trace,
         raw={

@@ -133,6 +133,13 @@ class NanoJurisClient:
         "source_origins",
         "origins",
         "fetch_details",
+        "case_classes",
+        "classes",
+        "classes_processuais",
+        "indicators",
+        "indicadores",
+        "subjects",
+        "assuntos",
     }
 
     def __init__(
@@ -243,6 +250,23 @@ class NanoJurisClient:
                 source_origin=str(filters.get("source_origin") or filters.get("origin") or ""),
                 source_origins=list(filters.get("source_origins") or filters.get("origins") or []),
                 fetch_details=bool(filters.get("fetch_details") or False),
+                case_classes=[
+                    str(value)
+                    for value in (
+                        filters.get("case_classes")
+                        or filters.get("classes")
+                        or filters.get("classes_processuais")
+                        or []
+                    )
+                ],
+                indicators=[
+                    str(value)
+                    for value in (filters.get("indicators") or filters.get("indicadores") or [])
+                ],
+                subjects=[
+                    str(value)
+                    for value in (filters.get("subjects") or filters.get("assuntos") or [])
+                ],
             )
         except ValueError as exc:
             raise InvalidQueryError(str(exc)) from exc
@@ -267,6 +291,9 @@ class NanoJurisClient:
                 "source_origin": query.source_origin,
                 "source_origins": query.source_origins,
                 "fetch_details": query.fetch_details,
+                "case_classes": query.case_classes,
+                "indicators": query.indicators,
+                "subjects": query.subjects,
             },
         )
         if unsupported:
@@ -405,6 +432,13 @@ class NanoJurisClient:
                 "source_origin": filters.get("source_origin") or filters.get("origin"),
                 "source_origins": filters.get("source_origins") or filters.get("origins"),
                 "fetch_details": filters.get("fetch_details"),
+                "case_classes": (
+                    filters.get("case_classes")
+                    or filters.get("classes")
+                    or filters.get("classes_processuais")
+                ),
+                "indicators": filters.get("indicators") or filters.get("indicadores"),
+                "subjects": filters.get("subjects") or filters.get("assuntos"),
             },
         )
         results: list[UnifiedSearchRecord] = []
