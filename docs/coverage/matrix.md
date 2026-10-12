@@ -38,7 +38,7 @@ Gerado por `python tools/build_provider_coverage.py --write`. Nao edite manualme
 | [`tjpb_pje_jurisprudencia`](../providers/tjpb_pje_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 85 | `gold` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |
 | [`tjpe_jurisprudencia`](../providers/tjpe_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 84 | `blocked` | `P0_harden_for_unified_search` | `source_unavailable` | sim | sim | `implementation_ready` |
 | [`tjpi_juspi`](../providers/tjpi_juspi/README.md) | implemented | `primary_textual_jurisprudence` | 85 | `gold` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |
-| [`tjpr_jurisprudencia`](../providers/tjpr_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 89 | `gold` | `P0_reference_provider` | `valid` | sim | nao | `implementation_ready` |
+| [`tjpr_jurisprudencia`](../providers/tjpr_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 92 | `gold` | `P0_reference_provider` | `valid` | sim | sim | `implementation_ready` |
 | [`tjrj_ejuris`](../providers/tjrj_ejuris/README.md) | candidate | `mapped_candidate` | 11 | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |
 | [`tjrj_eproc_jurisprudencia`](../providers/tjrj_eproc_jurisprudencia/README.md) | implemented | `primary_textual_jurisprudence` | 82 | `silver` | `P0_harden_for_unified_search` | `valid` | sim | sim | `needs_deepening` |
 | [`tjrn_jurisprudencia`](../providers/tjrn_jurisprudencia/README.md) | candidate | `mapped_candidate` | 15 | `mapped` | `P1_candidate_contract` | `not_checked_in_latest_focused_run` | nao | nao | `research_ready` |

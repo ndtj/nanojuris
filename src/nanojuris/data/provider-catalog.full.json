@@ -10483,8 +10483,8 @@
           "decisao_monocratica",
           "decisao"
         ],
-        "full_text_access": "not_available",
-        "supports_full_text": false,
+        "full_text_access": "detail_call",
+        "supports_full_text": true,
         "trace_expected": true
       },
       "documentation": {
@@ -10505,8 +10505,8 @@
         ],
         "limitations": [
           "Filtros de classe, relator, comarca, orgao e assunto exigem IDs obtidos pelos controles da propria pagina e ainda nao sao inferidos.",
-          "O link de detalhe deve ser preservado da resposta; o provider nao monta slug.",
-          "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor."
+          "O detalhe publico e resolvido pelo identificador oficial retornado; o provider usa a rota sem slug e nao inventa conteudo.",
+          "Acordaos podem expor somente ementa; decisoes monocraticas podem expor texto integral transcrito. O provider preserva a diferenca."
         ],
         "risk_level": "medio"
       },
@@ -10531,7 +10531,8 @@
           "published_from",
           "published_to",
           "updated_from",
-          "updated_to"
+          "updated_to",
+          "fetch_details"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -10622,33 +10623,32 @@
         "dimensions": {
           "documentation": 20,
           "input": 16,
-          "output": 22,
+          "output": 25,
           "product": 15,
           "reliability": 16
         },
         "grade": "A",
         "next_actions": [
-          "manter monitoramento e ampliar fixtures por variacao juridica"
+          "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 89
+        "total": 92
       },
       "maturity_tier": "gold",
       "mcp": {
         "enabled": true,
         "limitations": [
           "Filtros de classe, relator, comarca, orgao e assunto exigem IDs obtidos pelos controles da propria pagina e ainda nao sao inferidos.",
-          "O link de detalhe deve ser preservado da resposta; o provider nao monta slug.",
-          "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor."
+          "O detalhe publico e resolvido pelo identificador oficial retornado; o provider usa a rota sem slug e nao inventa conteudo.",
+          "Acordaos podem expor somente ementa; decisoes monocraticas podem expor texto integral transcrito. O provider preserva a diferenca."
         ],
         "status": "declared"
       },
-      "not_recommended_for": [
-        "full_text_only_research"
-      ],
+      "not_recommended_for": [],
       "offline_status": "complete",
       "output_contract": {
         "canonical_records": [
-          "CanonicalDecision"
+          "CanonicalDecision",
+          "CanonicalDocument"
         ],
         "content_formats": [
           "html"
@@ -10666,10 +10666,11 @@
           "judging_body",
           "judgment_date",
           "summary",
+          "full_text",
           "document_url",
           "secret_or_pending_content"
         ],
-        "supports_full_text": false,
+        "supports_full_text": true,
         "trace_expected": true
       },
       "pagination_contract": {
@@ -10704,7 +10705,8 @@
           "published_from",
           "published_to",
           "updated_from",
-          "updated_to"
+          "updated_to",
+          "fetch_details"
         ],
         "supports_catalog": false,
         "supports_suggestions": false,
@@ -10717,7 +10719,8 @@
         "display_name": "TJPR Jurisprudencia",
         "evidence": {
           "canonical_records": [
-            "CanonicalDecision"
+            "CanonicalDecision",
+            "CanonicalDocument"
           ],
           "completeness_contract": "reported_tjpr_window",
           "document_types": [
@@ -10737,13 +10740,14 @@
             "judging_body",
             "judgment_date",
             "summary",
+            "full_text",
             "document_url",
             "secret_or_pending_content"
           ],
           "limitations": [
             "Filtros de classe, relator, comarca, orgao e assunto exigem IDs obtidos pelos controles da propria pagina e ainda nao sao inferidos.",
-            "O link de detalhe deve ser preservado da resposta; o provider nao monta slug.",
-            "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor."
+            "O detalhe publico e resolvido pelo identificador oficial retornado; o provider usa a rota sem slug e nao inventa conteudo.",
+            "Acordaos podem expor somente ementa; decisoes monocraticas podem expor texto integral transcrito. O provider preserva a diferenca."
           ],
           "pagination_mode": "page",
           "responsible_use": [
@@ -10758,7 +10762,7 @@
             "metadata"
           ],
           "supports_catalog": false,
-          "supports_full_text": false,
+          "supports_full_text": true,
           "supports_live_tests": true,
           "supports_mcp": true,
           "supports_suggestions": false
@@ -10774,6 +10778,7 @@
           "Criar ou atualizar dossie em docs/providers/<provider>/README.md e manter a copia de compatibilidade em docs/source-contracts.",
           "Salvar fixtures publicas para sucesso, vazio e erro esperado.",
           "Adicionar teste de parser e teste de contrato de erro.",
+          "Validar get_document/get_decisions com documento publico e trace completo.",
           "Atacar primeiro: Ampliar fixtures por filtros e estados de conteudo pendente."
         ],
         "risk_level": "medio",
@@ -10784,6 +10789,7 @@
           "Categoria operacional: court_jurisprudence.",
           "Possui endpoints/rotas publicas declaradas.",
           "Declara campos extraidos para auditoria.",
+          "Suporta algum fluxo de inteiro teor/documento publico.",
           "Possui teste live opcional para verificacao controlada."
         ]
       },
@@ -10792,8 +10798,8 @@
         "enabled": true,
         "limitations": [
           "Filtros de classe, relator, comarca, orgao e assunto exigem IDs obtidos pelos controles da propria pagina e ainda nao sao inferidos.",
-          "O link de detalhe deve ser preservado da resposta; o provider nao monta slug.",
-          "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor."
+          "O detalhe publico e resolvido pelo identificador oficial retornado; o provider usa a rota sem slug e nao inventa conteudo.",
+          "Acordaos podem expor somente ementa; decisoes monocraticas podem expor texto integral transcrito. O provider preserva a diferenca."
         ],
         "status": "declared"
       }
@@ -17254,7 +17260,7 @@
     "implemented_sources": 46,
     "primary_textual_sources": 34,
     "score": {
-      "average": 78.7,
+      "average": 78.8,
       "needs_attention": [
         "tjce_cjsg",
         "tjgo_projudi_jurisprudencia",
@@ -17269,13 +17275,13 @@
       ],
       "top": [
         "tjdf_juris",
+        "tjpr_jurisprudencia",
         "tjba_graphql",
         "tnu_eproc_jurisprudencia",
-        "tst_jurisprudencia",
-        "tjpr_jurisprudencia"
+        "tst_jurisprudencia"
       ]
     },
-    "sources_with_full_text": 27,
+    "sources_with_full_text": 28,
     "total_sources": 56,
     "unified_search_sources": 42
   }

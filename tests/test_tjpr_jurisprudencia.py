@@ -19,6 +19,7 @@ from nanojuris.providers.tjpr_jurisprudencia import (
     TjprJurisprudenciaProvider,
     _clean_tjpr_ementa,
     _form_payload,
+    _tjpr_detail_is_partial,
     parse_tjpr_results,
 )
 
@@ -198,6 +199,80 @@ def test_client_registers_tjpr_provider():
     assert "tjpr_jurisprudencia" in {item.source for item in NanoJurisClient().list_sources()}
 
 
+def test_provider_fetches_public_detail_as_ementa_document():
+    detail = load_fixture("tjpr_jurisprudencia_detail.html")
+    session = FakeSession(
+        [
+            FakeResponse(
+                detail,
+                url="https://portal.tjpr.jus.br/jurisprudencia/j/2100000000000001/",
+            ),
+            FakeResponse(
+                detail,
+                url="https://portal.tjpr.jus.br/jurisprudencia/j/2100000000000001/",
+            ),
+        ]
+    )
+    provider = TjprJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=session,
+    )
+
+    document = provider.get_document("tjpr-2100000000000001")
+    bundle = provider.get_decisions("tjpr-2100000000000001")
+
+    assert document.document_type == "jurisprudencia_ementa"
+    assert "DANO MORAL" in (document.text or "")
+    assert document.raw_metadata["detail_is_ementa_only"] is True
+    assert document.source_trace is not None
+    assert document.source_trace.endpoint == "GET /jurisprudencia/j/{id}/"
+    assert bundle.texts[0]["content"] == document.text
+    assert [call["method"] for call in session.calls] == ["GET", "GET"]
+
+
+def test_search_fetch_details_preserves_ementa_only_status():
+    results = load_fixture("tjpr_jurisprudencia_results.html")
+    detail = load_fixture("tjpr_jurisprudencia_detail.html")
+    session = FakeSession(
+        [
+            FakeResponse(results),
+            FakeResponse(results),
+            FakeResponse(
+                detail,
+                url="https://portal.tjpr.jus.br/jurisprudencia/j/2100000000000001/",
+            ),
+        ]
+    )
+    provider = TjprJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=session,
+    )
+
+    page = provider.search(
+        JurisprudenceQuery(text="responsabilidade civil", page_size=1, fetch_details=True)
+    )
+
+    result = page.results[0]
+    assert result.full_text is None
+    assert result.raw["full_text_status"] == "ementa_only"
+    assert "DANO MORAL" in result.raw["detail_content"]
+
+
+def test_provider_rejects_unreconstructable_detail_id():
+    provider = TjprJurisprudenciaProvider(
+        NanoJurisConfig(rate_limit_interval=0),
+        session=FakeSession([]),
+    )
+
+    with pytest.raises(ParserContractChangedError):
+        provider.get_document("tjpr-not-a-source-id")
+
+
+def test_detail_access_flag_reads_the_declared_secret_value_only():
+    assert _tjpr_detail_is_partial("Segredo de Justiça: Não. Texto simples público.") is False
+    assert _tjpr_detail_is_partial("Segredo de Justiça: Sim. Conteúdo protegido.") is True
+
+
 def test_form_payload_preserves_successful_public_form_controls():
     form = parse_html(
         """
@@ -228,7 +303,8 @@ def test_form_payload_preserves_successful_public_form_controls():
 def test_provider_capabilities_describe_partial_full_text_contract():
     capabilities = TjprJurisprudenciaProvider(session=FakeSession([])).get_capabilities()
     assert capabilities.source == "tjpr_jurisprudencia"
-    assert capabilities.supports_full_text is False
+    assert capabilities.supports_full_text is True
+    assert capabilities.full_text_access == "detail_call"
     assert "number" in capabilities.supported_filters
     assert "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar" in capabilities.endpoints
 

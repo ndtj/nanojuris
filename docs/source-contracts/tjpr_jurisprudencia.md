@@ -1,6 +1,7 @@
 # TJPR - Pesquisa De Jurisprudencia
 
-Status atual: `implemented`; parser HTML, contrato e fixtures offline estao registrados no pacote.
+Status atual: `implemented`; busca live e detalhe publico estao implementados,
+com contrato HTML e fixtures offline registrados no pacote.
 
 ## Implementacao Atual
 
@@ -11,13 +12,15 @@ Status atual: `implemented`; parser HTML, contrato e fixtures offline estao regi
 - Busca live validada em 2026-08-12 com `responsabilidade civil`: HTTP 200,
   total reportado pela fonte e resultados com identificador, processo, tipo,
   relator, orgao, data e URL oficial.
-- O status `implemented` nao promete disponibilidade permanente nem inteiro
-  teor. O provider declara `supports_full_text=False` e preserva acesso parcial
-  para segredo de justica ou conteudo pendente de liberacao.
+- O status `implemented` nao promete disponibilidade permanente. O provider
+  declara `supports_full_text=True` porque a rota de detalhe pode entregar texto
+  integral para decisoes monocraticas; quando o detalhe exibe somente ementa,
+  isso permanece marcado como `ementa_only`.
 
 ## Contrato Observado
 
-- Rota: `GET https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true`.
+- Rota inicial: `GET https://portal.tjpr.jus.br/jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true`.
+- Rota de busca: `POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar`.
 - Resposta: HTML publico.
 - Evidencia: HTTP 200 em sessao limpa, sem captcha/login no teste inicial.
 
@@ -58,25 +61,26 @@ principal informa faixa de ate 50 registros do TJPR, ate 40 registros na
 secao do tribunal e ate 10 registros da Corte IDH. Esses numeros sao limites
 de apresentacao observados, nao autorizacao para coleta sem limite.
 
-O detalhe segue links oficiais no formato observado:
+O detalhe segue a identificacao oficial retornada no resultado. A rota sem slug
+foi validada e evita reconstruir texto de URL:
 
 ```text
-GET https://portal.tjpr.jus.br/jurisprudencia/j/{identificador}/{slug}
+GET https://portal.tjpr.jus.br/jurisprudencia/j/{identificador}/
 ```
 
-`{slug}` e o identificador devem ser extraidos do HTML. O provider nao deve
-montar o slug nem presumir que todo resultado tem inteiro teor.
+O slug original continua preservado no resultado bruto. O provider nao presume
+que todo resultado tenha inteiro teor.
 
 ### Filtros Publicos
 
 | Filtro exibido | Escopo | Parametro HTTP |
 | --- | --- | --- |
 | texto/ementa | pesquisa geral | nome exato ainda pendente |
-| Classe | TJPR | nome exato ainda pendente |
-| Relator | TJPR | nome exato ainda pendente |
-| Comarca | TJPR | nome exato ainda pendente |
-| Orgao Julgador | TJPR | nome exato ainda pendente |
-| Assunto | TJPR | nome exato ainda pendente |
+| Classe | TJPR | `idClasseProcessual` |
+| Relator | TJPR | `idRelator` |
+| Comarca | TJPR | `idComarca` |
+| Orgao Julgador | TJPR | `idOrgaoJulgador` |
+| Assunto | TJPR | `idAssunto` |
 | Ano da publicacao | TJPR | nome exato ainda pendente |
 | Pais | Corte IDH | nome exato ainda pendente |
 | Tema | Corte IDH | nome exato ainda pendente |
@@ -106,7 +110,14 @@ teor.
   sem calcular offsets por estimativa.
 - O grande volume exibido pelo portal exige pagina pequena e rate limit local.
 
-### MCP E Promocao
+### Detalhe Publico E Promocao
+
+O provider implementa `get_document()` e `get_decisions()` para o identificador
+numerico retornado pela fonte. O detalhe preserva HTML bruto, hash, URL, ementa,
+metadata e status de acesso. `fetch_details=True` carrega esses dados sob demanda;
+se houver `#texto{id}`, preenche `full_text`; se houver somente `#ementa{id}`,
+mantem o conteúdo em `raw.detail_content` e marca `raw.full_text_status` como
+`ementa_only`.
 
 O MCP deve declarar separadamente resultados TJPR e Corte IDH, registrar filtros
 efetivos, faixa retornada, total e links oficiais. Promover somente depois de
@@ -127,9 +138,10 @@ teor.
 ## Proximos passos
 
 Manter fixture de formulario com nomes dos parametros, multivalores,
-ordenacao, pagina, vazio, detalhe e resultado sem conteudo. A busca e o parser
-offline ja estao implementados; o proximo gate e comprovar uma pagina seguinte
-estavel e o contrato de detalhe antes de anunciar inteiro teor.
+ordenacao, pagina, vazio, detalhe e resultado sem conteudo. A busca, o parser
+offline e as duas variantes de detalhe (`#ementa{id}` e `#texto{id}`) estao
+implementados; o proximo gate e ampliar os filtros tipados e a cobertura live
+de pagina seguinte.
 
 ## Validacao live de capacidade - 2026-08-16
 
@@ -159,3 +171,18 @@ Evidencia estruturada: `docs/validation/runs/20260816T084500Z-tjpr-tjrr-capacity
   parser, nao um teto comprovado da fonte.
 
 Evidencia estruturada: `docs/validation/runs/20260816T094054Z-wave2-acceptance-20260816.json`.
+
+## Revalidacao REA E Live - 2026-10-12
+
+- REA observou a rota oficial em Chromium 154 com HTTP 200, formulario
+  `pesquisaForm`, filtros nomeados e navegacao da pagina 1 para as paginas
+  seguintes. Evidencia: `ev_172ea2234b49a337a79f6305fb2e8fc3b26ca8edac944cd5916f95e1545c9a6e`.
+- Busca live `dano moral`, `page_size=1`: total 822.457, resultado
+  `tjpr-4100000038540201`, processo `0002150-64.2025.8.16.0160`, detalhe HTTP
+  200 com `#ementa{id}` e acesso parcial por segredo de justica.
+- Busca live `responsabilidade civil`, `page_size=1`: total 1.016.471,
+  resultado `tjpr-4100000038427372`, processo `0002136-79.2025.8.16.0128`,
+  detalhe HTTP 200 com `#texto{id}`, acesso publico e texto transcrito.
+
+Essas observacoes comprovam duas variantes reais do contrato de detalhe; elas
+nao significam que todo registro do acervo tenha inteiro teor liberado.

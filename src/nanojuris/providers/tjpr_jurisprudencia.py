@@ -10,8 +10,10 @@ from typing import Any
 from urllib.parse import urljoin
 
 import requests
+from bs4 import BeautifulSoup
 
 from nanojuris.config import NanoJurisConfig, configure_requests_session
+from nanojuris.documents import build_canonical_document
 from nanojuris.errors import (
     AccessControlRequiredError,
     ParserContractChangedError,
@@ -20,6 +22,7 @@ from nanojuris.errors import (
 )
 from nanojuris.models import (
     AccessStatus,
+    CanonicalDocument,
     DecisionBundle,
     ExtractionStatus,
     JurisprudenceQuery,
@@ -78,17 +81,131 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             ],
             **self._last_http_metadata,
         )
-        return parse_tjpr_results(
+        page = parse_tjpr_results(
             html,
             query=query,
             trace=trace,
             base_url=self.config.tjpr_jurisprudencia_url,
         )
+        if query.fetch_details:
+            for result in page.results:
+                document = self.get_document(result.id)
+                result.raw["detail_content"] = document.text
+                result.raw["detail_content_type"] = document.content_type
+                result.raw["detail_access_status"] = document.access_status.value
+                result.raw["detail_sha256"] = document.sha256
+                result.raw["detail_response_bytes"] = document.byte_size
+                result.raw["document_url"] = document.url or result.raw.get("document_url")
+                if document.raw_metadata.get("detail_has_full_text"):
+                    result.full_text = document.text
+                    result.raw["full_text_status"] = "loaded"
+                else:
+                    result.raw["full_text_status"] = "ementa_only"
+                result.extraction_status = document.extraction_status
+        return page
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:
-        raise NotImplementedError(
-            "TJPR exige o link de detalhe retornado pela pesquisa; nao e seguro "
-            "reconstruir o slug a partir de um identificador isolado."
+        document = self.get_document(precedent_id)
+        return DecisionBundle(
+            precedent_id=precedent_id,
+            source=self.name,
+            texts=[
+                {
+                    "content": document.text or "",
+                    "content_type": document.content_type or "text/plain",
+                    "source_content_type": document.content_type,
+                }
+            ],
+            source_trace=document.source_trace,
+            raw=document.raw_metadata,
+            raw_bytes=document.raw_bytes,
+        )
+
+    def get_document(self, document_id: str) -> CanonicalDocument:
+        source_id = _parse_tjpr_document_id(document_id)
+        endpoint = f"/jurisprudencia/j/{source_id}/"
+        self._respect_rate_limit()
+        url = urljoin(self.config.tjpr_jurisprudencia_url.rstrip("/") + "/", endpoint.lstrip("/"))
+        headers = {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "User-Agent": self.config.user_agent,
+        }
+        try:
+            response = self.session.get(
+                url,
+                headers=headers,
+                timeout=self.config.timeout,
+                verify=self.config.verify_ssl,
+            )
+            _raise_for_tjpr_response(response, "TJPR detail")
+        except (AccessControlRequiredError, RateLimitDetectedError):
+            raise
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"TJPR detail request failed: {exc}") from exc
+
+        content = bytes(getattr(response, "content", b"") or response.text.encode("utf-8"))
+        response_headers = getattr(response, "headers", {}) or {}
+        final_url = _strip_session_id(str(getattr(response, "url", url) or url))
+        soup = BeautifulSoup(response.text, "html.parser")
+        ementa_node = soup.select_one(f"#ementa{source_id}")
+        full_text_node = soup.select_one(f"#texto{source_id}")
+        detail_table = soup.select_one("table.juris-dados-completos")
+        if (ementa_node is None and full_text_node is None) or detail_table is None:
+            raise ParserContractChangedError("TJPR detail missing public content or metadata table")
+        content_node = full_text_node or ementa_node
+        assert content_node is not None
+        extracted_content = _normalize_text(content_node.get_text(" ", strip=True))
+        detail_text = _normalize_text(detail_table.get_text(" ", strip=True))
+        if not extracted_content or not detail_text:
+            raise ParserContractChangedError("TJPR detail returned empty public content")
+
+        is_partial = _tjpr_detail_is_partial(detail_text)
+        access_status = AccessStatus.PARTIAL if is_partial else AccessStatus.PUBLIC
+        detail_is_ementa_only = full_text_node is None
+        trace = SourceTrace(
+            provider=self.name,
+            endpoint="GET /jurisprudencia/j/{id}/",
+            query={"id": source_id},
+            source_url=final_url,
+            final_url=final_url,
+            http_status=int(getattr(response, "status_code", 200) or 200),
+            content_type=response_headers.get("Content-Type")
+            or response_headers.get("content-type"),
+            content_sha256=hashlib.sha256(content).hexdigest(),
+            response_bytes=len(content),
+            retrieval_status="ok",
+            limitations=[
+                "A superficie publica devolve ementa e metadata; isso nao equivale "
+                "ao inteiro teor do acordao.",
+                "Segredo de justica ou conteudo pendente permanece como acesso parcial.",
+            ],
+        )
+        return build_canonical_document(
+            document_id=document_id,
+            source=self.name,
+            document_type="jurisprudencia_ementa" if detail_is_ementa_only else "decisao",
+            content=content,
+            content_type=trace.content_type or "text/html",
+            url=final_url,
+            source_trace=trace,
+            access_status=access_status,
+            raw_metadata={
+                "source_record_id": source_id,
+                "document_url": final_url,
+                "ementa": extracted_content if detail_is_ementa_only else None,
+                "detail_is_ementa_only": detail_is_ementa_only,
+                "detail_has_full_text": not detail_is_ementa_only,
+            },
+            parser="tjpr_jurisprudencia.get_document",
+            text_override=detail_text,
+            title=(
+                f"TJPR jurisprudencia ementa {source_id}"
+                if detail_is_ementa_only
+                else f"TJPR jurisprudencia inteiro teor {source_id}"
+            ),
+            extraction_status_override=(
+                ExtractionStatus.PARTIAL if is_partial else ExtractionStatus.COMPLETE
+            ),
         )
 
     def get_capabilities(self) -> ProviderCapabilities:
@@ -100,7 +217,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             search_modes=["full_text", "case_number", "date_range", "metadata"],
             document_types=["acordao", "decisao_monocratica", "decisao"],
             content_formats=["html"],
-            canonical_records=["CanonicalDecision"],
+            canonical_records=["CanonicalDecision", "CanonicalDocument"],
             extracted_fields=[
                 "source_record_id",
                 "case_number",
@@ -109,6 +226,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
                 "judging_body",
                 "judgment_date",
                 "summary",
+                "full_text",
                 "document_url",
                 "secret_or_pending_content",
             ],
@@ -122,7 +240,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
                 "GET /jurisprudencia/publico/pesquisa.do?actionType=pesquisarRefinado&filtro=true",
                 "POST /jurisprudencia/publico/pesquisa.do?actionType=pesquisar",
             ],
-            supports_full_text=False,
+            supports_full_text=True,
             supports_cli=True,
             supports_unified_search=True,
             supports_mcp=True,
@@ -132,7 +250,7 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_tjpr_window",
-            full_text_access="not_available",
+            full_text_access="detail_call",
             supported_filters=[
                 "text",
                 "number",
@@ -140,12 +258,15 @@ class TjprJurisprudenciaProvider(JurisprudenceProvider):
                 "published_to",
                 "updated_from",
                 "updated_to",
+                "fetch_details",
             ],
             limitations=[
                 "Filtros de classe, relator, comarca, orgao e assunto exigem IDs "
                 "obtidos pelos controles da propria pagina e ainda nao sao inferidos.",
-                "O link de detalhe deve ser preservado da resposta; o provider nao monta slug.",
-                "O texto retornado nesta superficie e ementa/resumo; nao equivale ao inteiro teor.",
+                "O detalhe publico e resolvido pelo identificador oficial retornado; o provider "
+                "usa a rota sem slug e nao inventa conteudo.",
+                "Acordaos podem expor somente ementa; decisoes monocraticas podem expor texto "
+                "integral transcrito. O provider preserva a diferenca.",
             ],
             responsible_use=[
                 "Usar paginas pequenas e respeitar rate limit local.",
@@ -384,6 +505,26 @@ def _query_payload(query: JurisprudenceQuery) -> dict[str, str]:
         "sortColumn": "id",
         "sortOrder": "desc",
     }
+
+
+def _parse_tjpr_document_id(document_id: str) -> str:
+    match = re.fullmatch(r"tjpr-(?P<source_id>\d+)", document_id.strip())
+    if not match:
+        raise ParserContractChangedError("TJPR document id must look like tjpr-<numeric-source-id>")
+    return match.group("source_id")
+
+
+def _tjpr_detail_is_partial(text: str) -> bool:
+    normalized = _normalize_text(text).lower()
+    secret_match = re.search(
+        r"segredo\s+de\s+justi.{0,20}:\s*(sim)\b",
+        normalized,
+    )
+    pending_match = re.search(
+        r"conte[úu�]do\s+pendente\s+de\s+an[áa�]lise",
+        normalized,
+    )
+    return bool(secret_match or pending_match)
 
 
 def _is_tjpr_row(row: HtmlNode) -> bool:

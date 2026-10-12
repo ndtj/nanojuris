@@ -41,7 +41,7 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `tjpb_pje_jurisprudencia` | sim | text, number, case_class, judging_body, rapporteur, published_from, published_to, source_origin | `page` | nao | nao |
 | `tjpe_jurisprudencia` | sim | text, number, published_from, published_to, types, order_by | `offset` | nao | nao |
 | `tjpi_juspi` | sim | text, number, types, rapporteur, source_origin, updated_from, updated_to | `page` | nao | nao |
-| `tjpr_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to | `page` | nao | nao |
+| `tjpr_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to, fetch_details | `page` | nao | nao |
 | `tjrj_ejuris` | nao | - | `unknown` | nao | nao |
 | `tjrj_eproc_jurisprudencia` | sim | text, number, published_from, published_to, updated_from, updated_to | `page` | nao | nao |
 | `tjrn_jurisprudencia` | nao | - | `unknown` | nao | nao |
