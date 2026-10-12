@@ -304,12 +304,18 @@ def parse_tjmt_response(
     items = data.get(key)
     if not isinstance(items, list):
         raise ParserContractChangedError(f"TJMT response missing {key}")
-    results = [_item_to_result(item, trace=trace) for item in items if isinstance(item, dict)]
+    effective_page_size = min(max(int(query.page_size or 10), 1), TJMT_MAX_PAGE_SIZE)
+    results = [
+        _item_to_result(item, trace=trace)
+        for item in items[:effective_page_size]
+        if isinstance(item, dict)
+    ]
     total_key = "CountDecisaoMonocratica" if key.startswith("Decisao") else "CountAcordaoDocumento"
     reported_total = _as_int(
         data.get(total_key), default=_as_int(data.get("CountTotal"), default=len(results))
     )
-    start = ((query.page - 1) * query.page_size) + 1 if results else 0
+    page = max(query.page, 1)
+    start = ((page - 1) * effective_page_size) + 1 if results else 0
     complete, reason = page_completeness(
         reported_total=reported_total,
         start=start,
@@ -321,8 +327,8 @@ def parse_tjmt_response(
         total=reported_total,
         start=start,
         end=start + len(results) - 1 if results else 0,
-        page=query.page,
-        page_size=min(max(query.page_size, 1), TJMT_MAX_PAGE_SIZE),
+        page=page,
+        page_size=effective_page_size,
         results=results,
         aggregations={
             "count_total": data.get("CountTotal"),

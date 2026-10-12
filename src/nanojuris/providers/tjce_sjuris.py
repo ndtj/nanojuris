@@ -271,8 +271,10 @@ def parse_tjce_sjuris_response(
     page_data = data.get("pagina")
     if not isinstance(page_data, dict) or not isinstance(page_data.get("content"), list):
         raise ParserContractChangedError("TJCE/SJURIS response missing pagina.content")
-    items = page_data["content"]
     page_size = _page_size(query.page_size)
+    # Keep the canonical page contract bounded even if the gateway returns an
+    # oversized content array.
+    items = page_data["content"][:page_size]
     results = [_item_to_result(item, trace=trace) for item in items if isinstance(item, dict)]
     reported_total = _as_int(page_data.get("totalElements"), default=len(results))
     start = ((max(query.page - 1, 0) * page_size) + 1) if results else 0

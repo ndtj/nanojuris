@@ -453,7 +453,7 @@ def parse_tjdf_api_response(
         raise ParserContractChangedError("TJDFT API response has invalid registros list")
     if any(not isinstance(item, dict) for item in records_payload):
         raise ParserContractChangedError("TJDFT API response has a non-object registro")
-    results = [_parse_tjdf_api_record(item, trace=trace) for item in records_payload]
+    results = [_parse_tjdf_api_record(item, trace=trace) for item in records_payload[:page_size]]
     aggregations = payload.get("agregacoes", {})
     if aggregations is None:
         aggregations = {}
@@ -512,9 +512,9 @@ def _parse_tjdf_api_record(
         judgment_date=judgment_date,
         publication_date=publication_date,
         access_status=AccessStatus.PUBLIC,
-        extraction_status=ExtractionStatus.COMPLETE,
+        extraction_status=(ExtractionStatus.COMPLETE if full_text else ExtractionStatus.PARTIAL),
         source_trace=trace,
-        raw=dict(record),
+        raw={**record, "external_id": identifier},
     )
 
 

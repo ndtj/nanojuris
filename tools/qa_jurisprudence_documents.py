@@ -69,11 +69,7 @@ def _probe_source(
             return report
         result = page.results[0].to_dict()
         raw = result.get("raw") or {}
-        document_url = (
-            raw.get("document_url")
-            or result.get("document_url")
-            or result.get("source_trace", {}).get("source_url")
-        )
+        document_url = _result_document_url(result)
         report["result"] = {
             "id": result.get("id"),
             "case_number": result.get("number") or result.get("case_number"),
@@ -91,6 +87,11 @@ def _probe_source(
             report["provider_document"] = _provider_document_probe(client, source, result.get("id"))
         if document_url:
             report["public_url"] = _public_url_probe(document_url, timeout)
+        else:
+            report["public_url"] = {
+                "status": "not_attempted",
+                "reason": "result does not expose an independent document URL",
+            }
         failures: list[dict[str, Any]] = []
         provider_document = report.get("provider_document") or {}
         public_url = report.get("public_url") or {}
@@ -120,6 +121,45 @@ def _probe_source(
         report["error_type"] = type(exc).__name__
         report["error"] = str(exc)
     return report
+
+
+def _result_document_url(result: dict[str, Any]) -> str | None:
+    """Return only an explicit document URL, never the search trace URL.
+
+    A search endpoint is evidence for the result page, not a document route.
+    Falling back to ``source_trace.source_url`` made the QA probe request the
+    search endpoint again and report false document failures (for example a
+    legitimate HTTP 405 on a POST-only search route).
+    """
+
+    raw = result.get("raw")
+    raw_values = raw if isinstance(raw, dict) else {}
+    for value in (
+        raw_values.get("document_url"),
+        result.get("document_url"),
+        raw_values.get("full_text_url"),
+    ):
+        candidate = str(value or "").strip()
+        if not candidate or not candidate.startswith(("http://", "https://")):
+            continue
+        if _looks_like_search_endpoint(candidate):
+            continue
+        return candidate
+    return None
+
+
+def _looks_like_search_endpoint(url: str) -> bool:
+    lowered = url.lower()
+    return any(
+        marker in lowered
+        for marker in (
+            "/bff/api/decisoes/buscar",
+            "/buscas/jurisprudencia/ajax.php",
+            "/jurisprudencia/publico/pesquisa.do",
+            "/cjsg/resultadoCompleta.do",
+            "/consulta.php",
+        )
+    )
 
 
 def _provider_document_probe(

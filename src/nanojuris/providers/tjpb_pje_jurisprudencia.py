@@ -176,7 +176,9 @@ class TjpbPjeJurisprudenciaProvider(JurisprudenceProvider):
             supports_unified_search=True,
             supports_mcp=True,
             supports_studio=True,
-            supports_catalog=True,
+            # Filter catalog endpoints exist, but catalog retrieval is not
+            # implemented as a provider contract.
+            supports_catalog=False,
             supports_live_tests=True,
             pagination_mode="page",
             completeness_contract="reported_total_and_page_window",
@@ -360,8 +362,8 @@ def _build_search_object(query: JurisprudenceQuery) -> dict[str, Any]:
         "inteiro_teor": query.all_words or "",
         "nr_processo": query.number,
         "id_classe_judicial": query.types[0] if query.types else "",
-        "id_orgao_julgador": query.source_origin,
-        "id_relator": query.lawyer_name,
+        "id_orgao_julgador": query.judging_body,
+        "id_relator": query.rapporteur or query.lawyer_name,
         "dt_inicio": query.published_from,
         "dt_fim": query.published_to,
         "id_origem": query.source_origin,

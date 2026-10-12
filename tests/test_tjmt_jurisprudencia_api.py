@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import pytest
@@ -85,6 +86,24 @@ def test_tjmt_parser_extracts_inline_full_text_and_separates_dates() -> None:
     )
     assert result.raw["document_content_type"] == "text/html"
     assert result.raw["full_text_status"] == "inline"
+
+
+def test_tjmt_parser_uses_effective_maximum_page_size_for_window() -> None:
+    data = fixture_data()
+    item = data["AcordaoCollection"][0]
+    data["AcordaoCollection"] = [dict(item) for _ in range(101)]
+
+    page = parse_tjmt_response(
+        data,
+        query=SimpleNamespace(text="teste", page=2, page_size=150),  # type: ignore[arg-type]
+        trace=None,  # type: ignore[arg-type]
+        api_type="Acordao",
+    )
+
+    assert page.page == 2
+    assert page.page_size == 100
+    assert page.start == 101
+    assert len(page.results) == 100
 
 
 def test_tjmt_builds_public_query_contract() -> None:

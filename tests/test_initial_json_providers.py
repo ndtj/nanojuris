@@ -29,6 +29,7 @@ from nanojuris.providers.tjpa_jurisprudencia_bff import (
 )
 from nanojuris.providers.tjpb_pje_jurisprudencia import (
     TjpbPjeJurisprudenciaProvider,
+    _build_search_object,
     _clean_tjpb_ementa,
     parse_tjpb_search_response,
 )
@@ -125,6 +126,28 @@ def test_tjpb_parser_and_public_token_flow() -> None:
     payload = session.calls[1]["kwargs"]["json"]
     assert payload["_token"] == "csrf-test"
     assert payload["jurisprudencia"]["nr_processo"] == "0000001-10.2024.8.15.0001"
+
+
+def test_tjpb_search_object_maps_explicit_filter_fields() -> None:
+    query = JurisprudenceQuery(
+        text="dano moral",
+        source_origin="PJE",
+        judging_body="1a Camara",
+        rapporteur="MARIA TESTE",
+        lawyer_name="IGNORAR SE HOUVER RELATOR",
+    )
+
+    payload = _build_search_object(query)
+
+    assert payload["id_orgao_julgador"] == "1a Camara"
+    assert payload["id_relator"] == "MARIA TESTE"
+    assert payload["id_origem"] == "PJE"
+
+
+def test_tjpb_does_not_claim_catalog_retrieval_without_get_catalog_contract() -> None:
+    provider = TjpbPjeJurisprudenciaProvider(NanoJurisConfig(rate_limit_interval=0))
+
+    assert provider.get_capabilities().supports_catalog is False
 
 
 def test_tjpb_ementa_strips_process_and_parties_header() -> None:
@@ -399,6 +422,23 @@ def test_tjpa_normalization_helpers_keep_public_shapes() -> None:
     assert _nested_name(None) is None
     assert _as_int("10", default=0) == 10
     assert _as_int("invalid", default=7) == 7
+
+
+def test_tjpa_does_not_use_full_text_as_summary() -> None:
+    page = parse_tjpa_search_response(
+        {
+            "data": {
+                "content": [{"id": "full-only", "textopuro": "Inteiro teor"}],
+                "totalElements": 1,
+            }
+        },
+        query=JurisprudenceQuery(text="teste"),
+        trace=None,  # type: ignore[arg-type]
+    )
+
+    result = page.results[0]
+    assert result.summary is None
+    assert result.full_text == "Inteiro teor"
 
 
 def test_tjpa_detail_contract_is_explicitly_unimplemented() -> None:

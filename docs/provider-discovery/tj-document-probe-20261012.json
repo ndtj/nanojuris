@@ -1,0 +1,507 @@
+{
+  "generated_at": "2026-10-12T17:49:59.983747+00:00",
+  "query": "dano moral",
+  "sources": [
+    {
+      "source": "tjdf_juris",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 141450,
+        "source": "tjdf_juris"
+      },
+      "result": {
+        "id": "tjdf-acordao-2184325",
+        "case_number": "2184325",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?visaoId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&controladorId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.ControladorBuscaAcordao&visaoAnterior=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&nomeDaPagina=resultado&comando=abrirDadosDoAcordao&enderecoDoServlet=sistj&historicoDePaginas=buscaLivre&quantidadeDeRegistros=20&baseSelecionada=BASE_ACORDAO_TODAS&numeroDaUltimaPagina=1&buscaIndexada=1&mostrarPaginaSelecaoTipoResultado=false&totalHits=1&internet=1&numeroDoDocumento=2184325",
+        "access_status": "public",
+        "extraction_status": "partial",
+        "raw_keys": [
+          "document_url",
+          "list_metadata_only",
+          "list_text",
+          "process_number",
+          "registry_number"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjdf-acordao-2184325",
+        "full_text_length": 26657,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://pesquisajuris.tjdft.jus.br/IndexadorAcordaos-web/sistj?visaoId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&controladorId=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.ControladorBuscaAcordao&visaoAnterior=tjdf.sistj.acordaoeletronico.buscaindexada.apresentacao.VisaoBuscaAcordao&nomeDaPagina=resultado&comando=abrirDadosDoAcordao&enderecoDoServlet=sistj&historicoDePaginas=buscaLivre&quantidadeDeRegistros=20&baseSelecionada=BASE_ACORDAO_TODAS&numeroDaUltimaPagina=1&buscaIndexada=1&mostrarPaginaSelecaoTipoResultado=false&totalHits=1&internet=1&numeroDoDocumento=2184325",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 57120,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tst_jurisprudencia",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 387583,
+        "source": "tst_jurisprudencia"
+      },
+      "result": {
+        "id": "tst-jurisprudencia-b6b1b262753551bbcddc275a29ba5861",
+        "case_number": "AIRR - 0010210-15.2025.5.03.0006",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia-backend2.tst.jus.br/rest/documentos/b6b1b262753551bbcddc275a29ba5861",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "court_name",
+          "data_julgamento",
+          "data_publicacao",
+          "disposition",
+          "document_url",
+          "full_text_url",
+          "numeracao_unica",
+          "orgao_julgador",
+          "registry_id",
+          "source_record"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tst-jurisprudencia-document-b6b1b262753551bbcddc275a29ba5861",
+        "full_text_length": 118293,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia-backend2.tst.jus.br/rest/documentos/b6b1b262753551bbcddc275a29ba5861",
+        "content_type": "text/html;charset=utf-8",
+        "response_bytes": 300782,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "stj_scon",
+      "query": "dano moral",
+      "status": "error",
+      "error_type": "AccessControlRequiredError",
+      "error": "STJ/SCON requires access-control validation"
+    },
+    {
+      "source": "tjrs_solr",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 631058,
+        "source": "tjrs_solr"
+      },
+      "result": {
+        "id": "tjrs-solr-5228633",
+        "case_number": "25953",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": null,
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_version_",
+          "ano_julgamento",
+          "cat",
+          "cod_ementa",
+          "cod_org_julg",
+          "cod_recurso",
+          "cod_relator",
+          "cod_tipo_documento",
+          "cod_tribunal",
+          "data_julgamento",
+          "document_reference",
+          "document_url",
+          "documento_tiff",
+          "dthr_criacao",
+          "dthr_ult_alter_themis",
+          "ementa",
+          "ementa_completa",
+          "ementa_completa_aspas",
+          "ementa_referencia",
+          "ementa_referencia_aspas",
+          "ementa_text",
+          "ind_segredo_justica",
+          "nome_relator",
+          "nome_tribunal",
+          "numero_processo",
+          "orgao_julgador",
+          "origem",
+          "relator_redator",
+          "secao",
+          "tipo_documento",
+          "tipo_processo"
+        ]
+      },
+      "public_url": {
+        "status": "not_attempted",
+        "reason": "result does not expose an independent document URL"
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjba_graphql",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 1254961,
+        "source": "tjba_graphql"
+      },
+      "result": {
+        "id": "tjba-graphql-ea9e484e-eba4-3f50-9377-63da89a74eb0",
+        "case_number": "8132228-47.2021.8.05.0001",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 35411,
+        "document_url": "https://jurisprudenciaws.tjba.jus.br/inteiroTeor/ea9e484e-eba4-3f50-9377-63da89a74eb0",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_class",
+          "classe",
+          "codigoProcesso",
+          "contentType",
+          "conteudo",
+          "dataAtualizacao",
+          "dataJulgamento",
+          "dataPublicacao",
+          "document_id",
+          "document_url",
+          "ementa",
+          "hash",
+          "id",
+          "instancia",
+          "judging_body",
+          "numeroProcesso",
+          "orgaoJulgador",
+          "relator",
+          "score",
+          "source",
+          "sourceId",
+          "tipoDecisao"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjba-graphql-ea9e484e-eba4-3f50-9377-63da89a74eb0",
+        "full_text_length": 35616,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudenciaws.tjba.jus.br/inteiroTeor/ea9e484e-eba4-3f50-9377-63da89a74eb0",
+        "content_type": "text/html",
+        "response_bytes": 167607,
+        "is_pdf": false,
+        "has_html": false,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "trf5_jurisprudencia",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 1,
+        "source": "trf5_jurisprudencia"
+      },
+      "result": {
+        "id": "trf5-jurisprudencia-25751",
+        "case_number": "0500731-14.2013.4.05.8501",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=25751",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "data_julgamento",
+          "document_url",
+          "id_documento",
+          "orgao_julgador",
+          "tipo_documento"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "trf5-jurisprudencia-document-25751",
+        "full_text_length": 11413,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.trf5.jus.br/jurisprudencia/exibe_modelo.wsp?tmp.anexo.id_documento=25751",
+        "content_type": "text/html;charset=ISO-8859-1",
+        "response_bytes": 11413,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjpa_jurisprudencia_bff",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 10000,
+        "source": "tjpa_jurisprudencia_bff"
+      },
+      "result": {
+        "id": "tjpa-bff-36027620",
+        "case_number": "0800462-53.2022.8.14.0044",
+        "summary_present": true,
+        "full_text_present": true,
+        "full_text_length": 20707,
+        "document_url": null,
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "area",
+          "assuntos",
+          "binario",
+          "case_class",
+          "classe",
+          "competencia",
+          "datadocumento",
+          "datajulgamento",
+          "datapublicacao",
+          "ementatextopuro",
+          "ementatextopuroHighlight",
+          "especie",
+          "full_text",
+          "hashstorage",
+          "id",
+          "idassunto",
+          "idclasse",
+          "indexacao",
+          "judgment_date_raw",
+          "lido",
+          "matchNaEmenta",
+          "numeroMatchs",
+          "numeroprocesso",
+          "orgao_julgador",
+          "orgaojulgador",
+          "orgaojulgadorcolegiado",
+          "origem",
+          "pessoas",
+          "publication_date_raw",
+          "scoreRelevancia",
+          "sentidodecisao",
+          "sistemaorigem",
+          "subject",
+          "temas",
+          "textoementa",
+          "textooriginal",
+          "textopuro",
+          "textopuroHighlight",
+          "tipo",
+          "usuarioindex"
+        ]
+      },
+      "provider_document": {
+        "status": "error",
+        "error_type": "NotImplementedError",
+        "error": "Provider 'tjpa_jurisprudencia_bff' does not support get_document"
+      },
+      "public_url": {
+        "status": "not_attempted",
+        "reason": "result does not expose an independent document URL"
+      },
+      "document_failures": [
+        {
+          "surface": "provider_document",
+          "status": "NotImplementedError"
+        }
+      ],
+      "status": "partial"
+    },
+    {
+      "source": "tjpb_pje_jurisprudencia",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 49220,
+        "source": "tjpb_pje_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpb-pje-AXQsF4HUmEaaBIu9m3r6",
+        "case_number": "0802253-46.2017.8.15.2003",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://pje-jurisprudencia.tjpb.jus.br/jurisprudencia/view/AXQsF4HUmEaaBIu9m3r6",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "_id",
+          "_score",
+          "document_url",
+          "dt_ementa",
+          "ementa",
+          "external_id",
+          "full_text_url",
+          "numero_processo"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjpb-pje-document-AXQsF4HUmEaaBIu9m3r6",
+        "full_text_length": 710,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://pje-jurisprudencia.tjpb.jus.br/jurisprudencia/view/AXQsF4HUmEaaBIu9m3r6",
+        "content_type": "text/html; charset=UTF-8",
+        "response_bytes": 6134,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjpr_jurisprudencia",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 822457,
+        "source": "tjpr_jurisprudencia"
+      },
+      "result": {
+        "id": "tjpr-4100000038540201",
+        "case_number": "0002150-64.2025.8.16.0160",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://portal.tjpr.jus.br/jurisprudencia/j/4100000038540201/Acórdão-0002150-64.2025.8.16.0160",
+        "access_status": "partial",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "case_number",
+          "content_pending_release",
+          "decision_type",
+          "document_url",
+          "judging_body",
+          "judgment_date",
+          "judgment_date_raw",
+          "rapporteur",
+          "row_text",
+          "secret_of_justice",
+          "secret_or_pending_content",
+          "source_record_id",
+          "source_row_index"
+        ]
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://portal.tjpr.jus.br/jurisprudencia/j/4100000038540201/Ac%C3%B3rd%C3%A3o-0002150-64.2025.8.16.0160",
+        "content_type": "text/html;charset=UTF-8",
+        "response_bytes": 41183,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": true
+      },
+      "status": "checked"
+    },
+    {
+      "source": "tjpi_juspi",
+      "query": "dano moral",
+      "search": {
+        "returned": 1,
+        "reported_total": 193041,
+        "source": "tjpi_juspi"
+      },
+      "result": {
+        "id": "tjpi-juspi-37127193",
+        "case_number": "0801636-17.2025.8.18.0033",
+        "summary_present": true,
+        "full_text_present": false,
+        "full_text_length": 0,
+        "document_url": "https://jurisprudencia.tjpi.jus.br/jurisprudences/37127193/public",
+        "access_status": "public",
+        "extraction_status": "complete",
+        "raw_keys": [
+          "assunto",
+          "case_class",
+          "classe",
+          "data_publicacao",
+          "document_url",
+          "full_text_url",
+          "judging_body",
+          "orgao_julgador",
+          "public_id",
+          "publication_date",
+          "source_decision_type",
+          "subject"
+        ]
+      },
+      "provider_document": {
+        "status": "loaded",
+        "document_id": "tjpi-juspi-37127193",
+        "full_text_length": 17789,
+        "content_type": "text/html",
+        "source_url": null
+      },
+      "public_url": {
+        "status": "reachable",
+        "http_status": 200,
+        "final_url": "https://jurisprudencia.tjpi.jus.br/jurisprudences/37127193/public",
+        "content_type": "text/html; charset=utf-8",
+        "response_bytes": 66847,
+        "is_pdf": false,
+        "has_html": true,
+        "text_like": true,
+        "looks_like_document": false
+      },
+      "status": "checked"
+    }
+  ],
+  "summary": {
+    "sources_checked": 10,
+    "search_returned": 9,
+    "full_text_in_search": 2,
+    "provider_document_loaded": 6,
+    "public_url_reachable": 7,
+    "public_url_document_like": 2,
+    "document_probe_failures": 1,
+    "partial": 1,
+    "errors": 1
+  }
+}
