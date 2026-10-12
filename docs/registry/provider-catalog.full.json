@@ -8752,6 +8752,7 @@
         "limitations": [
           "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
           "O inteiro teor textual e extraido do campo Documento HTML inline.",
+          "A API aceita somente os filtros mapeados para a expressao e campos da SPA; updated_from/to e party_name nao possuem mapeamento.",
           "A rota de relatorio independente ainda nao foi validada com contrato estavel."
         ],
         "risk_level": "medio"
@@ -8773,9 +8774,17 @@
         ],
         "supported_filters": [
           "text",
+          "all_words",
+          "any_words",
+          "without_words",
+          "exact_phrase",
+          "number",
+          "rapporteur",
+          "judging_body",
           "published_from",
           "published_to",
           "types",
+          "include_cancelled",
           "order_by"
         ],
         "supports_catalog": false,
@@ -8866,7 +8875,7 @@
         "blockers": [],
         "dimensions": {
           "documentation": 17,
-          "input": 15,
+          "input": 17,
           "output": 25,
           "product": 15,
           "reliability": 14
@@ -8875,7 +8884,7 @@
         "next_actions": [
           "validar inteiro teor com hash, tamanho e access_status"
         ],
-        "total": 86
+        "total": 88
       },
       "maturity_tier": "silver",
       "mcp": {
@@ -8883,6 +8892,7 @@
         "limitations": [
           "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
           "O inteiro teor textual e extraido do campo Documento HTML inline.",
+          "A API aceita somente os filtros mapeados para a expressao e campos da SPA; updated_from/to e party_name nao possuem mapeamento.",
           "A rota de relatorio independente ainda nao foi validada com contrato estavel."
         ],
         "status": "declared"
@@ -8945,9 +8955,17 @@
         ],
         "supported_filters": [
           "text",
+          "all_words",
+          "any_words",
+          "without_words",
+          "exact_phrase",
+          "number",
+          "rapporteur",
+          "judging_body",
           "published_from",
           "published_to",
           "types",
+          "include_cancelled",
           "order_by"
         ],
         "supports_catalog": false,
@@ -8989,6 +9007,7 @@
           "limitations": [
             "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
             "O inteiro teor textual e extraido do campo Documento HTML inline.",
+            "A API aceita somente os filtros mapeados para a expressao e campos da SPA; updated_from/to e party_name nao possuem mapeamento.",
             "A rota de relatorio independente ainda nao foi validada com contrato estavel."
           ],
           "pagination_mode": "page",
@@ -9041,6 +9060,7 @@
         "limitations": [
           "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
           "O inteiro teor textual e extraido do campo Documento HTML inline.",
+          "A API aceita somente os filtros mapeados para a expressao e campos da SPA; updated_from/to e party_name nao possuem mapeamento.",
           "A rota de relatorio independente ainda nao foi validada com contrato estavel."
         ],
         "status": "declared"

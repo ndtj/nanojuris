@@ -115,9 +115,15 @@ def test_tjmt_builds_public_query_contract() -> None:
     params = build_tjmt_search_params(
         JurisprudenceQuery(
             text="dano moral",
+            all_words="responsabilidade civil",
+            any_words="indenizacao reparacao",
+            without_words="criminal",
             exact_phrase="transporte aereo",
             published_from="2026-01-02",
             published_to="03/02/2026",
+            number="0000000-00.2026.8.11.0000",
+            rapporteur="Relator Teste",
+            judging_body="Primeira Camara",
             types=["acordao"],
             page=2,
             page_size=25,
@@ -128,11 +134,19 @@ def test_tjmt_builds_public_query_contract() -> None:
     assert params["indicePagina"] == "1"
     assert params["quantidadePagina"] == "25"
     assert params["tipoConsulta"] == "1"
-    assert params["termoDeBusca"] == 'dano moral "transporte aereo"'
+    assert params["termoDeBusca"] == (
+        'dano moral e responsabilidade e civil "transporte aereo" '
+        "ou indenizacao ou reparacao nao criminal"
+    )
     assert params["periodoDataDe"] == "2026-01-02"
     assert params["periodoDataAte"] == "2026-02-03"
-    assert params["OrdenarPor"] == "Julgamento"
+    assert params["OrdenarPor"] == "Relevancia"
     assert params["Decrescente"] == "true"
+    assert params["numeroProtocolo"] == "0000000-00.2026.8.11.0000"
+    assert params["relator"] == "Relator Teste"
+    assert params["fqRelator"] == "Relator Teste"
+    assert params["orgaoJulgador"] == "Primeira Camara"
+    assert "k" not in params
 
 
 def test_tjmt_provider_reads_config_and_never_traces_runtime_token() -> None:

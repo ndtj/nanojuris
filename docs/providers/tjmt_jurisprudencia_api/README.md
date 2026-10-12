@@ -29,18 +29,25 @@ valor, não o persiste e não o trata como credencial de usuário.
 Parâmetros reproduzidos:
 
 ```text
-filtro.isBasica=false
-filtro.indicePagina=1-based
-filtro.quantidadePagina=page_size
-filtro.tipoConsulta=Acordao|Decisao
-filtro.termoDeBusca=<texto>
-filtro.periodoDataDe=<dd/mm/aaaa>
-filtro.periodoDataAte=<dd/mm/aaaa>
-filtro.tipoBusca=1
-filtro.ordenacao.ordenarPor=DataDecrescente
-filtro.ordenacao.ordenarDataPor=Julgamento
-filtro.thesaurus=false
+indicePagina=0-based
+quantidadePagina=page_size
+tipoConsulta=1 (Acordao) | 2 (Decisao)
+termoDeBusca=<expressao da SPA>
+tipoBusca=1
+OrdenarPor=Relevancia | Julgamento | Publicacao
+Decrescente=true|false
+thesaurus=false
+exibirArquivados=true|false
+periodoDataDe=YYYY-MM-DD (opcional)
+periodoDataAte=YYYY-MM-DD (opcional)
+numeroProtocolo, relator, fqRelator, orgaoJulgador (opcionais)
 ```
+
+O contrato acima foi confirmado no bundle público atual da SPA e em captura REA
+da rota oficial `/consulta/judicial` (Evidence ID
+`ev_60c9904c4ef3f7f424fbdae56ab2d181586a81e98929f6bc4356723cabec7207`).
+Os operadores de busca são serializados no próprio `termoDeBusca`: frase exata
+entre aspas, palavras alternativas com `ou` e exclusões com `nao`.
 
 O valor público `api_hellsgate_token` é lido do JSON ou bundle público e enviado
 como header `token`, exatamente como o frontend observado. O seu valor não
@@ -73,7 +80,10 @@ Suportados e enviados ao contrato reproduzido:
 - texto livre;
 - `published_from` e `published_to`, convertidos para `dd/mm/aaaa`;
 - `types` para `acordao` ou `decisao_monocratica`;
-- `order_by` para ordenação já observada.
+- `order_by` para `Relevancia`, `Julgamento` ou `Publicacao`;
+- `all_words`, `any_words` e `without_words`, convertidos para a expressão da
+  SPA;
+- `number`, `rapporteur`, `judging_body` e `include_cancelled`.
 
 O índice remoto é 1-based. O provider preserva `page` e `page_size` na API
 unificada e limita o tamanho efetivo a 100, que é o limite aceito pelo modelo
@@ -81,9 +91,9 @@ de consulta do NanoJuris. O total de acórdãos é obtido de
 `CountAcordaoDocumento`, sem confundi-lo com `CountTotal`, que agrega outras
 categorias.
 
-Filtros de relator, órgão julgador, julgamento, booleanos avançados e
-`updated_from/to` ainda não são declarados como suportados. Quando recebidos,
-o roteamento registra a limitação; eles não são descartados silenciosamente.
+`updated_from/to`, `party_name` e demais filtros sem campo equivalente na SPA
+continuam fora do contrato. Eles não são descartados silenciosamente: ficam
+registrados como limitações da busca unificada.
 
 ## Inteiro Teor E Documentos
 
@@ -101,6 +111,11 @@ independente seja reproduzida com identificador, parâmetros e resposta estávei
 - HTTP 429: `RateLimitDetectedError`.
 - HTTP 5xx ou falha de rede: `SourceUnavailableError`.
 - JSON sem coleção esperada: `ParserContractChangedError`.
+
+Na revalidação REA de 2026-10-12, o portal oficial respondeu HTTP 200 e publicou
+a SPA atual, mas o backend oficial `hellsgate.tjmt.jus.br` devolveu HTTP 504
+para `/jurisprudencia/consulta`, inclusive com os parâmetros reproduzidos pela
+SPA. Isso é indisponibilidade da fonte, não uma conversão de resposta vazia.
 
 Cada página possui `SourceTrace` com endpoint, consulta sem o token, URL final
 sanitizada, status HTTP, content-type, hash da resposta, bytes, latência e
