@@ -36,7 +36,7 @@ planejarem coletas e para IAs escolherem providers sem inventar filtros.
 | `tjma_jurisconsult` | nao | types, catalog | `none` | sim | nao |
 | `tjmg_jurisprudencia` | nao | - | `unknown` | nao | nao |
 | `tjms_cjsg` | sim | text, number, exact_phrase, updated_from, updated_to, types, order_by | `page` | nao | nao |
-| `tjmt_jurisprudencia_api` | sim | text, published_from, published_to, types, order_by | `page` | nao | nao |
+| `tjmt_jurisprudencia_api` | sim | text, all_words, any_words, without_words, exact_phrase, number, rapporteur, judging_body, published_from, published_to, types, include_cancelled, order_by | `page` | nao | nao |
 | `tjpa_jurisprudencia_bff` | sim | text, types, source_origins, published_from, published_to, case_class, subject, rapporteur | `page` | sim | nao |
 | `tjpb_pje_jurisprudencia` | sim | text, number, case_class, judging_body, rapporteur, published_from, published_to, source_origin | `page` | nao | nao |
 | `tjpe_jurisprudencia` | sim | text, number, published_from, published_to, types, order_by | `offset` | nao | nao |

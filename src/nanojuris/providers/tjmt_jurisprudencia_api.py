@@ -96,7 +96,8 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
                 "a rota de relatorio independente foi observada, mas nao validada "
                 "como carregamento estavel nesta rodada.",
                 "Filtros de relator, orgao julgador e booleanos avancados ainda "
-                "nao foram reproduzidos como contrato do provider.",
+                "foram reproduzidos no contrato atual; filtros sem campo equivalente "
+                "nao sao enviados silenciosamente.",
             ],
             **self._last_http_metadata,
         )
@@ -160,15 +161,25 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
             full_text_access="inline",
             supported_filters=[
                 "text",
+                "all_words",
+                "any_words",
+                "without_words",
+                "exact_phrase",
+                "number",
+                "rapporteur",
+                "judging_body",
                 "published_from",
                 "published_to",
                 "types",
+                "include_cancelled",
                 "order_by",
             ],
             limitations=[
                 "A fonte publica o api_url e o token de aplicacao no runtime da SPA; "
                 "o valor nao e armazenado pelo provider.",
                 "O inteiro teor textual e extraido do campo Documento HTML inline.",
+                "A API aceita somente os filtros mapeados para a expressao e campos "
+                "da SPA; updated_from/to e party_name nao possuem mapeamento.",
                 "A rota de relatorio independente ainda nao foi validada com contrato estavel.",
             ],
             responsible_use=[
@@ -341,20 +352,28 @@ def build_tjmt_search_params(
 
     requested_type = query.types[0].strip().lower() if query.types else "acordao"
     tipo = "2" if "decis" in requested_type else "1"
-    order = _order_value(query.order_by)
-    return {
+    ordenar_por, decrescente = _order_params(query.order_by)
+    params: dict[str, Any] = {
         "indicePagina": str(max(query.page - 1, 0)),
         "quantidadePagina": str(page_size or query.page_size),
         "tipoConsulta": tipo,
         "termoDeBusca": _search_term(query),
         "tipoBusca": "1",
-        "OrdenarPor": "Relevancia" if order == "Relevancia" else "Julgamento",
-        "Decrescente": str(order != "DataCrescente").lower(),
+        "OrdenarPor": ordenar_por,
+        "Decrescente": str(decrescente).lower(),
         "thesaurus": "false",
-        "exibirArquivados": "true",
+        "exibirArquivados": str(bool(query.include_cancelled)).lower(),
+    }
+    optional = {
+        "numeroProtocolo": query.number.strip(),
         "periodoDataDe": _date_iso(query.published_from),
         "periodoDataAte": _date_iso(query.published_to),
+        "relator": query.rapporteur.strip(),
+        "orgaoJulgador": query.judging_body.strip(),
+        "fqRelator": query.rapporteur.strip(),
     }
+    params.update({key: value for key, value in optional.items() if value})
+    return params
 
 
 def parse_tjmt_response(
@@ -487,8 +506,14 @@ def _html_text(value: str) -> str:
 
 def _search_term(query: JurisprudenceQuery) -> str:
     parts = [query.text.strip()] if query.text.strip() else []
+    if query.all_words.strip():
+        parts.extend(f"e {word}" for word in query.all_words.split())
     if query.exact_phrase.strip():
         parts.append(f'"{query.exact_phrase.strip()}"')
+    if query.any_words.strip():
+        parts.extend(f"ou {word}" for word in query.any_words.split())
+    if query.without_words.strip():
+        parts.extend(f"nao {word}" for word in query.without_words.split())
     return " ".join(parts)
 
 
@@ -514,12 +539,17 @@ def _date_iso(value: str) -> str:
     return value
 
 
-def _order_value(value: str) -> str:
-    return (
-        "DataDecrescente"
-        if (value or "").strip().lower() in {"", "text", "date", "recent"}
-        else value
-    )
+def _order_params(value: str) -> tuple[str, bool]:
+    """Translate NanoJuris ordering names to the current TJMT SPA contract."""
+
+    normalized = (value or "").strip().lower().replace("_", "-")
+    if normalized in {"", "text", "relevance", "relevancia", "score"}:
+        return "Relevancia", True
+    if normalized in {"publication", "published", "publicacao"}:
+        return "Publicacao", True
+    if normalized in {"oldest", "ascending", "date-asc", "julgamento-asc"}:
+        return "Julgamento", False
+    return "Julgamento", True
 
 
 def _current_total_key(legacy_key: str) -> str:

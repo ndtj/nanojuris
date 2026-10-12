@@ -28,9 +28,9 @@ documentacao, QA, Studio, MCP e jurimetria.
 | `tjrs_solr` | 89 | 16 | 22 | 16 | 20 | 15 | `A` |
 | `trf2_eproc_jurisprudencia` | 89 | 16 | 25 | 18 | 15 | 15 | `A` |
 | `trf6_eproc_jurisprudencia` | 89 | 16 | 25 | 18 | 15 | 15 | `A` |
+| `tjmt_jurisprudencia_api` | 88 | 17 | 25 | 14 | 17 | 15 | `A` |
 | `tjpa_jurisprudencia_bff` | 88 | 19 | 25 | 16 | 13 | 15 | `A` |
 | `tjce_sjuris` | 87 | 16 | 25 | 14 | 17 | 15 | `A` |
-| `tjmt_jurisprudencia_api` | 86 | 15 | 25 | 14 | 17 | 15 | `A` |
 | `tjto_jurisprudencia` | 86 | 17 | 25 | 12 | 17 | 15 | `A` |
 | `tjpb_pje_jurisprudencia` | 85 | 17 | 25 | 16 | 12 | 15 | `A` |
 | `tjpi_juspi` | 85 | 16 | 25 | 16 | 13 | 15 | `A` |
