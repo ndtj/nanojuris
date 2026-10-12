@@ -190,7 +190,7 @@ class TjroLiameProvider(JurisprudenceProvider):
 def build_tjro_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
     """Build the JSON payload used by LIAME's public frontend."""
 
-    species = [item for item in query.types if item]
+    species = [_normalize_tjro_species(item) for item in query.types if item]
     if not species:
         species = ["incidente_assuncao_competencia", "incidente_demanda_repetitiva"]
     return {
@@ -207,6 +207,17 @@ def build_tjro_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
         "page": max(query.page, 1),
         "page_size": max(1, min(query.page_size, 100)),
     }
+
+
+def _normalize_tjro_species(value: str) -> str:
+    normalized = str(value or "").strip().lower().replace("-", "_").replace(" ", "_")
+    aliases = {
+        "iac": "incidente_assuncao_competencia",
+        "irdr": "incidente_demanda_repetitiva",
+        "incidente_assuncao_competencia": "incidente_assuncao_competencia",
+        "incidente_demanda_repetitiva": "incidente_demanda_repetitiva",
+    }
+    return aliases.get(normalized, str(value).strip())
 
 
 def parse_tjro_search_response(

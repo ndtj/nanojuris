@@ -108,7 +108,7 @@ def test_tjpe_builds_observed_zero_based_parameters() -> None:
 
     assert params["page"] == 1
     assert params["size"] == 25
-    assert params["pesquisaLivre.contains"] == "dano moral"
+    assert params["q"] == "dano moral"
     assert params["npuSemFormatacao.equals"] == "00000012320248170001"
     assert params["dataJulgamento.greaterThanOrEqual"] == "2024-01-01"
     assert params["dataJulgamento.lessThanOrEqual"] == "2024-12-31"

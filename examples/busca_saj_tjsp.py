@@ -89,13 +89,14 @@ def consultar(
             return _with_results(base, post_root, posted_soup, tipo)
         if _has_empty_session(posted.text):
             return _with_state(base, "sessao_ausente", posted_soup)
-        if _has_access_control(posted_soup, posted.text):
-            return _with_state(base, "access_control_required", posted_soup)
-        if _looks_empty(posted_soup.get_text(" ", strip=True)):
+        if _looks_empty(posted_soup.get_text(" ", strip=True)) and not _has_access_control(
+            posted_soup, posted.text
+        ):
             return _with_state(base, "sem_resultados", posted_soup)
 
-        # Algumas versões publicas retornam uma resposta intermediaria em vez
-        # do fragmento. So chegamos aqui quando ela nao e uma tela de controle.
+        # Algumas versões públicas retornam uma resposta intermediária, inclusive
+        # uma tela de controle, antes do fragmento de resultados. A primeira
+        # página deve ser buscada na mesma sessão.
         time.sleep(0.5)
         first_page = session.get(
             urljoin(BASE, "trocaDePagina.do"),

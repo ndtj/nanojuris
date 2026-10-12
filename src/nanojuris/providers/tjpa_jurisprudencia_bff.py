@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import time
+import unicodedata
 from typing import Any
 from urllib.parse import urljoin
 
@@ -261,12 +262,32 @@ def build_tjpa_search_payload(query: JurisprudenceQuery) -> dict[str, Any]:
     }
     optional = {
         "origens": query.source_origins or ([query.source_origin] if query.source_origin else []),
-        "tipo": query.types,
+        "tipo": [_normalize_tjpa_type(value) for value in query.types],
         "dataPublicacaoInicio": _date_br(query.published_from),
         "dataPublicacaoFim": _date_br(query.published_to),
     }
     payload.update({key: value for key, value in optional.items() if value})
     return payload
+
+
+def _normalize_tjpa_type(value: str) -> str:
+    """Translate NanoJuris document aliases to TJPA catalog values."""
+
+    text = str(value or "").strip()
+    folded = "".join(
+        char
+        for char in unicodedata.normalize("NFKD", text.casefold())
+        if not unicodedata.combining(char)
+    )
+    folded = " ".join(folded.replace("_", " ").split())
+    aliases = {
+        "acordao": "acórdão",
+        "acordaos": "acórdão",
+        "decisao": "decisão monocrática",
+        "decisao monocratica": "decisão monocrática",
+        "decisoes monocraticas": "decisão monocrática",
+    }
+    return aliases.get(folded, text)
 
 
 def parse_tjpa_search_response(

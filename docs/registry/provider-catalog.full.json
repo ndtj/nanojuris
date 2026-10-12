@@ -8750,7 +8750,7 @@
           "source_unavailable"
         ],
         "limitations": [
-          "A fonte publica o api_url e o token de aplicacao em config.json; o valor nao e armazenado pelo provider.",
+          "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
           "O inteiro teor textual e extraido do campo Documento HTML inline.",
           "A rota de relatorio independente ainda nao foi validada com contrato estavel."
         ],
@@ -8881,7 +8881,7 @@
       "mcp": {
         "enabled": true,
         "limitations": [
-          "A fonte publica o api_url e o token de aplicacao em config.json; o valor nao e armazenado pelo provider.",
+          "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
           "O inteiro teor textual e extraido do campo Documento HTML inline.",
           "A rota de relatorio independente ainda nao foi validada com contrato estavel."
         ],
@@ -8970,7 +8970,7 @@
           ],
           "endpoints": [
             "GET /assets/config/config.json",
-            "GET /jurisprudencia/api/consulta/{tipoConsulta}",
+            "GET /jurisprudencia/consulta",
             "GET /jurisprudencia/VisualizaRelatorio/RetornaDocumentoAcordao"
           ],
           "extracted_fields": [
@@ -8987,7 +8987,7 @@
             "document_html"
           ],
           "limitations": [
-            "A fonte publica o api_url e o token de aplicacao em config.json; o valor nao e armazenado pelo provider.",
+            "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
             "O inteiro teor textual e extraido do campo Documento HTML inline.",
             "A rota de relatorio independente ainda nao foi validada com contrato estavel."
           ],
@@ -9039,7 +9039,7 @@
       "studio": {
         "enabled": true,
         "limitations": [
-          "A fonte publica o api_url e o token de aplicacao em config.json; o valor nao e armazenado pelo provider.",
+          "A fonte publica o api_url e o token de aplicacao no runtime da SPA; o valor nao e armazenado pelo provider.",
           "O inteiro teor textual e extraido do campo Documento HTML inline.",
           "A rota de relatorio independente ainda nao foi validada com contrato estavel."
         ],

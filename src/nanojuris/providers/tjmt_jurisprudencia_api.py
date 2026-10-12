@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import html
+import re
 import time
 from datetime import datetime
 from typing import Any
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -34,17 +35,19 @@ from nanojuris.providers.base import JurisprudenceProvider
 
 TJMT_PORTAL_URL = "https://jurisprudencia.tjmt.jus.br/"
 TJMT_CONFIG_PATH = "/assets/config/config.json"
-TJMT_DEFAULT_API_URL = "https://hellsgate-preview.tjmt.jus.br/jurisprudencia"
+TJMT_DEFAULT_API_URL = "https://hellsgate.tjmt.jus.br/jurisprudencia"
 TJMT_MAX_PAGE_SIZE = 100
 
 
 class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
     """Provider for TJMT's public SPA-backed jurisprudence API.
 
-    The SPA publishes its API base URL and application token in ``config.json``.
-    The token is read at runtime and is never placed in traces, fixtures, raw
-    records or source configuration. It is an application value delivered to
-    every public visitor, not a user credential.
+    The SPA publishes its API base URL and application token in a public runtime
+    configuration. Older deployments expose ``config.json``; the current SPA
+    embeds the same values in a public JavaScript chunk. The token is read at
+    runtime and is never placed in traces, fixtures, raw records or source
+    configuration. It is an application value delivered to every public
+    visitor, not a user credential.
     """
 
     name = "tjmt_jurisprudencia_api"
@@ -67,9 +70,10 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
         runtime = self._load_runtime_config()
         page_size = min(max(int(query.page_size or 10), 1), TJMT_MAX_PAGE_SIZE)
         params = build_tjmt_search_params(query, page_size=page_size)
-        params["token"] = runtime["token"]
-        endpoint = f"/api/consulta/{params.pop('filtro.tipoConsulta')}"
-        data, source_url = self._request_json(runtime["api_url"], endpoint, params=params)
+        endpoint = "/consulta"
+        data, source_url = self._request_json(
+            runtime["api_url"], endpoint, params=params, token=runtime["token"]
+        )
         trace = SourceTrace(
             provider=self.name,
             endpoint=f"GET {endpoint}",
@@ -97,7 +101,10 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
             **self._last_http_metadata,
         )
         return parse_tjmt_response(
-            data, query=query, trace=trace, api_type=endpoint.rsplit("/", 1)[-1]
+            data,
+            query=query,
+            trace=trace,
+            api_type="Decisao" if params["tipoConsulta"] == "2" else "Acordao",
         )
 
     def get_decisions(self, precedent_id: str):
@@ -136,7 +143,7 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
             ],
             endpoints=[
                 "GET /assets/config/config.json",
-                "GET /jurisprudencia/api/consulta/{tipoConsulta}",
+                "GET /jurisprudencia/consulta",
                 "GET /jurisprudencia/VisualizaRelatorio/RetornaDocumentoAcordao",
             ],
             supports_full_text=True,
@@ -159,7 +166,7 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
                 "order_by",
             ],
             limitations=[
-                "A fonte publica o api_url e o token de aplicacao em config.json; "
+                "A fonte publica o api_url e o token de aplicacao no runtime da SPA; "
                 "o valor nao e armazenado pelo provider.",
                 "O inteiro teor textual e extraido do campo Documento HTML inline.",
                 "A rota de relatorio independente ainda nao foi validada com contrato estavel.",
@@ -194,18 +201,72 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"TJMT config returned HTTP {response.status_code}")
         try:
             data = response.json()
-        except ValueError as exc:
-            raise ParserContractChangedError("TJMT config is not JSON") from exc
-        api_url = str(data.get("api_url") or "").strip().rstrip("/")
-        token = str(data.get("api_hellsgate_token") or "").strip()
-        if not api_url or not token:
-            raise ParserContractChangedError("TJMT config missing api_url or api_hellsgate_token")
-        if not api_url.startswith("https://"):
-            raise ParserContractChangedError("TJMT config api_url is not HTTPS")
-        return {"api_url": api_url, "token": token}
+        except ValueError:
+            return self._load_runtime_config_from_spa()
+        if isinstance(data, dict):
+            runtime = _runtime_config_from_mapping(data)
+            if runtime is not None:
+                return runtime
+        return self._load_runtime_config_from_spa()
+
+    def _load_runtime_config_from_spa(self) -> dict[str, str]:
+        """Read the runtime values from the public SPA bundles.
+
+        TJMT moved the public config from a JSON asset into an Angular bundle.
+        We follow only same-origin script URLs published by the portal and
+        reject arbitrary URLs, so this fallback remains a public-source read
+        rather than an unrestricted URL fetch.
+        """
+
+        portal_url = self.base_url + "/"
+        self._respect_rate_limit()
+        try:
+            response = self.session.request(
+                "GET",
+                portal_url,
+                headers={"Accept": "text/html", "Referer": TJMT_PORTAL_URL},
+                timeout=self.config.timeout,
+                allow_redirects=True,
+            )
+        except requests.RequestException as exc:
+            raise SourceUnavailableError(f"TJMT SPA request failed: {exc}") from exc
+        _raise_runtime_http_error(response, "TJMT SPA")
+        html_text = str(getattr(response, "text", "") or "")
+        origin = urlsplit(str(getattr(response, "url", portal_url) or portal_url)).netloc
+        queue = _same_origin_script_urls(html_text, portal_url, origin)
+        seen: set[str] = set()
+        inspected = 0
+        while queue and inspected < 80:
+            script_url = queue.pop(0)
+            if script_url in seen:
+                continue
+            seen.add(script_url)
+            inspected += 1
+            self._respect_rate_limit()
+            try:
+                script_response = self.session.request(
+                    "GET",
+                    script_url,
+                    headers={"Accept": "application/javascript", "Referer": portal_url},
+                    timeout=self.config.timeout,
+                    allow_redirects=True,
+                )
+            except requests.RequestException as exc:
+                raise SourceUnavailableError(f"TJMT SPA script request failed: {exc}") from exc
+            _raise_runtime_http_error(script_response, "TJMT SPA script")
+            script_text = str(getattr(script_response, "text", "") or "")
+            runtime = _runtime_config_from_script(script_text)
+            if runtime is not None:
+                return runtime
+            for discovered in _same_origin_script_urls(script_text, script_url, origin):
+                if discovered not in seen:
+                    queue.append(discovered)
+        raise ParserContractChangedError(
+            "TJMT public SPA did not expose api_url and api_hellsgate_token"
+        )
 
     def _request_json(
-        self, api_url: str, endpoint: str, *, params: dict[str, Any]
+        self, api_url: str, endpoint: str, *, params: dict[str, Any], token: str
     ) -> tuple[dict[str, Any], str]:
         self._respect_rate_limit()
         url = api_url.rstrip("/") + endpoint
@@ -219,6 +280,7 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
                     "Accept": "application/json",
                     "Origin": TJMT_PORTAL_URL.rstrip("/"),
                     "Referer": TJMT_PORTAL_URL,
+                    "token": token,
                 },
                 timeout=self.config.timeout,
                 allow_redirects=True,
@@ -270,40 +332,49 @@ class TjmtJurisprudenciaApiProvider(JurisprudenceProvider):
 def build_tjmt_search_params(
     query: JurisprudenceQuery, *, page_size: int | None = None
 ) -> dict[str, Any]:
-    """Build the public query-string contract used by the TJMT SPA."""
+    """Build the query-string contract used by the current TJMT SPA.
+
+    The current Angular bundle serializes the filter object directly.  In
+    particular, it does not use the old ``filtro.*`` prefix and its page index
+    is zero-based.
+    """
 
     requested_type = query.types[0].strip().lower() if query.types else "acordao"
-    tipo = "Decisao" if "decis" in requested_type else "Acordao"
+    tipo = "2" if "decis" in requested_type else "1"
+    order = _order_value(query.order_by)
     return {
-        "filtro.isBasica": "false",
-        "filtro.indicePagina": str(query.page),
-        "filtro.quantidadePagina": str(page_size or query.page_size),
-        "filtro.tipoConsulta": tipo,
-        "filtro.termoDeBusca": _search_term(query),
-        "filtro.periodoDataDe": _date_br(query.published_from),
-        "filtro.periodoDataAte": _date_br(query.published_to),
-        "filtro.tipoBusca": "1",
-        "filtro.relator": "",
-        "filtro.julgamento": "",
-        "filtro.orgaoJulgador": "",
-        "filtro.colegiado": "",
-        "filtro.ordenacao.ordenarPor": _order_value(query.order_by),
-        "filtro.ordenacao.ordenarDataPor": "Julgamento",
-        "filtro.thesaurus": "false",
+        "indicePagina": str(max(query.page - 1, 0)),
+        "quantidadePagina": str(page_size or query.page_size),
+        "tipoConsulta": tipo,
+        "termoDeBusca": _search_term(query),
+        "tipoBusca": "1",
+        "OrdenarPor": "Relevancia" if order == "Relevancia" else "Julgamento",
+        "Decrescente": str(order != "DataCrescente").lower(),
+        "thesaurus": "false",
+        "exibirArquivados": "true",
+        "periodoDataDe": _date_iso(query.published_from),
+        "periodoDataAte": _date_iso(query.published_to),
     }
 
 
 def parse_tjmt_response(
     data: dict[str, Any], *, query: JurisprudenceQuery, trace: SourceTrace, api_type: str
 ) -> SearchPage:
+    # Current deployments return {"value": {...}}, while the older public
+    # deployment returned the inner object directly.
+    payload = data.get("value") if isinstance(data.get("value"), dict) else data
+    if not isinstance(payload, dict):
+        raise ParserContractChangedError("TJMT response value is not an object")
     key = (
         "DecisaoMonocraticaCollection"
         if api_type.lower().startswith("decis")
         else "AcordaoCollection"
     )
-    items = data.get(key)
+    items = payload.get("resultados")
     if not isinstance(items, list):
-        raise ParserContractChangedError(f"TJMT response missing {key}")
+        items = payload.get(key)
+    if not isinstance(items, list):
+        raise ParserContractChangedError(f"TJMT response missing resultados/{key}")
     effective_page_size = min(max(int(query.page_size or 10), 1), TJMT_MAX_PAGE_SIZE)
     results = [
         _item_to_result(item, trace=trace)
@@ -312,7 +383,8 @@ def parse_tjmt_response(
     ]
     total_key = "CountDecisaoMonocratica" if key.startswith("Decisao") else "CountAcordaoDocumento"
     reported_total = _as_int(
-        data.get(total_key), default=_as_int(data.get("CountTotal"), default=len(results))
+        payload.get(_current_total_key(total_key)),
+        default=_as_int(payload.get("CountTotal", payload.get("countTotal")), default=len(results)),
     )
     page = max(query.page, 1)
     start = ((page - 1) * effective_page_size) + 1 if results else 0
@@ -320,7 +392,12 @@ def parse_tjmt_response(
         reported_total=reported_total,
         start=start,
         returned=len(results),
-        total_is_authoritative=total_key in data or "CountTotal" in data,
+        total_is_authoritative=(
+            total_key in payload
+            or _current_total_key(total_key) in payload
+            or "CountTotal" in payload
+            or "countTotal" in payload
+        ),
     )
     return SearchPage(
         source="tjmt_jurisprudencia_api",
@@ -331,10 +408,18 @@ def parse_tjmt_response(
         page_size=effective_page_size,
         results=results,
         aggregations={
-            "count_total": data.get("CountTotal"),
-            "count_acordao": data.get("CountAcordaoDocumento"),
-            "count_decisao": data.get("CountDecisaoMonocratica"),
-            "facets": {k: data.get(k) for k in data if k.startswith("Facet")},
+            "count_total": payload.get("CountTotal", payload.get("countTotal")),
+            "count_acordao": payload.get(
+                "CountAcordaoDocumento", payload.get("countAcordaoDocumento")
+            ),
+            "count_decisao": payload.get(
+                "CountDecisaoMonocratica", payload.get("countDecisaoMonocratica")
+            ),
+            "facets": {
+                k: value
+                for k, value in payload.items()
+                if k.startswith("Facet") or k.startswith("facet")
+            },
         },
         source_trace=trace,
         pagination_mode="page",
@@ -344,27 +429,30 @@ def parse_tjmt_response(
 
 
 def _item_to_result(item: dict[str, Any], *, trace: SourceTrace) -> JurisprudenceResult:
-    process = item.get("Processo")
+    process = _first_value(item, "Processo", "processo")
     if not isinstance(process, dict):
         process = {}
-    source_id = item.get("Id") or process.get("UID")
+    source_id = _first_value(item, "Id", "id") or _first_value(process, "UID", "uid")
     if source_id is None:
         raise ParserContractChangedError("TJMT item missing stable Id")
-    document_html = _string_value(item.get("Documento"))
+    document_html = _string_value(
+        _first_value(item, "Documento", "documento", "documentoHtml", "documentHtml")
+    )
     full_text = _html_text(document_html)
-    summary = _html_text(_string_value(item.get("Conteudo"))) or None
-    judgment_date = _date_value(process.get("DataJulgamento"))
-    publication_date = _date_value(process.get("DataPublicacao"))
+    summary = _html_text(_string_value(_first_value(item, "Conteudo", "conteudo"))) or None
+    judgment_date = _date_value(_first_value(process, "DataJulgamento", "dataJulgamento"))
+    publication_date = _date_value(_first_value(process, "DataPublicacao", "dataPublicacao"))
     return JurisprudenceResult(
         id=f"tjmt-jurisprudencia-{source_id}",
         source="tjmt_jurisprudencia_api",
         court="TJMT",
-        type=_decision_type(item.get("Tipo")),
-        number=_string_value(process.get("NumeroUnicoFormatado")) or None,
+        type=_decision_type(_first_value(item, "Tipo", "tipo")),
+        number=_string_value(_first_value(process, "NumeroUnicoFormatado", "numeroUnicoFormatado"))
+        or None,
         summary=summary,
         full_text=full_text or None,
-        status=_string_value(process.get("Julgamento")) or None,
-        rapporteur=_string_value(process.get("NomeRelator")) or None,
+        status=_string_value(_first_value(process, "Julgamento", "julgamento")) or None,
+        rapporteur=_string_value(_first_value(process, "NomeRelator", "nomeRelator")) or None,
         judgment_date=judgment_date,
         publication_date=publication_date,
         access_status=AccessStatus.PUBLIC,
@@ -372,9 +460,15 @@ def _item_to_result(item: dict[str, Any], *, trace: SourceTrace) -> Jurisprudenc
         source_trace=trace,
         raw={
             **item,
-            "case_class": _string_value(process.get("NomeClasseEsferaProcessual")) or None,
-            "subject": _string_value(process.get("Assunto")) or None,
-            "judging_body": _string_value(process.get("DescricaoCamara")) or None,
+            "case_class": _string_value(
+                _first_value(process, "NomeClasseEsferaProcessual", "nomeClasseEsferaProcessual")
+            )
+            or None,
+            "subject": _string_value(_first_value(process, "Assunto", "assunto")) or None,
+            "judging_body": _string_value(
+                _first_value(process, "DescricaoCamara", "descricaoCamara")
+            )
+            or None,
             "judgment_date": judgment_date,
             "publication_date": publication_date,
             "document_html": document_html or None,
@@ -409,12 +503,37 @@ def _date_br(value: str) -> str:
     return value
 
 
+def _date_iso(value: str) -> str:
+    if not value:
+        return ""
+    for pattern in ("%Y-%m-%d", "%d/%m/%Y"):
+        try:
+            return datetime.strptime(value, pattern).strftime("%Y-%m-%d")
+        except ValueError:
+            continue
+    return value
+
+
 def _order_value(value: str) -> str:
     return (
         "DataDecrescente"
         if (value or "").strip().lower() in {"", "text", "date", "recent"}
         else value
     )
+
+
+def _current_total_key(legacy_key: str) -> str:
+    return {
+        "CountAcordaoDocumento": "countAcordaoDocumento",
+        "CountDecisaoMonocratica": "countDecisaoMonocratica",
+    }.get(legacy_key, legacy_key)
+
+
+def _first_value(mapping: dict[str, Any], *keys: str) -> Any:
+    for key in keys:
+        if key in mapping and mapping[key] is not None:
+            return mapping[key]
+    return None
 
 
 def _date_value(value: Any) -> str | None:
@@ -450,3 +569,48 @@ def _without_token(value: str) -> str:
         if key.lower() != "token"
     ]
     return urlunsplit((parts.scheme, parts.netloc, parts.path, urlencode(query), parts.fragment))
+
+
+def _runtime_config_from_mapping(data: dict[str, Any]) -> dict[str, str] | None:
+    api_url = str(data.get("api_url") or "").strip().rstrip("/")
+    token = str(data.get("api_hellsgate_token") or "").strip()
+    if not api_url or not token:
+        return None
+    if not api_url.startswith("https://"):
+        raise ParserContractChangedError("TJMT config api_url is not HTTPS")
+    return {"api_url": api_url, "token": token}
+
+
+def _runtime_config_from_script(script: str) -> dict[str, str] | None:
+    api_url_match = re.search(r"\bapi_url\s*:\s*['\"](https://[^'\"]+)['\"]", script)
+    token_match = re.search(r"\bapi_hellsgate_token\s*:\s*['\"]([^'\"]+)['\"]", script)
+    if not api_url_match or not token_match:
+        return None
+    return {"api_url": api_url_match.group(1).rstrip("/"), "token": token_match.group(1)}
+
+
+def _same_origin_script_urls(text: str, base_url: str, origin: str) -> list[str]:
+    candidates = re.findall(
+        r"(?:src\s*=\s*|import\(\s*|['\"])([^'\"\s<>]+?\.js(?:\?[^'\"\s<>]*)?)",
+        text,
+        flags=re.IGNORECASE,
+    )
+    urls: list[str] = []
+    for candidate in candidates:
+        url = urljoin(base_url, candidate)
+        parsed = urlsplit(url)
+        if parsed.scheme == "https" and parsed.netloc == origin and url not in urls:
+            urls.append(url)
+    return urls
+
+
+def _raise_runtime_http_error(response: Any, label: str) -> None:
+    status = int(getattr(response, "status_code", 0) or 0)
+    if status == 429:
+        raise RateLimitDetectedError(f"{label} returned HTTP 429")
+    if status in {401, 403}:
+        raise AccessControlRequiredError(f"{label} requires access validation")
+    if status >= 500:
+        raise SourceUnavailableError(f"{label} returned HTTP {status}")
+    if status >= 400:
+        raise SourceUnavailableError(f"{label} returned HTTP {status}")

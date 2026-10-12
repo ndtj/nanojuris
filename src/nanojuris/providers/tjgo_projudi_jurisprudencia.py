@@ -179,7 +179,11 @@ class TjgoProjudiJurisprudenciaProvider(JurisprudenceProvider):
                 f"TJGO/Projudi rejected request with HTTP {response.status_code}"
             )
         text = _decode_response_text(response)
-        if _looks_like_blocked_page(text):
+        if method.upper() == "POST" and _looks_like_challenge_form(text):
+            raise AccessControlRequiredError(
+                "TJGO/Projudi returned the public search form with an unsatisfied challenge"
+            )
+        if _looks_like_blocked_page(text, generic_captcha=True):
             raise AccessControlRequiredError("TJGO/Projudi returned access-control HTML")
         return text
 
@@ -468,21 +472,38 @@ def _decode_response_text(response: requests.Response) -> str:
     return response.content.decode("iso-8859-1", errors="replace")
 
 
-def _looks_like_blocked_page(html: str) -> bool:
+def _looks_like_blocked_page(html: str, *, generic_captcha: bool = False) -> bool:
     lowered = html.lower()
-    has_results = "search-result" in lowered or "resultados encontrados" in lowered
+    # The public form ships the ``.search-result`` CSS rule even before a
+    # search is submitted. Only an actual result element containing a CNJ
+    # number proves that the response is a result page.
+    has_result_card = bool(re.search(r"<[^>]+class=[\"'][^\"']*\bsearch-result\b", html, re.I))
+    has_results = has_result_card and bool(CNJ_PATTERN.search(html))
     if has_results:
         return False
     blocking_markers = [
-        "g-recaptcha",
-        "token_desafio",
-        "tokendesafio",
         "cloudflare ray id",
         "just a moment",
+        "cf-chl-",
+        "access denied",
         "verifique que voce nao e um robo",
         "verifique que você não é um robô",
     ]
+    if generic_captcha:
+        blocking_markers.append("g-recaptcha")
     return any(marker in lowered for marker in blocking_markers)
+
+
+def _looks_like_challenge_form(html: str) -> bool:
+    """Detect the current Turnstile form returned instead of POST results."""
+
+    lowered = html.lower()
+    has_token_field = 'name="g-recaptcha-response"' in lowered
+    has_challenge_widget = (
+        "challenges.cloudflare.com/turnstile" in lowered or "recaptchaservice" in lowered
+    )
+    has_result_card = bool(re.search(r"<[^>]+class=[\"'][^\"']*\bsearch-result\b", html, re.I))
+    return has_token_field and has_challenge_widget and not has_result_card
 
 
 def _normalize_text(text: str) -> str:

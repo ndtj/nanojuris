@@ -132,7 +132,9 @@ class TjspCjsgProvider(JurisprudenceProvider):
         )
         endpoint = posted_endpoint
         trace_query: dict[str, Any] = {"payload": payload}
-        if query.page > 1 and _looks_like_cjsg_results(html):
+        post_has_results = _looks_like_cjsg_results(html)
+        post_requires_access_transition = diagnose_cjsg_access(html).access_control_required
+        if (query.page > 1 and post_has_results) or post_requires_access_transition:
             decision_type = self._first_decision_type(payload)
             endpoint = f"/trocaDePagina.do?tipoDeDecisao={decision_type}&pagina={query.page}"
             html = self._request_text("GET", endpoint, headers={"Referer": destination})

@@ -1,0 +1,36 @@
+{
+  "captured_at": "2026-10-12",
+  "mode": "bounded_live_public_control_session",
+  "query": {
+    "text": "dano moral",
+    "origin": "T",
+    "decision_type": "A",
+    "page_size": 1
+  },
+  "policy": {
+    "fresh_session": true,
+    "captcha_bypass": false,
+    "token_fabrication": false,
+    "cookies_persisted": false
+  },
+  "provider": {
+    "status": "valid",
+    "total_observed": 2670034,
+    "returned": 1,
+    "first_id": "tjsp-cjsg-21046115-0",
+    "endpoint": "/trocaDePagina.do"
+  },
+  "standalone_example": {
+    "status": "resultados",
+    "http": 200,
+    "returned": 20,
+    "first_cd_acordao": "21046115"
+  },
+  "requests": [
+    "GET /cjsg/resultadoCompleta.do",
+    "POST /cjsg/captchaControleAcesso.do",
+    "POST /cjsg/resultadoCompleta.do;jsessionid=<ephemeral>",
+    "GET /cjsg/trocaDePagina.do?tipoDeDecisao=A&pagina=1"
+  ],
+  "interpretation": "The SAJ POST may return its control form after public-session initialization; the first-page route in the same ephemeral session contains the jurisprudence results."
+}

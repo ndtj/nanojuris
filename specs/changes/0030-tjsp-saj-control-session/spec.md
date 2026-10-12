@@ -4,8 +4,9 @@ Status: `verified`
 
 ## Intent
 
-Permitir que `tjsp_cjsg` reproduza a inicializacao publica de sessao usada pelo
-SAJ/TJSP, sem transformar uma tela de controle em uma busca bem-sucedida.
+Permitir que `tjsp_cjsg` reproduza a inicializacao e a continuacao publica de
+sessao usadas pelo SAJ/TJSP, sem transformar uma tela de controle em uma busca
+bem-sucedida.
 
 ## Scope
 
@@ -27,7 +28,7 @@ SAJ/TJSP, sem transformar uma tela de controle em uma busca bem-sucedida.
 ## Acceptance criteria
 
 - AC-001: testes offline comprovam a ordem GET -> controle -> busca.
-- AC-002: busca live bounded com `dano moral` retorna resultados publicos ou
-  erro de controle explicito; a paginacao nao e usada para atravessar uma
-  tela de controle.
+- AC-002: busca live bounded com `dano moral` retorna resultados publicos pela
+  continuacao `trocaDePagina.do`, ou erro de controle explicito quando a
+  resposta final permanece bloqueada.
 - AC-003: pytest direcionado, lint, type-check e validacao SDD passam.
