@@ -159,6 +159,7 @@ class FederalEprocJurisprudenciaProvider(JurisprudenceProvider):
                 AccessStatus.SOURCE_UNAVAILABLE,
             ],
             endpoints=[
+                ("GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar"),
                 (
                     "POST /externo_controlador.php?"
                     "acao=jurisprudencia@jurisprudencia/listar_resultados"

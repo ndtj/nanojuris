@@ -345,3 +345,7 @@ def test_provider_capabilities_describe_jurisprudence_source():
     assert "id_jurisprudencia" in capabilities.extracted_fields
     assert capabilities.supports_full_text is True
     assert "CanonicalDocument" in capabilities.canonical_records
+    assert (
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar"
+        in capabilities.endpoints
+    )

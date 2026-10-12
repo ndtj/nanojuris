@@ -49,6 +49,10 @@ def test_tjrj_eproc_uses_own_endpoint_and_court() -> None:
     assert session.calls[0]["method"] == "POST"
     assert "eproc1g.tjrj.jus.br" in str(session.calls[0]["url"])
     assert provider.get_capabilities().source_url.endswith("/eproc")
+    assert (
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar"
+        in provider.get_capabilities().endpoints
+    )
 
 
 def test_tjsc_eproc_uses_own_endpoint_and_court() -> None:
@@ -68,6 +72,10 @@ def test_tjsc_eproc_uses_own_endpoint_and_court() -> None:
     assert page.results[0].court == "TJSC"
     assert page.results[0].id.startswith("tjsc-eproc-jurisprudencia-")
     assert "eprocwebcon.tjsc.jus.br" in str(session.calls[0]["url"])
+    assert (
+        "GET /externo_controlador.php?acao=jurisprudencia@jurisprudencia/pesquisar"
+        in provider.get_capabilities().endpoints
+    )
 
 
 def test_state_eproc_providers_are_registered() -> None:
