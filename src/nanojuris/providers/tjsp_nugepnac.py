@@ -110,6 +110,11 @@ class TjspNugepnacProvider(JurisprudenceProvider):
             page_size=query.page_size,
             results=limited,
             source_trace=trace,
+            pagination_mode="local_window",
+            is_complete=False,
+            completeness_reason=(
+                "A lista publica foi filtrada localmente e o total observado nao e autoritativo."
+            ),
         )
 
     def get_decisions(self, precedent_id: str) -> DecisionBundle:

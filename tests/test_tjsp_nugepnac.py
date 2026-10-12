@@ -86,6 +86,11 @@ def test_provider_search_fetches_list_and_detail():
 
     assert page.source == "tjsp_nugepnac"
     assert page.results[0].id == "tjsp-nugepnac-irdr-50879"
+    assert page.pagination_mode == "local_window"
+    assert page.is_complete is False
+    assert page.completeness_reason == (
+        "A lista publica foi filtrada localmente e o total observado nao e autoritativo."
+    )
     assert session.calls[0]["url"].endswith("/NugepNac/Irdr")
     assert "codigoNoticia=50879" in session.calls[1]["url"]
 
