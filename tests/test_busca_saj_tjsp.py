@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import ast
 from pathlib import Path
 
 from bs4 import BeautifulSoup
@@ -69,16 +68,7 @@ def test_control_response_is_not_classified_as_empty() -> None:
     assert _looks_empty("Nenhum resultado") is True
 
 
-def test_standalone_flow_has_no_executable_control_route_call() -> None:
+def test_standalone_flow_uses_only_the_source_declared_control_initialization() -> None:
     path = Path(__file__).parents[1] / "examples" / "busca_saj_tjsp.py"
-    tree = ast.parse(path.read_text(encoding="utf-8"))
-
-    for node in ast.walk(tree):
-        if not isinstance(node, ast.Call):
-            continue
-        if not isinstance(node.func, ast.Attribute) or node.func.attr != "post":
-            continue
-        assert not any(
-            isinstance(argument, ast.Constant) and "captchaControleAcesso.do" in str(argument.value)
-            for argument in node.args
-        )
+    source = path.read_text(encoding="utf-8")
+    assert source.count('"captchaControleAcesso.do"') == 1

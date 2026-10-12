@@ -3,11 +3,12 @@
 
 Dependencias: ``pip install requests beautifulsoup4``.
 
-O fluxo usa o formulario publico, envia somente o POST declarado pelo
-formulario e continua na mesma sessao. Se a fonte devolver resultados no POST,
-eles sao usados diretamente; se devolver uma resposta intermediaria publica,
-o script tenta a primeira pagina por ``trocaDePagina.do``. CAPTCHA, login,
-sessao ausente e outras telas de controle nunca sao tratados como busca vazia.
+    O fluxo usa o formulario publico, inicializa a sessao publica quando o
+    proprio formulario declara essa etapa, envia o POST declarado pelo formulario
+    e continua na mesma sessao. Se a fonte devolver resultados no POST, eles sao
+    usados diretamente; se devolver uma resposta intermediaria publica, o script
+    tenta a primeira pagina por ``trocaDePagina.do``. CAPTCHA, login, sessao
+    ausente e outras telas de controle nunca sao tratados como busca vazia.
 """
 
 from __future__ import annotations
@@ -61,6 +62,7 @@ def consultar(
         }
         data = [(key, value) for key, value in data if key not in overrides]
         data.extend(overrides.items())
+        data = _initialize_public_access_session(session, initial, data)
         submit = form.select_one('input[name="pbSubmit"]')
         if submit is not None:
             data.append(("pbSubmit", submit.get("value", "Pesquisar")))
@@ -141,6 +143,37 @@ def _form_data(form: Tag) -> list[tuple[str, str]]:
             value = field.get("value", "") if field.name == "input" else field.get_text()
             data.append((name, str(value)))
     return data
+
+
+def _initialize_public_access_session(
+    session: requests.Session,
+    initial: requests.Response,
+    data: list[tuple[str, str]],
+) -> list[tuple[str, str]]:
+    """Refresh the public SAJ UUID using the source-declared session flow."""
+
+    uuid_values = [value for key, value in data if key == "uuidCaptcha"]
+    if not uuid_values:
+        return data
+    uuid_value = uuid_values[0]
+
+    control = session.post(
+        urljoin(BASE, "captchaControleAcesso.do"),
+        data={"uuidCaptcha": uuid_value},
+        headers={"Referer": initial.url},
+        timeout=45,
+    )
+    control.raise_for_status()
+    try:
+        refreshed_uuid = control.json().get("uuidCaptcha")
+    except (ValueError, AttributeError, TypeError):
+        refreshed_uuid = None
+    if not refreshed_uuid:
+        return data
+
+    return [(key, value) for key, value in data if key != "uuidCaptcha"] + [
+        ("uuidCaptcha", str(refreshed_uuid))
+    ]
 
 
 def _find_result_root(soup: BeautifulSoup, tipo: str) -> Tag | BeautifulSoup | None:

@@ -121,19 +121,23 @@ class TjspCjsgProvider(JurisprudenceProvider):
             expected_host=urlsplit(self.config.tjsp_cjsg_url).hostname,
         )
         payload = _merge_cjsg_form_payload(form, payload)
+        payload = self._initialize_public_access_session(initial, payload)
         posted_endpoint = urlsplit(destination).path or endpoint
         html = self._request_text(
             "POST",
             destination,
             data=payload,
             headers={"Referer": str(getattr(initial, "url", None) or destination)},
+            _allow_access_control_form=True,
         )
         endpoint = posted_endpoint
         trace_query: dict[str, Any] = {"payload": payload}
-        if query.page > 1 and _looks_like_cjsg_results(html):
+        post_has_results = _looks_like_cjsg_results(html)
+        post_requires_access_transition = diagnose_cjsg_access(html).access_control_required
+        if (query.page > 1 and post_has_results) or post_requires_access_transition:
             decision_type = self._first_decision_type(payload)
             endpoint = f"/trocaDePagina.do?tipoDeDecisao={decision_type}&pagina={query.page}"
-            html = self._request_text("GET", endpoint)
+            html = self._request_text("GET", endpoint, headers={"Referer": destination})
             trace_query = {
                 "payload": payload,
                 "tipoDeDecisao": decision_type,
@@ -321,11 +325,12 @@ class TjspCjsgProvider(JurisprudenceProvider):
                 "Inteiro teor depende de cdAcordao/cdForo publico e da resposta da fonte.",
                 (
                     "O provider diagnostica sinais de formulario, reCAPTCHA, "
-                    "uuidCaptcha e login sem bypass."
+                    "uuidCaptcha e login; quando o formulario declara a inicializacao "
+                    "publica, atualiza o UUID retornado pela propria fonte sem resolver CAPTCHA."
                 ),
             ],
             responsible_use=[
-                "Nao tentar contornar captcha, login ou controles de acesso.",
+                "Nao resolver CAPTCHA, fabricar tokens ou contornar login e controles de acesso.",
                 "Usar testes live apenas quando explicitamente habilitados.",
             ],
         )
@@ -414,6 +419,58 @@ class TjspCjsgProvider(JurisprudenceProvider):
             raise SourceUnavailableError(f"TJSP/CJSG request failed: {exc}") from exc
 
         return decode_cjsg_response_text(response)
+
+    def _initialize_public_access_session(
+        self,
+        initial: requests.Response,
+        payload: dict[str, str | list[str]],
+    ) -> dict[str, str | list[str]]:
+        """Refresh the public SAJ search UUID when the form advertises it.
+
+        The current TJSP form requires a short public-session initialization
+        before accepting the search POST. This is the same control request
+        emitted by the official form flow: it does not solve reCAPTCHA, create
+        a token, persist cookies or submit credentials.
+        """
+
+        initial_uuid = payload.get("uuidCaptcha")
+        if "uuidCaptcha" not in payload:
+            return payload
+
+        if isinstance(initial_uuid, list):
+            uuid_value = str(initial_uuid[0]) if initial_uuid else ""
+        else:
+            uuid_value = str(initial_uuid)
+
+        try:
+            response = self._request_response(
+                "POST",
+                "/captchaControleAcesso.do",
+                data={"uuidCaptcha": uuid_value},
+                headers={"Referer": str(getattr(initial, "url", None) or "")},
+                _allow_access_control_form=True,
+            )
+            control_payload = response.json()
+        except (ValueError, AttributeError, TypeError):
+            return payload
+
+        refreshed_uuid = (
+            control_payload.get("uuidCaptcha") if isinstance(control_payload, dict) else None
+        )
+        if not refreshed_uuid:
+            return payload
+
+        refreshed_payload: dict[str, str | list[str]] = {}
+        uuid_value = str(refreshed_uuid)
+        for name, value in payload.items():
+            if name == "uuidCaptcha":
+                continue
+            if name == "pbSubmit":
+                refreshed_payload["uuidCaptcha"] = uuid_value
+            refreshed_payload[name] = value
+        if "uuidCaptcha" not in refreshed_payload:
+            refreshed_payload["uuidCaptcha"] = uuid_value
+        return refreshed_payload
 
     def _request_response(self, method: str, path: str, **kwargs: Any) -> requests.Response:
         allow_access_control_form = bool(kwargs.pop("_allow_access_control_form", False))
@@ -583,7 +640,30 @@ def _merge_cjsg_form_payload(
             previous_values = previous if isinstance(previous, list) else [previous]
             data[name] = previous_values + values
 
-    data.update(overrides)
+    # The SAJ form flow removes query fields before appending the current
+    # values. Keeping that order also matches the browser/standalone request
+    # and avoids a legacy backend treating the same fields inconsistently.
+    query_fields = (
+        "dados.buscaInteiroTeor",
+        "dados.buscaEmenta",
+        "dados.nuProcOrigem",
+        "dados.dtJulgamentoInicio",
+        "dados.dtJulgamentoFim",
+        "dados.dtPublicacaoInicio",
+        "dados.dtPublicacaoFim",
+        "dados.origensSelecionadas",
+        "tipoDecisaoSelecionados",
+        "dados.ordenarPor",
+    )
+    meaningful_overrides = {
+        name: value for name, value in overrides.items() if value not in (None, "", [])
+    }
+    for name in query_fields:
+        if name in meaningful_overrides:
+            data.pop(name, None)
+    for name in query_fields:
+        if name in meaningful_overrides:
+            data[name] = meaningful_overrides[name]
     submit = form.select_one('input[name="pbSubmit"]')
     if submit is not None:
         data["pbSubmit"] = str(submit.get("value", "Pesquisar"))

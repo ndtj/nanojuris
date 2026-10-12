@@ -26,13 +26,13 @@ que ja participam da busca unificada, mas ainda possuem lacunas objetivas.
 | 16 | `tjpe_jurisprudencia` | `P0_harden_for_unified_search` | 84 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 17 | `tjrr_juris` | `P0_harden_for_unified_search` | 84 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 18 | `trf5_jurisprudencia` | `P0_harden_for_unified_search` | 84 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 19 | `tjpi_juspi` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 20 | `tjsc_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 21 | `trf4_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
-| 22 | `tjmt_jurisprudencia_api` | `P0_harden_for_unified_search` | 86 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 23 | `tjto_jurisprudencia` | `P0_harden_for_unified_search` | 86 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 24 | `tjce_sjuris` | `P0_harden_for_unified_search` | 87 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
-| 25 | `tjpb_pje_jurisprudencia` | `P0_harden_for_unified_search` | 87 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 19 | `tjpb_pje_jurisprudencia` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 20 | `tjpi_juspi` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 21 | `tjsc_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 22 | `trf4_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 85 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
+| 23 | `tjmt_jurisprudencia_api` | `P0_harden_for_unified_search` | 86 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
+| 24 | `tjto_jurisprudencia` | `P0_harden_for_unified_search` | 86 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
+| 25 | `tjce_sjuris` | `P0_harden_for_unified_search` | 87 | `primary_textual_jurisprudence` | validar inteiro teor com hash, tamanho e access_status |
 | 26 | `tjpa_jurisprudencia_bff` | `P0_harden_for_unified_search` | 88 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 27 | `trf2_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 89 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
 | 28 | `trf6_eproc_jurisprudencia` | `P0_harden_for_unified_search` | 89 | `primary_textual_jurisprudence` | fechar checklist objetivo do dossie |
